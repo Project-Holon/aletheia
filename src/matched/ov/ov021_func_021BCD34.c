@@ -25,9 +25,10 @@ typedef struct {
 
 extern int func_021BD0C0(Obj *p);
 extern void func_021BCEB4(Obj *p);
-extern void func_02040588(int a, int b);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021BD0D0(Obj *p);
-extern void func_021BCB9C(Obj *p, int b);
+extern void func_021BCB9C(void *p, int keep);
 
 void func_021BCD34(Obj *p)
 {

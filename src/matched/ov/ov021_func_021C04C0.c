@@ -35,7 +35,8 @@ extern int func_021C7814(int, int, int, int, int);
 extern int func_021C7858(int, int, Vec *);
 extern int func_02188D38(int);
 extern void func_021C6DE0(int, int, int);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern int func_021C6E48(int);
 extern int func_0204E804(void);
 

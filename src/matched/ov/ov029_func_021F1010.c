@@ -19,7 +19,8 @@ typedef struct { int a, b; } Pair;
 
 extern const Pair d_021F3324;
 extern void func_021F1290(void *p, int i, int j, int k);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 void func_021F1010(void *p)
 {

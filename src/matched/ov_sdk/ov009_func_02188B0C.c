@@ -27,7 +27,7 @@ typedef struct GPIPeer {
 extern int func_0218DA40(void **connection, char **buffer);
 extern int func_021889A0(void **connection, int profileid, int type, char *message,
                          int sendOption, void *peerOp);
-extern int func_020948E0();
+extern int func_020948E0(const char *s1, const char *s2);
 extern void func_0217EAE0(void *ptr);
 extern char g_021A4468[];
 

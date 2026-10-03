@@ -16,7 +16,9 @@
  *   func_0204B3F4  0x0204B3F4  arm
  */
 
-extern int func_0204B3F4(void *p);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 
 int func_021C425C(char *p)
 {

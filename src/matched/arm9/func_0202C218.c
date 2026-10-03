@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 extern u32  sub_0202C2D8(u32 *p);
 extern u32  func_0202C250(u32 *p, u32 v);
-extern void func_0202C2DC(u32 *p);
+extern void func_0202C2DC(void *p);
 extern void func_0202C204(u32 *p);
 
 void func_0202C218(u32 *p, u32 v)

@@ -24,7 +24,7 @@ struct GdsEnt;
 
 extern int func_0200D488();
 extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
-extern int func_0200D4B8();
+extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
 
 struct GdsEnt *func_0215E804(int a0, int a1)
 {

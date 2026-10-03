@@ -58,11 +58,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02034714(const char *file, u32 line, const char *msg);
-extern u8 *func_0203996C(u32 idx);
-extern int func_020395EC(void *p);
-extern u8 *func_0203D798(void);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
+extern int func_020395EC(struct Entry *a);
+extern void *func_0203D798(void);
 extern void func_020307B0(void *p);
-extern void *func_02030734(int a, int b, int c, const char *d, int e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 extern const char file_020A7A68[];
 extern const char file_020A7ACC[];

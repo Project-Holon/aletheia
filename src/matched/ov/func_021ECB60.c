@@ -17,7 +17,7 @@
  * stays in r2 untouched; that is what forces the sum into r3.
  */
 
-extern void func_021EC060(char *, int, int);
+extern void func_021EC060(char *p, unsigned i, int b);
 
 void func_021ECB60(char *p, int i, int f)
 {

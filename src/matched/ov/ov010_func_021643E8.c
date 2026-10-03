@@ -34,19 +34,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012B38(void *a);
+struct Big;
+struct BigObj;
+struct Sub02008828Obj;
+struct Sub02014444Obj;
+extern void *func_02012B38(const struct BigObj *p);
 extern u32   func_02013F6C(void *a);
-extern void  func_02014464(void *a, int b);
-extern void *func_02012EBC(void *a);
+extern void func_02014464(struct Sub02014444Obj *o, u8 v);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *a);
 extern void  func_0215E428(void *a, void *b);
 extern void  func_0215E364(void *a);
 extern void *func_0201296C(void *a);
-extern void  func_0201433C(void *a, u32 b);
+extern void func_0201433C(char *a0, int a1);
 extern void  func_02164728(void *a);
 extern int   func_02013FFC(void *a);
-extern void *func_02008854(void *a);
-extern void  func_02008988(void *a, int b);
+extern struct Sub02008828Obj *func_02008854(void *sys);
+extern void func_02008988(struct Sub02008828Obj *obj, u16 value);
 
 void func_021643E8(void *a, void *b)
 {

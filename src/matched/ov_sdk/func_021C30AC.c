@@ -30,7 +30,7 @@ struct G {
 };
 
 extern int  func_0207C994(int a, int b);
-extern void func_021CFFAC(int x);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021BD4C8(int a, int b, int c, int d);
 extern struct G g_021DE5A8;
 extern u16 d_021DA4D0[][4];

@@ -16,7 +16,7 @@
  *   func_0216BEA4  0x0216BEA4  arm  ov009
  */
 
-extern unsigned int func_0216B908(void);
+extern int func_0216B908(void);
 extern int func_0216BEA4(unsigned char aid);
 
 void func_0216F014(unsigned int bitmap)

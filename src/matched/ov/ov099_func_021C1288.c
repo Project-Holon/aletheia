@@ -15,11 +15,16 @@
  *   func_0200ED48 0x0200ED48 thumb
  */
 extern int func_020399A8(void);
-extern void *func_02012950(void *, int);
+typedef unsigned int   u32;
+struct L0200ED54;
+struct Rec44;
+struct Sub0200852CObj;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void func_02008494(void *, void *);
 extern void *func_0200ED48(void *);
-extern unsigned func_02008530(void *);
-extern void func_0200ED54(void *, unsigned);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021C1288(int index, int unused, void *src, char *p, int handle)
 {
     void *q;

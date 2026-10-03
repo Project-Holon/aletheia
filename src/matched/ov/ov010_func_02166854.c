@@ -41,14 +41,20 @@ struct Task {
     u32 f124;
 };
 
-extern void *func_020122C0(void *a, int b, void *fn, int size);
-extern struct Task *func_020124E8(void *task);
-extern void *func_020120F4(void *a);
-extern void *func_02012EBC(void *p);
-extern void *func_02009470(void *sys);
-extern int func_02009794(void *o, int i);
-extern int func_020095C8(void *o);
-extern int func_0200973C(void *o, int i);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub02009470Ent;
+struct Sub02009470Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
+extern u8 func_020095C8(const struct Sub02009470Obj *obj);
+extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
 extern u16 func_0200856C();
 extern void func_02166908();
 

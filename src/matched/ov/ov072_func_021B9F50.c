@@ -35,16 +35,20 @@ typedef struct {
     s16 x, y;
 } Pt;
 
-extern void func_021B63D0(void *p);
+typedef unsigned char  u8;
+struct Actor;
+struct Obj;
+struct S;
+extern void func_021B63D0(struct S *p);
 extern void func_0204B454(void *h, Pt *pt, int k);
-extern int func_02035D20(u32 *a, u32 *b);
-extern void func_020355D8(int v);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
-extern u32 func_0204B98C(void *h);
+extern u32 func_0204B98C(struct Actor *a);
 extern int func_021BB0E0(void *p);
-extern u16 func_0204B898(void *h);
-extern void func_0204B878(void *h, int a);
-extern void func_0204B95C(void *h);
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B95C(struct Actor *a);
 
 void func_021B9F50(u32 *p, void *q)
 {

@@ -25,11 +25,11 @@
  */
 
 extern void func_021D0014(void);
-extern void func_021CFFAC(int no);
-extern void func_021D1208(int a, int b, int c, int d, int e);
+extern void func_021CFFAC(unsigned int v);
+extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021BCB9C(void);
 extern void func_021C0E40(void (*proc)(void));
-extern void func_021D0DC8(void *cb);
+extern void func_021D0DC8(unsigned int v);
 extern void func_021CE564(void);
 extern void func_021CE2D4(void);
 extern void func_021CE5B0(void);

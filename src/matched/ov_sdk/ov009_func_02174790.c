@@ -40,12 +40,14 @@ typedef struct DWCstMatchControl {
 extern DWCstMatchControl *func_02175F3C(void);
 extern int func_0219F068(void *sb);
 extern void *func_0219F058(void *sb, int index);
-extern int func_0219E120(void *server, char *key, int idefault);
-extern void *func_021763AC(int profileID);
-extern void func_0219EFA8(void *sb, void *server);
+struct SBServer;
+struct ServerBrowser;
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
+extern char *func_021763AC(int pid);
+extern void func_0219EFA8(struct ServerBrowser *sb, struct SBServer *server);
 extern unsigned long func_021685CC(unsigned long max);
 extern void func_0219E084(void *server, char *keyname, int value);
-extern void func_0219F078(void *sb, int ascending, char *sortkey, int comparemode);
+extern void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 
 static int func_02174790(int sort)
 {

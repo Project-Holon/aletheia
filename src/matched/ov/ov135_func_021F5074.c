@@ -41,11 +41,11 @@ typedef struct {
 
 extern void func_020434CC(void);
 extern void func_02043588(void);
-extern void func_02043534(int a);
+extern void func_02043534(u32 planes);
 extern void func_020435F4(u32 a);
 extern void func_021F4EDC(Work *p);
 extern void func_0203F8F4(u16 heapId);
-extern void func_02045088(int heap);
+extern void func_02045088(u16 heapId);
 extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_021F49A8(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);

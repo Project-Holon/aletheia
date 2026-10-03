@@ -43,8 +43,9 @@ typedef struct {
 } MtxFx44;
 
 extern void func_0206AE94(int *x1, int *y1, int *x2, int *y2);
-extern fx32 func_0207C768(fx32 a, fx32 b);
-extern const MtxFx44 *func_0206AE2C(void);
+typedef unsigned int   u32;
+extern u32 func_0207C768(u32 a, u32 b);
+extern void *func_0206AE2C(void);
 extern void func_0207C8A0(fx32 d);
 extern fx64c func_0207C848(void);
 

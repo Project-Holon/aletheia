@@ -11,7 +11,7 @@
  * symbols:
  *   func_0220270C 0x0220270C thumb ov094
  */
-extern void func_0220270C(void *, int, void *);
+extern void func_0220270C(char *s, int mode, void *arg);
 void func_0689B514(void *p, void *q)
 {
     func_0220270C(*(void **)((char *)p + 0xb0), 5, q);

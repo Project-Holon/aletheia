@@ -23,13 +23,16 @@
  */
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *, int);
-extern void func_0201EEF4(void *, int, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct WordSet;
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F02C(void *, int, int);
-extern void func_02045CAC(void *, unsigned, void *);
-extern void func_0201F250(void *, void *, void *);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E0FF4(void *, int, int);
 extern void func_021D8E84(void *, int);
-extern void func_021DFFE0(void *);
+extern void func_021DFFE0(char *p);
 void func_021DFF40(char *p)
 {
     void *a;

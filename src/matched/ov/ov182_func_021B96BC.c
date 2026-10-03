@@ -19,7 +19,9 @@
 typedef unsigned short u16;
 extern int func_0204E804(void);
 extern unsigned func_020362DC(void);
-extern int func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021B9788(u16 *);
 extern void func_021B9814(void *, void *, void *);
 extern void func_021B99E8(char *);

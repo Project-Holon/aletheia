@@ -30,7 +30,7 @@ struct GPIPeer {
 
 extern struct GPIPeer *func_0218F0E8(void **connection, unsigned int ip, unsigned short port);
 extern char *func_0215FA9C(struct SOCInAddr in);
-extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A50BC[];
 extern char g_021A50E4[];
 extern char g_021A5110[];

@@ -27,8 +27,10 @@ typedef struct {
     void *f32CC;
 } Work;
 
-extern void func_0201C4C0(void *p);
-extern void func_020452E8(void *p);
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 
 void func_021C60A0(Work *p)

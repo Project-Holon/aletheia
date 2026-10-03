@@ -40,8 +40,9 @@ extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32  func_02018584(u16 a, u16 b, u16 v);
 extern void func_020185C4(void *p);
-extern void *func_02019C54(u16 a, u16 b);
-extern u32  func_0201AE1C(void *h, u32 k);
+struct Personal;
+extern void *func_02019C54(u32 a, u32 b);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
 struct RecDC {
     u32 unk00[0x37];

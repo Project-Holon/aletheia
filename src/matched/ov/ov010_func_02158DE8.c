@@ -21,7 +21,8 @@ typedef unsigned char u8;
 
 struct Bits { u8 b0 : 1; u8 b1 : 1; u8 b2 : 1; };
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_0215A5D4(int);
 extern int func_0215A5D8(int);
 extern void func_02158DBC(void);

@@ -45,7 +45,7 @@ struct t {
 };
 
 extern u32 func_02014274(u32 a);
-extern u32 func_0201441C(u32 i);
+extern u8 func_0201441C(int i);
 
 void func_020141A8(struct t *p, u16 b, u16 d, u16 g, u16 i, s16 h)
 {

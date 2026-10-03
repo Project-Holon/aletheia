@@ -25,8 +25,9 @@ typedef struct {
 } Rec;
 
 extern Pos func_021C4AC4(void *v);
-extern int func_021C5858(void *v);
-extern void func_021C584C(void *v, int n);
+typedef unsigned char  u8;
+extern int func_021C5858(u8 *p);
+extern void func_021C584C(u8 *p, int a);
 extern void func_021B9F90(void *o, Pos pos, int c);
 
 void func_021B989C(void *o, Rec *r)

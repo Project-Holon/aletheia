@@ -19,9 +19,10 @@
  */
 
 extern int  func_020399A8(void);
-extern int  func_0203D1C0(int a);
+typedef unsigned int   u32;
+extern u32 func_0203D1C0(u32 index);
 extern int  func_02039CB4(int h, int a, int b);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int g);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_02185354(char *p);
 extern int  func_0218654C(char *p);
 

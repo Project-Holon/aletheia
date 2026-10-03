@@ -59,34 +59,36 @@ typedef struct RangeEnt {
 extern const RangeEnt d_021BB9C4[8];
 
 extern int  func_021BADF0(void *o);
-extern int  func_020279E8(void *p);
-extern int  func_02027A04(void *p);
+struct Obj;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021BB580(void *o, int v);
 extern void func_02027324(u16 id);
 extern void func_021B6100(void *obj, void *fn);
-extern void func_021B7640(void);
+extern void func_021B7640(struct Obj *o);
 extern u32  func_02020FE4(u16 a, u32 sel, u32 id);
 extern int  func_021B6EC8(u16 id);
 extern int  func_021B690C(u16 id);
 extern void func_021B6934(u8 *p);
 extern void func_021B6A78(u8 *p);
-extern u32  func_02028754(void *obj, u32 n);
+extern u32 func_02028754(struct Obj *obj, u32 n);
 extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
 extern void func_0201F02C(u32 a0, u32 a1, u32 a2);
 extern void func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void func_021B6AD8(void);
-extern void func_021B7804(void);
-extern int  func_021B811C(void *o);
+extern void func_021B6AD8(int p);
+extern void func_021B7804(struct Obj *o);
+extern int func_021B811C(u8 *p);
 extern int  func_021B8134(void *o, int k);
 extern void func_021B6138(void *o);
 extern void func_021BB3F4(void *o, int v);
-extern void func_0204B92C(void *p, int v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B8AF4(void *o);
-extern int  func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B9AAC(void *o);
 extern void func_021B80C4(void *o, int v);
 extern void func_021BA9AC(void *o);
-extern void func_02027858(void *m);
+extern void func_02027858(struct TaskMenu *m);
 
 void func_021B6EF8(u8 *p)
 {

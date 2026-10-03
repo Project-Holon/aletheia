@@ -26,10 +26,12 @@ typedef unsigned short u16;
 struct Cnt { u32 n; int max; };
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, int b);
-extern int func_021D5BDC(void *m, u32 n);
+struct QQ;
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021E8860(int n);
-extern u16 func_021D70A8(void *p);
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021E03F8(int a, int b);
 extern int d_021F29C8[];
 

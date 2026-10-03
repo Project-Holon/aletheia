@@ -27,7 +27,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 
 typedef struct { int fn; int id; } Ent;
 typedef struct { Ent e[2]; } T2;

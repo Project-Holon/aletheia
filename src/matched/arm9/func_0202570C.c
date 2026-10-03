@@ -32,7 +32,8 @@ struct Grid {
 };
 
 extern void func_0204A8D4(void *p);
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_020307B0(void *p);
 
 void func_0202570C(struct Grid *g)

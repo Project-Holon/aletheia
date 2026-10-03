@@ -49,7 +49,7 @@ typedef struct {
     u32 w4;
 } Ctx;
 
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern int func_02175B14(Work *w);
 extern int func_02175894(Work *w);
 extern int func_02026478(u32 a);

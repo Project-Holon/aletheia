@@ -28,7 +28,7 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern u16 func_021BA020(void *, int);
+extern unsigned short func_021BA020(char *p, int i);
 extern void func_0201F0F8(u32 a, u32 b, u32 c);
 
 void func_021EED6C(u32 a, u32 b, int c)

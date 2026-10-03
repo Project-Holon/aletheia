@@ -13,5 +13,6 @@
  */
 
 typedef unsigned char u8;
-extern void func_020437AC(void *);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
 void func_021B9A18(char *p) { int i; for (i = 0; i < *(u8 *)(p + 0x27c); i++) func_020437AC(*(void **)(p + i * 4 + 0x24)); }

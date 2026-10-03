@@ -15,8 +15,10 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_02030EAC(void *);
-extern void func_02041EE4(int, int, int);
+typedef unsigned int   u32;
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_020307B0(void *);
 
 void func_021BA740(char *p)

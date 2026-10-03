@@ -13,9 +13,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32   func_0200A400(void *p);
-extern void *func_0200A43C(void *p, u32 i);
-extern int   func_02009F0C(u32 v);
+struct Obj;
+extern u32 func_0200A400(struct Obj *obj);
+extern void *func_0200A43C(struct Obj *obj, u32 index);
+extern u32 func_02009F0C(u32 a);
 
 int func_02009F1C(void *a0)
 {

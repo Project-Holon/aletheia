@@ -44,7 +44,8 @@ extern void *func_02012984(void *a);
 extern u32   func_02029E74(void *a, void *b);
 extern u32   func_02029E64(void *a, void *b, void *pri);
 extern u32   func_02029E58(void *a);
-extern void  func_020289F8(void *sys, u32 a, u32 b, u16 c, u16 d);
+struct Sys;
+extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
 
 void func_02029CF0(void *sys, void *a, void *b)
 {

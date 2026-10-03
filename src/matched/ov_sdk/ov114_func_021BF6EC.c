@@ -50,9 +50,9 @@ extern void func_021BFA70(DWCGHTTPParamEntry *entry);
 extern int func_021C20A4(char *url, char *headers, char *buffer, int bufferSize, void *post,
                          int throttle, int blocking, void *progressCallback, void *completedCallback, void *param);
 extern void func_0205A1B0(int name, void *ptr, unsigned long size);
-extern void func_021C22EC(int request, unsigned int maxRecvTime);
+extern void func_021C22EC(int a, int b);
 extern void func_021BF67C();
-extern int func_021BF5D8();
+extern int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param);
 
 int func_021BF6EC(char *url, int bufferlen, int buffer_clear, void **post,
                   ProgressCb progressCallback, CompletedCb completedCallback, void *param)

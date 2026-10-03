@@ -42,10 +42,12 @@ typedef struct {
     u16 h36;
 } W;
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *p, int idx);
 extern int func_02188D2C(int *p);
-extern void func_020061E4(int a);
+extern void func_020061E4(u32 a);
 extern int func_021BE480(int a, unsigned b, int c);
 extern void func_021BE4B4(int a, int b, int c, int d);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);

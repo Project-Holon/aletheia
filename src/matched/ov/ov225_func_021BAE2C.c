@@ -31,7 +31,7 @@ extern u32 func_0204B3F4(struct Obj *);
 extern u32 func_02035CB8(u32 *,u32 *),func_02035D20(u32 *,u32 *);
 extern void func_020355D8(u8);
 extern u16 func_021BB034(u16 **),func_021BB074(u16 **),func_021BB044(u16 **);
-extern void func_02028218(void *,u32);
+extern void func_02028218(struct Obj *obj, u32 a);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
 extern u16 func_021BB1F4(void *,u16,u16);
 extern void func_021BB088(char *);

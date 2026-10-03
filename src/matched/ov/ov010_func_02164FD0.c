@@ -38,7 +38,7 @@ extern int   func_02012164(u32 a);
 extern int   func_020264AC(u32 a);
 extern int   func_0203CD98(void);
 extern int   func_02026454(u32 a);
-extern u8   *func_02030734(int a, int b, int c, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020263D8(u32 a, int b, void *c);
 extern const char d_021729BC[];
 

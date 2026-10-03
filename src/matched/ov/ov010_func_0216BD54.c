@@ -26,7 +26,8 @@
 typedef unsigned short u16;
 
 extern void *func_0215A5E4(void *work);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern u16   func_02159B10(void *ctx, void *work);
 extern u16 *func_02159AE8(void *ctx, void *work);
 extern u16   func_0216BE20(void *s, int species, int move, int kind, u16 *out);

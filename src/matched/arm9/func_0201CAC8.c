@@ -74,8 +74,9 @@ struct PrintCtx {
 };
 
 extern void func_0201DD78(u32 a, u32 b, u32 c);
-extern s32  func_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
-extern s32  func_020437DC(void *h);
+struct Bmp;
+extern u32 func_0201D26C(u16 *p, void *font, u32 spacing, u16 **next);
+extern u16 func_020437DC(const struct Bmp *bmp);
 
 u16 *func_0201CAC8(struct PrintCtx *c, u16 *p)
 {

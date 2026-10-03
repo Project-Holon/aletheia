@@ -62,7 +62,7 @@ extern void func_021B8448(void *p, char *q);
 extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern void func_0203A5E4(u32 key);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 void func_021B7E34(void *p, char *q)
 {
     u32 h;

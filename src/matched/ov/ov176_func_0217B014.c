@@ -15,11 +15,13 @@
  *   func_02034714 0x02034714 arm
  *   d_0217E5E0 0x0217E5E0 data a1
  */
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_021E8AA0(void *,void *);
 extern void func_0217AFD0(void *,int,char *);
-extern void func_02034714(const char *,int,const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E5E0[];
 void func_0217B014(void *a,int *state,char *p)
 {

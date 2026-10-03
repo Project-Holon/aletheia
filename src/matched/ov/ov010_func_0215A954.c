@@ -13,7 +13,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021909E4(void *);
+struct Handle;
+extern int func_021909E4(struct Handle *h);
 extern void func_0215A920(void *);
 int func_0215A954(u8 *a) {
  u8 *p;

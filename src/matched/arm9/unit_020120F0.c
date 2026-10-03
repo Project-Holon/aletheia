@@ -59,8 +59,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8  *func_020127A4(void *p);
-extern u32  func_02012BB0(void *p);
+struct BigObj;
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
+extern u32 func_02012BB0(const struct BigObj *p);
 
 struct Ctx {
     u8    unk00[0xC];

@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-extern void func_0203C9AC(u32 a, u32 b, u32 c, u32 id);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 void func_021DCE08(char *ctx, u32 v)
 {

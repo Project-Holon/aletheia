@@ -12,7 +12,7 @@
  */
 typedef unsigned int u32;
 extern void func_0204B3DC(u32, int);
-extern void func_0202208C(u32, u32, u32, u32, u32, u32, u32);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 int func_021FD31C(unsigned char *p)
 {
     func_0204B3DC(*(u32 *)(p + 0xd38), 0);

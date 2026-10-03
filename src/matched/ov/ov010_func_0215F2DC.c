@@ -13,5 +13,5 @@
  */
 
 extern void *func_0215A5DC(void *a0);
-extern void func_02012158(void *, unsigned int);
+extern void func_02012158(char *p, unsigned int v);
 int func_0215F2DC(void *a, void *b) { func_02012158(func_0215A5DC(b), 0); return 0; }

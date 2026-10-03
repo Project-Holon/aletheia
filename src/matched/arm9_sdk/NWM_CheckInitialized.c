@@ -15,7 +15,8 @@
  */
 
 extern void OS_IsRunOnTwl(void);
-extern void func_02702698(void);
+typedef unsigned int   u32;
+extern u32 func_02702698(void);
 
 asm void NWM_CheckInitialized(void)
 {

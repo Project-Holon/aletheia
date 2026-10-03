@@ -45,13 +45,17 @@ struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
 
-extern void func_020289F8(void *sys, u32 a, u32 b, u16 c, u16 d);
-extern s32  func_020288C4(void *sys);
-extern u32  func_020289B8(void *sys);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sys;
+extern void func_020289F8(struct Sys *s, u32 a, u32 b, u16 c, u16 d);
+extern s32 func_020288C4(struct Sys *s);
+extern u32 func_020289B8(struct Sys *s);
 
-extern void *func_020120F4(void *a);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern struct Work *func_020124E8(void *task);
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02012A30(void *a);
 
 u32 func_020297EC(void *task, u32 *state, struct Work *work)

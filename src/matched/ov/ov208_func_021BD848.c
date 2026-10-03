@@ -13,7 +13,9 @@
  *   func_0204B878 0x0204B878 arm
  */
 
-extern void func_0204B878(void *, int);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BD848(char *p, int which)
 {

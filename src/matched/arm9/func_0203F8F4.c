@@ -55,7 +55,8 @@ extern char g_020A7E5C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_02082BCC(void *dst, u32 value, u32 size);
-extern void *func_02033C00(u32 size, u32 heapId);
+struct AreaMan;
+extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 
 void func_0203F8F4(u16 heapId)
 {

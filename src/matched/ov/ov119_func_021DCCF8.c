@@ -16,7 +16,7 @@
  */
 extern void *func_021DC854(void *, int);
 extern int func_021DC894(void *, int, void *, void *, int);
-extern void func_021DCBA4(void *, void *);
+extern void func_021DCBA4(char *a, char *p);
 extern void func_021D8E84(void *, int);
 extern void func_021D4AB4(unsigned char *);
 int func_021DCCF8(void *a, int b, char *c)

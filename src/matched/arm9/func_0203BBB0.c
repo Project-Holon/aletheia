@@ -33,11 +33,12 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern u8 *func_0203D788(void);
+struct Slot;
+extern void *func_0203D788(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
-extern void func_0203B950(void);
+extern void func_0203B950(u8 *p);
 extern void func_0203B90C(void);
-extern void func_0203B5D4(void);
+extern void func_0203B5D4(struct Slot *p);
 extern void func_0203B48C(void);
 
 void func_0203BBB0(void)

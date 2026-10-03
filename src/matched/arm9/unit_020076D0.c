@@ -57,7 +57,7 @@ struct Sub020076D0Header {
 
 extern struct Sub020076D0Header *sub_020074CC(void *save);
 extern struct Sub020076D0Entry  *sub_02007AF4(void *save, u32 box);
-extern int sub_02017E88(struct Sub020076D0Entry *entry, int field, int arg);
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
 
 int sub_020076D0(void *save, int *pbox, int *pslot)
 {

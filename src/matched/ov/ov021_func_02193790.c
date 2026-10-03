@@ -47,7 +47,7 @@ typedef struct Plane {
     int valid;
 } Plane;
 
-extern fx32 func_0207C768(fx32 numer, fx32 denom);
+extern u32 func_0207C768(u32 a, u32 b);
 
 static inline fx32 FX_MUL(fx32 a, fx32 b)
 {

@@ -93,7 +93,8 @@ struct UiCtx {
 extern struct UiCtx *unk_021469BC;
 extern const char s_UiFile[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void *func_02035EE8(u32 heap);
 extern void *func_020357E0(u32 heap);

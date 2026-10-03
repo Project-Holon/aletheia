@@ -14,10 +14,13 @@
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned char u8;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021D618C(u8 *,void *,int,int,int,int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021DB688(u8 *a,u8 *b,int c) {
     *(int *)(b+12)=1;
     func_02043B5C(func_02045770(*(void **)(b+140)),0);

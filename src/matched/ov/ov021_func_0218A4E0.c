@@ -72,21 +72,24 @@ struct FieldInput {
 
 extern void func_02082BCC(void *p, int v, u32 n);
 extern u16 func_02188C84(u8 *p);
-extern void *func_020120F4(void *p);
+struct BigObj;
+struct Ctx;
+struct Sub02014444Obj;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012844(void *p);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern void *func_02188CB4(u8 *p);
-extern void func_021A2FE4(void *v);
-extern u32 func_021A3080(void *v);
+extern void func_021A2FE4(u32 *p);
+extern u32 func_021A3080(u8 *p);
 extern u32 func_021A308C(void *v);
-extern void *func_021A3074(void *p);
+extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 extern u32 func_0216D888(void *p);
-extern void *func_02012B38(void *p);
-extern u16 func_02014478(void *p);
-extern u32 func_021A30C8(void *v);
+extern void *func_02012B38(const struct BigObj *p);
+extern u16 func_02014478(struct Sub02014444Obj *o);
+extern u32 func_021A30C8(void **ctx);
 extern int func_021A3584(void *v);
 
 void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos)

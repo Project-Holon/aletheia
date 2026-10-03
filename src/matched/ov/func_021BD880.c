@@ -22,7 +22,8 @@
 
 
 extern void func_0204B878(int, unsigned short);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_021BD880(char *p)
 {

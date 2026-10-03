@@ -17,10 +17,11 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021BAB00(int *);
 extern void func_021BAA64(char *);
-extern void func_021BA9E0(char *);
+extern void func_021BA9E0(void *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, int, int);
 extern void func_020307B0(void *);

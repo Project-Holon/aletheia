@@ -33,8 +33,8 @@ struct E24 {
     int w[6];
 };
 
-extern struct E24 *func_02048F60(int a, int b, int c);
-extern u32 func_020490A8(int a, int b);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern u32 func_020490A8(u32 a, u32 b);
 extern void func_020307B0(void *p);
 
 void func_021B69AC(u8 *a, u8 *b)

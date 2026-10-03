@@ -17,7 +17,7 @@ extern int  func_0202AE34(void *obj);
 extern int  func_0202AE68(void *obj);
 extern int  func_0202AE04(void *obj);
 extern int  func_0202AEBC(void *obj);
-extern int  func_0202ABFC(void *obj, int v);
+extern void func_0202ABFC(void *obj, u32 value);
 
 void func_0202AD44(void *obj)
 {

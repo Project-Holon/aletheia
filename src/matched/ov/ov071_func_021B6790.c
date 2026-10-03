@@ -18,9 +18,10 @@
  *   func_02045B38  0x02045B38  arm
  */
 
+typedef unsigned int   u32;
 void func_021B6790(int *p)
 {
-    void func_0201DD78(int, int, int);
+    void func_0201DD78(u32 r, u32 g, u32 b);
     int func_0203101C(int, int, int, int);
     int func_0201D7EC(int, int, int, int, int);
     int func_0201C440(int);

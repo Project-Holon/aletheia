@@ -15,8 +15,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void *func_02175B34(u8 *a);
-int func_0203D378(void);
+u8 *func_02175B34(u8 *p);
+u32 func_0203D378(void);
 void func_021759C0(u8 *a, u8 b);
 
 void func_02173F9C(int a, int b, void *c, u8 *d)

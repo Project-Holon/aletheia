@@ -17,9 +17,10 @@
  *   func_020111E8  0x020111E8  thumb
  */
 
-extern void func_02040588(int, int);
-extern void func_02041EE4(int, int, int);
-extern int func_020111E8(void);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
+extern u32 func_020111E8(void);
 
 void func_021B9BD4(int *p)
 {

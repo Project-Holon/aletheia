@@ -13,9 +13,10 @@
  *   func_021E1988 0x021E1988 thumb ov137
  */
 typedef unsigned char u8;
-extern void func_021E0478(void *, int);
+typedef unsigned int   u32;
+extern void func_021E0478(u8 *p, u32 i);
 extern void func_021E01B0(void *, int, int);
-extern void func_021E1988(int);
+extern void func_021E1988(unsigned int n);
 int func_021DF434(u8 *p)
 {
     int i;

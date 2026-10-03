@@ -16,7 +16,8 @@
  * func_0217C2AC.
  */
 
-int func_0217F310(void *ctx, int a);
+typedef unsigned int   u32;
+int func_0217F310(char *p, u32 a1);
 
 int func_0217F380(void *ctx, int a)
 {

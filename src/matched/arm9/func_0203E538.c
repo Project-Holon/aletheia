@@ -28,7 +28,8 @@ extern char s_020A7D68[];
 extern char s_020A7D74[];
 extern char s_020A7DA0[];
 extern char s_020A7E00[];
-extern void func_02034714(void *file, int line, void *msg);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_0203E538(int a0)
 {
     if (g_021469F0 == 0)

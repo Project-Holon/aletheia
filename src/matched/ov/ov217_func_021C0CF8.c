@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C29C8();
+extern u32 func_021C29C8(u32 a0);
 void func_021C0CF8(u32 a0)
 {
     *(u32*)(((u8*)a0 + 0) + 44) = func_021C29C8(*(u16*)(((u8*)a0 + 0)));

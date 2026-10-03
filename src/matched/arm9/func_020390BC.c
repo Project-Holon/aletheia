@@ -45,7 +45,7 @@ typedef int           s32;
 extern u8  *g_021469D0;
 
 extern u8  *func_0203D6BC(void);
-extern s32  func_0203D680(void);
+extern u32 func_0203D680(void);
 extern void func_0203666C(u8 *p);
 extern int  func_020365E8(u8 *p);
 extern void func_02038DF0(u8 *p, s32 i, u32 v, u8 *q, u8 *s);

@@ -28,7 +28,7 @@ extern void func_021BBA54(u8 *,u32);
 extern void func_021BB97C(u8 *,u32);
 extern void func_021BB99C(u8 *,u32,u32,u32);
 extern void func_021B9788(u8 *,int,int,int);
-extern void func_021BB98C(u8 *,u32);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9E3C(u8 *);
 extern void func_021B9E20(u8 *);
 #define W(o) (*(u32 *)(p+(o)))

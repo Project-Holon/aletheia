@@ -24,8 +24,13 @@
  *   func_021C5B58  0x021C5B58  thumb  ov021
  */
 
-extern void *func_020120F4(void *a);
-extern void *func_02012934(void *p);
+typedef unsigned int u32;
+
+struct Big;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA18(void *a);
 extern int func_020122C0(void *a, int b, void *cb, int c);
 struct Work {
@@ -38,9 +43,9 @@ struct Work {
 };
 
 extern struct Work *func_020124E8(int a);
-extern void *func_0201210C(void *p);
-extern int func_0201AB28(void *a, int b);
-extern void *func_02012EBC(void *a);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *a);
 extern int func_02017E1C(int a, int b, int c);
 extern int *func_0216BFD4(int a, int b, int c, int d, int e, int f, void *g);
@@ -65,7 +70,7 @@ int func_021C5AAC(void *a, int b, int c, int d)
     p->f10 = b;
     p->f14 = d;
     r6 = func_020120F4(p->a);
-    e = func_0201AB28(func_02012934(r6), c);
+    e = (int)func_0201AB28(func_02012934(r6), c);
     r6 = func_0200C0F0(func_02012EBC(r6));
     x = func_02017E1C(e, 5, 0);
     y = func_02017E1C(e, 0x6f, 0) | (func_02017E1C(e, 0x6e, 0) << 8);

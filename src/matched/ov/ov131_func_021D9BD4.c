@@ -13,7 +13,8 @@
  */
 typedef unsigned char u8;
 extern void func_021DB7B8(void *, void *, u8 *);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_021D9BD4(void *a, u8 *p)
 {
     u8 i;

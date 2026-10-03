@@ -28,7 +28,7 @@ extern int func_022110D4(u8 *,int);
 extern void func_0220C4DC(char *,int,int,int,u16,short,unsigned);
 extern void func_0220D6DC(char *,char *,int);
 extern int func_02020FE4(unsigned,int,u16);
-extern int func_0220C60C(char *,int);
+extern void func_0220C60C(char *p, int id);
 void func_0220E088(char *p)
 {
     long i;

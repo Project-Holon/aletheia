@@ -20,7 +20,9 @@ typedef struct { int a,b,c; } Triple;
 typedef struct { void *root; u8 pad[0x18]; void *items[2][2]; } Obj;
 extern void func_021BAC50(void *,Triple *,int);
 extern void *func_021BAC78(void *,Triple *,s16,s16,int,int);
-extern void func_0204B3DC(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BC160(Obj *p)
 {
     Triple t;

@@ -47,7 +47,7 @@ struct Slot { u16 heapId; };
 extern struct Slot *g_02146A44;
 extern char g_020A7E5C[];
 
-extern void *sub_02030734(u16 heapId, u32 size, u32 clear, const char *site, u32 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  sub_020307B0(void *p);
 extern void  func_02040968(const void *src, void *dst, u32 mode);
 extern void  func_020425B4(u32 index, const void *src, u32 size, u32 offset);

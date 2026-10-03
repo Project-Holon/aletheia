@@ -26,9 +26,11 @@ typedef struct {
     u32 f3034;
 } Work;
 
-extern void func_02045374(void *p);
-extern void func_02045334(void *p);
-extern void func_02041B6C(u8 bg);
+struct Cfg;
+struct Descriptor;
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02041B6C(u32 bit);
 extern const u8 d_021C876C[];
 
 void func_021C631C(Work *p, void **bg)

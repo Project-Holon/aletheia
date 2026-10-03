@@ -20,7 +20,8 @@ struct W { char pad[0x18]; u16 handles[5][6]; char gap[4]; void *objects[5][6]; 
 extern void func_0204AFD8(unsigned int);
 extern void func_0204ADA4(unsigned int);
 extern void func_0204A8D4(unsigned int);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_021DF5B8(char *p)
 {
     int i, j;

@@ -16,9 +16,11 @@
  */
 typedef unsigned int u32;
 extern void func_0201232C(void *, void *, int);
-extern void *func_020124E8(void *);
+typedef unsigned char  u8;
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
-extern int func_021808E8(void *, int *, void *);
+extern int func_021808E8(int x, int *st, u8 *obj);
 void func_021808C4(void *task, const void *src)
 {
     void *work;

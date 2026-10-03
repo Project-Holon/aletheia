@@ -152,7 +152,8 @@ void sub_0201ACDC(void *p, u32 pos, u32 mode)
     }
 }
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *sub_0201AD0C(void *sys)
 {

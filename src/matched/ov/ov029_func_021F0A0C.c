@@ -11,7 +11,7 @@
  * symbols:
  *   func_021F0AC8 0x021F0AC8 thumb ov029
  */
-extern void func_021F0AC8(void *p, int i, int j);
+extern void func_021F0AC8(unsigned char *p, int a, int b);
 void func_021F0A0C(unsigned char *p)
 {
     int i, j;

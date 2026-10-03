@@ -35,10 +35,10 @@ struct B868 {
 
 extern u8 *g_021469DC;
 
-extern void func_0203D798(void);
+extern void *func_0203D798(void);
 extern u8  *func_0203D788(void);
-extern u32  func_02039ACC(void);
-extern u32  func_0203DA4C(void);
+extern int func_02039ACC(void);
+extern int func_0203DA4C(void);
 extern u32  func_0203D650(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 

@@ -50,7 +50,8 @@ struct Mgr { u8 pad00[0x1C]; void *f1C; };
 
 extern void func_021B7EE4(void *p, const Rect4 *r);
 extern void func_021B80E0(void *p, int a, u8 key);
-extern void func_021B810C(void *p);
+struct Sub;
+extern void func_021B810C(struct Sub *o);
 extern void func_021B7DC0(void *p, Rect4 *out);
 extern int func_0203EFC8(const void *a, const void *b, u32 n);
 extern u8 func_021B7DE0(void *p, Rect4 *r);

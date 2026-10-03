@@ -14,8 +14,9 @@
  *   func_021DD924 0x021DD924 thumb ov137
  */
 typedef unsigned short u16;
-extern void *func_020399A8(void);
-extern unsigned func_021DE37C(char *);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern unsigned func_021DE37C(void *p);
 extern void func_0203A424(void *, int, int, u16);
 extern void func_021DD924(char *);
 int func_021DDE94(char *p, int state) {

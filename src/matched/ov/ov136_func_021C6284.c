@@ -20,10 +20,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021C61D4(void *, u32);
-extern void *func_02045EC0(void *, u32);
-extern void func_0201F250(void *, void *, void *);
-extern void func_02045808(void *);
-extern void func_021C6230(void *);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021C6230(u8 *p);
 void func_021C6284(u8 *p)
 {
     void *t;

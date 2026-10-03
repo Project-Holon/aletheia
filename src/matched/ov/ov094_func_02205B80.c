@@ -10,7 +10,9 @@
  * status:   EXACT
  */
 
-extern void func_0204B22C(void *h, int a);
+typedef unsigned int   u32;
+struct Bank;
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 
 void func_02205B80(char *p, int a)
 {

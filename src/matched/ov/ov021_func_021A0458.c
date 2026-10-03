@@ -30,7 +30,7 @@ extern s32 func_021A07F8(u16 a, void *b);
 extern void func_021A0974(void *a, void *b, void *c);
 extern void func_021A0B14(void *a);
 extern s32 func_021A0B34(void *a);
-extern void func_021A0B4C(void *a, void *b);
+extern void func_021A0B4C(const u8 *a, u8 *b);
 extern s32 func_021A0C74(void *a, void *b, void *c, void *d);
 
 void func_021A0458(u8 *a, s32 b)

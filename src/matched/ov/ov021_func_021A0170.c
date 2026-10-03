@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void func_0207DC44(u32, u32, u32, u32);
+extern void func_0207DC44(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void func_0207DD10(u8 *);
 
 static inline void SetFogColor(u16 color, int alpha)

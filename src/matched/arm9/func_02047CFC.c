@@ -60,7 +60,7 @@ typedef struct {
 } Setup;
 
 extern const char g3d_util_file[];
-extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 Util *func_02047CFC(u16 resCount, u16 objCount, u16 heapID)
 {

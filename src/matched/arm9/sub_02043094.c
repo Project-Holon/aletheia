@@ -42,7 +42,9 @@ struct Ctx {
 
 extern struct Ctx *g_02146A44;
 
-extern void func_0203422C(void *arena, u32 unit, u32 count);
+typedef signed int     s32;
+struct AreaMan;
+extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
 
 void sub_02043094(u32 idx, u32 offset, u32 size)
 {

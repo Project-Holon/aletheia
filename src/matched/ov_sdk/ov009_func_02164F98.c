@@ -38,7 +38,8 @@ typedef struct WCMState {
 extern WCMState g_021AA7D4;
 extern unsigned long OS_DisableInterrupts(void);
 extern unsigned long OS_RestoreInterrupts(unsigned long state);
-extern void func_021657D8(void *config, void (*notify)(void *));
+struct WCMConfig;
+extern void func_021657D8(struct WCMConfig *config, void (*notify)(void *));
 extern unsigned short func_0208EE60(void);
 extern long func_02166880(void);
 extern int OS_IsRunOnTwl(void);

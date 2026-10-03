@@ -49,8 +49,10 @@ typedef struct Deal {
     Tbl *f0C;           /* 0x0C */
 } Deal;
 
-extern void func_02156FD0(void *a, u8 b, u16 id, u8 v, u32 w, u16 x, u16 y);
-extern void func_0215700C(void *a, u8 b, u8 v, u16 id, u32 c, u8 slot);
+typedef signed short   s16;
+struct Stage;
+extern void func_02156FD0(struct Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y);
+extern void func_0215700C(struct Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b);
 
 void func_021572E4(Deal *d, void *a, u8 b, u8 slot, u16 y)
 {

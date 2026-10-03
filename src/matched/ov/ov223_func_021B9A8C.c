@@ -21,7 +21,9 @@ typedef unsigned int u32;
 extern void *func_02048A18(unsigned char *,int);
 extern int func_0204779C(int *);
 extern int func_02047910(void *,int,int);
-extern u32 func_02011590(void *,int);
+typedef signed int     s32;
+struct IcaAnime;
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void *func_021BC52C(void *);
 extern void func_02011B8C(void *,void *);
 void func_021B9A8C(char *p)

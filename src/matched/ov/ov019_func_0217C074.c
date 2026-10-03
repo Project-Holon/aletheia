@@ -42,19 +42,19 @@ typedef struct {
 
 extern char d_021807E4[];
 
-int func_0217BB04(void *ctx);
-void func_02034714(const char *file, int line, const char *msg);
+int func_0217BB04(char *p);
+void func_02034714(const char *expr, u32 line, const char *file);
 void func_0203D14C(int a, int b, void *c);
 int func_0203D1B4(void);
 void func_0203D7BC(int a);
 u32 func_020362DC(void);
-void func_02172D20(void *ctx);
-int func_02172D68(void *ctx);
+void func_02172D20(u8 *p);
+int func_02172D68(u8 *p);
 void func_021734A8(void *ctx, int a, void *b);
 int func_02173A90(void);
-int func_0217B8E4(void *ctx, int v);
-void func_0217F210(void *ctx, int a, int msg);
-int func_0217F1EC(void *ctx);
+int func_0217B8E4(char *p, char v);
+void func_0217F210(u8 *p, int a, u32 b);
+u32 func_0217F1EC(u8 *p);
 
 int func_0217C074(void *ctx, Obj *obj, int a2, u8 *state)
 {

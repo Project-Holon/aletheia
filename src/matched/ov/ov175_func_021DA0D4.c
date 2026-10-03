@@ -37,7 +37,7 @@ extern void DWC_CloseAllConnectionsHard(void);
 extern void func_021DA4B8(char *obj, int i, int value);
 extern int STD_TSPrintf(char *dst, const char *fmt, ...);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_021DA4E8(int index, void *param);
 extern int func_021DA4F0(int index, void *param);
 extern int func_021DA4F8(int index, void *param);

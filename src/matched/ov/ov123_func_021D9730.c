@@ -19,16 +19,21 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02045CAC(void *, int, void *);
+typedef unsigned int   u32;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_020450F0(int,int,u8,int,u8,u8,u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,int);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(unsigned int,unsigned int,unsigned int);
 extern void func_0201C7A4(void *,short,short,void *,void *);
 extern void func_0201F73C(void *,int,u16,int);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void func_02041B6C(int);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32 bit);
 void func_021D9730(char *p, int n)
 {
     void *q;

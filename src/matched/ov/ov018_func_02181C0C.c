@@ -67,7 +67,9 @@ extern const u16 d_02183950[];
 extern const u16 d_0218395A[];
 extern const u16 d_02183964[];
 
-void *func_020124E4(void *);
+struct Obj;
+struct S0201235C;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
 int func_0217405C(void *, void *);
@@ -77,10 +79,10 @@ void func_021762D8(void *, void *, void *, u32);
 void func_0217F3C4(Ov018Obj *p, u16 a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
-void func_020061E4(int);
+void func_020061E4(u32 a);
 void func_0217FE38(void *v, Ov018Outer *c);
 void *func_021804F8(void *, int);
-void func_0201235C(void *, void *);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_02181C0C(void *a, int *state, Ov018Outer *c)
 {

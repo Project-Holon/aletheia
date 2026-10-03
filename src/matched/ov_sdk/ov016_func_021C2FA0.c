@@ -42,7 +42,7 @@ extern Focus g_021DE5A8;
 
 extern int func_021D5580(int lcd);
 extern int func_021BCB58(void);
-extern void func_021D6F38(void *obj);
+extern void func_021D6F38(unsigned int *obj);
 extern void func_021BD5A8(void);
 extern int func_021BD138(void);
 extern void func_021D4C68(void *file);

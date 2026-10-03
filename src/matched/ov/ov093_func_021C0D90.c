@@ -31,7 +31,7 @@ extern void func_021C0A4C(u8 *, u8 *, u8 *, u8 *, u32, u32, u8 *);
 extern u32 func_021CD4FC(u8 *, u32);
 extern u32 func_021C0F04(u8 *);
 extern u32 func_021C11A4(u8 *, u8 *, u8 *, u8 *, u8 *, u8 *, u32, Flags);
-extern u32 func_021BEC08(u8 *, u8 *);
+extern int func_021BEC08(u8 *p, u8 *a);
 extern void func_021BA1B4(u8 *, int);
 extern u32 func_021C0F14(u8 *);
 u32 func_021C0D90(u8 *p, u8 *q, u8 *a, u8 *b, u32 c, u32 *out, u32 d)

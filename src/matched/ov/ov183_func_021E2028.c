@@ -21,12 +21,13 @@
  */
 typedef unsigned short u16;
 extern char d_021E39B4[];
-extern void func_02034714(void *,int,void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16 func_021F9B9C(int);
 extern char *func_0203159C(int,int,int);
 extern void func_02082BCC(void *,int,int);
 extern int func_021FD6D8(void *,void *,u16);
-extern void func_021E214C(int,int *,char *);
+extern void func_021E214C(int *task, int *state, char *p);
 extern int func_0201C440(u16);
 extern void func_021E23C8(char *,char *);
 extern int func_021FD760(int,int,int,u16);

@@ -43,7 +43,7 @@ extern u32 func_02087988(void);
 extern void func_0208799C(u32 h);
 extern u32 func_02060CA0(u32 heap, u32 size, u32 c);
 extern void func_0200FB6C(void);
-extern void func_0203C9AC(int a, int b, int c, int d);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 u32 func_02156F5C(u32 a, u32 b, u32 c)
 {

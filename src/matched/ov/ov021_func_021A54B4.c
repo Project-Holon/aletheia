@@ -32,10 +32,10 @@ typedef signed int     s32;
 
 typedef struct { s32 x, y, z; } VecFx32;
 
-extern void *func_021A3960(void *p);
+extern void *func_021A3960(u8 *p);
 extern int func_0216DB4C(void *a0, int a1);
 extern int func_0216DCE8(void *a0, int a1);
-extern void func_0216D568(void *a0, int a1);
+extern void func_0216D568(void *p, u32 v);
 extern void func_02164010(void *a0);
 extern void func_0216D88C(void *obj, VecFx32 *out);
 extern void func_0216D85C(void *p, s16 v);

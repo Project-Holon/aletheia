@@ -19,9 +19,10 @@
 typedef unsigned char u8;
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
-extern u8 func_021B8E70(u8 *, u8);
-extern void func_021F8118(u8, int);
-extern void func_021F80FC(u8, int);
+typedef unsigned int   u32;
+extern u8 func_021B8E70(u8 *p, u32 k);
+extern void func_021F8118(u32 a, u32 b);
+extern void func_021F80FC(u32 a, u32 b);
 void func_021ED494(u8 *p, u8 k, int x)
 {
     int d = func_021D59B4(func_021B98AC(*(char *const **)(p + 0x138), k), 0xd);

@@ -12,7 +12,9 @@
  *   func_021F9BF4 0x021F9BF4 thumb
  *   d_02200D04 0x02200D04 data a1
  */
-extern void *func_02030734(unsigned short, unsigned, int, void *, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
 extern unsigned func_02031324(unsigned short);
 extern void func_021F9CA4(void *);

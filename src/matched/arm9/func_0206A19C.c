@@ -50,7 +50,7 @@ typedef struct {
     u16 origWidth; u16 origHeight; fx32 magW; fx32 magH;
 } MatData;
 
-extern s32 sub_0207C768(s32 num, s32 den);
+extern u32 sub_0207C768(u32 a, u32 b);
 
 static inline void *GetResDataByIdx(const ResDict *dict, u32 idx)
 {

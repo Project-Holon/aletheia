@@ -38,10 +38,12 @@ struct Ctx {
 extern u32   sub_0201CE30(void *p);
 extern u32   func_020362DC(void);
 extern u32   func_02035C60(void);
-extern void *func_02045770(void *cell);
-extern void  func_02028618(struct Ctx *ctx, void *bmp, u32 color);
-extern void  func_0202865C(struct Ctx *ctx, void *bmp, u32 color);
-extern void  func_02045334(void *cell);
+struct Bmp;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02028618(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void func_0202865C(struct Ctx *ctx, const struct Bmp *bmp, u32 color);
+extern void func_02045334(struct Descriptor *d);
 
 void func_020286C4(struct Ctx *ctx, void *p, void *cell)
 {

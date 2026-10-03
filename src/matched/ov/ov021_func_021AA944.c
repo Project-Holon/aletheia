@@ -58,8 +58,8 @@ typedef struct Self {
 } Self;
 
 extern char *func_02012A38(void *p);
-extern void *func_02188CB4(void *p);
-extern void *func_021A3074(void *p);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern void func_0216D828(void *p, Vec3s *out);
 extern u32 func_02005728(u32 v);
 extern u16 func_021AB070(void);
@@ -69,7 +69,7 @@ extern int func_021A9F40(Self *self, u32 v);
 extern void func_021AAFA0(Self *self, void *p);
 extern void func_021AAB1C(Self *self, int v);
 extern int func_021A3624(void *p);
-extern void func_021A3644(void *p);
+extern void func_021A3644(void **p);
 
 static inline int same_pos(Ent *e, Vec3s *v)
 {

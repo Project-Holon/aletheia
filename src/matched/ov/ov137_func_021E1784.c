@@ -19,11 +19,13 @@
 typedef unsigned char u8;
 extern void *func_021DCE00(char *, int);
 extern void *func_0201AB28(void *, unsigned);
-extern void *func_021DEB10(void *);
-extern int func_02039338(void);
+typedef unsigned short u16;
+struct RecDC;
+extern void *func_021DEB10(char *p);
+extern u16 func_02039338(void);
 extern void *func_02184180(void *, u8);
 extern void func_0202F190(void *, int, void *, int, int);
-extern void func_02019CE0(void *, void *);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 void func_021E1784(char *p, int i)
 {
     void *party;

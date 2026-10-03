@@ -15,7 +15,8 @@
  */
 struct Timer { unsigned short low : 1; unsigned short high : 15; };
 extern int func_021B7AB0(char *);
-extern int func_021BD8C4(char *, unsigned);
+typedef unsigned int   u32;
+extern u32 func_021BD8C4(char *p, u32 idx);
 extern void func_021BE5D4(char *, int);
 int func_021BD148(char *p)
 {

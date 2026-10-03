@@ -16,12 +16,13 @@
  *   func_021D51D4 0x021D51D4 thumb ov120
  */
 typedef unsigned char u8;
-extern int func_02028230(void *);
-extern void func_02028148(void *);
-extern void func_02041B6C(int);
-extern void func_021D69F4(void *, void *, int);
+typedef unsigned int   u32;
+extern u32 func_02028230(u8 *p);
+extern void func_02028148(u8 *p);
+extern void func_02041B6C(u32 bit);
+extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D4244(int, int, int);
-extern void func_021D51D4(void);
+extern void func_021D51D4(u8 *p);
 void func_021D52D4(u8 *p)
 {
     if (func_02028230(*(void **)(p + 0x34))) {

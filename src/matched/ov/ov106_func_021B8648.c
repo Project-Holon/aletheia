@@ -13,8 +13,10 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned char u8;
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+struct Cfg;
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(unsigned int);
 void func_021B8648(u8 *p) {
     int i;

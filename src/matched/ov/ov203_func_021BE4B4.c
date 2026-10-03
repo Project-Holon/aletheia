@@ -17,13 +17,17 @@
  *   func_02047E54 0x02047E54 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_021BF810(void *);
+typedef unsigned int   u32;
+struct Ctx;
+struct IcaAnime;
+struct Rec;
+extern void func_021BF810(char *p);
 extern void func_021BE158(void *);
 extern void func_0200566C(void *);
 extern void func_0204EA0C(void);
-extern void func_02011558(void *);
-extern void func_020480E4(void *, unsigned);
-extern void func_02047E54(void *);
+extern void func_02011558(struct IcaAnime *p);
+extern void func_020480E4(struct Ctx *c, u32 i);
+extern void func_02047E54(struct Rec *p);
 extern void func_020307B0(void *);
 void func_021BE4B4(char *ctx)
 {

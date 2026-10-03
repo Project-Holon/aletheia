@@ -10,7 +10,8 @@
  *   d_02200D14 0x02200D14 data a1
  */
 typedef struct { unsigned words[4]; } Info;
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F9C84(Info *, unsigned, void *);
 extern char d_02200D14[];
 void func_021F9BF4(unsigned *ctx, unsigned index)

@@ -30,10 +30,13 @@ typedef short s16;
 
 u16 *func_02159AE8(void *a0, void *a1);
 void *func_0215A5DC(void *a0);
-unsigned int func_02012138(void *);
-void *func_020120F4(void *);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+u32 func_02012138(const struct Ctx *p);
+void *func_020120F4(const struct Ctx *p);
 int func_0215841C(void *);
-int func_02012B58(void *);
+u8 func_02012B58(const struct BigObj *p);
 
 int func_0217FAE0(void *unused, int a)
 {

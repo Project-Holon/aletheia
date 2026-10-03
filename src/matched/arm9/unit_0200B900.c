@@ -44,7 +44,8 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void func_0203F37C(void *p, u32 size, u32 seed);
-extern void func_0203F328(void *p, u32 size, u32 seed);
+typedef unsigned short u16;
+extern void func_0203F328(u16 *p, u32 size, u32 seed);
 
 struct ObjC4 {
     u8 unk00[0x80];

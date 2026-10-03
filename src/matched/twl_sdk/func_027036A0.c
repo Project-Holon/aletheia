@@ -26,7 +26,8 @@ extern u32 func_027028E4(u32, u32);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32);
 extern void func_020862D4(u32, u32);
-extern void func_02703764(u32, u32, u32, u32);
+typedef unsigned char  u8;
+extern void func_02703764(u32 a0, u32 a1, u8 *a2, u32 a3);
 extern u32 func_02703A74(u32, u32, u32, u32, u32);
 
 asm void func_027036A0(u32 a0, u32 a1, u32 a2, u32 a3) {

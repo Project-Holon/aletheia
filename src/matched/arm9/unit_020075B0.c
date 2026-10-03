@@ -59,8 +59,8 @@ extern const char sub_020075B0_File[];
 
 extern struct Sub020075B0Header *sub_020074CC(void *save);
 extern struct Sub020075B0Entry  *sub_02007AF4(void *save, u32 box);
-extern void sub_020181A0(struct Sub020075B0Entry *entry);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void sub_020181A0(void *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int sub_020075B0(void *save, u32 box, u32 slot,
                  const struct Sub020075B0Entry *src)

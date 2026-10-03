@@ -17,7 +17,7 @@
 void func_021B6B98(void *p, int *tbl, int n, int sel, int c)
 {
     void func_0204B6F4(int, int, int);
-    void func_021B6DB4(void *, int, int);
+    void func_021B6DB4(int *p, int a, int idx);
     int i;
 
     for (i = 0; i < n; i++) {

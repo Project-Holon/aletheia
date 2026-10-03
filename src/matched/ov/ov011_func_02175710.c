@@ -27,7 +27,8 @@ typedef struct Lo3 {
     u16 hi : 13;
 } Lo3;
 
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02012B8C(void *p, u32 v);
 extern void func_02161FEC(void *p, u8 v);
 

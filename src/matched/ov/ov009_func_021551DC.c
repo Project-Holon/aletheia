@@ -27,7 +27,7 @@ typedef signed char    s8;
 int func_021551DC(void *p)
 {
     int func_02156690(int);
-    void func_02156730(void);
+    int func_02156730(void);
     void func_0215592C(void *);
     int t;
     if (p == 0) t = 1;

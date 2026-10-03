@@ -17,7 +17,7 @@
  */
 
 extern unsigned long func_021578EC(unsigned long ip);
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 
 unsigned long func_02158F84(unsigned long ip1, unsigned long ip2)
 {

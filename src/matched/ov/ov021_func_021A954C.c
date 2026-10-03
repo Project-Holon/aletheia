@@ -27,8 +27,10 @@ typedef signed int     s32;
 struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 
 extern void MIi_CpuClear32(u32 data, void *destp, u32 size);
-extern u8 func_021A9A5C(void *a0, void *u, u16 id, struct Spec *spec);
-extern int func_021A9508(void *u, struct Spec *specs, void *slots);
+struct Slot14;
+struct Unit;
+extern u8 func_021A9A5C(u8 *a0, struct Unit *u, u16 id, struct Spec *spec);
+extern int func_021A9508(u8 *u, void *arg, struct Slot14 *slots);
 
 int func_021A954C(void *a0, void *u, u16 id, void *slots)
 {

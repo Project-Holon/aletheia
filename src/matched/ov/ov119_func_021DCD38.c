@@ -52,7 +52,8 @@ extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
 extern unsigned func_020399A8(void);
 extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
 extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32),func_020310C4(void *);
-extern unsigned func_0201C4E4(void *);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021DF978(void *),func_02047964(void),func_02048AD0(void *),func_020479D8(void),func_02014C08(char *),func_02014D2C(void *),func_021E31B4(void *),func_02047970(void);
 extern void func_0200F7C0(unsigned),func_021B9774(u8 *),func_021B9838(u8 *),func_02156DC4(int,int),func_02156ED0(void),func_02157170(int,int),func_0200FB38(void),func_021DC818(char *),func_0202223C(unsigned,unsigned);
 #define I(o) (*(int *)(p+(o)))

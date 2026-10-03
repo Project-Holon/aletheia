@@ -16,7 +16,8 @@
  * through 0x0203D34C.
  */
 
-extern void func_0203D34C(int, int);
+typedef unsigned int   u32;
+extern void func_0203D34C(u32 a, u32 b);
 
 void func_021DD008(char *p, int flag)
 {

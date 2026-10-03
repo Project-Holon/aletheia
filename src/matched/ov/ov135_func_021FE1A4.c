@@ -16,12 +16,13 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32, int);
 extern void func_021FF318(void *, int, int, int, int);
-extern int func_0207D55C(u16 *);
-extern void func_0202208C(u32, u32, u32, u32, u32, u32, u32);
-extern void func_021F4E98(void *, u32, u32);
+extern int func_0207D55C(volatile u16 *reg);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FE1A4(unsigned char *p)
 {
     if (func_020355C4() == 1)

@@ -22,10 +22,12 @@
  *   func_0203F9B4 0x0203F9B4 arm
  */
 extern void func_02061C30(void);
-extern void func_02014BA8(void *);
+typedef unsigned char  u8;
+struct Bank;
+extern void func_02014BA8(u8 *a0);
 extern void func_02048AC4(void *);
 extern void func_02046788(void);
-extern void func_0204B1CC(void *);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_020403F4(unsigned int);
 extern void func_020450C8(void);

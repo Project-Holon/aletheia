@@ -15,11 +15,14 @@
  *   func_02045334 0x02045334 arm
  */
 typedef unsigned short u16;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,int);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(void *,u16,int);
 extern void func_0201C7A4(void *,int,int,int,int);
-extern void func_02045334(void *);
+extern void func_02045334(struct Descriptor *d);
 void func_021D7CE8(char *p,u16 n,int i)
 {
     void *q=*(void **)(p+0x38+4*i);

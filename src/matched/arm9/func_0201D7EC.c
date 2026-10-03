@@ -43,7 +43,8 @@ struct GfFont {
     int field_54;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0201D854(struct GfFont *font, int a1, int a3, u32 heapId);
 extern void func_0201DA00(struct GfFont *font, int a2, u32 heapId);

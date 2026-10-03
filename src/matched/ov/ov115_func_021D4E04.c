@@ -18,10 +18,12 @@
  */
 typedef unsigned char u8;
 extern void func_021D584C(u8 *);
-extern void func_02030EAC(void *);
-extern void func_02040DA8(int, int, int);
-extern void func_020403F4(int);
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_020403F4(u32 i);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0203F9B4(void);
 extern void func_020307B0(void *);
 void func_021D4E04(u8 *p) {

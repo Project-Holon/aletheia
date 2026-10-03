@@ -38,7 +38,7 @@ struct gsAC {
     int pad50;
     int sent;
 };
-extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
+extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern void func_0217F25C(void);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_0217C690(char *hostname, int port, struct SOCSockAddrIn *saddr);

@@ -11,7 +11,8 @@
  *   func_021B8FF4 0x021B8FF4 thumb ov133
  */
 typedef signed short s16;
-extern int func_02005728(int);
+typedef unsigned int   u32;
+extern u32 func_02005728(u32 range);
 extern int func_021B8FF4(s16, s16, int, float);
 void func_021B7458(void *unused, int *p)
 {

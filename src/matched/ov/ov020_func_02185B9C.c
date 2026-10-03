@@ -28,8 +28,10 @@ int func_02012EC4(int a);
 void func_0200B37C(int a);
 void func_0200B394(int a, int b);
 void *func_020490F4(unsigned int id, u16 heap);
-Ent *func_02049250(void *h, int a, int b);
-unsigned func_020493D4(void *h, int a);
+typedef unsigned int   u32;
+struct ArcFile;
+void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
+u32 func_020493D4(struct ArcFile *arc, u32 member);
 void func_020307B0(void *p);
 void func_02049238(void *h);
 

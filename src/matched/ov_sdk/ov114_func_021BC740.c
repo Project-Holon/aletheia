@@ -64,14 +64,15 @@ typedef struct {
     char commBuf[1];
 } NHTTPThreadInfo;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern NHTTPReqInfo *func_021BEF48();
 extern NHTTPThreadInfo *func_021BEF50(void *sysInfo_p);
 extern NHTTPBgnEndInfo *func_021BEF3C(void *sysInfo_p);
 extern void *func_021BEF58(void *sysInfo_p);
 extern int func_021B9F94(void *mutexInfo_p, NHTTPReq *req_p, int socket, char *buf_p, int len, int flags);
 extern int func_021BA448(char *p_p, int len);
-extern int func_021BA150(char *p1_p, char *p2_p, int size);
+extern int func_021BA150(const char *p1_p, const char *p2_p, int size);
 extern char g_021CE4A8[];
 
 static int func_021BC740(void)

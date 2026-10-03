@@ -41,10 +41,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017DBC(void *p);
-extern u32  func_02017DE4(void *p, u32 f);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern void func_020182A8(void *p, u16 move, u32 slot);
+extern void func_020182A8(void *p, u16 move, u8 slot);
 
 u32 func_02018240(void *p, u16 move)
 {

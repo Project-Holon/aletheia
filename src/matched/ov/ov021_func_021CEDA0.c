@@ -43,7 +43,7 @@ typedef struct {
 } N;
 
 extern int func_021909E4(u32);
-extern void func_0203D000(const void *p);
+extern void func_0203D000(void *p);
 extern void func_0201F02C(int a, int b, int c);
 extern void func_021CE9E4(u8 *p, u32 m);
 

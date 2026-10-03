@@ -25,7 +25,7 @@ typedef struct { int x, y, z; } V;
 
 extern void func_0207CA00(const V *a, const V *b, V *c);
 extern int func_0207CBD0(V *a);
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 
 static inline void setv(V *o, int x, int y, int z)
 {

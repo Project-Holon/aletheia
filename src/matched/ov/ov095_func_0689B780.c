@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-extern void func_0220270C(void *, int, void *);
+extern void func_0220270C(char *s, int mode, void *arg);
 
 void func_0689B780(void *p, void *q)
 {

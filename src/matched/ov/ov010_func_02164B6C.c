@@ -29,9 +29,9 @@ typedef unsigned int   u32;
 
 extern u32   func_020120F4(void *a);
 extern void *func_02012138(void *a);
-extern u8   *func_02030734(int a, int b, int c, const char *file, int line);
-extern int   func_0202647C(void *a);
-extern int   func_0202648C(void *a);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_0202647C(void *obj);
+extern u32 func_0202648C(void *obj);
 extern void  func_02164FC4(u8 *p);
 extern const char d_021729BC[];
 

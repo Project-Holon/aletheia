@@ -16,11 +16,15 @@
  *   func_021B6558 0x021B6558 thumb ov067
  */
 typedef unsigned short u16;
-extern void *func_020457B0(int,u16);
-extern void func_02045CAC(void *,int,void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_0202800C(void *,void *,int,int,int,int,int,int,u16);
-extern void func_02045808(void *);
-extern void func_0204B3DC(void *,int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021B6558(int,int,int);
 void *func_021E2984(char *p,int a) {
     void *t;

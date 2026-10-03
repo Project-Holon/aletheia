@@ -35,7 +35,7 @@ typedef struct { u32 x,y,z; } Vec;
 extern const Vec d_021DC1F8,d_021DC240,d_021DC180,d_021DC1C8;
 extern void *func_021D60A4(void *);
 extern void func_021D7A44(void *,int,int *,int *);
-extern void func_021D79A8(void *,void *,int);
+extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_021D7A1C(void *,void *,Vec *);
 extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void func_02015FD4(char *,int);

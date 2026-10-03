@@ -61,7 +61,8 @@ struct Slot { u8 pad00[0x0c]; u8 list[0x24 - 0x0c]; };
 extern struct Slot g_0214E464[];
 extern struct Node *func_02060614(void *list, void *curr);
 extern void func_020605B4(void *list, void *node);
-extern void func_02074770(void *p);
+struct Obj;
+extern void func_02074770(struct Obj *o);
 
 void *func_020734AC(s32 idx, void *owner)
 {

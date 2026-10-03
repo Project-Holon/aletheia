@@ -56,11 +56,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_02017DBC(void *p);
-extern u32  func_02017DE4(void *p, u32 f);
+struct Sav;
+struct Sub0200852CObj;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern u32  func_02008530(void *mail);
-extern u32  func_02008550(void *mail);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_020084F8(void *mail, void *dest, u32 size);
 extern u32  func_0201F448(const void *a, const void *b);
 

@@ -21,8 +21,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02011398(void *);
-extern void func_0201137C(void *, int);
+struct Ring;
+extern u32 func_02011398(struct Ring *r);
+extern void func_0201137C(struct Ring *r, u32 v);
 
 int func_0215944C(void *a0)
 {

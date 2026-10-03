@@ -25,8 +25,10 @@ typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
-extern u32 func_02012844(void *p);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern int func_0219E664(void *o, u32 k, void *buf);
 extern int func_02162598(u32 a, u32 *b);
 

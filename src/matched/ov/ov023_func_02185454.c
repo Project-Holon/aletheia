@@ -36,18 +36,19 @@ typedef struct {
     u8 hi : 2;
 } Bits;
 
-extern int  func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
 extern u32  func_02045730(u32 a);
 extern void func_020409B4(u32 a);
-extern void func_020278F4(void *p);
-extern void func_020061E4(int a);
+extern void func_020278F4(u8 *p);
+extern void func_020061E4(u32 a);
 extern void func_0201F7A8(u32 a, int b);
 extern void func_021852F4(u32 a, int b);
 extern void func_02185354(char *p);
 extern void func_021861C4(char *p, int a, int b);
-extern void func_02186444(char *p, int v);
+extern void func_02186444(char *p, u32 v);
 extern int  func_021864A8(char *p);
 extern int  func_02186660(char *p);
 extern void func_02184560(char *p, int a);

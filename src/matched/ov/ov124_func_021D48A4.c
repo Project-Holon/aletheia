@@ -19,9 +19,11 @@ typedef struct { u8 bytes[16]; } Table16;
 extern const Table16 d_021D4BE4;
 extern int func_02035C08(void *);
 extern void func_021D4940(char *,int);
-extern void func_0202822C(void *,int);
-extern void func_020061E4(int);
-extern int func_02012204(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void func_0202822C(char *p, int v);
+extern void func_020061E4(u32 a);
+extern u32 func_02012204(const struct Ctx *p);
 void func_021D48A4(char *p)
 {
     Table16 table;

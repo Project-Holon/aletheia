@@ -25,19 +25,22 @@ typedef unsigned int u32;
 typedef struct {u32 word[13];} Config;
 extern const char d_021DFBA0[];
 extern const Config d_021DF78C;
-extern void *func_02030734(u16,u32,int,const char *,u32);
+struct Cfg;
+struct Descriptor;
+struct Obj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,u32);
 extern void *func_020450F0(u8,u16,u16,u8,u8,u8,u8);
 extern void func_0201F73C(void *,int,int,u8);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u32 func_02045730(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 extern void *func_0201F81C(u32,u32);
 extern void func_0201F878(void *,u32,u32,u32,u16);
 extern void *func_0201FF30(Config *,u16,u16,u32);
-extern void func_02020CF8(void *,u32);
-extern void func_02020D10(void *,u32);
+extern void func_02020CF8(struct Obj *p, int heap);
+extern void func_02020D10(u8 *p, u8 v);
 void *func_021DA038(const u8 *p,u16 heap)
 {
     u8 *out;

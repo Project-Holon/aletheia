@@ -22,8 +22,11 @@ extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
 extern void func_021DE728(unsigned char *p);
 extern void func_021EC94C(char *p);
-extern int func_020355C4(void);
-extern void func_020260F4(void *obj, int state);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+extern u8 func_020355C4(void);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021ED55C(char **p, int flag);
 #define WORK(p) (*(char **)((p) + 0x2C))
 int func_021E90D4(unsigned char *p)

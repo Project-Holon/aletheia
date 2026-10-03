@@ -12,7 +12,7 @@
  *   func_02213808 0x02213808 thumb ov199
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02213808(void *, int);
+extern void func_02213808(char *p, int value);
 extern void func_020307B0(void *);
 int func_02212A90(void *obj, int *command, int *ctx)
 {

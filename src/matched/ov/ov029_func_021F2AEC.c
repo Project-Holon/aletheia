@@ -24,7 +24,8 @@ extern int func_021F2BB8(int p, int i, int j);
 extern int func_021F2BD4(int p, int i, int j, int k);
 extern void func_021F1290(int p, int i, int j, int k);
 extern void func_020091AC(int a, int b, int c, int d, int e, int f);
-extern void func_020409B4(int a);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 extern void func_021F20AC(int p);
 
 void func_021F2AEC(int p, int a1, int a2, int a3, int k)

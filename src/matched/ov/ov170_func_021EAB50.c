@@ -14,10 +14,13 @@
  *   func_02045334 0x02045334 arm
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern int func_0201C4E4(void *);
-extern int func_0201C6C4(void *,void *);
-extern void *func_02045770(void *);
-extern void func_02045334(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *d);
 void func_021EAB50(unsigned char *w) {
  unsigned i; void *print;
  func_0201C4E4(*(void **)(w+0x8C));

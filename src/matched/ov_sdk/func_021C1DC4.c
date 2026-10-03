@@ -35,7 +35,7 @@ extern void func_021BD5A8(void);
 extern void func_021BD138(void);
 extern void func_021D4C68(int x);
 extern void func_021D6090(int a, int b);
-extern void func_021C0E50(int a, int b);
+extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(void *p);
 extern struct D dat_021DE59C;
 extern void func_021CBC90(void);

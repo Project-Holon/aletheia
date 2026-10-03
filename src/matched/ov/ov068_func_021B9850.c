@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
-extern void func_0204335C(int v);
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *p);
 extern void func_0204363C(u32 v);
 extern void func_0204361C(void);

@@ -12,7 +12,9 @@
  *   func_021C6230 0x021C6230 thumb ov136
  */
 typedef unsigned char u8;
-extern void func_02045CAC(void *, unsigned int, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021C6230(u8 *);
 void func_021C630C(u8 *p, unsigned int i)
 {

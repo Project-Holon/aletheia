@@ -38,8 +38,8 @@ typedef struct {
 
 extern G *d_021A8264;
 extern char d_021A1C5C[];
-void func_02034714(char *a, int b, char *c);
-int func_0216B838(void);
+void func_02034714(const char *expr, u32 line, const char *file);
+unsigned char func_0216B838(void);
 void func_02155DA4(u32 x);
 int func_021AEF44(u32 a, u8 *p, int c);
 

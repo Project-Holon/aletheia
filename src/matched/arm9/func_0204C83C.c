@@ -48,7 +48,8 @@ struct Sys {
 extern struct Sys *g_02146A74;
 
 extern void *func_0204C804(struct Sub *s);
-extern void  func_0204C8A4(void *h, u32 sel, u32 a, u32 b, u32 c);
+struct Entry;
+extern void func_0204C8A4(struct Entry *e, u32 sel, u32 a, u32 b, u32 c);
 
 u32 func_0204C83C(u32 kind, u32 a, u32 b, u32 c)
 {

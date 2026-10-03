@@ -32,12 +32,14 @@ typedef enum { N_4 = 4, N_5 = 5 } N;
 typedef struct Word { u32 v; } Word;
 
 extern int func_021D775C(int key);
-extern int func_021C83D4(void *a);
-extern void *func_021C7CF4(void *a, int b);
-extern int func_021D62C4(void *m, int k);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021C83D4(u8 *p);
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021DBE50(u32 k);
 extern int func_021D85C0(void *a, int b);
-extern int func_021D5BB0(void *m, u32 n);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern void *func_021C88A4(void *a, int k, int b);
 extern Word func_021E896C(int a, int b);
 extern void func_021C88C8(void *a, void *b);

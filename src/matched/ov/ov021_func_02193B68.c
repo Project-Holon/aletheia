@@ -22,11 +22,13 @@
 
 typedef unsigned short u16;
 
-extern void func_02193EB4(void *);
+typedef unsigned int   u32;
+struct V;
+extern void func_02193EB4(struct V *v);
 extern char *func_02193F34(void *, int);
 extern int func_0200846C(int);
 extern void func_020084A0(int);
-extern void func_020084D4(int, char *);
+extern u32 func_020084D4(u32 value, void *dst);
 extern void func_0200852C(int, int);
 extern void func_0201F02C(int, int, int);
 extern void func_020307B0(int);

@@ -20,10 +20,12 @@
  *   func_021EFF3C 0x021EFF3C thumb ov035
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021F0678[];
 extern int func_02012138(int);
-extern void func_021EFF78(void *, int);
+extern void func_021EFF78(char *p, int a1);
 extern int func_0202EB44(void);
 extern int func_0201214C(int);
 extern void func_021EFF3C(void *, int);

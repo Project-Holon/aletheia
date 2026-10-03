@@ -11,7 +11,9 @@
  * symbols:
  *   func_021F2B9C 0x021F2B9C thumb ov029
  */
-extern int func_021F2B9C(void *, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021F2B9C(u8 *p, int row, int col);
 int func_021F0D80(void *p, int value)
 {
     int j, i, count;

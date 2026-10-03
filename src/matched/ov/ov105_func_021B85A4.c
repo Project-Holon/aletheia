@@ -17,7 +17,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_021B8734(u16 *,int,u8,u8,u8,u16,u16);
 typedef struct { u8 index[2]; u8 count; } Row;
 extern const Row d_021B8984[];

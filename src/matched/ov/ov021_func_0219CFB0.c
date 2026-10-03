@@ -20,7 +20,7 @@
 typedef struct { int a; int b; int c; } S3;
 
 extern unsigned int func_0216D4F0(int);
-extern unsigned short *func_0216E3C8(void *);
+extern void *func_0216E3C8(void *p);
 extern int func_0219CBD4(int *, unsigned int, unsigned short *, unsigned short *);
 extern void func_0219CD68(int *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 extern int func_0219CF00(int *, unsigned int, unsigned short *);

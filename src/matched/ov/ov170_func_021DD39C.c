@@ -18,8 +18,12 @@
 extern void *func_021DD2D0(void ***, int, unsigned);
 extern void func_021DD314(void *, int, int);
 extern void func_021EDAB0(void *, int);
-extern void *func_0201747C(void *, unsigned);
-extern unsigned int func_0201A98C(void *, void *);
+typedef unsigned int   u32;
+struct Mon;
+struct Party;
+struct PartyMon;
+extern void *func_0201747C(struct Mon *p, u32 heap);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020307B0(void *);
 void func_021DD39C(unsigned char *p, unsigned short *q)
 {

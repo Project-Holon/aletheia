@@ -46,7 +46,7 @@ struct gamekey_s {
 extern int func_0217603C(void);
 extern int func_0219B628(void *outbuf, int value);
 extern struct DWCstMatchControl *func_02175F3C(void);
-extern int func_02175FB8(void);
+extern unsigned char func_02175FB8(void);
 extern int func_0219B660(void *outbuf, char *value);
 extern struct gamekey_s g_021AAA40[154];
 

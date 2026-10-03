@@ -65,7 +65,7 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern void func_021C513C(Work *p);
 
 int func_021C5484(Work *p, int hit)

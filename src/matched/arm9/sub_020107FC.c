@@ -46,10 +46,10 @@
 typedef unsigned char u8;
 
 extern int  func_0203CD98(void);
-extern void func_0203D798(void);
+extern void *func_0203D798(void);
 extern void OS_GetMacAddress(u8 *mac);
 extern void *func_0203CF10(int i);
-extern int  func_02177B80(int i);
+extern u8 func_02177B80(int i);
 extern int  sub_0202E8D8(void *rec, void *key, u8 *mac);
 
 int sub_020107FC(void *key)

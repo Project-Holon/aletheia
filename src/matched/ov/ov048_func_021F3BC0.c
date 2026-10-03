@@ -22,8 +22,8 @@ typedef unsigned int u32;
 
 extern const char d_021F5224[];
 
-extern int func_02049030(u32 id);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern u32 func_02049030(u32 a);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021F4DE4(void *a, int b, int c);
 
 void func_021F3BC0(u8 *p)

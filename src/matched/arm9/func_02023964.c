@@ -43,7 +43,7 @@ extern void MI_CpuFill8(void *dst, u32 value, u32 size);
 extern void func_02022F0C(u32 a0, u8 *a1, u32 a2);
 extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6, u32 a7, u32 a8, u32 a9);
-extern int  func_02022E88(u32 a0, u32 a1, u32 a2, u32 a3);
+extern int func_02022E88(int a0, int a1, int a2, int a3);
 
 void func_02023964(u8 *w, struct Desc *d, u32 a2, u32 a3, u32 a4, u32 a5,
                    u32 a6, u32 a7)

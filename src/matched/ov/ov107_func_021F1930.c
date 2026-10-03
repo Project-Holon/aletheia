@@ -17,9 +17,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {void *f00;u16 f04;u32 f08;} Entry;
 typedef struct {u32 f00;u8 f04;Entry *f08;u32 f0C;u8 f10,f11,f12,f13;} Config;
-extern void *func_02045EC0(void *,int);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02027778(Config *,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021F1930(char *p,int kind)
 {
     Entry entries[2];

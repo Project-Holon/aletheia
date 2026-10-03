@@ -35,7 +35,7 @@ typedef struct {
 } Obj020735EC;
 
 extern void func_020893D0(u32 player, int vol);
-extern void func_02089330(u32 player);
+extern void func_02089330(int playerNo);
 extern void func_0207368C(Obj020735EC *p);
 
 void func_020735EC(Obj020735EC *p)

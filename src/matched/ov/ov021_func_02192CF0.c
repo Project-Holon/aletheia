@@ -33,13 +33,14 @@ typedef struct { u16 a; int b; int c; u16 d; int e; u8 f; u8 g; } Req;
 extern const B32 d_021D3ED8;
 extern const B32 d_021D3EF8;
 extern void func_0203FCA0(int, void *, int);
-extern void func_02040C14(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 extern void func_02192FA4(int, int);
 extern int func_02194670(void *);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040588(int, int);
+extern void func_02040588(u32 which, u32 enable);
 
 void func_02192CF0(char *p, int flag)
 {

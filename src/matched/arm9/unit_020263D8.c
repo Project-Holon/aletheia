@@ -80,7 +80,7 @@ void func_02026400(struct Comm *p)
     func_0202640C(p, 0, 0);
 }
 
-extern void func_02026490(struct Sub *s, u32 state);
+extern void func_02026490(void *obj, u32 value);
 
 void func_0202640C(struct Comm *p, u32 a, u32 b)
 {

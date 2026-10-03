@@ -55,7 +55,7 @@ struct S40 {
     u32 f36;
 };
 
-extern int func_02050738(void *p, void *q);
+extern u32 func_02050738(void *p, void *q);
 
 int func_02050894(void *p, int idx, int j)
 {

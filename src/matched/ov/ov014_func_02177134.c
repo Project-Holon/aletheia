@@ -14,7 +14,7 @@
  *   func_02177D0C 0x02177D0C thumb ov014
  *   func_021775BC 0x021775BC thumb ov014
  */
-extern void func_02179628(int);
+extern void func_02179628(unsigned v);
 int func_02177134(int a) { func_02179628(a); return 1; }
 extern int func_02177D0C(int);
 extern int func_021775BC(int);

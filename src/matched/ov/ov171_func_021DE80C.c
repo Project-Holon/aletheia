@@ -26,9 +26,10 @@ typedef struct Descriptor {
     u32 extra;
 } Descriptor;
 extern void *func_02025538(unsigned int a0, void *a1);
-extern void *func_02043678(int, int, int, u16);
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_020255A0(void *, Descriptor *);
-extern void func_02025774(void *, int);
+extern void func_02025774(u8 *g, u32 a);
 void func_021DE80C(char *p)
 {
     Descriptor descriptor;

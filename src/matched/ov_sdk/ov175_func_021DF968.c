@@ -21,7 +21,7 @@
  *   g_021E4184  0x021E4184  data
  */
 
-extern int func_02084F80(char *dst, unsigned long len, char *fmt, ...);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 extern void func_0217D254(int cat, int type, unsigned char level, char *str);
 extern int g_021ACEF8;
 extern char g_021ACEFC[];

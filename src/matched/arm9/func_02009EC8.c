@@ -17,7 +17,9 @@
  * the ov175 root func_021D7E18 (0x021D827E).
  */
 
-extern void *func_020071CC(void *sys, unsigned int id);
+typedef unsigned int   u32;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *func_02009EC8(void *sys)
 {

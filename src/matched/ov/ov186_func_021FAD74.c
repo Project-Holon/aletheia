@@ -11,7 +11,7 @@
  * symbols:
  *   func_021FB548 0x021FB548 thumb ov186
  */
-extern void func_021FB548(void *, short *, short *);
+extern void func_021FB548(char *p, short *x, short *y);
 int func_021FAD74(char *ctx)
 {
     short x, y;

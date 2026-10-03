@@ -25,12 +25,12 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern void func_02196228(u8 *, u32);
-extern void func_02041570(u32, u32);
+extern void func_02196228(u8 *p, int flag);
+extern void func_02041570(int channel, u16 val);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_02197644(u8 *, u32);
 extern void func_02196034(u8 *, void (*)(), u32);
-extern void func_021978AC();
+extern void func_021978AC(u8 *a);
 
 void func_02197700(u8 *a)
 {

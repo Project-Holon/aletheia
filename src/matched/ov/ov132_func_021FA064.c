@@ -16,7 +16,8 @@
  *   func_021FA27C 0x021FA27C thumb ov132
  */
 typedef unsigned char u8;
-extern int func_021F9DFC(void *);
+typedef unsigned short u16;
+extern u16 func_021F9DFC(void *p);
 extern unsigned func_02005728(unsigned);
 extern void func_021FA3A8(char *, char *, unsigned);
 extern void func_021FA4AC(char *);

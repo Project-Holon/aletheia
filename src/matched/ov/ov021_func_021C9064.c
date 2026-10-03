@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u32 a; V v; u32 c; } T;
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, void *tbl, u32 c, u32 d, void *t, u32 f);
 extern u8 d_021DABB8[];
 void func_021C9064(u32 a, V *v, u32 c)

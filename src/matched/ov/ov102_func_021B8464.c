@@ -41,7 +41,10 @@ extern void *func_02051B84(u8 *,int,int,int);
 extern void func_021B8794(u16,int,u8 *);
 extern u32 func_020450F0(u32,u8,u8,u8,u8,u8,u8);
 extern void *func_02045770(u32);
-extern void func_02043B5C(void *,u8);
+struct CharBuf;
+struct StrObj;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(u32);
 extern void func_02045374(u32);
 extern u32 func_02045730(u32);
@@ -50,10 +53,10 @@ extern int func_021B7CC4(void *);
 extern void *func_02045EC0(int,u32);
 extern void func_0201DD78(u32,u32,u32);
 extern int func_021B7CBC(void *);
-extern u32 func_0201D304(void *,u32,u32);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(void *,int);
 extern void func_0201C7A4(void *,s16,s16,void *,int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201DD68(void);
 void func_021B8464(State *p,u32 bg,const Row *rows,int count,void *object,u16 heap)
 {

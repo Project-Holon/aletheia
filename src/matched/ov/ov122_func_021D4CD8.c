@@ -23,13 +23,19 @@ typedef struct { int f00, f04, f08, f0c; } Row;
 typedef struct { char pad00[0x10]; void *f10[11]; } Object;
 extern Row data_021D58E0[];
 extern void *func_020450F0(int, u8, u8, u8, u8, int, int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, int);
-extern void func_02045CAC(void *, int, void *);
-extern void func_0201F250(void *, void *, void *);
+typedef unsigned int   u32;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C7D0(void *, s16, s16, void *, void *, u16);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 void func_021D4CD8(int i, int value, int force, int mode, Object *p)
 {
     if (p->f10[i] && !force) return;

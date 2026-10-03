@@ -19,13 +19,15 @@
  */
 extern void func_021DD530(unsigned char *);
 extern void func_021EA1E8(unsigned char *);
-extern void func_020260E4(void *, unsigned char);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(char **, unsigned);
 extern void func_021ED55C(char **, int);
 extern void func_021EE038(char *, int, int, int);
 extern void func_021EBC58(unsigned char *, int, int, int);
 extern void func_021ED888(char *, int);
-extern void func_021DEFEC(unsigned char *, int);
+extern void func_021DEFEC(char *p, int b);
 #define WORK(p) (*(char **)((p) + 0x2c))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
 int func_021E5524(unsigned char *p)

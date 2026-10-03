@@ -41,7 +41,9 @@
  *   d_021C71C0 0x021C71C0 data a4
  *   g_021C88E0 0x021C88E0 data a4
  */
-extern void *func_02030734(int, int, int, const char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034F84(int);
 extern int func_02085D3C(void);
 extern void func_02088234(void);
@@ -66,9 +68,9 @@ extern void func_021B6320(int, int);
 extern void func_021B6328(void *);
 extern int func_021B6330(void *, int, int);
 extern void func_021B68A0(char *);
-extern void func_021B6338(void);
+extern void func_021B6338(char *p);
 extern void func_021B65D8(void);
-extern void func_021B6620(void);
+extern void func_021B6620(int x);
 extern void func_021B662C(void);
 extern const char d_021C71C0[];
 extern char *g_021C88E0;

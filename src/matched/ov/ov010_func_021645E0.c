@@ -28,11 +28,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int   func_02012138(int a);
 extern int   func_0215870C(int a, int b);
 extern void *func_02188C7C(u8 *p);
-extern void  func_02188BF8(void *a);
+extern u32 func_02188BF8(u8 *a);
 extern void *func_02188CB4(u8 *p);
 extern int   func_021A2F54(u8 *p);
 extern int   func_021A34F8(u8 *p);

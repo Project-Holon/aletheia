@@ -30,8 +30,9 @@ typedef struct Q {
     void *f14;
 } Q;
 
-extern void func_02190538(void *s);
-extern void *func_021904EC(void *p, u32 a, u32 b);
+struct Slot;
+extern void func_02190538(struct Slot *s);
+extern struct Slot *func_021904EC(u32 *p, u32 a, u32 b);
 extern void func_02190590(void *s, u16 x, int y, u32 z);
 
 void func_02191184(Q *q, u32 b, int c, u32 d)

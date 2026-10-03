@@ -39,7 +39,7 @@ extern char g_021A769C[];
 extern char g_021A76A8[];
 extern int func_0208CF34(char *src, char *fmt, ...);
 extern char *func_0215FA9C(SOCInAddr in);
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 
 void func_0219BB54(qr2_implementation_s *qrec, char *buffer)
 {

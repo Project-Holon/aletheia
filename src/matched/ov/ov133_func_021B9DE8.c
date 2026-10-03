@@ -21,9 +21,11 @@ typedef unsigned int u32;
 typedef short s16;
 typedef struct {s16 x,y,index;u8 a,b;} Params;
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B688(void *,u32);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021B9DE8(u8 *p)
 {
     Params configs[2];

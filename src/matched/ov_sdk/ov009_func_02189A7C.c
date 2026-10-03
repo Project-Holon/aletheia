@@ -30,7 +30,7 @@ typedef struct {
 } GPIConnection;
 extern int func_021818EC(unsigned int ip, unsigned short port);
 extern int func_02181350(unsigned int ip, unsigned short port, char *header, unsigned char *msg, unsigned int len, int reliable);
-extern void func_02092364(void *dst, const void *src, int n);
+extern void *func_02092364(void *dest, const void *src, unsigned int n);
 extern int func_02181010(unsigned int ip, unsigned short port, int *state);
 
 int func_02189A7C(GPIConnection **connection, unsigned int ip, unsigned short port,

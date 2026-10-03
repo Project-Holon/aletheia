@@ -38,13 +38,13 @@ struct S {
     void *arrA0[4];
 };
 
-extern void func_02040588(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
 extern int func_02045770(int a);
 extern void func_02043B5C(int a, int b);
 extern void func_02045334(int a);
 extern void func_02045374(int a);
 extern int func_02045730(int a);
-extern void func_02041B6C(int a);
+extern void func_02041B6C(u32 bit);
 extern void func_0204B3DC(int a, int b);
 extern void func_0204B92C(int a, int b);
 

@@ -39,7 +39,8 @@ typedef struct {
     int g;
     int h;
 } Job;
-extern Work *func_02011324(void *vm);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021F88E0(void);
 extern int func_021FCF2C(void *vm, u32 idx);
 extern void func_021FDB40(u32 a, int b, int c, int d, u32 e, u32 f, u32 g);

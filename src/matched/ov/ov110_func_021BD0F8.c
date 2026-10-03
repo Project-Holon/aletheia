@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern const u8 d_021C38DF[];
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BD0F8(u8 *p,int i,int flag)
 {
     func_0204B878(*(void **)(p+i*4+0x70),*(u8 *)((u32)d_021C38DF+i*2+flag));

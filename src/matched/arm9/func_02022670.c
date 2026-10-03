@@ -45,7 +45,7 @@ struct Screen {
 };
 
 extern void func_0202223C(void *win, u32 color);
-extern void func_02022224(void *win);
+extern u32 func_02022224(void *win);
 
 void func_02022670(struct Screen *s)
 {

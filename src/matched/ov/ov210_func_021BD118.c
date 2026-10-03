@@ -30,7 +30,8 @@ extern u32 func_021BF418(u8 *);
 extern void func_021BC5B4(u32);
 extern void func_021BCD30(u8 *);
 extern void func_021BFEAC(u8 *, int);
-extern void func_0207D534(void *, int);
+typedef unsigned short u16;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021BCE0C(char *, int);
 extern void func_021BC82C(u8 *, int, int);
 int func_021BD118(u8 *p)

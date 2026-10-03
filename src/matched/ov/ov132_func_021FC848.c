@@ -32,7 +32,8 @@ extern u32 func_020173E8(void);
 extern int func_02008468(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,u8,u32);
-extern u16 func_0200A81C(void *);
+struct Big;
+extern u16 func_0200A81C(struct Big *p);
 extern const char d_021FDE5C[];
 static inline void clear8(void *dest,u32 size)
 {

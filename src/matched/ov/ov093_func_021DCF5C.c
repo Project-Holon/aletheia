@@ -15,6 +15,8 @@
  *   func_021D5B40 0x021D5B40 thumb ov093
  *   func_021DCEC4 0x021DCEC4 thumb ov093
  */
-extern int func_021D5B40(void *);
+typedef unsigned short u16;
+struct QI;
+extern u16 func_021D5B40(struct QI *p);
 extern void *func_021DCEC4(void *,unsigned short);
 void *func_021DCF5C(void *p) { int k; k=func_021D5B40(p); if(k) return func_021DCEC4(p,k); return 0; }

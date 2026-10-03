@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int func_02085DBC(int a0, char *a1, int r2);
-void func_0215CE7C(char *a1);
+void func_0215CE7C(void *ptr);
 
 int func_0215CEB0(int a0, char *a1)
 {

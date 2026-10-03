@@ -36,9 +36,10 @@ extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B92C(void *,u32);
-extern u8 *func_021B9A08(void *);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern u32 func_021B9A08(const u8 *p);
 extern void func_021BA9D0(char *);
 void func_021BA898(char *p)
 {

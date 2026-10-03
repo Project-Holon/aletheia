@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 struct TcblNode;
-extern void func_021BD668(void *, int, int *);
+extern void func_021BD668(char *owner, int direction, int *counter);
 extern int func_021BD73C(char *);
 extern void sub_02031194(struct TcblNode *);
 void func_021BD768(struct TcblNode *task, void *data)

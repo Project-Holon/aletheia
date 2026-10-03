@@ -15,7 +15,8 @@ typedef struct {
     int f28;
 } Obj;
 
-extern int func_0203FA08(int a, int b, int c);
+typedef unsigned int   u32;
+extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
 
 void func_021BC6E8(Obj *p)
 {

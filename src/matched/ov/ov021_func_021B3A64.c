@@ -22,12 +22,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void *func_02045B38(int, int, int, int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02186670(void *, void *, void *, int, int);
 extern void *func_0201F81C(int, int);
 extern void func_021B385C(void *, int, int, int, void *);
 extern void func_0201F878(void *, void *, int, int, int);
-extern void func_02045C04(void *);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021B3A64(char *p, int i)
 {

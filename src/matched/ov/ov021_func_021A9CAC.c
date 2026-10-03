@@ -25,7 +25,8 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0201AE1C(void *p, int field);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_021A9DC8(void);
 extern const u8 data_021D8DCC[];

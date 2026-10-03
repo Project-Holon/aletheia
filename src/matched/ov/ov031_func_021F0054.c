@@ -26,11 +26,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02012138(void *p);
-extern u8 *func_02026474(void *p);
+extern u32 func_02026474(void *obj);
 extern void func_02037174(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 extern void func_0201C4E4(u32 a);
-extern void func_0202DBC4(void *p);
+extern void func_0202DBC4(u8 *p);
 extern u32 func_02045770(u32 a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);

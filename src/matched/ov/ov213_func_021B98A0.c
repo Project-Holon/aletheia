@@ -17,5 +17,5 @@ typedef unsigned int u32;
 typedef struct Util Util;
 struct Sub {u32 a,b;Util *util;u16 index;};
 extern int *func_02048A18(Util *,unsigned);
-extern void func_021BA920(void *,int,int);
+extern int func_021BA920(int *p, u32 b, u32 c);
 void func_021B98A0(char *p) {int *object;int i;struct Sub *sub;sub=(struct Sub *)(p+0x24);object=func_02048A18(sub->util,sub->index);for(i=0;i<4;i++){int value=1;if(*(u32 *)(p+0x4850+i*0x54))value=3;func_021BA920(object,i+1,value);}}

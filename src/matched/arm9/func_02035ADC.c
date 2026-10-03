@@ -60,7 +60,8 @@ struct R {
     u8 c;
 };
 
-extern u32 func_02035A70(u8 *p, u32 x, u32 y);
+typedef signed int     s32;
+extern u32 func_02035A70(u8 *p, s32 x, s32 y);
 extern u32 func_02035AA4(u8 *p, u32 x, u32 y);
 
 int func_02035ADC(struct R *p, u32 x, u32 y)

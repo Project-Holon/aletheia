@@ -26,11 +26,13 @@
  */
 extern char d_0220BC20[];
 extern unsigned d_0220BAE8[];
-extern void *func_02030734(unsigned,unsigned,unsigned,const char *,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void func_0204335C(int);
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
-extern void func_0204363C(int);
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_02043588(void);

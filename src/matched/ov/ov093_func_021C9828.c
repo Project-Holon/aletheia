@@ -17,7 +17,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021C9888(u32 a, u32 i);
-extern void func_021C4BAC(void *w, u32 i, u32 a);
+extern void func_021C4BAC(u8 *p, int k, int v);
 
 static inline int test(u8 *s, u32 i)
 {

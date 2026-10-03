@@ -17,9 +17,11 @@
  *   func_0204ADA4 0x0204ADA4 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_020456F8(void *);
-extern void func_020452E8(void *);
-extern void func_0204B3B4(void *);
+struct Descriptor;
+struct Obj;
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
 extern void func_0204ADA4(void *);

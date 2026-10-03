@@ -24,7 +24,7 @@ struct T {
 };
 
 extern void func_02005E9C(void);
-extern void func_02005DE4(u32 v);
+extern void func_02005DE4(void *p);
 extern void func_02028BDC(struct T *p, u32 v);
 
 void func_020293D8(struct T *p)

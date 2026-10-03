@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 
 extern const char str_020A77AC[];
 
-extern void *func_02030734(u32 a, u32 b, u32 c, const char *d, u32 e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern void  MIi_CpuCopyFast(void *dst, const void *src, u32 size);
 

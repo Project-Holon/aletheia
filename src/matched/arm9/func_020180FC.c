@@ -26,11 +26,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017DBC(void *p);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 k, u32 x);
-extern u32 func_0201BD28(u32 v, u32 n);
+extern u32 func_0201BD28(u16 id, u32 field);
 extern void func_02017E64(void *p, u32 k, u32 v);
-extern void func_02017DE4(void *p, u32 h);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 /* Three parallel 4-entry channel tables.  They are three separate locals, NOT
  * one 16-byte struct: as a struct mwcc folds the member offset into the store

@@ -51,7 +51,8 @@ typedef struct {
     ReqList *reqCurrent;
 } ReqInfo;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern BgnEnd *func_021BEF3C(void);
 extern ReqInfo *func_021BEF48(void *sysInfo);
 extern void *func_021BEF58(void *sysInfo);

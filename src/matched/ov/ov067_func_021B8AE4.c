@@ -36,7 +36,7 @@ struct S {
 extern int func_02035BA4(void *p);
 extern void func_02035CB8(int *a, int *b);
 extern void func_021B8A88(struct S *s, u8 *b, u8 *a);
-extern int func_0202EE0C(int a, int b, int c, int d, int e);
+extern u32 func_0202EE0C(u32 a, u32 b, u32 c, u32 d, u32 e);
 
 int func_021B8AE4(struct S *s, unsigned int v)
 {

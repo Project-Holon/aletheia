@@ -26,7 +26,8 @@ struct Container {
 
 extern void *sub_02022D88(struct Container *obj, u32 idx);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02022D98(void *p, struct Container *c)
 {

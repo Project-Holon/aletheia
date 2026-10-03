@@ -31,7 +31,7 @@ typedef struct {
     int w1c;
 } S44;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020410D0(u32 index, u8 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
                           u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u32 id);

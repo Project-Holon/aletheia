@@ -20,7 +20,8 @@ struct W {
     u8 pad2[0x16];
     u8 f22_0 : 1;
 };
-extern void func_02040618(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 void func_021EDF4C(struct W *w)
 {
     if (w->fa == 0)

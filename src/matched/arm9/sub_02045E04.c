@@ -39,7 +39,8 @@ struct Obj {
 
 extern s32   sub_020458F8(struct Obj *o);
 extern void *sub_02045A90(struct Obj *o);
-extern s32   sub_02045E3C(void *list, s32 index, u32 mode);
+typedef unsigned short u16;
+extern u32 sub_02045E3C(u16 *str, u32 count, u32 msgIndex);
 extern void  sub_02045900(struct Obj *o, s32 index);
 
 void sub_02045E04(struct Obj *o, u32 mode)

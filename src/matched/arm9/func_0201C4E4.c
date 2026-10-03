@@ -69,7 +69,7 @@ extern u32   func_0201DE18(u32 r, u32 g, u32 b);
 extern void  func_0201DD78(u32 r, u32 g, u32 b);
 extern u64   func_020870D0(void);
 extern u16  *func_0201C974(struct Rec *rec, u16 *p, u32 f);
-extern struct Rec *func_0201D7C4(struct PrintSys *ps, struct Rec *rec);
+extern void *func_0201D7C4(struct PrintSys *p, void *q);
 
 static inline u16 Wrap(struct PrintSys *ps, u16 o)
 {

@@ -19,8 +19,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void func_020355D8(int);
-extern int func_021C93C0(void *,int *,void *,int);
+extern void func_020355D8(u8 v);
+extern int func_021C93C0(char *p, void *q, void *r, int n);
 int func_021C9450(void *p,int *q,void *r) {
  if(*q==1 && (func_020362DC()&0xcf3)) {func_020355D8(0);*q=0;}
  if(func_020362DC()&2)return func_021C93C0(p,q,r,0);

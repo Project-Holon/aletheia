@@ -18,10 +18,10 @@
  */
 extern int func_020279E8(int);
 extern int func_02027A04(int);
-extern void func_021E12F8(void *);
-extern void func_021E1098(void *);
+extern void func_021E12F8(char *p);
+extern void func_021E1098(char *p);
 extern void func_021D8E84(void *, int);
-extern void func_021DF404(void *);
+extern void func_021DF404(char *p);
 extern void func_021DF3E4(void *);
 void func_021DF43C(void *p)
 {

@@ -24,16 +24,19 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021BA814(void *);
-extern void func_021BB160(void *,unsigned);
-extern void func_021BA4CC(void *);
-extern void func_021BBA7C(void *);
-extern void func_021BB480(void *);
-extern void func_02030EAC(void *);
-extern void func_021BB0E4(void *);
-extern void func_0203FB44(u8,u16,u16);
+typedef unsigned int   u32;
+struct Node;
+struct PrintSys;
+extern void func_021BB160(char *p, int i);
+extern void func_021BA4CC(char *p);
+extern void func_021BBA7C(char *p);
+extern void func_021BB480(char *p);
+extern void func_02030EAC(struct Node *n);
+extern void func_021BB0E4(char *p);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_021BC008(void *);
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020307B0(void *);
 void func_021BA2CC(char *p)
 {

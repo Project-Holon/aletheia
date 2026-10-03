@@ -16,7 +16,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021BF7FC(u8 *);
 extern int func_021BF808(u8 *);
-extern void func_020282AC(void *, void *, int, int, u16);
+typedef unsigned int   u32;
+struct T;
+extern void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
 void func_021BCD80(u8 *p) {
     if (func_021BF7FC(*(u8 **)(p+4)))
         func_020282AC(*(void **)(p+0x64),*(void **)(p+0x34),8,0x3545,0x7b2c);

@@ -40,16 +40,18 @@ typedef struct {
 } Work;
 
 extern int func_020124E4(int);
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02012138(int);
 extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0(void *);
-extern int func_02188C54(void *);
-extern int func_021904B0(int, int);
+extern u32 func_02188C54(u8 *p);
+extern int func_021904B0(u32 a, u32 b);
 extern int func_02190F64(int, int);
 extern void func_02190E74(int, int, int, int);
 extern int func_02190EF0(int);
-extern void func_02190E40(int);
+extern int func_02190E40(u32 a);
 extern void func_02045C04(int);
 extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);

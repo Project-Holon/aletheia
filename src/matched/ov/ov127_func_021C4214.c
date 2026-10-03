@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0204B800(void *, int);
+struct Node;
+extern void func_0204B800(struct Node *node, u32 val);
 
 void func_021C4214(u8 *p, u32 v)
 {

@@ -17,9 +17,11 @@
  *   func_0217E298 0x0217E298 thumb ov176
  *   func_0217E074 0x0217E074 thumb ov176
  */
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+struct Entry;
+extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
-extern void *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern void func_02039C68(void *,int,int);
 extern int func_02039CB4(void *,int,int);
 extern int func_0217E258(void *,unsigned);

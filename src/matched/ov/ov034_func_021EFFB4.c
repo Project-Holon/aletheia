@@ -25,9 +25,10 @@
  */
 
 extern int func_0201C6B4(int);
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_02045374(int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern void func_0201C4E4(int);
 extern int func_02045770(int);
 extern int func_0201C6C4(int, int);

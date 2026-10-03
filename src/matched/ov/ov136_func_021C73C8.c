@@ -15,10 +15,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Flags { u8 index : 7; u8 flag : 1; };
-extern void *func_0201292C(void *);
-extern u32 func_02008FA4(void *);
+struct BigObj;
+struct Sub02008F80Obj;
+extern void *func_0201292C(const struct BigObj *p);
+extern u8 func_02008FA4(const struct Sub02008F80Obj *obj);
 extern u16 func_020213AC(u32);
-extern int func_02007E50(void *, u16, int, int);
+extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 void func_021C73C8(u8 *p)
 {
     void *q = func_0201292C(**(void ***)(p + 4));

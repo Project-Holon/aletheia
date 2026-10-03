@@ -38,23 +38,23 @@ typedef unsigned short u16;
 
 extern void func_020434CC(void);
 extern void func_02043588(void);
-extern u8 *func_020490F4(unsigned int id, u16 heap);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int g);
-extern void func_0204363C(int a);
+extern void *func_020490F4(u32 id, u16 heap);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern void func_0204363C(u32 swap);
 extern u32 func_020056A0(void (*cb)(void), void *p, int n);
 extern void func_02049238(u32 a);
 extern void func_021B64C0(void);
 extern void func_021B64D0(void);
-extern void func_021B66BC(void *p, void *q);
+extern void func_021B66BC(u8 *p, u8 *q);
 extern void func_021B7A00(void *p, void *q);
 extern void func_021B6850(void *p);
-extern void func_021B67A4(void *p);
+extern void func_021B67A4(u8 *p);
 extern void func_021B7128(void *p);
 extern void func_021B6BCC(void *p);
 extern void func_021B6CC0(void *p);
-extern void func_021B7C44(void *p);
-extern void func_021B8040(void *p);
-extern void func_021B6278(void *p);
+extern void func_021B7C44(u8 *p);
+extern void func_021B8040(u8 *p);
+extern void func_021B6278(u8 *p);
 extern void func_021B6498(void);
 
 void func_021B63AC(u8 *p)

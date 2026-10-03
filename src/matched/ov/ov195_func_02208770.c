@@ -16,8 +16,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void func_02208B54(void *);
-extern void func_02208A6C(void *);
+extern void func_02208B54(char *a);
+extern void func_02208A6C(char *p);
 extern void func_02208994(int);
 extern void func_020307B0(void *);
 

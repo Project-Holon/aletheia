@@ -13,7 +13,8 @@
  *   func_021BF728 0x021BF728 thumb ov210
  */
 typedef unsigned char u8;
-extern int func_021B7AB0(void *);
+struct S;
+extern int func_021B7AB0(struct S *p);
 extern int func_021BEDE0(int, int);
 extern void func_021BF728(u8 *, int);
 int func_021BDFC0(u8 *p)

@@ -17,9 +17,14 @@
  */
 #define WORK(p) (*(char **)((p)+0x2C))
 typedef struct { unsigned value; unsigned char pad[14]; unsigned char low:7; unsigned char flag:1; } Entry;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned);
-extern void func_0201EEA4(void *,unsigned,unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201EEA4(struct WordSet *p, u32 i, void *mon);
 extern void func_021EAC28(unsigned char *,int,void *,unsigned,int,int,unsigned,unsigned short);
 extern void func_021EAAE4(unsigned char *,unsigned);
 extern void func_021EABA0(void **);
@@ -28,7 +33,7 @@ void func_021EADB4(unsigned char *w,Entry *e,unsigned i) {
  windows=(void **)(w+0x94);
  func_02043B5C(func_02045770(windows[i*2]),0);
  if(!e->flag) {
-  func_0201EEA4(*(void **)(w+0x84),0,e->value);
+  func_0201EEA4(*(void **)(w+0x84),0,(void *)e->value);
   func_021EAC28(w,i,*(void **)(w+0x80),0,0,0,*(unsigned *)(w+0x78),0x440);
  } else { func_021EAAE4(w,i); return; }
  func_021EABA0(windows+i*2);

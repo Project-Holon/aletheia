@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern int  func_02072A44(int size);
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021BA1B4(char *p)
 {

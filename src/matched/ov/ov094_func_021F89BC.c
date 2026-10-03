@@ -28,8 +28,10 @@ extern Work *d_0220AF20;
 typedef unsigned int u32;
 
 extern int func_021F899C(void *h);
-extern u32 sub_02030EE8(void *p);
-extern void sub_02030EAC(void *n);
+struct Node;
+struct S02030EE8;
+extern u32 sub_02030EE8(struct S02030EE8 *p);
+extern void sub_02030EAC(struct Node *n);
 extern void sub_020307B0(void *p);
 
 void func_021F89BC(void *h)

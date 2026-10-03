@@ -29,7 +29,7 @@ extern int func_021EEC20(int, u8 **);
 extern int func_021BB570(u8 *, int, void *, u32);
 extern void func_021B9184(void *);
 extern void func_02082A90(const void *, void *, u32);
-extern void func_021EA824(void *);
+extern void func_021EA824(char *p);
 extern int func_021D3F4C(void *);
 extern int func_021CD5E0(Buf *, int *);
 int func_021D1A74(u8 *p, int *state)

@@ -21,15 +21,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_020275E4(void);
-extern int func_02027618(void);
-extern int func_02027614(void);
-extern int func_0202761C(int);
-extern int func_02027620(int);
-extern u8 *func_020490F4(unsigned int id, u16 heap);
-extern int func_0204A6C8(u8 *, int, int, int, u16);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern u32 func_020275E4(void);
+extern u32 func_02027618(void);
+extern u32 func_02027614(void);
+extern u32 func_0202761C(u32 a);
+extern u32 func_02027620(u32 a);
+extern void *func_020490F4(u32 id, u16 heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ABF0(u8 *, int, int, int, u16);
-extern int func_0204AF28(u8 *, int, int, int);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(u8 *);
 void func_021DE144(char *p)
 {

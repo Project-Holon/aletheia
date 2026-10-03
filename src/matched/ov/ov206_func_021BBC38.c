@@ -24,7 +24,8 @@ typedef struct S {
     char pad[0x190 - 0xe4];
 } S;
 extern void func_021BB4E0(S *, int, int);
-extern void func_021BBAB0(S *, int, int, int);
+typedef unsigned int   u32;
+extern void func_021BBAB0(struct S *p, u32 a, u32 b, u32 idx);
 extern void func_021BBDA8(S *, int);
 extern void func_021BAA4C(S *);
 void func_021BBC38(S *p)

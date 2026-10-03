@@ -21,7 +21,8 @@ typedef struct {Vec3 vec;short x,y;} Config;
 extern Vec3 d_02185F00,d_02185E0C,d_02185DF4;
 extern Config d_020A1EB8;
 extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,Vec3 *,Vec3 *,Vec3 *,u16);
-extern void func_02048AD0(void *);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 void func_02185728(char *p)
 {
     Vec3 vec;

@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cursor; struct Comm;
 extern void *func_021F9DD4(void *);
-extern void func_021F9DF4(void *);
+extern void *func_021F9DF4(void *p);
 extern int func_021FAEA8(char *,void *);
 extern void func_021F6EF4(void *,u32 *,const u32 *);
 extern void func_021FADF8(char *,char *);

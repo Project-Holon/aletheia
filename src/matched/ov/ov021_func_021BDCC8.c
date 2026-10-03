@@ -23,7 +23,7 @@
 extern void func_021BE184(void *a, void *b);
 extern void func_0218FEA0(void *a, void *b);
 extern int func_021BE1A0(void *a);
-extern void func_021BDFB0(void *a);
+extern void func_021BDFB0(char *a);
 extern void func_021BE068(void *a);
 extern void func_021BDDC0(void *a);
 extern void func_021BDEB4(void *a);

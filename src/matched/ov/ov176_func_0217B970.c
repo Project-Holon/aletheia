@@ -11,6 +11,6 @@
  *   func_0217B3B8 0x0217B3B8 thumb ov176
  *   func_021E8AA0 0x021E8AA0 thumb ov177
  */
-extern void func_0217B3B8(void);
+extern void func_0217B3B8(int p);
 extern void func_021E8AA0(int,int);
 void func_0217B970(int *p,int a) {p[4]=a;func_021E8AA0(p[0],(int)func_0217B3B8);}

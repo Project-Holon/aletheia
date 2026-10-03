@@ -13,8 +13,10 @@
  *   func_02021D50 0x02021D50 thumb
  */
 extern void func_02022004(unsigned, unsigned, unsigned short, unsigned, unsigned);
-extern void func_02021F08(void *, int);
-extern void func_02021D50(void *);
+struct Obj02021F08;
+struct S02021D50;
+extern void func_02021F08(struct Obj02021F08 *o, int v);
+extern void func_02021D50(struct S02021D50 *p);
 void func_021FE7F8(char *p, int mask)
 {
     if (mask & 1)

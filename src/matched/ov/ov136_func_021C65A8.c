@@ -24,8 +24,9 @@ typedef unsigned int u32;
 extern const u8 d_021C7BA0[];
 extern const u8 d_021C78E0[];
 extern void func_0204A48C(const void *, const void *, u32);
-extern void *func_0204B100(u32, u32, u32);
-extern void func_0204B270(void *bank);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32, u32);
 extern void func_02043598(u32, u32);
 void func_021C65A8(u8 *p)

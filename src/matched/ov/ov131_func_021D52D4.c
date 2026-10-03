@@ -32,7 +32,8 @@ extern void func_021D5C98(void *);
 extern int func_021D5B58(u8 *,int);
 extern int func_021D62E4(char *);
 extern void func_020061E4(u32);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 int func_021D52D4(char *p)
 {
     int max;

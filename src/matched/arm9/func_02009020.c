@@ -22,7 +22,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02009074(void *table, int count);
+struct Sub02008F80Obj;
+extern int func_02009074(struct Sub02008F80Obj *arr, int n);
 
 void func_02009020(void *table)
 {

@@ -18,7 +18,8 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern void *func_021C7CF4(int a, int b);
-extern int func_021D62C4(void *p, int i);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern u8 func_021D70AC(int p);
 extern const u16 d_021F0B78[];
 

@@ -59,8 +59,8 @@ extern int func_0200E5A0(u32 a);
 extern int func_021D1058(u8 *a, int b);
 extern void func_021D1080(u8 *a, int b);
 extern void func_0200E608(u32 a, u32 b, u32 c);
-extern int func_02157938(u32 p);
-extern int func_0203D210(void);
+extern int func_02157938(int a0);
+extern u32 func_0203D210(void);
 extern void func_021D09D0(u32 a, u8 *b);
 
 int func_021D0C58(u32 unused, u32 *state, W *w)

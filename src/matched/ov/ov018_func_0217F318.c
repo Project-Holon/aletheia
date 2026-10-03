@@ -39,8 +39,10 @@ void func_0217F58C(Ov018Obj *p);
 void func_0217F45C(Ov018Obj *p);
 void func_02190E40(void *);
 void func_021904C8(void *);
-void func_02045808(void *);
-void func_0201ED04(void *);
+struct U16Vec;
+struct WordSet;
+void func_02045808(struct U16Vec *vec);
+void func_0201ED04(struct WordSet *p);
 
 void func_0217F318(Ov018Obj *p)
 {

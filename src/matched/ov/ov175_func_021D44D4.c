@@ -22,7 +22,9 @@
  *   func_021E64C0 0x021E64C0 thumb ov177
  *   func_021E7774 0x021E7774 thumb ov177
  */
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_0201C4E4(int);
 extern void func_021E8A80(unsigned);

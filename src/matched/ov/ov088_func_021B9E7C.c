@@ -18,10 +18,15 @@
  *   func_0204784C  0x0204784C  arm
  */
 
-extern void func_020115EC(void *, int);
-extern int func_020489F4(void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct AnmCtl;
+struct IcaAnime;
+extern void func_020115EC(struct IcaAnime *p, s32 v);
+extern u32 func_020489F4(u8 *a0, int i);
 extern void *func_02048A18(void *, int);
-extern int func_0204784C(void *, int, int *);
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 
 void func_021B9E7C(int *p, int x)
 {

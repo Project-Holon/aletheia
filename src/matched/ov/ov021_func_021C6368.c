@@ -24,10 +24,11 @@ typedef struct {
     u16 y;
 } Pt;
 
-extern void func_02040E78(int a, void *b, int c, int d);
+typedef unsigned int   u32;
+extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
 extern void func_02041300(int, int, int, int, int, int, int);
-extern void func_020409B4(int);
-extern void func_02040DA8(int, int, int);
+extern void func_020409B4(u32 index);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 
 void func_021C6368(u8 *p)
 {

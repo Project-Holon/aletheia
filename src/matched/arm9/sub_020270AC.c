@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u16 GX_GetBankForLCDC(void);
-extern void sub_02045A38(void *vec, u16 *out, u32 n);
+struct U16Vec;
+extern void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 
 void func_020270AC(void *vec, u16 *dest)
 {

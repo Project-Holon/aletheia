@@ -25,10 +25,10 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern u32 func_02006148(int a0);
-extern void func_020061F8(u32 a0);
-extern int func_021D21C0(int a0);
-extern int func_021D21E0(int a0);
+extern int func_02006148(u32 a0);
+extern void func_020061F8(int i);
+extern int func_021D21C0(u32 id);
+extern int func_021D21E0(u32 id);
 struct S { u8 pad[0xac]; u16 lo[2]; u16 hi[2]; };
 void func_02028B50(u8 *p, int a0)
 {

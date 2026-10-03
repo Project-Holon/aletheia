@@ -21,7 +21,8 @@ typedef struct {
 extern void func_0204B454(void *, Pos *, int);
 extern void func_0204B404(void *, Pos *, int);
 extern int func_0209C2B0(int, int);
-extern void func_02041EE4(int, int, int);
+typedef unsigned int   u32;
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_020061E4(unsigned se);
 int func_021E777C(Work *p)
 {

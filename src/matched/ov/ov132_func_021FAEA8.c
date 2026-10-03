@@ -14,7 +14,7 @@
  *   func_0207C9D0 0x0207C9D0 arm
  */
 typedef unsigned short u16;
-extern void *func_021F9DA0(void *);
+extern void *func_021F9DA0(char *p);
 extern void func_021F8044(void *, int, void *);
 extern void func_0207C9D0(void *, void *, void *);
 int func_021FAEA8(char *p, void *out)

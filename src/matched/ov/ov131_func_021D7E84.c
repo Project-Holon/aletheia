@@ -10,7 +10,8 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021D7E84(void *p,void **q) {
  unsigned char i;
  for(i=0;i<10;i++) {

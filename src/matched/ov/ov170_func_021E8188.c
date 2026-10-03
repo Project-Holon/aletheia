@@ -14,7 +14,7 @@
  *   func_021DE7B4 0x021DE7B4 thumb ov170
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
-extern void func_021DE7C8(unsigned char *p);
+extern int func_021DE7C8(unsigned char *p);
 extern int func_021EC994(char *p);
 extern void func_021ECA24(char *p);
 extern void func_021DE7B4(unsigned char *p);

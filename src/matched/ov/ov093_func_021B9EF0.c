@@ -50,7 +50,7 @@ extern int func_020457B0(int, int);
 extern void func_02045A00(int, const void *, int);
 extern void func_02082D44(const void *, void *, int);
 extern void func_02024570(struct H *, const struct H *);
-extern void func_0202428C(struct H *);
+extern void func_0202428C(void *obj);
 
 void func_021B9EF0(struct A *p, const struct B *src)
 {

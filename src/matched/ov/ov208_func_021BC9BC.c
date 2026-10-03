@@ -25,12 +25,11 @@ typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049BDC(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u16 heap);
-extern u32  func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_02049990(void *h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
-                          u32 heap);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *h);
-extern void func_02041B6C(int layer);
+extern void func_02041B6C(u32 bit);
 
 u32 ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs, u32 arc,
                         u32 chr, u32 scr, u32 cell, u32 chrOfs)

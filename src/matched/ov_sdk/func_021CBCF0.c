@@ -50,7 +50,7 @@ typedef struct {
 extern void func_021BD1D4(int, int);
 extern int func_021BD170(void *);
 extern int func_021D4B68(int, int, int);
-extern int func_021D603C(int, int);
+extern void func_021D603C(int lcd, int plane);
 
 extern T22 dat_021DA7BC;
 extern unsigned char dat_021DB708[];

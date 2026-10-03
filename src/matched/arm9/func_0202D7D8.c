@@ -16,7 +16,9 @@
  */
 
 extern int func_0202D060(void);
-extern int sub_0202D0D4(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 sub_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern int ENV_SetResourceSet(int a0, int a1, int a2, int a3, int a4, int a5, int a6);
 
 int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7,

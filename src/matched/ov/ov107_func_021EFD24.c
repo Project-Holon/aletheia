@@ -20,14 +20,16 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_021F11C4(void *);
+typedef unsigned int   u32;
+struct Blk34;
+extern u8 func_021F11C4(u8 *p);
 extern void func_021F17E0(void *,int);
-extern void func_021F1B38(void *,unsigned);
+extern void func_021F1B38(u8 *p, u32 v);
 extern void func_021EFD98(void *);
-extern unsigned func_0200C184(void *);
-extern unsigned func_021F11E0(void *);
-extern void func_0200C18C(void *,unsigned);
-extern void func_021EFC1C(void *,int);
+extern u32 func_0200C184(struct Blk34 *p);
+extern int func_021F11E0(unsigned char *a);
+extern void func_0200C18C(struct Blk34 *p, u32 v);
+extern void func_021EFC1C(u8 *p, int mode);
 void func_021EFD24(u8 *p) {
  unsigned v=func_021F11C4(*(void **)(p+12));
  unsigned old,cur;

@@ -20,8 +20,10 @@ typedef struct { Callback create,other,close; } Table;
 extern const Table d_021E2C74,d_021E2C80;
 extern const char d_021E2DE0[];
 extern const char ov177_id[];
-extern void func_02034AC4(int);
-extern void func_02034714(const char *,int,const char *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_02034AC4(s32 handle);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021D4240(int a,int b,int *p,int d)
 {
     func_02034AC4((int)ov177_id);

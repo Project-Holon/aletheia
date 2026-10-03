@@ -35,9 +35,8 @@ typedef unsigned int   u32;
 
 extern int  func_02005C64(void);
 extern void func_02085A38(u32 v);
-extern u32  func_020069D4(u32 a0, u32 a1, u32 a2, u32 a3,
-                          u32 a4, u32 a5, u32 a6, u32 a7);
-extern void func_02006A64(u32 idx);
+extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
+extern int func_02006A64(u32 idx);
 
 u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3,
                   u32 a4, u32 a5, u32 a6, u32 a7)

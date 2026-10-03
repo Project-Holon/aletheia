@@ -17,15 +17,21 @@
  *   func_0201D304 0x0201D304 thumb
  *   func_0201EFA4 0x0201EFA4 thumb
  */
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct StrObj;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
-extern void func_021EABD0(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
+extern void func_021EABD0(unsigned char *w, int i, void *bank, unsigned idx, int x, int y, unsigned font, unsigned short color);
 extern void func_021EABA0(void **);
 extern void func_021EAAE4(char *, unsigned);
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry;
-extern unsigned func_0201D304(void *, unsigned, unsigned);
-extern void func_0201EFA4(void *, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021EAE74(char *p, Entry *e, unsigned i)
 {
     unsigned n;

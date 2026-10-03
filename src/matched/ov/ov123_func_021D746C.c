@@ -27,12 +27,13 @@ extern void func_021D7CB4(int,int);
 extern void func_021D7DE8(int,int,int);
 extern void func_021D7C54(int,int);
 extern void func_020092D0(int,u8);
-extern int func_020056EC(int);
+typedef unsigned int   u32;
+extern u32 func_020056EC(u32 range);
 extern void func_021D7D18(int,int,u16,u8,u8,u16,int);
 extern void func_02009348(int,int,u16,u8);
-extern void func_02012DAC(int);
+extern int func_02012DAC(int a0);
 extern void func_021D6EE0(int,int,int);
-extern void func_021D7430(void);
+extern void func_021D7430(u8 *p);
 void func_021D746C(int a)
 {
     int b;

@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef struct Pt { s16 x, y; } Pt;
 extern int func_021E5158(int);
 extern int func_021DF6B4(char *, int, int);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B800(int, u8);
 extern void func_0204B404(int, const Pt *, unsigned int);
 void func_021E4F28(char *p)

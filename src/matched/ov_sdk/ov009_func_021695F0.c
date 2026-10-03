@@ -37,7 +37,7 @@ extern FriendGlobal g_021AA860;
 extern int func_020591CC(FriendData *friendData);
 extern int func_02168FF0(int index);
 extern int func_0205915C(FriendData *friendData);
-extern void func_0216959C(FriendData *friendData, int deleteIndex, int otherIndex);
+extern void func_0216959C(void *friendData, int deleteIndex, int otherIndex);
 
 int func_021695F0(FriendData *friendList, int index, int profileID)
 {

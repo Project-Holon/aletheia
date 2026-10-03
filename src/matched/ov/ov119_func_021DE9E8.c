@@ -22,11 +22,11 @@ typedef struct {
     int b;
 } Pair;
 
-extern int func_021E12AC(void *p);
+extern int func_021E12AC(char *p);
 extern const Pair d_021E76DC;
-extern void func_021E131C(void *p, int *ids, int count, int x, int y);
+extern void func_021E131C(char *p, int *ids, int count, int x, int y);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DE988(void *p);
+extern void func_021DE988(char *p);
 
 void func_021DE9E8(void *p)
 {

@@ -43,11 +43,11 @@ typedef struct {
 } Obj;
 
 extern u32 func_021F7338(Obj *p, int kind);
-extern u32 func_0201AB28(void *party, u32 i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void func_0220262C(u32 a, u32 b);
 extern void func_02007664(u32 s, u32 box, u32 slot);
 extern int func_020076D0(u32 s, u32 *a, u32 *b);
-extern u32 func_020185F4(u32 e);
+extern void *func_020185F4(void *p);
 extern void func_0200752C(u32 s, u32 a, u32 e);
 
 void func_021F7374(Obj *p)
@@ -55,7 +55,7 @@ void func_021F7374(Obj *p)
     u32 e = func_021F7338(p, p->kind);
 
     if (p->box == 0xff) {
-        func_0220262C(e, func_0201AB28(p->ctx->party, p->slot));
+        func_0220262C(e, (u32)func_0201AB28(p->ctx->party, p->slot));
     } else {
         u32 a;
         u32 b;
@@ -64,6 +64,6 @@ void func_021F7374(Obj *p)
         b = 0;
         func_02007664(p->ctx->storage, p->box, p->slot);
         func_020076D0(p->ctx->storage, &a, &b);
-        func_0200752C(p->ctx->storage, a, func_020185F4(e));
+        func_0200752C(p->ctx->storage, a, (u32)func_020185F4((void *)e));
     }
 }

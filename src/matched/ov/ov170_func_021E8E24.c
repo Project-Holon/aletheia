@@ -24,11 +24,12 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021ED55C(char *, int);
-extern void func_020216D4(void *, u32, u32, u32);
+struct PalAnmSlot;
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020056BC(void);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_021DED58(char *, int);
-extern void func_02007838(void *, unsigned, unsigned);
+extern void func_02007838(void *save, u32 box, u8 v);
 extern void func_021EDAB0(char *, int);
 extern int func_021E95CC(unsigned char *, unsigned char);
 #define W (*(char **)(p + 0x2c))

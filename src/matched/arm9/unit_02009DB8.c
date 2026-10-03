@@ -53,7 +53,7 @@ struct Sub0200852CObj {
     u8 unk1D[3];
 };
 
-extern u32 sub_02008468(void);
+extern int sub_02008468(void);
 extern u32 sub_02008530(const struct Sub0200852CObj *obj);
 extern u8  sub_02008554(const struct Sub0200852CObj *obj);
 extern void sub_02008558(struct Sub0200852CObj *obj, u8 value);

@@ -36,14 +36,14 @@ extern void func_021F0AC0(void *);
 extern void func_021F0B10(void *, int, int);
 extern void func_02165AC4(int, int, void *, int);
 extern int func_021659F0(int, int);
-extern u8 *func_021F0F44(void *, int);
+extern u8 *func_021F0F44(u8 *p, int a);
 extern void func_021F0F30(u8 *, u8, u8);
 extern void func_021F1144(void *, u8 *, int, int, int, int);
 extern void func_021F0EA4(u8 *, int);
 extern void func_021F0E24(void *);
 extern void func_021F0E7C(void *);
 extern void func_021F0DF4(int, int);
-extern void func_0203D34C(int, int);
+extern void func_0203D34C(u32 a, u32 b);
 
 void func_021EFEC0(u8 *o)
 {

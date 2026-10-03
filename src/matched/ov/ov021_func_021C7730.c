@@ -42,8 +42,8 @@ extern void *func_02188CB4(unsigned char *p);
 extern int func_02188CD0(u32 a);
 extern void func_021C76C4(Vec *out, float a, float b, float c);
 extern void func_0216D8C0(u32 a, Vec *v);
-extern void func_021AC528(u32 a, int b);
-extern void func_020061E4(int a);
+extern void func_021AC528(u32 a, u32 b);
+extern void func_020061E4(u32 a);
 
 int func_021C7730(Fx *o)
 {

@@ -19,7 +19,9 @@
  *   func_021BA330 0x021BA330 thumb ov213
  */
 extern void func_021B9EE4(char *,void *,unsigned char,unsigned char,void *,void *,const void *);
-extern void *func_020457B0(unsigned,unsigned);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *,void *);
 extern unsigned func_02008550(void *),func_021BA200(unsigned,unsigned);
 extern int func_021B9E80(unsigned);

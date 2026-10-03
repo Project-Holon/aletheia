@@ -20,10 +20,12 @@
  */
 
 extern void *func_0215A5F4(void *p);
-extern int func_02158F54();
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_02158F54(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02011330();
-extern int func_02012104();
+extern u32 func_02012104(const struct Ctx *p);
 extern int func_02012374();
 extern void *func_02185534();
 

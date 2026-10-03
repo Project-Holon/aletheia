@@ -17,7 +17,7 @@
 typedef struct S S;
 
 extern int func_021A6908(S *a, int b, int c);
-extern void func_021A6774(S *a);
+extern void func_021A6774(void *a);
 
 int func_021A6A8C(S *a, int b, int c)
 {

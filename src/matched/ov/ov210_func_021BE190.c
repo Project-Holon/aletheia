@@ -17,10 +17,10 @@
  *   func_021BF89C 0x021BF89C thumb ov210
  */
 typedef unsigned char u8;
-extern int func_021B93B8(void *);
+extern int func_021B93B8(char *p);
 extern int func_021BCEEC(u8 *, int);
 extern void func_021B93D4(void *, int);
-extern void func_021BEA54(void *);
+extern void func_021BEA54(u8 *p);
 extern void func_021BF89C(u8 *, int, int);
 void func_021BE190(u8 *p, int n)
 {

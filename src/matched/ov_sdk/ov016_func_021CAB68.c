@@ -24,8 +24,8 @@
 extern int func_021C1518(void);
 extern void func_021C0E40(void *p);
 extern void func_021D0014(void);
-extern void func_021CFFAC(int x);
-extern void func_021D1208(int a, int b, int c, int d, int e);
+extern void func_021CFFAC(unsigned int v);
+extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021BCB9C(void);
 extern void func_021CAA08(void);
 extern void func_021CABF8(void);

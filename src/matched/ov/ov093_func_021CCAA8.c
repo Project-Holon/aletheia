@@ -15,5 +15,5 @@
 typedef unsigned char u8; typedef unsigned int u32;
 typedef struct { u32 wpos,rpos; u8 buf[3000]; } Buf;
 extern char data_021F3A84[];
-extern void func_02034714(void *,int,void *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_021CCAA8(Buf *p,int v) {if(p->wpos>=3000)func_02034714(data_021F3A84,0,data_021F3A84);p->buf[p->wpos++]=v;}

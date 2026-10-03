@@ -22,18 +22,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_02012EBC(int);
 extern u8 *func_021D5BA0(int);
-extern u16 func_0203F1FC(const void *,int);
+typedef unsigned int   u32;
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern int func_02030734(int,int,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
-extern void func_0200E8E0(int,int);
+extern void func_0200E8E0(void *obj, u32 value);
 extern void func_02012E4C(int,int);
 extern int func_02009210(int);
 extern void func_02009108(int,u16);
 extern void func_021D6EE0(int,int,int);
-extern void func_021D6FF0(void);
-extern void func_021D76B8(void);
-extern void func_021D758C(void);
+extern void func_021D6FF0(char *p);
+extern void func_021D76B8(char *p);
+extern void func_021D758C(int a);
 extern const char d_021DAB78[];
 void func_021D75D0(int a)
 {

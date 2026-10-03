@@ -25,12 +25,15 @@ extern void func_021BCAD8(u8 *);
 extern void func_021BD344(u8 *);
 extern void func_021BD174(u8 *);
 extern void func_021BD0D4(u8 *);
-extern void func_0204B3B4(void *);
+struct Obj;
+struct Rec;
+struct TaskMenuState;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(void *);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
-extern void func_02027FD8(void *);
-extern void func_02045C04(void *);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 void func_021BCA30(u8 *p)
 {

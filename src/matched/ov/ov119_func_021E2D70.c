@@ -14,7 +14,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02011510(u32,u32,u32,u32);
-extern void func_020115EC(void *,int);
+typedef signed int     s32;
+struct IcaAnime;
+extern void func_020115EC(struct IcaAnime *p, s32 v);
 void func_021E2D70(char *p,unsigned mode)
 {
     switch(mode) {

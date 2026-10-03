@@ -84,7 +84,7 @@ typedef struct {
 extern const CurPos tbl_02203D46[];
 
 extern int func_021FE254(void);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_021FEAE0(Work *p, int i);
 extern int func_021FE9B0(Work *p);
 extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
@@ -96,7 +96,7 @@ extern void func_0204B878(u32, u16);
 extern void func_020061E4(u32 se);
 extern int func_021FF4D0(Rec *x, Rec *y, u32 m, u32 n);
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021FE9DC(Work *p);
 
 int func_021FE338(Work *p)

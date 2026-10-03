@@ -32,7 +32,8 @@ typedef signed int s32;
 
 typedef struct { s32 x, y, z; } VecFx32;
 
-extern void func_02048AD0(void *cam);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_02048B30(void *cam, VecFx32 *out);
 extern void func_02048AE8(void *cam, VecFx32 *out);
 extern void func_0207CA00(const VecFx32 *a, const VecFx32 *b, VecFx32 *out);

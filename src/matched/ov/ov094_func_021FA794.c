@@ -25,7 +25,7 @@ extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern int func_020515CC(int *, int, void (*)(void), int *);
 extern unsigned int func_021FE38C(char *, unsigned int);
-extern int func_021FD1A8(char *, unsigned int);
+extern int func_021FD1A8(char *p, int v);
 extern void func_021FD1CC(void);
 
 int func_021FA794(void *a, char *s)

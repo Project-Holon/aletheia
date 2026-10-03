@@ -36,7 +36,7 @@ struct Sys {
     u32 unk20;
 };
 
-extern u32 func_02028DB8(struct Sys *s);
+extern int func_02028DB8(void *obj);
 
 u32 func_020289B8(struct Sys *s)
 {

@@ -31,7 +31,8 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0E8(void *sys);
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0200C32C();
+struct Blk34;
+extern u8 func_0200C32C(struct Blk34 *p);
 extern int func_0216B8B8(void *a0, unsigned short *a1);
 extern int func_0216B91C(void *a0, int a1, unsigned short *a2);
 

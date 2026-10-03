@@ -61,8 +61,7 @@ struct ArcFile {
 extern const char func_02049250_File[];
 extern const char func_02049250_Msg[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 extern void func_02078B44(struct ArcFile *arc, u32 pos, u32 origin);
 extern void func_02078B70(struct ArcFile *arc, void *dst, u32 size);

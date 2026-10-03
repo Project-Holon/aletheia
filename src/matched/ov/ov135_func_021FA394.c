@@ -45,15 +45,15 @@ typedef struct {
 extern const CurPos tbl_02203216[];
 
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32 v, int k);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021FA2B0(Menu *m, int dir);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B878(u32 v, int k);
-extern int func_021F9A1C(Menu *m, int mode);
+extern int func_021F9A1C(void *p, int mode);
 extern int func_021FA330(Menu *m, int key);
 
 int func_021FA394(Menu *m)

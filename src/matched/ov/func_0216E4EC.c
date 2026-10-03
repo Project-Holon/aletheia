@@ -25,7 +25,7 @@ extern int func_0216D598();
 extern int func_0216E5FC();
 extern int func_0216D590();
 extern int func_0216D588();
-extern int func_0216E4B0();
+extern int func_0216E4B0(int a, int b);
 
 int func_0216E4EC(int a0, int a1)
 {

@@ -53,7 +53,8 @@ struct Q {
 
 extern int func_021BE17C(void *a);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3050(void *p);
+typedef unsigned char  u8;
+extern u16 func_021A3050(u8 *p);
 extern int func_021BE194(void *a);
 extern struct Q func_021BE148(int a);
 extern int func_021BE1B0(void *a);

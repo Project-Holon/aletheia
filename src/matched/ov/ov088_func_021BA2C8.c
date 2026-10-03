@@ -21,13 +21,16 @@
  *   func_021BC054  0x021BC054  thumb  ov088
  */
 
-extern int func_0201C4E4(void *p);
-extern void *func_02045770(void *p);
-extern int func_0201C6C4(void *t, void *p);
-extern void func_02045334(void *p);
-extern int func_0201C6B4(void *p);
-extern int func_021BC0C8(void *p);
-extern int func_021BC054(void *p, int k);
+typedef unsigned int   u32;
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern int func_021BC0C8(char *p);
+extern int func_021BC054(char *p, int v);
 
 int func_021BA2C8(char *p)
 {

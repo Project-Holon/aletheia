@@ -62,8 +62,8 @@ extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u8   sub_0201B920(void *mon, u32 slot);
 extern u32  sub_0201B970(void *mon, u32 slot, u32 amount);
-extern s32  sub_0201AA18(void *party);
-extern void *sub_0201AB28(void *party, s32 i);
+extern u32 sub_0201AA18(void *p);
+extern void *sub_0201AB28(void *p, u32 idx);
 
 void sub_0201B9F0(void *mon)
 {

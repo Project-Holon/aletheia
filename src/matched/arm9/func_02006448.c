@@ -56,12 +56,12 @@ struct Sub02006448Pair {
 
 extern char g_020AA260[];
 
-extern u32   *func_02074324(u32 a);
+extern void *func_02074324(int index);
 extern struct Sub02006448Pair *func_020743EC(u32 a, u32 b);
 extern void   sub_0200597C(void);
-extern int    func_02074A98(u32 a, u32 b);
+extern u32 func_02074A98(u32 a, u32 b);
 extern void   func_02074694(u32 a, u32 b);
-extern void   sub_020059A0(u32 a);
+extern int sub_020059A0(u32 a);
 
 int func_02006448(u32 a0, u32 a1, u32 a2)
 {

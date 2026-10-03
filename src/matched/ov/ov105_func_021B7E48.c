@@ -20,10 +20,13 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef short s16;
 extern int func_021B7CA0(void *); extern int func_021B7CA4(void *); extern int func_021B7CA8(void *);
-extern void *func_02045770(void *); extern void func_02043B5C(void *,u8);
+typedef unsigned int   u32;
+struct Descriptor;
+struct StrObj;
+extern void *func_02045770(struct Descriptor *p); extern void func_02043B5C(void *,u8);
 extern void func_02045CAC(int,int,void *);
-extern u8 func_02045738(void *); extern u8 func_02045740(void *);
-extern unsigned func_0201D304(void *,int,int); extern unsigned func_0201D42C(void *,int);
+extern u8 func_02045738(struct Descriptor *p); extern u8 func_02045740(void *);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b); extern unsigned func_0201D42C(void *,int);
 extern void func_0201C724(int,void *,s16,s16,void *,int,u16);
 void func_021B7E48(u8 *p,void *a,int b)
 {

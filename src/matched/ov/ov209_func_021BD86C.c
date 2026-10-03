@@ -14,8 +14,11 @@
  *   func_0204B878 0x0204B878 arm
  */
 
-extern void func_0204B8C4(void *, int);
-extern void func_0204B878(void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021BD86C(char *p, int idx, int v)
 {

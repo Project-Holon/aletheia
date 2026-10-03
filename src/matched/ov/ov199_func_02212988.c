@@ -28,19 +28,24 @@
  *   d_02213D00 0x02213D00 data a1 ov199
  */
 typedef unsigned char u8;
-extern void func_0201A948(void *);
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Big;
+struct Party;
+struct Rec160;
+extern void func_0201A948(struct Party *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
 extern void *func_0201A354(int, int);
 extern void *func_0200AE14(void *);
-extern void *func_0200B1D4(void *, unsigned);
+extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200B358(void *);
-extern void *func_02012EBC(void *);
+extern void *func_02012EBC(struct Big *p);
 extern void func_0201AC2C(const void *, void *);
 extern void func_0201A2A8(void *, void *);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(const void *);
-extern void func_02034714(const char *, int, const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D04[], d_02213D00[];
 u8 *func_02212988(int unused, unsigned heap, u8 *p)
 {

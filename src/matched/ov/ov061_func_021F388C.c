@@ -46,7 +46,7 @@ extern u16 func_02188C84(int a);
 extern int func_02188D2C(int a);
 extern void func_021BE4B4(int a, int b, u16 c, int d);
 extern void *func_021625CC(int h, u16 id);
-extern u8 func_021626E8(void *p);
+extern u8 func_021626E8(u8 *p);
 extern void func_02162A64(const void *p, V3 *out);
 extern int func_02188C9C(int a);
 extern void *func_021BE480(int a, int b, u16 c);

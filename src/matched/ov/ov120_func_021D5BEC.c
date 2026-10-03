@@ -25,14 +25,14 @@ typedef unsigned int u32;
 extern void func_0203D7B0(int);
 extern void func_0203D7BC(int);
 extern void func_021D846C(u8 *);
-extern void func_021D63F4(void *, int, int);
+extern void func_021D63F4(u8 *p, int flag, int mode);
 extern void func_02040588(u32, u32);
-extern void func_021D761C(void *);
+extern void func_021D761C(u8 *p);
 extern void func_021D7B38(int);
 extern void func_021D883C(char *);
-extern void func_021D69F4(void *, void *, int);
+extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D4244(int, int, int);
-extern void func_021D588C(void);
+extern void func_021D588C(u8 *p);
 void func_021D5BEC(u8 *p)
 {
     if (*(int *)(*(u8 **)(p + 0x48) + 0x1b0) != 1) {

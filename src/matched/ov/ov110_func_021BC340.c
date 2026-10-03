@@ -33,17 +33,20 @@ typedef struct { s16 x,y; } Pair;
 typedef struct { void *root; u8 *state; u8 pad[0x14]; void *items[2][2]; u8 gap[12]; Pair pos[2]; u16 ids[2]; int count; u8 parser[12]; u16 id; } Obj;
 extern void *func_021BF708(u8 *,u32);
 extern u32 func_021BAC44(u8 *);
-extern void func_021BC458(void *,u8 *);
+struct Descriptor;
+struct StrObj;
+struct U16Vec;
+extern void func_021BC458(u8 *p, u8 *a);
 extern int func_021BC490(void *,void *);
 extern void func_0201DD78(u32,u32,u32);
-extern void *func_02045770(void *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern u32 func_0201D304(void *,u32,u32);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021BC58C(void *,Pair *);
-extern int func_021BF6F0(u8 *,int);
+extern u32 func_021BF6F0(u8 *p, u32 i);
 extern void func_021BC5BC(u8 *,void *,Pair *,int,void *);
-extern void func_021BC484(void *);
-extern void func_02045808(void *);
+extern void func_021BC484(u8 *p);
+extern void func_02045808(struct U16Vec *vec);
 int func_021BC340(Obj *p,void *desc,u8 bank)
 {
     void *str;

@@ -19,7 +19,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_021CADAC(u8 *, int);
+extern u8 *func_021CADAC(u8 *a, int n);
 extern void func_02082D44(void *, void *, unsigned long);
 
 u8 *func_021CAE20(u8 *a, u8 *b)

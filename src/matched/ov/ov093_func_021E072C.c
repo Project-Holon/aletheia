@@ -24,9 +24,9 @@ typedef signed char s8;
 typedef unsigned int u32;
 struct Record { u32 f0; volatile u8 f4; u8 f5; u8 f6; u8 f7; };
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *, int);
-extern int func_021D6D7C(void *);
-extern u8 func_021B9A40(u8);
+extern void *func_021C7CF4(int *p, int i);
+extern u32 func_021D6D7C(u8 *p);
+extern unsigned char func_021B9A40(unsigned int x);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C88C8(void *, void *);
 void func_021E072C(int unused, void *q, int id)

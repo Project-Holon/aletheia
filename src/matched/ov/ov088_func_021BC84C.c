@@ -13,5 +13,6 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_020452E8(void *p);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021BC84C(u8 *p) { u8 i; func_020452E8(*(void **)(p+12)); for(i=0;i<2;i++) func_020452E8(*(void **)((u32)p+((u32)i*4)+16)); }

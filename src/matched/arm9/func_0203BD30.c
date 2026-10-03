@@ -29,7 +29,7 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern void func_0203D788(void);
+extern void *func_0203D788(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern void func_0203BCE0(u8 *p);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);

@@ -26,12 +26,14 @@ typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; unsigned cha
 typedef struct Config { u8 bytes[0x54]; } Config;
 typedef struct Four { int a,b,c,d; } Four;
 extern void func_02087C88(Config *);
-extern void *func_020120F4(void *);
-extern void *func_02012944(void *);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 extern void func_02008494(void *,void *);
-extern void *func_02012934(void *p);
-extern void *func_0201AB28(void *,int);
-extern u32 func_02017E1C(void *,int,void *);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0203F4E4(Four *);
 void func_021B658C(void *p,Data *out)
 {

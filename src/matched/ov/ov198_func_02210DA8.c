@@ -23,7 +23,7 @@ extern int func_022110D4(u8 *,int);
 extern u32 func_02210F04(u32,u32);
 extern int func_02210F4C(u8 *,int);
 extern u8 func_02210ED4(u8 *);
-extern int func_02210F98(u8 *,int);
+extern unsigned func_02210F98(u8 *p, int index);
 int func_02210DA8(u8 *p)
 {
     int index=func_022110D4(p,(*(u8 **)p)[32]);

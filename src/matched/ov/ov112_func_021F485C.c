@@ -18,7 +18,8 @@ typedef struct Item { void *data; u16 value; u16 pad; int zero; } Item;
 typedef struct Menu { u32 heap; u8 count; u8 pad[3]; Item *items; int zero; u8 a,b,c,d; } Menu;
 extern void *func_02045EC0(u32,u32);
 extern void *func_02027778(Menu *,u32);
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 void func_021F485C(u8 *p)
 {
     Item items[2];

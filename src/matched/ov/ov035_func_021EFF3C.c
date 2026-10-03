@@ -14,6 +14,8 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  */
 extern int (*d_021F0640[])(char *);
-extern void func_021A0FA0(void *,int);
-extern unsigned func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern void func_021A0FA0(int *p, int v);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 void func_021EFF3C(char *p) { if(*(unsigned short *)(p+0x4e)==0) { if(d_021F0640[*(unsigned short *)(p+0x48)](p)) { func_021A0FA0(*(void **)(p+0xc),14); *(unsigned short *)(p+0x4e)=1; } } func_0201C4E4(*(void **)(p+0x3c)); }

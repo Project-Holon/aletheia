@@ -13,7 +13,8 @@
  *   func_02062BAC 0x02062BAC arm
  */
 
-extern void func_02062BAC(void);
+struct Tbl;
+extern void func_02062BAC(struct Tbl *t);
 asm void func_02062810(void)
 {
     ldr ip, =func_02062BAC

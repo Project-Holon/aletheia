@@ -11,7 +11,8 @@
  */
 
 extern void func_020413B0(int, int, int, int, int, int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 void func_021BA284(int sel)
 {

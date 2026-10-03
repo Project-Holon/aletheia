@@ -54,7 +54,8 @@ struct Obj {
     struct Ring ring;
 };
 
-extern u8    func_02012B58(void *owner);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
 extern u32   func_02012944(void *owner);
 extern u32   func_02012950(void *owner, u32 id);
 extern u32   func_020084BC(u32 h);

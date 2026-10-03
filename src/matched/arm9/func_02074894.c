@@ -51,7 +51,8 @@ typedef struct S {
 
 extern u32 func_02061184(u32 key, u32 a);
 extern s32 func_020749F8(S *p);
-extern s32 func_020611D4(void *owner, u32 key);
+struct NNSiFndHeapHead;
+extern int func_020611D4(struct NNSiFndHeapHead *heap, u32 tagName);
 
 s32 func_02074894(S *p)
 {

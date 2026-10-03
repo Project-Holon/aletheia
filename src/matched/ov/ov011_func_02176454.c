@@ -41,14 +41,17 @@ extern u8 *func_0203159C(int a, int size, int align);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02031324(int heap);
 extern void *func_020120F4(u32 a);
-extern void *func_02012934(void *p);
+struct BigObj;
+struct Party;
+struct PartyMon;
+extern void *func_02012934(const struct BigObj *p);
 extern void func_0201BA34(void *p);
-extern int func_0201AA18(void *p);
-extern void *func_0201A920(int heap);
-extern int func_0201AB34(void *p, int i);
-extern void *func_0201AB28(void *p, int i);
-extern u32 func_0201A98C(void *p, void *q);
-extern void func_02019CA0(void *p, int v);
+extern u32 func_0201AA18(void *p);
+extern struct Party *func_0201A920(u32 heap);
+extern u32 func_0201AB34(void *p, u32 idx);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void func_02019CA0(void *p, u32 v);
 extern void func_02034714(void *a, int b, void *c);
 
 int func_02176454(int a0, int a1, Arg *arg)

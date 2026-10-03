@@ -50,15 +50,19 @@ struct Obj0202E0E0 {
     u32   unk20[2];  /* +0x20, +0x24 */
 };
 
-extern void *func_02045770(void *p);
-extern int   func_0201C6C4(void *a, void *b);
-extern void  func_02045334(void *p);
-extern void  func_0204B3DC(void *actor, int arg1);
-extern void *func_02045730(void *p);
-extern s32   func_02041648(u8 id);
+struct Actor;
+struct Descriptor;
+struct Obj;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u8 func_02045730(struct Descriptor *p);
+extern u32 func_02041648(int channel);
 extern s32   func_02041664(u8 id);
-extern void  func_0204B53C(void *actor, struct Pt *out);
-extern void  func_0204B528(void *actor, const struct Pt *in);
+extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 
 int func_0202E0E0(struct Obj0202E0E0 *a0, void *a1, int a2)
 {

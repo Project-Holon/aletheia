@@ -15,7 +15,8 @@
  */
 extern unsigned char d_02183B2C[];
 extern void func_02034714(void *, int, void *);
-extern int func_02190C78(void *);
+struct Handle;
+extern int func_02190C78(struct Handle *h);
 int func_0217F508(void **p)
 {
     if (p[11] == 0) func_02034714(d_02183B2C, 0, d_02183B2C);

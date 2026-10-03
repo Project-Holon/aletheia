@@ -23,7 +23,7 @@ typedef struct { u32 w[12]; } B48;
 typedef struct { u32 w[6]; } B24;
 
 extern void func_0218E13C(u8 *p, u32 v);
-extern void func_0218FB1C(void);
+extern void func_0218FB1C(u8 *p);
 
 void func_0218F89C(u8 *p, u8 *src, u16 v)
 {

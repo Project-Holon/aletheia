@@ -15,7 +15,8 @@
  *   d_021C09D8 0x021C09D8 data a4
  */
 typedef struct Row { unsigned tag; unsigned data[5]; } Row;
-extern void func_021BF228(void *);
+typedef unsigned char  u8;
+extern void func_021BF228(u8 *p);
 extern int func_021BF030(void *);
 extern Row *func_021BF094(unsigned);
 extern int func_021BF00C(void *, void *);

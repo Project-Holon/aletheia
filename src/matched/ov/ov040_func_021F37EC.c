@@ -29,14 +29,19 @@ typedef unsigned int u32;
 extern int func_02188D2C(int *);
 extern int *func_021897BC(char *, int);
 extern void func_021897A0(u8 *, int);
-extern u32 func_02188C80(u8 *);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
-extern int *func_0200B3A4(u32, u32);
+typedef signed int     s32;
+struct Big;
+struct Ctx;
+struct Desc;
+struct Rec94;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
+extern s32 *func_0200B3A4(struct Rec94 *p);
 extern void func_021BE418(u8 *, u16);
 extern void func_021BE580(void *);
-extern u8 *func_0201210C(void *);
-extern void *func_020122C0(void *, void *, void *, u32);
+extern void *func_0201210C(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F381C(void *, int *);
 void *func_021F37EC(void *p, u32 i)
 {

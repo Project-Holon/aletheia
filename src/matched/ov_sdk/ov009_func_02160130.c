@@ -27,7 +27,7 @@ typedef struct {
 	int rootCaNum;
 } Con;
 
-extern int func_020948E0();
+extern int func_020948E0(const char *s1, const char *s2);
 
 CaInfo *func_02160130(Con *con, char *dn)
 {

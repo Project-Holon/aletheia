@@ -26,14 +26,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 func_021B8778(void *, int, u8 *);
+struct Unk021B8CB0;
+extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u8 *func_021B98A4(char *const *q, u8 b);
 extern int func_021D5B68(void *);
-extern void *func_021B86B8(void *);
-extern int func_021CBB34(u8 *, void *, void *, int, u8 *, u8 *);
-extern int func_021B8724(void *, void *);
-extern void func_021D6E24(void *, int);
-extern void func_021CD4B0(void *, u32, ...);
+extern void *func_021B86B8(void ***p);
+extern int func_021CBB34(u8 *p, void *q, void *m, u16 mode, u8 *out, u8 *flag);
+extern int func_021B8724(char *p, void *m);
+extern void func_021D6E24(void **p, int value);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 int func_021CBA40(u8 *p, void *a, u16 b)
 {
     void *m = 0;

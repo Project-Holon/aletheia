@@ -57,7 +57,8 @@ typedef struct {
     u32 n;
 } S;
 
-extern void func_02017588(void *mon, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct Mon;
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *mon, u32 id, u32 v);
 extern void func_02018A00(void *mon, u32 species, u32 form);
 extern u32 func_02008510(void *my, u16 heap);

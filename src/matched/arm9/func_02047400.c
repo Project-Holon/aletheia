@@ -57,8 +57,8 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern void *func_0206E954(void *);
-extern void *func_0206E964(void *);
-extern void *func_02030734(u32, int, int, void *, int);
+extern unsigned char *func_0206E964(unsigned char *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0206E348(void *);
 extern void func_0206A2CC(void *, void *);
 extern void func_0206A4AC(void *, void *);

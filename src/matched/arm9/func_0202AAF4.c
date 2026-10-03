@@ -22,9 +22,9 @@ typedef unsigned int u32;
 
 struct Node;
 
-extern void *func_02030734(u32 heapId, u32 size, u32 zero,
-                           const void *file, u32 line);
-extern void  func_0202AB64(struct Node *p, u32 heapId, u32 a);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0202AB64(void *obj, u32 unused, u32 value);
 extern void  func_0202AB7C(struct Node *p, u32 heapId);
 
 struct Node *func_0202AAF4(u32 a, u32 heapId)

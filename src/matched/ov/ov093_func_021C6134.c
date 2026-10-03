@@ -17,7 +17,8 @@ typedef unsigned char u8;
 struct UtilWork;
 extern void func_021D5FC0(struct UtilWork *, unsigned int);
 extern u8 func_021D5440(u8 *p);
-extern void func_021CD4B0(void *, unsigned int, ...);
+typedef unsigned int   u32;
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 void func_021C6134(u8 *p, u8 *a, unsigned int n)
 {
     func_021D5FC0((struct UtilWork *)a, n);

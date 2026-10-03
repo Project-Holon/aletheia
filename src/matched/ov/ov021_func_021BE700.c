@@ -20,9 +20,12 @@
 typedef unsigned char u8;
 
 extern void *func_021BE4C4(void *a, int b, int c);
-extern u8 *func_021BE674(void *a, int b, int c, int d);
-extern void func_020477A4(void *a, int b);
-extern void func_020477D4(void *a, int b);
+typedef unsigned int   u32;
+struct G3dSys;
+struct Owner;
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int func_020477D4(struct Owner *owner, u32 index);
 
 void func_021BE700(void *p, int i, int j, int k, int flag)
 {

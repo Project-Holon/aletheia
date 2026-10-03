@@ -20,10 +20,13 @@
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
-extern int func_0204AC18(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
 extern void *func_02049F78(void *,unsigned,char **,u16);
-extern void func_020215BC(void *,const void *,unsigned,unsigned,u16);
+extern void func_020215BC(struct PalAnmSlot *slots, const void *src, u32 idx, u32 off, u16 size);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
 void func_0220C304(char *p)

@@ -40,8 +40,9 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02017D30(void *p);
-extern u32  func_02017D70(void *p, u32 f);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32  func_02018430(void *p);
 extern void func_02018A7C(void *p);

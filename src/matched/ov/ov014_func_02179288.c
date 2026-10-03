@@ -28,9 +28,10 @@ extern u8 *g_021797A8;
 extern void func_02178138(int state);
 extern BOOL func_02178168(void);
 extern u16 func_0208EF30(void);
-extern int func_0203D6CC(void);
-extern int func_0203D6BC(void);
-extern int func_0203D680(void);
+typedef unsigned int   u32;
+extern u32 func_0203D6CC(void);
+extern u32 func_0203D6BC(void);
+extern u32 func_0203D680(void);
 
 BOOL func_02179288(int mode, u16 a, u16 b, u16 c)
 {

@@ -51,7 +51,8 @@ typedef struct {
 
 extern int func_020120F4(int a0);
 extern int func_02012B58(int a0);
-extern int func_02013D5C(int a0);
+typedef unsigned int   u32;
+extern u32 func_02013D5C(u32 id);
 extern Mon *func_0217BEA8(int a0);
 extern void func_0204B404(int a0, s16 *a1, int a2);
 extern void func_0204B3DC(int a0, int a1);

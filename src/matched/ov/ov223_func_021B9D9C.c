@@ -52,7 +52,7 @@ extern u32 func_0202D7D8(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(u32);
 extern void func_02082BCC(void *,int,u32);
-extern u32 func_021BC520(void *);
+extern unsigned func_021BC520(unsigned char *p);
 extern u32 func_0204B294(u32,u32,u32,u32,void *,u16,u16);
 extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
 extern void func_0204B3DC(u32,u32);

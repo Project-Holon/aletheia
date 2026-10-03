@@ -14,6 +14,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_020470D0(void *p);
-extern void func_02046EFC(void *p);
+struct Tagged;
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 void func_0217F9BC(char *p) { func_020470D0(*(void **)(p+0x14)); func_02046EFC(*(void **)(p+0x18)); *(void **)(p+0x18)=0; func_02046EFC(*(void **)(p+0x14)); *(void **)(p+0x14)=0; }

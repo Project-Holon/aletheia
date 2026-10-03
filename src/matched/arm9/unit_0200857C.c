@@ -116,8 +116,7 @@ struct PlayTime {
 
 /* The debug allocator: heap, size, alignment, __FILE__, __LINE__.  The last
  * two arrive as a pointer into the packed string area and the constant 32. */
-extern void *sub_02030734(u32 heap, u32 size, u32 align, const char *file,
-                          u32 line);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sub_0200857C_File[];
 
 void sub_020085A0(struct PlayTime *p);

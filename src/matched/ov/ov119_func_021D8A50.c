@@ -14,11 +14,12 @@
  *   func_02005D90 0x02005D90 thumb
  *   func_02005DF8 0x02005DF8 thumb
  */
-extern void func_02005E30(int);
+typedef unsigned int   u32;
+extern void func_02005E30(u32 a);
 extern void func_02005DE4(int);
 extern void func_02005E64(void);
 extern void func_02005D90(int,int);
-extern void func_02005DF8(int);
+extern void func_02005DF8(u32 a);
 void func_021D8A50(void *p) {
  int v;
  if(*(int *)((char *)p+0x1094)!=0) {

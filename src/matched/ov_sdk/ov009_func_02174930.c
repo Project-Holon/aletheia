@@ -32,10 +32,12 @@ struct DWCstMatchControl {
 extern struct DWCstMatchControl *func_02175F3C(void);
 extern int func_0219F068(void *sb);
 extern void *func_0219F058(void *sb, int index);
-extern int func_0219E120(void *server, char *key, int idefault);
+struct SBServer;
+struct ServerBrowser;
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern unsigned long func_021685CC(unsigned long max);
 extern void func_0219E084(void *server, char *key, int value);
-extern void func_0219F078(void *sb, int ascending, char *key, int mode);
+extern void func_0219F078(struct ServerBrowser *sb, int ascending, char *sortkey, int comparemode);
 extern int g_021A19C0[6];
 extern char g_021A21BC[];
 

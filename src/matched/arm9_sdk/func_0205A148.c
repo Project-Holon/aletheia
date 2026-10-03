@@ -13,7 +13,7 @@
  *   func_0205A12C    0x0205A12C  arm
 */
 
-extern void func_0205A12C(void);
+extern void *func_0205A12C(char *p);
 
 asm void func_0205A148(void)
 {

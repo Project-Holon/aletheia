@@ -35,9 +35,11 @@ extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);
 extern u32 func_0204B294(u32, u32, u32, u32, u32, u16, u16);
-extern void func_0204B3DC(void *, unsigned);
-extern void func_0204B92C(void *, int);
-extern void func_0204B974(void *);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B974(struct Actor *a);
 void func_021B7004(u8 *p, u8 *q)
 {
     int step;

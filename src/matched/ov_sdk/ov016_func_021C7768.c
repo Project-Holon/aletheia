@@ -28,7 +28,7 @@ typedef struct MemSsea {
 
 extern int func_021BF730();
 extern void func_021C0E40();
-extern void func_021D1208();
+extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021C77F4();
 extern void func_021C7C74();
 extern void func_021C79B4();

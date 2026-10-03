@@ -36,15 +36,16 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(const struct Ctx *p);
-extern void func_02188C84(void *);
-extern void *func_020120F4(void *);
-extern void func_02012944(void *);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *);
-extern void *func_0201AB28(void *, int);
+struct BigObj;
+extern u16 func_02188C84(u8 *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *, u32, u32);
-extern int func_02166C4C(void *, void *, void *);
-extern void func_0215897C(void *, int);
+extern void *func_02166C4C(void *a, void *b, void *c);
+extern void func_0215897C(void *vm, void *task);
 
 u32 func_021B63D4(void *a, void *b)
 {

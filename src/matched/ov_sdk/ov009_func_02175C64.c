@@ -19,11 +19,11 @@
  *   func_02175D10  0x02175D10  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02175BFC(int suspend, void *callback, void *param);
 extern int func_0216CB90(void);
 extern void func_021768EC(int result);
-extern void func_02175D10(int suspend);
+extern int func_02175D10(int suspend);
 
 int func_02175C64(void)
 {

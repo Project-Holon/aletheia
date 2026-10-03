@@ -26,7 +26,9 @@
  *       --func func_020127B8 --addr 0x020127B8 --cc 1.1p1 --thumb
  */
 
-extern void func_020127AC(void *p, int idx);
+typedef unsigned int   u32;
+struct SaveBlock;
+extern void *func_020127AC(struct SaveBlock *p, u32 idx);
 
 void func_020127B8(void *p)
 {

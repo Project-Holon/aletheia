@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02169308();
-extern int func_02169520();
+extern int func_02169520(int a0, int a1);
 
 int func_0216932C(int a0, int a1)
 {

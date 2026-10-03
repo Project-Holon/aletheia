@@ -56,9 +56,9 @@ typedef unsigned int   u32;
 
 extern u8 *g_021461E0;
 
-extern u8  *func_0203D798(void);
+extern void *func_0203D798(void);
 extern int  func_0203D1B4(void);
-extern void *func_0203CF10(int i);
+extern u32 func_0203CF10(u32 a);
 extern u8   func_02178098(u8 i);
 struct WihInfo {
     int kind;          /* +0x00 */
@@ -68,7 +68,7 @@ struct WihInfo {
 extern int  func_0205D01C(u32 buf, u8 *rec, struct WihInfo *out);
 extern int  sub_020107FC(void *key);
 extern int  sub_020104F8(u8 *rec);
-extern int  func_0201054C(u8 *rec);
+extern int func_0201054C(const u8 *obj);
 extern u32  func_0201057C(u8 *rec);
 
 u32 func_0201058C(void *key)

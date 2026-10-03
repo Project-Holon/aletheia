@@ -33,13 +33,14 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *func_020124E8();
 extern void func_02082BCC();
-extern void func_0215FD0C();
-extern void func_0215FED4();
-extern void func_0215FEF0();
-extern void func_0215FEF4();
+struct Ctx;
+extern int func_0215FD0C(void *task, void *unused, struct Ctx *c);
+extern int func_0215FED4(void *a0, void *a1);
+extern int func_0215FEF0(void);
+extern int func_0215FEF4(u32 *a0, u32 *a1);
 extern int func_021A0F90();
 extern int func_021A0EE4();
-extern void func_020355D8();
+extern void func_020355D8(u8 v);
 
 /* the 0x5C-byte record behind the descriptor */
 struct Rec {

@@ -77,31 +77,33 @@ typedef struct Work {
     void *anim;         /* 0x10 */
 } Work;
 
-extern void *func_02188D2C(void *field);
-extern void *func_02188CB4(void *field);
+struct Evt;
+struct IcaAnime;
+extern int func_02188D2C(int *p);
+extern void *func_02188CB4(u8 *p);
 extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
-extern void func_02011558(void *anim);
+extern void func_02011558(struct IcaAnime *p);
 extern int func_0216C270(Work *w);
-extern void *func_0216C280(Work *w);
+extern void *func_0216C280(void *p);
 extern void func_0216C2A4(Work *w);
 extern void func_02163E58(void *a, VecFx32 *v, fx32 *y);
-extern void func_0218F0A8(void *p);
-extern int func_0218F0E8(void *p);
-extern void func_021F3714(void *field);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
+extern void func_021F3714(int *p);
 extern void func_021F37B8(void *field);
-extern int func_021F3758(void *field);
-extern int func_021F3808(void *field);
-extern void func_021F3744(void *field);
-extern void func_021F3788(void *field);
+extern int func_021F3758(int *p);
+extern int func_021F3808(int *p);
+extern void func_021F3744(int *p);
+extern void func_021F3788(int *p);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021D2D50(void *sys, Param *p);
-extern void *func_021A3074(void *q);
+extern void *func_021A3074(u8 *p);
 extern void func_021A3038(void *q, VecFx32 *v);
 extern void func_021A3044(void *q, const VecFx32 *v);
-extern u32 func_02006148(u32 id);
+extern int func_02006148(u32 a0);
 extern void func_020061F8(int i);
 extern void func_020061E4(u32 se);
-extern void func_02012374(void *evt, void *task);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_0216C2FC(void *evt, u32 *state, Work *w)
 {

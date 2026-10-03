@@ -21,7 +21,8 @@
 
 extern int *func_0219B120(int id);
 extern int func_0219B0D8(int *tbl, int v);
-extern int func_0219B13C(int a);
+typedef unsigned int   u32;
+extern int func_0219B13C(u32 a);
 extern int func_0216D67C(int a);
 extern int func_0216DEE0(int a);
 extern int func_0216D83C(int a);

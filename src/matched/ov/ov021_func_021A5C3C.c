@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern int func_021A5CA4(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
-extern int func_021A5D04(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5D04(void *a, void *b, int c, int d, int e, int f);
 extern int func_021A5DD8(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
-extern int func_021A5E28(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5E28(void *a, void *b, int c, int d, int e, int f);
 
 int func_021A5C3C(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {

@@ -17,13 +17,17 @@
  *   func_021BDE98 0x021BDE98 thumb ov203
  *   ov067_id 0x00000043 data a1
  */
-extern void func_02023F98(int);
+typedef unsigned int   u32;
+struct PrintSys;
+struct Rec;
+struct S020315D4;
+extern void func_02023F98(u32 mask);
 extern void func_021BDD18(char *);
-extern void func_02045C04(void *);
-extern void func_0201C4C0(void *);
-extern void func_021BE4B4(void *);
-extern void func_021BDE98(void *);
-extern void func_020315D4(void *);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_021BE4B4(char *ctx);
+extern void func_021BDE98(char *ctx);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 extern void func_02034A5C(const void *);
 extern const char ov067_id[];

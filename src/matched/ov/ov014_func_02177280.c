@@ -24,10 +24,10 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A4;
 extern char d_02179780[];
-extern u8 *func_02030734(int heap, int size, int align, char *file, int line);
-extern u8 *func_0203D798(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_0203D798(void);
 extern u16 func_0208F1B4(void);
-extern int func_021790E4(int a, int b, int c);
+extern int func_021790E4(u32 heap, int a, int b);
 extern void func_02178E1C(u32 v);
 
 int func_02177280(int a, int b, u32 c, int d)

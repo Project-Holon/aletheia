@@ -24,10 +24,13 @@ typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_02008C58(void *p);
-extern void func_02008DAC(void *p, u32 a, u32 b);
+struct Big;
+struct Ctx;
+struct Sub02008C20Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008C20Obj *func_02008C58(void *sys);
+extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 
 int func_021D2ADC(u32 a, u32 b)
 {

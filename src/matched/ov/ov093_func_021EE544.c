@@ -29,15 +29,16 @@ struct C {
     void *f08;
 };
 
-extern u8 func_02045730(void *d);
-extern u8 func_02045738(void *d);
-extern u8 func_02045740(void *d);
-extern u8 func_02045758(void *d);
-extern u8 func_02045760(void *d);
-extern void func_020409B4(u8 id);
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u8 a6);
-extern void func_020061E4(int a);
-extern void func_02040618(int a, int b, int c);
+extern void func_020061E4(u32 a);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 
 int func_021EE544(int *st, struct C *c)
 {

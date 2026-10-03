@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0217620C(u8 *p, int key);
 extern u32 func_02026478(void *p);
-extern u8 func_02012B58(const void *p);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
 int func_02176258(u8 *p)
 {
     if (func_0217620C(p + 0x1ac, func_02012B58((const void *)func_02026478(((void **)p)[1]))) == 1) return 1;

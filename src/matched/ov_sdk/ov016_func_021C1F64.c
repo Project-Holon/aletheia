@@ -19,7 +19,7 @@ typedef struct {
     u16 rest : 14;
 } BgCnt;
 
-void func_021BD1D4(void *a, void *b);
+void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
 
 void func_021C1F64(void)
 {

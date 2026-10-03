@@ -17,10 +17,11 @@
 
 typedef unsigned int u32;
 
-extern int func_0201CE30(void *h);
+struct Rec3;
+extern u32 func_0201CE30(void *p);
 extern u32 func_020362DC(void);
 extern void func_0201CE38(void *h);
-extern void func_0201CE48(void *h);
+extern void func_0201CE48(struct Rec3 *p);
 
 int func_021862B0(char *p)
 {

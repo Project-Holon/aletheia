@@ -22,7 +22,8 @@ extern const Table d_021E2C74,d_021E2C80;
 extern const char d_021E2DE0[];
 extern const char ov177_id[];
 extern void func_02034A5C(int);
-extern void func_02034714(const char *,int,const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02006210(void);
 int func_021D429C(int a,int b,int *p,int d)
 {

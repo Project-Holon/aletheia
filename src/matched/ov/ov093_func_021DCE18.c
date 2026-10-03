@@ -15,6 +15,7 @@
  */
 typedef unsigned short u16;
 extern int func_021D775C(int);
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021DCE48(int,unsigned char *,int);
 void func_021DCE18(int a,unsigned char *b,int c) { int k; k=func_021D775C(16); if(k!=func_021D70A8((void *)a) && c==func_021D775C(2)) func_021DCE48(a,b,c); }

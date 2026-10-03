@@ -43,7 +43,7 @@ struct AreaMan {
 extern const u8 g_RunLenTail[256];
 extern const u8 g_RunLenHead[256];
 
-extern u32 func_020343C0(struct AreaMan *p, s32 pos, u32 len);
+extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
 extern void func_02034508(struct AreaMan *p, s32 pos, u32 len, u32 line);
 
 s32 sub_02033E30(struct AreaMan *p, u32 start, u32 limit, u32 len)

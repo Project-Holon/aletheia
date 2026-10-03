@@ -14,7 +14,7 @@
  *   func_02175BCC 0x02175BCC thumb ov011
  */
 typedef unsigned char u8;
-extern int func_02175BCC(void *);
+extern u8 *func_02175BCC(u8 *p);
 int func_02175EB8(void *p)
 {
     u8 *r;

@@ -14,9 +14,11 @@
  *   func_0200853C 0x0200853C thumb
  *   func_021B9800 0x021B9800 thumb ov114
  */
-extern void func_02034714(const char *,int,const char *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
-extern void *func_02012944(void *);
+extern u8 *func_02012944(void *p);
 extern void *func_0200853C(void *);
 extern void *func_021B9800(unsigned,void *,unsigned);
 void func_021DC738(char *p,unsigned heap)

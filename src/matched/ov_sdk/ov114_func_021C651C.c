@@ -18,7 +18,7 @@
 typedef unsigned long u32;
 
 extern char d_021D3B9C[];
-extern void func_021C654C(void *p);
+extern int func_021C654C(void * volatile handle);
 extern void func_021BE680(void *callback);
 extern void nhttpCleanupCallback(void);
 

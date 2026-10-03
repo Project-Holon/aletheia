@@ -20,7 +20,9 @@ typedef signed short s16;
 typedef struct Position { s16 x, y, z; u8 a, b; } Position;
 extern void func_02082BCC(void *, int, unsigned int);
 extern void *func_0204B294(void *, void *, void *, void *, Position *, u16, u16);
-extern void func_0204B688(void *, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_021DE15C(char *, unsigned int);
 void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s16 x, s16 y, u16 heap)
 {

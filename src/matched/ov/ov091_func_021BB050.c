@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 func_021BB554(u8 *s);
-extern void func_020413B0(u32 index, u8 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u32 id);
 extern const u8 d_021BEC74[];
 extern const u8 d_021BEC75[];

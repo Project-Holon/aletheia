@@ -18,7 +18,8 @@
 
 
 extern void func_021FD860(int, int, int *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 int func_021F8FC8(int a, int b, int c)
 {

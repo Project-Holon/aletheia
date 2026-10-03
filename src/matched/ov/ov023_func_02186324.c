@@ -26,7 +26,8 @@ extern int func_02186558(u8 *p);
 extern void func_02186480(u8 *p);
 extern void func_02186304(u8 *p, int a);
 extern int func_0218654C(u8 *p);
-extern void func_0204B878(void *h, u16 a);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 
 int func_02186324(u8 *p)
 {

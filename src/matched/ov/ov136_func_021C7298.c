@@ -12,7 +12,8 @@
  *   func_021C670C 0x021C670C thumb ov136
  *   func_0207D63C 0x0207D63C arm
  */
-extern void func_021C670C(void *, int, int);
+typedef unsigned char  u8;
+extern void func_021C670C(u8 *p, int i, int on);
 extern void func_0207D63C(void *, int, int, int, int);
 void func_021C7298(void *p, int v)
 {

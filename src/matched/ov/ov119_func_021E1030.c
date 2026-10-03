@@ -11,7 +11,8 @@
  *   func_0202F038 0x0202F038 thumb
  *   func_0202EE8C 0x0202EE8C thumb
  */
-extern void func_0202F038(void *);
+typedef unsigned char  u8;
+extern void func_0202F038(u8 *p);
 extern void *func_0202EE8C(void *, void *, unsigned char, unsigned char, unsigned short);
 void func_021E1030(char *p)
 {

@@ -22,13 +22,20 @@
 
 typedef unsigned short u16;
 
-extern int func_0201C6B4(void *);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void func_02045730(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+struct Obj;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(void);
-extern int func_020200CC(void *);
-extern void func_021B3370(void *);
+extern s32 func_020200CC(struct Obj *o);
+extern void func_021B3370(char *w);
 
 void func_021B3470(char *p)
 {

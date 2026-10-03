@@ -21,13 +21,15 @@
 typedef unsigned short u16;
 extern int func_021D94D4(void *);
 extern int func_021D95D0(void *);
-extern int func_021D95F0(void *);
-extern int func_021D9610(void *);
+typedef unsigned int   u32;
+struct Entry;
+extern u32 func_021D95F0(void *p);
+extern int func_021D9610(unsigned char *p);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern void func_021DD080(void *,int,void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DDBF0(void *);
+extern void func_021DDBF0(char *p);
 void func_021DDCF0(unsigned char *p)
 {
     unsigned char b=13;if(func_021D94D4(p))b=5;else if(func_021D95D0(p))b=7;else if(func_021D95F0(p))b=8;else if(func_021D9610(p))b=6;if(func_0203D3A8(func_020399A8(),0xc00,1,&b)){func_021DD080(func_020399A8(),29,p);func_021D8E84(p,(int)func_021DDBF0);}

@@ -19,9 +19,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Record { u16 x, y, z; u8 a, b; } Record;
 extern void *func_0204B294(u32, u32, u32, u32, Record *, u16, u16);
-extern void func_0204B92C(void *, u32);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B688(void *, u32);
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021D69A0(u8 *p)
 {
     Record r;

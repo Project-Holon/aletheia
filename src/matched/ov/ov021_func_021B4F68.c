@@ -30,7 +30,8 @@ extern u8 d_02185F0C[];
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(void *a, void *b);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_020120F4(void *a);
 extern void *func_020146F8(void *a, void *b, const void *c, const void *d, u32 e);
 

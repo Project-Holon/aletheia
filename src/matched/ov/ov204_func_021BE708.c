@@ -14,11 +14,12 @@
  *   func_021BF560 0x021BF560 thumb ov204
  *   func_021BF580 0x021BF580 thumb ov204
  */
-extern int func_021BD3A0(void *);
+typedef unsigned char  u8;
+extern int func_021BD3A0(unsigned char *p);
 extern void func_021BF23C(void *, unsigned, unsigned);
-extern int func_021BF2F4(void *);
-extern void func_021BF560(void *);
-extern void func_021BF580(void *);
+extern int func_021BF2F4(char *a);
+extern void func_021BF560(u8 *p);
+extern void func_021BF580(u8 *p);
 int func_021BE708(char *p, int *state)
 {
     switch (*state) {

@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_02040588(unsigned, unsigned);
-extern void func_021BC868(void *, int, int, int, int, int);
-extern int func_021BC898(void *);
+extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
+extern int func_021BC898(u8 *p);
 void func_021BB870(u8 *p)
 {
     func_0207D63C((void *)0x04000050, 2, 63, 0, 16);

@@ -49,12 +49,19 @@ struct Blk {
     u16 count;
 };
 
-extern void func_02057EF8(void);
-extern void func_02057F8C(void);
-extern void func_020580A8(void);
-extern void func_02058180(void);
-extern void func_02058204(void);
-extern void func_020582CC(void);
+typedef unsigned char  u8;
+struct A;
+struct B;
+struct C;
+struct Obj;
+struct S;
+struct Src;
+extern void func_02057EF8(struct A *a, struct B *b);
+extern void func_02057F8C(struct A *a, struct S *s, int unused, struct C *c);
+extern void func_020580A8(struct Obj *o, u8 *dst);
+extern void func_02058180(struct A *a, struct B *b, volatile int *c);
+extern void func_02058204(struct Obj *o, struct Src *s, int *dst);
+extern void func_020582CC(struct Obj *o, void *s, int *dst);
 
 void *func_020518AC(void *obj, int kind)
 {

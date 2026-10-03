@@ -35,19 +35,22 @@
  */
 typedef unsigned char u8;
 typedef unsigned u32;
-extern int func_0217E078(void *);
+struct Big;
+struct L0200ED54;
+struct Sub0200852CObj;
+extern int func_0217E078(u8 *p);
 extern void func_021E8AA0(int *,int);
-extern void func_0217C2EC(void);
-extern void *func_02012EBC(void *);
+extern void func_0217C2EC(int *sys, u32 *state, u8 *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200ED48(void *);
-extern u32 func_02008530(const void *);
-extern void func_0200ED54(void *,u32);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern int func_0217E1B8(int *);
 extern int func_0217E1C0(int *);
 extern u32 func_0200E918(const u8 *,u32);
 extern void func_0200E958(u8 *,u32,const void *);
 extern void func_0200E978(u8 *,u32,u32,u8);
-extern void func_02034714(const char *,int,const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_0200E920(u8 *,u32,int);
 extern void func_0217D160(int *);
 extern void func_0217CFE8(void *,int,int);

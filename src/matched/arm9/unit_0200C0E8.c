@@ -64,7 +64,8 @@ typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void  func_02045A38(const u16 *src, u16 *dest, u32 len);
-extern void *func_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 struct Ent58 {
     u16 v[6];

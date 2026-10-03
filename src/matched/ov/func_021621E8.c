@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern char *func_02161DC4(char *p, int id, unsigned mode);
 extern int func_02161E78();
-extern int func_02161E60();
+extern int func_02161E60(int a0, int a1);
 
 int func_021621E8(int a0, int a1, int a2)
 {

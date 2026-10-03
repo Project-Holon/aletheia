@@ -53,7 +53,7 @@ struct DWCstNodeInfo {
     u8 aid;
 };
 
-extern int func_02175FB8(void);
+extern unsigned char func_02175FB8(void);
 extern struct DWCstNodeInfo *func_02176344(void);
 extern int func_021758C4(u8 AID, int suspend, int immediate);
 extern struct DWCstMatchControl *func_02175F3C(void);

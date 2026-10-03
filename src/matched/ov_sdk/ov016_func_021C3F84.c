@@ -19,8 +19,8 @@
  *   func_021C3FD4  0x021C3FD4  arm  ov016
  */
 
-extern int func_021BCB14();
-extern void func_021CFFAC();
+extern signed char func_021BCB14(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40();
 extern void func_021C3FD4();
 extern unsigned char g_021DE5C0[];

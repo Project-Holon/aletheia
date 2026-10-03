@@ -16,14 +16,14 @@
  *   func_021D840C 0x021D840C thumb ov123
  */
 typedef unsigned char u8;
-extern void *func_02012944(void *);
+extern u8 *func_02012944(void *p);
 extern int func_0200853C(void *);
 extern void func_021D5AB0(u8 *, int);
 extern void func_021D56FC(char *, int);
 extern void func_021D5950(char *, int);
 extern void func_021D5960(char *, int, int);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D840C(void);
+extern void func_021D840C(char *p);
 void func_021D8448(char *p)
 {
     func_021D5AB0(*(u8 **)(p + 0x18), func_0200853C(func_02012944(*(void **)(*(char **)(p + 0x20) + 4))));

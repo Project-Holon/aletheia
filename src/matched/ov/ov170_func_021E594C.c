@@ -52,7 +52,7 @@ extern void func_021EE3E4(unsigned char *p, unsigned idx);
 extern int func_021E0778(unsigned char *p);
 extern void func_020061E4(unsigned se);
 extern void func_021ED6E4(unsigned char *p, int v);
-extern void func_021EBBC8(unsigned char *p, int kind, int i);
+extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);

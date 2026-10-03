@@ -21,9 +21,11 @@
  */
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned);
 extern void func_02082BCC(void *, int, int);
-extern int func_02213804(void *);
-extern void func_02034714(const char *, int, const char *);
-extern unsigned func_02005C44(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern unsigned char func_02213804(char *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern u16 func_02005C44(void);
 extern void func_02005D90(unsigned, unsigned);
 extern const char d_02213D00[], d_02213D04[];
 typedef enum { tag_2740 = 0x24f } Offset2740;

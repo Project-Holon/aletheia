@@ -18,7 +18,7 @@
 
 void func_021BB0D0(void)
 {
-    void func_02012FFC(void);
+    signed char func_02012FFC(void);
     func_02012FFC();
 }
 

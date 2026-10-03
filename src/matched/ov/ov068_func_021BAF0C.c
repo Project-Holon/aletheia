@@ -18,8 +18,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0207D658(u32, int, int);
-extern void func_02040588(int, int);
-extern void func_021BA278(void *, u32, u32, int);
+typedef unsigned char  u8;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_021BA278(u8 *p, u32 a, u32 b, u32 c);
 void func_021BAF0C(void *p, u32 id, u32 value)
 {
     func_0207D658(0x04000050, 23, 8);

@@ -29,7 +29,7 @@ typedef struct {
     u32 val;
 } St;
 
-extern int func_0216D3CC(u32 a);
+extern int func_0216D3CC(int a0);
 
 void func_021A6BB4(St *p, u32 a1, u32 a2)
 {

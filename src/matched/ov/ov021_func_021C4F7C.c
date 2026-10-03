@@ -61,20 +61,22 @@ extern char d_021DE498[];
 extern const u32 d_021DAA60[];
 extern const u32 d_021DAA54[];
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef signed int     s32;
+struct Big;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_0203FCA0(int, const void *, int);
 extern void func_020414AC(int);
-extern void func_02040C14(int, int, int, int);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern u32 func_0204B100(u32 a, u32 b, u16 heap);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B68(void *, int, int, int, int, u32);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u16 heap);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u16 heap);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u16 heap);
-extern void func_02049658(void *, int, int, int, int, int, u32);
-extern void func_020498F4(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *);
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
 extern void func_0204B3DC(u32 obj, int on);
@@ -82,13 +84,13 @@ extern void func_0204B92C(u32 obj, int v);
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern u32 func_0201C450(u32 size, u16 heap);
-extern void *func_02012EBC(void *p);
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200C40C(void *p);
 extern void func_021C53A0(char *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, void *g, u16 h);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_02040618(int a, int b, int c);
-extern void func_02040588(int, int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_02040588(u32 which, u32 enable);
 
 char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
 {

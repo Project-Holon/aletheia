@@ -53,7 +53,7 @@ typedef struct {
     DWCiGdbWork work[2];
 } DWCiGdbEntity;
 
-extern void func_021E17D8(int line, const char *fmt, ...);
+extern void func_021E17D8(int line, char *fmt, ...);
 extern void func_021DD560();
 extern int func_021C22D4(int request);
 extern void func_021C22A4(int request);

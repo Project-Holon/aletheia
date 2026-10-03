@@ -38,7 +38,7 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern int func_021F935C(int x);
-extern void func_02200E1C(void);
+extern void func_02200E1C(void *task, char *q);
 extern void func_02201098(void *p);
 void func_021FFA18(Work *w, Obj *s)
 {

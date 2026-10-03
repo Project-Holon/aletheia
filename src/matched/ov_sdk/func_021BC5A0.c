@@ -29,7 +29,8 @@
  */
 
 extern void *(*func_021DCFD0[])(int);
-extern void func_020923B0(void *, int, int);
+typedef unsigned int   u32;
+extern void *func_020923B0(void *p, int c, u32 n);
 
 void *func_021BC5A0(int a, int b)
 {

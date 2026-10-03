@@ -23,8 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_02027858(void *m);
-extern void func_02027FD8(void *s);
+struct TaskMenu;
+struct TaskMenuState;
+extern void func_02027858(struct TaskMenu *m);
+extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_021F5060(void);
 
 void func_021F4E64(u8 *p)

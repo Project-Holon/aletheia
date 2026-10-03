@@ -60,10 +60,11 @@ extern Cfg d_0220AC10;
 extern void func_02209C18(P *p);
 extern void func_02209C30(void *p);
 extern void *func_0204B324(u32 a, u32 b, u32 c, u32 d, Cfg *cfg, int n, u16 v);
-extern void func_0204B878(void *h, int v);
-extern void func_0204B8C4(void *h, int v);
-extern void func_0204B92C(void *h, int v);
-extern void func_0204B3DC(void *h, int v);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204BA00(void *h, Msg *m);
 
 int func_02209B60(P *p, u16 a, u16 b, u32 c, u32 e, u32 f)

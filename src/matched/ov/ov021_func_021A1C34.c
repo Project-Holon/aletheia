@@ -27,7 +27,7 @@ typedef struct {
     u16 queued;
 } Obj021A1C34;
 
-u16 func_021A1D78(u16 a, u16 b);
+int func_021A1D78(u16 a, u16 b);
 
 int func_021A1C34(Obj021A1C34 *p, u16 x)
 {

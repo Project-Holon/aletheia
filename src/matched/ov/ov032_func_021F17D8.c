@@ -17,7 +17,8 @@ typedef signed char s8;
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02040618(u32 layer, u32 a, u32 b, u32 c);
-extern void func_02031194(void *task);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 void func_021F17D8(void *task, u8 *q)
 {
     u32 old;

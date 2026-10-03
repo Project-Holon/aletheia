@@ -21,7 +21,8 @@
 void *func_0215A5F4(void *p);
 int func_02159B10(int *a, int b);
 int func_0201134C(int *a);
-int func_021B1668(int b, int c);
+typedef unsigned int   u32;
+u32 func_021B1668(u32 a, u32 b);
 int func_02197D3C(int a, int b);
 void func_0215A6DC(int b, int c);
 

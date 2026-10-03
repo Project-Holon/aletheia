@@ -22,9 +22,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern int func_020399A8(void);
-extern u32 func_0201A918(void);
+extern int func_0201A918(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);

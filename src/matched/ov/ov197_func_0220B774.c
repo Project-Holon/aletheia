@@ -15,9 +15,9 @@
  *   func_0220B584 0x0220B584 thumb
  */
 
-extern void func_0220B520(void *);
-extern void func_0220B6C4(void *);
-extern void func_0220B584(void *);
+extern void func_0220B520(char *p);
+extern void func_0220B6C4(char *p);
+extern void func_0220B584(char *p);
 
 void func_0220B774(char *a)
 {

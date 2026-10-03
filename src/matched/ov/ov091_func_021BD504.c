@@ -24,12 +24,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021BB7D8(char *a, int x);
+typedef unsigned int   u32;
+extern int func_021BB7D8(void *unused, u32 p);
 extern void func_021BB714(char *a, int x, int y);
 extern void func_021BB97C(char *a, int x);
 extern void func_021BBA0C(char *a, int x, int y, int z, int w);
 extern void func_021BB7E8(char *a, int x, int y);
-extern void func_021BB98C(char *a, int x);
+extern void func_021BB98C(void *p, u32 s);
 extern int func_020457B0(int size, int heap);
 extern void func_02045924(int buf, int src);
 extern void func_02045808(int buf);

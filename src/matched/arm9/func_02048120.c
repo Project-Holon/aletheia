@@ -88,11 +88,10 @@ static inline struct Slot *rig_cfg(struct Rig *rig)
 
 extern u32   func_02046DB8(u32 a, u16 b);
 extern u32   func_02046E90(u32 a, u16 b);
-extern u32   func_02046C94(void);
+extern int func_02046C94(void);
 extern void  func_02046CE0(void *node, u32 v);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
-extern void *func_02048F60(u32 archive_id, u16 member, u16 heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void *func_02048F9C(u32 path, u16 a, u16 heap);
 
 void func_02048120(struct Rig *rig, u32 index, struct Desc *desc)

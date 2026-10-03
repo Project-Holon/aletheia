@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0216649C();
-extern int func_02166324();
+extern int func_02166324(u8 *grid, int id);
 
 int func_021665D0(int a0, int a1)
 {

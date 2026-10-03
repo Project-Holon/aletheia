@@ -49,7 +49,7 @@ extern int func_02176554(void);
 extern void func_0217653C(void);
 extern struct DWCstMatchControl *func_02175F3C(void);
 extern void NNCancel(int cookie);
-extern int func_02175FB8(void);
+extern unsigned char func_02175FB8(void);
 extern void func_02175F4C(int state);
 extern int func_02172E18(int profileID);
 extern int func_0217603C(void);

@@ -28,10 +28,11 @@ typedef unsigned int u32;
 extern int func_021BADF0(void *o);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_020414EC(int v);
+struct Obj;
+extern void func_020414EC(u32 i);
 extern void func_021B6138(void *o);
 extern void func_021BA6A4(void *o);
-extern void func_0204B92C(void *p, int v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BB3F4(void *o, int v);
 extern void func_021B8AF4(void *o);
 

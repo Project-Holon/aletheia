@@ -47,7 +47,8 @@ struct S02021A84 {
 
 extern void func_02021B2C(struct S02021A84 *p);
 extern void func_02021B4C(struct S02021A84 *p);
-extern void func_02030EAC(void *a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02021A84(void *a, struct S02021A84 *p)
 {

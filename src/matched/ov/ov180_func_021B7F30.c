@@ -11,5 +11,5 @@
  * symbols:
  *   func_021B73B0 0x021B73B0 thumb ov180
  */
-extern void func_021B73B0(void *);
+extern void func_021B73B0(char *p);
 void func_021B7F30(void *p) { func_021B73B0(p); }

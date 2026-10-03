@@ -50,12 +50,14 @@ extern int func_021B8FA0(int x);
 extern int func_02051B0C(int i);
 extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern u8 func_02045748(void *d);
-extern u8 func_02045750(void *d);
-extern u8 func_02045758(void *d);
-extern u8 func_02045760(void *d);
-extern u32 func_02045770(void *d);
-extern u8 *func_020437D4(u32 bmp);
+struct Bmp;
+struct Descriptor;
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 
 void func_021B8FE4(struct S *s, u32 a1, u32 a2)

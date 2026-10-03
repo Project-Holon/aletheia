@@ -21,10 +21,13 @@ typedef struct {
     u16 h46;
 } Obj;
 
-extern int func_020120F4(void *a);
-extern int func_02012EBC(int a);
-extern int func_02008854(int a);
-extern u16 func_02008998(int a);
+struct Big;
+struct Ctx;
+struct Sub02008828Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008828Obj *func_02008854(void *sys);
+extern u16 func_02008998(const struct Sub02008828Obj *obj);
 
 void func_021BD0E0(Obj *p)
 {

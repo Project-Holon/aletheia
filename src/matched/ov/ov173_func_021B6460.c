@@ -30,5 +30,6 @@ extern int func_021B6794(int *);
 extern void func_021B6678(void);
 extern void func_021B688C(char *);
 extern void func_021B7694(char *);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_021B6460(char *p) { func_021B6348((u8 *)p); func_021B7C7C((int *)p); func_021B71B8(p); func_021B6828(p); func_021B6794((int *)p); func_021B6678(); func_021B688C(p); func_021B7694(p); func_02030EAC(*(void **)(p+0x68)); }

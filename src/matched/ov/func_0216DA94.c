@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0216D570(void *, unsigned);
+extern void func_0216D570(char *p, u32 v);
 
 void func_0216DA94(void *a0, unsigned a1, unsigned a2, unsigned a3)
 {

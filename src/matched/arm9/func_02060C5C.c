@@ -35,7 +35,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_02060814(void *start, void *end, u32 attr);
+struct ExpHeap;
+extern void *func_02060814(struct ExpHeap *heap, void *lo, u32 attr);
 
 void *func_02060C5C(void *start, u32 size, u32 attr)
 {

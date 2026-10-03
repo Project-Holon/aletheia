@@ -23,7 +23,7 @@
  *   g_021E40E4  0x021E40E4  data
  */
 
-extern int func_02084F80(char *dst, unsigned long len, char *fmt, ...);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 extern int func_021BF520(char *url);
 extern char g_021E52B4[];
 extern char g_021AE01C[];

@@ -13,7 +13,8 @@
  *   func_02045808 0x02045808 arm
  */
 extern void func_020307B0(void *p);
-extern void func_02045808(void *p);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 void func_02184B04(char *p)
 {
     int i;

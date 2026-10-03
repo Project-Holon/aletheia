@@ -21,7 +21,7 @@ extern unsigned func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DF210(void *);
+extern void func_021DF210(char *p);
 void func_021DF338(void *p) {
  unsigned h=func_020399A8();
  u8 b;

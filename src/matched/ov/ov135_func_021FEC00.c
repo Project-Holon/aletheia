@@ -61,9 +61,11 @@ typedef struct {
 
 extern int func_021F99F0(void *obj);
 extern void func_021FF570(u32 v);
-extern void func_021F89A8(void *p, int i, u16 a, u16 b);
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
+struct CharBuf;
+struct Descriptor;
+extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
 extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
 extern u32 func_0201AE1C(u32 h, u32 k);

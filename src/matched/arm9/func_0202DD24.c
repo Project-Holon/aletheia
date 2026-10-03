@@ -63,19 +63,22 @@ struct PmsElem {
 struct PmsDraw { u8 pad[0xc]; struct PmsElem *elems; };
 
 extern u32  sub_0202E430(u32 id);
-extern s32  func_02045758(void *h);
-extern s32  func_02045760(void *h);
+struct Cfg;
+struct Descriptor;
+struct Obj;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
 extern u32  func_02045770(void *h);
 extern void func_02043814(u32 a, u32 b);
-extern void func_02045334(void *h);
-extern void func_02045374(void *h);
-extern u32  func_02045730(void *h);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 extern void func_0204B454(void *a, struct Pt *p, u16 v);
 extern void func_0204B404(void *a, struct Pt *p, u16 v);
-extern u16  func_0204B898(void *a);
-extern void func_0204B878(void *a, u16 v);
-extern void func_0204B3DC(void *a, u32 v);
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
 {

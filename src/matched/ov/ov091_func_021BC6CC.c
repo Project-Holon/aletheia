@@ -91,7 +91,7 @@ extern void func_021B9788(u8 *,int,int,int);
 extern void func_021BB98C(u8 *,u32);
 extern void func_021B9EB0(void);
 extern void func_021BC6C0(void);
-extern u32 func_0201B2B0(u32,u32,u32,u32,u8,u32 *,u16);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void func_021B9E44(u8 *);
 extern u16 d_021BECE4[];
 #define W(k) (*(u32 *)(p+(k)))
@@ -179,7 +179,7 @@ void func_021BC6CC(u8 *p)
         } break;
     case 7:
         func_02017E1C(W(0x38),5,0);
-        if(func_0201B2B0(T(0),W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
+        if(func_0201B2B0((void *)T(0),(void *)W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
             p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=9;
         } else {
             T(0x34)=5; T(0x3c)=W(0x2c); T(0x40)=10; func_021B9E44(p);

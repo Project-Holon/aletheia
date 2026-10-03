@@ -44,17 +44,21 @@ extern u16 func_0215A5CC(void *vm);
 extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5E4(void *vm);
 extern void *func_0215A5F4(void *vm);
-extern void *func_02012EBC(void *p);
-extern void *func_02009448(void *p);
+struct Big;
+struct Ctx;
+struct Sub02009448Obj;
+struct WordSet;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_02009370(void *p);
-extern void *func_0201210C(void *p);
-extern u32 func_021B76F8(void *a, u16 b, void *c);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_021B76F8(void *p, int key, void *q);
 extern void *func_021B7794(void *p);
 extern void func_021B76B4(void *a, u16 b, void *c);
 extern u32 func_021B7740(void *a, u16 b, void *c, u16 d);
 extern void func_0215897C(void *a, void *b);
 extern void *func_02158F74(void *p);
-extern void func_0201EF5C(void *ws, u32 i, u32 v);
+extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
 
 int func_0215E1C0(void *c, void *vm)
 {

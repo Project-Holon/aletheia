@@ -25,7 +25,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02030EAC(void *);
+typedef unsigned int   u32;
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021D5180(char *);
 extern void func_021D5258(char *);
 extern void func_021D4F24(char *);
@@ -35,7 +37,7 @@ extern void func_021D9734(void *,void *);
 extern void func_021D7B34(int,char *);
 extern void func_021D6608(void *,void *);
 extern void func_021D48E4(char *);
-extern void func_02012BE0(void *,int,int);
+extern void func_02012BE0(void *p, u32 a, u32 b);
 extern void func_020355D8(u8);
 extern void func_020307B0(void *);
 int func_021D4418(char *p)

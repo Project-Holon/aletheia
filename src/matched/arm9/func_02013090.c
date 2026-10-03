@@ -23,9 +23,8 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
-extern void  func_020130C4(void *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_020130C4(u8 *p);
 extern u8    sZonedataFile;
 
 void *func_02013090(u32 heap)

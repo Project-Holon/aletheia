@@ -17,7 +17,8 @@
 extern int func_02035C60(void);
 extern void func_021B95C0(unsigned);
 extern void func_021B95B8(unsigned char *,unsigned);
-extern void func_021B96B8(void);
+typedef unsigned char  u8;
+extern void func_021B96B8(u8 *a);
 void func_021B99D4(unsigned a)
 {
  if(func_02035C60()!=0) {

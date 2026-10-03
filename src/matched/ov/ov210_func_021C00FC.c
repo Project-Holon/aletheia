@@ -16,7 +16,8 @@
 
 typedef unsigned int u32;
 extern int func_02035C60(void);
-extern void func_020355D8(unsigned);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 int func_021C00FC(unsigned char *ctx)
 {

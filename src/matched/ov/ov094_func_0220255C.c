@@ -17,7 +17,8 @@ typedef unsigned int u32;
 typedef struct Ent { char pad[0x20]; int f20; } Ent;
 extern void func_0203FCA0(u8, const Ent *, u8);
 extern void func_0204152C(u8, int);
-extern void func_02204960(void *, int, int, int, int, int, int, int);
+struct Main;
+extern void func_02204960(struct Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern const Ent d_0220A8BC[];
 
 void func_0220255C(void *p)

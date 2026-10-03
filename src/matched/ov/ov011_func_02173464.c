@@ -57,7 +57,7 @@ extern int func_02026478(int);
 extern int func_02012B58(int);
 extern int func_02012B70(int);
 extern int func_02188C9C(int);
-extern int func_0217C11C(int);
+extern int func_0217C11C(u32 value);
 extern void func_02167794(int);
 extern void func_021676E4(int);
 extern int func_021677E4(int, int);

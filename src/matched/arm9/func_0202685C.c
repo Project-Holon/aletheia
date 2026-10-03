@@ -59,14 +59,15 @@ struct Req {
     u8   f50[0x10];
 };
 
-extern void *func_02012EBC(void *p);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *p);
 extern int   func_0200E44C(void *p, int i);
 extern u32   func_02167394(u8 id);
 extern u32   func_0200E3A4(void *p, u8 id);
-extern int   func_0200E49C(void *p, int id, u32 v);
-extern void  func_0200E460(void *p, int id, int v);
-extern void  func_0200E4CC(void *p, int id, u32 v, int w);
+extern u32 func_0200E49C(u8 *p, u32 a, u32 count);
+extern void func_0200E460(char *p, int idx, int v);
+extern void func_0200E4CC(u8 *a0, u32 a1, u32 a2, int a3);
 extern void *func_0200C0F0(void *p);
 extern int   func_0200C33C(void *p, u8 i);
 extern void  func_0200C364(void *p, u8 i, int v);

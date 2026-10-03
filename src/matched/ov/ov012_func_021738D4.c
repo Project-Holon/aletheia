@@ -21,7 +21,8 @@ typedef struct { u8 pad[0xc8]; u8 f; u8 g; } S;
 typedef struct { u8 pad0[0x282A]; u8 a; u8 pad1[0x355C-0x282B]; S *b; } T;
 
 extern void func_0217505C(void *o, int v);
-extern void func_02167688(void *v);
+struct Work;
+extern void func_02167688(struct Work *w);
 
 void func_021738D4(int a, T *p)
 {

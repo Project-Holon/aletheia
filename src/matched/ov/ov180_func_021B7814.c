@@ -28,7 +28,7 @@ typedef struct { struct Grid *grid; struct Bmp *bmp; } Holder;
 extern struct Bmp *func_02043678(u32,u32,u32,u32);
 extern struct Grid *func_020255A0(struct Sys *,const Param *);
 extern void func_02043B5C(struct CharBuf *,u8);
-extern struct U16Vec *func_02045EC0(struct MsgBank *,u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *);
 extern void func_021B77DC(char *,int,void *,struct U16Vec *,s16,s16);
 void func_021B7814(char *p) {

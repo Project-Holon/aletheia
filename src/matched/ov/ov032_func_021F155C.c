@@ -28,9 +28,10 @@ typedef unsigned int u32;
 
 extern void func_021F1704(void *h, char *t);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 
 #define FX32_CONST(x) \
     ((int)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))

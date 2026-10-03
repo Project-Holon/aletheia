@@ -23,10 +23,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F4(void *);
-extern int func_02012EBC(int);
-extern int func_0200C404(int);
-extern int func_0200C468(int);
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C404(void *sys);
+extern u16 func_0200C468(const u8 *a);
 
 int func_0215FF34(void *sys)
 {

@@ -16,6 +16,6 @@
  *   func_021D7704 0x021D7704 thumb ov093
  */
 extern int func_021D775C(int);
-extern int func_021B9A24(unsigned int,unsigned char);
+extern int func_021B9A24(unsigned int a, unsigned int b);
 extern void func_021D7704(int,int);
 void func_021DCE9C(int a,int b,unsigned int c) { unsigned char k; k=func_021D775C(3); if(func_021B9A24(c,k)) func_021D7704(53,4506); }

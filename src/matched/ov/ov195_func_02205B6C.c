@@ -20,10 +20,13 @@
 
 extern void func_02082BCC(void *, int, int);
 extern void func_0204A48C(int, int, int);
-extern void *func_0204B100(int, int, int);
-extern void func_0204B270(void *);
-extern void func_020434DC(int, int);
-extern void func_02043598(int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 
 void func_02205B6C(unsigned char *p, int a, int b)
 {

@@ -29,7 +29,7 @@ union USlot {
 };
 
 extern int func_021D775C(int a);
-extern u32 func_021D78AC(int k);
+extern u32 func_021D78AC(u32 range);
 extern union USlot func_021D7D18(int x);
 extern void func_021D9E08(int a, int b, int c, union USlot d, int e);
 

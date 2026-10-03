@@ -15,8 +15,9 @@
  *   func_02156ED0  0x02156ED0  thumb  ov009
  */
 
-extern void func_021B9774(void *p);
-extern void func_021B9838(void *p);
+typedef unsigned char  u8;
+extern void func_021B9774(u8 *p);
+extern void func_021B9838(u8 *p);
 extern void func_02156ED0(void);
 
 void func_021DEEFC(void **p)

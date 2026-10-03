@@ -33,9 +33,13 @@
 
 extern int func_021EF1D4(unsigned *a, unsigned *b);
 extern void func_021EA808(unsigned char *p);
-extern void func_020260F4(void *obj, int state);
-extern unsigned func_02025DE8(void *obj);
-extern unsigned char func_020260E0(void *obj);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sound;
+struct Struct_02025CD0;
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
+extern int func_02025DE8(struct Sound *obj);
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_020061E4(unsigned se);
 extern void func_021DD1C4(unsigned char *p, int a);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);

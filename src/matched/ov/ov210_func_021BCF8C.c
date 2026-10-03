@@ -44,7 +44,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
 extern u8 ov067_id[];
-extern void func_02034AC4(u32 a);
+extern int func_02034AC4(s32 handle);
 extern void func_02043534(u32 a);
 extern void func_020435F4(u32 a);
 extern void func_0204363C(u32 a);

@@ -14,8 +14,10 @@
  */
 typedef unsigned short u16;
 struct S;
-extern void func_021BD958(char *,int,short *,short *,u16);
-extern unsigned func_021B8AE4(struct S *,unsigned);
+typedef signed short   s16;
+typedef unsigned int   u32;
+extern void func_021BD958(char *p, u32 idx, s16 *x, s16 *y, u16 space);
+extern int func_021B8AE4(struct S *s, unsigned int v);
 extern void func_021BD934(char *,int,short,short,u16);
 void func_021BE588(char *p)
 {

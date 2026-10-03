@@ -67,9 +67,10 @@ typedef struct {
 extern G *d_021A8264;
 extern char d_021A1C5C[];
 extern char d_021A1C60[];
-Ctx *func_0203D798(void);
+typedef unsigned int   u32;
+void *func_0203D798(void);
 G *func_0203D7C8(u16 heap, int size, char *file, int line);
-void func_02034714(char *a, int b, char *c);
+void func_02034714(const char *expr, u32 line, const char *file);
 int func_020597C8(int x);
 int func_02059760(int x);
 void func_02155374(int v);

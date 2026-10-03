@@ -32,13 +32,13 @@ typedef signed int     s32;
 typedef struct { s32 x, y, z; } VecFx32;
 typedef struct { s32 a, b; } Pair;
 
-extern u32 func_02188CFC(void *p);
+extern u32 func_02188CFC(u8 *p);
 extern u16 func_02188C98(void *p);
 extern void func_021A3038(void **ctx, VecFx32 *out);
 extern u32 func_021AB0D4(u16 z, VecFx32 *pos);
 extern void *func_021A3074(void **ctx);
 extern void *func_02188C5C(void *p);
-extern void func_0219E2F4(void *o, Pair *out);
+extern void func_0219E2F4(void *o, void *out);
 extern u32 func_021BB3C4(void *w, Pair *v);
 
 u32 func_021A30C8(void **ctx)

@@ -70,16 +70,16 @@ extern LearnWork g_021F3B64;
 
 extern u8 func_021D5440(u8 *p);
 extern void *func_021D5844(void *mon);
-extern u16 func_02018328(void *pp, u32 *iter, u16 level);
-extern void *func_021B9934(void *party, int idx);
-extern void func_021D6BFC(void *mon);
+extern u16 func_02018328(void *p, u32 *idx, u32 heap);
+extern u8 *func_021B9934(char *p, int i);
+extern void func_021D6BFC(u8 *p);
 extern void func_021EAF18(MsgParam *msg, int a, int id);
 extern void func_021EAF50(MsgParam *msg, int v);
 extern void func_021EAF78(MsgParam *msg, int v);
 extern void func_021EA614(void *win, MsgParam *msg);
 extern void func_021EA638(void *win, MsgParam *msg, void (*cb)(void));
 extern int func_021EA720(void *win);
-extern int func_021EA710(void *win);
+extern int func_021EA710(u32 *p);
 extern void func_02005DE4(int a);
 extern void func_02005E64(void);
 extern void func_02005D90(int a, int b);
@@ -87,12 +87,12 @@ extern int func_02005F38(void);
 extern void func_02005E9C(void);
 extern void func_021EABC4(void *win, MsgParam *a, MsgParam *b, int c);
 extern int func_021EAC54(void *win, int *sel);
-extern void *func_021B9AF8(void *party, int side);
+extern char *func_021B9AF8(char *p, int i);
 extern int func_021B9CBC(void *p, int idx);
-extern void func_021EAC64(void *win, u8 a, u16 move);
-extern int func_021EAC80(void *win, u8 *slot);
-extern u32 func_02017E1C(void *pp, int id, void *buf);
-extern void func_020181F4(void *pp, u16 move, u8 slot);
+extern void func_021EAC64(u8 *p, u8 a, int c);
+extern int func_021EAC80(u8 *p, u8 *out);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_020181F4(void *p, u16 move, u32 slot);
 extern void func_021D2C7C(void);
 
 int func_021D2CA8(LearnSeq *s, int *state, void *mon)

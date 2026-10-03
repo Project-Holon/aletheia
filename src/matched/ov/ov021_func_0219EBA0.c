@@ -38,7 +38,7 @@ typedef struct {
     u16 d;
 } S;
 
-extern E *func_0219E968();
+extern void *func_0219E968(u32 a, u32 size);
 extern void func_0219E2F4();
 extern void func_0216D674();
 extern void func_0216DA50();

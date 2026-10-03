@@ -27,8 +27,9 @@ typedef struct {
 extern char g_021E4C88[];
 extern Tbl g_021E5334;
 extern int func_021BF540(char *url);
-extern int func_021DD4D8(void *sake, char *url);
-extern int func_021DD420(void *sake, int fileId, char *url);
+struct SAKEInternal;
+extern int func_021DD4D8(struct SAKEInternal *sake, char *url);
+extern int func_021DD420(struct SAKEInternal *sake, int fileId, char *url);
 
 void func_021E13BC(void)
 {

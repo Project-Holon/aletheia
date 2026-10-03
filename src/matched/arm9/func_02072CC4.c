@@ -24,7 +24,7 @@ struct O {
     u32 f10;
 };
 
-extern u32 func_02089D6C(u32);
+extern int func_02089D6C(u32 tag);
 extern u32 func_0208A07C(void);
 
 int func_02072CC4(struct O *o)

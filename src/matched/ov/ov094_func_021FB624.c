@@ -16,7 +16,8 @@
  *   func_021F839C 0x021F839C thumb ov094
  */
 extern int func_0201134C(void *);
-extern void func_021F839C(int, int);
+typedef unsigned int   u32;
+extern void func_021F839C(u32 a, u32 b);
 
 int func_021FB624(void *a, char *s)
 {

@@ -23,8 +23,9 @@ struct S { char *p; u8 k; u8 pad[3]; u32 v; u32 c; u32 a; u8 *cnt; };
 
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
-extern void func_021ED5E8(void);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
+extern void func_021ED5E8(u32 x, struct S *t);
 
 void func_021ED590(char *p, u8 k, u32 a)
 {

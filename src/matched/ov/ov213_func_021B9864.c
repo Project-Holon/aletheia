@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02048A18(u8 *, int);
-extern void func_021BA920(void *,int,int);
+extern int func_021BA920(int *p, u32 b, u32 c);
 struct Resource {u32 f0, f4; u8 *util; u16 index;};
 void func_021B9864(u8 *p) {
     void *object;

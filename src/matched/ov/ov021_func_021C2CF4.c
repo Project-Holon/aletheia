@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 *func_020124E8(void *task);
-extern void func_0204E720(int, int, int, int);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 
 int func_021C2CF4(void *a, u8 *p)

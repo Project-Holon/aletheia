@@ -32,22 +32,24 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020355D8(int v);
-extern void func_020202EC(void *list, u16 *out);
-extern u32 func_02020350(void *list, int idx);
+typedef signed int     s32;
+struct Obj;
+extern void func_020355D8(u8 v);
+extern void func_020202EC(struct Obj *obj, u16 *out);
+extern u32 func_02020350(struct Obj *obj, u32 what);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
 extern void func_021C5440(char *p, int b, int c, int *d);
 extern void func_021C54C8(char *p, int b, int c, int *d);
-extern int func_020200CC(void *list);
-extern u32 func_02020344(void *list, u32 n);
+extern s32 func_020200CC(struct Obj *o);
+extern u32 func_02020344(struct Obj *obj, u32 n);
 extern void func_020061E4(u32 se);
 extern u8 func_0200C480(void *a, int id, u8 pos);
 extern int func_021C59A8(char *p, u16 *a, u16 *b);
 extern void func_021C58CC(char *p, u16 a, u16 b, u32 heap);
 extern void func_0204B3DC(u32 obj, int on);
 extern void func_021C577C(void *list, int a, int b);
-extern void func_020202FC(void *list, u16 *b, u16 *c);
+extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
 
 void func_021C553C(char *p)
 {

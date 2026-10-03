@@ -24,12 +24,13 @@ struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
 extern void *func_020124E8(struct Desc *p);
-extern void *func_02158804(int);
+typedef unsigned int   u32;
+extern void *func_02158804(u32 heap);
 extern int *func_02158E7C(int, int, struct Desc *, int, int, int);
 extern void func_02158F94(void *, int);
 extern int func_021588D0(int);
 extern void func_021589A0(void *, int, int);
-extern void func_021588DC(void);
+extern int func_021588DC(int a0, int a1, int a2);
 
 struct Desc *func_02158920(int a, int b, int c, int d, int e)
 {

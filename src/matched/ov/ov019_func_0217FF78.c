@@ -41,7 +41,8 @@
 
 typedef unsigned int u32;
 
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(void *);
 extern int func_021751DC(u32 *p, int i, u32 *out);
 extern int func_021677E4(u32 v, int i);

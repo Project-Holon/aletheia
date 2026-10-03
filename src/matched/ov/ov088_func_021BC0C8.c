@@ -16,7 +16,9 @@
  *   func_020071E8  0x020071E8  thumb
  */
 
-extern int func_020071E8(void *);
+typedef unsigned int   u32;
+struct Sub020071E4Ctrl;
+extern u32 func_020071E8(const struct Sub020071E4Ctrl *ctrl);
 
 int func_021BC0C8(char *p)
 {

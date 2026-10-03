@@ -13,8 +13,10 @@
  *   func_02039338 0x02039338 arm
  *   func_02082D44 0x02082D44 arm
  */
-extern void *func_020399A8(void);
-extern int func_02039338(void);
+typedef unsigned short u16;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern u16 func_02039338(void);
 extern void func_02082D44(const void *,void *,unsigned);
 void func_021B99A8(int a,int b,void *c,unsigned d,void *e)
 {

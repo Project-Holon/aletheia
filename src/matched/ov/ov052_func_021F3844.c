@@ -17,7 +17,9 @@
  */
 
 extern int func_02188CD0(int);
-extern void *func_02030734(int, int, int, void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021ABE30(int, int *, int);
 extern char d_021F3AC0[];
 

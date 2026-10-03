@@ -15,7 +15,7 @@
 
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 
 void func_02176AA8(int v)
 {

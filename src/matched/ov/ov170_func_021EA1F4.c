@@ -68,14 +68,16 @@ extern int func_021E8FE0(Obj *p, int v);
 extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
 extern void func_021EF508(struct WinMgr *mgr);
 extern void func_021EF534(struct WinMgr *mgr);
-extern void func_021EA728(Obj *p);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_021EA728(void *p);
 extern void func_021EA878(Obj *p, int v);
-extern void func_021DEFEC(Obj *p, int b);
-extern unsigned char func_020260E0(void *obj);
-extern void func_020260E4(void *obj, unsigned char sel);
+extern void func_021DEFEC(char *p, int b);
+extern u8 func_020260E0(struct Sound *obj);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EEF74(char *w, int k, int v);
 extern int func_021E0ABC(Obj *p);
-extern int func_021E0A40(Obj *p);
+extern int func_021E0A40(char *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
 #define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))

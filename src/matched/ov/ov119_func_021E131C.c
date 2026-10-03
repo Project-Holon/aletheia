@@ -17,10 +17,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u32 heap;u8 count;u8 pad[3];const void *items;u32 flag;u8 x,y,a,b;} Template;
-extern void *func_020457B0(int,u16);
-extern void func_02045CAC(void *,int,void *);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02027778(Template *,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021E131C(char *p,int *ids,int count,int x,int y)
 {
     Template t;

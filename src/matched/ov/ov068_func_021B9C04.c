@@ -55,7 +55,7 @@ extern u32  func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_02045EC0(u32 a, u32 b);
 extern u32  func_0201D304(u32 a, u32 b, u32 c);
-extern u32  func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32  func_02045770(u32 p);
 extern void func_02043B5C(u32 win, u32 c);
 extern void func_0201C7A4(u32 a, s16 b, s16 c, u32 d, u32 e);

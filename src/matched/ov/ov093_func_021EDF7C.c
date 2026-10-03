@@ -25,7 +25,7 @@ extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021D5440(u8 *p);
 extern void func_021EDE54(u8 *p);
-extern void func_021F8AE8(int, int);
+extern void func_021F8AE8(int i, u32 v);
 
 void func_021EDF7C(u8 *p, u8 b)
 {

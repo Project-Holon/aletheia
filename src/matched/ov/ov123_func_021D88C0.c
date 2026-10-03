@@ -19,14 +19,15 @@
  *   func_021D6FF0 0x021D6FF0 thumb ov123
  */
 extern int func_0203CD98(void);
-extern int func_021B99DC(void *);
-extern int func_021B9790(void *);
+typedef unsigned char  u8;
+extern int func_021B99DC(u8 *p);
+extern int func_021B9790(u8 *p);
 extern char *func_021B97F4(void *);
 extern void func_02082D44(const void *,void *,unsigned int);
 extern int func_021D6E08(char *,int);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D6F04(void);
-extern void func_021D6FF0(void);
+extern void func_021D6F04(char *p);
+extern void func_021D6FF0(char *p);
 void func_021D88C0(char *p)
 {
     char *q;

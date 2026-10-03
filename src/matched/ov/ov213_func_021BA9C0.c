@@ -13,7 +13,7 @@
  *   func_021BA9AC 0x021BA9AC thumb
  */
 
-extern void func_021BA9AC(void *);
+extern void func_021BA9AC(char *p);
 
 void func_021BA9C0(void *a)
 {

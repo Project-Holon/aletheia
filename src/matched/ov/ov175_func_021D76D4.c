@@ -67,12 +67,14 @@ extern void func_021D99F4(char *);
 extern int func_021D98D8(char *);
 extern void func_021D98B8(char *);
 extern void func_021D9A50(char *,char *);
-extern int func_0201AA50(void *);
+typedef unsigned char  u8;
+struct Obj;
+extern u32 func_0201AA50(void *p);
 extern int func_0200AE14(unsigned);
 extern int func_0201A090(int,void *,unsigned *);
 extern void func_021DCB58(char *,void *,int);
 extern int func_021DCC28(char *,void *);
-extern int func_0201AA18(void *);
+extern u32 func_0201AA18(void *p);
 extern void func_021DBC04(char *,int,void *);
 extern int func_021DBDAC(char *);
 extern unsigned func_02012EBC(unsigned);
@@ -80,7 +82,7 @@ extern void * func_0200BAC8(void *);
 extern unsigned func_0200B358(unsigned);
 extern unsigned func_0200B204(unsigned,int);
 extern unsigned func_0200BAF4(void *,unsigned);
-extern void func_0200BBC8(void *,unsigned);
+extern void func_0200BBC8(struct Obj *p, u32 v);
 extern void func_0200B110(unsigned,int,int);
 extern void func_0200B2A4(int,int);
 extern void func_020307B0(void *);
@@ -96,9 +98,9 @@ extern void func_021E8AA0(unsigned,void *);
 extern void func_021E8AB4(unsigned,unsigned);
 extern void func_021E8AB8(unsigned);
 extern int func_021E8844(unsigned);
-extern void func_021D9064(void);
-extern void func_021D7BE4(void);
-extern void func_021D8EC8(void);
+extern void func_021D9064(void *obj, int unused, u8 *p);
+extern void func_021D7BE4(u32 sys, int *state, char *p);
+extern void func_021D8EC8(u32 sys, int *state, char *p);
 #define W(k) (*(u32 *)(p+(k)))
 void func_021D76D4(u32 sys,int *state,char *p)
 {

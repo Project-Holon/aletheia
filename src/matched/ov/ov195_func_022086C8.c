@@ -31,7 +31,7 @@ typedef struct Node {
 } Node;
 
 extern char d_02208F7C[];
-extern void *func_02030734(u16, u32, int, void *, u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0207ADC4(void *);
 
 Node *func_022086C8(u16 heap, u16 n)

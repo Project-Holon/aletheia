@@ -13,7 +13,7 @@
  *   func_02205C58 0x02205C58 thumb ov195
  */
 
-extern void func_02205C58(void *);
+extern void func_02205C58(char *a);
 
 void func_02205A10(char *a)
 {

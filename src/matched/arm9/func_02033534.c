@@ -33,7 +33,7 @@ extern const u8 str_020A78B0[];
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
 extern int  func_02084EB8(u32 a);
 extern void func_02075E9C(u16 a);
-extern int  func_02076B2C(u32 a);
+extern int func_02076B2C(int type);
 extern void func_02075EAC(u16 a);
 extern void func_02084F10(u16 a);
 

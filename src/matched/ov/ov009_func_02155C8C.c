@@ -31,9 +31,10 @@ typedef struct {
 extern G *d_021A8264;
 extern char d_021A1C5C[];
 int func_02177270(u8 a, int b);
-int func_0216B838(void);
+typedef unsigned int   u32;
+unsigned char func_0216B838(void);
 int func_0216B908(void);
-void func_02034714(char *a, int b, char *c);
+void func_02034714(const char *expr, u32 line, const char *file);
 void func_02155C70(void);
 
 void func_02155C8C(void)

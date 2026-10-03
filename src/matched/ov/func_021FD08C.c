@@ -42,10 +42,11 @@ typedef struct {
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
-extern void func_0204B92C(void *o, int v);
-extern void func_0204B878(void *o, int v);
-extern void func_0204B3DC(void *o, int v);
-extern void func_0203D34C(u32 a, u16 heap);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0203D34C(u32 a, u32 b);
 
 void func_021FD08C(Obj *p)
 {

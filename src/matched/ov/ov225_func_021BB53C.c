@@ -25,8 +25,10 @@ extern int func_02035C08(const void *);
 extern u8 func_020355C4(void);
 extern void func_020355D8(u8);
 extern unsigned func_020362DC(void),func_0203633C(void);
-extern void func_02028218(void *,unsigned);
-extern void func_0202822C(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_02028218(struct Obj *obj, u32 a);
+extern void func_0202822C(char *p, int v);
 extern void func_020061E4(unsigned);
 int func_021BB53C(char *p)
 {

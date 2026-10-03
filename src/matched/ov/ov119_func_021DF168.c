@@ -20,13 +20,14 @@
  *   func_020399A8 0x020399A8 arm
  *   func_02039C68 0x02039C68 arm
  */
-extern int func_020221A4(void);
-extern void func_021E4888(void *);
-extern void func_020435F4(int);
-extern void func_02022230(int);
-extern void func_021D89CC(void *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
+extern void func_021E4888(char *p);
+extern void func_020435F4(u32 planes);
+extern void func_02022230(u32 which);
+extern void func_021D89CC(char *p);
 extern void func_021D9434(void *);
-extern void func_021DF0B8(void *);
+extern void func_021DF0B8(char *p);
 extern void func_021D8E84(void *,int);
 extern unsigned func_020399A8(void);
 extern void func_02039C68(unsigned,unsigned,unsigned);

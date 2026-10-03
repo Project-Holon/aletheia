@@ -16,10 +16,13 @@
 typedef unsigned char u8;
 typedef struct { void *s; unsigned short x; unsigned short pad; int flag; } Record;
 typedef struct { u8 pad[0x40]; Record records[3]; void *windows[3]; void *items[8]; void *other[2]; } Object;
-extern void func_02045808(void *);
-extern void func_02028148(void *);
-extern void func_0204B3DC(void *,int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+struct Obj;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02028148(u8 *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_020409B4(u32 index);
 void func_021BCAD8(Object *p) {
     int i;
     for(i=0;i<3;i++) {

@@ -27,9 +27,10 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02034AC4(int);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
 extern char ov112_id[];
-extern u16 func_021F9B9C(void *);
+extern unsigned func_021F9B9C(char *p);
 extern char *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,unsigned);
 extern u32 func_0201C440(void *);
@@ -40,7 +41,7 @@ extern int func_02012EBC(int);
 extern int func_0200A5F8(int);
 extern int func_0200A640(int);
 extern void func_021F88A4(char *,char *);
-extern void func_021F891C(char *,char *);
+extern void func_021F891C(char *p, const char *q);
 extern void *func_021FD6D8(char *,void *,u32);
 extern void func_021F85DC(int,int *,char *);
 int func_021F8480(void *obj,int b,char *q)

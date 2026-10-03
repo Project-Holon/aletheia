@@ -61,7 +61,7 @@ typedef struct BattleMon {
 } BattleMon;
 
 extern int func_02168824(void);
-extern void func_02168800(FacRec *dst, u32 member);
+extern void func_02168800(void *dst, u32 member);
 extern u8 func_0216883C(u32 n);
 extern u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap);
 

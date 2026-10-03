@@ -23,11 +23,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02021640(void *,u32,u32,u32,u32,u32,u16);
+typedef signed int     s32;
+struct PalAnmSlot;
+extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AF28(void *,u32,u32,u16);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 void func_021D9890(char *p)

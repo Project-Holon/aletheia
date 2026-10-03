@@ -32,7 +32,8 @@ typedef struct Main {
     u8 b25b;
 } Main;
 
-extern void func_0201DD78(int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201C7A4(int a, s16 x, s16 y, int d, int e);
 extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
 extern void func_02204C98(int a, int b, int *w, int *h);

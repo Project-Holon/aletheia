@@ -21,12 +21,18 @@
 typedef unsigned char u8;
 struct WinMgr;
 extern void func_0202CA0C(struct WinMgr *mgr);
-extern void func_02030EAC(void *);
-extern void func_02020D3C(void *);
-extern void func_0204B3B4(void *);
-extern void func_02045C04(void *);
-extern void func_02045808(void *);
-extern void func_020452E8(void *);
+struct D;
+struct Descriptor;
+struct Node;
+struct Obj;
+struct Rec;
+struct U16Vec;
+extern void func_02030EAC(struct Node *n);
+extern void func_02020D3C(struct D *p);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 void func_021BBCF0(u8 *p)
 {

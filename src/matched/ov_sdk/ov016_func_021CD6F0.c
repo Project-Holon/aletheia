@@ -35,7 +35,7 @@ extern int func_021BD138(void);
 extern void func_021D6090(int lcd, int plane);
 extern void func_021C0E50(void *param0, void *param1);
 extern void func_021C0EA0(void **param2, void **param3);
-extern void func_021C0E8C(void *param2, void *param3);
+extern void func_021C0E8C(unsigned int a, unsigned int b);
 extern void func_021C0E40(void (*scene)(void));
 extern void func_021C82FC(void);
 extern void func_021C1984(void);

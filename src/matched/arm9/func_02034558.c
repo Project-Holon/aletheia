@@ -35,10 +35,11 @@ struct Bank {
     u16   base;
 };
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+struct AreaMan;
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   sub_02034520(u32 flags);
 extern u32   sub_020345F8(u32 b);
-extern void *sub_02033C00(u32 size, u32 heap);
+extern struct AreaMan *sub_02033C00(u32 size, u32 heap);
 extern char  s_clact_c[];
 
 struct Bank *func_02034558(u32 heapId, u32 kind, u32 flags, u32 base, u32 b)

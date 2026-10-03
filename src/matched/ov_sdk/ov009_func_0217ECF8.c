@@ -15,7 +15,7 @@
  *   func_0217EB00  0x0217EB00  arm
  */
 
-extern void func_0217EB00(int a, int b);
+extern int func_0217EB00(int a, int b);
 
 void func_0217ECF8(void)
 {

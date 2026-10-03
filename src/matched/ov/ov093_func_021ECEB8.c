@@ -24,9 +24,10 @@ typedef short s16;
 typedef int s32;
 
 extern void func_02043B5C(int, int);
-extern void func_0201DD78(int, int, int);
+struct Rec;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern int func_021B85DC(int);
-extern void *func_0201CD10(u32, s16, s16, u32, u32, s32, u32, u32, u32, u16, u32);
+extern struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3, u32 a4, s32 a5, u32 a6, u32 a7, u32 a8, u16 a9, u32 a10);
 extern void func_0201CE0C(void *p);
 
 void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)

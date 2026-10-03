@@ -29,7 +29,7 @@
 typedef unsigned int u32;
 
 extern void func_02035064(const void *fn, u32 arg);
-extern void func_02012264(void);
+extern int func_02012264(int a0, int a1, int a2, int a3);
 
 void func_020122A4(u32 arg)
 {

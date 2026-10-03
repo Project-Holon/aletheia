@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
-extern u8 func_021B8E70(u8 *, u8);
+typedef unsigned int   u32;
+extern u8 func_021B8E70(u8 *p, u32 k);
 void func_021ED9A4(struct E *e, u8 *o, u8 k)
 {
     e->k8 = k;

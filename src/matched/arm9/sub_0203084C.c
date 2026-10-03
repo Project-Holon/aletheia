@@ -42,7 +42,8 @@
 typedef unsigned int u32;
 
 extern void *sub_020304CC(u32 heapId);
-extern u32 sub_02030524(void);
+typedef unsigned short u16;
+extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
 void *sub_0203084C(u32 heapId)

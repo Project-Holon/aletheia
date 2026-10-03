@@ -15,8 +15,10 @@
  */
 typedef unsigned char u8;
 extern u8 func_021B9114(u8 **);
-extern int func_02007B50(void *);
-extern int func_02007C70(void *);
+typedef unsigned int   u32;
+struct PerapVoice;
+extern void *func_02007B50(void **p);
+extern u32 func_02007C70(struct PerapVoice *p);
 int func_021B997C(u8 *p, unsigned int i)
 {
     if (func_021B9114((u8 **)p) == 0) {

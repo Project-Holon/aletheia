@@ -20,8 +20,9 @@
 
 extern void *func_021B8220(void *p);
 extern void *func_021B821C(void *p);
-extern void func_021BA2B4(void *p);
-extern void func_0218EC54(void *p);
+typedef unsigned char  u8;
+extern void func_021BA2B4(u8 *p);
+extern void func_0218EC54(u8 *p);
 extern void func_021B8314(void *p, void *buf);
 extern void func_0218EC90(void *p, void *buf);
 

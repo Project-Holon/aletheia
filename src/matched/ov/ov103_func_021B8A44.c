@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef short s16;
 extern int func_021B6480(int *);
 extern void func_021B8358(u8 *);
-extern void func_021B8138(void *,void *,int,int,s16);
+extern void func_021B8138(u8 *p, void *q, int c, int x, s16 y);
 extern int func_021B630C(int *,int);
 void func_021B8A44(u8 *p,u16 *s) {
  switch(*s) {

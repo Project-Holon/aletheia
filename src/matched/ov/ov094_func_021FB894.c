@@ -26,7 +26,7 @@ typedef struct {
 
 extern int func_0201134C(int);
 extern void *func_021F86F0(void);
-extern void func_02201DB4(void *a, int b, u8 c, u8 d, s8 e, u16 f);
+extern void func_02201DB4(char *base, int idx, u8 b, u8 c, s8 step, u16 d);
 
 int func_021FB894(int a, State *s)
 {

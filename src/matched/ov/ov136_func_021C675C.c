@@ -25,7 +25,7 @@ extern u32 func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02027698(void);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
-extern u32 func_0201BC3C(void);
+extern int func_0201BC3C(void);
 extern int func_0204ABF0(void *, u32, u32, u32, u16);
 extern u32 func_0202769C(u32);
 extern u32 func_020276A0(u32);

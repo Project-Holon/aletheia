@@ -16,7 +16,7 @@
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  * Lever: named byte local shifts r0 into r2 directly; inline cast adds a copy.
  */
-extern void *func_021C7CF4(void *, int);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021DDEA4(void *, int, unsigned int);
 extern void func_021DD044(void *, void *, int);
 extern int func_021DCFF8(int, int);

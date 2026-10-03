@@ -15,6 +15,7 @@
 
 typedef unsigned int u32;
 extern unsigned char ov020_id[];
-extern void func_02034AC4(u32);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
 extern void func_02183B6C(void *, void *);
 void func_0215FA00(void *p, void *q) { func_02034AC4((u32)ov020_id); func_02183B6C(p,q); }

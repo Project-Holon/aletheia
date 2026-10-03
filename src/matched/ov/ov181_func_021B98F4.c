@@ -15,7 +15,8 @@
  *   d_021BABFC     0x021BABFC  data  a4
  */
 
-extern void func_0204335C(int);
+typedef unsigned int   u32;
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
 extern int  d_021BABFC[];
 

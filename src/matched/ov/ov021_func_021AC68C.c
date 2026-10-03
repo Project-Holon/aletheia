@@ -24,7 +24,7 @@ typedef signed char    s8;
 
 typedef struct P { u32 f0; u32 f4; u32 w[4]; } P;
 
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021ABE14(int a);
 extern u32 func_02188C90(int a);
 extern void func_021AC6D4(P *p);

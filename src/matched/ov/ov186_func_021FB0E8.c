@@ -18,8 +18,8 @@
 typedef signed short s16;
 typedef struct { char pad[8];void *obj;char padC[12];int target;unsigned state;s16 from,to,tick,duration; } Ctx;
 extern void func_021FAEE4(void *,int *);
-extern void func_021FB548(void *,s16 *,s16 *);
-extern void func_021FB514(void *,s16,int);
+extern void func_021FB548(char *p, short *x, short *y);
+extern void func_021FB514(char *p, short x, short y);
 extern void func_021FADB8(char *,int);
 extern int _s32_div_f(int,int);
 int func_021FB0E8(Ctx *p)

@@ -13,7 +13,8 @@
  *   func_020913A4 0x020913A4 arm
  */
 
-extern void func_020913A4(void);
+typedef unsigned int   u32;
+extern void func_020913A4(u32 heap);
 asm void ghiFreeTempBuffer(void)
 {
     stmfd sp!, {r3, lr}

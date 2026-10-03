@@ -15,7 +15,9 @@
  *   d_0217299C     0x0217299C  data  ov010  a1
  */
 
-extern int func_02030734(int, int, int, char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern char d_0217299C[];
 

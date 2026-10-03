@@ -31,15 +31,16 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_0202EB44(u8 *);
-extern int func_0202EB4C(void);
-extern void func_021D5D3C(void *);
+struct DWCstAccUserData;
+extern u32 func_0202EB4C(void);
+extern void func_021D5D3C(u8 *p);
 extern void func_021D5ED8(u8 *,u32);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D5B50(void *,int);
 extern void *func_02009860(void *);
-extern int func_020597C8(void *);
-extern int func_02059760(void *);
-extern int func_0202EB0C(void);
+extern int func_020597C8(struct DWCstAccUserData *userdata);
+extern int func_02059760(struct DWCstAccUserData *userdata);
+extern u32 func_0202EB0C(void);
 extern void func_021D42E0(u8 *),func_021D46CC(u8 *),func_021D45D0(u8 *);
 extern void func_021D493C(u8 *),func_021D460C(u8 *);
 #define P(k) (*(u8 **)(p+(k)))

@@ -23,7 +23,7 @@ typedef signed int     s32;
 
 typedef void (*StateFunc)(void *a);
 extern StateFunc d_021DDA00[];
-extern void func_0218E124(void *a, u32 s);
+extern void func_0218E124(u8 *a, u32 s);
 
 void func_0218E13C(u8 *a, u32 s)
 {

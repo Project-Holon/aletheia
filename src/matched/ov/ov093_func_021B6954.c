@@ -15,7 +15,8 @@
  *   func_021B9E38  0x021B9E38  thumb  ov093
  */
 
-extern int func_021BA710(int, int);
+typedef unsigned char  u8;
+extern u8 func_021BA710(int a, int b);
 extern void func_021B9E7C(int, int);
 extern void func_021B9E38(int, int, int);
 

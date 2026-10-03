@@ -13,7 +13,7 @@
  *   func_02184180 0x02184180 thumb ov022
  */
 typedef unsigned char u8;
-extern char *func_02184180(u8 *, u8);
+extern char *func_02184180(unsigned char *p, int i);
 int func_02185F50(char *p)
 {
     int i;

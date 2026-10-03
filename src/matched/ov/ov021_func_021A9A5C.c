@@ -35,7 +35,7 @@ struct Unit {
     u8 f14;
 };
 
-extern int func_021A99E4(u8 *a0, struct Unit *u, u16 id, struct Spec *spec);
+extern int func_021A99E4(void *a0, struct Unit *u, u16 id, struct Spec *spec);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 u8 func_021A9A5C(u8 *a0, struct Unit *u, u16 id, struct Spec *spec)

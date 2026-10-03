@@ -28,7 +28,8 @@ typedef struct Ctx {
 } Ctx;
 
 extern const Ent d_0220A46C[][2];
-extern void func_02040618(int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0220687C(char *p, int v);
 
 void func_0220461C(int a0, Ctx *c)

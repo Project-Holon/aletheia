@@ -45,10 +45,11 @@ typedef struct {
     void *data;
 } Ent;
 
-extern void *func_020742FC(void);
-extern Ent  *func_020744B4(int index);
+struct Global;
+extern struct Global *func_020742FC(void);
+extern void *func_020744B4(int index);
 extern void  func_02072DB0(int idx, int v);
-extern void  func_02072DD0(int idx, u32 val);
+extern void func_02072DD0(u32 idx, u32 val);
 extern u32   func_02072DE8(int idx, u32 a, void *src);
 
 u32 func_020754C4(u32 a)

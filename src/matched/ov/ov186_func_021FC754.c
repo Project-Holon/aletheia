@@ -15,8 +15,11 @@
  *   func_0201C724 0x0201C724 thumb
  */
 typedef struct Pair {int x,y;} Pair;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned char);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(void *,void *,void *);
 extern void func_021FC870(int,Pair *,const void *,void *,void *,Pair *);
 extern void func_0201C724(void *,void *,short,short,void *,void *,unsigned short);

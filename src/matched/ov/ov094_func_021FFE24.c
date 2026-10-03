@@ -33,7 +33,8 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(Work *w, int key);
-extern void func_0201624C(void *obj, void *h);
+typedef unsigned char  u8;
+extern void func_0201624C(u8 *a0, u8 *a1);
 
 void func_021FFE24(Work *w, int key)
 {

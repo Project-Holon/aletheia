@@ -30,14 +30,16 @@ typedef struct Node {
     u8 f08[0x1C];       /* 0x08 */
 } Node;
 
-extern void *func_020122C0(void *p, void *a, void (*cb)(void), int n);
-extern Node *func_020124E8(void *p);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02012138(void *p);
 extern void func_02161CDC(void *a, void *b, u8 c, u8 d);
 extern void func_02161D18(void *a, void *b, u8 c, u8 d);
 extern void func_0216570C(void);
-extern void func_02161BF8(void);
+extern int func_02161BF8(void *a0, int *state, struct Obj *o);
 
 void *func_02161B90(void *p, void *a1, int kind, int sub, int flag)
 {

@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A39C(void *a0, u32 a1, u32 a2, u16 a3, u32 *out);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 
 void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3)
 {

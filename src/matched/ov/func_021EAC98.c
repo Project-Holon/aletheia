@@ -15,7 +15,9 @@
  * Call func_02045B38 with fixed arguments.
  */
 
-extern void func_02045B38(int, int, int, int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 void func_021EAC98(void)
 {

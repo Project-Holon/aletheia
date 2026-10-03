@@ -34,11 +34,12 @@ typedef struct {
 } State;
 extern u8 *func_02012944(void *);
 extern int func_02008550(void *);
-extern u8 func_02008554(void *);
-extern u8 func_0200856C(void *);
-extern u8 func_02008570(void *);
-extern u32 func_02008530(void *);
-extern u32 func_0200853C(void *);
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern void func_021C1908(char *, int, int);
 extern void func_021C27E8(void *, u8);
 extern void func_021C2864(void *, u8);

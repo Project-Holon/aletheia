@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef signed char s8;
 struct WinMgr;
-extern void func_02041EE4(unsigned int, unsigned int, int);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);

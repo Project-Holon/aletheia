@@ -21,7 +21,7 @@ extern int func_020279E8(int);
 extern u8 func_02027A04(const u8 *);
 extern void func_02027858(int),func_02041B6C(int);
 extern void func_021B95B8(u8 *,unsigned);
-extern void func_021BB058(void);
+extern void func_021BB058(int a);
 void func_021BAD78(unsigned a)
 {
  if(func_020279E8(*(int *)(a+0xcc0))!=0) {

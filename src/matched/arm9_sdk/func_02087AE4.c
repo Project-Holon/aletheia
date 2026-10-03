@@ -13,7 +13,8 @@
  */
 
 extern void func_02004490(int v);
-extern void func_0208459C(int a, int b);
+typedef unsigned int   u32;
+extern void func_0208459C(int clear, u32 irqFlags);
 void func_02087AE4(void)
 {
     func_02004490(1);

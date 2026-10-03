@@ -16,7 +16,8 @@
  *   func_02207CC4 0x02207CC4 thumb ov094
  */
 extern char *d_0220AF20;
-extern void func_02207CC4(void *, int, int);
+struct O;
+extern void func_02207CC4(struct O *obj, int a, int c);
 
 void func_021F8198(int a, int b)
 {

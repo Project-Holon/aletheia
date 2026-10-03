@@ -16,7 +16,9 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02012950(void *, u32);
+struct Rec44;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02008468(void);
 extern void func_02082D44(void *, const void *, u32);
 extern u32 func_020399A8(void);

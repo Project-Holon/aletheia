@@ -28,7 +28,8 @@
  *       --addr 0x02029F54 --thumb
  */
 
-extern void func_0202A084(void *p, int flag);
+typedef unsigned int   u32;
+extern void func_0202A084(u32 *p, int event);
 
 void func_02029F54(void *p)
 {

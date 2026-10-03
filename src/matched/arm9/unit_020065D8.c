@@ -103,8 +103,7 @@ extern struct Sub02006544State sub_02006544_State;
 extern const char sub_02006674_File[];
 
 extern void  sub_02006948(struct Sub02006544Entry *e);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02072CC4(u32 handle);
 
 void sub_020065D8(void)

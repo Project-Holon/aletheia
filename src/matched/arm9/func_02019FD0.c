@@ -33,8 +33,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_0200AE54(void *a0, u32 a1);
-extern u32 func_0200AFD4(void *a0, u32 a1, u32 a2);
+typedef signed int     s32;
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
+extern u32 func_0200AFD4(struct Reg *p, u32 id, s32 n);
 
 int func_02019FD0(void *a0, void *a1, u32 *a2)
 {

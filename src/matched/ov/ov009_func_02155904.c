@@ -26,7 +26,7 @@ typedef signed char    s8;
 void func_02155904(void)
 {
     extern char *g_021A8264;
-    void func_02155374(u32);
+    void func_02155374(int v);
     if (*(u32 *)(g_021A8264 + 0x754) == 0xc) {
         func_02155374(0xd);
         return;

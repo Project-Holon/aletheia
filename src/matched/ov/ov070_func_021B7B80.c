@@ -52,25 +52,29 @@ typedef struct Obj {
 } Obj;
 
 extern int func_021BADF0(Obj *o);
-extern int func_020279E8(void *p);
-extern int func_02027A04(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+struct WordSet;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021BB1AC(Obj *o);
 extern int func_021B619C(unsigned int a, int b, u16 c);
-extern void func_021B7D20(void *obj, int x);
+extern void func_021B7D20(struct Obj *o, int x);
 extern unsigned int func_02012F08(void *p);
 extern void func_0200C278(unsigned int a, unsigned int b);
 extern void func_020061E4(unsigned int id);
 extern void func_021BAFC4(Obj *o);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
-extern void func_0201EFA4(void *obj, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e);
-extern void func_0201F250(void *obj, void *a, void *b);
-extern void func_021BADAC(Obj *o);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BADAC(void *p);
 extern void func_021B6100(Obj *o, void *fn);
 extern void func_021B7C88();
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B80C4(Obj *o, int v);
-extern void func_021B7CD0();
+extern void func_021B7CD0(struct Obj *o);
 
 void func_021B7B80(Obj *o)
 {

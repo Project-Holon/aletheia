@@ -11,7 +11,8 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_021BB2C4(char *p, int i)
 {
     func_0204B3B4(*(void **)(p + i * 4 + 0xac));

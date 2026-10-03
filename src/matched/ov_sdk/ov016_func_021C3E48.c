@@ -20,7 +20,7 @@
  */
 
 extern void func_021D55A4();
-extern void func_021D603C();
+extern void func_021D603C(int lcd, int plane);
 extern void func_021C0E40();
 extern void func_021C3EC4();
 extern unsigned char g_021DE5C0;

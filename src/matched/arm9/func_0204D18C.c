@@ -55,7 +55,7 @@ struct R {
     u32 f14;
 };
 
-extern u32  func_02066AE0(void);
+extern int func_02066AE0(void);
 extern u32  func_020627D8(u32 a, u32 b);
 extern u32  func_020637B4(u32 a, u32 b);
 extern void func_020642C8(void *p, u32 a, u32 b, u32 c,

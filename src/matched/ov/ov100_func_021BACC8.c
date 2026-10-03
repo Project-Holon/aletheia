@@ -15,7 +15,7 @@
  *   func_021BB270 0x021BB270 thumb ov100
  */
 struct Word { int x; };
-extern void func_021BA5F4(int);
+extern void func_021BA5F4(unsigned a);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA290(int,int);
 extern void func_021B95B8(int,void (*)(void));

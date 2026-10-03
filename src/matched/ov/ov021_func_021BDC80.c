@@ -27,7 +27,9 @@ typedef struct {
     Inner *f0;
 } Obj;
 
-extern int func_02188D20(void *a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02188D20(u8 *p);
 extern void func_021BC550(int a, int b);
 
 void func_021BDC80(Obj *p)

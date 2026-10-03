@@ -77,7 +77,7 @@ typedef struct Ctx {
     Ring ring;
 } Ctx;
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021BBC58(Ring *r, const void *b, u16 c);
 Entry *func_021BBBD8(Ring *r);
 void func_020084F8(int a, void *dst, int n);

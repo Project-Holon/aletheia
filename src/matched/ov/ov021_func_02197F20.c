@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_0216D55C(u32, u32);
+extern int func_0216D55C(int a0, int a1);
 extern int (**const d_021D624C[])(u32);
 extern int (**const d_021D5F58[])(u32);
 

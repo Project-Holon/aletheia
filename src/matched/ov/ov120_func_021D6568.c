@@ -31,8 +31,9 @@ extern void func_02049990(void *,u32,u32,u32,u16,u32,u32,u16);
 extern void *func_0204A6C8(void *,u32,u32,u32,u16);
 extern void *func_0204AC18(void *,u32,u32,u32,u32,u32,u16);
 extern void *func_0204AF28(void *,u32,u32,u16);
-extern void *func_0202E940(u16,u16,u32,u16);
-extern void func_0202E9AC(void *,void *,u32,u32,u32);
+struct CodeIn;
+extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void func_02049238(void *);
 extern void func_0207D63C(void *,int,int,int,int);
 void func_021D6568(u8 *p)

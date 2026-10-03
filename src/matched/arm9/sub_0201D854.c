@@ -108,16 +108,15 @@ struct Font {
 
 extern const char func_0201D854_File[];
 
-extern void  sub_0204944C(void *handle, u32 id, u32 offset, u32 size,
-                          void *dest);
+struct ArcFile;
+extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void  func_020494F4(void *handle, u32 id, void *dest);
-extern u32   func_020493D4(void *handle, u32 id);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_0201DB20(struct Font *f, u16 ch);
 
-extern void func_0201DC88(void);
-extern void func_0201DD58(void);
+extern u8 func_0201DC88(u8 *obj, u32 id);
+extern u32 func_0201DD58(struct Font *p);
 
 void func_0201D854(struct Font *f, u32 resid, u32 flag, u32 heap)
 {

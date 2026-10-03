@@ -18,10 +18,10 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020173EC(void);
+extern u32 func_020173EC(void);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082D44(void *,const void *,int);
-extern void func_021DF918(void *,int,int);
+extern void func_021DF918(void *,int,void *);
 extern const char d_021E80E0[];
 typedef struct State {
     char pad[0xfa4];
@@ -44,7 +44,7 @@ int func_021DD428(State *p,int side,int a,int b,void *value)
             if(p->value[side][i]==0)
                 p->value[side][i]=func_02030734(*(u16 *)((char *)p+0x5f4),func_020173EC(),1,d_021E80E0,0x14c);
             func_02082D44(value,p->value[side][i],func_020173EC());
-            func_021DF918(p,side,(int)value);
+            func_021DF918(p,side,value);
             return i;
         }
     }

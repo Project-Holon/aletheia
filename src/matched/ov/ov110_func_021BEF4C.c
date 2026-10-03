@@ -30,7 +30,7 @@ extern const struct Box d_021C3900[];
 extern int func_02035C08(const struct Box *);
 extern u32 func_02035D20(u32 *, u32 *);
 extern u32 func_02035D40(struct Ctx *, u32, u32);
-extern u32 func_021BACDC(u8 *, u32, u32);
+extern int func_021BACDC(u8 *p, int unused, unsigned n);
 extern void func_020061E4(u32);
 extern void func_021BAD14(u8 *, u32);
 extern int func_021BF3A0(u8 *, u8 *);

@@ -24,11 +24,14 @@ typedef unsigned u32;
 extern int func_022110D4(u8 *, int);
 extern u32 func_02210F04(u32, u32);
 extern int func_02210F84(char **, unsigned);
-extern int func_02210F98(u8 *, int);
-extern void *func_02045EC0(void *, u32);
-extern void func_02045808(void *);
-extern void func_0201EEF4(void *, u32, void *);
-extern void func_0201F250(void *, void *, void *);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern unsigned func_02210F98(u8 *p, int index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 int func_02211190(u8 *p)
 {
     u8 *row;

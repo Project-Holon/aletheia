@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { void *f00; u32 f04; u16 f08; u8 pad[5]; u8 f0f; u8 f10; };
 extern struct S *d_021F3B88;
-extern void func_0203A424(void *, int, int, int);
+extern void func_0203A424(char *p, int a, int b, int c);
 void func_021D4AF4(int a)
 {
     if (d_021F3B88 != 0) {

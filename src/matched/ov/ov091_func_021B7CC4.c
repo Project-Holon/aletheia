@@ -53,14 +53,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_020409B4(int);
+struct Sub02008F80Obj;
+extern void func_020409B4(u32 index);
 extern void func_020061E4(u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u32 func_0202136C(u16);
 extern u32 func_02009050(void *,u32,u16,u32);
 extern void func_02017E40(void *,u32,u32);
 extern void func_020307B0(void *);
-extern void func_0200902C(void *,u32,u16);
+extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 extern void func_021B907C(u8 *);
 extern void func_021B8180(u8 *);
 extern int func_021BC17C(u8 *,u16);
@@ -69,7 +70,7 @@ extern int func_021BC350(u8 *,int);
 extern void func_021BE2B4(u32,u16,int,u16,u16);
 extern void func_021BB200(u8 *,u32,u32,int);
 extern void func_021BB2C0(u8 *,u32);
-extern void func_021BA670(u8 *,u16);
+extern u32 func_021BA670(u8 *p, u16 id);
 extern int func_021BDCC0(u8 *,u32);
 extern void func_021BDD58(u8 *,u32);
 extern void func_021BC30C(u8 *);
@@ -81,7 +82,7 @@ extern void func_021BB99C(u8 *,u32,u32,u32);
 extern void func_021BB9AC(u8 *,u32,u32,u16);
 extern void func_021BB9BC(u8 *,u32,u32,u16);
 extern void func_021BB9CC(u8 *,u32,u32,u16);
-extern void func_021BB98C(u8 *,u32);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021BC24C(u8 *,void *,u16);
 extern void func_021BC288(u8 *,void *,int);
 extern int func_021BDBF8(u8 *,u32);
@@ -90,9 +91,9 @@ extern u32 func_021B9AC8(u8 *,u32,u8);
 extern void func_021BA5B4(u8 *,u32);
 extern void func_021BA60C(u8 *,u32);
 extern void func_021B9E3C(void);
-extern void func_021BA4E4(void);
-extern void func_021BA098(void);
-extern void func_021B9EB0(void);
+extern void func_021BA4E4(u8 *p);
+extern void func_021BA098(u8 *p);
+extern void func_021B9EB0(u8 *p);
 #define W(k) (*(u32 *)(p+(k)))
 #define S (*(u8 **)(p+0x280))
 #define H(k) (*(u16 *)(S+(k)))

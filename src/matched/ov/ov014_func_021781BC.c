@@ -22,7 +22,7 @@ typedef unsigned int u32;
 extern u8 *g_021797A8;
 int func_0208F644(void *fn);
 void func_0217814C(int err);
-void func_02178204(void);
+void func_02178204(u8 *obj);
 
 int func_021781BC(void)
 {

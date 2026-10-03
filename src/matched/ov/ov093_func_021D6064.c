@@ -19,7 +19,7 @@ union Slot { struct {u32 kind:3, lo:6, hi:6, rest:17;} s; };
 extern u8 func_021E8AFC(union Slot);
 extern u16 func_021E8B80(union Slot);
 extern union Slot func_021E8918(void);
-extern int func_021D5750(u8 *, int);
+extern int func_021D5750(u8 *p, u16 id);
 int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed)
 {
     u8 *slots;

@@ -16,7 +16,8 @@
  * func_0217C88C.
  */
 
-void func_0217F2F4(void *ctx);
+typedef unsigned char  u8;
+void func_0217F2F4(u8 *p);
 
 void func_0217F4AC(void *ctx)
 {

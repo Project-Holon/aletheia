@@ -57,7 +57,7 @@ struct Obj {
     u16 f14;
 };
 
-extern void  func_02005F24(u32 id, int value);
+extern void func_02005F24(u32 a0, u32 a1);
 extern float _ffltu(u32 v);
 extern float _fdiv(float a, float b);
 extern float _fmul(float a, float b);

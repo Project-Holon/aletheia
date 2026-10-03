@@ -13,7 +13,7 @@
  *   func_020948E0                0x020948E0  arm
 */
 
-extern void func_020948E0(void);
+extern int func_020948E0(const char *s1, const char *s2);
 
 asm void CaseInsensitiveCompare(void)
 {

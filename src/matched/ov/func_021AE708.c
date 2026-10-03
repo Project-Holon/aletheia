@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D480(u32, u32, u32, u32);
-extern u32 func_0216E0E8(u32, u32);
+extern int func_0216E0E8(int a0, int a1);
 
 int func_021AE708(u32 a, u32 b, u32 c, u32 d)
 {

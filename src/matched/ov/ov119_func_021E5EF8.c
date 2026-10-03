@@ -12,7 +12,7 @@
  *   func_021B6284 0x021B6284 thumb ov067
  */
 extern void func_0204B3B4(int);
-extern void func_021B6284(void *p);
+extern void func_021B6284(unsigned int *p);
 
 void func_021E5EF8(void *p)
 {

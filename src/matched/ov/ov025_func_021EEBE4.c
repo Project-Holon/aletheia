@@ -26,8 +26,10 @@ extern void func_021A22E0(int, int, int, int);
 extern void func_021A2254(int, void *, int, int, int, int);
 extern void func_021A2160(int, int, int);
 extern void func_021A2114(int, int, int);
-extern int func_02014A10(int);
-extern void func_021EEE04(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u16 func_02014A10(u32 i);
+extern void func_021EEE04(int a, int n, u16 idx);
 
 int func_021EEBE4(int a, int b, int c)
 {

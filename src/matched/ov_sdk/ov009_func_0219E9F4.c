@@ -72,10 +72,10 @@ struct ServerBrowser {
     void *instance;
 };
 
-extern void func_0219D928(SBQueryEngine *engine, SBServer *server, int addfront, int querytype, int usequerychallenge);
+extern void func_0219D928(struct SBQueryEngine *engine, struct SBServer *server, int addfront, unsigned int querytype, int usequerychallenge);
 extern void func_0219DF04(SBQueryEngine *engine, SBServer *server);
 extern void func_021A02E0(SBServerList *slist);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void func_0219D8D8(SBQueryEngine *engine, unsigned int ip);
 
 void func_0219E9F4(SBServerList *serverlist, int reason, SBServer *server, void *instance)

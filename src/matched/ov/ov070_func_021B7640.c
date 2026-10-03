@@ -33,7 +33,7 @@ extern u8 func_02021350(u16 id);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 extern void func_021BACF0(Obj *o, int v);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B761C();
+extern void func_021B761C(int p);
 
 void func_021B7640(Obj *o)
 {

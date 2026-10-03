@@ -80,10 +80,11 @@ struct Task {
 
 extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
-extern void  func_020222CC(u32 a, u32 b);
-extern u32   func_0202290C(s32 a, s32 b, s32 c);
+typedef unsigned char  u8;
+extern void func_020222CC(u32 which, int brightness);
+extern s32 func_0202290C(s32 a, s32 b, s32 c);
 extern void *sub_020056A0(void *fn, void *arg, u32 prio);
-extern void  sub_02022AC4(void);
+extern void sub_02022AC4(void *unused, u8 *o);
 
 void func_020229A4(struct Task *t, u32 dir)
 {

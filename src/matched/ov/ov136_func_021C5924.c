@@ -17,9 +17,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0201EC64(u32 a);
-extern void *func_020457B0(u32 a, u32 b);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_021C5924(u8 *p)
 {
     *(void **)(p + 0x1D0) = func_02045B38(0, 2, 0x3b, 0x66);

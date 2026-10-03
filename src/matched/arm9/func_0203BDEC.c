@@ -25,10 +25,11 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern u8 *func_0203D788(void);
-extern u8 *func_0203D798(void);
-extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
-extern void func_0203CEAC(u32 a);
+struct NetState;
+extern void *func_0203D788(void);
+extern void *func_0203D798(void);
+extern void func_0203AD80(struct NetState *s, void *p, u16 v);
+extern int func_0203CEAC(int a0);
 
 void func_0203BDEC(void)
 {

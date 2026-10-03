@@ -29,7 +29,7 @@ extern char g_021A21BC[];
 extern char g_021A20D4[];
 extern char g_021A20E0[];
 extern char g_021A217C[];
-extern void func_0219D158(int keyid, const char *keyname);
+extern void func_0219D158(int keyid, char *key);
 
 void func_02176ABC(void)
 {

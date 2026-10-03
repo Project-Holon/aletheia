@@ -15,7 +15,8 @@
  * Forward with index 13.
  */
 
-extern void func_021DF0D4(char *, int, int);
+typedef unsigned int   u32;
+extern void func_021DF0D4(char *p, int base, u32 bits);
 
 void func_021DF110(char *p, int b)
 {

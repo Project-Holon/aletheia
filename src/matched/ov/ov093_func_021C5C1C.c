@@ -21,7 +21,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { int x; } S;
 extern u8 func_021D5440(u8 *p);
 extern void func_021D6034(u8 *a, int k, S s);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021E8A78(S s);
 
 void func_021C5C1C(u8 *p, u8 *a, int k, S s)

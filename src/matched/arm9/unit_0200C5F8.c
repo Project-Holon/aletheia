@@ -49,21 +49,25 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012EBC(void *sys);
+struct Big;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern void *func_02012EBC(struct Big *p);
 extern void  func_02012E4C(void *sys, u32 id);
-extern u32   func_02012E7C(void *sys, u32 id);
+extern int func_02012E7C(char *p, int a1);
 extern void *func_0200A5F8(void *save);
-extern void  func_0200A7EC(void *a, u32 b);
-extern void *func_0200A7F8(void *a);
+extern void func_0200A7EC(struct Big *p, u8 value);
+extern u8 *func_0200A7F8(struct Big *p);
 
 extern void  func_020307B0(void *p);
-extern void *func_0204913C(void *buf, u32 size, u16 tag);
-extern void *func_0204A39C(void *a, u32 b, u32 c, u16 tag, u32 *out);
-extern void *func_02045C44(void *a, u16 tag);
-extern void *func_02045EC0(void *a, u32 b);
+extern void *func_0204913C(void *a0, u32 a1, u32 heap);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
+extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void  func_02045A38(void *a, void *b, u32 c);
-extern void  func_02045808(void *a);
-extern void  func_02045C04(void *a);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void  func_02049238(void *a);
 
 struct DistHdr {

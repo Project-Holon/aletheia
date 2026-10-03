@@ -24,7 +24,7 @@ void func_02178138(int a);
 void func_0217814C(int a);
 void func_02178F8C(u8 *m);
 int func_02179010(void *cb, int n);
-u32 func_0208EE60(void);
+u16 func_0208EE60(void);
 
 int func_02178F1C(u16 n)
 {

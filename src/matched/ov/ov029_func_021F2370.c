@@ -24,8 +24,8 @@ extern void func_021F0E70(char *p);
 extern void func_021F1A64(char *p, int a);
 extern void func_021F1A44(char *p, int a);
 extern void func_021F1BBC(char *p);
-extern void func_021F1010(char *p);
-extern void func_021F0370(char *p);
+extern void func_021F1010(void *p);
+extern void func_021F0370(void *p);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
 extern void func_021F21B4(void);
 

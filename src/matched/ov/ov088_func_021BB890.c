@@ -31,7 +31,7 @@ typedef unsigned int u32;
 
 extern u16 d_021BD5EE[];
 
-extern int func_021BB840(void *, int);
+extern int func_021BB840(char *p, int y);
 extern void func_021BB810(void *, u8, int, int);
 
 #define ROWH(r) (*(u16 *)((char *)d_021BD5EE + (r) * 4))

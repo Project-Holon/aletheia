@@ -42,7 +42,7 @@ extern void *func_0203D798(void);
 extern void *func_0203D788(void);
 extern unsigned short func_02039338(void);
 extern int   func_02039160(unsigned int mode);
-extern void  func_02037D98(int a);
+extern int func_02037D98(int a);
 extern void  func_02037E60(void);
 
 void func_02038340(void)

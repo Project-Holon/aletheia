@@ -21,8 +21,10 @@
 typedef unsigned int u32;
 typedef int (*Handler)(void *sys, void *b, void *save);
 
-extern void *func_020120F4(void *p);
-extern void *func_020127A4(void *p);
+struct Ctx;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
 extern Handler d_021714DC[];
 
 int func_021644C4(int i, void *a, void *b)

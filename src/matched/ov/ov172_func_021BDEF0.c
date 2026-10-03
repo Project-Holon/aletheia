@@ -17,11 +17,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02008510(char *a, u32 b);
-extern u32 func_0201D304(void *s, u32 a, u32 b);
+struct StrObj;
+struct U16Vec;
+extern void *func_02008510(void *a, int tag);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045770(u32 p);
 extern void func_0201C724(u32 owner, void *b, short y, u32 c, void *d, u32 e, u32 f);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 void func_021BDEF0(u8 *p, char *a, u32 b)
 {
     void *s;

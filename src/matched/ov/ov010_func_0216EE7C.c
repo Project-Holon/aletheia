@@ -47,16 +47,18 @@ typedef struct BattleEndCtx {
     BattleEnd *st;      /* 0x08 */
 } BattleEndCtx;
 
-extern void *func_02012934(void *sys);
-extern int func_0201AB18(void *party);
-extern void *func_0201AB28(void *party, int i);
-extern void *func_020457B0(u32 size, u32 heap);
+struct BigObj;
+struct U16Vec;
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AB18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E1C(void *mon, u32 id, void *arg);
 extern void func_021654AC(void *name);
 extern void func_02165424(void *name);
 extern void func_02165468(void *name);
 extern void func_021654F0(void *name);
-extern void func_02045808(void *str);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0216EE40(BattleEnd *st, int which);
 extern void func_0216EE20(u16 id, int col);
 

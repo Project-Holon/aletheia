@@ -33,7 +33,7 @@ typedef struct {
 
 extern void func_021C5B34(Work *p);
 extern void func_021C4F80(Work *p);
-extern void func_02040618(u32 bgId, u32 which, int value);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020419E4(void);
 extern void func_0204A648(void);
 

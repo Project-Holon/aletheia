@@ -15,8 +15,9 @@
  */
 
 extern void func_0216D570(char *p, unsigned int v);
-extern void func_0216D7C0(char *p, unsigned int v);
-extern void func_0216D7C8(char *p, unsigned int v);
+typedef unsigned short u16;
+extern void func_0216D7C0(void *p, u16 v);
+extern void func_0216D7C8(void *p, u16 v);
 void func_0216D4B4(char *p)
 {
     func_0216D570(p, 0x600);

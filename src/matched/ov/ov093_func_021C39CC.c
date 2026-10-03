@@ -15,7 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
-extern u32 func_021B8588(void *);
+extern u32 func_021B8588(void **p);
 extern void *func_021B86B8(void ***);
 BOOL func_021C39CC(u8 *p)
 {

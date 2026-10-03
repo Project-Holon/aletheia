@@ -53,7 +53,8 @@ typedef struct Work {
 } Work;
 
 extern u8 d_02172A28[];
-extern int func_02012114(void *sys);
+struct Ctx;
+extern u32 func_02012114(const struct Ctx *p);
 extern void func_02034714(void *a, int b, void *c);
 extern void func_02167658(Work *w, int i);
 extern void func_021942C8(void *obj);

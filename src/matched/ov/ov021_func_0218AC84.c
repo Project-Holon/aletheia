@@ -25,10 +25,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Ctx;
+struct Self;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02188CE8(u8 *p);
-extern int func_021AA944(void *p);
-extern void func_021AA80C(void *p);
+extern int func_021AA944(struct Self *self);
+extern void func_021AA80C(struct Ctx *ctx);
 
 int func_0218AC84(u8 *pos, void *msg, void *sys)
 {

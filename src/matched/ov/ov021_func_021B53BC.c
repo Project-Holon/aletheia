@@ -36,7 +36,8 @@ typedef struct {
 } Out;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188C58();
 extern u16 func_02011330();
 extern u32 func_0201134C();

@@ -32,7 +32,7 @@ typedef struct {
 
 int func_021A3B94(Obj021A3D6C *p);
 u32 func_021A398C(Obj021A3D6C *p);
-int func_021A3190(u32 x, int a);
+u16 func_021A3190(int i, int j);
 void func_021A3AD8(Obj021A3D6C *p, int v);
 
 int func_021A3D6C(Obj021A3D6C *p, int a)

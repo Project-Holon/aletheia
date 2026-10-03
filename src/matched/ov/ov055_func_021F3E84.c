@@ -30,8 +30,9 @@ typedef struct S {
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int *func_02049250(void *, int, u16);
-extern u32 func_020493D4(void *, int);
-extern void func_0204944C(void *, int, int, int, void *);
+struct ArcFile;
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
 

@@ -27,15 +27,19 @@ typedef short s16;
 typedef struct { s16 x,y; } Pair;
 typedef struct { void *root; u8 *state; int pad; void *desc[2]; u8 gap0[8]; void *items[2][2]; u8 gap[12]; Pair pos[2]; int pad40; int count; } Obj;
 extern void func_021BC0CC(void *);
-extern void func_0204B3DC(void *,unsigned);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern unsigned func_021BF6D8(u8 *);
 extern void func_021BC58C(void *,Pair *);
-extern int func_021BF6F0(u8 *,int);
+extern u32 func_021BF6F0(u8 *p, u32 i);
 extern void func_021BC5BC(Obj *,void *,Pair *,int,void *);
 extern int func_021BC340(Obj *,void *,u8);
-extern void func_02045334(void *);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
 void func_021BC23C(Obj *p)
 {

@@ -27,7 +27,7 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021EEC20(int, int *);
-extern u8 func_021B8DE4(void *m, u8 i);
+extern unsigned char func_021B8DE4(char *p, int i);
 
 u8 func_021D0C78(BattleSeq *s, u8 *out)
 {

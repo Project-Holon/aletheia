@@ -25,7 +25,8 @@ typedef unsigned int u32;
 extern void func_021F1930(void *task, u8 *s);
 extern void func_021F05E8(char *p, int a, int b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02045838(u32 a, u32 b);
 

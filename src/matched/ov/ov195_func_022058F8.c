@@ -35,7 +35,7 @@ extern u32 d_02208F50[];
 extern u32 d_02208CEC[];
 extern char *func_02030734(u32, int, int, void *, int);
 extern void func_02082BCC(void *, int, int);
-extern void func_0204335C(int);
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
 extern void func_0204363C(u32);
 extern void func_0204361C(void);
@@ -45,7 +45,7 @@ extern void func_0201DD60(void);
 extern void func_02205AC0(void *, u32);
 extern void func_02205B6C(void *, void *, u32);
 extern void func_02205BDC(void *, u32);
-extern void func_02205AAC(void);
+extern void func_02205AAC(int a, char *b);
 extern u32 func_020056A0(void *, void *, int);
 
 char *func_022058F8(u32 a, u32 b)

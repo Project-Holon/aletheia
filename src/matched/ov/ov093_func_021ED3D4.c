@@ -32,10 +32,12 @@ extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void *func_021D5864(void *m);
 extern void func_021F7EE8(void *m, int key);
-extern void func_021F7A28(u32 a, u32 b);
+struct Q;
+struct S02030FB4;
+extern void func_021F7A28(int a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
-extern void func_021ED460(void);
+extern void *func_02031290(struct S02030FB4 *p);
+extern void func_021ED460(void *task, struct Q *q);
 
 void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
 {

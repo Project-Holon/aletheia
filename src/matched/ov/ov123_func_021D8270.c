@@ -14,16 +14,19 @@
  *   func_021D8154 0x021D8154 thumb ov123
  *   func_021D706C 0x021D706C thumb ov123
  */
-extern void func_020061E4(int);
-extern int func_020279E8(void *);
-extern int func_02027A04(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern void func_020061E4(u32 a);
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern int func_020076D0(void *, void *, void *);
 extern void func_021D6EE0(char *, int, int);
 extern void func_021D584C(char *);
-extern void func_02027858(void *);
-extern void func_021D8244(void);
-extern void func_021D8154(void);
-extern void func_021D706C(void);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_021D8244(char *p);
+extern void func_021D8154(char *p);
+extern void func_021D706C(char *p);
 void func_021D8270(char *p)
 {
     if (*(int *)(p + 0x64) % 110 == 0) func_020061E4(0x659);

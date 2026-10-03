@@ -22,7 +22,8 @@
 extern void func_021DEB40(int, int, int);
 extern void func_021DEB70(int, int, int);
 extern void func_021DEB90(int, int, int, int, int);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+extern void func_02041B6C(u32 bit);
 void func_021DEC64(int a, int b, int c, int d, int e)
 {
     func_021DEB40(a, b, d);

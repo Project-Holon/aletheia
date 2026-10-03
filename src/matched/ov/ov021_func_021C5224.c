@@ -27,12 +27,14 @@ typedef unsigned int   u32;
 extern int func_021C5334(char *p);
 extern void func_020061E4(u32 se);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021C59BC(void);
-extern void func_02030EAC(void *p);
+typedef unsigned char  u8;
+struct Node;
+extern void func_021C59BC(void *a, u8 *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_021C553C(char *p);
 extern int func_021C5768(char *p);
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_02040618(int a, int b, int c);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 
 void func_021C5224(char *p)
 {

@@ -12,10 +12,14 @@
  *   func_02045808 0x02045808 arm
  *   func_020457B0 0x020457B0 arm
  */
-extern void *func_020457B0(int,int);
-extern void *func_02045EC0(void *,int);
-extern void func_0201F250(void *,void *,void *);
-extern void func_02045808(void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C724(void *,int,short,short,void *,int,unsigned short);
 void func_021D61B8(unsigned char *p,int a,void *b,int c,short d,short e,unsigned short f) {
  void *t=func_020457B0(16,*(unsigned short *)p);

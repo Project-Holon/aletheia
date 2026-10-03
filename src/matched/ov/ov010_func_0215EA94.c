@@ -14,8 +14,11 @@
  *   func_02159058 0x02159058 thumb ov010
  */
 typedef unsigned short u16;
-extern void *func_020120F4(void *);
-extern void *func_0201296C(void *);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern int func_021587B0(void *,int,int,int);
 extern void func_02159058(int,int,int,int,u16);
 int func_0215EA94(void *a,void *b,void *c)

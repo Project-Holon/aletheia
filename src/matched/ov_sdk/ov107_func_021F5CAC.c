@@ -43,7 +43,7 @@ extern void func_021F3F78(void);
 extern int func_021F5BE0(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern int func_020885EC(int fifotag, int proc);
-extern void func_021F1D80(u16, u32, void *);
+extern void func_021F1D80(u16 type, void *arg);
 extern void func_021F46C8(void *arg);
 
 #define WM   (*(u8 **)(g_021F6F90 + 0xC))

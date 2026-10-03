@@ -63,10 +63,11 @@ extern void func_021C6018(Work *w);
 extern void func_021C6054(Work *w);
 extern void func_02158780(void *a, u16 id, u32 b, u32 c, u32 d);
 extern void func_02008DF0(u32 a, u32 b);
-extern void func_021AA8EC(void *p);
+struct S0201235C;
+extern void func_021AA8EC(u8 *p);
 extern void func_020130B4(void *p);
 extern void *func_0216E7C8(void *a0, u8 *a1, void *a2, int a3, int a4);
-extern void func_0201235C(void *task, void *next);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_021C5DF4(void *task, int *state, Work *w)
 {

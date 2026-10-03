@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 struct WinMgr;
-extern int func_0204162C(int);
+extern u32 func_0204162C(int channel);
 extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
 void func_021EF630(char *p)

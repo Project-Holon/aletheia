@@ -29,9 +29,10 @@ typedef unsigned int u32;
 typedef enum { K_SIX = 6 } K;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *p, int k);
-extern u16 func_021D5444(void *p);
-extern u32 func_021C7ED8(void *a, int b);
+struct QF;
+extern void *func_021C7CF4(int *p, int i);
+extern u16 func_021D5444(struct QF *p);
+extern int func_021C7ED8(u8 *p, int i);
 extern void *func_021D5844(void *m);
 extern void func_021D7DC0(int a, void *b, void *out);
 extern int func_021D76BC(int key, u32 val);

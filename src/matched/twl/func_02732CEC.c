@@ -17,7 +17,8 @@
 
 extern void *func_02166378(void);
 extern void func_02165AF4(void);
-extern void func_02166594(void *arg, int val);
+struct OSMutex;
+extern void func_02166594(struct OSMutex *mutex);
 
 asm void func_02732CEC(void *arg)
 {

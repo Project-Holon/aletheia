@@ -33,9 +33,9 @@ struct W {
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *p);
 extern struct W *func_02012F80(void *p);
-extern int func_021CD688(void *p);
-extern void func_021FC804(void *p);
-extern void func_021CD5A4(void *p);
+extern u32 func_021CD688(u8 *p);
+extern void func_021FC804(char *p);
+extern u32 func_021CD5A4(u32 *p);
 
 int func_0215E010(void *a, void *b)
 {

@@ -28,7 +28,7 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_02158F74(void *p);
 extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0215A5CC(void *vm);
+extern u16 func_0215A5CC(void *a0);
 extern u16 func_021B57CC(void *a0, void *a1, unsigned int a2, int a3);
 
 int func_021B5700(void *a0, void *a1)

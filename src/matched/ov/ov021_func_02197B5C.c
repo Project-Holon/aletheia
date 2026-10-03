@@ -40,14 +40,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 extern void func_02196768(u32 *);
 extern void func_02155A8C(u8 *, u32);
 extern void func_0202F038(u32);
 extern void func_020307B0(u32);
 extern void func_021974A0(u32 *);
 extern void func_0201CE48(u32);
-extern void func_02028604(u32);
+extern int func_02028604(int a0);
 extern void func_02031140(u32);
 extern void func_020403F4(u32);
 extern void func_0201C6EC(u32);

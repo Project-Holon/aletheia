@@ -40,12 +40,13 @@ typedef struct {
 
 extern u8 *func_0204A1BC(int, int, int, int);
 extern void func_020307B0(void *);
-extern void *func_02012944(void *);
+struct Mon;
+extern u8 *func_02012944(void *p);
 extern u32 func_02008530(void *);
 extern u32 func_020186C8(u32, u16, u16, int, int, int);
 extern void *func_020173F0(u16, u16, u64, int);
-extern void func_02017588(void *, u16, u16, u64, u32, u64);
-extern void func_02018A00(void *, int, int);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern void func_02018A00(void *p, u32 a, u32 b);
 extern void func_02017988(void *, u16);
 extern u16 func_0201808C(void *, u16);
 extern void func_020180F4(void *, u16);

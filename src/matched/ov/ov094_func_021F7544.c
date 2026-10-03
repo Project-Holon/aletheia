@@ -106,28 +106,30 @@ extern const char d_0220AC90[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern unsigned func_02030CB0(unsigned);
-extern void *func_02030CBC(unsigned, void *);
+struct Ctx;
+struct Res;
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_020307B0(void *);
 extern void *func_021F93F4(void *a, u32 b);
 extern int func_02021518(u32);
 extern void func_02021EE4(int, u32);
 extern void func_0202155C(int, u32, u32, u32);
 extern void *func_021FEAC0(int mode, void *a1, u16 a2);
-extern Entry *func_02048F60(u32, u32, u32);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void *func_021F6560(int, u8, u8, u16);
-extern int func_021BA1A8(void *battle, int flag);
+extern int func_021BA1A8(char **p, int m);
 extern void *func_021F6B04(int unused, int group, u8 variant, u16 heap);
-extern u8 func_0201493C(u16, u8, u8, u8, u8, u16 *, u16);
+extern void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3, u32 b0, u16 *b1, u16 heap);
 extern void func_02046A94(u8, const Rect *);
 extern void *func_021F6E3C(void *a, u16 b);
-extern void *func_02201A8C(void *owner, u16 heap);
+extern struct Res *func_02201A8C(void *owner, u16 heap);
 extern void *func_02206BC8(int, u16);
 extern void *func_02209224(u16 heap);
 extern void *func_0220975C(void *a, u16 heap);
 extern void func_021FF16C(void *);
 extern void func_02050B80(u32);
 extern void *func_020056A0(void (*cb)(void), void *ctx, int pri);
-extern void func_02006674(int, u16);
+extern void func_02006674(int n, u32 heap);
 extern void func_021F8B90(void);
 
 void func_021F7544(Param *p, int arg, u16 heap)

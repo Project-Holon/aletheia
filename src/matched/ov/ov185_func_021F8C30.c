@@ -21,7 +21,7 @@
  *   func_021F8EE8 0x021F8EE8 thumb ov185
  *   func_021F86E4 0x021F86E4 thumb ov185
  */
-extern int func_021FE784(int,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
 extern int func_021FC20C(char *),func_021FC214(char *);

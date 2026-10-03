@@ -16,7 +16,7 @@
 
 typedef unsigned char u8;
 
-int func_021A1780(u8 *p);
+u8 func_021A1780(u8 *p);
 void func_021A1750(u8 *p);
 
 void func_021A1680(u8 *p)

@@ -37,8 +37,8 @@ typedef struct {
 } GSIDebugState;
 
 extern void func_0217F0FC(int *lock, int flag);
-extern void func_0217F108(int *lock);
-extern void func_0217F114(int *lock);
+extern void func_0217F108(void *mutex);
+extern void func_0217F114(void *mutex);
 extern void func_0217D188(int a, int b, int c, const char *fmt, va_list args);
 extern GSIDebugState g_021AD000;
 extern int g_021AD008[];

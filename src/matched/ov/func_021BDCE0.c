@@ -25,7 +25,9 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern void *func_0201283C(void *p);
-extern void func_020099C8(void *a, int b);
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 
 void func_021BDCE0(char *p)
 {

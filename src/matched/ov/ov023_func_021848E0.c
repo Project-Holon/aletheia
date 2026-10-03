@@ -33,8 +33,9 @@ extern const B32 d_02186BAC;
 extern const B32 d_02186B4C;
 extern void func_0203FC28(void *);
 extern void func_0203FCA0(int, void *, int);
-extern void func_020414EC(int);
-extern void func_02040B94(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_020414EC(u32 i);
+extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
 
 void func_021848E0(void)
 {

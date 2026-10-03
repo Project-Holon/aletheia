@@ -16,7 +16,8 @@
  *   func_02207C94 0x02207C94 thumb ov094
  */
 extern char *d_0220AF20;
-extern void func_02207C94(void *);
+typedef unsigned char  u8;
+extern int func_02207C94(u8 *p);
 
 void func_021F8180(void)
 {

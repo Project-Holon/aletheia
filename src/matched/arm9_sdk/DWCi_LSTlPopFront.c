@@ -13,7 +13,7 @@
  *   func_0206E964 0x0206E964 arm
  */
 
-extern void func_0206E964(void);
+extern unsigned char *func_0206E964(unsigned char *p);
 asm void DWCi_LSTlPopFront(void)
 {
     ldr r0, [r0, #4]

@@ -32,12 +32,17 @@ typedef struct Task {
 } Task;
 
 extern void func_02155478(void);
-extern void *func_020122C0(void *, int, void (*)(void), int);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Party;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0201232C(void *, void (*)(void), int);
-extern Task *func_020124E8(void *);
-extern void *func_020120F4(void *);
-extern void *func_02012EBC(void *);
-extern void *func_0201A920(int);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Party *func_0201A920(u32 heap);
 
 void *func_021559E4(void *a, int b, void *c, int d)
 {

@@ -122,9 +122,9 @@ typedef signed int     s32;
 
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32  func_02018598(void *p);
+extern u8 func_02018598(void *p);
 extern u32  func_02019B04(u32 a, u32 b, u32 n);
-extern const u8 *func_02019C54(u16 species, u16 form);
+extern void *func_02019C54(u32 a, u32 b);
 
 void func_02018A7C(void *p)
 {

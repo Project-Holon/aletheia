@@ -52,7 +52,8 @@ extern void func_0204B3DC(int a0, int a1);
 extern void func_0217F214(void);
 extern void func_0217F240(Obj *p, int a1);
 extern void func_020127B8(int a0);
-extern void func_020061E4(int a0);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void MIi_CpuCopy32(const void *src, void *dst, int size);
 
 void func_0217E524(Obj *p)

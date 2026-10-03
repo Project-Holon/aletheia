@@ -39,8 +39,8 @@ typedef struct GHIConnection {
     int engine;                 /* +0x198 */
 } GHIConnection;
 
-extern int func_021C0684(GHIConnection *connection, const char *buffer, int len);
-extern int func_021C07B8(GHIConnection *connection, const char *buffer, int len);
+extern int func_021C0684(struct GHIConnection *connection, char *buffer, int len);
+extern int func_021C07B8(struct GHIConnection *connection, char *buffer, int len);
 
 int func_021C304C(GHIPostState *state, GHIConnection *connection)
 {

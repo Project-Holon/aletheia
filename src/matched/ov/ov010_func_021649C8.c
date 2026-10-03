@@ -17,8 +17,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201210C(void *p);
-extern void func_021F5578(void *);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_021F5578(u8 *p);
 extern void func_02159168(int);
 extern void func_02034A5C(void *);
 extern u8 ov_id_52[];

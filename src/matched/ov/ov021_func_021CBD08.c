@@ -33,11 +33,14 @@ typedef struct {
     u16 hi  : 8;
 } Sel;
 
-extern void *func_0201A920(u32 heap);
+typedef signed int     s32;
+struct Party;
+struct PartyMon;
+extern struct Party *func_0201A920(u32 heap);
 extern void *func_021CA210(u8 *p);
-extern void func_0201A954(void *list, u8 n);
-extern u32 func_0201AB28(void *h, u8 idx);
-extern u32 func_0201A98C(void *list, u32 m);
+extern void func_0201A954(struct Party *p, s32 capacity);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32 func_021681C8(u32 a, void *list, u8 kind, u8 *b, u8 *c, u8 n);
 extern void func_020307B0(void *p);
 

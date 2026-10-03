@@ -18,12 +18,15 @@
  *   func_021F37F0  0x021F37F0  thumb
  */
 
-extern void *func_0201210C(void *p);
-extern int  *func_021897BC(void *a, int b);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188D2C(void *a);
 extern void  func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-extern void  func_021F37F0(void);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_021F37F0(void *a, int *b);
 
 void func_021F3770(void *a0, int a1)
 {

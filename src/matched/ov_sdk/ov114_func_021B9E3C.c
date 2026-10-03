@@ -42,7 +42,7 @@ typedef struct {
     int aD8;
 } Req;
 
-extern char *func_021BA820(unsigned long size, int align);
+extern int func_021BA820(int a, int b);
 extern void func_021BA13C(void *p_p, int size);
 extern int func_0215FC80(int s, SslCon *con);
 extern void func_021B9C80(void);

@@ -51,7 +51,8 @@
 typedef unsigned int u32;
 
 extern u32 sub_020302A4(void *p, u32 size);
-extern u32 sub_02030524(void);
+typedef unsigned short u16;
+extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
 void sub_020307E0(void *p, u32 size)

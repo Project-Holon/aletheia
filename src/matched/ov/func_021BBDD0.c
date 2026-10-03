@@ -39,8 +39,9 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_0204B92C(void *p, int k);
-extern void func_0204B3DC(void *p, int k);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021BBDD0(void *pv, int flag)
 {

@@ -24,7 +24,9 @@ extern unsigned func_0202136C(unsigned short v);
 extern void func_020061E4(unsigned se);
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EBB28(unsigned char *p, int b);
-extern unsigned char func_020260E0(void *obj);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021DEFEC(unsigned char *p, int b);
 extern void func_021EE038(char *p, int a, int b, int c);
 #define WORK(p) (*(char **)((p) + 0x2C))

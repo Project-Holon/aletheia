@@ -18,7 +18,7 @@
 extern int func_0203CD98(void);
 extern char *func_0203D798(void);
 extern int func_021DE5D8(void *);
-extern int func_021DE570(void *);
+extern int func_021DE570(char *p);
 extern int func_021DE5F8(void *);
 int func_021DE500(void *p)
 {

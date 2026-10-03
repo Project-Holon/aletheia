@@ -69,14 +69,18 @@ typedef struct {
 
 extern void func_021B6F2C(C *);
 extern Counts *func_021B6F40(C *);
-extern void *func_020457B0(u32, u32);
-extern void func_02045CAC(void *, u32, void *);
-extern void *func_02045770(void *);
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C6FC(void *, void *, u32, u32, void *, void *);
-extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
-extern void func_0201F250(void *, void *, void *);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_0216FEAC(void *, void *, u8 *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 
 static inline void Draw(Q *q, void *h, u32 x, u32 y, void *buf)
 {

@@ -24,7 +24,9 @@ typedef struct {
 } State;
 
 extern State *func_02051774(void *p);
-extern void func_0205189C(void *p, int v);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0205189C(struct Obj *o, u32 v);
 extern void func_02051A2C(void *p, State *s);
 extern void func_02051A24(void *p, void (*fn)(void));
 extern void func_021FDA28(void);

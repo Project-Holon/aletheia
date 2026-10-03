@@ -29,7 +29,9 @@ typedef struct {
     Inner *f8;
 } Obj;
 
-extern int func_02012A30(void *a);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02029D44(int a, void *b, int c, int d);
 
 void func_021BD94C(Obj *p)

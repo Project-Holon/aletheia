@@ -16,12 +16,17 @@
  *   func_0201EF8C 0x0201EF8C thumb
  */
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; } Entry;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABD0(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABA0(void **);
-extern void func_0201EF8C(void *, unsigned, unsigned);
+extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 void func_021EB114(char *p, unsigned char *e, int i)
 {
     func_02043B5C(func_02045770(*(void **)(p + 0x94 + i * 8)), 0);

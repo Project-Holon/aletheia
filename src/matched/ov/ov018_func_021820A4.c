@@ -54,10 +54,13 @@ typedef struct {
 
 extern u16 d_0218398E[];
 
-void *func_020124E4(void *);
+typedef unsigned int   u32;
+struct Obj;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
-void func_0201F02C(void *, int, void *);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);

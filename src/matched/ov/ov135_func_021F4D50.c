@@ -25,11 +25,12 @@ typedef struct { Item item[3]; } Items;
 typedef struct { u32 heap; u8 count,pad[3]; Item *items; u32 mode; u8 a,b,c,d; } Menu;
 extern const char str_02203B08[];
 extern const Items data_02202C2C;
-extern void func_02034714(const char *, int, const char *);
+struct R;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_02027F60(u16,u16,u32,u32,u16);
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void *func_02027778(Menu *,void *);
-extern void func_021F5008(int);
+extern void func_021F5008(u32 x);
 void func_021F4D50(u8 *p, u16 a, int count, int b)
 {
     Items items;

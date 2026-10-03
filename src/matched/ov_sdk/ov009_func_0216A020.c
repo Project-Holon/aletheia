@@ -60,11 +60,12 @@ extern void DWC_Free(int name, void *ptr, unsigned long size);
 extern void func_02169568(void);
 extern int func_020591CC();
 extern void *func_0216A39C(void);
-extern int func_020598EC(void *userdata, FriendData *frienddata);
+struct DWCstAccUserData;
+extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02059194(FriendData *frienddata);
-extern void func_02059240(FriendData *frienddata, int setflag);
+extern void func_02059240(void *frienddata, int setflag);
 extern int func_0205912C(FriendData *frienddata);
-extern void func_02059270(FriendData *frienddata, int setflag);
+extern void func_02059270(void *frienddata, int setflag);
 
 #define CNT (*(MatchCnt **)(g_021AA860 + 0xC))
 #define PTR5C (*(void **)((u8 *)CNT + 0x5C))

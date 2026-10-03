@@ -77,7 +77,7 @@ typedef struct {
     u32 w30;
 } Out;
 
-extern void func_02048F4C(void *, int, u32);
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void *func_02030734(u32, u32, u32, void *, u32);
 extern u8 d_021DE3D8;
 

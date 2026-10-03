@@ -15,7 +15,8 @@
  * lane S13 leaf of func_0220648C
  */
 
-extern void func_020061E4(int a);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_02206B30(char *p)
 {

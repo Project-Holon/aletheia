@@ -105,17 +105,18 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_020275E4(void);
-extern int func_02027614(void);
-extern int func_02027618(void);
-extern int func_0202761C(int a);
-extern int func_02027620(int a);
+struct Bank;
+extern u32 func_020275E4(void);
+extern u32 func_02027614(void);
+extern u32 func_02027618(void);
+extern u32 func_0202761C(u32 a);
+extern u32 func_02027620(u32 a);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
 extern void func_0204A48C(const void *a, const void *b, int heap);
-extern void *func_0204B100(int n, int a, int heap);
-extern void func_020434DC(int a, int b);
-extern void func_02043598(int a, int b);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 extern void *func_0204A6C8(void *arc, int id, int a, int b, int heap);
 extern void *func_0204ABF0(void *arc, int id, int a, int b, int heap);
 extern void *func_0204AC18(void *arc, int id, int a, int b, int c, int d, int heap);

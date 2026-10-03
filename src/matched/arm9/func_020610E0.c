@@ -20,7 +20,8 @@
  */
 
 typedef unsigned int u32;
-extern void *func_02060FA4(void *start, u32 end, u32 opt);
+struct Obj;
+extern struct Obj *func_02060FA4(struct Obj *o, u32 a1, u32 a2);
 
 void *func_020610E0(void *mem, u32 size, u32 opt)
 {

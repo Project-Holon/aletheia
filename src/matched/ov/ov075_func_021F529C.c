@@ -16,10 +16,13 @@
  */
 typedef unsigned int u32;
 typedef struct Vec { int x,y,z; } Vec;
-extern void *func_020122C0(void *,void *,void *,u32);
-extern void *func_020124E8(void *);
+struct Desc;
+struct Obj;
+struct Work;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *,int,int);
-extern int func_021F5518(void *,int *,void *);
+extern int func_021F5518(void *task, int *st, struct Work *w);
 void *func_021F529C(void *a,Vec *src,u32 b,u32 c) {
     void *h;
     char *w;

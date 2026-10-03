@@ -35,7 +35,7 @@ typedef struct {
     Slot slots[24];
 } Ctx;
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_02045770(void *win);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
 

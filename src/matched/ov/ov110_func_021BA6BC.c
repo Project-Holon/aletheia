@@ -38,7 +38,7 @@ extern void func_021BD000(u8 *);
 extern int func_021BD028(u8 *);
 extern void func_021BCC58(u8 *);
 extern void func_021BFC20(u8 *, unsigned);
-extern void func_021BFB7C(void *);
+extern void func_021BFB7C(u8 *p);
 extern int func_021BFBA0(u8 *);
 extern void func_021BB8B8(u8 *);
 extern void func_021BAD2C(u8 *, int);

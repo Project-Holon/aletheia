@@ -91,7 +91,8 @@ struct HeapBlock {
 
 extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u32 idx);
-extern u32 sub_02060CD0(void *arena, void *block, u32 size);
+struct HeapHead;
+extern u32 sub_02060CD0(struct HeapHead *heap, void *memBlock, u32 size);
 extern u32 sub_02060F90(void *block);
 
 u32 sub_020302A4(void *p, u32 size)

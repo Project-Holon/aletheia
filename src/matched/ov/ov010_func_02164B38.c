@@ -20,8 +20,11 @@ typedef unsigned int u32;
 struct Desc;
 struct SeqWork2;
 extern struct Desc *func_020122C0(void *,void *,void *,u32);
-extern u8 *func_020124E8(void *);
+struct Big;
+struct Ctx;
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern int func_02164A2C(void *,u32 *,struct SeqWork2 *);
-extern void *func_020120F4(void *);
-extern void *func_02012EBC(void *);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 void *func_02164B38(void *a,void *b,u32 c){void *t=func_020122C0(a,0,(void *)func_02164A2C,0x1c);u8 *p=func_020124E8(t);void *v=func_020120F4(a);*(void **)(p+4)=v;*(void **)(p+8)=func_02012EBC(v);*(void **)p=a; p[0x18]=c;return t;}

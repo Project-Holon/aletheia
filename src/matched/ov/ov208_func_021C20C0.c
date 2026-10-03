@@ -30,12 +30,15 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern int func_0204B3F4(int a0);
-extern void *func_02045EC0(void *a, u32 b);
-extern u32 sub_0201D304(void *s, u32 a, u32 b);
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_02045770(void *p);
 extern u16 func_020437DC(u32 win);
 extern void sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
-extern void func_02045808(void *a);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(void *a0, u8 *st, void *a2, u8 i);
 extern void func_0204B3DC(int a, int b);
 extern int func_021C0CC0(void *a0, u8 *st, void *a2);

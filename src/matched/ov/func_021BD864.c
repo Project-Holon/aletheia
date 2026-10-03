@@ -25,7 +25,7 @@ typedef signed long    s32;
 typedef int BOOL;
 
 extern int func_021BA928(void *p);
-extern void func_021BA828(void *p);
+extern void func_021BA828(char *p);
 
 int func_021BD864(char *p, int v)
 {

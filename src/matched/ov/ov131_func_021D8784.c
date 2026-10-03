@@ -17,7 +17,9 @@
 
 extern unsigned int func_0202F688(unsigned int);
 extern unsigned int func_0202F6D8(unsigned int);
-extern void *func_02045EC0(void *, unsigned int);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021D8784(void *a, unsigned char *p, unsigned int n)
 {
     unsigned int bank = func_0202F688(n);

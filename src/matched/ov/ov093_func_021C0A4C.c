@@ -33,8 +33,8 @@ extern u8 func_021D5440(u8 *p);
 extern int func_021C6BF8(u8 *, u8 *, u8 *, u32);
 extern int func_021CC8B8(const u32 *, u8);
 extern int func_021C1E74(u8 *, u8 *, u8 *, const u8 *, u32, u16, u32, u32, u16 *);
-extern int func_021D6D7C(u8 *);
-extern int func_021C15D4(u8 *, u16);
+extern u32 func_021D6D7C(u8 *p);
+extern u32 func_021C15D4(void *p, u32 n);
 extern int func_021C1678(u8 *, u8 *, u8 *, u32, u16 *);
 extern void func_021C7C24(u16 *, int, u8 *, u8 *, int);
 void func_021C0A4C(u8 *p, u8 *a, u8 *b, const u8 *q, const u32 *c, u16 k, struct List *out)

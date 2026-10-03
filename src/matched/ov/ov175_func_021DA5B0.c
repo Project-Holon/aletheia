@@ -35,7 +35,7 @@ extern int func_021DB248(u32 *ctx);
 extern int func_021DB238(u32 *ctx);
 extern int func_021DB160(u32 *ctx);
 extern int func_021DAFB8(u32 *ctx);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_0203D378(void);
 extern const char d_021E2EF8[];
 

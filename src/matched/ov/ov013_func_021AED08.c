@@ -12,7 +12,8 @@
  *   func_021AEDEC 0x021AEDEC thumb ov013
  *   func_021B0614 0x021B0614 arm ov013
  */
-extern void func_021AEDEC(void *);
+struct Node;
+extern void func_021AEDEC(struct Node *p);
 extern int func_021B0614(void *);
 void func_021AED08(int unused,int code,void *p)
 {

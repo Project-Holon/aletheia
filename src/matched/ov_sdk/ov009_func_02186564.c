@@ -34,8 +34,7 @@ typedef struct GPGetReverseBuddiesListResponseArg {
 typedef void (*GPCallback)(void **, void *, void *);
 
 extern void func_02193734(void **connection, char *errorString);
-extern int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking,
-                         GPCallback callback, void *param);
+extern int func_021908B0(void **connection, int *profiles, int numOfProfiles, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
 

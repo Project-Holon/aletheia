@@ -14,7 +14,9 @@
  *   func_02088234 0x02088234 arm
  */
 
-extern void func_02030238(void);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern u32 func_02030238(void *p, u32 heapId, s32 size);
 extern void func_02088234(void);
 
 asm void func_020307C8(void)

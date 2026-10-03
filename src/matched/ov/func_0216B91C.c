@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(void *sys);
-extern int func_0216BB70();
+extern int func_0216BB70(int index);
 extern int func_0216B994();
 extern int func_0216BA40();
 

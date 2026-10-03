@@ -34,7 +34,7 @@ typedef struct bignum_st
 
 typedef struct bignum_ctx BN_CTX;
 
-extern BN_CTX *func_021CAD1C(void);
+extern void *func_021CAD1C(void);
 extern void func_021CACD0(BIGNUM *);
 extern BIGNUM *func_021CAF24(const unsigned char *, int, BIGNUM *);
 extern int func_021CAEC8(BIGNUM *, unsigned int);

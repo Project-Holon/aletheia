@@ -57,11 +57,12 @@ struct T {
     u16 f06;
 };
 
-extern u32 func_02024584(u32 a);
+typedef unsigned char  u8;
+extern u8 func_02024584(u32 i);
 extern u32 func_02024498(u32 a0, u32 a1, u32 a2);
 extern u32 sub_02024508(u32 x);
-extern s32 sub_02024520(u32 x);
-extern u32 func_020248D8(u32 v, u32 *a1, u32 *a2);
+extern u32 sub_02024520(u32 x);
+extern int func_020248D8(u32 v, u32 *a1, u32 *a2);
 
 u32 func_020245D4(struct T *p, u32 a1)
 {

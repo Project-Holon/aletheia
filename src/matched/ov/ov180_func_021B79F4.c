@@ -36,7 +36,7 @@ extern struct Bmp *func_02043678(u32,u32,u32,u32);
 extern struct Grid *func_020255A0(struct Sys *,const Param *);
 extern void func_02025774(u8 *,u32);
 extern void func_02043B5C(struct CharBuf *,u8);
-extern struct StrObj *func_02045EC0(struct MsgBank *,u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct StrObj *);
 extern u32 func_0201D304(struct StrObj *,u32,u32);
 extern void func_0201F02C(struct WordSet *,u32,void *);

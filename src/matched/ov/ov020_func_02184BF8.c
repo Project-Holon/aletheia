@@ -26,7 +26,8 @@ extern char ov012_id[];
 void func_02012374(void *ctx, int v);
 void func_02034A5C(void *id);
 void func_02034AC4(void *id);
-int func_02158780(void *ctx, int a, int b, int c, int d);
+typedef unsigned short u16;
+int func_02158780(void *p, int b, int c, int d, u16 e);
 int func_02184360(int *p, int n);
 int func_021BFDD0(void *ctx, int a, int b, int c);
 

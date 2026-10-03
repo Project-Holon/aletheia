@@ -16,14 +16,15 @@
  *   func_021B9F74  0x021B9F74  thumb  ov071
  */
 
+typedef unsigned char  u8;
 void func_021B9FEC(void *p, int a)
 {
-    void func_021B9F74(void *, int, int);
+    void func_021B9F74(u8 *p, int i, int v);
     func_021B9F74(p, a, 3);
 }
 
 void func_021B9FF8(void *p, int a)
 {
-    void func_021B9F74(void *, int, int);
+    void func_021B9F74(u8 *p, int i, int v);
     func_021B9F74(p, a, 0);
 }

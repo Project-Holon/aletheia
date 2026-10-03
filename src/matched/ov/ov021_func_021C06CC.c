@@ -16,8 +16,10 @@
  *   func_021C06E0  0x021C06E0  thumb  ov021
  */
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void func_021C06E0(void);
+typedef unsigned int   u32;
+struct Desc;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+int func_021C06E0(u32 a, int *st);
 
 void func_021C06CC(void *p)
 {

@@ -38,9 +38,12 @@ typedef struct {
     void *f3294[5];
 } Work;
 
-extern void func_0201ED04(void *p);
-extern void func_02045808(void *p);
-extern void func_02045C04(void *p);
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *p);
 
 void func_021C42C0(Work *p)

@@ -64,11 +64,13 @@ typedef struct Param {
     u32 f10;
 } Param;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02189A08(int a);
 extern u32 *func_021CF52C(u32 *p, int size, int heap);
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-extern void func_021F5744(void);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_021F5744(void *task, int *st);
 
 void *func_021F5620(void *task, const Param *p, int flag)
 {

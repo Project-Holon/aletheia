@@ -15,7 +15,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_020310C4(void *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 void func_021D7CF4(u8 *p)
 {
     if (*(u32 *)p != 0) func_020310C4(*(void **)(p + 0x9a8));

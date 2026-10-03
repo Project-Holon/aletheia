@@ -11,7 +11,8 @@
  *   func_02008FEC 0x02008FEC thumb
  *   func_02009020 0x02009020 thumb
  */
-extern void *func_02008FEC(void *sv);
+struct Sub02008F80Obj;
+extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern int func_02009020(void *obj, int v);
 
 int func_021D89A8(char *p)

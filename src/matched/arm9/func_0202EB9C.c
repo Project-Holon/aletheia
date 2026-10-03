@@ -41,13 +41,14 @@ struct Slot {
 };
 
 extern struct Slot *func_0200974C(u32 a);
-extern u32  func_0200856C(void *p);
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern s32  func_0202ECB0(struct Slot *t, void *b);
 extern void func_0202ED00(struct Slot *t, u32 n);
 extern void func_0202ED60(u32 a, void *b, u32 c);
 extern u32  func_0202EC44(struct Slot *t, u32 a);
 extern u32  func_0202EC24(struct Slot *t);
-extern u32  func_0202EC7C(struct Slot *t, u32 a);
+extern s32 func_0202EC7C(struct Slot *a0, u32 a1);
 
 u32 func_0202EB9C(u32 a, void *b)
 {

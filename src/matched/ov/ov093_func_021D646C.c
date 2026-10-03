@@ -33,7 +33,7 @@ typedef struct {
     u8 f1b_b5 : 1;
 } Obj;
 extern void func_02082BCC(void *dst, u8 v, u32 n);
-extern void func_02017E40(void *a, int b, int c);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020185C4(void *p);
 extern void func_021D533C(Obj *p);
 extern void func_021D5150(Obj *p);

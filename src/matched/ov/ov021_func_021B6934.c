@@ -23,11 +23,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012934(void *p);
-extern void *func_02012944(void *);
-extern int func_0201AA18(void *);
-extern u32 func_02008530(void *);
-extern void *func_0201AB28(void *, int);
+struct BigObj;
+struct Sub0200852CObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u8 *func_02012944(void *p);
+extern u32 func_0201AA18(void *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *, u32, u32);
 
 int func_021B6934(void *a)

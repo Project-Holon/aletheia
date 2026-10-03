@@ -14,7 +14,7 @@
  */
 typedef unsigned int u32;
 extern int func_02024158(u32);
-extern int func_02035D20(u32 *,u32 *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021BDB50(u32 *p) {
  u32 x,y;
  int result;

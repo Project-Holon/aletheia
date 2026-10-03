@@ -15,9 +15,10 @@
  *   func_0202647C  0x0202647C  thumb
  */
 
-extern int func_02026454(void *p);
-extern int func_0200FB24(void);
-extern int func_0202647C(void *p);
+typedef unsigned int   u32;
+extern u32 func_02026454(void *obj);
+extern u32 func_0200FB24(void);
+extern u32 func_0202647C(void *obj);
 
 int func_021896F4(void *p)
 {

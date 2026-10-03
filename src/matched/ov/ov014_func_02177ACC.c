@@ -14,5 +14,6 @@
  */
 
 extern unsigned char *g_021797A4;
-extern unsigned int func_02178E38(void);
+typedef unsigned short u16;
+extern u16 func_02178E38(void);
 unsigned int func_02177ACC(void) { if (g_021797A4 != 0) return func_02178E38() & 0xFFFE; return 0; }

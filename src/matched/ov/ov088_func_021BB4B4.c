@@ -16,8 +16,11 @@
 
 typedef unsigned char u8;
 
-extern int func_020071EC(void *);
-extern u8 func_0200C308(void *, unsigned);
+typedef unsigned int   u32;
+struct Blk34;
+struct Sub020071E4Ctrl;
+extern u8 func_020071EC(const struct Sub020071E4Ctrl *ctrl);
+extern u8 func_0200C308(struct Blk34 *p, u32 i);
 
 void func_021BB4B4(char *p)
 {

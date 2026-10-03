@@ -20,12 +20,13 @@ typedef unsigned int u32;
 typedef struct { int v[4]; } Table;
 struct Actor;
 extern const Table d_021E203C;
-extern void func_020061E4(int);
+struct Node;
+extern void func_020061E4(u32 a);
 extern void func_0204B8D4(struct Actor *, int);
 extern u32 func_0204B98C(struct Actor *);
 extern void func_0204B3B4(struct Actor *);
 extern void func_020307B0(void *);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 void func_021E121C(void *task, int *p)
 {
     switch (p[0]) {

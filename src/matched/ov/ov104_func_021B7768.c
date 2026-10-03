@@ -25,12 +25,12 @@ typedef unsigned char u8;
 extern void func_02030EAC(int);
 extern void func_021B8ADC(void *);
 extern void func_021B71C0(int);
-extern void func_021B874C(void *);
+extern void func_021B874C(u8 *p);
 extern void func_021B80F8(void *);
 extern void func_021B8EA4(void *);
-extern void func_021B7EC8(void *);
-extern void func_021B7940(void *);
-extern void func_021B7DAC(void *);
+extern void func_021B7EC8(u8 *p);
+extern void func_021B7940(u8 *p);
+extern void func_021B7DAC(u8 *p);
 extern void func_020315D4(int);
 extern void func_020306F0(int);
 int func_021B7768(int a,int b,int c,u8 *p) {

@@ -38,8 +38,8 @@ typedef struct Cp {
 
 void func_02082D44(const Ent *a, Ent *b, int c);
 void func_020264B4(int a, int b, int c, int d, int e, int f);
-int func_02039338(void);
-void func_021751D4(u8 *p, int a, int b, Ent *e);
+u16 func_02039338(void);
+void func_021751D4(u8 *p, u16 a, int b, struct Ent *c);
 
 void func_02174F54(u8 *p, int idx, const Ent *src, int arg)
 {

@@ -33,9 +33,11 @@ extern u8 abs_id_4[];
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(void *a, void *b);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Pair;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_020124AC(void *a, const void *b, void *c, Pair *d);
-extern void func_021542C0(void);
+extern int func_021542C0(int x, struct Pair *p);
 
 int func_021B4C98(u32 a, u32 b)
 {

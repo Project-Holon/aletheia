@@ -25,11 +25,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5E4(void *a0);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *a);
-extern u32 func_0201AB28(void *a, int i);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(u32 a, u32 b, u32 c);
-extern int func_021B5FB8(u32 a, u32 b);
+extern int func_021B5FB8(u32 a, int sel);
 extern int func_021B5FB4(u32 a);
 
 int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
@@ -47,7 +48,7 @@ int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
     all = 0;
     *mask = found;
     for (i = 0; i < n; i++) {
-        item = func_0201AB28(lst, i);
+        item = (u32)func_0201AB28(lst, i);
         if (func_02017E1C(item, 0x4c, 0) == 1)
             continue;
         if (func_021B5FB8(item, key) == 0)

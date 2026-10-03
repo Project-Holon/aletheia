@@ -25,7 +25,7 @@ struct V {int x,y,z;};
 struct C {void *owner,*parent; u8 kind,index,n,count; void *obj[6]; int step; u8 active; u8 pad[3]; const u8 *types;};
 extern struct V zero;
 extern int func_021B98DC(int,int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern int func_021B9E50(u32),func_021B9E80(u32);
 extern void func_021BA8F4(void*,const struct V*);
 extern void func_0204B3DC(void*,u32),func_0204B84C(void*,u32);

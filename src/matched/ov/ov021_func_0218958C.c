@@ -17,7 +17,9 @@
  *   func_021A0338  0x021A0338  thumb  ov021
  */
 
-int func_02188C68(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_02188C68(u8 *p);
 void func_021A0358(int a);
 int func_02013EEC(unsigned short id);
 int func_02013F2C(unsigned short id);

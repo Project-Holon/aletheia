@@ -25,7 +25,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_0203F9B4();
-extern u32 func_020403F4();
+extern void func_020403F4(u32 i);
 u32 func_021B990C(void)
 {
     func_020403F4(1);

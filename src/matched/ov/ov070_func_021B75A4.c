@@ -40,11 +40,12 @@ extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 extern u16 func_020212B0(u16 id);
-extern void func_0201EF34(void *a, int b, unsigned int c);
-extern void func_0201F250(void *obj, void *a, void *b);
+struct WordSet;
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021BACF0(Obj *o, int v);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B7584();
+extern void func_021B7584(int p);
 
 void func_021B75A4(Obj *o)
 {

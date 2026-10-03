@@ -183,7 +183,7 @@ struct BlockD {
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 extern u8   func_02017F50(u32 species, u16 form, u32 pid);
 extern u32  func_02019ABC(struct Mon *p);
-extern void func_0201F41C(const void *src, void *dest, u32 n);
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void func_02045A38(const void *src, void *dest, u32 n);
 
 void func_02019388(struct Mon *p, u32 id, u32 v)

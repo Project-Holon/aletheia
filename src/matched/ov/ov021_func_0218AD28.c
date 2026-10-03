@@ -47,11 +47,11 @@ struct FieldCtx {
 
 extern void func_021A3038(void *p, int *out);
 extern void *func_02188C98(u8 *p);
-extern u32 func_021AB0D4(void *a, int *b);
+extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
-extern int func_021C8A74(u16 attr);
+extern int func_021C8A74(u32 a);
 extern void *func_021C8A30(u32 prio, void *sys, u8 *owner);
-extern int func_021C8CF0(u16 attr);
+extern int func_021C8CF0(u32 a);
 extern void *func_021C8C88(u32 prio, void *sys, u8 *owner);
 
 void *func_0218AD28(struct FieldCtx *p, u8 *pos)

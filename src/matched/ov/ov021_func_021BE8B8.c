@@ -14,8 +14,10 @@
  *   func_021BEACC  0x021BEACC  thumb  ov021
  */
 
-extern int func_02013FD8(int a);
-extern int func_021BEACC(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 func_02013FD8(u32 id);
+extern u32 func_021BEACC(int a, int b);
 
 int func_021BE8B8(int a, int b)
 {

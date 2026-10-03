@@ -18,7 +18,7 @@ extern unsigned func_021F3350(char *);
 extern void func_0200C0FC(void *, void *, unsigned char);
 extern void func_021F462C(unsigned char *, unsigned);
 extern void func_021F4634(unsigned char *);
-extern void func_021F4AA8(void);
+extern void func_021F4AA8(unsigned char *p, int *state, unsigned char *q);
 #define OBJ(p) (*(char **)((p) + 0x2C4))
 void func_021F4A5C(unsigned char *a, int unused, char *p)
 {

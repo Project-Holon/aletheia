@@ -25,7 +25,9 @@
 
 int func_0215A5EC(int b);
 void *func_0215A5E4(void *a0);
-int func_02012844(void *a);
+typedef unsigned int   u32;
+struct BigObj;
+u32 func_02012844(const struct BigObj *p);
 int func_02162744(int a);
 int func_020127A4(void *a);
 int func_02012AC8(int a);

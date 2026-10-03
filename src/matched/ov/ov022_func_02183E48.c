@@ -41,9 +41,9 @@ typedef struct T14 {
     u8 f[1];
 } T14;
 
-extern int func_0203D1C0(int a);
-extern int func_0203D378(void);
-extern void func_02173614(u8 *a, u8 *b);
+extern u32 func_0203D1C0(u32 index);
+extern u32 func_0203D378(void);
+extern void func_02173614(u8 *self, const u8 *mac);
 
 typedef struct C {
     u8 pad[0x2830];

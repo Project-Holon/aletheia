@@ -42,11 +42,11 @@ struct C {
 };
 
 extern void func_021D590C(int a, void *b);
-extern void func_021EF7AC(int a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_021EF7AC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02043B5C(int a, int b);
 extern void func_0201C7A4(int a, int b, int c, int d, int e);
 extern void func_02045334(int a);
-extern void func_020061E4(int a);
+extern void func_020061E4(u32 a);
 
 int func_021EE4B4(int *st, struct C *c)
 {

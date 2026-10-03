@@ -19,7 +19,8 @@
 typedef unsigned int u32;
 
 extern void *func_0203159C(int a, int size, int heap);
-extern void *func_020070A4(void);
+struct Sub02007084Ctrl;
+extern struct Sub02007084Ctrl *func_020070A4(void);
 extern u32 func_0200873C(void *);
 extern u32 func_0200C0F0(void *);
 

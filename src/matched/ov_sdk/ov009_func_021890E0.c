@@ -80,7 +80,7 @@ extern int func_02189300(void **connection, int id, int isDeleted);
 extern void func_0217EAE0(void *ptr);
 extern int func_0218FFFC(void **connection, int (*func)(void **, GPIProfile *, void *), void *data);
 extern void func_021841B0(void *array);
-extern int func_021890A4(GPIProfile *profile, void *data);
+extern int func_021890A4(int unused, struct GPIProfile *profile, int baseIndex);
 extern char g_021A446C[];
 extern char g_021A44AC[];
 extern char g_021A424C[];

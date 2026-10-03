@@ -14,5 +14,5 @@
  *   func_021D61FC 0x021D61FC thumb ov115
  */
 typedef unsigned char u8;typedef unsigned int u32;
-extern int func_021D5C70(void *);extern void func_021D6134(void *,void (*)(u8 *),int),func_021D61FC(u8 *);
+extern int func_021D5C70(u8 *p);extern void func_021D6134(void *,void (*)(u8 *),int),func_021D61FC(u8 *);
 void func_021D61D8(u8 *p) { if(func_021D5C70(*(void **)(p+8)))func_021D6134(p,func_021D61FC,0x1a2); }

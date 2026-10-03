@@ -45,16 +45,20 @@ typedef unsigned int   u32;
 
 extern u16 Table_0209F724[];
 
-extern void  *func_0201EC64(u16 id);
-extern void   func_0201ED04(void *obj);
-extern void   func_0201EFC8(void *obj, int idx, u32 v);
-extern void   func_0201EFFC(void *obj, int idx, u32 v);
-extern void   func_0201F250(void *obj, void *a, void *b);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_0201EFC8(struct WordSet *p, u32 i, u16 v);
+extern void func_0201EFFC(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void  *func_020457B0(u32 size, u16 heap);
-extern void   func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void  *func_02045B38(int a, int b, u32 id, u16 heap);
-extern void   func_02045C04(void *p);
-extern void  *func_02045EC0(void *h, u16 idx);
+extern void func_02045C04(struct Rec *rec);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 
 void *sub_02024368(u16 *slots, u32 heap, int count)
 {

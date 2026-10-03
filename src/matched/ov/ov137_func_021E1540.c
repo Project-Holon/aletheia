@@ -12,9 +12,11 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02030EAC 0x02030EAC arm
  */
-extern void func_021DFF20(void *, int);
+typedef unsigned char  u8;
+struct Node;
+extern void func_021DFF20(u8 *p, int a);
 extern void func_020307B0(void *);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 void func_021E1540(void *task, int *p)
 {
     int done = 0;

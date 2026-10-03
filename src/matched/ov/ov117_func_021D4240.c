@@ -20,7 +20,7 @@ typedef signed char s8;
 typedef int s32;
 typedef unsigned int u32;
 
-extern void func_0207D658(u32 reg, u32 plane, s32 value);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_021D4240(s8 *fade)
 {

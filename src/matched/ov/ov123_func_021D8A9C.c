@@ -19,15 +19,17 @@
  *   func_021D8A7C 0x021D8A7C thumb ov123
  */
 extern void func_020307B0(void *);
-extern void func_021D66D0(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D66D0(u8 *p, int n);
 extern void func_021D57D0(void *, int, int, int);
-extern void func_021D56FC(void *, int);
-extern void func_021D62B4(void *, int);
-extern void func_021D6650(void *, int);
-extern void func_021D62BC(void *, int, unsigned int);
-extern void func_020061E4(int);
+extern void func_021D56FC(char *p, int mode);
+extern void func_021D62B4(u8 *p, unsigned int i);
+extern void func_021D6650(u8 *p, int flag);
+extern void func_021D62BC(u8 *p, int i, u32 v);
+extern void func_020061E4(u32 a);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D8A7C(void);
+extern void func_021D8A7C(char *p);
 void func_021D8A9C(char *p)
 {
     if (*(void **)(p+0x44)) {

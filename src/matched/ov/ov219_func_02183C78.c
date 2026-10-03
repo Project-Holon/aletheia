@@ -14,11 +14,14 @@
  *   func_02183CEC 0x02183CEC thumb ov219
  *   func_0201C4E4 0x0201C4E4 thumb
  */
-extern void func_020310C4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern int func_02183D14(char *, char *);
 extern void func_02185B74(char *);
 extern void func_02183CEC(char *);
-extern unsigned func_0201C4E4(void *);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_02183C78(void *unused, char *state, int unused2, char *ctx)
 {
     int result;

@@ -39,19 +39,20 @@ struct Desc;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C404(void *sys);
-extern int func_0200C468();
+struct Work;
+extern u16 func_0200C468(const u8 *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *func_020124E8();
 extern void func_02082BCC();
 extern u32 *func_02030734();
 extern void *func_02188C7C(unsigned char *p);
-extern void func_0216D9A0();
-extern void func_020355D8();
-extern void func_0216025C();
-extern void func_02160018();
+extern void func_0216D9A0(void *map);
+extern void func_020355D8(u8 v);
+extern int func_0216025C(void *evt, u32 *state, struct Ctx *c);
+extern int func_02160018(void *evt, u32 *state, struct Work *w);
 extern u8 d_02172960[];
-extern void func_02160668();
-extern void func_021606D0();
+extern int func_02160668(int *a0, int *a1);
+extern void func_021606D0(int a, int b);
 
 /* the 0x40-byte block hung off the record */
 struct Sub {

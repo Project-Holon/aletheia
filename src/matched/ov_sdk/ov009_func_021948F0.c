@@ -18,7 +18,7 @@
  *   g_021A590C   0x021A590C  data
  */
 
-extern int func_021946F4(void *game, int tnum);
+extern int func_021946F4(int *game, int tnum);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern double func_021947C0(void *game, char *name, void *func, double value, int index);
 extern char g_021A590C[];

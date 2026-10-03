@@ -35,7 +35,8 @@ typedef struct Ring {
 } Ring;
 
 Entry *func_021BBC2C(Ring *r, int i);
-int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 /* A u16 `c` (not int/u32) is what stores c's spill before b's. */
 int func_021BBC58(Ring *r, const void *b, u16 c)

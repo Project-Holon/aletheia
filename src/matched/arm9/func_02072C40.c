@@ -55,7 +55,7 @@ typedef struct {
     u32 f8;                     /* 0x08  liveness guard                      */
 } Obj;
 
-extern void func_02089618(u32 chan, u32 period);
+extern void func_02089618(u32 chBitMask, int timer);
 
 void func_02072C40(Obj *s, int v)
 {

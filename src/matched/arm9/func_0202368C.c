@@ -44,17 +44,17 @@ typedef struct Ctx {
     u32 h34;
 } Ctx;
 
-extern u32 func_0202290C(s32 a, s32 b, s32 c);
+struct Container;
+struct ctl;
+extern s32 func_0202290C(s32 a, s32 b, s32 c);
 extern void func_02022CEC(Ctx *ctx, u32 flag, u32 a2, u32 a3);
 extern void func_0202384C(Ctx *ctx);
 extern void func_020056A0(void *cb, Ctx *ctx, u32 v);
 extern s16 *func_02022D88(Ctx *ctx, u32 i);
-extern void func_02022D98(void);
-extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3,
-                          u32 s5, u32 s6, u32 s7, u32 s8,
-                          u32 s9, u32 s10);
-extern void func_02022E88(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void func_02022AD0(void);
+extern void func_02022D98(void *p, struct Container *c);
+extern void func_02022E20(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
+extern int func_02022E88(int a0, int a1, int a2, int a3);
+extern void func_02022AD0(struct ctl *ctl);
 extern void func_02022518(u32 a0, Ctx *a1, void *a2, u32 a3, u32 s5);
 
 void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,

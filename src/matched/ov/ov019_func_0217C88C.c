@@ -52,22 +52,23 @@ typedef struct {
     s16 f6e;
 } Obj;
 
-int func_0217BB04(void *ctx);
-int func_0217F1EC(void *ctx);
-void func_0217F5E0(void *ctx, int a);
-void func_0217F624(void *ctx);
+typedef unsigned short u16;
+int func_0217BB04(char *p);
+u32 func_0217F1EC(u8 *p);
+void func_0217F5E0(char *p, u32 a1);
+void func_0217F624(char *p);
 void func_0217F388(void *ctx, int a, int n, int *p);
 int func_0217F4B4(void *ctx, int *flag, int *p, int *flag2, int a);
 void func_0217F4AC(void *ctx);
 void func_0217BA10(void *ctx, int id);
 int func_0217BAA8(void *ctx, int id, int *p, int *q);
-void func_0217F210(void *ctx, int a, int msg);
-int func_0217B8E4(void *ctx, int v);
+void func_0217F210(u8 *p, int a, u32 b);
+int func_0217B8E4(char *p, char v);
 int func_0217B974(int id);
 void func_0217F640(void *ctx, int a, int b, int c, int d);
-int func_0217F794(void *ctx, int a);
-void func_0217F7B8(void *ctx);
-int func_0217EC88(int a);
+u32 func_0217F794(char *p, u32 a);
+void func_0217F7B8(char *p);
+u16 func_0217EC88(int i);
 u32 func_020362DC(void);
 
 int func_0217C88C(void *ctx, Obj *obj, int a2, u8 *state)

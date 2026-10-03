@@ -56,8 +56,9 @@ struct Buf32 {
 extern struct Buf32 d_021D8C2C;
 
 extern int func_02035C08(struct Buf32 *b);
-extern void func_0204B3DC(void *o, u32 v);
-extern void func_020355D8(u32 v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_020355D8(u8 v);
 extern void func_021A90A4(struct W *w, u32 v);
 
 void func_021A8FFC(struct W *w)

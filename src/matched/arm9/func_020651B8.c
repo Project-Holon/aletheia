@@ -119,7 +119,7 @@ extern Mtx            g_02147D18[];
 extern struct Scr     g_020A81F8;
 
 extern void *func_02066740(struct Actor *o);
-extern int   func_02063784(void *map, int i);
+extern int func_02063784(unsigned short *p, int i);
 
 static inline int GetColorParam(const OamAttr *oam)
 {

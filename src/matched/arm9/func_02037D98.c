@@ -29,7 +29,7 @@ struct S02037D98 {
 extern u8 lbl_020A7A20[];
 extern struct S02037D98 *lbl_021469D0;
 extern int func_02038AE0(u32 a, u32 b, u32 c, u32 d);
-extern int func_0203D6BC(void);
+extern u32 func_0203D6BC(void);
 
 int func_02037D98(int a)
 {

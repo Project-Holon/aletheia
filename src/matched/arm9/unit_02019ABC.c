@@ -47,8 +47,9 @@ struct BlockA {
 };
 
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
-extern void  func_02045F5C(void *bank, u32 id, void *dest, u32 n);
-extern u32   func_0201F448(const void *a, const void *b);
+struct MsgData;
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern u32 func_0201F448(const u16 *a, const u16 *b);
 
 extern void *gMsgBank;
 extern u16   gNameBuf[];

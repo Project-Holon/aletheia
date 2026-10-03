@@ -28,7 +28,7 @@ typedef struct S {
 } S;
 
 extern void func_021B7B7C(S *p);
-extern void func_021B7BE0(S *p, u32 v);
+extern void func_021B7BE0(struct S *p, int a1);
 extern int func_0201C6B4(int a);
 extern void func_021B9344(S *p);
 

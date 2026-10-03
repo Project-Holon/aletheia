@@ -20,8 +20,8 @@ extern void func_021E36D8(void *,int);
 extern void func_021DFD3C(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021D9434(void *);
-extern void func_021E0054(void *);
-extern void func_021E0980(void *);
+extern void func_021E0054(char *p);
+extern void func_021E0980(char *p);
 void func_021E08E8(char *p)
 {
     int state;

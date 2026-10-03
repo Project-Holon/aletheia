@@ -21,7 +21,8 @@
  * It reads no caller r1-r3. 02016028 retains live incoming flag in r1. */
 extern void func_02016028(void *,unsigned);
 extern void *func_02015EE8(void *);
-extern void func_02064CBC(void *);
+struct Obj;
+extern void func_02064CBC(struct Obj *x);
 extern void func_02015E4C(void *);
 extern void func_02063000(void *,unsigned,void *,int (*)(char *));
 extern int func_020173B4(void *);

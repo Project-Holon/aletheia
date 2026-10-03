@@ -21,7 +21,7 @@ typedef struct GSCoreMgr {
     int b0c;
 } GSCoreMgr;
 
-extern GSCoreMgr *func_0217CA20(void);
+extern void *func_0217CA20(void);
 
 int func_0217CE1C(void)
 {

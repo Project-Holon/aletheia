@@ -20,7 +20,8 @@
  *       --func func_021CA980 --addr 0x021CA980 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02085A38(int);
+typedef unsigned int   u32;
+extern void func_02085A38(u32 msec);
 extern void func_021CAB68(void);
 extern void func_021CA9A0(void);
 extern void func_021CA9D8(void);

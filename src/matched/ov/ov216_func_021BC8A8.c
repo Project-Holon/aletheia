@@ -12,10 +12,13 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_020452E8 0x020452E8 arm
  */
-extern void func_0204B3DC(void *,int);
-extern void func_0204B3B4(void *);
-extern void func_020452E8(void *);
-extern void func_0202DC08(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0202DC08(struct Obj *p);
 void func_021BC8A8(char *p)
 {
     int i=0,j;

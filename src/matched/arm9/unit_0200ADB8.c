@@ -78,13 +78,15 @@ typedef signed int     s32;
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 extern u32   func_020173EC(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02045CAC(void *g, u32 id, void *dest);
-extern void  func_02045C04(void *g);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045C04(struct Rec *rec);
 extern u16   func_0203F1FC(void *p, u32 size);
-extern void *func_020457B0(u32 size, u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern const char func_0200ADF0_File[];
 
 struct Reg {

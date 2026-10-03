@@ -22,11 +22,12 @@ typedef unsigned int u32;
 typedef struct { u16 x, y, z; u8 pri, f7; } ObjPos;
 extern void func_02082BCC(void *, int, int);
 extern void *func_0204B294(void *, void *, void *, void *, ObjPos *, int, int);
-extern void func_0204B92C(void *, int);
-extern void func_0204B878(void *, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B84C(void *, int);
-extern void func_0204B3DC(void *, int);
-extern void func_0203D34C(u32, u16);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0203D34C(u32 a, u32 b);
 void func_021FC360(char *p)
 {
     ObjPos pos;

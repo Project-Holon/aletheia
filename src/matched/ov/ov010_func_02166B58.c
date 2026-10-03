@@ -31,7 +31,8 @@ typedef unsigned int u32;
 
 extern int   func_02017E1C(u32 obj, int key, int off);
 extern void *func_020144DC(u32 a0, u32 a1);
-extern void  func_02012374(void *obj, void *out);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern void *func_020145CC(u32 a0);
 extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);

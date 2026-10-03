@@ -30,7 +30,8 @@ typedef struct {
 } Res;
 
 extern char *func_021BA820(unsigned long size, int align);
-extern void func_021BA874(void *bgnEndInfo_p, int err);
+typedef unsigned char  u8;
+extern void func_021BA874(u8 *p, int v);
 extern int func_021BB210(Res *res_p, char *dst_p, int pos, int len);
 
 int func_021BBDFC(void *bgnEndInfo_p, Res *res_p, char **value_pp)

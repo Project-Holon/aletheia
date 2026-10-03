@@ -21,16 +21,19 @@
  */
 typedef unsigned short u16;
 typedef signed short s16;
-extern unsigned func_021DE354(char *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct WordSet;
+extern int func_021DE354(void *p);
 extern unsigned func_021DE7F4(void);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021DD924(char *);
-extern unsigned func_0201FEBC(void *);
+extern u32 func_0201FEBC(u8 *p);
 extern void *func_021DCF50(void *);
-extern void func_02184134(void *);
-extern int func_021DCBC4(void *, int, void *, int);
-extern void *func_02184180(void *, int);
-extern void func_0201F02C(void *, int, void *);
+extern void func_02184134(u8 *p);
+extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 int func_021DDD80(char *p, int state) {
     char *q = *(char **)(p+0x10);
     unsigned result;

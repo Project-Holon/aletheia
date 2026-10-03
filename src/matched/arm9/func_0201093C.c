@@ -19,7 +19,7 @@ typedef unsigned int  u32;
 
 extern u32  func_020399A8(void);
 extern u32  func_02039CB4(u32 h, u32 a, u32 b);
-extern void func_02012DAC(u32 v);
+extern int func_02012DAC(int a0);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_02010964(u8 *p);
 

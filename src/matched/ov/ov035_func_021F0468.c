@@ -35,10 +35,12 @@ extern void func_021F0354(char *p);
 extern u8 func_021F0364(char *p);
 extern u32 func_021F0370(char *p);
 extern u32 func_020221A4(void);
-extern u32 func_02012204(void *p);
+struct Comm;
+struct Ctx;
+extern u32 func_02012204(const struct Ctx *p);
 extern u32 func_02026454(void *h);
-extern void func_02026400(void *h);
-extern void func_02012158(void *p, u32 v);
+extern void func_02026400(struct Comm *p);
+extern void func_02012158(char *p, unsigned int v);
 
 int func_021F0468(char *p)
 {

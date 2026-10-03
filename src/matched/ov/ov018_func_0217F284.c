@@ -15,8 +15,10 @@
  *   func_02158590 0x02158590 thumb ov010
  */
 typedef unsigned char u8;
-extern void *func_020120F4(const void *);
-extern u8 func_02012B58(const void *);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern int func_02158590(void *);
 int func_0217F284(u8 *p)
 {

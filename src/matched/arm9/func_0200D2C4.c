@@ -10,7 +10,10 @@
  * status:   EXACT*
  */
 
-extern unsigned short func_0200D368(void *p, unsigned int heap);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Blk37;
+extern u16 func_0200D368(struct Blk37 *p, u32 heap);
 int func_0200D2C4(void *p, unsigned int heap)
 {
     return func_0200D368(p, heap) >= 0x96;

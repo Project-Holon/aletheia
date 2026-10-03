@@ -20,7 +20,9 @@ typedef struct {short x,y;Matrix matrix;u16 state,a,b,pad;} Record;
 typedef struct {int words[6];Record records[];} State;
 extern const Matrix d_02185F28;
 extern void func_021858BC(Matrix *,int *);
-extern int func_0200949C(void *,int,int);
+typedef unsigned int   u32;
+struct Sub02009470Obj;
+extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
 void func_021846B8(State *p,int index,int x,int y,u16 a,u16 b)
 {
     Matrix matrix=d_02185F28;

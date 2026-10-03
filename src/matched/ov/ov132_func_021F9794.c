@@ -32,12 +32,12 @@ extern int func_021FD8C4(void *, int);
 extern void func_021F79A8(char *, char *, int);
 extern void func_021F9AD8(char *, int, unsigned);
 extern u32 func_02005728(u32);
-extern int func_021FD9FC(void *);
+extern int func_021FD9FC(char *p);
 extern int func_021FD9A0(void *, unsigned);
-extern void func_021FDA18(void *);
-extern void func_021FD9D0(void *, unsigned);
+extern void func_021FDA18(unsigned char *p);
+extern void func_021FD9D0(unsigned char *p, unsigned char key);
 extern int func_021F99F4(char *, unsigned, unsigned);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern int func_0203D378(void *);
 extern void func_021FDA24(void *, u32, u32, u32);
 void func_021F9794(char *p)

@@ -14,11 +14,15 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_02045C04 0x02045C04 arm
  */
-extern void func_02045808(void *);
-extern void func_0201C4C0(void *);
-extern void func_0201ED04(void *);
+struct PrintSys;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *);
-extern void func_02045C04(void *);
+extern void func_02045C04(struct Rec *rec);
 #define PTR(p,n) (*(void **)((p)+(n)))
 void func_021DCC88(char *p)
 {

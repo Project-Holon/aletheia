@@ -33,7 +33,7 @@ typedef struct {u8 a,b,c,d;u16 file,pad;} Record;
 typedef struct Slot Slot;
 extern const Config d_021E3758;
 extern const Record d_021E3728[];
-extern int func_021FC20C(char *);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_021FB964(int,int,u16);
 extern Slot *func_0201F81C(u32,u32);

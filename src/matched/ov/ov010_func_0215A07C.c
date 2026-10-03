@@ -32,12 +32,15 @@ typedef struct {
     u16 *f14;
 } Task;
 
-extern void *func_020120F4(void *p);
-extern void *func_02012934(void *p);
-extern u32 *func_02030734(int, int, int, const char *, int);
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020122C0(int, int, void (*)(void), int);
-extern Task *func_020124E8(void *);
-extern void *func_0201210C(void *p);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_0215A214(void);
 extern const char d_021728CC[];
 

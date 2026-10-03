@@ -68,7 +68,8 @@ typedef struct TexReq {
 extern Res *func_02047250(void *p);
 extern int STD_GetStringLength(const char *s);
 extern void *func_0206E62C(const void *dict, const char *name);
-extern void *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_0201D83C(void *font);
 extern void func_0216FD54(TexReq *r, u32 a, u16 b, u16 c, u16 d, u16 e);
 extern void func_0216FE04(TexReq *r, void *p);

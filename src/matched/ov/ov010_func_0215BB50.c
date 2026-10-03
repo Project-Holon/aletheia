@@ -39,11 +39,12 @@ typedef struct {
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern u16 func_0215A5CC(void *);
-extern void *func_02012934(void *p);
-extern void func_02012944(void *);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u8 *func_02012944(void *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_02159B10(void *, void *);
-extern u16 func_0215C510(void *, Req *);
+extern int func_0215C510(void *a, void *b);
 
 int func_0215BB50(void *a0, void *a1)
 {

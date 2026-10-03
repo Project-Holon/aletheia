@@ -13,7 +13,7 @@
  *   func_020524C8 0x020524C8 arm
  */
 
-extern void func_020524C8(void);
+extern void func_020524C8(void *p);
 asm void KeyValHashKey(void)
 {
     ldr r0, [r0]

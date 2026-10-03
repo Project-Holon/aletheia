@@ -23,7 +23,8 @@
 typedef unsigned short u16;
 extern void func_0203F8F4(u16);
 extern void func_020433E0(const void *);
-extern void func_0203FC28(void *);
+struct DispConfig;
+extern void func_0203FC28(struct DispConfig *cfg);
 extern void func_0203FCA0(unsigned,const void *,unsigned);
 extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void func_02040EBC(unsigned,unsigned);

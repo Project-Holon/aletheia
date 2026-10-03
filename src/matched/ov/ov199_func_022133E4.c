@@ -33,10 +33,11 @@ extern unsigned func_0200853C(const void *);
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern int func_02167ED8(Date *,Triple *);
-extern void func_02034714(const char *,int,const char *);
+struct Reg;
+extern int func_02167ED8(void *date, void *time);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_022135CC(u8 *,u8 *,u8 *);
-extern unsigned func_0200AE54(void *,unsigned);
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern const char d_02213D00[];
 void func_022133E4(u8 *p,void *party1,void *party2,u8 *save,void *reg,int setting,u8 *record,void *other,int mode)
 {

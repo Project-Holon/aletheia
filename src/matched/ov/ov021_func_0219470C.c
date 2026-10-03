@@ -18,11 +18,13 @@
  *   func_02195490  0x02195490  thumb  ov021
  */
 
-extern void func_020310C4(void *p);
+typedef unsigned char  u8;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern void func_0219545C(void *a);
-extern void func_021953D4(void *a, int b);
-extern void func_02194B84(void *a, void *b);
-extern void func_02194C60(void *a, void *b);
+extern void func_021953D4(u8 *p, int m);
+extern void func_02194B84(u8 *p, u8 *e);
+extern void func_02194C60(u8 *p, u8 *e);
 extern void func_02195490(void *a);
 
 void func_0219470C(unsigned char *a)

@@ -24,7 +24,7 @@ extern const struct Record d_021E32A8[];
 extern void *func_021FD12C(int, int, int);
 extern void func_021FD170(void *, int, int);
 extern void func_021FB964(int, int, int);
-extern int func_021FC20C(char *);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void *func_021FC6A4(int, int, int, int, u8, u8, int, u16);
 extern void func_021FC754(void *, int, int, int, u16);

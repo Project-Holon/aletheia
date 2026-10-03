@@ -30,9 +30,9 @@ struct Obj {
     u8   pad18[0x18];
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
-extern void *func_020457B0(u32 a, u32 b);
+struct U16Vec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void  func_0202428C(void *p);
 extern u8    sZonedataFile;
 

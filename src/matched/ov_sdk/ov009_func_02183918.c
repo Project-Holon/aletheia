@@ -41,7 +41,7 @@ struct GSIXmlElement
 extern int ArrayLength(void *array);
 extern void *ArrayNth(void *array, int n);
 extern int gsiXmlUtilTagMatches(char *matchtag, void *xmlstr);
-extern void func_0217F8B4(char *input, char *output, int inlen, int *outlen, int encodingType);
+extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern int func_0217FBC8(char *input, int encodingType);
 
 int func_02183918(void *stream, char *matchtag, unsigned char *valueOut, int *lenOut)

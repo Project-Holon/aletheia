@@ -16,9 +16,9 @@
  */
 extern int func_021FE90C(void *, int *);
 extern int func_021FE970(void *, int *);
-extern int func_021FE9D4(void *, int *);
+extern int func_021FE9D4(char *p, int *state);
 extern int func_021FEB1C(void *, int *);
-extern int func_021FEC14(void *, int *);
+extern int func_021FEC14(char *p, int *state);
 void *func_021FED08(unsigned index)
 {
     switch (index) {

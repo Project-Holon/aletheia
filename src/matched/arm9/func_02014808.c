@@ -16,7 +16,8 @@
 typedef unsigned int u32;
 
 extern void *func_020122C0(char *a0, int a1, int a2, int a3);
-extern u32 *func_020124E8(void *desc);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02014758(void);
 
 void *func_02014808(char *a0, int a1, int a2, int a3, int a4, int a5, int a6)

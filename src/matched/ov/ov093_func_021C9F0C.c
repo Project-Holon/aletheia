@@ -29,7 +29,7 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c);
 
 int func_021C9F0C(u8 *w, const struct Cmd *c)

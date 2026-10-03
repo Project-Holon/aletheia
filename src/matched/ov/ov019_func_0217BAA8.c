@@ -16,7 +16,7 @@
  *   func_0217BA6C  0x0217BA6C  thumb  ov019
  */
 
-extern int func_0217B9BC(int a);
+extern int func_0217B9BC(unsigned int x);
 extern void func_0217BA10(int a, int b);
 extern int func_0217BA48(int a, int *p);
 extern int func_0217BA6C(int a, int *p);

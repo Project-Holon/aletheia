@@ -41,7 +41,9 @@ typedef struct {
 } Sys;
 
 int func_0217BB20(u8 *w);
-void func_0217F074(u8 *w);
+typedef unsigned int   u32;
+struct BigObj;
+void func_0217F074(void *p);
 int func_0217B8E4(u8 *w, int v);
 void *func_0217B9CC(u8 *w);
 void func_0217B9F4(void *h);
@@ -50,16 +52,16 @@ int func_0217FE24(u8 *p);
 void func_02175240(u8 *p, int v);
 void func_02175208(u8 *p);
 int func_02175214(u8 *p);
-int func_02174D98(int v);
+u32 func_02174D98(u32 p);
 int func_02174DF0(u8 *p);
-void *func_02012934(void *p);
+void *func_02012934(const struct BigObj *p);
 void func_0201AC2C(void *h, int v);
 void func_0201A2A8(int a, int v);
 int func_020399A8(void);
 int func_0203D1A4(int a);
 void func_02039C68(int a, int b, int c);
 int func_02039CB4(int a, int b, int c);
-int func_0203D378(void);
+u32 func_0203D378(void);
 
 int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
 {

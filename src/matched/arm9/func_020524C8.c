@@ -29,7 +29,7 @@
  *       --flags "-O4,p -proc arm946e"
  */
 
-extern void func_0205250C(void *a, void *b);
+extern void func_0205250C(char *p, char *q);
 
 void func_020524C8(void *p)
 {

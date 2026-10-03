@@ -22,8 +22,9 @@
 
 extern void *func_02017DBC(void *a);
 extern void  func_02017DE4(void *a, void *b);
-extern int   func_02017E88(void *a, int b, int c);
-extern int   func_02017EB4(void *a);
+typedef unsigned int   u32;
+extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 func_02017EB4(void *p);
 
 int func_0202F498(void *a0, int a1)
 {

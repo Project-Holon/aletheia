@@ -19,7 +19,8 @@
 
 typedef unsigned int u32;
 
-extern void func_0201EF40(void *ws, u32 i, u32 v);
+struct WordSet;
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern void func_021EBA84(unsigned char *p, int msg, int i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

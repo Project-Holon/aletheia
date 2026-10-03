@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern u8 g_021D83F0[];
 
-void func_020403F4(int x);
+void func_020403F4(u32 i);
 void func_020450C8(void);
 void func_0203F9B4(void);
 void func_02082BCC(void *dst, int c, int n);

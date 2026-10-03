@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 
 extern char *g_021A8264;
 extern int func_0215610C(void);
-extern u32 func_0216B908(void);
-extern void func_02176FD4(u32, void *, u32);
+extern int func_0216B908(void);
+extern unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 
 int func_0215615C(u32 idx)
 {

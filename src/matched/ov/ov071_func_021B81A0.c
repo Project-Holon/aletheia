@@ -25,7 +25,7 @@ extern int d_021BA9A4[][3];
 
 extern void func_021B6C54(void *a);
 extern void func_021B6A0C(int a, void *b, int c, int d, int e, int f, int g, int h);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B6B98(void *p, void *tbl, int n, int sel, int c);
 
 void func_021B81A0(int *a, u8 *p)

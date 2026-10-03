@@ -12,7 +12,7 @@
  *   func_021E0E4C 0x021E0E4C thumb ov119
  */
 extern void func_020452E8(int);
-extern void func_021E0E4C(void *);
+extern void func_021E0E4C(char *p);
 void func_021E293C(char *p,int i)
 {
     if (*(int *)(p+0x5c4+4*i)) {

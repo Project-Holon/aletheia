@@ -15,7 +15,9 @@
  *   func_0220014C 0x0220014C thumb ov186
  *   d_02200D9C 0x02200D9C data a1
  */
-extern void *func_02030734(unsigned short, unsigned, int, const char *, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02082BCC(void *, int, unsigned);
 extern void *func_0201C440(unsigned short);
 extern int func_02200228(unsigned short, unsigned *);

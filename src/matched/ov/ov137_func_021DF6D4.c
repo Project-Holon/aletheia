@@ -13,5 +13,6 @@
  *   func_021E0130 0x021E0130 thumb ov137
  */
 typedef unsigned char u8;
-extern void *func_020399A8(void);extern void func_02039C68(void *,int,int);extern void func_021E0130(u8 *,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);extern void func_02039C68(void *,int,int);extern void func_021E0130(u8 *,int);
 int func_021DF6D4(u8 *p){void *ctx=func_020399A8();if(!*(int *)(p+0x18))func_02039C68(ctx,206,40);func_021E0130(p,10);*(int *)p=48;return 0;}

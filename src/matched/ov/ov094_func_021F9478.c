@@ -27,9 +27,10 @@ typedef struct {
     void *h;            /* 0x1E8 */
 } T;
 
-extern int func_02011298(void *vm);
-extern T *func_02011324(void *vm);
-extern void func_021F8198(u32 a, u32 b);
+struct ScriptVm;
+extern int func_02011298(struct ScriptVm *vm);
+extern void *func_02011324(struct ScriptVm *vm);
+extern void func_021F8198(int a, int b);
 extern void func_021FE410(T *t, int a, int b, int c);
 extern void func_020307B0(void *p);
 

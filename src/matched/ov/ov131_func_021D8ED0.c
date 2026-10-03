@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { u16 x; u16 y; } Point;
 extern s16 func_021D9440(u8 *,u32);
-extern u32 func_021D9428(u8 *,u8);
+extern unsigned int func_021D9428(unsigned char *p, unsigned int target);
 extern void func_0204B404(void *,const Point *,u32);
 void func_021D8ED0(u8 *a,u8 *p,u8 n)
 {

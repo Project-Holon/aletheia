@@ -14,5 +14,8 @@
  *   func_021ED370 0x021ED370 thumb ov170
  *   func_021ECF78 0x021ECF78 thumb ov170
  */
-extern void *func_0204B100(unsigned,unsigned,unsigned);extern void func_021ED824(char *);extern void func_021EC2A0(char *);extern void func_021ED370(unsigned char *);extern void func_021ECF78(char *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);extern void func_021ED824(char *);extern void func_021EC2A0(char *);extern void func_021ED370(unsigned char *);extern void func_021ECF78(char *);
 void func_021EBEAC(unsigned char *p){*(void **)(*(char **)(p+44)+0x9e70)=func_0204B100(180,0,76);func_021ED824(*(char **)(p+44));func_021EC2A0(*(char **)(p+44));func_021ED370(p);func_021ECF78(*(char **)(p+44));}

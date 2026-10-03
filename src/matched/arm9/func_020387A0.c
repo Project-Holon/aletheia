@@ -32,11 +32,11 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u8 *lbl_021469D0;
-extern void func_0203D6BC(void);
-extern u16 func_0203F1FC(u8 *p, s32 n);
+extern u32 func_0203D6BC(void);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02039548(void);
 extern u8 *func_0203CA98(void);
-extern void func_0203C9AC(u32 a, u32 b, u32 c, u32 d);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern void func_02036428(u8 *dst, u8 *src, s32 len);
 
 int func_020387A0(u32 i, u8 *p, s32 n)

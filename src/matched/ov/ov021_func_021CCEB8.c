@@ -34,7 +34,8 @@ typedef struct {
 
 extern void *func_02188C54(void *p);
 extern void *func_021904B0(void *p, u32 id);
-extern void *func_0201EC64(u16 id);
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 
 void func_021CCEB8(Work *w)
 {

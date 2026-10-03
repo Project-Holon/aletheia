@@ -38,7 +38,7 @@ struct Sub020064B8Head {
     u32 unk03 : 8;
 };
 
-extern struct Sub020064B8Head *func_02074450(u32 a);
+extern void *func_02074450(int index);
 extern u32 *func_0207466C(u32 a);
 extern void func_0208A640(u32 *a, u32 b, u32 c);
 extern u32  func_0208A674(u32 a, u32 b);

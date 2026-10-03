@@ -79,7 +79,7 @@ extern void func_0202A440(u32 a, u32 b, u32 c);
 extern void func_0202A4B4(u32 a, u32 b, u32 c);
 extern u32  func_02012984(u32 a);
 extern void func_0216AAE4(u32 a, u32 b, u32 c);
-extern u32  func_0202A3FC(u32 a);
+extern u8 func_0202A3FC(u32 key);
 
 void func_02013284(u8 *o, u32 *a1, u32 n, u32 *dst, u32 v, u32 h)
 {

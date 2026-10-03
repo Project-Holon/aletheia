@@ -44,13 +44,13 @@ struct IcaAnime {
     u32 f1c;            /* +0x1C */
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
+typedef signed int     s32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020116C0(struct IcaAnime *p);
 extern void  func_020116E0(struct IcaAnime *p, u32 a, u32 b, u32 c);
-extern u32   func_02011770(struct IcaAnime *p, u32 v);
+extern void func_02011770(u8 *p, int n);
 extern u32   func_020117D8(struct IcaAnime *p, u32 v1, u32 v2, u32 v3);
-extern void  func_0201183C(struct IcaAnime *p, u32 v);
+extern void func_0201183C(struct IcaAnime *s, s32 q);
 extern u8    sIcaAnimeFile;
 
 

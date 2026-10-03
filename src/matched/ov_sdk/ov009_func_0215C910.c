@@ -88,7 +88,7 @@ typedef struct {
 	unsigned long long add;
 } RandCtx;
 
-extern int func_0215C814(unsigned char *name, unsigned long *pip);
+extern unsigned long func_0215C814(unsigned char *name, unsigned long *pip);
 extern unsigned long func_021578C8(unsigned long ip);
 extern unsigned char (*func_02157D8C(unsigned long ip))[6];
 extern unsigned char (*func_02157F60(unsigned long ip))[6];

@@ -16,10 +16,12 @@
  *   func_021FC36C 0x021FC36C thumb ov186
  *   func_021FE8E8 0x021FE8E8 thumb ov186
  */
-extern void *func_020490F4(unsigned,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049238(void *);
 extern unsigned short func_021FC31C(unsigned),func_021FC344(unsigned),func_021FC36C(unsigned);
-extern void func_021FE8E8(void *,void *,unsigned short,unsigned,unsigned,unsigned,unsigned short);
+extern void func_021FE8E8(char *p, void *arc, u32 file, u32 idx, u32 off, u32 count, u16 tag);
 void func_021FC240(char *p,void *owner,unsigned short heap)
 {
     void *h;

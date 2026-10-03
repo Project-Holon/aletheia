@@ -12,5 +12,5 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021DCB94(void *,u32,const void *,u32);
+extern void func_021DCB94(u8 *p, u32 id, const void *data, u32 size);
 void func_021DCBC4(void *p,u32 a,const void *b,u32 c) {func_021DCB94(p,a,b,c);}

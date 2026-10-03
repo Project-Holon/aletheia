@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ov208Obj { void *owner; int f4; int f8; int fc; int f10; };
 extern const char d_021C8D80[];
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Ov208Obj *func_021BC240(void *owner, int val, u32 heap)
 {
     struct Ov208Obj *p = func_02030734(heap, 20, 0, d_021C8D80, 0x4f);

@@ -30,11 +30,13 @@ typedef struct {
 void *func_02012138(void *);
 int func_020122C0(void *, int, void (*)(void), int);
 Ov018Work *func_020124E8(int);
-int func_02026454(void *);
+typedef unsigned int   u32;
+struct Ctx;
+u32 func_02026454(void *obj);
 unsigned char *func_02026474(void *);
-int func_0202647C(void *);
-int func_02012204(void *);
-void func_020061E4(int);
+u32 func_0202647C(void *obj);
+u32 func_02012204(const struct Ctx *p);
+void func_020061E4(u32 a);
 void func_0217C094(unsigned char *);
 void func_0217CAFC(void);
 

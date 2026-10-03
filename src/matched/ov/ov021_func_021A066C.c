@@ -43,9 +43,9 @@ typedef struct {
 
 extern void func_02048CA4(u32, u8, const V3s *);
 extern void func_02048CDC(u32, u8, const u16 *);
-extern void func_0206AA8C(u16, u16, u32);
-extern void func_0206AAB0(u16, u16, u32);
-extern void func_021A01C4(u32, u16);
+extern void func_0206AA8C(u32 v, u32 bits, u32 flag);
+extern void func_0206AAB0(u32 v, u32 bits, u32 flag);
+extern int func_021A01C4(u32 a, u32 b);
 extern void func_0207DD24(u16, int, int, int, int);
 
 void func_021A066C(const W *w, u32 a, u32 p)

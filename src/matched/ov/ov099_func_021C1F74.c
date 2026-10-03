@@ -11,7 +11,8 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 typedef struct {
     char pad[0x8f8];

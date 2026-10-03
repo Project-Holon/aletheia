@@ -13,7 +13,7 @@
  *   func_02016020 0x02016020 thumb
  *   func_02015BF0 0x02015BF0 thumb
  */
-extern void func_021E55BC(void *);
+extern void func_021E55BC(char *p);
 extern void *func_02014B08(int, unsigned short);
 extern void func_02016020(void *, unsigned int);
 extern void func_02015BF0(void *);

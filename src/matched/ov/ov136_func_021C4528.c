@@ -13,7 +13,8 @@
  *   func_021C4528 0x021C4528 thumb
  *   func_021C44FC 0x021C44FC thumb
  */
-extern void func_021C44FC(void *a);
+typedef unsigned char  u8;
+extern void func_021C44FC(u8 *p);
 int func_021C4528(void *a)
 {
     func_021C44FC(a);

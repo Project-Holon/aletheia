@@ -22,7 +22,7 @@ typedef unsigned short u16;
 int func_0200855C(int x);
 int func_02008530(int x);
 int func_021584F4(int a, int b);
-void func_021866F8(void *p);
+void func_021866F8(char *p);
 
 void func_021861F4(u16 *p, int x)
 {

@@ -44,7 +44,7 @@ extern void *sub_02030734(u32,u32,int,const char *,u16);
 extern void func_0204E720(u32,int,int,int);
 extern void func_02204DC4(u8 *,u8 *);
 extern void *sub_020056A0(u32,u32,u32);
-extern void func_022051A8(void);
+extern void func_022051A8(int task, char *p);
 extern u32 func_02031324(u16);
 extern void func_02204C24(struct App *,struct Scene *);
 extern void func_0203D34C(u32,u32);

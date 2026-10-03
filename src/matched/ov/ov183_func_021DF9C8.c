@@ -21,8 +21,10 @@ extern void func_021FC0C8(int, int);
 extern void func_021FD820(char *);
 extern void func_021FD15C(void *, int);
 extern void func_02025588(void *);
-extern void func_0201C4C0(void *);
-extern void func_020315D4(void *);
+struct PrintSys;
+struct S020315D4;
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020315D4(struct S020315D4 *p);
 int func_021DF9C8(void *p, int unused, char *q, char *data)
 {
     int i;

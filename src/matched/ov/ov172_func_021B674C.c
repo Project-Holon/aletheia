@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u16 func_021B6938(void *);
 extern u16 func_021B6944(void *);
-extern void *func_02030734(u16, u32, int, const void *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0203D7C8(u16, u32, const void *, int);
 extern const char d_021C71C0[];
 void func_021B674C(char *p, int count, u16 heap)

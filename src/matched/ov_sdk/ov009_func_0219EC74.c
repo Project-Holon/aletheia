@@ -40,8 +40,9 @@ extern void func_0219F9A8(void *slist, char *queryForGamename, char *queryFromGa
                           int queryFromVersion, int lanBrowse, void *callback, void *instance);
 extern void func_0219D864(void *engine, int maxupdates, int queryversion, int lanBrowse,
                           void *callback, void *instance);
-extern void func_0219E9F4(void);
-extern void func_0219EBC4(void);
+struct SBServerList;
+extern void func_0219E9F4(struct SBServerList *serverlist, int reason, struct SBServer *server, void *instance);
+extern void func_0219EBC4(int unused, unsigned int reason, struct SBServer *server, void *inst);
 extern int g_021ACEF8;
 
 struct ServerBrowser *func_0219EC74(char *queryForGamename, char *queryFromGamename, char *queryFromKey,

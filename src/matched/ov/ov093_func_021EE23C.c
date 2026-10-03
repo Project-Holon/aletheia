@@ -41,8 +41,9 @@ struct O {
 
 extern void func_02043B5C(int a, int b);
 extern void func_02045334(int a);
-extern void func_0204E720(int a, int b, int c, int d);
-extern int func_021EB318(void);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern u32 func_021EB318(void);
 extern int func_021EE3E8(void *a, void *b);
 
 void func_021EE23C(struct Q *q)

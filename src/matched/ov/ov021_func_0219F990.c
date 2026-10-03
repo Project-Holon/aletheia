@@ -48,10 +48,10 @@ extern u32 func_0216D534(u32);
 extern int func_02188CBC(u32);
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A3080(u8 *p);
-extern int func_0219FADC(u8 *p, u32 b, u8 *c);
+extern int func_0219FADC(u8 *p, int a, u8 *q);
 extern void func_0219FAB4(u32, u32, u8 *, Vec *);
 extern void func_0216D8C0(u32, Vec *);
-extern int func_02013D9C(u32);
+extern u32 func_02013D9C(u32 id);
 
 void func_0219F990(u32 a, u8 *p, u32 b)
 {

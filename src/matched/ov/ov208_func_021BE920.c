@@ -45,9 +45,11 @@ struct Ov208Icon {
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049238(void *h);
-extern void *func_0204384C(u32 a, u32 b, u32 c, u32 d);
+struct Bmp;
+struct Obj020437AC;
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern void func_02043814(void *a, u32 b);
-extern void func_020437AC(void *a);
+extern void func_020437AC(struct Obj020437AC *p);
 extern u32  func_02045EC0(u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(u32 a);

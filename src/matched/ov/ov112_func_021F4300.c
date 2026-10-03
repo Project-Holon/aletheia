@@ -27,7 +27,7 @@ extern void func_0204AFD8(u32);
 extern void func_0204B3B4(u32);
 extern void func_0204B1CC(u32);
 extern void func_021F4748(u8 *);
-extern void func_020403F4(int);
+extern void func_020403F4(u32 i);
 extern void func_020307B0(void *);
 void func_021F4300(u8 *p)
 {

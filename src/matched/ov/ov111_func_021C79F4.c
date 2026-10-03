@@ -88,7 +88,8 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_0204B98C(void *p);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 
 int func_021C79F4(Work *p)
 {

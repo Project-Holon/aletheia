@@ -30,8 +30,8 @@ struct Node {
     Copy body;
 };
 
-extern void *func_02030734(u32 heapId, u32 size, u32 zero,
-                           const void *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const Copy *func_02012AA0(u32 v);
 
 struct Node *func_0202B1AC(u32 a, u32 heapId)

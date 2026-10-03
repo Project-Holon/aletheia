@@ -17,7 +17,7 @@
  */
 
 extern void func_0201EFA4(int a, int b, int c, int d, int e, int f);
-extern void func_021F0A98(char *p, int b);
+extern void func_021F0A98(char *p, unsigned a);
 extern void func_021F201C(char *p, char *q, int r, int s, int t, int u, int v, int w);
 
 void func_021F0B10(char *p, int a, int b)

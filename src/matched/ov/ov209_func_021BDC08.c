@@ -23,13 +23,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Template { u32 w0, w4, w8, wC, w10; u16 h14, h16; } Template;
 extern const Template d_021BE9F0[10];
-extern void *func_0204B100(int, u8, u32);
+struct Actor;
+struct Bank;
+struct Blk37;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_021C940C(void *, const Template *, u32);
-extern void func_0204BA20(void *, u32);
-extern void func_021BD8D8(char *, int, unsigned);
+extern void func_0204BA20(struct Actor *a, u32 v);
+extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *, int, int);
-extern unsigned func_0200CA54(void *);
-extern unsigned func_0200CA38(void *);
+extern u32 func_0200CA54(struct Blk37 *p);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern int func_02012BF8(int, int);
 void func_021BDC08(char *p)
 {

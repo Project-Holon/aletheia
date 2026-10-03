@@ -25,8 +25,9 @@ typedef struct {
     void *f9ac;             /* 0x9ac */
 } Work;
 
-extern void func_021B63D0(void *p);
-extern int func_021B6448(void *p);
+struct S;
+extern void func_021B63D0(struct S *p);
+extern int func_021B6448(u8 *p);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 

@@ -22,9 +22,11 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+typedef unsigned char  u8;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021F37C8(void *);
+extern int func_021F37C8(u8 *p);
 
 int func_021B240C(u32 a, u32 b)
 {

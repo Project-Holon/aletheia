@@ -15,7 +15,8 @@
  */
 extern const unsigned short d_022007F0[][6];
 extern char d_02200D38[];
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 void *func_021FB704(char *ctx, int section, unsigned item)
 {
     int i;

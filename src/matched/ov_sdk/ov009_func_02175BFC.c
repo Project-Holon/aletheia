@@ -16,7 +16,7 @@
  *   func_020870D0  0x020870D0  arm
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern unsigned long long func_020870D0(void);
 
 void func_02175BFC(int suspend, void *callback, void *suspendResultParam)

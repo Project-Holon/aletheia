@@ -36,8 +36,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 *g_021469D0;
-extern void func_0203D798(void);
-extern u8 *func_0203D788(void);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
 extern u32 func_0203D6BC(void);
 extern u32 func_02038AE0(u32 a, u8 *b, u32 c, u32 d);
 

@@ -24,7 +24,8 @@ typedef struct Work {
     void *f38;          /* 0x38 */
 } Work;
 
-extern u8 func_021572C0(void *d);
+struct Deal;
+extern u8 func_021572C0(struct Deal *d);
 
 u8 func_02156908(Work *w)
 {

@@ -11,5 +11,5 @@
  * symbols:
  *   func_021FB5C4 0x021FB5C4 thumb ov186
  */
-extern void func_021FB5C4(void *, unsigned);
+extern void func_021FB5C4(char *p, int n);
 void func_021FAFC0(char *p, unsigned value) { func_021FB5C4(*(void **)(p+8),value); }

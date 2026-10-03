@@ -16,9 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02188C7C(void *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_02188C7C(u8 *p);
 extern int func_0216DD1C(void *list, void **out, unsigned long *iter);
-extern int func_0216D598(void *rec);
+extern u16 func_0216D598(void *p);
 
 void *func_021B6E24(void *a)
 {

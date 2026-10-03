@@ -57,9 +57,10 @@ typedef signed int     s32;
 
 extern const u16 func_0201F4A0_Table[];
 extern u32  func_0201F47C(void *s);
-extern u16 *func_02045A90(void *s);
-extern void func_02045AA8(void *dst, void *src);
-extern void func_02045AFC(void *dst, u16 c);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
+extern void func_02045AFC(struct U16Vec *vec, u16 value);
 
 struct Lim {
     u32 hi;

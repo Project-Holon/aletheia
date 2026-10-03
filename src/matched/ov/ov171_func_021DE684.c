@@ -19,7 +19,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021DE5F4(char *);
 extern void func_021DE0E4(u8 *,int,s16 *,s16 *);
-extern void func_0204B800(void *,u32);
+struct Node;
+extern void func_0204B800(struct Node *node, u32 val);
 void func_021DE684(u8 *p)
 {
     u8 order[6];

@@ -13,7 +13,7 @@
  * Lever: subscript each record field; clear_record binds the element before its store.
  */
 
-extern unsigned func_021DA158(int,int);
+extern int func_021DA158(int x, int flag);
 extern void func_0204B878(int,unsigned short);
 typedef struct  {
     int state, value, flag, handle;

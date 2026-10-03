@@ -40,7 +40,7 @@ u16 func_0216D86C(u32 h);
 void func_0216D824(u32 h, u16 v);
 void func_0216D844(u32 h, short v);
 void func_0216D85C(u32 h, short v);
-void func_0216D874(u32 h, short v);
+void func_0216D874(int a0, int a1);
 void func_0216D89C(u32 h, Vec021A38A4 *v);
 
 void func_021A38A4(u8 *p, Vec021A38A4 *v)

@@ -15,7 +15,7 @@
  */
 typedef unsigned short u16;
 extern int func_020399A8(void);
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern int func_02012950(int,int);
 extern int func_0200F5EC(int,int,int,u16);
 void func_021B9910(int a,int b,int c,int d,int e)

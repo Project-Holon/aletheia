@@ -63,9 +63,9 @@ extern struct InfoWin *gInfoWin;
 extern void  func_020252A8(void);
 extern int   func_0203568C(void);
 extern int   func_0203CD98(void);
-extern struct Link *func_0203D798(void);
+extern void *func_0203D798(void);
 extern int   func_0203D1B4(void);
-extern int   func_0203D29C(void);
+extern u32 func_0203D29C(void);
 extern u32   func_0201058C(u32 a);
 extern int   func_02026CA0(int *p);
 

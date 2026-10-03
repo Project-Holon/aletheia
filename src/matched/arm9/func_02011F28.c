@@ -62,7 +62,7 @@ extern void *func_020261E4(u16 id, void *res);
 extern void *func_0202B4BC(void *a, u16 id);
 extern void  func_02012248(struct IcaAnime *p);
 extern void  func_020122A4(struct IcaAnime *p);
-extern void  func_020139B0(u16 id);
+extern void func_020139B0(u32 heap);
 
 void func_02011F28(struct IcaAnime *p, u16 id, u32 a2)
 {

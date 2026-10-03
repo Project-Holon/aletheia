@@ -22,7 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 *func_021E9100(void *p, u32 k);
-extern void *func_020457B0(u32 size, u32 heap);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_021EA55C(u32 a, void *b);
 extern void func_021EAC44(u32 a, void *b);
 extern void func_020307B0(void *p);

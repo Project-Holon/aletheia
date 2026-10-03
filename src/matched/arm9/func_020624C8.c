@@ -49,7 +49,7 @@ extern u32 g_02146BB0;
 extern u32 g_02146BB4;
 
 extern u32 func_02061EB8(void *a, void *b, u32 *out, u32 size, u32 flag);
-extern void func_0206207C(void *a, void *b, u32 block, u32 size);
+extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
 u32 func_020624C8(u32 size, u32 flag)
 {

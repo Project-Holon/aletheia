@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct S { u32 f0; u32 f4; u32 f8; } S;
 
-extern void func_02158F58(u32 a);
+extern int func_02158F58(int a0);
 extern u32 func_02029620(u32 a, u32 b, u32 c);
 extern void func_0215897C(u32 a, u32 b);
 

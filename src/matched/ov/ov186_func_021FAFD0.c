@@ -14,8 +14,8 @@
  *   func_021FB514 0x021FB514 thumb ov186
  */
 extern void func_021FAEE4(char *, int *);
-extern void func_021FB548(void *, short *, short *);
-extern void func_021FB514(void *, short, int);
+extern void func_021FB548(char *p, short *x, short *y);
+extern void func_021FB514(char *p, short x, short y);
 int func_021FAFD0(char *ctx)
 {
     int position[2];

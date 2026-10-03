@@ -26,10 +26,12 @@ typedef unsigned int  u32;
 extern const u8 str_020A7A68[];
 extern const u8 str_020A7A78[];
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
-extern void func_0203D788(void);
+typedef signed int     s32;
+struct Entry;
+extern void *func_0203D788(void);
 struct Entry;
 
-extern struct Entry *func_0203996C(u32 a);
+extern struct Entry *func_0203996C(s32 idx);
 
 int func_020395EC(struct Entry *a)
 {

@@ -13,7 +13,8 @@
  *   func_021C54C8 0x021C54C8 thumb
  *   func_021C68A0 0x021C68A0 thumb
  */
-extern int func_021C68A0(void *p, int *st);
+typedef unsigned char  u8;
+extern int func_021C68A0(u8 *p, int *st);
 int func_021C54C8(void *a, void *b, void *c, void *p)
 {
     if (func_021C68A0(p, b) == 0) return 1;

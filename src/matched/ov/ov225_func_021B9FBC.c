@@ -20,7 +20,7 @@ typedef struct S S;
 struct Entry {unsigned word[7];};
 extern const struct Entry d_021BBF2C[];
 extern void func_021BA240(char *);
-extern void func_021B63D0(S *);
+extern void func_021B63D0(struct S *p);
 extern int func_021B6470(u8 *);
 extern int func_021B6448(u8 *);
 extern void func_021BA508(char *);

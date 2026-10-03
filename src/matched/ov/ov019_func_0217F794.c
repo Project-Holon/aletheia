@@ -17,5 +17,6 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 *func_02188C54(u32 a);
 extern u32 func_021904A8(u32 *p);
-extern u32 func_0201C6B4(const void *p);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 u32 func_0217F794(char *p,u32 a) { u32 h=func_021904A8(func_02188C54(a)); if(*(void **)(p+0x3530)==0) return 1; return func_0201C6B4((void *)h); }

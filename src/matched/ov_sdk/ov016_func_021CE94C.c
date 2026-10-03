@@ -24,8 +24,9 @@ typedef struct {
 	void *task;
 } SB;
 
-extern void func_021D7744();
-extern void func_021D4F60(void *cell);
+typedef unsigned char  u8;
+extern void func_021D7744(unsigned int idx, void *r4);
+extern void func_021D4F60(u8 *p);
 extern void func_021D6438(void **mem);
 extern SB *g_021DE63C;
 

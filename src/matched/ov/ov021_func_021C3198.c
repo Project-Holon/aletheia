@@ -19,9 +19,10 @@ typedef unsigned int u32;
 
 typedef struct { u32 v[4]; } T;
 
-extern int func_02040588();
+struct Node;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FC28(T *p);
-extern void func_02030EAC(void *p);
+extern void func_02030EAC(struct Node *n);
 extern const T d_021DA700;
 
 void func_021C3198(void *p, u32 *done)

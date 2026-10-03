@@ -45,7 +45,8 @@ struct Run0204E720 {
 
 extern struct Run0204E720 *g_02146A7C;
 
-extern void func_0207D534(void *reg, s32 level);
+typedef unsigned short u16;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 
 void func_0204E824(void)
 {

@@ -51,9 +51,11 @@ typedef struct {
     u8 b1 : 1;
 } Bits;
 
-int func_0217F1EC(u8 *w);
-void func_0217F210(u8 *w, int a, int msg);
-void func_0217F074(u8 *w);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+u32 func_0217F1EC(u8 *p);
+void func_0217F210(u8 *p, int a, u32 b);
+void func_0217F074(void *p);
 void func_0217BAF0(u8 *w, int a, int v);
 int func_0217FEB8(u8 *p);
 void func_0217AE20(u8 *w);
@@ -63,18 +65,18 @@ void func_02172D38(u8 *w);
 void func_02172D50(u8 *w);
 void func_02173408(u8 *w);
 void func_02173524(u8 *w, u8 *q);
-void func_0217422C(u8 *w, int b, void *c);
+void func_0217422C(u8 *p, int a, int b);
 int func_02174268(u8 *w);
 void func_0217505C(u8 *p, int a);
-int func_0200FB24(void);
+u32 func_0200FB24(void);
 void func_02012124(int a, int b);
 int func_020399A8(void);
 void func_02039C68(int a, int b, int c);
 int func_02039CB4(int a, int b, int c);
 void func_0203D7BC(int a);
-int func_0203D378(void);
+u32 func_0203D378(void);
 int func_020392B8(void);
-int func_02039338(void);
+u16 func_02039338(void);
 int func_0203D1C0(u8 i);
 
 int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)

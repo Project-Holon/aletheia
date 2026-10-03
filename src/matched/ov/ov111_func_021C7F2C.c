@@ -96,13 +96,14 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_020061E4(int se);
+struct Obj;
+extern void func_020061E4(u32 a);
 extern void func_021C7B20(Work *p, int mode, int idx);
 extern void func_021C7908(Work *p);
 extern int func_021C7EF8(int v);
 extern void func_021C8078(Work *p);
-extern void func_0204B878(void *o, int anm);
-extern void func_020355D8(int v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_020355D8(u8 v);
 extern const int d_021C88B4[8];
 
 void func_021C7F2C(Work *p, int sel, int flag)

@@ -20,7 +20,7 @@
  *       --func func_021C0F98 --addr 0x021C0F98 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D6438(void *);
+extern void func_021D6438(void **mem);
 
 void func_021C0F98(void)
 {

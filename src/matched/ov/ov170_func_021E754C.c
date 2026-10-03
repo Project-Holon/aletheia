@@ -25,11 +25,15 @@ extern void func_021ECB60(char *w, int i, int f);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
-extern void func_020260E4(void *obj, unsigned char sel);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sound;
+struct Struct_02025CD0;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EA750(unsigned char *p);
 extern int func_021EBFEC(char *w, int i);
 extern void func_021DEFEC(unsigned char *p, int b);
-extern void func_020260F4(void *obj, int state);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021EF68C(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))

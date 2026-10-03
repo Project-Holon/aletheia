@@ -14,8 +14,11 @@
  *   func_02183B90 0x02183B90 thumb ov020
  */
 typedef struct { void *owner; void *input; } Work;
-extern void *func_020122C0(void *owner, void *a, void *b, unsigned int n);
-extern void *func_020124E8(void *p);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_02183B90(int a, int *state, int *p);
 void *func_02183C34(void *owner, void *input)
 {

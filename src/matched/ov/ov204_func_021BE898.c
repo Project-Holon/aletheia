@@ -22,7 +22,8 @@ extern void func_021BFAE8(char *,u32);
 extern int func_021BFB2C(char *);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
-extern void func_0200854C(void *,u8);
+struct Sub0200852CObj;
+extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 int func_021BE898(char *p,u32 *q)
 {
     void *obj;

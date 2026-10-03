@@ -31,13 +31,15 @@ extern Template template_021BB060;
 extern int tbl_021BAC80[];
 extern void *func_021B7754(Template *,u32);
 extern void func_021B7A10(void *,void *,u32,u32,u32);
-extern void func_021B7A4C(void *,void *,u32,u32,u32);
-extern void func_021B79E4(void *,u32,u32);
+struct MsgBank;
+struct Rec;
+extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
+extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 extern void *func_020490F4(u32,u16);
 extern void func_02049238(void *);
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_02045EC0(void *,u32);
-extern void func_02045C04(void *);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 void func_021B9D48(char *p)
 {
     int i,value;

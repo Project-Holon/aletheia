@@ -14,7 +14,7 @@
  *   func_0204B294 0x0204B294 arm
  */
 extern unsigned func_021E7CF0(unsigned,unsigned,unsigned);
-extern int func_021E5978(void *,int);
+extern int func_021E5978(int *p, int i);
 extern void func_02082BCC(void *,int,int);
 extern void *func_0204B294(void *,int,int,int,short *,int,unsigned);
 void func_021E7C3C(char *p,char *q,void *x,void *data,unsigned heap)

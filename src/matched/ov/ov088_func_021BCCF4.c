@@ -27,7 +27,7 @@ extern void func_021BCDB4(void *, int *);
 extern void func_021BCDD0(void *, int *);
 extern void func_021BCDEC(void *, int *);
 extern void func_021BCE20(void *, int *);
-extern void func_021BCE3C(void *, int *);
+extern void func_021BCE3C(char *p, int *out);
 extern void func_021BCE80(void *, int *);
 extern void func_021BCF18(void *, int *);
 

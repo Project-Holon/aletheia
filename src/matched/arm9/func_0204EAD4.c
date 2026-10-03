@@ -35,9 +35,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_020809B4(void);
-extern void func_020806B0(u32 v);
+extern void func_020806B0(int sub_bg);
 extern void func_0208068C(u32 v);
-extern void func_0207D4B0(u32 a, u32 b, u32 c);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 v);
 
 void func_0204EAD4(void)

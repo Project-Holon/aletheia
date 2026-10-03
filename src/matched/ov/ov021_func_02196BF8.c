@@ -26,9 +26,10 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_02196034(u8 *p, void *fn, u32 n);
-extern void func_02196B28(void);
-extern void func_02196B94(void);
-extern void func_020061E4(int n);
+struct Obj;
+extern void func_02196B28(struct Obj *a);
+extern void func_02196B94(struct Obj *a);
+extern void func_020061E4(u32 a);
 
 int func_02196BF8(u32 v, u8 *p)
 {

@@ -32,7 +32,7 @@ typedef struct {
 } Work;
 
 extern int func_021F6DE8(void *handle);
-extern int func_0201AA18(void *party);
+extern u32 func_0201AA18(void *p);
 
 int func_022024DC(Work *p, void *mon)
 {

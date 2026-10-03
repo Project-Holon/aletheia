@@ -32,11 +32,13 @@ typedef unsigned int   u32;
 
 typedef struct { u16 f0; u16 f2; s16 f4; u16 f6; } Q;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02184CEC(void *obj, void *p);
-u16 func_020142A4(u16 s);
-void func_02184388(void);
+u32 func_020142A4(u32 idx);
+int func_02184388(int a, int *state, u8 *p);
 void func_020141A8(void *o, int a, int s, int g, int i, int h);
 
 void *func_02184D90(void *p, int unused, int a, const Q *q, u16 s, int t)

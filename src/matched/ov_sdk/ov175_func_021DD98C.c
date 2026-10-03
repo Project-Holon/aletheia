@@ -61,7 +61,7 @@ extern void *func_021819B0(char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
 extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
-extern void func_02181D84(void *stream);
+extern void func_02181D84(void **p);
 extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
 extern int func_02181DE8(void *stream);
 extern char *g_021E370C[1];

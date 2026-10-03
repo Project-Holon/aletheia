@@ -74,12 +74,14 @@ typedef struct {
 int func_0217BB04(Ctx *ctx);
 int func_0217F1EC(Ctx *ctx);
 void func_0217F210(Ctx *ctx, int a, int msg);
-int func_0217EC34(int a);
-int func_0217EC68(int a);
-int func_0217EC78(int a);
+typedef unsigned short u16;
+struct BigObj;
+u16 func_0217EC34(int i);
+u16 func_0217EC68(int i);
+u16 func_0217EC78(int i);
 int func_0217ECD0(Ctx *ctx);
 int func_0217B8E4(Ctx *ctx, int v);
-int func_0217B9BC(int id);
+int func_0217B9BC(unsigned int x);
 void func_0217BA10(Ctx *ctx, int id);
 int func_0217B974(int id);
 int func_0217BAA8(Ctx *ctx, int id, int *p, int *q);
@@ -90,11 +92,11 @@ void func_0217F22C(Ctx *ctx, int a);
 int func_0217F268(Ctx *ctx, int *flag);
 void func_0217F24C(Ctx *ctx);
 int func_02173A48(int a, ...);
-void *func_02012934(void *p);
+void *func_02012934(const struct BigObj *p);
 void func_020120F4(int a);
 int func_0201AA1C(void *a);
 int func_0201AAD4(void *a);
-int func_0201AA88(void *a);
+u32 func_0201AA88(void *p);
 u32 func_020362DC(void);
 
 int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)

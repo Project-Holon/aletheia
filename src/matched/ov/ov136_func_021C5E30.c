@@ -16,9 +16,12 @@
  *   func_0204B1CC 0x0204B1CC arm
  */
 typedef unsigned char u8;
-extern void func_0202DC08(void *p);
-extern void func_0201C4C0(void *p);
-extern void func_0204B1CC(void *p);
+struct Bank;
+struct Obj;
+struct PrintSys;
+extern void func_0202DC08(struct Obj *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0204B1CC(struct Bank *bank);
 void func_021C5E30(u8 *p)
 {
     func_0202DC08(*(void **)(*(u8 **)(p + 8) + 0x35C));

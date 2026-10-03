@@ -18,5 +18,6 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct { u16 low:4; u16 bit4:1; u16 rest:11; } Bits;
 extern void func_0204F5A8(void *,u32);
-extern void func_0204F1A0(void *,u32);
+struct Obj0204F1A0;
+extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
 void func_021F4D40(u8 *p,u8 *e) { func_0204F5A8(*(void **)(p+4),*(u32 *)(e+8)); if (((Bits *)e)->bit4==1) func_0204F1A0(*(void **)(p+4),*(u32 *)(e+4)); *(u16 *)e=*(u16 *)e & ~1; *(u16 *)e=*(u16 *)e & ~2; }

@@ -83,23 +83,24 @@ typedef struct Obj {
     void *f130;
 } Obj;
 
-extern int func_0201C6B4(void *p);
-extern void func_021A12D4(void *a, u16 b);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_021A12D4(u32 *p, u32 x);
 extern void func_021A9294(Obj *p, Item *it);
 extern void func_020061E4(u32 se);
 extern int func_021A8588();
 extern void func_021A87A8(Obj *p);
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 extern void func_021A8EEC(Obj *p);
 extern void func_021A8FFC(Obj *p);
 extern void func_021A90E0(Obj *p);
 extern u32 func_0204B98C(u32 v);
-extern u32 func_02040588(u32, u32);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0204B3DC(u32, int);
 extern void func_021A9080(Obj *p, u8 a, u8 b);
 extern void func_0204B878(u32, u16);
-extern void func_021A0FA0(void *p, int v);
-extern int func_0201C4E4(void *p);
+extern void func_021A0FA0(int *p, int v);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 
 void func_021A85B4(Obj *p)
 {

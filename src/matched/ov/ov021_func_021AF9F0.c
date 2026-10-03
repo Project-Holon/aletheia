@@ -34,10 +34,12 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(Script *, u32);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct WordSet;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D50(u8 *);
 extern void *func_021C34F8(void *, u32);
-extern void func_0201EE84(u32, u32, void *);
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
 int func_021AF9F0(Script *a, u32 b)
 {
@@ -47,6 +49,6 @@ int func_021AF9F0(Script *a, u32 b)
     u32 e;
     a->cur = p + 1;
     e = func_02159B10(a, b);
-    func_0201EE84(x, v, func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC((void *)b))), e));
+    func_0201EE84((void *)x, v, func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC((void *)b))), e));
     return 0;
 }

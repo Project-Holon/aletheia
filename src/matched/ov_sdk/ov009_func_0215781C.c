@@ -16,7 +16,7 @@
  */
 
 extern int func_02157700(int a, int b, int c);
-extern int func_02157808(unsigned int x);
+extern unsigned int func_02157808(unsigned int x);
 
 int func_0215781C(int a, int b)
 {

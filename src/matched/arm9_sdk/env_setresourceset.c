@@ -27,8 +27,9 @@
  * list of layout/symbols_sdk.json, so the name is suspect.
  */
 
-extern void func_02062FF0(void *anim, void *seq);
-extern void func_0206419C(void *anim);
+struct CellAnim;
+extern void func_02062FF0(struct CellAnim *anim, void *bank);
+extern void func_0206419C(char *self);
 
 void ENV_SetResourceSet(void *anim, void *seq)
 {

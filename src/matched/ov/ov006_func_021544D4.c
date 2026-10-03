@@ -14,8 +14,9 @@
  *   func_02006734 0x02006734 thumb
  */
 typedef unsigned char u8;
-extern void func_02005CBC(int, int);
-extern void func_02006734(int);
+typedef unsigned int   u32;
+extern void func_02005CBC(u32 value, u32 mask);
+extern void func_02006734(u8 volume);
 void func_021544D4(u8 *p)
 {
     func_02005CBC(127, 63);

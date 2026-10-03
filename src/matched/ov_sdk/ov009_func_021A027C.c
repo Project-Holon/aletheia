@@ -19,7 +19,7 @@
  */
 
 struct SBL { char pad0[8]; void *keys; };
-extern int func_02184200(void *a);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
 extern void func_0219F920(void *slist, char *s);
 extern void func_021841B0(void *a);

@@ -22,7 +22,7 @@ typedef struct { u32 f0; u32 f4; u32 f8[3]; u32 f14; } Q;
 typedef struct { u32 f0; u32 f4; u32 f8; } W;
 extern u32 func_020122C0(u32 a, u32 b, void *fn, u32 size);
 extern W *func_020124E8(u32 t);
-extern void func_021C97B8(void);
+extern int func_021C97B8(u32 a, u32 *q, u32 *p);
 u32 func_021C9828(u32 a, u32 b, u32 c)
 {
     u32 t = func_020122C0(b, a, func_021C97B8, 0x14);

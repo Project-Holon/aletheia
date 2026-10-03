@@ -42,7 +42,7 @@ struct DWCstMatchControl {
 };
 
 extern struct DWCstMatchControl *func_02175F3C(void);
-extern void func_0219F00C(void *sb);
+extern void func_0219F00C(char *p);
 extern void func_02175F4C(int state);
 extern int func_02171C08(int delay, int init, int resendPid);
 extern int func_021719A4(int error);

@@ -28,15 +28,15 @@ typedef unsigned int u32;
 
 extern u32 func_0201D7EC(int a, int b, int c, int d, u32 e);
 extern u32 func_02045B38(int a, int b, int c, u32 d);
-extern void func_0201F5BC(int a, int b, int c, int d, u32 e);
-extern u32 func_0201F548(int a);
-extern void func_02049B90(int a, u32 b, int c, int d, int e, int f, u32 g);
-extern void func_02049B40(int a, int b, int c, int d, int e, u32 f);
+extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern u8 func_0201F548(int i);
+extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201DD68(void);
 extern u32 func_0203101C(u32 a, u32 b, int c, int d);
 extern u32 func_0201C440(u32 a);
 extern u32 func_02028590(int a, int b, int c, u32 d);
-extern void func_0201DD78(int a, int b, int c);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 
 void func_021B6760(u8 *p)
 {

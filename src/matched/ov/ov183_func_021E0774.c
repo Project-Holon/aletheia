@@ -16,7 +16,8 @@
  *   func_02051C6C 0x02051C6C arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021E08E4(char *);
 extern void func_02049238(void *);
 extern void func_02051C6C(void *);

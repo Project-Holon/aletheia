@@ -16,8 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B878(void *p, unsigned short value);
-extern void func_0204B9A0(void *);
+typedef unsigned short u16;
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
 
 void func_021BCE7C(void *p, unsigned short value)
 {

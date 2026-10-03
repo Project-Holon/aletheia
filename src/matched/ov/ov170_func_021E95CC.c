@@ -17,8 +17,11 @@
  * Enters state 9 with reason v.
  */
 
-extern unsigned func_020260F0(void *obj);
-extern void func_020355D8(int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sound;
+extern u32 func_020260F0(struct Sound *obj);
+extern void func_020355D8(u8 v);
 extern int func_021E8F90(void *p, int a);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

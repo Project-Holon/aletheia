@@ -41,7 +41,7 @@ extern void func_021C34A4(void *heap, struct S *st, void *obj);
 extern void func_021BDBA0(int p);
 extern int func_021BC3A4(int *p);
 extern int func_021BDC2C(char *p);
-extern void func_02012BE0(void *p, int id, int v);
+extern void func_02012BE0(void *p, u32 a, u32 b);
 
 void func_021C2A70(void *a0, void *a1, void *heap, struct S *st, int *obj, int key)
 {

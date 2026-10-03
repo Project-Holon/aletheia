@@ -47,7 +47,7 @@ struct Cfg {
     u16 unk_0a;
 };
 
-extern u8 func_02041680(u32 layer);
+extern u8 func_02041680(int channel);
 extern void func_02041300(u32 index, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 m);
 
 void func_020454E0(struct Cfg *cfg, u16 base, u32 pal)

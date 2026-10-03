@@ -21,7 +21,8 @@ typedef unsigned int   u32;
 
 
 extern void func_02022518(u32 a0, u8 *a1, u32 a2, u32 a3, u32 a4);
-extern void func_02022F60(void);
+struct S;
+extern void func_02022F60(struct S *p);
 
 void func_02022F0C(u32 a0, u8 *a1, u32 a2, u32 a3)
 {

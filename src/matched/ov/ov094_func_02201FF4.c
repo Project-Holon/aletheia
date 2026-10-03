@@ -31,7 +31,9 @@ typedef struct {
 
 extern int func_021F9260(void *m, int *out);
 extern void func_021F89BC(void *p);
-extern void func_0204B570(void *h, int k);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B570(struct Actor *actor, u32 value);
 extern void func_0204B5AC(void *h, int *v);
 
 void func_02201FF4(void *a, Obj *o)

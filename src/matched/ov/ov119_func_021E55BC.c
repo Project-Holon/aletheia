@@ -29,7 +29,8 @@ extern void func_021E5520(void);
 extern void func_02046440(int,int,int,int,u16,u16,void (*)(void));
 extern int func_02048A24(int,int,int,int,int,int,int,int,const Vec *,const Vec *,const Vec *,u16);
 extern void func_02048AD0(int);
-extern void func_02046BE0(int,int);
+typedef unsigned int   u32;
+extern void func_02046BE0(u32 a, u32 b);
 void func_021E55BC(char *p)
 {
     u16 heap;

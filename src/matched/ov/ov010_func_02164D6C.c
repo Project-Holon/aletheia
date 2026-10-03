@@ -41,7 +41,7 @@ extern Ent  *func_02164E04(u8 *obj, int *out);
 extern void  func_02082BCC(void *dst, int v, int n);
 extern u8   *func_0203CF3C(int a);
 extern void  func_02026A60(void *a);
-extern void  func_02177BF4(int a);
+extern void func_02177BF4(unsigned int idx);
 
 u8 *func_02164D6C(u8 *obj, int *arg)
 {

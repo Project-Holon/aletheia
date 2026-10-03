@@ -23,8 +23,10 @@ typedef struct {
     int f38;
 } Ov107Ctx;
 
-void func_02045374(void *);
-void func_020409B4(int);
+typedef unsigned int   u32;
+struct Cfg;
+void func_02045374(struct Cfg *cfg);
+void func_020409B4(u32 index);
 
 void func_021F1B24(Ov107Ctx *p, int x)
 {

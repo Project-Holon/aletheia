@@ -75,7 +75,8 @@ struct EnvModule {
 extern struct EnvModule g_EnvModule;
 
 extern void *sub_0202FBAC(u16 idx);
-extern void *sub_02060CA0(void *res, u32 param, s32 step);
+struct ExpHeap;
+extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern int   sub_0202FED8(void *res, u32 idx, void *bound, u32 param);
 
 int sub_0202FDC4(u32 src, u32 dst, u32 param)

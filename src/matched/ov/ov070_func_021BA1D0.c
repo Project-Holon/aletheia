@@ -14,7 +14,8 @@
  *   func_020212B0  0x020212B0  thumb
  */
 
-extern int func_02021288(int);
+typedef unsigned int   u32;
+extern u32 func_02021288(u32 id);
 extern int func_020212B0(int);
 
 int func_021BA1D0(int x)

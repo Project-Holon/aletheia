@@ -14,7 +14,7 @@
  */
 extern int func_02035C38(void);
 extern void func_021D8E84(void *, int);
-extern void func_021DBBD0(void *);
+extern void func_021DBBD0(char *p);
 void func_021DF6EC(void *p)
 {
     if (func_02035C38() == 0) {

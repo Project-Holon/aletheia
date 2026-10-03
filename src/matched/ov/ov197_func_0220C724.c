@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef signed char s8;
 struct Pair { short x,y; };
 extern void func_0220C4D4(int,int);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_0220C724(char *p,u16 slot,u8 a,u8 b,const struct Pair *src)
 {
     struct Pair v;

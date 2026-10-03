@@ -33,7 +33,7 @@ extern int func_021D1C40(BattleSeq *s, u8 x, int *out);
 extern void func_021EAF18(void *msg, int a, int id);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EA614(void *win, void *msg);
-extern int func_021EA710(void *win);
+extern int func_021EA710(u32 *p);
 
 int func_021D1BD0(BattleSeq *s, int *state, int *pp)
 {

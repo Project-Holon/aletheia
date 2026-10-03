@@ -21,11 +21,12 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Obj {void *w; u32 f4,exp; u16 species,hp,total,item,f14,f16; u8 level,f19,f1A; u8 low:5,b5:1,b6:1,b7:1;};
 struct Result {u8 level,pad; u16 hp,a,b,c,d,e;};
 extern u32 func_02018584(u16,u16,u16);
-extern u32 func_02017D30(void *);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02017E40(void *,u32,u32);
 extern void func_020185C4(void *);
-extern void func_02017D70(void *,u32);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void func_021D505C(void *);
 extern void func_02082BCC(void *,u8,u32);
 int func_021D69B8(struct Obj *p, u32 *remaining, struct Result *r)

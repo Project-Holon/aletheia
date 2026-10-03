@@ -23,7 +23,8 @@ typedef struct {
     s16 y;
 } P2;
 
-extern void func_021C41DC(void *p, s16 x, s16 y);
+typedef unsigned char  u8;
+extern void func_021C41DC(u8 *p, int x, int y);
 
 void func_021C5814(char *p, P2 v)
 {

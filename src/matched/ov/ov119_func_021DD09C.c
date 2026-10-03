@@ -11,7 +11,8 @@
  *   func_020355C4 0x020355C4 arm
  *   func_021E68F4 0x021E68F4 thumb ov119
  */
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern void func_021E68F4(void *, int);
 void func_021DD09C(char *p)
 {

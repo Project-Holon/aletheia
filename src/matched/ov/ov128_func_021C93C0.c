@@ -17,11 +17,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_020061E4(int);
-extern void func_021CA3A0(void *);
-extern void func_021CA3C4(void *);
-extern int func_021C9D88(void *,int);
-extern void func_021C6E18(void *,int,int);
+extern void func_020061E4(u32 a);
+extern void func_021CA3A0(char *p);
+extern void func_021CA3C4(char *p);
+extern int func_021C9D88(u8 *p, int direction);
+extern void func_021C6E18(u8 *p, int i, u16 a);
 int func_021C93C0(char *p,void *q,void *r,int n) {
  switch(n) {
  case 0:func_020061E4(0x551);func_021CA3A0(r);return 7;

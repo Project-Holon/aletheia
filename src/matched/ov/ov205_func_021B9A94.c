@@ -15,12 +15,17 @@
  *   func_02008654 0x02008654 thumb
  *   func_02008D1C 0x02008D1C thumb
  */
-extern void *func_02012F2C(void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct PlayTime;
+struct Sub02008C20Obj;
+extern void *func_02012F2C(int *p);
 extern void *func_02012FCC(void *);
-extern unsigned short func_0200864C(void *);
-extern unsigned char func_02008650(void *);
-extern unsigned char func_02008654(void *);
-extern unsigned func_02008D1C(void *,int,unsigned);
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
+extern u8 func_02008654(const struct PlayTime *p);
+extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
 void func_021B9A94(char *p)
 {
     void *counter,*date;

@@ -55,7 +55,7 @@ struct FlagsB {
     u8 b7 : 1;
 };
 
-extern u16 func_021BE00C(void *p);
+extern u16 func_021BE00C(u16 *p);
 extern u32 func_021BE034(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE044(void *p);
@@ -63,12 +63,12 @@ extern u32 func_0201EC64(u32 heap);
 extern u32 func_02045770(u32 win);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32 func_020457B0(u32 len, u32 heap);
-extern const u16 *func_0202E930(void *p);
+extern u16 *func_0202E930(void *p);
 extern void func_02045994(u32 o, const u16 *src, u32 len);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
 extern void func_02045808(u32 v);
 extern u32 func_02045EC0(u32 a, u32 b);
-extern u32 func_0202E938(void *p);
+extern u16 func_0202E938(void *p);
 extern void func_0201EFA4(u32 ws, u32 idx, u32 val, u32 digits, u32 mode, u32 f);
 extern void func_0201F250(u32 ws, u32 dst, u32 fmt);
 extern void func_0201ED04(u32 ws);

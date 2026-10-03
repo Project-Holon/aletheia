@@ -14,7 +14,8 @@
  *   g_0215301C 0x0215301C data
  */
 
-extern void func_0208C788(void);
+struct PMiGenCallbackInfo;
+extern void func_0208C788(struct PMiGenCallbackInfo **listp, struct PMiGenCallbackInfo *info);
 extern void g_0215301C(void);
 
 asm void func_0208C86C(void)

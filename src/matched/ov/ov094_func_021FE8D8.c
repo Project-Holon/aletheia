@@ -24,7 +24,8 @@ typedef struct {
     int tbl[6];
 } Obj;
 
-extern int func_02006BD0(int i);
+typedef unsigned int   u32;
+extern u32 func_02006BD0(u32 i);
 extern void func_021FE410(Obj *o, int a, int b, int n);
 extern void func_021F89BC(void *h);
 

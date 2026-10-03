@@ -32,14 +32,16 @@ extern void func_02049B68(u32, u32, u32, u32, u32, u16);
 extern void func_02049658(u32, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
 extern void func_02049238(u32);
-extern int func_02008550(void *);
+struct Obj;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern int func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
 extern int func_0204A6C8(u32, u32, u32, u32, u16);
 extern int func_0204AF28(u32, u32, u32, u16);
 extern void *func_02049F78(u32, u32, u32, u32);
 extern void *func_0204B294(void *, u32, u32, u32, Request *, u16, u16);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B92C(void *, u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021D4558(char *p)
 {
     u32 handle;

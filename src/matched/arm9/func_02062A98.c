@@ -30,7 +30,7 @@ typedef signed int     s32;
 struct NitroFileHeader;
 
 extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
-extern void func_02062B20(void *body);
+extern void func_02062B20(u8 *block);
 
 s32 func_02062A98(struct NitroFileHeader *file, void **out)
 {

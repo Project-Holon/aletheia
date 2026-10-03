@@ -23,7 +23,7 @@ struct T {
     void *f24[4];
 };
 
-extern int func_021BA710(int, int);
+extern u8 func_021BA710(int a, int b);
 extern void func_021BA128(u8 *s, int k, void *p);
 
 void func_021B68D8(u8 *s, struct T *t)

@@ -12,7 +12,8 @@
  * symbols:
  *   func_021F7A28  0x021F7A28  thumb  ov094
  */
-extern void func_021F7A28(int a, int b);
+typedef unsigned int   u32;
+extern void func_021F7A28(int a, u32 b);
 
 void func_021EA7D8(void *ctx, int a)
 {

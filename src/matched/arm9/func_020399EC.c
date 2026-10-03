@@ -34,9 +34,11 @@
  *       --func func_020399EC --addr 0x020399EC --cc 1.1p1 --arm
  */
 
-extern int func_0203D788(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_0203D788(void);
 extern unsigned char *func_0203996C(int i);
-extern int func_020399B8(unsigned char *p);
+extern u32 func_020399B8(u8 *p);
 
 int func_020399EC(void)
 {

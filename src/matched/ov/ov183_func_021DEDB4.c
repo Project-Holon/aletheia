@@ -24,14 +24,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_021DF3DC(char *, int);
-extern int func_02035D20(u32 *, u32 *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021FB4B4(int, int, int);
 extern void func_021FD860(int, int, int *);
 extern void func_021F9BA0(void *);
 extern void func_021FD73C(int *, int);
-extern void func_021DED64(void);
-extern int func_021DF8F0(u32, u32);
-extern u32 func_021DF41C(char *);
+extern void func_021DED64(int *p, int *state, char *q);
+extern int func_021DF8F0(int x, int y);
+extern int func_021DF41C(char *p);
 extern void func_02034714(const char *, u32, const char *);
 extern void func_021F9BF4(unsigned *, unsigned);
 extern const char d_021E3964[];

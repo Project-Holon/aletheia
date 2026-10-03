@@ -9,8 +9,10 @@
  * status: EXACT
  */
 extern void func_020061E4(unsigned se);
-extern void func_020061F8(unsigned);
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_020061F8(int i);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021E7E0C(void **p, int on)
 {
     if (on == 1) {

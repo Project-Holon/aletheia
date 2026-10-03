@@ -14,7 +14,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 pad[0x7c]; u32 value:4; u32 rest:28; } Bits;
-extern int func_02175B14(void *);
+extern int func_02175B14(u8 *p);
 int func_02175DCC(void *p)
 {
     if (func_02175B14(p) == 0) return 6;

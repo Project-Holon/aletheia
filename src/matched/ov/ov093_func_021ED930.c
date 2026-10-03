@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021B8588(void *p);
-extern int func_021B8640(void *p);
+extern u32 func_021B8588(void **p);
+extern unsigned int func_021B8640(unsigned int **p);
 extern void func_021ED9A4(void *p, void *s, u8 i);
 
 void func_021ED930(char *s)

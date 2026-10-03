@@ -29,14 +29,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_020286C4(void *a, void *b, void *c);
-extern int func_0201CE30(void *h);
-extern void func_0201CE48(void *h);
+struct Ctx;
+struct Rec;
+struct Rec3;
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern u32 func_0201CE30(void *p);
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *h);
-extern void func_0201CE5C(void *h, int v);
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
-extern void func_020061E4(int n);
+extern void func_020061E4(u32 a);
 
 int func_021975D0(u8 *p)
 {

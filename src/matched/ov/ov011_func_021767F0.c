@@ -34,7 +34,8 @@ typedef struct {
 
 extern Cs   d_02176FD8;
 extern Rec *func_02158344(void *p);
-extern int  func_02012B58(void *p);
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
 
 void func_021767F0(void *a, void *b, Cs *c)
 {

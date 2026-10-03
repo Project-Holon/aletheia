@@ -17,11 +17,13 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned short u16;
-extern void func_0204B3B4(void *);
+struct Bank;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(void *);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
-extern void func_0204B1CC(void *);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *);
 void func_021FA64C(char *p)
 {

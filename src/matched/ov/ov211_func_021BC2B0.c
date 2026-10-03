@@ -20,7 +20,8 @@ typedef struct
     int v[12];
 } S021BC2B0;
 
-extern void func_0204335C(int);
+typedef unsigned int   u32;
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
 extern S021BC2B0 d_021BC990;
 

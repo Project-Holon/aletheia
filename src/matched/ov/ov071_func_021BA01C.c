@@ -20,10 +20,11 @@
 typedef unsigned char u8;
 
 extern void func_021B9FEC(void *p, int a);
-extern void func_021B6C30(void *p, int a, int b);
+typedef unsigned int   u32;
+extern void func_021B6C30(int *p, int flag, int index);
 extern void func_021B6C48(void *p, int a);
 extern void func_021B6BEC(void *p, int *tbl, int n, int sel, int c);
-extern void func_02041B6C(int a);
+extern void func_02041B6C(u32 bit);
 
 void func_021BA01C(void *a, u8 *p)
 {

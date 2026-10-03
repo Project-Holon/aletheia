@@ -29,7 +29,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  *sub_0200590C(void);
+extern u32 *sub_0200590C(void);
 extern void   func_02072FA8(void *slot, u32 key, u32 f);
 extern void   func_02072FC8(void *slot, u32 key, u32 f);
 

@@ -23,11 +23,13 @@ typedef unsigned int u32;
 
 typedef struct { u32 f0; } Ctx;
 
-extern void *func_020124E4(void *);
-extern void *func_020120F4(void *);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_020120B4(void *, int, const char *, u32);
-extern int func_020120F0(void *);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void func_020307B0(void *);
 extern const char d_02172724[];
 

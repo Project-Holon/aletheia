@@ -25,8 +25,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02046F48(void *p);
-extern void *func_0206E964(void *p);
+struct Tagged;
+extern void *func_02046F48(struct Tagged *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_02022040(void *src, u32 size, void *dst);
 
 int func_0218D0D8(void *a, void *b)

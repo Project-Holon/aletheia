@@ -34,12 +34,14 @@ struct Command {
 	void *response_queue;
 };
 
-extern int func_02085F8C(void *mq, void **msg, long flags);
+typedef signed int     s32;
+struct OSMessageQueue;
+extern int func_02085F8C(struct OSMessageQueue *mq, void **msg, s32 flags);
 extern unsigned long func_02087988(void);
 extern unsigned long func_02085B30(void);
 extern int func_02085E50(void *mq, void **msg, long flags);
 extern int func_02085DBC(void *mq, void *msg, long flags);
-extern void func_0215CE7C(Command *command);
+extern void func_0215CE7C(void *ptr);
 extern unsigned long func_02085B60(void);
 extern unsigned long func_0208799C(unsigned long state);
 

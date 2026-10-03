@@ -19,10 +19,11 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void func_020307B0(void *);
-extern void *func_02030734(u32,u32,int,const void *,u16);
+struct Entry;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020173EC(void);
 extern void func_02082D44(void *,void *,u32);
-extern void *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
 extern const char d_021FDE5C[];
 void func_021FD350(char *p,char *src)

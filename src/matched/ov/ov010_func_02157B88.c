@@ -30,7 +30,7 @@ extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, void *d);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02039C68();
 extern void func_02157960();
-extern void func_02157AF0();
+extern void func_02157AF0(int *p);
 
 void func_02157B88(int *p)
 {

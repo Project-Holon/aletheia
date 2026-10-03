@@ -23,7 +23,7 @@ struct S12 {
     u32 c;
 };
 
-extern struct S12 *func_020518AC(void *p, int kind);
+extern void *func_020518AC(void *obj, int kind);
 
 void func_02051A04(void *p, struct S12 *q)
 {

@@ -48,19 +48,22 @@ extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u16,u16,u16,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
-extern void func_021BD8D8(char *,int,unsigned);
-extern void func_0200CC40(u8 *,unsigned,unsigned *,unsigned *,unsigned *,u16);
+struct Actor;
+struct Blk37;
+struct Personal;
+extern void func_021BD8D8(char *p, u32 idx, u32 value);
+extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern void *func_0202D7C8(int);
-extern u32 func_0200D288(void *,u32);
+extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern u32 func_0202D81C(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern int func_0202D7D8(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void *func_021C940C(void *,const Template *,u32);
-extern void func_0204BA20(void *,u32);
+extern void func_0204BA20(struct Actor *a, u32 v);
 extern void *func_0201ADE4(void *,u16,void *);
-extern u32 func_0201AE1C(const void *,u32);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
-extern void func_0204B604(void *,u32,u32);
+extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
 extern void func_020216D4(void *,u32,u16,u32);
 void func_021BDD7C(char *p,u16 species)
 {

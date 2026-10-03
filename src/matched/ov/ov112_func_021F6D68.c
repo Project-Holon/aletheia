@@ -31,13 +31,14 @@ typedef struct { short x,y; } Point;
 typedef struct { Point pos; u16 x,y,z; u8 a,b; } Desc;
 typedef struct { int x,y,z; } Vec;
 extern int func_021F9E18(char *);
-extern char *func_021F9DA0(void *);
-extern char *func_021F9DA4(void *,int);
-extern u16 func_021F9E04(void *);
+struct Obj;
+extern void *func_021F9DA0(char *p);
+extern void *func_021F9DA4(char *p, u32 i);
+extern u16 func_021F9E04(u8 *p);
 extern void func_021F8044(void *,void *,Vec *);
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B3B4(void *);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B404(void *,const Point *,u32);
 void func_021F6D68(char *p)
 {

@@ -16,7 +16,7 @@
 extern void func_021FE784(void *, int, int, int);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *, int);
-extern void func_021DEDB4(void);
+extern void func_021DEDB4(int *task, int *state, char *p);
 void func_021DED14(int *a, int *state, char *p)
 {
     switch (*state) {

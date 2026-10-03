@@ -28,10 +28,11 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_02046C94(void);
+struct S02046CE0;
+extern int func_02046C94(void);
 extern void *func_02049250(void *h, u32 id, u16 heap);
-extern void func_02046CE0(void *dst, void *src);
-extern void func_02047180(void *p);
+extern void func_02046CE0(struct S02046CE0 *out, u32 *tag);
+extern int func_02047180(u32 *p);
 extern const char d_021DDE5C[];
 
 void func_021A16EC(u8 *d, void *a, const u8 *s, u32 n)

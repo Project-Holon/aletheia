@@ -13,8 +13,9 @@
  *   func_021D62C4 0x021D62C4 thumb ov093
  *   func_021DDE30 0x021DDE30 thumb ov093
  */
-extern void *func_021C7CF4(void *, int);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021DDE30(int, void *, int, int, int);
 void func_021DD4B0(int a, void *b, int c)
 {

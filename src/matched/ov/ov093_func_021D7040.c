@@ -42,7 +42,7 @@ typedef struct {
 
 extern List g_021F3CB0;
 extern void func_021D6F08(void);
-extern void func_021D7494(Node *n);
+extern void func_021D7494(void *p);
 
 void func_021D7040(Node *n)
 {

@@ -37,7 +37,8 @@ struct T {
     E *f10;
 };
 
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE018[];
 
 void func_021ABEAC(T *t)

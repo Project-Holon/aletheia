@@ -27,7 +27,7 @@ u32 func_0209C77C(u32 a, u32 b);
 u32 func_0209C95C(u32 a, u32 b);
 u32 func_0209CB8C(u32 a, u32 b);
 u32 func_0209C494(u32 x);
-void func_0207D658(u32 a, u32 b, u32 c);
+void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_02187B38(char *o, int st)
 {

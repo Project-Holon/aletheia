@@ -23,7 +23,7 @@ typedef signed short   s16;
 
 typedef struct { s16 x, y; } Pt;
 
-extern int func_02035D20(void *x, void *y);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_0204B454(int, void *, int);
 extern void func_021F0628(int *p, int i);
 extern void func_020061E4(u32 se);

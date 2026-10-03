@@ -35,7 +35,7 @@ extern void func_021D7674(int key, u32 a, u32 b, u32 c);
 extern void func_021D70F0(u8 *p, int k);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
-extern int func_021D7B10(int a, int b);
+extern u32 func_021D7B10(u32 a, u32 b);
 
 int func_021C6A04(u8 *p, u8 *a, u8 *b, struct Q *q)
 {

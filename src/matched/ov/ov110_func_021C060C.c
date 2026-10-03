@@ -43,15 +43,19 @@ extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
 extern u32 func_02049740(u32,u32,u32,u32,u32,u16);
 extern u32 func_02049990(u32,u32,u32,u32,u16,u32,u32,u16);
-extern void *func_02049EF4(u32,u32,u32,u32,u16);
+extern void *func_02049EF4(void *,u32,u32,void **,u16);
 extern void func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
-extern void *func_02045EC0(void *,u32);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02049238(void *);
 void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
 {
@@ -70,7 +74,7 @@ void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
     *(u32 *)p=func_02049740((u32)h,10,3,0,0,heap);
     func_02049990((u32)h,22,3,0,*(u32 *)p,0,0,heap);
     func_02049658((u32)h,11,2,0,0,0,heap);
-    *(void **)(p+4)=func_02049EF4((u32)h,23,0,(u32)(p+8),heap);
+    *(void **)(p+4)=func_02049EF4(h,23,0,(void **)(p+8),heap);
     func_02049BDC((u32)h,4,4,128,256,32,heap);
     *(u16 *)(p+0x18)=0x294b;
     func_02061CA4((void *)31,284,(u32)(p+0x18),2);

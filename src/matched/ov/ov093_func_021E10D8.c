@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 
 extern int func_021D775C(int key);
-extern u32 func_021D78AC(int k);
+extern u32 func_021D78AC(u32 range);
 extern Word func_021D7D18(int x);
 extern int func_021D76BC(int key, u32 val);
 extern u32 d_021F286C[];

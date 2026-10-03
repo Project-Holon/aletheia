@@ -32,11 +32,12 @@ typedef struct { int x, y, z; } Vec3;
 extern u32 func_02159B10(void *, void *);
 extern void *func_0215A6C4(void *);
 extern u16 func_0215A5D0(void *);
-extern u32 func_021B6AB0(void *);
+struct Ctx;
+extern int func_021B6AB0(void *a);
 extern u16 *func_021B6AA4(void *, u32);
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_021854B0(void *, void *, int, Vec3 *, int);
 extern void func_0215897C(void *, int);
 

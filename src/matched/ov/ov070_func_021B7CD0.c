@@ -30,13 +30,14 @@ typedef struct Obj {
     u16 f83E;
 } Obj;
 
-extern void func_020414EC(int v);
+typedef unsigned int   u32;
+extern void func_020414EC(u32 i);
 extern void func_021B6138(Obj *o);
 extern void func_021BA6A4(Obj *o);
 extern void func_021BB0BC(Obj *o);
-extern void func_0204B92C(void *p, int v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BB3F4(Obj *o, int v);
-extern void func_021B8AF4(Obj *o);
+extern void func_021B8AF4(void *p);
 
 void func_021B7CD0(Obj *o)
 {

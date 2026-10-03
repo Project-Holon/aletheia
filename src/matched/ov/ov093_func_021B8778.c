@@ -19,9 +19,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Unk021B8CB0 { u32 f0; u32 mode; };
-extern u8 func_021B87E8(struct Unk021B8CB0 **p, u32 k, u32 v, u8 *out);
-extern u8 func_021B8834(struct Unk021B8CB0 **p, u32 k, u8 v, u8 *out);
-extern u8 func_021B88EC(struct Unk021B8CB0 **p, u32 k, u32 v, u8 *out);
+extern u8 func_021B87E8(void *p, u32 k, u32 v, u8 *out);
+extern u8 func_021B8834(void *p, u32 k, u8 v, u8 *out);
+extern u8 func_021B88EC(void *p, u32 k, u32 v, u8 *out);
 
 u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out)
 {

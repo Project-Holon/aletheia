@@ -53,12 +53,15 @@ typedef struct Work {
 
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern void *func_0203159C(void *ctx, int size, int heap);
-extern void func_02034AC4(u32 id);
+typedef signed int     s32;
+struct Deal;
+struct Src;
+extern int func_02034AC4(s32 handle);
 extern u8 ov112_id[];
 extern Stage *func_02156F68(u32 heap, void *p);
 extern void func_02156FD0(Stage *s, u8 idx, u16 id, u8 v, u32 w, u16 x, u16 y);
 extern void func_0215700C(Stage *s, u8 idx, u8 j, u16 id, s16 a, u8 b);
-extern void *func_02157028(u32 heap, void *src, u16 lim);
+extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
 extern void func_02157174(u32 heap, void *d, Stage *s);
 extern void *func_021F685C(u32 a);
 extern void func_021F68BC(void *p, u32 a, u32 b, u32 c, u32 d);

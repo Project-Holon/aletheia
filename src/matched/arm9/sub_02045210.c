@@ -76,8 +76,9 @@ struct BgLayer {
 extern u16 *g_02146A50;
 extern const char str_020A7E70[];
 
-extern void *func_02030734(u16 heap, u32 size, u32 flags, const char *file, u32 line);
-extern void *func_02043678(u8 width, u8 height, u32 tileSize, u16 heap);
+struct Bmp;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 
 struct BgLayer *sub_02045210(u32 layer, u32 screenBase, u32 charBase,
                              u8 width, u8 height, u8 palette, u32 charOffset,

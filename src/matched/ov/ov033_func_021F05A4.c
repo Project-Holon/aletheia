@@ -38,12 +38,13 @@ typedef struct {
 } Pt;
 
 extern const Ent d_021F0DC8[];
-extern void func_021F0C44(void *);
-extern void func_0204B3DC(void *, int);
+struct Obj;
+extern void func_021F0C44(char *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *, Pt *, u16);
-extern void func_0204B878(void *, u16);
-extern void func_0204B92C(void *, int);
-extern void func_0204B8C4(void *, int);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 
 void func_021F05A4(char *p, int flag)
 {

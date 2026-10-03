@@ -17,8 +17,11 @@
  */
 
 extern void func_0201F73C(void *, int, int, int);
-extern int func_02045770(void *);
-extern void func_02043B5C(int, int);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0220B928(void *);
 
 void func_0220B904(char *p)

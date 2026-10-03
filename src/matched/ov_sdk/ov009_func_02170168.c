@@ -34,8 +34,8 @@ typedef struct {
 } MatchCtrl;
 
 extern void func_021700C8(MatchCtrl *ctrl, unsigned char command, const unsigned int *data, int len);
-extern char *func_02175F3C(void);
-extern char *func_02198620(unsigned int ip, int port, char *buf);
+extern int func_02175F3C(void);
+extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0219EF08(void *sb, const char *addr, unsigned short port, void *data, int len);
 
 int func_02170168(unsigned char command, unsigned int ip, unsigned short port, const unsigned int *data, int len)

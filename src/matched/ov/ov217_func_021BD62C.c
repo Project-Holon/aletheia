@@ -38,12 +38,13 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021BD718(void *p);
+typedef unsigned char  u8;
+extern void func_021BD718(unsigned char *p);
 extern void func_021BD868(void *p);
-extern void func_021BD89C(void *p);
-extern void func_021BDC18(void *p);
-extern void func_021BDF58(void *p);
-extern void func_021BE040(void *p);
+extern void func_021BD89C(u8 *p);
+extern void func_021BDC18(u8 *p);
+extern void func_021BDF58(u8 *p);
+extern void func_021BE040(u8 *p);
 extern void func_021BE094(void *p);
 extern void func_021BE0D0(void *p);
 extern void func_021BE108(void *p);
@@ -56,7 +57,7 @@ extern void func_021BF710(void *p);
 extern void func_0204A600(void *h);
 extern void func_021BED9C(void *p);
 extern void func_021C20C4(void *h);
-extern void func_021BF600(void *p);
+extern void func_021BF600(u8 *a0);
 extern void func_021BF5E4(void *p);
 extern void func_021BEDC4(void *p);
 extern void func_021BEDEC(void *p);

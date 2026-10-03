@@ -20,11 +20,12 @@
  */
 extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
 extern const unsigned d_021BB6C0[];
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02039C68(void *,int,int);
 extern void func_0203D7B0(int),func_0203D7BC(int);
 extern void func_021B95B8(unsigned char *,unsigned);
-extern void func_021B9EF8(void);
+extern void func_021B9EF8(int a);
 void func_021B9F80(unsigned a)
 {
  func_0203A574(0xc00,(unsigned)d_021BB6C0,6,a);

@@ -26,7 +26,8 @@ typedef signed char    s8;
 extern u32 *func_02030EE8(void *);
 extern void func_0216D480(u32);
 extern void func_020307B0(void *);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02197DAC(void *a)
 {

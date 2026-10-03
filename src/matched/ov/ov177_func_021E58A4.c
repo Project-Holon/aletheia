@@ -10,7 +10,8 @@
  */
 extern int func_020490F4(int, unsigned short);
 extern void func_020498F4(int, int, int, int, int, int, unsigned short);
-extern void func_02040618(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02049238(int);
 void func_021E58A4(int unused, int mode, unsigned color)
 {

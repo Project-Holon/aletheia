@@ -20,14 +20,15 @@
 
 typedef unsigned int u32;
 
-extern int func_021E12AC(void *);
+typedef unsigned char  u8;
+extern int func_021E12AC(char *p);
 extern u32 func_020362DC(void);
-extern void func_020355D8(int);
+extern void func_020355D8(u8 v);
 extern int func_02035C60(void);
-extern void func_021E1098(void *);
+extern void func_021E1098(char *p);
 extern void func_021D8E84(void *,int);
-extern void func_021DBE70(void *);
-extern void func_021E4E64(int,void *,int);
+extern void func_021DBE70(char *p);
+extern void func_021E4E64(int a, char *p, int b);
 void func_021DA064(char *p) {
     int v;
     if (func_021E12AC(p)) {

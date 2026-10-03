@@ -37,7 +37,7 @@ extern u32 func_0216D4F8(u32);
 extern u8 *sub_02030734(u32, u32, u32, void *, u32);
 extern void func_0216D51C(u32, void *);
 extern void func_0219CAD8(void *, u32);
-extern void func_0219CBE0(void *);
+extern void func_0219CBE0(u8 *o);
 extern void func_0219D2CC(void *);
 extern u32 func_02050080(u32);
 extern void func_0204ED70(u32, T12 *);

@@ -24,7 +24,7 @@ typedef struct { void *task; unsigned char buf[0x600]; unsigned char dirty; } Me
 /* screen.o .bss: MemScr, then Pltt (src, dst), addressed section-relative from one symbol */
 typedef struct { MemScr *scr; void *src; void *dst; } ScreenBss;
 extern ScreenBss g_021DE630;
-extern void func_021D7744();
+extern void func_021D7744(unsigned int idx, void *r4);
 extern void func_021D6438(void **mem);
 
 void func_021CE6C4(void)

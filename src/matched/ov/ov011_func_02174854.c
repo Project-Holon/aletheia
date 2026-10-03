@@ -17,7 +17,8 @@
 
 int func_021736D8(void);
 int func_020399A8(void);
-int func_0203D3F8(int a, int b, int c, int d, int e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 typedef struct { unsigned char a : 1; unsigned char b : 1; unsigned char c : 1; } F8;
 

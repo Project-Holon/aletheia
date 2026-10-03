@@ -51,7 +51,8 @@ struct MsgData {
     u8 mode;
 };
 
-extern void func_020495F4(void *file, u32 size, void *dst);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *file, u32 pos);
 
 void func_02046110(struct MsgData *msg)

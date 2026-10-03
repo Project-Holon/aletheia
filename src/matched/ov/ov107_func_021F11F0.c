@@ -20,9 +20,12 @@ typedef struct {
     unsigned char f04;
 } Ov107Msg;
 
-int func_0203D378(void);
-void *func_0203996C(int);
-void *func_020399A8(void);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Entry;
+u32 func_0203D378(void);
+struct Entry *func_0203996C(s32 idx);
+struct Entry *func_020399A8(void);
 int func_0203D3F8(void *obj, int a, int b, int c, void *msg, int d, int e, int f);
 
 int func_021F11F0(void *p, unsigned char kind, unsigned int val)

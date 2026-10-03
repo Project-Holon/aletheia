@@ -23,7 +23,8 @@ typedef struct { void *h; int goal, home, step, frame, wait; Vec2 pos; } Entry;
 typedef struct { char pad[0x10]; Entry entries[7]; int state, active, sound; u16 heap; } Work;
 typedef struct { Work *owner; } Context;
 extern void func_0204B404(void *, const Vec2 *, u32);
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0200616C(void *, int);
 extern void func_021F89BC(void *);
 void func_022090B4(void *task, Context *c)

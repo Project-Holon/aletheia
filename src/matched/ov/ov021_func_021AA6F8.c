@@ -28,11 +28,11 @@ typedef signed int     s32;
 
 struct Pos { u16 x, y, z; u16 f06; u32 f08; };
 
-extern void *func_021A3074(void *q);
+extern void *func_021A3074(u8 *p);
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u16 func_0216D83C(void *o);
-extern u16 func_0216D854(void *o);
-extern u16 func_0216D86C(void *o);
+extern int func_0216D83C(void *p);
+extern int func_0216D854(void *p);
+extern int func_0216D86C(void *p);
 
 void func_021AA6F8(struct Pos *p, void *q)
 {

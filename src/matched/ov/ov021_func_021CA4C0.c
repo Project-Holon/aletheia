@@ -34,7 +34,7 @@ typedef struct {
 extern void *func_02030734(u16 heap, u32 size, u32 align, const char *file, u32 line);
 extern void func_02082BCC(void *p, int v, u32 n);
 extern void *func_021CA210(u8 *p);
-extern u32 func_0201AB28(void *h, u8 idx);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void func_021CA3B4(Slot *s, u32 m);
 extern void func_0200DC50(u32 h, int flag, Slot *buf);
 extern void func_020307B0(void *p);
@@ -51,7 +51,7 @@ void func_021CA4C0(u8 *p, u32 unused, int flag)
     func_02082BCC(buf, 0, 0xb4);
     h = func_021CA210(p);
     for (; i < 3; i++)
-        func_021CA3B4(&buf[i], func_0201AB28(h, p[0x1e + i]));
+        func_021CA3B4(&buf[i], (u32)func_0201AB28(h, p[0x1e + i]));
     func_0200DC50(*(u32 *)(p + 0x74), flag, buf);
     func_02082BCC(buf, 0, 0xb4);
     func_020307B0(buf);

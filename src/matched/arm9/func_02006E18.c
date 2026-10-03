@@ -15,7 +15,9 @@
  */
 
 extern void *func_02006E2C(void);
-extern void func_02007BD0(void *a0, void *a1);
+typedef signed char    s8;
+struct PerapVoice;
+extern void func_02007BD0(struct PerapVoice *p, const s8 *src);
 
 void func_02006E18(void *a0)
 {

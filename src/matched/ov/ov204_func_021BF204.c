@@ -14,7 +14,8 @@
  *   func_02045B38 0x02045B38 arm
  */
 
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void *func_02045B38(void *, int, void *, int);
 
 void func_021BF204(char *p, void *a, void *b)

@@ -58,7 +58,7 @@ extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a
 extern void *func_020144DC(u32 a0, u32 a1);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
-extern int   func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void *func_020145CC(u32 a0);
 
 extern char ov119_id[];

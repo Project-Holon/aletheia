@@ -19,14 +19,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020399A8(void);
-extern int func_02039CB4(void *, int, int);
-extern void *func_0202EE30(void *, void *, u8, u8, u16);
+typedef unsigned int   u32;
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 extern void func_0203D7BC(int);
 extern void func_0203D7B0(int);
 extern void func_0203A5E4(unsigned);
 extern void *func_021DEB10(void *);
-extern void func_02184174(void *);
+extern void func_02184174(u8 *p);
 int func_021DF6FC(u8 *p)
 {
     void *ctx;

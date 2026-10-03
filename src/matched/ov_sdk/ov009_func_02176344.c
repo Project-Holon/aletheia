@@ -15,8 +15,8 @@
  *   func_021763AC  0x021763AC  arm  ov009
  */
 
-extern char *func_02175F3C(void);
-extern void func_021763AC(int v);
+extern int func_02175F3C(void);
+extern char *func_021763AC(int pid);
 
 void func_02176344(void)
 {

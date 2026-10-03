@@ -21,8 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u8 sub[0x18]; u16 f1C; u16 f1E; } M;
 extern void func_020307B0(void *p);
-extern u32 func_021C7EEC(void *p);
-extern u32 func_021C7EF4(void *p);
+extern u32 func_021C7EEC(u8 *p);
+extern u8 func_021C7EF4(u8 *p);
 extern void func_021C8078(u32 h, u32 a, u32 b);
 void func_021C7E30(M *m)
 {

@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 cmd, void *arg, u32 n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern int func_02169A14(void *p);
 
 int func_021699A0(void *p)

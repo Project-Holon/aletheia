@@ -33,11 +33,11 @@ extern void func_021BB7A4(u8 *p, u32 obj);
 extern void func_021BB97C(u8 *p, u32 obj);
 extern void func_021BB9CC(u8 *p, u32 obj, u32 a, u32 b);
 extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
-extern void func_021BB98C(u8 *p, u32 obj);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021B9E3C();
 extern void func_021B9F34();
 extern void func_021B9804(u8 *p, void (*cb)());
-extern void func_021B9F44();
+extern void func_021B9F44(u8 *p, u32 state);
 
 void func_021B9EC0(u8 *p, u32 state)
 {

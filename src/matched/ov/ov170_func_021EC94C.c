@@ -13,7 +13,9 @@
  *   func_0204B5AC 0x0204B5AC arm
  *   func_0204B588 0x0204B588 arm
  */
-extern void func_0204B570(void *, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B570(struct Actor *actor, u32 value);
 extern void func_0204B5AC(void *, int *);
 extern void func_0204B588(void *, unsigned short *);
 void func_021EC94C(char *p)

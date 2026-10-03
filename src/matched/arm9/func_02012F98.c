@@ -16,7 +16,8 @@
  *   func_02007B44  0x02007B44  thumb
  */
 
-extern void func_02007B44(void *p);
+struct Sub02007AC8Entry;
+extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 
 void func_02012F98(void *p)
 {

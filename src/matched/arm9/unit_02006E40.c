@@ -72,8 +72,7 @@ struct Sub02006E40Obj {
 
 extern const char sub_02006E40_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern void  func_02048F74(void *p, u32 a, u32 b, u32 c, u32 d);
 

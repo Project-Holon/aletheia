@@ -33,17 +33,17 @@ typedef struct {
     u16 f58;
 } Obj;
 
-int func_0217AF04(void *ctx, int id);
+int func_0217AF04(u8 *a, u16 key);
 u16 func_0217AEFC(unsigned int x);
-int func_0217ED04(int a);
-int func_0217ED10(int a);
-int func_0217ECE8(int a);
-int func_0217ED64(int a);
-int func_0217ED2C(int a);
-int func_0217ED48(int a);
-void func_0217F210(void *ctx, int a, int msg);
-int func_0217B8E4(void *ctx, int v);
-int func_0217F1EC(void *ctx);
+u16 func_0217ED04(int i);
+u16 func_0217ED10(int i);
+u16 func_0217ECE8(int i);
+u16 func_0217ED64(int i);
+u16 func_0217ED2C(int i);
+u16 func_0217ED48(int i);
+void func_0217F210(u8 *p, int a, u32 b);
+int func_0217B8E4(char *p, char v);
+u32 func_0217F1EC(u8 *p);
 u32 func_020362DC(void);
 
 int func_0217CEB8(void *ctx, Obj *obj, int a2, u8 *state)

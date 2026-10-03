@@ -18,7 +18,8 @@
 extern unsigned func_021B61FC(const unsigned char *);
 extern void func_021B6200(unsigned char *);
 extern int func_021B9924(void);
-extern void func_021B9B78(void *, int);
+typedef unsigned int   u32;
+extern void func_021B9B78(char *p, u32 id);
 extern int func_0204E804(void);
 extern int func_02024004(int);
 int func_021BA1C0(unsigned char *task, char *ctx)

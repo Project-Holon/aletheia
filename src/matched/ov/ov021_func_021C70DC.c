@@ -39,10 +39,10 @@ typedef struct {
     u32 to;
 } Work;
 
-extern u32 func_0218E138(void *o);
-extern void func_0218E13C(void *o, u32 v);
-extern void func_0218ED34(void *o, u16 v);
-extern void func_0218ED48(void *o, u16 v);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
+extern void func_0218ED34(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u16 v);
 
 void func_021C70DC(Work *w)
 {

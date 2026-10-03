@@ -25,7 +25,8 @@ extern u16 func_02159B10(int, int);
 extern void *func_0215A5E4(void *a0);
 extern char *func_020127A4(void *);
 extern int func_02008550(void *);
-extern int func_021B0BAC(int, int, int, int, int, int);
+typedef unsigned int   u32;
+extern int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f);
 extern void func_020113D0(int, int (*)(int, int));
 extern int func_021B0CEC(int, int);
 

@@ -29,7 +29,7 @@ extern char g_021A1CD8[];
 extern char g_021AA484[];
 extern char g_021AA480[];
 extern void func_02085D94(char *msg, char *p, int n);
-extern void func_0215CE7C(char *p);
+extern void func_0215CE7C(void *ptr);
 
 int func_0215CD3C(int n)
 {

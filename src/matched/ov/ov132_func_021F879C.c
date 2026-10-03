@@ -57,7 +57,10 @@ extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void),func_0200FB24(void);
 extern int func_02006238(void);
 extern void func_021FCDEC(int,int);
-extern int func_021FCE00(void *,int);
+struct Board;
+struct Camera;
+struct Lights;
+extern int func_021FCE00(char *p, int id);
 extern u8 func_021FAD7C(char *);
 extern void func_021F8EA8(u8 *);
 extern void func_021FA6CC(u8 *);
@@ -82,7 +85,7 @@ extern void func_021F51F4(u8 *);
 extern void func_021F718C(u8 *);
 extern void func_021F6F8C(u8 *);
 extern void func_02047964(void),func_020479D8(void),func_02047970(void),func_0204A600(void),func_0204A648(void);
-extern void func_0204F7DC(void *,void *,void *);
+extern void func_0204F7DC(struct Board *b, struct Camera *cam, struct Lights *lights);
 int func_021F879C(u8 *p)
 {
     u32 tick;

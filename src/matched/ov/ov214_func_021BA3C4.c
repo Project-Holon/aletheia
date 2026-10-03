@@ -18,8 +18,10 @@ typedef struct {u8 a,b,c,d,e,f;} Rec;
 typedef struct {Rec r[4];} Table;
 extern const Table d_021BB480;
 extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,u8,u8,u8);
-extern void*func_02045770(void*);
-extern void func_02043B5C(void*,u8);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 void func_021BA3C4(int unused,char*p)
 {
     Table t=d_021BB480;

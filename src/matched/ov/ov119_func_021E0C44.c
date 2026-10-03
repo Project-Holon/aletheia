@@ -16,9 +16,11 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0C78 0x021E0C78 thumb ov119
  */
-extern unsigned func_02010904(void *obj);
-extern void func_02010934(void *obj);
-extern void func_021E02E8(void *p);
+typedef unsigned int   u32;
+struct Sub0201088CObj;
+extern u32 func_02010904(struct Sub0201088CObj *p);
+extern void func_02010934(struct Sub0201088CObj *p);
+extern void func_021E02E8(char *p);
 extern void func_021D8E84(void *p, void (*fn)(void *p));
 extern void func_021E0C78(void *p);
 void func_021E0C44(char *p)

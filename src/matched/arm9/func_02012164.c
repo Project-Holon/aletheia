@@ -48,13 +48,14 @@ struct IcaAnime {
 extern void *func_02012138(struct IcaAnime *p);
 extern u8   *func_020120F8(struct IcaAnime *p);
 extern u16   func_02012AC8(u8 *h);
-extern u32   func_02013D34(u16 id);
+struct Sub02009210Obj;
+extern u32 func_02013D34(u32 id);
 extern u32   func_0200FB24(void);
 extern u32   func_0201214C(struct IcaAnime *p);
 extern u32   func_02158318(struct IcaAnime *p);
 extern u32   func_02035390(void);
-extern u32   func_020353B0(void);
-extern void *func_0200921C(void *h);
+extern int func_020353B0(void);
+extern struct Sub02009210Obj *func_0200921C(void *p);
 extern u8    func_020090E0(void *obj);
 
 u32 func_02012164(struct IcaAnime *p)

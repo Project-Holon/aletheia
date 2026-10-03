@@ -12,8 +12,9 @@
  *   func_021D91F0 0x021D91F0 thumb ov131
  */
 
-extern unsigned int func_021D9428(unsigned char *, unsigned char);
-extern void func_021D91F0(void *, unsigned char *, void *);
+typedef unsigned char  u8;
+extern unsigned int func_021D9428(unsigned char *p, unsigned int target);
+extern void func_021D91F0(u8 *a, u8 *p, u8 *entry);
 void func_021D8F50(void *a, unsigned char *p)
 {
     unsigned char i;

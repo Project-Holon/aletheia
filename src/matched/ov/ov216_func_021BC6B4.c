@@ -20,8 +20,10 @@ struct S021BC6B4
     void *slots[2];
 };
 
-extern void func_0204B3DC(void *, int);
-extern void func_0204B3B4(void *);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3B4(struct Obj *p);
 
 void func_021BC6B4(struct S021BC6B4 *p)
 {

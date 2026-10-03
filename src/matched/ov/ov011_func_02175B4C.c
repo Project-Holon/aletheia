@@ -22,7 +22,7 @@ typedef struct Fl {
     u8 hi : 4;
 } Fl;
 
-extern int func_02175B14(void *b);
+extern int func_02175B14(u8 *p);
 
 void func_02175B4C(u8 *a, u8 *b)
 {

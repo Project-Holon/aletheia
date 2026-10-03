@@ -19,12 +19,13 @@
  *   ov_id 0x00000072 data
  */
 typedef unsigned char u8;
-extern void func_021D730C(void *);
+struct S020315D4;
+extern void func_021D730C(u8 *p);
 extern void func_021D73D0(void *);
 extern void func_021D7420(void *);
-extern void func_021D6B70(void *);
-extern void func_021D7C58(void *);
-extern void func_020315D4(void *);
+extern void func_021D6B70(unsigned char *a);
+extern void func_021D7C58(u8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 extern void func_02034A5C(void *);
 extern void func_02005E9C(void);

@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 *func_021BEF08(void);
-extern u8 *func_021BEF58(int);
+extern void *func_021BEF58(int p);
 extern u8 *func_021BEC00(int, int);
 
 int func_021BF3BC(int a)

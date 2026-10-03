@@ -21,12 +21,16 @@
  *   func_0202C83C 0x0202C83C thumb
  */
 typedef unsigned short u16;
-extern void func_02012A4C(void *,int);
+typedef unsigned int   u32;
+struct BigObj;
+struct Rec44;
+struct SaveBlock;
+extern void func_02012A4C(struct BigObj *p, u32 v);
 extern void func_0215E5B0(void *,void *);
 extern void func_0216EE7C(void *);
 extern void func_0216EF84(void *);
-extern void *func_020127A4(void *);
-extern u16 func_02012AC8(void *);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern int func_0202C83C(int,int);
 void func_0216EFF0(int *p,void *a) {
     func_02012A4C(a,*(int *)(*(char **)((char *)p+8)+0x8c));

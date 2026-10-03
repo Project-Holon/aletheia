@@ -44,7 +44,8 @@ typedef struct Work {
     Ent e[4];
 } Work;
 
-extern void *func_0201210C(void *sys);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CD0(void *p);
 extern void *func_021943EC(void *obj, int i);
 extern u32 func_021BB578(void *a, void *b, int c, int d);

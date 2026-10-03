@@ -17,11 +17,12 @@
  *   func_0200FBA0 0x0200FBA0 thumb
  *   func_0200FA84 0x0200FA84 thumb
  */
-extern int func_0200FB24(void);
-extern char *func_0203CA98(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
+extern u32 func_0203CA98(void);
 extern void func_0203CA04(void);
 extern void func_02059F18(void);
-extern void func_0200FBB0(void);
+extern u32 func_0200FBB0(void);
 extern void func_0200F83C(void);
 extern void func_0200FBA0(void);
 extern void func_0200FA84(void);

@@ -37,7 +37,8 @@ struct Tcbl {
 
 extern void *sub_02030EF0(struct Tcbl *p, u32 idx);
 extern void sub_02030F34(struct Tcbl *p, void *node);
-extern void sub_02030F50(struct Tcbl *p, void *node);
+struct TcblNode;
+extern void sub_02030F50(struct Tcbl *p, struct TcblNode *n);
 
 void sub_02030FC8(struct Tcbl *p)
 {

@@ -14,8 +14,10 @@
  *   func_0201AB28  0x0201AB28  thumb
  */
 
+typedef unsigned int u32;
+
 extern int func_0201AA18(int);
-extern int func_0201AB28(int, int);
+extern void *func_0201AB28(void *p, u32 idx);
 
 void func_021F6A28(int *p)
 {
@@ -34,11 +36,11 @@ void func_021F6A28(int *p)
     }
     for (i = 0; i < 3; i++) {
         if (func_0201AA18(a) > i)
-            p[0xf8 / 4 + i] = func_0201AB28(a, i);
+            p[0xf8 / 4 + i] = (int)func_0201AB28((void *)a, i);
         else
             p[0xf8 / 4 + i] = 0;
         if (func_0201AA18(b) > i)
-            p[0x104 / 4 + i] = func_0201AB28(b, i);
+            p[0x104 / 4 + i] = (int)func_0201AB28((void *)b, i);
         else
             p[0x104 / 4 + i] = 0;
     }

@@ -34,9 +34,9 @@ struct EntryC {
     u32 f00 : 24;
 };
 
-extern struct EntryA *func_02074324(int index);
-extern void          *func_0207466C(u32 id);
-extern struct EntryB *func_020743EC(u32 id);
+extern void *func_02074324(int index);
+extern u32 func_0207466C(u32 idx);
+extern void *func_020743EC(int index);
 extern struct EntryC *func_02074450(u32 id);
 
 u32 func_02028C50(int index)

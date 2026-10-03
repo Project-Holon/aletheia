@@ -44,7 +44,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u32   func_0207457C(u32 a);
 extern void *func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern u32   func_020745A4(u32 a, void *dst, u32 len, u32 off);
+extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
 
 void *func_02074E9C(u32 a, u32 b, u32 c, u32 d, u32 *out)

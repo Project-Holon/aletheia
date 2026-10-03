@@ -28,10 +28,10 @@ typedef struct { u8 e:3; u8 f:3; u8 g:2; u8 h[5]; } Rec;
 extern char d_02186F58[];
 extern int  func_020457B0(int, int);
 extern int  func_02186558(u8 *);
-extern void func_02039338(void);
+extern u16 func_02039338(void);
 extern void func_02186444(u8 *, u32);
 extern void func_02045CAC(int, u16, int);
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void func_021849F8(u8 *p)
 {

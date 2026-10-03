@@ -24,7 +24,8 @@ extern int func_02173DA0(void *a, u8 *b, int i);
 extern int func_02173EEC(void *a, u8 *b);
 extern int func_021741E8(void *a, u8 *b);
 extern int func_02173F74(void *a, u8 *b);
-extern int func_021742EC(int a);
+typedef unsigned int   u32;
+extern u32 func_021742EC(u32 a);
 extern int func_021742A8(int a);
 
 void func_02175A34(void *a, u8 *b)

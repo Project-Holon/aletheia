@@ -14,8 +14,8 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  */
 extern int func_021D5CF8(int);
-extern void func_021D79A4(void);
-extern void func_021D6FF0(void);
+extern void func_021D79A4(int a);
+extern void func_021D6FF0(char *p);
 extern void func_021D6EE0(int, int, int);
 void func_021D7A18(int a)
 {

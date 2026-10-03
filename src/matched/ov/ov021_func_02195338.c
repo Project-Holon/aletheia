@@ -27,8 +27,8 @@ typedef struct { int x, y, z; } V;
 
 extern void func_0207CA00(u32 a, u8 *b, V *c);
 extern int func_02194E74(V *a, int *b, int *c, V *d);
-extern void func_02194E90(u8 *e, u8 *ent, int *b, int *c, V *d);
-extern int func_02194F84(u8 *e, int b, int c, V *d, V *f);
+extern void func_02194E90(u8 *e, u8 *ent, int *b, int *c, void *d);
+extern int func_02194F84(u8 *e, int b, int c, void *d, void *f);
 extern void func_02195128(u8 *e, V *a, V *b, V *c, V *d);
 extern void func_0219518C(u8 *p, u8 *e, V *a, V *b, V *c, V *d, V *f, V *g, V *h);
 

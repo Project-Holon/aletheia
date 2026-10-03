@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef struct Record { u16 active:1; u16 enabled:1; u16 rest:14; u8 data[34]; } Record;
 typedef struct Object { u16 heap; u16 pad; u32 owner; Record *records; void *resource; u16 count; u16 slots[16]; } Object;
 extern char d_021F83A4[];
-extern void *func_02030734(u16,u32,int,const char *,int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_021F4F14(u16);
 Object *func_021F48C0(u32 owner,int count,u16 heap)
 {

@@ -16,7 +16,8 @@
 typedef unsigned int u32;
 
 extern void *func_02030734(void *heap, u32 size, u32 flags, const void *file, u32 line);
-extern void  func_0202E79C(void *p);
+typedef unsigned char  u8;
+extern void func_0202E79C(u8 *p);
 extern const char g_020A77EC[];
 
 void *func_0202E770(void *heap)

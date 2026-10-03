@@ -48,8 +48,9 @@ struct Obj {
     u8    rows;
 };
 
-extern void *func_020437D4(void *bmp);
-extern u32   func_020437EC(void *bmp);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_020437EC(const struct Bmp *bmp);
 extern void  func_020862F0(void *p, u32 n);
 extern u32   func_020437DC(void *bmp);
 extern u32   func_020437E4(void *bmp);

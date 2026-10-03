@@ -74,7 +74,7 @@ extern void *func_0217EAB0(unsigned long size);
 extern void *func_020923B0(void *dst, int val, unsigned long len);
 extern int func_0218E114(void **connection, int type, void *data, GPIOperation **op, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_0218A238(void **connection, GPIOperation *operation);
-extern int func_0218DD88(void **connection, GPIOperation *operation);
+extern int func_0218DD88(void **connection, const struct GPIOperation_s *operation);
 extern void func_0218B760(void **connection, int tellServer);
 extern int func_02186E9C(void **connection, int blockingOperationID);
 extern char g_021A4818[];

@@ -25,7 +25,7 @@ typedef struct {
     u16 v[0x300];       /* 0x024 */
 } Buf;
 
-extern Buf *func_02048F60(int, int, u16);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void func_021E42B4(char *p);
 
 void func_021E4324(char *p, int d)

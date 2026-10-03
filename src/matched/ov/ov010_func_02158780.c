@@ -14,8 +14,9 @@
  *   func_02158920 0x02158920 thumb ov010
  */
 typedef unsigned short u16;
-extern void *func_020124E4(void *);
-extern int *func_020124E8(void *);
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02012374(void *, void **);
 struct Desc;
 extern struct Desc *func_02158920(int a, int b, int c, int d, int e);

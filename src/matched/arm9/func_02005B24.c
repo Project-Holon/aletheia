@@ -49,7 +49,7 @@ extern char g_020AA2BC[];
 extern void func_020726D0(void);
 extern u32  func_020746E8(char *base, u32 size);
 extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
-extern void func_02005B74(u32 flag);
+extern void func_02005B74(int a0);
 extern int  func_02085D3C(void);
 extern void func_02005B6C(void);
 

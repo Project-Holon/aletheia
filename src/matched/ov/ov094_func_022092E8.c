@@ -23,9 +23,10 @@ typedef struct {
 } W;
 
 extern void func_02209458(W *w);
-extern void func_0204A8D4(int h);
-extern void func_0204AFD8(int h);
-extern void func_0204ADA4(int h);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 extern void func_0204B1CC(int h);
 extern void func_020307B0(void *p);
 

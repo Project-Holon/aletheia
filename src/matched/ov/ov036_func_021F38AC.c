@@ -13,7 +13,8 @@
  *   func_020056EC 0x020056EC thumb
  */
 
-extern int func_020056EC(int);
+typedef unsigned int   u32;
+extern u32 func_020056EC(u32 range);
 
 void func_021F38AC(int n, int m, unsigned char *buf, unsigned char *out)
 {

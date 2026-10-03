@@ -50,7 +50,9 @@ typedef struct {
 extern void func_021ED6E4(unsigned char *p, int v);
 extern void func_021EA750(unsigned char *p);
 extern void func_021ECB60(char *w, int i, int f);
-extern void func_020260E4(void *obj, unsigned char sel);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);
 extern unsigned func_0202136C(unsigned short v);
 extern void func_020061E4(unsigned se);

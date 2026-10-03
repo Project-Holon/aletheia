@@ -22,7 +22,7 @@ typedef struct {
     char *nc;
 } G;
 extern G g_021ACE5C;
-extern void func_02179CF4(void *http);
+extern void func_02179CF4(char *http);
 extern void func_02178144(void);
 
 void func_0217A950(void)

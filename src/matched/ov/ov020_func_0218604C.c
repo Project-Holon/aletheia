@@ -13,5 +13,7 @@
  *   d_02187EA0 0x02187EA0 data ov020 a1
  */
 extern char d_02187EA0[];
-extern void *func_02030734(int,int,int,const char *,int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void *func_0218604C(void) { return func_02030734(0x8004,0x1000,0,d_02187EA0,0xe35); }

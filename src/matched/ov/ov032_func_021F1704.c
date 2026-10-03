@@ -20,7 +20,8 @@ typedef unsigned char u8;
 
 extern void func_021F1218(u8 *e, short x, short y);
 extern void func_021F0EDC(u8 *e);
-extern void func_02031194(void *h);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F1704(void *h, char *t)
 {

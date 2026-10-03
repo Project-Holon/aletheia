@@ -17,7 +17,7 @@
  */
 
 extern void func_021D0014(void);
-extern void func_021CFFAC(int);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40(void *);
 
 void func_021C4E98(void)

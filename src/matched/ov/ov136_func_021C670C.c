@@ -14,7 +14,9 @@
  */
 
 typedef unsigned char u8;
-extern void func_0204B688(void *, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021C670C(u8 *p, int i, int on)
 {
     if (on == 1) {

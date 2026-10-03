@@ -20,7 +20,8 @@ typedef unsigned int u32;
 
 extern u32 data_02732FC8[];
 extern u32 func_02085D3C(void);
-extern u32 func_027021CC(void);
+typedef signed int     s32;
+extern s32 func_027021CC(void);
 extern u32 func_020870D0(void);
 
 asm void func_02700078(void) {

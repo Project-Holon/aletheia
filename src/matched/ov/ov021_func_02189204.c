@@ -50,13 +50,13 @@ extern void *func_02012138(u32 a);
 extern u32 func_0217C0A8(void *a0);
 extern void func_02012944(u32 a);
 extern u32 func_02008550(void);
-extern u32 func_021A31A4(u32 a, u32 b);
+extern u16 func_021A31A4(int i, u16 v);
 extern void func_0219C658(u32 a, u32 b);
-extern void func_0219D448(u32 a, u32 b);
+extern void func_0219D448(int a, int b);
 extern u32 func_0218ED50(u32 a);
 extern void func_0216CDB8(u32 a, u32 b);
 extern void func_0216D2F8(u32 a);
-extern u32 func_02189AE8(u32 a);
+extern int func_02189AE8(int a);
 extern void func_0216D974(u32 a, u32 b);
 
 void func_02189204(u8 *a)

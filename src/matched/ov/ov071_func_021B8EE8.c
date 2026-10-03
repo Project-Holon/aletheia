@@ -62,14 +62,14 @@ extern void func_021BA1B0(void);
 extern void func_021B9970(void *a, void *b, void *c);
 extern void func_021B992C(void *a);
 extern int func_021B9A40(void *a, void *b);
-extern void func_021BA140(void *a);
-extern int func_020355C4(void);
-extern int func_021B9F2C(void *p, int i, int v);
+extern void func_021BA140(u8 *p);
+extern u8 func_020355C4(void);
+extern int func_021B9F2C(u8 *p, int i, int v);
 extern u32 func_02045770(u32 a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
-extern void func_02040588(int a, int b);
-extern void func_02043598(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 
 int func_021B8EE8(int a, int *b, u8 *c, u8 *o)
 {

@@ -34,7 +34,7 @@ struct Obj0206B94C {
     u8    f8f;
 };
 
-extern void func_0206DDA4(u32, void *, u32);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_0206B94C(Obj0206B94C *p)
 {

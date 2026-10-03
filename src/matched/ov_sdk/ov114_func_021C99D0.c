@@ -50,7 +50,7 @@ typedef struct {
 
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
-extern void func_0217FA90(char *input, char *output, int inlen, int type);
+extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern u32 func_021C9858(u32 len);
 extern void func_020816B8(void *digest, void *data, u32 len);
 extern int func_020949F4(const char *a, const char *b, u32 n);

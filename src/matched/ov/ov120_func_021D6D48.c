@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_02049238(void *);
 extern void func_021D698C(u8 *);
 extern void func_021D692C(u8 *, int);

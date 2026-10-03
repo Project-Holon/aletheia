@@ -18,11 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { void *s; u16 x,pad; int flag; } Record;
 typedef struct { u8 pad[0x30]; void *bank; void *a[3]; Record records[3]; void *windows[3]; } Object;
-extern void *func_02045EC0(void *,unsigned);
+typedef unsigned int   u32;
+struct MsgBank;
+struct T;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02027FEC(void *,void *,u8,int,u8,u16);
-extern void func_020282AC(void *,void *,int,int,u16);
+extern void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
 extern void func_021BCD80(void *);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 void func_021BD264(Object *p) {
     int i;
     for(i=0;i<3;i++) {

@@ -68,8 +68,9 @@ struct Descriptor {
     void *heap;
 };
 
-extern void sub_0203FB44(u8 kind, u16 unkA, u32 size);
-extern void sub_020437AC(void *heap);
+struct Obj020437AC;
+extern void sub_0203FB44(u32 layer, u32 offset, u32 size);
+extern void sub_020437AC(struct Obj020437AC *p);
 extern void sub_020307B0(void *p);
 
 void sub_020452E8(struct Descriptor *d)

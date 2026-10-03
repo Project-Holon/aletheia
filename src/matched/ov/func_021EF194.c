@@ -15,7 +15,7 @@
  * Register a table with the loader.
  */
 
-extern void func_021EF048(void *, int);
+extern int func_021EF048(const char *p, unsigned n);
 
 void func_021EF194(void)
 {

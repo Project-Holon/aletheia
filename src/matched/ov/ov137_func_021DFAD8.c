@@ -27,10 +27,11 @@ extern const Vec3 d_021E2020;
 extern const s16 d_020A1EB8[];
 extern Vec3 d_021E1D00, d_021E1D0C;
 extern void func_021DFA68(void);
-extern void func_02046440(u32, u32, u32, u32, u16, s16, void (*)(void));
+struct Light;
+extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern void func_02046BE0(u32, u32);
 extern void *func_02048A24(u32, u32, u32, u32, u32, u32, u32, u32, Vec3 *, Vec3 *, Vec3 *, u16);
-extern void func_02048AD0(void *);
+extern void func_02048AD0(struct Light *l);
 void func_021DFAD8(u8 *p)
 {
     u8 *section;

@@ -42,11 +42,11 @@ struct State {
     u32 f1b0;                            /* 0x1b0 */
 };
 
-extern struct Ctx   *func_0203D788(void);
+extern void *func_0203D788(void);
 extern u32           func_0203D6BC(void);
 extern u32           func_02039338(u32 a);
 extern u32           func_02039160(u32 a);
-extern int           func_02038A48(u32 a);
+extern int func_02038A48(int a);
 extern void          func_020387A0(u32 a, u32 b, u32 c);
 extern u8            g_020A7A20[];
 extern struct State *g_021469D0;

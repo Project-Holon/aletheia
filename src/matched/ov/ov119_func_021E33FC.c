@@ -48,10 +48,13 @@ typedef struct {
 } Vec;
 
 extern Entry d_021E7B9C[4];
-extern int func_02017E1C(void *p, int id, int arg);
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u8 func_02017F00(void *p);
-extern void func_02015F04(void *p);
-extern int func_02015F14(void *p);
+extern u16 func_02015F04(void *p);
+extern s16 func_02015F14(void *p);
 extern void func_02015C78(void *p, Vec *v);
 
 #define F32_TO_FX32(f) ((int)(((f) > 0) ? ((f) * 4096.0f + 0.5f) : ((f) * 4096.0f - 0.5f)))

@@ -14,7 +14,8 @@
  * Forward with a resolved handle and the object table entry.
  */
 
-extern int func_0201BA68(void *);
+typedef unsigned int   u32;
+extern u32 func_0201BA68(void *mon);
 extern void func_02049E74(int, int, int, void *, int);
 
 void func_021EC338(char *p, void *b, void *c)

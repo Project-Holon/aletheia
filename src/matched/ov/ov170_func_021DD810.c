@@ -20,7 +20,7 @@ extern unsigned func_021DD25C(void ***,unsigned short,unsigned short,unsigned,un
 extern void *func_021DD2D0(void ***,int,unsigned);
 extern void func_021DD6E8(void **,void *,unsigned);
 extern void func_021DD8A8(unsigned char *,unsigned);
-extern void func_021EC48C(unsigned char *,int,unsigned,unsigned);
+extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
 extern void func_021DEFEC(unsigned char *,int);
 void func_021DD810(unsigned char *p,unsigned a,unsigned b,unsigned box)
 {

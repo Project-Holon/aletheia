@@ -23,16 +23,21 @@
  *   d_021BD538     0x021BD538  data  ov088  a4
  */
 
-extern int func_020489F4(void *, int);
-extern void func_020115C0(void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct IcaAnime;
+struct Light;
+extern u32 func_020489F4(u8 *a0, int i);
+extern u32 func_020115C0(struct IcaAnime *p, s32 v);
 extern void func_02011B8C(void *, void *);
-extern void func_02048AD0(void *);
+extern void func_02048AD0(struct Light *l);
 extern void func_02047964(void);
 extern void func_020479D8(void);
 extern void *func_02048A18(void *, int);
 extern void func_02047A60(void *, void *);
 extern void func_02047970(void);
-extern void func_02047910(void *, int, int);
+extern int func_02047910(void *a, int idx, int amount);
 extern char d_021BD538[];
 
 void func_021B9DD0(int *p)

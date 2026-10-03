@@ -41,10 +41,10 @@ extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 extern int func_02035C08(const void *rect);
 extern void *func_021C09B8(void *p);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern void func_021BE448(void *p);
-extern void func_021BE454(void *p, int v);
-extern void func_021BE498(void *p, int v);
+extern void func_021BE454(u8 *a0, u32 a1);
+extern void func_021BE498(u8 *a0, u32 a1);
 extern void func_021BE614(void *p, int v);
 extern void func_021BE678(void *p);
 extern void func_021BE704(void *p);
@@ -52,10 +52,10 @@ extern void func_021BE790(void *p);
 extern void func_021BE7B4(void *p);
 extern void func_021BE808(void *p);
 extern void func_021BE934(void *p);
-extern void func_021BEAF8(void *p);
+extern void func_021BEAF8(u8 *p);
 extern void func_021BEB40(void *p);
 extern void func_021BEC00(void *p);
-extern int func_021BF758(void *p);
+extern u32 func_021BF758(void *p);
 extern u32 func_021BF810(void *p);
 
 void func_021BD89C(u8 *p)

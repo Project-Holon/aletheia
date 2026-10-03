@@ -17,14 +17,19 @@
  *   func_02035C38 0x02035C38 arm
  *   func_020061E4 0x020061E4 thumb
  */
-extern void func_020286C4(void *, void *, void *);
-extern int func_0201CE30(void *);
-extern void func_0201CE48(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Ctx;
+struct Rec;
+struct Rec3;
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern u32 func_0201CE30(void *p);
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *);
-extern void func_0201CE5C(void *, int);
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern int func_02035C60(void);
 extern int func_02035C38(void);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 int func_021D4E7C(char *p)
 {
     if (*(void **)(p + 0x228)) {

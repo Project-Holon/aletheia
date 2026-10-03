@@ -18,8 +18,8 @@ typedef signed char   s8;
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_021BB000(void *p, u32 a, u32 b);
-extern void func_021BACF4(void *p, s8 v, u32 b);
+extern void func_021BB000(u8 *p, int i, int delta);
+extern void func_021BACF4(u8 *p, u32 a, u32 b);
 
 void func_021BAD14(u8 *p, u32 v)
 {

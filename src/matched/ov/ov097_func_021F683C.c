@@ -41,10 +41,10 @@ extern const Bg d_021F7688;
 extern const Bg d_021F7668;
 extern const Bg d_021F76A8;
 
-extern void func_0203F8F4(u32);
+extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(Disp *);
 extern void func_0203FCA0(u32, Bg *, u32);
-extern void func_020414EC(int);
+extern void func_020414EC(u32 i);
 extern void func_02040B94(u32, u32, u32, u32);
 
 void func_021F683C(void)

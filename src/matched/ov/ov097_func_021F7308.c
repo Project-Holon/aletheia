@@ -13,7 +13,7 @@
  *   func_021F72DC  0x021F72DC  thumb  ov097
  */
 
-extern void func_021F72DC(int a, unsigned b, int c);
+extern void func_021F72DC(unsigned p, unsigned i, int dx);
 
 void func_021F7308(int a, unsigned b, int c)
 {

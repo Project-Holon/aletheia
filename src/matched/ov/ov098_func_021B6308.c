@@ -13,7 +13,8 @@
  *   func_021F78E4 0x021F78E4 thumb ov094
  *   func_02202228 0x02202228 thumb ov094
  */
-extern void func_020310C4(void *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern void func_021F78E4(void);
 extern void func_02202228(void **);
 int func_021B6308(unsigned p)

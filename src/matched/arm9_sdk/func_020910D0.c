@@ -29,7 +29,7 @@
 typedef unsigned int u32;
 
 extern u32 func_02087988(void);
-extern u32 func_02084EB0(void *p);
+extern unsigned short func_02084EB0(char *p);
 extern u32 func_02084DA4(u32 a);
 extern void func_0208799C(u32 h);
 extern void func_02004490(u32 v);

@@ -19,13 +19,14 @@
 typedef unsigned u32;
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+typedef unsigned char  u8;
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 heap);
-extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049238(void *h);
-extern void func_02200B34(void *p);
+extern void func_02200B34(u8 *p);
 void func_021F76D8(void *p)
 {
     void *h = func_020490F4(0x60, 0x48);

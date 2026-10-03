@@ -18,12 +18,15 @@
  *   func_021B61F8 0x021B61F8 thumb ov067
  */
 extern void func_021B991C(void *);
-extern unsigned func_020279E8(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern unsigned char func_02027A04(const unsigned char *);
 extern void func_021B9F98(int *, int);
 extern void func_021B9944(void);
-extern void func_021B9C74(void *);
-extern void func_021B9914(void *);
+extern void func_021B9C74(u8 *p);
+extern void func_021B9914(struct TaskMenu *p);
 extern void func_021B61F8(unsigned char *, unsigned short);
 int func_021BA138(unsigned char *task, char *ctx)
 {

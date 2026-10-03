@@ -46,7 +46,8 @@ typedef struct {
     int g;
     int duration;
 } Job;
-extern Work *func_02011324(void *vm);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern Job *func_02030734(u16 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 extern u32 func_0207C768(u32 a, u32 b);

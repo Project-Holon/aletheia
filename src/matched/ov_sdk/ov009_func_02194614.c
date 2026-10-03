@@ -24,7 +24,7 @@
  *   g_021A57C8   0x021A57C8  data
  */
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void func_02193EB8(char *buf, int len);
 extern void func_0219451C(int reqindex, int success, long modified, char *data, int length);
 extern void func_021841B0(void *array);

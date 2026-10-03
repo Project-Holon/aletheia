@@ -41,22 +41,28 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern void *func_02012EBC(void *sys);
+struct Big;
+struct Blk37;
+struct Blk38;
+struct GdsEnt;
+struct Mon;
+struct Sub0200852CObj;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *save);
-extern void *func_0200D4AC(void *a, u32 which);
-extern void func_0200D50C(void *rec, u32 id, u32 v);
-extern void *func_02012944(void *sys);
+extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
+extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
+extern u8 *func_02012944(void *p);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern u32 func_02008530(void *party);
-extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
-extern u32 func_02017E1C(void *p, u32 id, void *v);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_0200CA10(void *save);
-extern void func_0200CFA0(void *box, void *mon);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void func_020307B0(void *p);
 extern void *func_02012984(void *sys);
 extern void func_0215E740(void *a, void *b, u32 which, u32 n);
-extern void func_0200D470(void *a, u32 which, u32 v);
+extern void func_0200D470(struct Blk38 *p, u32 i, u8 v);
 extern const char d_0217293C[];
 
 void func_0215E440(void *sys, u32 which)

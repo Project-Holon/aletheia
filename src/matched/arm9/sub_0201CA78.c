@@ -45,7 +45,8 @@ typedef signed int     s32;
 
 extern void *g_02146558;
 
-extern void *func_020437D4(void *a);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void  func_02043AAC(void *a, void *b, u32 c, u32 d, s32 e, u32 f,
                            u32 g, u32 h, u32 i, u32 j);
 extern void  func_0201DB04(u32 a, u16 b, void *c, const u8 *d);

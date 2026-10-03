@@ -12,7 +12,8 @@
  *   func_02012934 0x02012934 thumb
  *   func_0201A090 0x0201A090 thumb
  */
-extern void *func_02012934(void *);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201A090(void *, void *, unsigned int *);
 int func_0217BA48(char *p, unsigned int *mask)
 {

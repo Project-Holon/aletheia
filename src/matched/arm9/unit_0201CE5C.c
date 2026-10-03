@@ -53,7 +53,7 @@ struct Rec {
     u8 unk22;
 };
 
-extern s32  func_02013080(u32 kind);
+extern signed char func_02013080(u32 idx);
 extern void sub_0201CDF4(s32 v, u8 *out);
 
 void sub_0201CE8C(struct Rec *p, s32 v);

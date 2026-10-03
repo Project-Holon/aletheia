@@ -63,13 +63,17 @@ typedef struct {
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z);
 extern void func_0204B6F4(void *p, u8 a, u32 b);
-extern void *func_02043678(u32 w, u32 h, u32 depth, u32 heap);
+struct Bmp;
+struct CharBuf;
+struct Obj;
+struct U16Vec;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_020255A0(void *sys, Tmpl *t);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02043B5C(void *bmp, u32 v);
-extern void func_020257D0(void *p);
-extern void func_02025774(void *p, int v);
-extern void func_0204B3DC(void *p, int v);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_020257D0(struct Obj *o);
+extern void func_02025774(u8 *g, u32 a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021F32F8(char *p, u8 idx)
 {

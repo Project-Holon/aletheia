@@ -13,7 +13,8 @@
  *   func_021FDB40  0x021FDB40  thumb  ov094
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
-extern void func_021FDB40(int a, int b, int c, int d, int e, int f, int g);
+typedef unsigned int   u32;
+extern void func_021FDB40(u32 a0, int m, int a2, int a3, unsigned int e, unsigned int f, unsigned int g);
 extern void func_021F89BC(void *h);
 
 void func_021FE54C(void *h, int *s)

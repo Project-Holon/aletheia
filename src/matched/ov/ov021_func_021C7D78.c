@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; u8 fC; u8 fD; u16 fE; u16 f10; u16 f12; } W;
-extern void func_021ADD7C(u32 a, u32 b);
+extern void func_021ADD7C(int a, int b);
 int func_021C7D78(W *w)
 {
     if (w->fC == 0) {

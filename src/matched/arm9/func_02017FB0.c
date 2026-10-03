@@ -40,14 +40,15 @@ typedef unsigned int   u32;
 
 struct Learn { u16 move; u16 level; };
 
-extern u32  func_02017DBC(void *p);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32  func_02018438(void *p);
 extern void func_0201ADD0(u16 species, u16 form, void *dest);
 extern void func_02017E64(void *p, u32 id, u32 v);
-extern u16  func_02018094(void *p, u16 move);
+extern u32 func_02018094(void *p, u32 move);
 extern void func_020180FC(void *p, u16 move);
-extern u32  func_02017DE4(void *p, u32 flag);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern struct Learn gLearnBuf[];
 
 static inline int Learn_IsEnd(const struct Learn *t)

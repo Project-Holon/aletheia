@@ -21,17 +21,20 @@
  *   d_00000043 0x00000043 data a1
  */
 typedef unsigned char u8;
-extern void func_02034AC4(int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Ctx;
+extern int func_02034AC4(s32 handle);
 extern void func_0203064C(int,int,int);
 extern u8 *func_021BD5C4(void *,int);
-extern void func_021B9BEC(void *,int);
+extern void func_021B9BEC(u8 *p, int id);
 extern int func_021B9C74(void *);
 extern int func_021BABE8(void *);
 extern void func_021BD7A0(u8 *,int (*)(u8 *,void *));
 extern int func_021BD894(u8 *,void *);
 extern const u8 d_00000043[];
-extern void func_0203D34C(int,int);
-extern void func_02030D28(void *);
+extern void func_0203D34C(u32 a, u32 b);
+extern void func_02030D28(struct Ctx *c);
 int func_021BD484(void *a,int *state,int c,void *p) {
     u8 *obj;
     switch(*state) {

@@ -15,8 +15,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02045924(void *, const u16 *);
-extern u16 *func_02045A90(void *);
+struct Strbuf;
+struct U16Vec;
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 void func_021EF140(u8 *a, u8 *b)
 {

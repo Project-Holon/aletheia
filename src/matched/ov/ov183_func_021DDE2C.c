@@ -33,7 +33,7 @@ extern int func_021FC20C(char *),func_021FC214(char *);
 extern void *func_02082BCC(void *,int,unsigned);
 extern int func_021FC124(int,int,struct Triple *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
-extern void *func_021FC6A4(int,u8,u8,u8,u8,u8,void *,u16);
+extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
 extern int func_021DE000(int,int),func_021DE02C(int,int),func_021DE058(int,int);
 extern void func_021FC754(void *,int,int,int,u16);
 void func_021DDE2C(char *p,char *q)

@@ -16,7 +16,7 @@
 extern unsigned func_020399A8(void);
 extern unsigned func_02039CB4(unsigned, unsigned, unsigned);
 extern void func_021D8E84(void *, int);
-extern void func_021E0BE8(void *);
+extern void func_021E0BE8(char *p);
 void func_021E0BC4(void *p)
 {
     if (func_02039CB4(func_020399A8(), 0x18, 8)) {

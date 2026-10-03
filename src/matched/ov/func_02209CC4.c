@@ -29,7 +29,8 @@ typedef struct {
     u32 f28;
 } S09CC4;
 
-extern void func_0204B3DC(void *p, u32 v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_02209CC4(int a0, S09CC4 *p)
 {

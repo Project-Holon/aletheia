@@ -29,12 +29,16 @@ typedef struct {
     void *win;
 } Pane;
 
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *p);
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern int func_021F91DC(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
-extern void func_02045334(void *p);
-extern void func_02045374(void *p);
-extern u8 func_02045730(void *p);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 
 void func_021FD790(void *bank, Pane *pane, u32 index, void *g)

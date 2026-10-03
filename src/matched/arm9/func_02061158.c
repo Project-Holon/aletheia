@@ -12,7 +12,7 @@
  */
 
 extern void func_020610A0(void *p);
-extern void func_020610B4(void *p);
+extern void func_020610B4(int *p);
 void func_02061158(void *p, int flags)
 {
     if (flags & 1)

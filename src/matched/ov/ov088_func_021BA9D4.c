@@ -15,7 +15,8 @@
  *   d_021BD60C     0x021BD60C  data  ov088  a4
  */
 
-extern void func_0204335C(int);
+typedef unsigned int   u32;
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
 extern char d_021BD60C[];
 

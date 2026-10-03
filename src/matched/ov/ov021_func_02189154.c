@@ -28,7 +28,8 @@ typedef signed int     s32;
 
 extern u8 data_021EE700[];
 extern u16 data_021EE700b[];
-extern u32 func_020140E0(void *a);
+struct Sub020140BCObj;
+extern u8 func_020140E0(struct Sub020140BCObj *p);
 extern u32 func_02013DB8(u32 a);
 extern void func_02048F4C(void *a, u32 b, u32 c);
 extern void func_0207DCF8(void *a);

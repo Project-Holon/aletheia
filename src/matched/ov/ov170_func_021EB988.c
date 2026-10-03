@@ -31,8 +31,10 @@ struct WinMgr;
 extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern void func_021EB6D8(char *p, int b, int c, int d);
 extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *a, unsigned b);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(char *w, unsigned i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

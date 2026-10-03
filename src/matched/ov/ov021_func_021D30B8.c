@@ -30,12 +30,15 @@ typedef struct W {
     u16 *d;
 } W;
 
-extern void *func_020120F4(void *p);
-extern void *func_0201210C(void *p);
-extern void *func_020122C0(void *a, u32 b, void *cb, u32 size);
-extern W *func_020124E8(void *task);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void func_021D310C(void);
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_021D310C(u32 a, u32 *st, u32 *p);
 extern char d_021DE698[];
 
 void *func_021D30B8(void *a, u16 *b)

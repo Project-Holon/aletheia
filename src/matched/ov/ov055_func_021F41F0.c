@@ -29,7 +29,7 @@ extern int func_0216D454();
 extern void func_0216D410(u32 a, u32 b);
 extern void func_0216D5B4(u32 a, u32 b);
 extern void *func_021A3074(unsigned char *p);
-extern int func_021F4318(u8 *a, void *b, u32 c, u32 d);
+extern int func_021F4318(const u8 *a, void *b, u16 c, u16 d);
 extern int func_021F42AC(u8 *a, u32 b, u32 *c, u16 d, u16 e);
 extern void func_021F3DD4(u8 *a, u32 b);
 extern void func_021F3DBC(u8 *a);

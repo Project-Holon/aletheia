@@ -18,10 +18,14 @@
 
 typedef unsigned int u32;
 
-extern u32  sub_0200A8AC(void *a0);
-extern int  sub_0200A8D0(void *a0, int i);
-extern int  sub_0200AA00(int a, int b, void *p);
-extern int  sub_020056EC(int a);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Date;
+struct Rec;
+extern s32 sub_0200A8AC(struct Rec *r);
+extern u8 sub_0200A8D0(struct Rec *r, u32 index);
+extern u8 sub_0200AA00(u32 a0, u32 a1, struct Date *src);
+extern u32 sub_020056EC(u32 range);
 
 int sub_0200A940(void *a0, int a1, int a2, void *a3)
 {

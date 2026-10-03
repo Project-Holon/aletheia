@@ -11,9 +11,11 @@
  *   func_02039338 0x02039338 arm
  */
 typedef unsigned char u8;
-extern int func_020221A4(void);
-extern int func_02039338(void);
-extern void *func_0202EE30(void *, void *, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
+extern u16 func_02039338(void);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 int func_021DEA84(u8 *p)
 {
     if (func_020221A4()) {

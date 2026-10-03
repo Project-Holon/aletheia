@@ -14,7 +14,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02049B40(int,int,int,int,int,int);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_020275E4(void);
 extern void func_02049B90(u32,u32,u32,u32,u32,u32,u16);
 void func_021E6294(char *p, int n, u32 x) {

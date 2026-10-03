@@ -18,8 +18,9 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern u16 func_021D70A8(void *p);
-extern int func_021D76BC(int a, int b);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E1FCC(void *u, int a, int b)
 {

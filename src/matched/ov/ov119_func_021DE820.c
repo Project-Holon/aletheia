@@ -37,23 +37,26 @@
 
 typedef unsigned short u16;
 extern int func_020221A4(void *);
-extern void func_021DC720(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern void func_021DC720(char *p);
 extern void func_021E57E8(int);
-extern void func_021E5680(void *);
-extern void *func_0204B100(int,int,int);
-extern void func_021E10D8(void *);
+extern void func_021E5680(char *p);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_021E10D8(char *p);
 extern void func_021E58A0(void *);
-extern void func_021E467C(void *);
-extern void func_021E3E80(void *);
-extern void func_021E3FE4(void *);
-extern void func_021E3F74(void *);
+extern void func_021E467C(char *p);
+extern void func_021E3E80(char *p);
+extern void func_021E3FE4(char *p);
+extern void func_021E3F74(char *p);
 extern void func_021E3208(void *,int);
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_021E3C20(void *);
-extern void func_0203D34C(int,int);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_021E3C20(char *p);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_021D8E84(void *,int);
-extern void func_021DACE4(void *);
+extern void func_021DACE4(char *p);
 void func_021DE820(char *p)
 {
     if(func_020221A4(p)) {
@@ -69,9 +72,9 @@ void func_021DE820(char *p)
 }
 
 extern unsigned func_020399A8(void *);
-extern int func_021E12AC(void *);
-extern int func_021DD140(void *);
-extern void func_0202208C(int,int,int,int,int,int,int);
+extern int func_021E12AC(char *p);
+extern int func_021DD140(char *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 void func_021DE8C0(char *p)
 {
     func_020399A8(p);

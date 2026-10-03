@@ -39,7 +39,7 @@ struct ZoneData {
     u8 *f4c;            /* +0x4C */
 };
 
-extern u32 func_0202A3FC(u32 v);
+extern u8 func_0202A3FC(u32 key);
 
 void func_0201394C(struct ZoneData *o)
 {

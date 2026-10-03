@@ -37,14 +37,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32   func_02014A10(u32 a);
+typedef unsigned char  u8;
+struct Sub020140BCObj;
+extern u16 func_02014A10(u32 i);
 extern void *func_02014A20(u32 archive, u32 member, u32 *count, u16 heap);
-extern u32   func_02013F2C(u16 id);
-extern u32   func_02013B38(u16 id);
+extern u32 func_02013F2C(u32 id);
+extern u32 func_02013B38(u32 id);
 extern void *func_0201407C(u16 heap, u32 a, u32 b);
-extern u32   func_020140DC(void *q);
+extern u8 func_020140DC(struct Sub020140BCObj *p);
 extern void  func_020140B4(void *q);
-extern void  func_02014A80(void *p, u32 count, s32 off, u32 b0, u16 *b1);
+extern void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out);
 extern void  sub_020307B0(void *p);
 void func_0201493C(u32 id, u32 a1, u32 a2, u32 a3,
                    u32 b0, u16 *b1, u16 heap)

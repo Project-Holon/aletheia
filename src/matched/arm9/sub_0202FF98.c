@@ -78,7 +78,8 @@ extern void *sub_0202FBAC(u32 id);
 extern void *sub_0202FBD0(u32 id);
 extern void *sub_0202FBF8(u32 id);
 extern void  func_02060C94(void *block);
-extern void  func_02060E30(void *a, void *b);
+struct ExpHeap;
+extern void func_02060E30(struct ExpHeap *heap, void *block);
 
 u32 sub_0202FF98(u32 handle)
 {

@@ -22,7 +22,9 @@
  *   func_021B9AE0 0x021B9AE0 thumb ov099
  */
 extern int func_021B97F4(char *);
-extern int func_021BA858(char *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BA858(char *p);
 extern void *func_021BE2A8(char *,int);
 extern void func_021B9B64(char *);
 extern int func_021C27E0(void *);
@@ -30,7 +32,7 @@ extern void func_021BAAB8(char *,int,int);
 extern void func_021BA8EC(char *);
 extern void func_021C18C8(char *,int,int);
 extern void func_021C2408(char *);
-extern void func_021B9AE0(char *,void *);
+extern void func_021B9AE0(void *w, u8 *s);
 typedef enum { K24c=0x24c } Off;
 static inline char *part(char *p,Off o) {
     Off t;

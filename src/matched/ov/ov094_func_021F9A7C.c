@@ -15,8 +15,10 @@
  *   func_02011324 0x02011324 thumb
  *   func_02006BB4 0x02006BB4 thumb
  */
-extern char *func_02011324(void *);
-extern void func_02006BB4(int);
+typedef unsigned int   u32;
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
+extern void func_02006BB4(u32 i);
 
 void func_021F9A7C(void *a)
 {

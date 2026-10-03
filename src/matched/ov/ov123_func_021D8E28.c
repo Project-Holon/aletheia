@@ -13,10 +13,12 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8DFC 0x021D8DFC thumb ov123
  */
-extern void func_021D62BC(void *, int, int);
-extern void func_021D62B4(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D62BC(u8 *p, int i, u32 v);
+extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D8DFC(void);
+extern void func_021D8DFC(char *p);
 void func_021D8E28(char *p)
 {
     if (--*(int *)(p+0x60) == 0) {

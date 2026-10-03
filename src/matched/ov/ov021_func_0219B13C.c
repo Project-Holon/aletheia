@@ -31,7 +31,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern int func_0216D5A8(u32 a);
-extern int func_0219B074(u32 a);
+extern int func_0219B074(int a);
 extern u32 func_0216D5A0(u32 a);
 extern u32 func_0216D67C(u32 a);
 extern u32 func_0216DEE0(u32 a);
@@ -39,7 +39,7 @@ extern int func_0216D854(u32 a);
 extern int func_0216D83C(u32 a);
 extern int func_0216D86C(u32 a);
 extern int func_0216D63C(u32 a, u32 b);
-extern int func_021642B4(int a, int b, int c, int d);
+extern u16 func_021642B4(int x0, int y0, int x1, int y1);
 extern u32 d_021D4FEC[];
 
 int func_0219B13C(u32 a)

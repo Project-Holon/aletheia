@@ -32,11 +32,12 @@ extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_0200CA1C(void *a);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_0200D298(u32 a);
 extern u32 func_0200D2B0(u32 a, u32 b);
 extern u32 func_0200D2C4(u32 a, u32 b);
-extern u16 func_02188C84(void *a);
+extern u16 func_02188C84(u8 *p);
 
 int func_021B5EB8(u32 a, u32 b)
 {

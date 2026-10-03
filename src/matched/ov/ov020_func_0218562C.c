@@ -29,13 +29,14 @@ typedef unsigned short u16;
 int func_020120F4(int a);
 int func_02012914(int a);
 void func_02159FA8(int a, void *b);
-int func_02159F94(int a);
+typedef unsigned int   u32;
+u16 func_02159F94(int a);
 void func_02014204(void *buf, int n);
 void func_020128C0(int a, void *b);
 void func_02185B70(int a);
 void func_02185A68(int a, int b);
 void func_021857C0(int a, void *b);
-void func_0202735C(int a, int b);
+void func_0202735C(u32 a0, u32 a1);
 void func_02168EEC(int a);
 int func_0216446C(int a, int b);
 

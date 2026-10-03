@@ -14,7 +14,8 @@
  *   func_021E9738 0x021E9738 thumb ov093
  */
 typedef unsigned int u32;
-extern u32 func_021E9738(void *);
+struct S;
+extern int func_021E9738(struct S *s);
 u32 func_021E98B4(void *p)
 {
     return func_021E9738(p);

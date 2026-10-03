@@ -16,7 +16,9 @@
  * (w6_fix18).
  */
 
-extern void *sub_02024368(void *slots, unsigned int heap, int count);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *sub_02024368(u16 *slots, u32 heap, int count);
 
 void *func_0202435C(void *slots, unsigned int heap)
 {

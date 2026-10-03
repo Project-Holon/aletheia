@@ -34,7 +34,8 @@ typedef struct {
 } State;
 extern int func_0201134C(int);
 extern void func_020113B4(int, void *);
-extern int *func_02048F60(unsigned, unsigned, unsigned);
+typedef unsigned int   u32;
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
 int func_021FC20C(int a, State *s)
 {

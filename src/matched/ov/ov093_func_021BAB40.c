@@ -16,9 +16,10 @@
  */
 
 extern void func_021BABEC(void *, void *);
-extern void func_021BAC04(void);
+typedef unsigned char  u8;
+extern int func_021BAC04(char *p, int *st);
 extern void func_021BB7FC(void *);
-extern void func_021BB9D0(void *);
+extern void func_021BB9D0(u8 *p);
 void func_021BAB40(char *p)
 {
  func_021BABEC(p, (void *)func_021BAC04);

@@ -36,7 +36,8 @@ typedef struct {
 
 extern void *func_021D6414(unsigned long size, int align);
 extern void *func_021D5410(long size, void *data, long dsize);
-extern void *func_021D6D44(void);
+struct ListCB;
+extern struct ListCB *func_021D6D44(void);
 extern void func_021D6E04(void *list, void *ob);
 extern void func_021D6DF4(void *list, void *ob);
 extern OvrInfo *g_021DE6AC;

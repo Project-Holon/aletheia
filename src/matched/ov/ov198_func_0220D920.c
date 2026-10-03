@@ -16,8 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern unsigned func_02045770(void *);
-extern void func_02043AF4(unsigned,u16,s16,unsigned,u8,u8);
+typedef unsigned int   u32;
+struct Bmp;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_0220C16C(u8 *,int,int,u8,u8);
 extern void func_0220C2F8(u8 *,int,int,u16,u8);
 void func_0220D920(u8 *p, int i)

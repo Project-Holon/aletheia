@@ -24,11 +24,13 @@
  *   func_021D82F8 0x021D82F8 thumb ov116
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
  */
-extern void *func_02030734(unsigned,unsigned,unsigned,const char *,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void func_0204335C(unsigned);
 extern void func_020433E0(void *);
-extern void func_0204363C(int);
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_02043588(void);

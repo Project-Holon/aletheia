@@ -39,7 +39,7 @@ typedef struct Obj {
 
 extern Ent *d_021BA874[];
 
-extern void func_02045088(int);
+extern void func_02045088(u16 heapId);
 extern int func_020450F0(u8, int, int, int, int, u8, int);
 extern int func_02045770(int);
 extern void func_02043B5C(int, int);

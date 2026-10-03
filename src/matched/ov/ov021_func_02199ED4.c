@@ -41,7 +41,7 @@ extern u32 func_0216D520(u32 p);
 extern u32 func_0219C9DC(u32 p);
 extern u32 func_0216D7A8(u32, u32);
 extern u32 func_020508EC(u32, u32, u16 *);
-extern u32 func_0216D5E0(u32, u32);
+extern void func_0216D5E0(int a0, int a1);
 extern u32 func_0216D674(u32, u32);
 extern u32 func_0216D7CC(u32);
 

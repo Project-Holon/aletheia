@@ -30,7 +30,7 @@ struct B794 {
     void (*unk_2C)(u32);
 };
 
-extern u8 *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020399A8(u32 a);
 extern u32 func_020399B8(u32 a);

@@ -16,9 +16,11 @@
  *   d_021E2F4C 0x021E2F4C data a4
  *   d_021E2F60 0x021E2F60 data a4
  */
-extern void *func_02012944(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_02012944(void *p);
 extern void func_021DA470(unsigned char *);
-extern int func_021DD020(char *);
+extern u32 func_021DD020(char *obj);
 extern char d_021E2F2C[], d_021E2F38[], d_021E2F4C[], d_021E2F60[];
 void func_021DB6A8(char *ctx)
 {

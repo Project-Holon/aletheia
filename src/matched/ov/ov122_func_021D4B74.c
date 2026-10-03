@@ -20,12 +20,13 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
-extern void func_02178118(int, int);
+struct Comm;
+extern void func_02178118(u32 callback, u32 value);
 extern void *func_02012138(void *);
-extern int func_02026454(void *);
-extern void func_02026400(void *);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
 extern void func_021D4244(char *, void *, int);
-extern void func_021D4B30(void);
+extern void func_021D4B30(char *p);
 void func_021D4B74(char *p)
 {
     *(int *)(p + 0x38c) = 1;

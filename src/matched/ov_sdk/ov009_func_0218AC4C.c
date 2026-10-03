@@ -63,13 +63,13 @@ typedef struct GPIConnection {
     int namespaceID;
 } GPIConnection;
 
-extern void func_02193748(char *unencodedString, char *encodedString);
+extern void func_02193748(const char *plaintext, char *encoded);
 extern int func_0218946C(void **connection, GPIBuffer *outputBuffer, char *buffer);
 extern int func_0218949C(void **connection, GPIBuffer *outputBuffer, int num);
 extern unsigned long func_0209477C(const char *s);
 extern void func_0217F790(unsigned long seed);
-extern int func_0217F7AC(int low, int high);
-extern void func_0217FA90(char *input, char *output, int inlen, int encodingType);
+extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
+extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern char g_021A4964[];
 extern char g_021A4970[];
 extern char g_021A4978[];

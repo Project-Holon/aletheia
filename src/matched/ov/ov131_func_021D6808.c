@@ -10,7 +10,7 @@
  * symbols:
  *   func_021D6CDC 0x021D6CDC thumb ov131
  */
-extern void func_021D6CDC(void *,void *);
+extern void func_021D6CDC(unsigned char *a, unsigned char *b);
 void func_021D6808(void *a,void *b) {
  func_021D6CDC(a,b);
 }

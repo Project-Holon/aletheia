@@ -21,7 +21,8 @@ struct Ent0209DFC8 {
 };
 
 extern struct Ent0209DFC8 sub_0209DFC8_Map[];
-extern u32 func_02013A94(u32 key);
+typedef unsigned short u16;
+extern u16 func_02013A94(u32 key);
 
 u32 func_02013FA8(u32 key)
 {

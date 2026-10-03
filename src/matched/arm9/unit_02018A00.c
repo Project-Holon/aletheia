@@ -30,10 +30,11 @@ typedef unsigned int   u32;
 
 extern void func_02017E64(void *p, u32 id, u32 v);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern void *func_02019C54(u16 a, u16 b);
+struct Personal;
+extern void *func_02019C54(u32 a, u32 b);
 extern u32  func_02019C7C(void *h);
 extern u32  func_02019C90(u16 a, u16 b, u32 i);
-extern u32  func_0201AE1C(void *h, u32 k);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
 void func_02018A08(void *p, u32 a, u32 b);
 

@@ -43,7 +43,7 @@ extern u8 func_021D3F60(u8 *);
 extern void func_02005CA4(int,u32);
 extern void func_02006740(void);
 extern int func_02005E50(void);
-extern int func_021D3FA8(u8 *);
+extern u16 func_021D3FA8(u8 *p);
 extern void func_021BA73C(char *,int);
 extern void func_02006734(u8);
 int func_021CDA18(u8 *p)

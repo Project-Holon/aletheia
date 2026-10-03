@@ -23,7 +23,7 @@ typedef int s32;
 
 extern int func_0201134C(int);
 extern int func_0218A160(int, int);
-extern int func_021C82D0(int, int, int);
+extern int func_021C82D0(int unused, unsigned int v, int k);
 
 int func_021897CC(int a, int b) {
     int r6;

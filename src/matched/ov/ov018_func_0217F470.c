@@ -14,8 +14,11 @@
  *   func_02190758 0x02190758 thumb ov021
  */
 typedef unsigned short u16;
-extern void func_02045CAC(void *, unsigned int, void *);
-extern void func_0201F250(void *, void *, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_02190758(void *, u16, u16, void *);
 void func_0217F470(void **p, void *bank, void *handle, unsigned int index, int a, int b)
 {

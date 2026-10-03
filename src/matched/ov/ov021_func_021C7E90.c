@@ -32,7 +32,8 @@ typedef struct {
     s16 f16;
 } Obj;
 
-extern int func_0207C768(int, int);
+typedef unsigned int   u32;
+extern u32 func_0207C768(u32 a, u32 b);
 
 int func_021C7E90(Obj *p)
 {

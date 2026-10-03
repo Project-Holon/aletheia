@@ -51,10 +51,10 @@ typedef signed short   s16;
 
 extern void func_021B3258(u32 unused, char *a, u32 b, u32 c);
 extern void func_021B3470(char *p);
-extern void func_021B41AC(char *w, u32 b);
+extern void func_021B41AC(char *w, u16 b);
 extern void func_021B42D0(char *w, u32 a, u32 b);
 extern void func_0204B3DC(u32 a, int b);
-extern u8 func_021B4AA4(char *p);
+extern int func_021B4AA4(char *w);
 extern void func_021B4BA4(int i);
 extern void func_02045374(u32 a);
 extern void func_02041B6C(u32 a);

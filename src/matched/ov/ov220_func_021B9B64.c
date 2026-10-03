@@ -33,7 +33,7 @@ extern const u8 table[],coords[];
 extern void *func_020490F4(u32,u16);
 extern int func_0204AC18(void*,u32,u32,u32,u16,u16,u16),func_0204A6C8(void*,u32,u32,u32,u16),func_0204AF28(void*,u32,u32,u32);
 extern void func_02049238(void*),func_02082BCC(void*,u32,u32);
-extern u32 func_021BA1E0(void*);
+extern u32 func_021BA1E0(u8 *p);
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 extern void func_0204B878(void*,u16),func_0204B92C(void*,u32);
 void func_021B9B64(char *p)

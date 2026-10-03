@@ -14,8 +14,10 @@
  * Original narrows the lookup index to u8; its extern expresses the observed call-site width.
  */
 typedef unsigned char u8;
-extern char *func_02184180(u8 *, u8);
-extern void func_0201F02C(void *, int, char *);
+typedef unsigned int   u32;
+struct WordSet;
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_021857F4(char *p, int a, int i)
 {
     char *v;

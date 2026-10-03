@@ -27,7 +27,7 @@ extern void *func_02184180(void *, u8);
 extern void func_02008500(void *, void *);
 extern void func_021DEF6C(void *);
 extern void func_02005D90(int, int);
-extern void func_021E0304(void *);
+extern void func_021E0304(u8 *p);
 int func_021DEDAC(Obj *obj)
 {
     u8 *p = (u8 *)obj;

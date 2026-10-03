@@ -13,5 +13,5 @@
  *   func_02041570 0x02041570 arm
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
-extern void func_02041570(u32,u32);
+extern void func_02041570(int channel, u16 val);
 void func_021BAD08(void){func_02041570(2,0);}

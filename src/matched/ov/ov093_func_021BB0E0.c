@@ -28,14 +28,14 @@
 typedef unsigned char u8;
 extern void func_021BB724(u8 *, int, void *, int);
 extern int func_021BB798(u8 *);
-extern void func_021BB7D0(u8 *);
-extern int func_021BA618(void *);
+extern void func_021BB7D0(const u8 *p);
+extern int func_021BA618(char *p);
 extern void func_021BABEC(u8 *, void *);
 extern int func_021BB280(u8 *);
 extern int func_021BAEF8(u8 *, int *);
 extern void func_021BB6A8(u8 *);
 extern int func_021BB628(u8 *, int, int);
-extern void func_021BBD20(void *);
+extern void func_021BBD20(u8 *p);
 extern int func_021BBD2C(void *, void *);
 extern int func_021C84D8(int);
 extern void func_021B916C(int, int);

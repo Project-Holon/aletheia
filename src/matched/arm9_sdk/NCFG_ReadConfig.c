@@ -13,7 +13,8 @@
  *   func_0205FFC4 0x0205FFC4 arm
  */
 
-extern void func_0205FFC4(void);
+struct NCFGConfig;
+extern int func_0205FFC4(struct NCFGConfig *config);
 
 asm void NCFG_ReadConfig(void)
 {

@@ -27,12 +27,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0216D67C();
-extern int func_0216D948();
+extern int func_0216D948(int a0);
 extern int func_0216D57C();
-extern int func_02164010();
+extern int func_02164010(int a);
 extern int func_0216D674();
 extern int func_0216DAA0();
-extern int func_0216E160();
+extern int func_0216E160(int a0);
 extern int func_0216D744();
 extern int func_0216DA88();
 

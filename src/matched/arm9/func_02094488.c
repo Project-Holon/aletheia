@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02092344(u8 *dst, const void *src, u32 n);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
 u32 func_02094488(u8 *p, const void *src, u32 n)
 {

@@ -38,7 +38,9 @@ extern int   func_02012924(int a0);
 extern void *func_0201292C(int a0);
 extern void  func_02082D44(void *src, void *dst, int n);
 extern void *func_020127A4(int a0);
-extern int   func_02012B28(void *p);
+typedef unsigned int   u32;
+struct Rec44;
+extern u32 func_02012B28(const struct Rec44 *p);
 
 extern char data_020A77C4[];
 

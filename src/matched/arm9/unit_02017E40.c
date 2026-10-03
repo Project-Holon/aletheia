@@ -34,9 +34,11 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02018D10(void *p);
-extern void func_02018D6C(void *p);
-extern void func_02019308(void *p, u32 id, u32 v);
+struct Mon;
+struct Sav;
+extern u32 func_02018D10(struct Sav *p);
+extern void func_02018D6C(struct Sav *p);
+extern void func_02019308(struct Mon *p, u32 id, u32 v);
 
 void func_02017E40(void *p, u32 id, u32 v)
 {

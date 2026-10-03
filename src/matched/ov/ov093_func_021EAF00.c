@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_021CD9E0(u8 *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021EAF00(u8 *p, int a)
 {
     if (func_021CD9E0(*(u8 **)(p + 4)) == 0)

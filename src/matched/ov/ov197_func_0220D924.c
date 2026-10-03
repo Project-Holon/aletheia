@@ -15,7 +15,8 @@
 typedef unsigned char u8;
 typedef signed short s16;
 extern unsigned int func_0220D914(u8 *);
-extern void func_0220D8C4(u8 *, int, int);
+typedef unsigned int   u32;
+extern void func_0220D8C4(u8 *p, u32 index, u32 value);
 void func_0220D924(u8 *p, int state, int value)
 {
     switch (*(int *)(p + 0x598)) {

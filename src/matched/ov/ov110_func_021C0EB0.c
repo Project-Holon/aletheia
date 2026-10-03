@@ -12,7 +12,8 @@
  *   func_0204B550 0x0204B550 arm
  *   func_021C0E3C 0x021C0E3C thumb ov110
  */
-extern int func_02035CB8(unsigned *,unsigned *);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_0204B550(void *,int,int);
 extern void func_021C0E3C(unsigned,int,unsigned short *,short *);
 int func_021C0EB0(char *p) {

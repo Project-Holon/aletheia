@@ -18,8 +18,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
-extern int func_021B8DDC(int m);
-extern int func_021B9A24(int a, int b);
+extern u8 func_021B8DDC(u32 x);
+extern int func_021B9A24(unsigned int a, unsigned int b);
 
 void func_021C7C24(u16 *p, int unused, u8 *b, u8 *c, int e)
 {

@@ -42,17 +42,17 @@ extern u32 func_0202762C(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02049658(void *o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_02049EF4(void *o, u32 a, u32 b, struct Scr **out, u32 e);
+extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u32 e);
 extern void func_02049238(void *o);
 extern void func_020410D0(u8 a, u32 b, u32 c, u32 d, u32 e, void *f, u32 g,
                           u32 h, u32 i, u32 j);
 extern void func_02041B6C(u8 a);
-extern void func_020307B0(u32 h);
+extern void func_020307B0(void *h);
 
 void func_021A92A4(u32 a, u32 b)
 {
     struct Scr *ptr;
-    u32 h;
+    void *h;
     int i;
     u16 *d;
     void *o;
@@ -60,7 +60,7 @@ void func_021A92A4(u32 a, u32 b)
     o = func_020490F4(func_020275E4(), a);
     func_02049B68(o, func_02027624(), 4, 0x60, 0x20, a);
     func_02049658(o, func_02027628(), b, 0x80, 0, 0, a);
-    h = func_02049EF4(o, func_0202762C(), 0, &ptr, a);
+    h = func_02049EF4(o, func_0202762C(), 0, (void **)&ptr, a);
     func_02049238(o);
     d = ptr->data;
     for (i = 0; i < 0x300; i++) {

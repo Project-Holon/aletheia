@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Blk37;
 extern void func_0200CDE0(struct Blk37 *, void *);
-extern int func_0201AA18(void *);
+extern u32 func_0201AA18(void *p);
 extern void func_02017E40(void *,u32,u32);
 extern u32 func_02017E1C(void *,u32,u32);
 extern u8 func_02017F50(u16,u16,u32);

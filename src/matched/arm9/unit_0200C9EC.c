@@ -44,8 +44,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_020071CC(void *sys, u32 id);
-extern void *func_02012EBC(void *a);
+struct Big;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *func_02012EBC(struct Big *p);
 
 struct Blk37 {
     u32 unk00;

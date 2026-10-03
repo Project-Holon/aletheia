@@ -20,9 +20,11 @@
 
 extern int func_02012EBC(int a);
 extern int func_0200D418(int sys);
-extern void func_021F44B8(void *a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021F44B8(u8 *p);
 extern int func_0215E404(int a);
-extern int func_020111E8(void);
+extern u32 func_020111E8(void);
 extern int func_0215E3E4(int a, unsigned char b);
 
 void func_021F45F0(int *a, void *b)

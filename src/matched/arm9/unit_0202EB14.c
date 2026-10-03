@@ -23,7 +23,7 @@ struct DeviceInfo {
     u32 bit5:1;
 };
 
-extern int func_0202EB0C(void);
+extern u32 func_0202EB0C(void);
 extern struct DeviceInfo *func_02087E60(void);
 
 int func_0202EB14(void)

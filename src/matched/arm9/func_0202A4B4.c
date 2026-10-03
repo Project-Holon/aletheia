@@ -72,15 +72,18 @@ extern char  g_020A76DC[];
 
 extern void *func_02030734(u16 heap, u32 size, u32 align, const char *file, u32 line);
 extern void  func_020307B0(void *p);
-extern void  func_0201A954(void *party, int max);
-extern u32   func_0201A98C(void *party, void *mon);
+struct Mon;
+struct Party;
+struct PartyMon;
+extern void func_0201A954(struct Party *p, s32 capacity);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern u32   func_020173EC(void);
 extern void  func_0202A3AC(u32 id, TrData *td);
 extern void  func_0202A3BC(u32 id, void *tp);
 extern u8    func_0202A3CC(u32 cls);
 extern void  func_0202A994(u32 species, u32 form, int abil, u32 *gender, u16 heap);
 extern void  func_0202A9F4(u32 id, void *mon, u32 form, u32 abil);
-extern void  func_02017588(void *mon, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void  func_02017E40(void *mon, u32 id, u32 val);
 extern void  func_020181F4(void *mon, u16 move, u8 slot);
 

@@ -18,7 +18,8 @@
  */
 
 void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Obj;
+void *func_020124E8(struct Obj *p);
 void func_021C04C0(void);
 
 void *func_021BFE00(int a0, void *p, int a2)

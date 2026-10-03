@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_020061E4(int);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_020061E4(u32 a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021B8104(u32 *p) { if(p[5]) { if(p[3]==0) { func_020061E4(0x66a); func_0204B3DC((void *)p[0],1); func_0204B878((void *)p[0],4-p[4]); } if(p[3]++>=60) { p[3]=0; p[4]++; } if(p[4]==3) { func_020061E4(0x66b); p[6]=1; p[5]=0; func_0204B3DC((void *)p[0],0); } } }

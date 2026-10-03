@@ -25,8 +25,8 @@ typedef struct MemIcon {
     signed char type;
 } MemIcon;
 
-extern void func_021D7744(int kind, void *task);
-extern void func_021D6F38(void *obj);
+extern void func_021D7744(unsigned int idx, void *r4);
+extern void func_021D6F38(unsigned int *obj);
 extern void func_021D6438(MemIcon **mem);
 extern MemIcon *g_021DE558;
 extern MemIcon *g_021DE558_b;

@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern void *func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0201F35C(void *ctx, int n, u32 kind, u32 mode, u32 flag);
 extern u32 func_0201D304(void *a, void *b, u32 c);

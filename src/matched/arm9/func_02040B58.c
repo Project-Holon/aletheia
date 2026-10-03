@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32 func_0203FA08(u32 index, u32 size, u32 flag);
-extern void func_02042508(u8 index, const void *src, u32 size, u32 offset);
+extern void func_02042508(u32 index, const u32 *src, u32 mode, u32 size);
 
 u32 func_02040B58(u32 index, const void *src, u32 size)
 {

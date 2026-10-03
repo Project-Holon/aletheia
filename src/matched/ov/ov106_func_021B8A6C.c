@@ -18,7 +18,9 @@ typedef unsigned short u16;
 typedef struct {s16 x,y;} Pair;
 extern void func_0204B454(void *,Pair *,u16);
 extern void func_0204B404(void *,Pair *,u16);
-extern void func_0204B3DC(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B8A6C(u8 *p,int delta) {
     Pair pos;
     int offsets[2];

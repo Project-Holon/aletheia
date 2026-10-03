@@ -36,7 +36,7 @@ extern u32 func_02045740(u32 w);
 extern void func_02041300(u32 layer, u32 tile, u32 x, u32 y, u32 w, u32 h, u32 mode);
 extern void func_02045334(u32 w);
 extern void func_020409B4(u32 layer);
-extern void func_021927E8(void *p);
+extern void func_021927E8(u32 *p);
 extern void func_020437AC(u32 p);
 extern void func_020452E8(u32 w);
 extern void func_020307B0(void *p);

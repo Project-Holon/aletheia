@@ -25,7 +25,8 @@ extern void *func_021C88A4(void *a, int k, int b);
 extern int func_021DCFF8(int a, int b);
 extern void func_021C8838(void *l, int a, int b);
 extern void func_021C8860(void *l, u32 v);
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021DD514(int a, u8 *b, int c)

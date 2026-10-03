@@ -26,7 +26,7 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_02208918(void *o, u32 v);
+extern void func_02208918(char *p, int v);
 extern u32 func_022088F4(void *o);
 extern void func_02208924(void *o, u32 v);
 

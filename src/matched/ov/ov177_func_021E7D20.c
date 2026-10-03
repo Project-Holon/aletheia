@@ -15,11 +15,14 @@
  */
 typedef struct { short x, y; unsigned short id; unsigned char a, flag; } Request;
 extern const char d_021E8DBC[];
-extern void *func_02030734(int, unsigned, int, const char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
-extern unsigned func_021E5978(void *, unsigned);
+extern int func_021E5978(int *p, int i);
 extern void *func_0204B294(void *, unsigned, unsigned, unsigned, const Request *, unsigned short, unsigned);
-extern void func_0204B92C(void *, int);
+extern void func_0204B92C(struct Obj *p, u32 v);
 void **func_021E7D20(void *owner, void *src, unsigned heap)
 {
     void **objs;

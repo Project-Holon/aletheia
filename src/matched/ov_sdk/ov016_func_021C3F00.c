@@ -19,7 +19,7 @@
  *   func_021C3F30  0x021C3F30  arm  ov016
  */
 
-extern int func_021BCB14();
+extern signed char func_021BCB14(void);
 extern int func_021C11B8();
 extern void func_021BCB84();
 extern void func_021C0E40();

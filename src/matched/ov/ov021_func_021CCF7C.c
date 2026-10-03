@@ -20,7 +20,9 @@ typedef struct {
 } Info;
 
 extern Info *func_02020D0C(void *p);
-extern void func_02020298(void *p, int a, int b, int c);
+typedef unsigned char  u8;
+struct Obj;
+extern void func_02020298(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021CCF7C(void *p, int k)
 {

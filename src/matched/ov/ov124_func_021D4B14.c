@@ -20,9 +20,11 @@ typedef unsigned short u16;
 extern void func_0203064C(int,int,unsigned);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern void *func_0200846C(unsigned);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern void *func_0200846C(int a0);
 extern unsigned int func_0203630C(void);
-extern void func_0200854C(void *,int);
+extern void func_0200854C(struct Sub0200852CObj *obj, u8 value);
 extern void func_021D4240(char *);
 extern const char d_021D4D4C[];
 int func_021D4B14(void *a,int b,void *c)

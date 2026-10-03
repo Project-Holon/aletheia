@@ -12,6 +12,9 @@
  *   func_02045CAC 0x02045CAC arm
  *   func_0201F250 0x0201F250 thumb
  */
-extern void func_02045CAC(void *, unsigned, void *);
-extern void func_0201F250(void *,void *,void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021F0A98(char *p,unsigned a) { func_02045CAC(*(void **)(p+0x114),a,*(void **)(p+0x118)); func_0201F250(*(void **)(p+0x110),*(void **)(p+0x11c),*(void **)(p+0x118)); }

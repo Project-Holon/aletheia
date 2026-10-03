@@ -17,7 +17,10 @@
  */
 typedef unsigned short u16;
 extern const struct Row {u16 h[5];} table[];
-extern unsigned func_02011590(void *,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct IcaAnime;
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
 extern void func_02011B8C(void *,void *);
 extern void *func_021BC52C(void *);
 extern int func_021B95A0(void *,int);

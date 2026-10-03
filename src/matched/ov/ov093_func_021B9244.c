@@ -19,10 +19,11 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void *func_02012F08(void *a);
-extern u32 func_0200C274(void *a);
+struct Blk34;
+extern void *func_02012F08(int *p);
+extern u32 func_0200C274(struct Blk34 *p);
 extern char *func_021B9AF8(char *p, int i);
-extern u32 func_021D7FF8(u32 a, char *b);
+extern u32 func_021D7FF8(u32 a, void *b);
 
 u32 func_021B9244(char *p)
 {

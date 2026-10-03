@@ -26,10 +26,13 @@ extern unsigned short *func_021B616C();
 extern void *func_02020F34(unsigned int item, unsigned int which, unsigned int heap);
 extern void func_021B822C();
 extern int func_021B8F68();
-extern int func_02021014();
-extern int func_020213E0();
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Rec;
+extern u32 func_02021014(struct Rec *p, u32 sel);
+extern u32 func_020213E0(u16 v);
 extern int func_021B83A0();
-extern void func_020307B0();
+extern void func_020307B0(void *p);
 
 void func_021B8280(int p, unsigned char *q)
 {

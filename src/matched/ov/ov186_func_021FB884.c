@@ -21,8 +21,11 @@ typedef struct Object {char pad[0xe8];void *a,*b,*c;volatile unsigned flag,mode;
 extern const char d_02200D3C[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
 extern void func_02082BCC(void *,int,int);
-extern void *func_0201D7EC(unsigned,unsigned,unsigned,unsigned,unsigned);
-extern void *func_02045B38(unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC74(unsigned,unsigned,unsigned);
 extern void func_021FC148(char *,unsigned,unsigned);
 void *func_021FB884(unsigned mode,unsigned flag,unsigned heap)

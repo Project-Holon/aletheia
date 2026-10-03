@@ -46,7 +46,8 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
-extern u32  func_0203EFC8(const void *a, const void *b, u32 size);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 struct Blk2C {
     u8   unk00[0x20];

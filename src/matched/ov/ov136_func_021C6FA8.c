@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021C770C(u8 *);
 extern void func_020061E4(u32);
-extern void func_021C66A0(u8 *, int, int);
+extern void func_021C66A0(u8 *p, int i, u32 v);
 int func_021C6FA8(u8 *p)
 {
     if (func_021C770C(p) == 1) {

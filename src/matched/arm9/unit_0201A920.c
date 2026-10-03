@@ -63,10 +63,11 @@ struct Party {
     u8  unk530;
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuClearFast(u32 value, void *dest, u32 size);
 extern void func_02017528(void *rec);
-extern void sub_0201ACDC(struct Party *p, s32 idx, u32 v);
+extern void sub_0201ACDC(void *p, u32 pos, u32 mode);
 
 extern const char sub_0201A920_File[];
 

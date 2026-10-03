@@ -15,15 +15,20 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
-extern void *func_02009448(void *);
+typedef unsigned int   u32;
+struct Sav;
+struct Sub020075B0Entry;
+struct Sub02009210Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_02009228(void *);
 extern void func_02082D44(void *, void *, int);
 extern void func_020307B0(void *);
-extern void *func_02009290(void *);
+extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void *func_020185F4(void *);
-extern int func_020075B0(void *, int, int, void *);
-extern void func_02017528(void *);
-extern void func_020092F8(void *, u8);
+extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern void func_02017528(struct Sav *p);
+extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
 void func_021D8F58(char *p)
 {
     void *v;

@@ -59,12 +59,12 @@ struct GHIConnection {
 };
 
 extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
-extern void func_021C02C8(GHIConnection *connection, char *buffer, int bufferLen);
-extern int func_021C011C(GHIConnection *connection);
+extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
+extern int func_021C011C(struct GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
-extern int func_021C04D4(GHIConnection *connection, char *buffer, int *bufferLen);
+extern int func_021C04D4(struct GHIConnection *connection, char *buffer, int *bufferLen);
 extern int func_021BFCEC(GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C0378(GHIConnection *connection);
+extern int func_021C0378(struct GHIConnection *connection);
 extern char g_021CF138[];
 
 void func_021C4150(GHIConnection *connection)

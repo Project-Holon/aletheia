@@ -36,7 +36,7 @@ typedef struct {
     u32 file[2][2];
 } FileTable;
 
-extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern const FileTable d_021C85D8;
 
 void func_021C4754(Work *p, int kind)

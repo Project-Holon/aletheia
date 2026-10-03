@@ -14,5 +14,6 @@
  */
 extern int func_0203CEAC(int);
 extern void func_02157960(int, int, int);
-extern void func_021579B0(void);
+typedef unsigned char  u8;
+extern void func_021579B0(u8 *p);
 void func_02157A58(int p) { func_0203CEAC(0); func_02157960(p, (int)func_021579B0, 0x10a); }

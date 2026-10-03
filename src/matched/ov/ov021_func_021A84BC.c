@@ -59,17 +59,21 @@ typedef struct Obj {
 
 extern void func_021A926C(Obj *p, Item *it);
 extern void func_021A84A8(Obj *p);
-extern void func_02030EAC(void *p);
-extern void func_0204B3B4(void *p);
+typedef unsigned int   u32;
+struct Bank;
+struct Node;
+struct PrintSys;
+extern void func_02030EAC(struct Node *n);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B084(void *p);
-extern void func_0204B1CC(void *p);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204AFD8(void *p);
 extern void func_0204A8D4(void *p);
 extern void func_0204ADA4(void *p);
-extern void func_02040618(int a, int b, int c);
-extern void func_020403F4(int a);
-extern void func_0201C6EC(void *p);
-extern void func_0201C4C0(void *p);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_020403F4(u32 i);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020307B0(void *p);
 
 void func_021A84BC(Obj *p)

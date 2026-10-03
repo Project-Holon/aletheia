@@ -33,7 +33,7 @@ typedef struct {
     u8 f45;
 } S;
 
-void func_0689CB3C(S *p);
+void func_0689CB3C(void *p);
 int func_0689CD38(S *p);
 u32 func_0689CC70(S *p, u32 i);
 int func_0689CDBC(u32 x);

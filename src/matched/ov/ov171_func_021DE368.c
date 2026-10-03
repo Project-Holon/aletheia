@@ -16,5 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021DE34C(char *,int);
-extern void func_0204B1CC(void *);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 void func_021DE368(char *p) { u32 i; for(i=0;i<16;i++) func_021DE34C(p,i); func_0204B1CC(*(void **)(p+0xb70)); }

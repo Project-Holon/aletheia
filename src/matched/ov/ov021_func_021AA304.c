@@ -41,15 +41,16 @@ struct Info {
     u8 f0D;
 };
 
-extern u16 func_02188C9C(void *p);
-extern void *func_02188CB4(void *p);
-extern u32 func_02013ED8(u16 x);
-extern u32 func_021A30C8(void *q);
+struct BigObj;
+extern u16 func_02188C9C(u8 *p);
+extern void *func_02188CB4(u8 *p);
+extern u8 func_02013ED8(u32 id);
+extern u32 func_021A30C8(void **ctx);
 extern u16 func_021AB0F0(u32 attr);
 extern u8 func_021AB580(u16 x);
 extern void func_0203F4CC(struct RtcTime *time);
 extern u8 func_021AA69C(void *p);
-extern u32 func_02012984(void *a);
+extern u8 func_02012984(const struct BigObj *p);
 
 void func_021AA304(struct Info *out, void *a1, void *a2)
 {

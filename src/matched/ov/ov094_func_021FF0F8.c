@@ -34,7 +34,8 @@ extern int func_022019F4(Work *w, int key);
 extern void func_02015BA4(void *obj, void *h);
 extern void *func_02030EE8(void *task);
 extern void func_020307B0(void *p);
-extern void func_02030EAC(void *task);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_021FF0F8(Work *w, int key)
 {

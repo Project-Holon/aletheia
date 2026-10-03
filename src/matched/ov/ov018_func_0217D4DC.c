@@ -33,12 +33,16 @@ typedef struct {
 } Ov018Menu;
 
 void *func_02012138(void *);
-void *func_020120F4(void *);
-void *func_0201210C(void *p);
-int func_02012B70(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
+void *func_0201210C(const struct Ctx *p);
+u8 func_02012B70(const struct BigObj *p);
 int func_02158344(void *);
 int func_02158378(void *);
-void func_020061E4(int);
+void func_020061E4(u32 a);
 void func_0217F174(Ov018Menu *);
 void func_0217F0C4(Ov018Menu *);
 void *func_0217CEE8(void *, void *, int);

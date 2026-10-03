@@ -41,7 +41,7 @@ extern int  func_0216CD8C(int a0);
 extern int  func_02175530(void);
 extern int  func_0219EC74(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 extern void func_0219B490(int a0);
-extern void func_0216F770(int a0);
+extern int func_0216F770(int profileID);
 extern void func_02173D9C(void);
 
 void func_0216D138(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8)

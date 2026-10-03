@@ -62,14 +62,16 @@ struct TaskMenu {
     struct TaskMenuOwner *unk_34;
 };
 
-extern void func_0201C4E4(void *q);
-extern u32  func_0201C6C4(void *q, void *item);
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_020307B0(void *p);
 extern void func_02041B6C(void *p);
-extern void func_020452E8(void *cell);
-extern void func_020456F8(void *cell);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_020456F8(struct Descriptor *d);
 extern void *func_02045730(void *cell);
-extern void *func_02045770(void *cell);
+extern void *func_02045770(struct Descriptor *p);
 
 void func_02027858(struct TaskMenu *m)
 {

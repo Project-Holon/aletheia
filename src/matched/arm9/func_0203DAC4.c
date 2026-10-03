@@ -32,9 +32,10 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 *g_021469F0;
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-extern void func_0203C938(int err);
+extern u32 func_0203C938(u8 mode);
 
 void func_0203DAC4(const u8 *mac)
 {

@@ -25,8 +25,8 @@ typedef struct {
 } Poll;
 
 extern int func_0216BA08(void);
-extern char *func_02175F3C(void);
-extern int *func_02176358(void);
+extern int func_02175F3C(void);
+extern void *func_02176358(void);
 extern void func_0216F014(unsigned int bitmap);
 
 void func_0216F058(const Poll *p)

@@ -17,13 +17,18 @@
  *   func_0201ED04 0x0201ED04 thumb
  */
 typedef unsigned char u8;
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
-extern void func_0201CE48(void *);
-extern void func_02031140(void *);
+struct PrintSys;
+struct Rec;
+struct Rec3;
+struct S02031140;
+struct WordSet;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02031140(struct S02031140 *p);
 extern void func_0201D83C(void *);
-extern void func_02045C04(void *);
-extern void func_0201ED04(void *);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
 void func_021C6980(u8 *p)
 {
     func_0201C6EC(*(void **)(p+0x34));

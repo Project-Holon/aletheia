@@ -30,11 +30,12 @@
 
 typedef unsigned short u16;
 
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_0204363C(int);
-extern void func_0203D34C(int, int);
-extern void func_020434DC(int, int);
+typedef unsigned int   u32;
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204363C(u32 swap);
+extern void func_0203D34C(u32 a, u32 b);
+extern void func_020434DC(u32 mask, u32 enable);
 extern void func_021F6A28(int);
 extern void func_021F682C(void);
 extern void func_021F683C(void);

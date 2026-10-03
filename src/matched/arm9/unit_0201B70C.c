@@ -91,7 +91,8 @@ struct EvoTable {
 };
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_0204932C(void *a, u32 id, void *dest);
+struct ArcFile;
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void func_02048F4C(void *dest, u32 kind, u32 id);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 

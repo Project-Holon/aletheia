@@ -60,15 +60,15 @@ extern const Link tbl_02203348[];
 extern const Cell tbl_022032C6[];
 
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32, int);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B878(u32, u16);
-extern int func_021F9A1C(Obj *p, int mode);
-extern void func_02034714(void *file, int line, void *msg);
+extern int func_021F9A1C(void *p, int mode);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int func_021F9A88(Obj *p, u8 *enable)
 {

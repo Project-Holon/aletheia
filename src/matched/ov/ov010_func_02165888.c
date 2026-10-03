@@ -22,7 +22,8 @@ extern void func_0203F4CC(int *);
 extern int func_02026CA0(int *);
 extern void *func_02026C1C(int n);
 extern int func_02165960(int, int, int, int);
-extern void func_02026CE0(int);
+typedef unsigned int   u32;
+extern void func_02026CE0(u32 n);
 
 int func_02165888(int a0)
 {

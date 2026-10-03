@@ -26,7 +26,7 @@ typedef int s32;
 extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_0218A3F4(int, u16, int);
+extern int func_0218A3F4(int a, int b, int c);
 extern int func_021D5B40(void *);
 
 int func_02189400(int a, int b) {

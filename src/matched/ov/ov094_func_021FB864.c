@@ -18,7 +18,8 @@
  */
 extern int func_0201134C(void *);
 extern void *func_021F86F0(void);
-extern void func_02201DA0(void *, int, int);
+typedef unsigned int   u32;
+extern u32 func_02201DA0(char *p, int i, int v);
 
 int func_021FB864(void *a, char *s)
 {

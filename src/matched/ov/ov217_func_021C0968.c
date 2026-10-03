@@ -20,7 +20,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BF734(unsigned char *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BF734(u8 *a0);
 extern int func_02012138(int);
 extern void func_02026498(int, int);
 

@@ -17,10 +17,13 @@
  *   func_021B6438 0x021B6438 thumb ov098
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02031140(void *);
-extern void func_021B68DC(void *);
+typedef unsigned char  u8;
+struct Obj;
+struct S02031140;
+extern void func_02031140(struct S02031140 *p);
+extern void func_021B68DC(u8 *p);
 extern void func_021F7808(void);
-extern void func_022021F4(void *);
+extern void func_022021F4(struct Obj *p);
 extern void func_0201D83C(void *);
 extern void func_021B6438(void);
 extern void func_020307B0(void *);

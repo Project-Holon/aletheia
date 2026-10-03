@@ -36,7 +36,8 @@ struct Notifier {
 extern struct Notifier g_021469C8;
 
 extern void func_020371D8(u32 kind);
-extern void func_02036EC8(void *handler, u32 a, u32 b);
+struct Handler;
+extern void func_02036EC8(struct Handler *p, u32 a, u32 b);
 
 void func_02037118(u32 a, u32 b)
 {

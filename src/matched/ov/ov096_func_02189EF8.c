@@ -22,7 +22,7 @@ extern u32 func_0201134C(u8 *);
 extern void func_020113B0(u8 *,u32);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
-extern int func_021D6D7C(u8 *);
+extern u32 func_021D6D7C(u8 *p);
 int func_02189EF8(u8 *a, u8 *b)
 {
     int t; u32 n; u8 s; t = func_0201134C(a); n = func_0201134C(a); s = func_0218A160(b,t); if (func_021D6D7C(func_0218A2FC(b,s))) func_020113B0(a, *(u32 *)(a + 0x14) + n); return *(int *)(b + 0xc4);

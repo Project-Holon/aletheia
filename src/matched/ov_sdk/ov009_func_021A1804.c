@@ -48,7 +48,7 @@ extern int func_0219F6C8(SBServerList *slist, unsigned int ip, unsigned short po
 extern SBServer *func_0219E900(SBServerList *slist, unsigned int publicip, unsigned short publicport);
 extern int func_0219E9D8(SBServer *server);
 extern void func_0219E9AC(SBServer *server, int flags);
-extern void func_0219F638(SBServerList *slist, SBServer *server);
+extern void func_0219F638(struct SBServerList *slist, struct SBServer *server);
 extern unsigned int func_0217F264(void);
 extern int func_0217EB2C(int sock);
 extern SBServer *g_021AEB00;

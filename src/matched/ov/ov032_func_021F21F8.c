@@ -17,7 +17,8 @@
 typedef unsigned int u32;
 extern u32 func_0201C6C4(u32 a, u32 b);
 extern void func_020257D0(u32 a);
-extern void func_02031194(void *task);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 void func_021F21F8(void *task, char *q)
 {
     int *r;

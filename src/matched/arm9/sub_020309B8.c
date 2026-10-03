@@ -47,7 +47,7 @@ extern u16 sub_020304B8(void *p);
 extern void *sub_020304C0(void *p);
 extern u16 sub_0203046C(u32 heapId);
 extern int sub_020308B8(u8 *buf, const char *name);
-extern u32 sub_02060F90(void *block);
+extern int sub_02060F90(char *p);
 extern void *sub_02030344(u32 heapId);
 
 void sub_020309B8(void *p)

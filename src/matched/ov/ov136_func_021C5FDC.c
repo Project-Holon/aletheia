@@ -15,8 +15,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02045EC0(void *, u32);
-extern void func_02045808(void *);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021C5F80(void *, void *, u8 *, void *, int, int, u32, u16, int);
 void func_021C5FDC(u8 *p, void *bank, int i, u32 message, int x, int y, u32 mode, u16 color, int align)
 {

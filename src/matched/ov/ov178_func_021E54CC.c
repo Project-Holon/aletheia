@@ -18,12 +18,18 @@
  *   func_020306F0 0x020306F0 arm
  */
 extern void *func_0201AB28(void *,unsigned);
-extern unsigned int func_0201A98C(void *,void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Party;
+struct PartyMon;
+struct S020314B8;
+struct S020315D4;
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_021B6108(void *);
-extern void func_02034A5C(unsigned);
+extern void func_02034A5C(s32 handle);
 extern unsigned ov090_id[];
-extern void func_0203133C(void *);
-extern void func_020315D4(void *);
+extern void func_0203133C(struct S020314B8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(unsigned);
 int func_021E54CC(void *handle,int unused,char *q,char *p)
 {

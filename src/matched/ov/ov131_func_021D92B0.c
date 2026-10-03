@@ -30,8 +30,9 @@ extern void func_021DBE2C(u8 *,s16,s16);
 extern u32 func_021D9428(u8 *,u32);
 extern void func_021D91F0(u8 *,u8 *,u8 *);
 extern void func_021DBCA4(u8 *,int);
-extern void func_021DBCF4(void *);
-extern u32 func_0201C6C4(void *,void *);
+struct PrintSys;
+extern void func_021DBCF4(u8 *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_0200616C(void *,int);
 void func_021D92B0(u8 *a,u8 *p)
 {

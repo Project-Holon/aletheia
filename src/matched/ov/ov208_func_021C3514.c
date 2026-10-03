@@ -28,12 +28,12 @@ typedef unsigned int   u32;
 typedef unsigned long long u64;
 
 extern u32 func_020362DC(void);
-extern void func_020355D8(int v);
-extern int func_02035D20(u32 *x, u32 *y);
+extern void func_020355D8(u8 v);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int ov208_func_021BC3A4(int key);
 extern void *func_0200CA1C(int a);
 extern u16 ov208_func_021BC3C0(int key);
-extern void func_0200CC40(void *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 heap);
+extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern u32 func_02006984(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 extern u64 func_020870D0(void);
 extern void ov208_func_021C3840(u16 *heap, u8 *p, int key, u16 species, u16 form);

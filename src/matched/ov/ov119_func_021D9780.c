@@ -25,11 +25,12 @@ typedef struct Pt { u16 x; u16 y; } Pt;
 extern const Pt d_021E7580;
 extern const Pt d_021E757C;
 extern int func_0204B404(int a, void *b, int c);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern int func_0204B3DC(int a, int b);
 extern void *func_021D8FA4(void *p, int a);
 extern void func_021E5B6C(void *p, int a, int b);
-extern void func_021E219C(void *p, void *a, int b, int c);
+extern void func_021E219C(char *p, void *mon, int side, int flag);
 void func_021D9780(char *p, int a1, int a2)
 {
     Pt t0, t1;

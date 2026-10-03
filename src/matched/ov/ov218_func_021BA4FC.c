@@ -11,8 +11,10 @@
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_0204B3DC 0x0204B3DC arm
  */
-extern unsigned func_0204B3F4(void *);
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BA4FC(char *ctx)
 {
     int i;

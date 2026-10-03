@@ -27,7 +27,8 @@ extern u32 func_0215A5CC(u32);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32, u32);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_0201292C(void *p);
+struct BigObj;
+extern void *func_0201292C(const struct BigObj *p);
 extern u16 func_02007F1C(void *, u32, u32, u32);
 
 int func_021AF594(u32 a, u32 b)

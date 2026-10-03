@@ -31,12 +31,12 @@ extern u32 func_0216D7DC(u32 o);
 extern int func_021A66F8(u8 *p, u32 m);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB348(u32 a);
-extern int func_021BB1AC(u32 a);
-extern int func_021BB1B8(u32 a);
-extern int func_021BB1C4(u32 a);
-extern int func_021BB1D0(u32 a);
-extern int func_021BB1DC(u32 a);
-extern int func_021BB1E8(u32 a);
+extern int func_021BB1AC(int x);
+extern int func_021BB1B8(int x);
+extern int func_021BB1C4(int x);
+extern int func_021BB1D0(int x);
+extern int func_021BB1DC(int x);
+extern int func_021BB1E8(int x);
 
 u32 func_021A67A4(u8 *p)
 {

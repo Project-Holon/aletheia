@@ -21,7 +21,9 @@
 
 typedef struct { int x; int y; int z; } V;
 
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021ABE14(int a);
 extern int func_02188C88(int a);
 extern int func_02050080(int a);

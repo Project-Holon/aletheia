@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C70E4(u8 *, int, int, int, int, u32);
 struct Msg;
 extern int func_021C99A0(void *, const struct Msg *);

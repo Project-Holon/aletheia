@@ -49,10 +49,11 @@ extern void func_021E0DE8(u8 *),func_021E0F20(u8 *),func_021E104C(u8 *),func_021
 extern void *func_020056A0(void (*)(int,void *),void *,u32);
 extern void func_021DF7E8(int,void *);
 extern void *func_02047CFC(u16,u16,u16);
-extern int func_02039338(void);
+struct Ctx;
+extern u16 func_02039338(void);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u16,u32,int,const void *,int);
-extern void *func_02030CBC(u32,void *);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern const u16 d_021E1FA0[][5];
 extern const u8 d_021E22B8[];

@@ -18,7 +18,7 @@
  *   g_021DE628  0x021DE628  data  a1
  */
 extern signed char func_021BCB14(void);
-extern void func_021CFFAC(int x);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40(void *p);
 extern void func_021CDF10(void);
 extern unsigned char g_021DE628;

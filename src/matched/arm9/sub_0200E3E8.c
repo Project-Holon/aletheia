@@ -30,8 +30,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32 func_02167380(int id);
-extern u32 func_02167358(int id);
+extern u8 func_02167380(u32 id);
+extern u8 func_02167358(u32 id);
 
 void sub_0200E3E8(u8 *bits, int id, u32 value)
 {

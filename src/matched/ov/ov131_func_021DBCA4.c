@@ -11,7 +11,9 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 typedef unsigned char u8;
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021DBCA4(u8 *p, int v)
 {
     u8 i, j;

@@ -16,6 +16,6 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern u32 *d_021F3B88;
-extern u32 func_0201A918(void);
+extern int func_0201A918(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 u8 func_021D4438(u32 a) { u32 r; r=func_0201A918(); return func_0203D3F8(*d_021F3B88,255,0x102,r,a,0,1,1); }

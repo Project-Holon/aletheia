@@ -18,7 +18,7 @@ typedef unsigned int u32;
 typedef struct { u8 used:1; u8 rest:7; u8 pad[27]; } Slot;
 typedef struct { u8 pad[28]; Slot slot; } Row;
 extern const char d_02172A28[];
-extern void func_02034714(const char *, int, const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021677E4(void *p, int i) {
     if (p == 0 || i >= 4) func_02034714(d_02172A28, 0, d_02172A28);
     return ((Row *)((u32)p + (u32)i * 28u))->slot.used;

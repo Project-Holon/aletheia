@@ -26,15 +26,19 @@ typedef unsigned short u16;
 
 struct Rec { unsigned short *f0; char pad04[4]; void *f8; char fC[4]; u16 f10; };
 
-extern void *func_020120F4(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+struct Work;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02012EBC(void);
 extern void *func_02009448(void);
-extern void *func_020122C0(void *p, int a, void *cb, int n);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern struct Rec *func_020124E8(void);
-extern unsigned short *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188C84(unsigned short *p);
 extern void *func_021B7640(void *a, int b, void *c, void *d);
-extern void func_021B7574(void);
+extern int func_021B7574(void *task, int *st, struct Work *w);
 
 void *func_021B7794(void *p)
 {

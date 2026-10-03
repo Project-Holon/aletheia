@@ -31,7 +31,9 @@ typedef unsigned int u32;
 extern u32  func_0200974C(u32 a);
 extern u32  func_02009750(u32 a, u32 b);
 extern void func_020095E8(u32 a);
-extern u32  func_0200856C(void *p);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
 extern void func_0202ED90(u32 a, void *b, u32 c);
 
 void func_0202ED60(u32 a, void *b, u32 c)

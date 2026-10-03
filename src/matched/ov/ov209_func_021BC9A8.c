@@ -34,17 +34,20 @@ struct Context {struct Inputs *in;u8 pad4[0xc2c-4];void *list;u32 padc30;u32 vis
 extern const struct Template data_021BE7AC;
 extern void *data_020A7370;
 extern void *func_020490F4(u32,u16);
-extern u16 func_0200CA8C(void *);
+struct Blk37;
+struct MsgBank;
+struct U16Vec;
+extern u16 func_0200CA8C(struct Blk37 *p);
 extern void *func_021B7754(struct Template *,u32);
 extern void func_021B7A10(void *,void *,u32,u32,u32);
-extern void func_021B7A4C(void *,void *,u32,u32,u32);
-extern void func_021B79E4(void *,u32,u32);
+extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
+extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 extern void func_02049238(void *);
-extern u32 func_0200CED4(void *,u16);
-extern u32 func_0200D064(void *,u16);
-extern void *func_02045EC0(void *,u32);
-extern void *func_02045874(void *,u32);
-extern void func_02045808(void *);
+extern u32 func_0200CED4(struct Blk37 *p, u16 id);
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_02045874(struct U16Vec *src, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
 void func_021BC9A8(struct Context *p)
 {
     struct Template tmpl;

@@ -34,8 +34,8 @@ typedef struct S {
 } S;
 
 extern u32 func_0204B3F4(u32 a);
-extern int func_02035D20(u32 *x, u32 *y);
-extern void func_020355D8(int v);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 
 int func_021B6934(S *p)

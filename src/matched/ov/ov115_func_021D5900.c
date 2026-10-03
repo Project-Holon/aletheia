@@ -15,6 +15,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_02040618(int,int,int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204A648(void);
 void func_021D5900(void *task,u8 *p) { if(*(s16 *)(p+0xb4a)>0) { func_02040618(7,0,*(s16 *)(p+0xb4a)-1); func_02040618(2,0,*(s16 *)(p+0xb4a)-1); } func_0204A648(); }

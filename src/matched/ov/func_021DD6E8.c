@@ -19,7 +19,8 @@
 typedef unsigned int u32;
 
 extern void func_020179B8(void *a, u32 b);
-extern void *func_0201747C(void *a, u32 b);
+struct Mon;
+extern void *func_0201747C(struct Mon *p, u32 heap);
 extern u32 func_0200CA1C(u32 v);
 extern void func_0200CFA0(u32 v, void *p);
 extern void func_020307B0(void *p);

@@ -56,7 +56,8 @@ typedef struct {
 } DWCiGdbEntity;
 
 extern int func_0216AAE0(char *loginTicket);
-extern void func_021E17D8(int line, const char *fmt, ...);
+struct SAKEInternal;
+extern void func_021E17D8(int line, char *fmt, ...);
 extern int func_021E1EAC(int process, int error);
 extern void func_02059F54(int error, int errorCode);
 extern void func_0217CA40(void);
@@ -64,7 +65,7 @@ extern int func_021DD1EC(void **sakePtr);
 extern void func_021E191C(void);
 extern int func_021E1EC4(int result);
 extern void func_021DD25C(void *sake, char *gameName, int gameId, char *secretKey);
-extern void func_021DD290(void *sake, int profileId, char *loginTicket);
+extern void func_021DD290(struct SAKEInternal *sake, int profileId, const char *loginTicket);
 extern void func_021E216C(int ssl_type);
 extern int func_021BF558();
 extern DWCiGdbEntity g_021E5334;

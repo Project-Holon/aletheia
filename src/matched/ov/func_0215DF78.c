@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012138();
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_021FC81C();
 
 void func_0215DF78(int a0, int a1, int a2)

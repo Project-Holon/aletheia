@@ -15,5 +15,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_021BC868(void *,int,int,int,int,int);
+extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
 void func_021BB838(u8 *p) { func_021BC868(p+24,2,63,124,0,12); }

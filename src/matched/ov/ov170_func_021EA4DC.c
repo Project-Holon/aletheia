@@ -23,10 +23,12 @@ typedef struct {
     char *work;
 } Obj;
 
-extern unsigned char func_020260E0(void *obj);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021DEFEC(Obj *p, int b);
 extern void func_021DF040(Obj *p);
-extern void func_021EA728(Obj *p);
+extern void func_021EA728(void *p);
 extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
 extern int func_021E152C(Obj *p);
 

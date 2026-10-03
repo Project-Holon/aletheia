@@ -29,10 +29,10 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D4490(void *p);
+extern void func_021D4490(u8 *p);
 extern void func_02016028(u32 obj, u32 flag);
 extern void func_02015C48(u32, Vec *);
-extern void func_021D4484(void *p, int a);
+extern void func_021D4484(u8 *p, u32 v);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D449C(u8 *p);
 extern const Vec d_021D7C90;

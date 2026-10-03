@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0204E720(u32, u32, u32, u32);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 
 int func_021C7844(u32 a, u32 b, u32 c)
 {

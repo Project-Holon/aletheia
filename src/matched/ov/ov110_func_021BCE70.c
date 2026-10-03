@@ -19,5 +19,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021BF6DC(u8 *);
 extern u32 func_021BCFF0(char *,u32);
-extern void func_020282A4(void *);
+struct Obj;
+extern void func_020282A4(struct Obj *obj);
 int func_021BCE70(char *p) { int result; if (func_021BF6DC(*(u8 **)(p+4))==1) { result=1; if (func_021BCFF0(p,1)) { func_020282A4(*(void **)(p+0x68)); return result; } } else { return 1; } return 0; }

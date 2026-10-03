@@ -15,7 +15,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021CD64C(void *w, u32 id, int x, int y, u32 z);
+extern void func_021CD64C(void *w, u8 id, ...);
 
 void func_021C4BAC(u8 *p, int k, int v)
 {

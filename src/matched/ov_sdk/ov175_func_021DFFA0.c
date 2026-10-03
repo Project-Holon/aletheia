@@ -23,7 +23,9 @@ struct SCIReport {
     unsigned char *buffer;
 };
 
-extern unsigned char *func_021E054C(unsigned char *cursor, int value);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *func_021E054C(u8 *dst, u32 v);
 
 int func_021DFFA0(struct SCIReport *report, unsigned int index, unsigned int team)
 {

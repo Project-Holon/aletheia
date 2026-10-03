@@ -13,6 +13,8 @@
  *   func_020437AC 0x020437AC arm
  */
 
-extern void func_0202570C(void *);
-extern void func_020437AC(void *);
+struct Grid;
+struct Obj020437AC;
+extern void func_0202570C(struct Grid *g);
+extern void func_020437AC(struct Obj020437AC *p);
 void func_021B9B3C(char *p) { int i; for (i = 0; i < 7; i++) { func_0202570C(*(void **)(p + i * 4 + 0x2a0)); func_020437AC(*(void **)(p + i * 4 + 0x2bc)); } }

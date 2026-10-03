@@ -20,15 +20,19 @@
  *   overlay206 0x000000CE data
  *   overlay67 0x00000043 data
  */
-extern void func_02030EAC(void *);
-extern void func_0220B2E0(void *);
-extern void func_0220B6E4(void *);
-extern void func_021BA2CC(void *);
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
+typedef unsigned int   u32;
+struct Node;
+struct PrintSys;
+struct S020315D4;
+extern void func_02030EAC(struct Node *n);
+extern void func_0220B2E0(u32 *p);
+extern void func_0220B6E4(unsigned *p);
+extern void func_021BA2CC(char *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
-extern void func_0220B3B8(void *);
-extern void func_020315D4(void *);
+extern void func_0220B3B8(unsigned *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 typedef enum OverlayId { OVERLAY_ZERO=0 } OverlayId;
 extern void func_02034A5C(OverlayId);

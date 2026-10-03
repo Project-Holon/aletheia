@@ -45,16 +45,20 @@ typedef struct {
 typedef struct { unsigned char a : 7; unsigned char b : 1; } FlagsF8;
 
 void *func_02012138(void *);
-void *func_020120F4(void *);
-void *func_020120F8(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+void *func_020120F4(const struct Ctx *p);
+u8 *func_020120F8(const struct Ctx *p);
 int func_02012AC8(void *);
-int func_02012B70(void *);
-int func_02013D5C(int);
-int func_02026454(void *);
-int func_0202648C(void *);
+u8 func_02012B70(const struct BigObj *p);
+u32 func_02013D5C(u32 id);
+u32 func_02026454(void *obj);
+u32 func_0202648C(void *obj);
 unsigned char *func_02158344(void *);
-int func_02175DA8(void *);
-int func_02175B8C(void *);
+int func_02175DA8(u8 *p);
+int func_02175B8C(u8 *p);
 int func_0217EBD8(Ov018Menu *);
 void func_0217EEB4(Ov018Menu *);
 void func_0217EF44(Ov018Menu *, unsigned char *);

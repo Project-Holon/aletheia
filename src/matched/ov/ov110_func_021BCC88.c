@@ -17,8 +17,9 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021BCAD8(void *);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BCC88(u8 *p)
 {
     func_021BCAD8(p);

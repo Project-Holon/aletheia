@@ -18,11 +18,14 @@ extern unsigned func_02165DAC(const char *);
 extern unsigned short func_02165DF0(const char *);
 extern unsigned short func_02165DBC(const char *);
 extern unsigned short func_02165D28(const struct Bits *);
-extern void *func_02013E4C(unsigned);
-extern void func_0201EE60(void *,int,unsigned);
-extern void func_0201F104(void *,int,unsigned);
-extern void func_0201F134(void *,int,unsigned);
-extern void func_0201F158(void *,int,void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct WordSet;
+extern u32 func_02013E4C(u32 id);
+extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
+extern void func_0201F104(struct WordSet *p, u32 i, u32 a);
+extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F158(struct WordSet *p, u32 i, u32 v);
 void func_021BCE04(void *p,void *q)
 {
     switch(func_02165DAC(p)) {

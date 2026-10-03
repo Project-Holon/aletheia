@@ -21,7 +21,7 @@
  */
 
 extern unsigned int func_02051774(void *);
-extern void func_02051A2C(void *, unsigned int);
+extern void func_02051A2C(void *p, int v);
 extern void func_02051A24(void *, void (*)(void));
 extern void func_021D6E6C(void);
 

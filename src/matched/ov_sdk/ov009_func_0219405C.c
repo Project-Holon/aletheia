@@ -17,7 +17,7 @@
  *   g_021ADFE0   0x021ADFE0  data
  */
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern int *func_02184208(void *array, int n);
 extern int g_021ADFE0[];
 

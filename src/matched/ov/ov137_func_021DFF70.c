@@ -23,7 +23,7 @@ extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
-extern void func_0203D34C(int,u16);
+extern void func_0203D34C(u32 a, u32 b);
 void func_021DFF70(u8 *p)
 {
     void *arc;

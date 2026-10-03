@@ -11,7 +11,8 @@
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned short u16;
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 int func_021DF8F0(int x, int y)
 {
     int ok = ((unsigned)(x - 80) <= 88) & ((unsigned)(y - 32) <= 56);

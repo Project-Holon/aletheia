@@ -50,14 +50,15 @@ extern u32   func_02188C80(void *p);
 extern u32   func_020120F4(u32 a);
 extern u32   func_02012EC4(u32 a);
 extern int  *func_0200B3A4(u32 a, u32 b);
-extern int   func_02188C84(void *p);
-extern void  func_02189764(void *p, int a, int b, int c);
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern V    *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B8(void *p, int v);
-extern void  func_021BE6B0(void *p, int v);
+extern void func_021BE6B8(unsigned char *p, int v);
+extern void func_021BE6B0(unsigned char *p, int v);
 extern void  func_021F3938(void *a0, int a1, int a2, int a3);
 
 void func_021F36C0(void *a0)

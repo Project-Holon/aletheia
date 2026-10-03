@@ -48,7 +48,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02045A90(int a0);
-extern int func_0201DE18(int a0, int a1, int a2);
+extern u32 func_0201DE18(u32 r, u32 g, u32 b);
 extern void func_0201DE00(u8 *a0, u8 *a1, u8 *a2);
 extern void func_0201DD78(int a0, int a1, int a2);
 extern void *func_0201C974(void *a0, void *a1, int a2);

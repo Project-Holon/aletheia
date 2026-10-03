@@ -23,7 +23,8 @@
  */
 
 extern void MIi_CpuClearFast(unsigned int data, void *destp, unsigned int size);
-extern int func_02059718(void *userdata);
+struct DWCstAccUserData;
+extern int func_02059718(struct DWCstAccUserData *userdata);
 extern void DWC_CreateUserData(void *userdata);
 extern void func_02059870(void *userdata);
 

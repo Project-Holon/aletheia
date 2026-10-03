@@ -57,7 +57,7 @@ struct Tbl {
 extern struct Tbl *g_021469F4;
 extern int  func_0203CD98(void);
 extern int  func_0203ED84(int a0);
-extern struct Ctx *func_0203D798(void);
+extern void *func_0203D798(void);
 extern int  func_02038D4C(void);
 extern int  func_02038D30(void);
 extern int  func_0203EC04(int a0);

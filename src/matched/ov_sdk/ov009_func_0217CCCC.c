@@ -43,10 +43,10 @@ typedef struct GSCoreMgr {
     void *tasks;
 } GSCoreMgr;
 
-extern GSCoreMgr *func_0217CA20(void);
+extern void *func_0217CA20(void);
 extern void func_0217F108(void *cs);
 extern unsigned int func_0217F264(void);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_0217CB88(GSTask *theTask);
 extern void func_021C204C(void);

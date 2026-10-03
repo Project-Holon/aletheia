@@ -55,7 +55,8 @@ struct S {
     u32 fd0;
 };
 
-extern struct S *func_021BC32C(void *a0, u32 size, u32 heap);
+struct Ov208Buf;
+extern void *func_021BC32C(struct Ov208Buf *p, u32 size, u32 heap);
 extern void func_02082BCC(void *dst, int v, u32 n);
 extern int func_021BC3A8(int *p);
 extern int func_021BC3AC(int *p);

@@ -12,9 +12,11 @@
  *   func_02157E8C 0x02157E8C thumb ov010
  *   func_0203D210 0x0203D210 arm
  */
-extern void func_02157E78(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02157E78(u8 *p);
 extern void func_02157E8C(void *);
-extern int func_0203D210(void);
+extern u32 func_0203D210(void);
 int func_0217E414(char *p)
 {
     if (*(void **)(p + 0x1018))

@@ -37,7 +37,12 @@
  */
 typedef unsigned int u32;
 extern const char ov067_id[],ov114_id[];
-extern void func_02034AC4(int);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern int func_02034AC4(s32 handle);
 extern void func_0203064C(u32,u32,u32);
 extern u32 *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
@@ -47,10 +52,10 @@ extern u32 func_0200B1D4(u32,int);
 extern int *func_021E5440(unsigned,int);
 extern int func_021E5548(int *);
 extern u32 func_021E567C(int,int,int);
-extern void *func_0201D7EC(int,int,int,int,u32);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern u32 func_0201C440(int);
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_0201EC74(u32,u32,unsigned char);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern u32 func_021D9DC8(u32,u32,u32,int);
 extern u32 func_021E8568(int,int,int,int,u32,u32,int);
 extern int *func_021E8A3C(int,int,int);

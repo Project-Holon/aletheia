@@ -29,13 +29,13 @@ typedef struct SBServer SBServer;
 
 extern int func_021A0414(int flags);
 extern int func_021A04C4(SBServerList *slist, char *buf, int len);
-extern int func_021A0440(char *buf, int len);
+extern int func_021A0440(const char *p, int n);
 extern int memcmp(const void *a, const void *b, unsigned long n);
 extern void func_021A059C(SBServerList *slist, char *buf, int len, unsigned int *ip, unsigned short *port);
 extern SBServer *func_0219E900(SBServerList *slist, unsigned int publicip, unsigned short publicport);
 extern int func_0219E9D8(SBServer *server);
 extern int func_021A060C(SBServerList *slist, SBServer *server, char *buf, int len, int usepopularlist);
-extern void func_0219F638(SBServerList *slist, SBServer *server);
+extern void func_0219F638(struct SBServerList *slist, struct SBServer *server);
 extern char g_021A8250[];
 
 int func_021A08E8(SBServerList *slist, char *buf, int len)

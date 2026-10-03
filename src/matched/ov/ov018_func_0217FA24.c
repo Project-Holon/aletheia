@@ -13,8 +13,9 @@
  *   func_0217FA38 0x0217FA38 thumb ov018
  */
 typedef unsigned int u32;
-extern void *func_020122C0(void *, void *, void *, u32);
-extern int func_0217FA38(int, int *);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_0217FA38(void *a, int *state);
 void *func_0217FA24(void *owner)
 {
     return func_020122C0(owner, 0, func_0217FA38, 0);

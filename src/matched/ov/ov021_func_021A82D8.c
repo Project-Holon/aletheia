@@ -29,7 +29,8 @@ typedef struct Src {
 } Src;
 
 extern void *func_021BE92C(void *a, void *b, int c, int d, int e, int f, int g);
-extern void func_02012374(void *a, void *b);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_021A82D8(void *a, Src **pp)
 {

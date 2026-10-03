@@ -20,7 +20,8 @@ typedef struct { u16 low:3; u16 bit3:1; u16 bit4:1; u16 rest:11; } Bits;
 extern u16 func_021F4AA8(int);
 extern u8 *func_021F4F54(u8 *,int);
 extern void func_0204F604(void *,u32,u16 *);
-extern void func_0204F1A0(void *,u32);
+struct Obj0204F1A0;
+extern void func_0204F1A0(struct Obj0204F1A0 *a0, u32 a1);
 void func_021F4D74(u8 *p, u8 *e, int type, u16 id)
 {
     *(u32 *)(e+12) = func_021F4AA8(type);

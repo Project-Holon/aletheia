@@ -42,7 +42,7 @@ extern void func_021CD568(void *p, int a, int k, u32 b);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021CC95C(void *lock, u32 v, int line);
 extern void func_021C6E00(void *w, int a, u8 b);
-extern int func_021C88E4(void *w);
+extern int func_021C88E4(u8 *p);
 
 int func_021C9E3C(u8 *w, struct Cmd *c)
 {

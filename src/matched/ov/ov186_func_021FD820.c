@@ -22,7 +22,7 @@
 extern void func_0204B3B4(int);
 extern void func_021FC0C8(int, int);
 extern void func_021FD714(int);
-extern void func_020307B0(int *);
+extern void func_020307B0(void *p);
 
 void func_021FD820(char *r5)
 {

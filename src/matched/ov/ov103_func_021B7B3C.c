@@ -33,8 +33,10 @@ typedef unsigned int u32;
 extern const char d_020A1448[];
 extern void func_02082BCC(void *,u8,u32);
 extern void func_0204A48C(const void *,u32,u32);
-extern void *func_0204B100(int,u8,u32);
-extern void func_0204B270(void *);
+struct Bank;
+struct Obj;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204ABF0(u32,u32,u32,u32,u16);
@@ -43,7 +45,7 @@ extern int func_0204AF28(u32,u32,u32,u32);
 extern void func_02049238(void *);
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 extern void func_0204B3DC(void *,u32),func_0204B84C(void *,u32),func_0204B92C(void *,u32);
-extern void func_0204B878(void *,u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 struct State { void *bank; u32 palette, chars, other; void *actors[33]; };
 void func_021B7B3C(struct State *p,const void *config,u16 heap)
 {

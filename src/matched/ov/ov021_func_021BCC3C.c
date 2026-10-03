@@ -17,11 +17,13 @@
  *   func_021BCB9C  0x021BCB9C  thumb  ov021
  */
 
-extern int func_021BCA88(void *p);
-extern void func_021BCA6C(void *p);
-extern int func_021BCA74(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BCA88(u8 *p);
+extern void func_021BCA6C(u8 *p);
+extern u32 func_021BCA74(u8 *p);
 extern int func_021BCA8C(void *p);
-extern void func_021BCA80(void *p);
+extern void func_021BCA80(u8 *p);
 extern void func_021BCB9C(void *p, int a);
 
 void func_021BCC3C(void *p)

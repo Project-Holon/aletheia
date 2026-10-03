@@ -10,7 +10,7 @@
  * symbols:
  *   func_021E0EF4 0x021E0EF4 thumb ov119
  */
-extern void func_021E0EF4(void *, int, int, int, int, int);
+extern void func_021E0EF4(char *p, int flag, int x, int y, int w, int h);
 void func_021E0FF4(void *p, int a, int flag)
 {
     if (flag) {

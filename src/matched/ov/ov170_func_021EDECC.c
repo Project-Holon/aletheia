@@ -13,7 +13,7 @@
  *   func_021EC08C 0x021EC08C thumb ov170
  *   func_021EC000 0x021EC000 thumb ov170
  */
-extern unsigned char func_021DEB14(unsigned char *, signed char);
+extern unsigned char func_021DEB14(unsigned char *p, int a);
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
 extern void func_021EC08C(char *, int, short, short, short);
 extern void func_021EC000(char *, int, int);

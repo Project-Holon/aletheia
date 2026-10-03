@@ -33,7 +33,8 @@ extern void *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_02007698(void *);
 extern u8 func_020076A4(void *);
-extern unsigned func_020078C4(void *,unsigned);
+typedef unsigned int   u32;
+extern int func_020078C4(void *save, u32 box);
 extern u8 func_020076B4(void *);
 extern void *func_02031324(unsigned);
 int func_021DC860(void *manager, int unused, void **context)

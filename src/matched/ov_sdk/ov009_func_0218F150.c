@@ -39,7 +39,8 @@ struct GPIConnection {
 };
 
 extern void *func_0217EAB0(unsigned long size);
-extern void func_020923B0(void *dst, int val, unsigned long len);
+typedef unsigned int   u32;
+extern void *func_020923B0(void *p, int c, u32 n);
 extern long func_02184098(long *timer);
 extern void *func_02184144(int elemSize, int numElems, void (*freeFn)(void *));
 extern void func_0218F134(void *elem);

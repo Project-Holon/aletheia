@@ -45,7 +45,8 @@
 typedef unsigned char u8;
 
 extern void func_020307B0(void *obj);
-extern void func_02030EAC(void *id);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void *func_02030EE8(void *id);
 extern void func_02016C0C(void *id);
 

@@ -25,9 +25,10 @@ typedef unsigned int u32;
 extern void *func_0200CA1C(void *a);
 extern int func_0201AA18();
 extern void *func_0201AB28(void *p, u32 idx);
-extern int func_02017E1C();
-extern void func_02017988();
-extern void func_0200CFA0();
+struct Blk37;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_02017988(void *p, u32 a);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 
 void func_0216A390(int a0, int a1)
 {

@@ -44,7 +44,8 @@ extern void func_0220793C(S *q);
 extern void func_0220868C(void *obj, S *q, int n);
 extern void func_0204B454(void *h, s16 *out, int k);
 extern void func_0204B404(void *h, s16 *v, int k);
-extern void func_0204B3DC(void *h, int f);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_02207DA0(void *obj, S *q, int n)
 {

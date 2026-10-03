@@ -28,15 +28,16 @@ typedef unsigned int u32;
 struct BigObj;
 struct Sub24;
 struct Rec44;
-extern int func_02158344();
+struct Sub02014444Obj;
+extern int func_02158344(int a0);
 extern void *func_02012B38(const struct BigObj *p);
-extern int func_0201444C();
+extern u32 func_0201444C(struct Sub02014444Obj *o);
 extern int func_0215841C();
 extern int func_02012B58();
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_0200855C();
 extern int func_02008530();
-extern int func_021584F4();
+extern int func_021584F4(int a0, int a1);
 
 int func_0215850C(int a0, int a1)
 {

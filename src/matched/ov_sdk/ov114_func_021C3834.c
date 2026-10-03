@@ -63,7 +63,7 @@ typedef struct {
 
 typedef struct GHIPostState GHIPostState;
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern int func_021C011C(GHIConnection *connection);
 extern void func_021C00FC(GHIBuffer *buffer);
 extern int func_0209477C(const char *s);

@@ -42,14 +42,18 @@ struct Ctx {
 };
 
 extern int func_0200BAC8(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012934(void *p);
+struct BigObj;
+struct Party;
+struct PartyMon;
+struct Rec534;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA18(void *list);
-extern void *func_0201AB28(void *list, int idx);
-extern int func_02017E1C(void *obj, int key, int off);
-extern u32 func_0201A98C(void *list, void *mon);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200BAF4(int a, int b);
-extern void func_0201AC2C(void *src, void *dst);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_020307B0(void *p);
 extern void func_0201BA34(void *p);
 extern void func_02155160(void *list);

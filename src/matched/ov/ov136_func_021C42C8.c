@@ -49,14 +49,18 @@ extern void func_02022230(u32 a);
 extern void func_0207D63C(void *reg, int a, int b, int c, int d);
 extern u32 func_020056BC(void);
 extern void func_0202173C(void *p, int a, int b, int c, int d, int e, int f, u32 g);
-extern int func_02021ED8(void *p);
-extern void func_0202DBC4(void *p);
-extern void func_02028178(void *p);
-extern void func_02030EAC(void *p);
+struct Ctx;
+struct Node;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_02021ED8(const char *ptr);
+extern void func_0202DBC4(u8 *p);
+extern void func_02028178(u8 *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_0204A600(void *p);
-extern void func_02030D28(void *p);
-extern void func_020310C4(void *p);
-extern void func_0201C4E4(void *p);
+extern void func_02030D28(struct Ctx *c);
+extern void func_020310C4(struct Tcbl *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 
 int func_021C42C8(u8 *p)
 {

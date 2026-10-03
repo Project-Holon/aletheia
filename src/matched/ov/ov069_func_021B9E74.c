@@ -17,9 +17,9 @@
  */
 
 extern int func_0201C6B4(int);
-extern int func_021BA2A4(void *o);
+extern int func_021BA2A4(char *p);
 extern int func_02025D2C(int);
-extern void func_021BA2D8(void *o, int k);
+extern void func_021BA2D8(char *o, int k);
 
 int func_021B9E74(char *o)
 {

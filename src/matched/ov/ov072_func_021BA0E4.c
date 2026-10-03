@@ -51,8 +51,9 @@ typedef struct {
 } Cur;
 
 extern unsigned int func_0203630C(void);
-extern void func_020355D8(int v);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
+extern u8 func_020355C4(void);
 extern char *func_021BA710(void *p, Cur *c);
 extern void func_021BA69C(char *p, int *o);
 extern int func_021BA774(char *p, int i);
@@ -62,7 +63,7 @@ extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
 extern void func_0204B404(int obj, Pt *pt, int k);
 extern u32 func_020362DC(void);
-extern int func_02035D20(u32 *a, u32 *b);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_0204B3DC(int obj, int on);
 
 void func_021BA0E4(Cur *c, void *q)

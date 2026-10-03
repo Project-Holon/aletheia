@@ -20,7 +20,9 @@ extern const Desc d_021EFD1C;
 extern unsigned char func_021DEB14(unsigned char *, signed char);
 extern void func_021EC08C(char *, int, short, short, short);
 extern void func_021EDB64(char *, int, int);
-extern void func_0202590C(void *, short, short);
+typedef signed short   s16;
+struct Grid;
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 extern void func_021EB874(char **, unsigned, int);
 void func_021ED9C8(char *p)
 {

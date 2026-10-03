@@ -34,11 +34,11 @@ extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021CC95C(void *lock, u32 v, int line);
 extern void func_021C7AD0(u8 *p, u8 *a, u32 b);
 extern void func_021C7B0C(u8 *p, u8 *a);
-extern void func_021C60EC(u8 *p, u8 *a, int k);
-extern void func_021C6134(u8 *p, u8 *a, int k);
+extern void func_021C60EC(u8 *p, u8 *a, u32 n);
+extern void func_021C6134(u8 *p, u8 *a, unsigned int n);
 extern void func_021DCF24(u8 *a);
-extern void func_021DCF5C(u8 *a);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void *func_021DCF5C(void *p);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 struct QK;
 extern void func_021D6730(struct QK *p, u16 v);
 

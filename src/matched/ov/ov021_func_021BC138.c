@@ -93,7 +93,7 @@ extern void func_0216D8B0(u32 a, Vec *v);
 extern int func_02163E58(u32 a, Vec *v, int *y);
 extern void func_0216D8D0(u32 a, Vec *v);
 extern u32 func_0216D7DC(u32 a);
-extern u32 func_021AB0F8(u32 a);
+extern u16 func_021AB0F8(u32 attr);
 extern int func_021BC340(int a, int b);
 extern int func_021BC338(u32 a);
 extern u32 func_02188C58(u32 a);

@@ -24,8 +24,8 @@ typedef struct {
     u32 rest : 31;
 } O;
 
-extern int func_020407E8(int a);
-extern int func_02040804(int a);
+extern u32 func_020407E8(u32 layer);
+extern u32 func_02040804(u32 layer);
 extern void func_0220986C(O *o, u32 mode, Vec *v, Vec *w, int s1, int s2, int s3,
                           void (*f1)(void *, void *));
 extern void func_022099E8(void *, void *);

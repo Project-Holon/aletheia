@@ -44,11 +44,12 @@ typedef struct Obj {
 
 extern void func_0200A094(void *list, u32 idx);
 extern u32 func_0200A348(void *list);
-extern int func_0200A0E4(void *list, u32 i);
-extern void func_0200A000(void *list, u32 i, void *out);
+typedef unsigned char  u8;
+extern u32 func_0200A0E4(u8 *p, u32 a);
+extern int func_0200A000(char *p, int idx, void *buf);
 extern void func_021DBEE4(Item *it);
 extern void func_021DBDF4(Item *it, void *data, Obj *o, u16 f);
-extern void func_021DD980(void *p);
+extern void func_021DD980(char *p);
 
 void func_021DBC08(Obj *o, int idx)
 {

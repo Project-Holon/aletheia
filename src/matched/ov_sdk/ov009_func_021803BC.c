@@ -19,7 +19,7 @@
  */
 
 extern int func_0209477C(const char *s);
-extern void func_02092344(void *dst, const void *src, int n);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
 int func_021803BC(char *dst, const char *src, unsigned int n)
 {

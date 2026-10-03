@@ -30,7 +30,8 @@ typedef struct Obj {
     int f814;
 } Obj;
 
-extern void func_02008298(void *g, u16 v);
+struct MyItemSave;
+extern void func_02008298(struct MyItemSave *p, u16 v);
 extern void func_02008288(void *g, u16 i, s16 a, s16 b);
 extern void func_02008270(void *g, u16 i, s16 *a, s16 *b);
 extern void func_021BA6A4(Obj *o);

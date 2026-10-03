@@ -19,7 +19,7 @@
 
 extern char g_021A826C[];
 extern unsigned long func_021578EC(unsigned long ip);
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 
 unsigned long func_0215793C(unsigned long ip)
 {

@@ -13,6 +13,6 @@
  *   func_021F096C 0x021F096C thumb ov032
  */
 typedef unsigned int u32;
-extern int func_02035CB8(u32 *,u32 *);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern int func_021F096C(unsigned char *,void *);
 int func_021F0050(unsigned char *p) { u32 pt[2]; if(func_02035CB8(pt,pt+1)) return func_021F096C(p,pt); return -1; }

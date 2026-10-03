@@ -26,7 +26,7 @@ typedef struct {
 
 extern void func_021F44B8(Slots *);
 extern void func_021F4590(int *, Slots *);
-extern void func_021F45F0(int *, Slots *);
+extern void func_021F45F0(int *a, void *b);
 extern u8 func_02188C70(int, int);
 
 void func_021F44D8(int *p, Slots *q)

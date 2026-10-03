@@ -64,7 +64,7 @@ typedef struct {
     fx32 magW, magH;         /* 0x30 */
 } MatAnmResult;
 extern void *func_0206E62C(const ResDict *dict, u32 idx);
-extern fx32 func_0207C768(fx32 numer, fx32 denom);
+extern u32 func_0207C768(u32 a, u32 b);
 #define GetTexKeyAddr(key) ((u32)(((key) & 0x0000FFFF) << 3))
 void func_02070A24(const ResTex *pTex, u32 idx, MatAnmResult *pResult)
 {

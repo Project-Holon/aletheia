@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void sub_02045808(void *vec);
+struct U16Vec;
+extern void sub_02045808(struct U16Vec *vec);
 extern void sub_020307B0(void *p);
 
 struct Item {

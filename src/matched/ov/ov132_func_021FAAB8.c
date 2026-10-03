@@ -12,7 +12,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021FAAB8(char *p, unsigned flag)
 {
     if (*(u16 *)(p + 0x48) != 255) {

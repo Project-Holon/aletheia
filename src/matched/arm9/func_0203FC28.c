@@ -39,7 +39,7 @@ struct DispConfig {
     u32 unk_0c;
 };
 
-extern void func_0207D4B0(u32 a, u32 b, u32 c);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0207D518(u32 a);
 extern void func_0204349C(void);
 extern void func_02043558(void);

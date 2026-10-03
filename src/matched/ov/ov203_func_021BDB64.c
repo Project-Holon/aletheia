@@ -18,13 +18,15 @@
  *   d_02FFFC3C 0x02FFFC3C data
  */
 extern void func_021BDD30(char *);
-extern void func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021BDF00(unsigned char *);
 extern int func_021BE538(void *, unsigned int);
 extern int func_021BDC88(char *);
 extern int func_021BE620(void *);
-extern void func_021BE638(void *, int);
-extern int func_020221A4(void);
+extern void func_021BE638(char *p, int a);
+extern u32 func_020221A4(void);
 extern int func_021BDC20(unsigned char, int, unsigned short);
 extern unsigned int d_02FFFC3C;
 int func_021BDB64(void *unused, int *state, void *c, char *work)

@@ -45,7 +45,7 @@ typedef unsigned int   u32;
 
 struct Learn { u16 move; u16 level; };
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
 extern void  func_0201ADD0(u16 species, u16 form, void *dest);
 extern u16   func_0201808C(void *p, u16 move);

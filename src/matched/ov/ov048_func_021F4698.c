@@ -15,7 +15,9 @@
  *   d_021F523C     0x021F523C  data  a1
  */
 
-extern void *func_02030734(unsigned short a, int b, int c, const char *d, int e);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0201D7EC(int a, int b, int c, int d, int e);
 extern const char d_021F523C[];
 

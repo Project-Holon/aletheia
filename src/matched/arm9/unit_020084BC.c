@@ -62,8 +62,10 @@ typedef unsigned int   u32;
 
 extern u32   sub_0201F41C(void *dst, u32 value, u32 size);
 extern u32   sub_02045A38(void *dst, u32 value, u32 size);
-extern void  sub_02045924(void *a, void *b);
-extern void *sub_020457B0(u32 size, u16 tag);
+struct Strbuf;
+struct U16Vec;
+extern void sub_02045924(struct Strbuf *o, const u16 *src);
+extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
 
 /* "Are all eight halfwords zero".  blt rather than blo makes the counter a
  * signed int, and the early return inside the loop is what puts the

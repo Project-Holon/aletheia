@@ -29,7 +29,7 @@ struct Desc;
 extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *sub_020124E8(struct Desc *d);
 extern void func_02012374(void *evt, void **out);
-extern void func_0201240C(void);
+extern int func_0201240C(void *o, u32 *state, u32 *item);
 
 struct Obj {
     u8    pad_00[0x10];

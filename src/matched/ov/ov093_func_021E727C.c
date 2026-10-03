@@ -24,7 +24,7 @@ extern int func_021D775C(int key);
 extern int func_021C8130(int a);
 extern int func_021E72D4(int a, int b);
 extern int func_021E72E4(int a, int b, int c);
-extern int func_021B9A24(int a, int b);
+extern int func_021B9A24(unsigned int a, unsigned int b);
 extern void func_021D7704(int key, int m);
 
 void func_021E727C(int a, int b, int c)

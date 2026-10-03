@@ -13,7 +13,10 @@
  *   func_0203174C 0x0203174C arm
  */
 
-extern void func_0203174C(void);
+typedef unsigned int   u32;
+struct Blk;
+struct In;
+extern struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e);
 asm void FSi_ConvertStringSjisToUnicode(void)
 {
     stmfd sp!, {r3, lr}

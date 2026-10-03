@@ -46,8 +46,8 @@ typedef struct Obj {
 
 extern int func_02006148(u32 a0);
 extern int func_02006224(u32 a0);
-extern void func_020061F8(u32 a0);
-extern void func_020062BC(u32 slot, u32 who);
+extern void func_020061F8(int i);
+extern void func_020062BC(int i, u32 level);
 extern void func_020061E4(u32 id);
 extern void func_0218ECE4(int, int *);
 extern int func_021A34EC(int a);

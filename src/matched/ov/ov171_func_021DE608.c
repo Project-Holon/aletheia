@@ -15,7 +15,9 @@
  *   _ll_mul 0x0209C054 arm
  */
 typedef unsigned short u16;
-extern int func_0203F6D8(u16);
+typedef signed short   s16;
+typedef signed int     s32;
+extern s16 func_0203F6D8(s32 x);
 extern int func_0203F684(u16);
 extern void func_021DE0C0(char *, int, int, int);
 void func_021DE608(char *p, int i, int angle)

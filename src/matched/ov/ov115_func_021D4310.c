@@ -23,8 +23,8 @@ extern void func_021D5F7C(int);
 extern void func_021D5CCC(int, int);
 extern void func_021D426C(u8 *, u32);
 extern int func_021D4644(u8 *);
-extern void func_021D4BB4(void);
-extern void func_021D4AB0(void);
+extern void func_021D4BB4(u8 *p);
+extern void func_021D4AB0(int a);
 void func_021D4310(u8 *p)
 {
     if (func_021D4240(p)) {

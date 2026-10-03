@@ -22,7 +22,7 @@ extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DEDBC(void *);
-extern void func_021DE8C0(void *);
+extern void func_021DE8C0(char *p);
 void func_021DEE00(unsigned char *p) {
  int v;
  if(func_02039CB4(func_020399A8(),21,8)) {

@@ -22,10 +22,10 @@ extern u32 func_0201CE30(u32);
 extern u32 func_0201CE48(u32);
 extern u32 func_0201CE5C(u32, int);
 extern u32 func_0201CE38(u32);
-extern u32 func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern u32 func_020286C4(int, int, int);
 extern unsigned int func_0203630C(void);
-extern u32 func_02035C38(void);
+extern int func_02035C38(void);
 extern u32 func_020362DC(void);
 extern u32 func_02035C60(void);
 

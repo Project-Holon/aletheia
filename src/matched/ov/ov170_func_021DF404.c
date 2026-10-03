@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct U16Vec;
-extern void func_02007898(void *,u32,void *);
+extern void func_02007898(void *save, u32 box, const void *src);
 extern int func_0216C0C0(int);
 extern void func_02045808(struct U16Vec *);
 extern void func_020307B0(void *);

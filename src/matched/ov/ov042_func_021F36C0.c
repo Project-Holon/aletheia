@@ -55,18 +55,18 @@ extern T d_021F3A68;
 
 extern void *func_02188D2C(void *p);
 extern u32   func_02188C80(void *p);
-extern int   func_02188C84(void *p);
-extern void  func_02189764(void *p, int a, int b, int c);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern u32   func_020120F4(u32 a);
 extern u32   func_02012EC4(u32 a);
 extern u8   *func_0200B3A4(u32 a, u32 b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern char *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
-extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
-extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B0(void *p, int v);
-extern void  func_021BE6B8(void *p, int v);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern void func_021BE6B8(unsigned char *p, int v);
 extern int   func_021BE748(void *p);
 extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 

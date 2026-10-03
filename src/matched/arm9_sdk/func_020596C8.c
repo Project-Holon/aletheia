@@ -12,7 +12,7 @@
  * TwlDWC libdwcaccount dwc_account.o.
  * The tail target 0x020596B0 is labelled func_020596B0 in the listing; see func_020596B0.c.
  */
-extern int func_020596B0(const void *loginId);
+extern int func_020596B0(void *loginid);
 
 int DWCi_Acc_IsAuthentic(void *userdata)
 {

@@ -20,8 +20,10 @@
 extern void (*d_020A814C)(void *p);
 extern void (*d_020A8144)(void *p);
 
-extern void func_02194B3C(void *a, void *b);
-extern void func_02031140(void *p);
+typedef unsigned char  u8;
+struct S02031140;
+extern void func_02194B3C(u8 *p, u8 *e);
+extern void func_02031140(struct S02031140 *p);
 extern void func_020307B0(void *p);
 
 void func_02194798(unsigned char *a)

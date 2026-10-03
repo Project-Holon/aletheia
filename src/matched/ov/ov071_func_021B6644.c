@@ -26,9 +26,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02021660(void *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
-extern void func_020215EC(void *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u32 off, u32 srcOff);
-extern void func_020216B4(void *slots, void *h, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
-extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct PalAnmSlot;
+extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
+extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02049658(void *a, u32 b, u32 c, void *d, u32 e, u32 f, u32 g);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0203FA08(u32 a, u32 b, u32 c);

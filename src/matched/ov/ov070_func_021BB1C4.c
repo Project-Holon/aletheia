@@ -46,7 +46,8 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A380(void *, int, int, unsigned);
 extern int func_02062B30(int, Img **);
 extern void func_02041090(unsigned, void *, unsigned, unsigned, u8, u8);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+extern void func_02041B6C(u32 bit);
 extern void func_020307B0(int);
 extern void func_02049238(void *);
 

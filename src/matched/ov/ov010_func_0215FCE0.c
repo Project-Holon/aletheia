@@ -17,6 +17,8 @@
 typedef unsigned int u32;
 extern int func_0215FC40(int,int,unsigned short);
 extern u32 *func_020124E8(int);
-extern unsigned short func_02188C9C(void *);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern u16 func_02188C9C(u8 *p);
 extern u32 func_02013CE0(u32);
 int func_0215FCE0(int a, int b, unsigned short c) { int task; u32 *p; task=func_0215FC40(a,b,c); p=func_020124E8(task); p[6]=func_02013CE0(func_02188C9C((void *)b)) == 1 ? 5 : 2; return task; }

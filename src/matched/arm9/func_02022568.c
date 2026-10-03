@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern void  *func_02030734(u32 heap, u32 size, u32 flags, void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void   func_020056A0(void *fn, void *p, u32 n);
-extern void   func_020225D4(void);
+extern int func_020225D4(int a0, int a1, int a2, int a3);
 extern char   g_020A73C8[];
 
 void func_02022568(u32 a0, u32 a1, u32 a2)

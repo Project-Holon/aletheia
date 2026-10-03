@@ -11,7 +11,8 @@
  *   func_021BD8D8 0x021BD8D8 thumb ov209
  */
 typedef unsigned short u16;
-extern void func_021BD8D8(char *,int,unsigned);
+typedef unsigned int   u32;
+extern void func_021BD8D8(char *p, u32 idx, u32 value);
 void func_021BE4A8(char *p)
 {
     unsigned i;

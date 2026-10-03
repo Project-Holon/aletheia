@@ -16,7 +16,9 @@
  *   func_0200E9F4  0x0200E9F4  thumb
  */
 
-extern void *func_020071CC(void *p, int n);
+typedef unsigned int   u32;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *func_0200E9F4(void *p)
 {

@@ -17,9 +17,11 @@ typedef struct {
     void *a24[4];
 } Obj;
 
-extern void func_02047738(void *a);
-extern void func_02047504(void *a);
-extern void func_02046EFC(void *a);
+struct Rec;
+struct Tagged;
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
+extern void func_02046EFC(struct Tagged *p);
 
 void func_021BB504(Obj *p)
 {

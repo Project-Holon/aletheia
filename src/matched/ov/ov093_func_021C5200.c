@@ -24,16 +24,17 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Flags { u8 a:1; u8 b:1; u8 rest:6; };
-extern int func_021B85EC(void *);
+typedef unsigned short u16;
+extern int func_021B85EC(u32 **p);
 extern u32 func_021C52C8(u8 *, int);
 extern int func_021C52D8(u8 *, int, u8);
 extern int func_021C52E8(u8 *, int, u8);
 extern u8 *func_021B9934(u8 *, int);
-extern void *func_021B86B8(void *);
+extern void *func_021B86B8(void ***p);
 extern int func_021BC2B0(u8 *);
 extern int func_021BC310(u8 *);
-extern int func_021B86DC(void *);
-extern void func_021CD4B0(void *, u32, ...);
+extern u16 func_021B86DC(void **p);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C5308(u8 *, u8 *);
 extern void func_021C52F8(u8 *, int, u8);
 int func_021C5200(u8 *p)

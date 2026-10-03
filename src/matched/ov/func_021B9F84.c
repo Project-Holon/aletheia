@@ -28,7 +28,8 @@ typedef struct {
     void *f28;
 } S;
 
-extern void sub_0204B3DC(void *p, int b);
+struct Obj;
+extern void sub_0204B3DC(struct Obj *p, u32 v);
 
 void func_021B9F84(S *s)
 {

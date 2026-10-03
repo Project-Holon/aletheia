@@ -13,7 +13,8 @@ typedef struct Res { void *owner; void *h; Ent e[7]; } Res;
 extern void func_0204A8D4(void *);
 extern void func_0204ADA4(void *);
 extern void func_0204AFD8(void *);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_02201CA4(Res *r, int i)
 {

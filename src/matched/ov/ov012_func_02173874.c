@@ -27,11 +27,14 @@ typedef unsigned char u8;
 typedef struct { u8 pad[0xc8]; u8 f : 1; } S;
 
 extern void func_021A2E44(void *q, int v);
-extern unsigned short func_02188C9C(void *q);
-extern int func_02013CC8(unsigned int id);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Work;
+extern u16 func_02188C9C(u8 *p);
+extern u32 func_02013CC8(u32 id);
 extern int func_020120F4(int v);
 extern void func_0217B440(void *p, int r, void *q);
-extern void func_021676E4(void *v);
+extern void func_021676E4(struct Work *w);
 
 void func_02173874(int a, u8 *p, void *q)
 {

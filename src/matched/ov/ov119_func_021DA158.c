@@ -18,16 +18,17 @@
  *   func_021DA318 0x021DA318 thumb ov119
  */
 
-extern int func_021D8D4C(int,int,int,char *);
-extern void func_021E2484(void *,int);
+extern void *func_021D8D4C(void **a, int b, int c, char *p);
+typedef unsigned char  u8;
+extern void func_021E2484(char *p, int a);
 extern void func_021E1E00(void *,int,int);
-extern int func_020355C4(void);
-extern void func_021D8B38(void *);
+extern u8 func_020355C4(void);
+extern void func_021D8B38(char *p);
 extern void func_020307B0(int);
 extern void func_021D8E84(void *,int);
-extern void func_021DA318(void *);
+extern void func_021DA318(char *p);
 void func_021DA158(char *p) {
-    int v=func_021D8D4C(*(int *)(p+0x828),*(int *)(p+0xF98),*(int *)(p+0xF94),p);
+    int v=(int)func_021D8D4C(*(void ***)(p+0x828),*(int *)(p+0xF98),*(int *)(p+0xF94),p);
     func_021E2484(p,0);
     func_021E1E00(p,*(int *)(p+0x10A0),v);
     if (func_020355C4()) func_021D8B38(p);

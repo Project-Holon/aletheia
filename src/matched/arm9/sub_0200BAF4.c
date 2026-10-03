@@ -36,11 +36,15 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *sub_0201A920(int a);
-extern void  sub_0201A954(void *h, int a);
-extern void  sub_0201A98C(void *h, void *p);
-extern int   sub_02017E88(void *p, int a, int b);
-extern void *sub_0201747C(void *p, u32 v);
+typedef signed int     s32;
+struct Mon;
+struct Party;
+struct PartyMon;
+extern struct Party *sub_0201A920(u32 heap);
+extern void sub_0201A954(struct Party *p, s32 capacity);
+extern u32 sub_0201A98C(struct Party *p, const struct PartyMon *src);
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern void *sub_0201747C(struct Mon *p, u32 heap);
 extern void *sub_0200BBEC(int a, int b, int c);
 extern void  func_020307B0(void *p);
 

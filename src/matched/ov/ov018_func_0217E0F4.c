@@ -70,15 +70,20 @@ typedef struct {
     Pos p;
 } Pair;
 
-extern void *func_020120F4(void *);
+typedef unsigned int   u32;
+struct Actor;
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_0217E2E0(Work *);
-extern int func_02012B58(void *);
-extern void func_0204B3DC(void *, int);
-extern void func_0204B954(void *, int);
-extern int func_02013D5C(u16);
+extern u8 func_02012B58(const struct BigObj *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B954(struct Actor *a, u32 v);
+extern u32 func_02013D5C(u32 id);
 extern u8 *func_0217BEA8(u16);
 extern void func_0204B404(void *, Pos *, int);
-extern int func_0204B714(void *);
+extern u32 func_0204B714(struct Obj *o);
 extern void func_0204B454(void *, Pos *, int);
 extern const s8 d_021836A4[3][2];
 

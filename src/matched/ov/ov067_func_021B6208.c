@@ -44,9 +44,10 @@ typedef struct {
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern int func_0204AC18(void *h, u32 a1, u32 a2, u32 a3, int b, int c, u16 d);
-extern int func_0204A6C8(void *h, int b, int c, int d, u16 e);
-extern int func_0204AF28(void *h, int b, int c, u16 d);
+typedef signed int     s32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 
 void func_021B6208(Out *out, In *in, int unused, u16 d)

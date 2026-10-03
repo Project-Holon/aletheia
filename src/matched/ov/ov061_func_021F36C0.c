@@ -30,18 +30,18 @@ typedef unsigned char u8;
 
 extern char d_021F3974[];
 
-extern u16 func_02188C84(void *p);
+extern u16 func_02188C84(u8 *p);
 extern void *func_02188D2C(void *p);
-extern int *func_02189764(void *a, int b, int c, int d);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(void *a, void *b, int c);
 extern void func_021BE4B4(void *p, int i, u16 j, int v);
-extern void *func_021BE480(void *p, int i, u16 j);
-extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
+extern int func_021BE480(char *p, unsigned i, int j);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE6B8(u8 *p, int v);
 extern void func_021F388C(int *o, void *a);
-extern int func_02188C9C(void *p);
+extern u16 func_02188C9C(u8 *p);
 
 void func_021F36C0(void *a)
 {

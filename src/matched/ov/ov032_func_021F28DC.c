@@ -14,7 +14,7 @@
  *   func_02010F8C 0x02010F8C thumb
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_02165940(void *);
+extern void func_02165940(unsigned char *p);
 extern void func_02010F8C(void *);
 extern void func_020307B0(void *);
 void func_021F28DC(char *p)

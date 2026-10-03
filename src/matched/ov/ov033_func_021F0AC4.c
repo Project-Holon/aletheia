@@ -21,13 +21,14 @@
 
 typedef unsigned int u32;
 
-extern int func_02035D20(unsigned *, unsigned *);
-extern void func_020355D8(unsigned);
+typedef unsigned char  u8;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern void func_0204B878(unsigned, unsigned);
 extern void func_020061E4(unsigned);
 extern int func_0204B98C(unsigned);
-extern void func_021A0F30(unsigned, unsigned);
+extern int func_021A0F30(u32 a, u32 b);
 
 typedef struct {
     unsigned f00;

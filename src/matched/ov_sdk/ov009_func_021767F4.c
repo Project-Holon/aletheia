@@ -17,7 +17,7 @@
  *   func_021767E4  0x021767E4  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0216BA08(void);
 extern int func_021767E4(void);
 

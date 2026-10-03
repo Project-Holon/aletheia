@@ -14,7 +14,8 @@
  *   g_02150E5A 0x02150E5A data
  */
 
-extern void func_020808BC(void);
+typedef unsigned short u16;
+extern int func_020808BC(u16 *g3bit);
 extern void g_02150E5A(void);
 
 asm void GX_DisableBankForBGExtPltt(void)

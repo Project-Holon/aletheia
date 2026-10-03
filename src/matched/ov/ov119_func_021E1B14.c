@@ -43,17 +43,17 @@ extern void func_020452E8(int);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 extern void func_0201DD78(u32,u32,u32);
 extern void *func_02045770(int);
-extern int func_021D8ADC(void *);
+extern int func_021D8ADC(char *p);
 extern void func_021E1430(void *,void *,int,int,int,int,char *);
 extern void func_021E1670(void *,void *,int,int,char *,int,int);
 extern void func_021E15F8(void *,void *,int,int,char *);
 extern void func_021E1778(int,int,int,int,char *);
 extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
 extern void func_0204B84C(void *,u32);
-extern void func_021E0E4C(void *);
+extern void func_021E0E4C(char *p);
 extern void func_02045334(int);
 extern void func_02045374(int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021E1B14(char *p,int i,void *mon)
 {
     Pair a=d_021E7934;

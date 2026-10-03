@@ -33,13 +33,18 @@ typedef unsigned int u32;
 
 extern u32 d_021DA08C[];
 extern char ov021_id[];
-extern void *func_020124E4(void *);
-extern void *func_0201210C(void *p);
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02012138(void *);
-extern void *func_020120F4(void *);
-extern int func_02012B70(void *);
-extern int func_0202647C(void *);
-extern void *func_020122C0(void *a, u32 b, void (*fn)(void), u32 c);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B70(const struct BigObj *p);
+extern u32 func_0202647C(void *obj);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0200FB38(void);
 extern void *func_020146F8(void *a, void *b, void *c, void *d, void *e);
 extern void func_02012374(u32, void *);
@@ -47,7 +52,7 @@ extern void *func_02188C7C(unsigned char *p);
 extern int func_02188BE8(void *);
 extern void func_0216D9A0(void *);
 extern void func_0216D9E4(void *);
-extern void func_021C0780(void);
+extern int func_021C0780(u32 a, int *st);
 
 int func_021C06E0(u32 a, int *st)
 {

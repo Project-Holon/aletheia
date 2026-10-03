@@ -18,7 +18,8 @@ typedef unsigned short u16;
 extern int func_021B99E4(void *, int);
 extern int func_021BB43C(int *);
 extern int func_021BBD98(int, int, int);
-extern unsigned int func_02017E1C(void *, int, int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 #define APPEND(v) do { *(u16 *)(s + s[0] * 2 + 2) = (v); s[0]++; } while (0)
 void func_021BBC04(u8 *p, u8 *s, int *items)
 {

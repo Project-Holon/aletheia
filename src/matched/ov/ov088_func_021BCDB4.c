@@ -14,8 +14,9 @@
  *   func_021BD118  0x021BD118  thumb  ov088
  */
 
-extern int func_020221A4(void);
-extern void func_021BD118(void *, int);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
+extern void func_021BD118(int *p, u32 mode);
 
 void func_021BCDB4(void *p, int *st)
 {

@@ -31,7 +31,7 @@ struct Counts { u8 value[5]; };
 extern const struct Counts d_021DC2B0;
 extern void *func_021D6064(u8 *);
 extern u32 func_021DBF2C(u32,u32);
-extern int func_02017E88(void *,int,int);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_021D9428(u8 *,u32);
 void func_021D911C(u8 *a,u8 *p)
 {

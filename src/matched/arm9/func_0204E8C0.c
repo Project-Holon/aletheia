@@ -56,8 +56,7 @@ struct Double3Ddisp {
 extern struct Double3Ddisp *g_02146A80;
 extern const char double3Ddisp_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0204E914(void);
 
 void func_0204E8C0(u32 heap)

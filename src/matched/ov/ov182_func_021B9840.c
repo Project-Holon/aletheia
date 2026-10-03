@@ -19,11 +19,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void func_020434DC(int, int);
+extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int, int, int, int);
-extern void func_0207DD24(int, int, int, int, int);
+extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void func_02046A94(u8, const void *);
-extern void func_02046BE0(int, int);
+extern void func_02046BE0(u32 a, u32 b);
 extern const u32 d_021B9C28[][2];
 void func_021B9840(void)
 {

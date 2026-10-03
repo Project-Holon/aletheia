@@ -29,20 +29,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02030734(int, u32, int, const char *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0203064C(int, int, int);
 extern void *func_0204A380(void *, u32, u32, u32);
 extern u32 func_021BE010(void *);
 extern int func_021BE100(int);
 extern char *func_021B6100(int);
 extern void func_021B6950(char *, int);
-extern void func_021B69BC(char *, u32);
+extern void func_021B69BC(void *p, u32 v);
 extern void func_021B674C(char *, int, u16);
 extern void func_021B6744(char *, void *, void *);
-extern void func_021B6814(char *);
-extern void func_021B7888(char *, u16, u16, u16, u16);
-extern void func_021B78A0(char *, u16, u16, u16, u16);
-extern void func_021B75AC(void);
+extern void func_021B6814(void *a0);
+extern void func_021B7888(void *p, u16 a, u16 b, u16 c, u16 d);
+extern void func_021B78A0(void *p, u16 a, u16 b, u16 c, u16 d);
+extern void func_021B75AC(char *src, void *p);
 extern const char d_021C71E0[];
 
 char *func_021B6EE0(void *a, int b)

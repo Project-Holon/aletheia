@@ -14,6 +14,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0207D55C(unsigned short *p);
+extern int func_0207D55C(volatile u16 *reg);
 extern void func_0204E720(u32,int,int,int);
 void func_021B67A4(int a) { if (func_0207D55C((unsigned short *)0x0400006c) <= 0) func_0204E720(3,16,0,a); else func_0204E720(12,16,0,a); }

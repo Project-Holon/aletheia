@@ -39,7 +39,7 @@ typedef struct {
 } Mgr;
 
 extern void func_021C6A90(Elem *e, void *s);
-extern void func_021C6940(void *s);
+extern void func_021C6940(u8 *p);
 extern void func_020307B0(void *p);
 
 void func_021C6400(Mgr *m)

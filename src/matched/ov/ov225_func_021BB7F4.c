@@ -21,7 +21,7 @@ struct Node;
 extern void func_02030EAC(struct Node *);
 extern void func_021BA740(char *);
 extern void func_020307B0(void *);
-extern void func_021BA760(char *);
+extern int func_021BA760(char *p);
 void func_021BB7F4(char *p)
 {
     func_02030EAC(*(struct Node **)(p + 0x20));

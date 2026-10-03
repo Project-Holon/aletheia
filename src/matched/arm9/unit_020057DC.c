@@ -88,7 +88,7 @@ struct Sub020057DCCur {
 extern struct Sub020057DCCur  sub_020057DC_Cur;
 extern struct Sub020057DCSlot sub_020057DC_Table[];
 
-extern void  func_02072DB0(u16 a, int b);
+extern void func_02072DB0(int idx, int v);
 extern void  func_02072E9C(u32 *info);
 extern void  func_02072EA8(u32 *info);
 extern u32   func_02074894(u32 *a);

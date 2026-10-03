@@ -13,9 +13,13 @@
  *   func_020457B0 0x020457B0 arm
  *   func_0201D7EC 0x0201D7EC thumb
  */
-extern void *func_02045B38(int, int, int, int);
-extern void *func_020457B0(int, int);
-extern void *func_0201D7EC(int, int, int, int, int);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 void func_021B9B1C(char *p)
 {
     *(void **)(p + 0xB0) = func_02045B38(0, 2, 0xB1, 0x8E);

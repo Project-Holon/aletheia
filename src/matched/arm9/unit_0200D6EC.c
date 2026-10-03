@@ -45,7 +45,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02019D58(u32 a, u32 b);
+extern int func_02019D58(u16 a, int b);
 
 struct RecGet {
     u8  unk00[0x14];

@@ -49,8 +49,10 @@ typedef struct {
     int b[10];
 } Work;
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(u8 *p);
@@ -59,8 +61,8 @@ extern unsigned int func_02012EC4(unsigned int);
 extern Work *func_0200B3A4(unsigned int, unsigned int);
 extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
-extern int func_021BE6B0(void *s, int b);
-extern int func_021BE6BC(void *p);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern int func_021BE6BC(int *p);
 extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
 extern void func_021BE4B4(char *p, int i, u16 j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);

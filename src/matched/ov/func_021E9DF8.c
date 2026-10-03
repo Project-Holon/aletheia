@@ -34,7 +34,7 @@ extern void func_021ED888(u32 q, int a);
 extern void func_021EC61C(u8 *p);
 extern void func_021ECB20(u8 *p, int a, int b);
 extern void func_021ECB60(u32 q, int a, int b);
-extern void func_021EA1C0(u8 *p);
+extern void func_021EA1C0(void *p);
 extern void func_021EE038(u8 *p, int a, int b, int c);
 extern void func_021EBA5C(u32 q, int a);
 extern void func_021DD14C(u8 *p);

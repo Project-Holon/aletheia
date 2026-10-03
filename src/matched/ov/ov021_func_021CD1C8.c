@@ -24,7 +24,8 @@ typedef struct {
     void *arc;
 } Holder;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern const char d_021DE5D4[];
 

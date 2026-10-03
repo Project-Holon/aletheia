@@ -21,8 +21,9 @@
 typedef unsigned char u8;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, int b);
-extern int func_021D5C44(void *m);
+struct Rat;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D5C44(struct Rat *p);
 extern void func_021D7704(int a, int b);
 extern int d_021F244C[];
 

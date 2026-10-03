@@ -19,7 +19,8 @@ typedef unsigned short u16;
 struct Q { u8 *a; u16 state; u8 *cnt; };
 extern int func_021F7EB4(void);
 extern void func_021EDA04(u8 *);
-extern void func_02031194(void *);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 void func_021ED460(void *task, struct Q *q)
 {
     switch (q->state) {

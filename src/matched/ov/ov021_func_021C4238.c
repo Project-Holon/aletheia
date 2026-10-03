@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef struct { u32 v[4]; } T;
 
 extern u32 func_02017E1C(u32 a, u32 b, u32 c);
-extern u32 func_020212B0(u16 a);
+extern u16 func_020212B0(u16 id);
 extern int func_021C447C(u32 *c, u16 a, u16 b, u16 d);
 extern void func_021C42F4(u32 *p, u32 v);
 extern T d_021DA8E8;

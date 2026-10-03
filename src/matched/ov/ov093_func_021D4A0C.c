@@ -40,8 +40,9 @@ extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u16 func_02045A98(void);
 extern void MIi_CpuClear16(u16 data, void *dst, u32 size);
-extern u16 sub_020458F8(void *vec);
-extern u16 *sub_02045A90(void *vec);
+struct U16Vec;
+extern u16 sub_020458F8(struct U16Vec *vec);
+extern u16 *sub_02045A90(struct U16Vec *vec);
 extern void sub_0201F41C(const void *src, void *dst, u32 n);
 
 Out *func_021D4A0C(In *a, u32 heap)

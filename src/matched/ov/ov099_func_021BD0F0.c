@@ -21,10 +21,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned long  u32;
 
-extern int func_0203D378(void);
+struct BigObj;
+struct Rec534;
+extern u32 func_0203D378(void);
 extern int func_021BCBBC(int a, int b, int *out);
-extern void *func_02012934(void *p);
-extern void func_0201AC2C(void *l, void *m);
+extern void *func_02012934(const struct BigObj *p);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 extern void func_021BAAB8(char *p, int a, int b);
 
 int func_021BD0F0(char *p, int v)

@@ -34,7 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0202473C(u32 *p, u32 a);
+extern u32 func_0202473C(u32 *p, u32 a);
 
 struct Tag {
     u8 unk00;

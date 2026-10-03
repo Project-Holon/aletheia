@@ -45,10 +45,11 @@ typedef struct DWCWFCUtil
 } DWCWFCUtil;
 
 extern unsigned long func_0209477C(const char *s);
-extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
+typedef unsigned short u16;
+extern int func_02179F3C(struct DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int func_02178F78(DWCCalInfo *cal, void *wifiinfo);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
-extern unsigned long func_02096578(const unsigned short *s);
+extern int func_02096578(const u16 *s);
 
 extern DWCWFCUtil g_021AB184;
 extern char g_021A23E8[];

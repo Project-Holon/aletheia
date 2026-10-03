@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 struct Q { u8 *a; int b; u8 *c; };
 extern void *func_020311B8(void *, void *, int, int);
-extern struct Q *func_02031290(void *);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_021ED8E8(int, struct Q *);
 void func_021ED8AC(u8 *p)
 {

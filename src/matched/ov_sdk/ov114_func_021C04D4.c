@@ -52,8 +52,7 @@ extern int func_021C1C80(GHIConnection *connection, void *encryptor, char *buffe
                          int *bufferLen);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern int func_0217ED54(int sock);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel,
-                          const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern GHIThrottle g_021CE5AC;
 extern char g_021CE60C[];
 

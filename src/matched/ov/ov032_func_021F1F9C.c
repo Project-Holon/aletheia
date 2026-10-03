@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_02021FD8(u32 p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
-extern void func_02031194(void *task);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F1F9C(void *task, u8 *s)
 {

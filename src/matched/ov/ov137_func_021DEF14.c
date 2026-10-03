@@ -12,5 +12,5 @@
  *   func_02039338 0x02039338 arm
  */
 typedef unsigned short u16;
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 int func_021DEF14(char *p) {if(++*(int *)(p+12)>30){*(int *)(p+12)=0;if(func_02039338()==0)*(int *)p=20;else *(int *)p=21;}return 0;}

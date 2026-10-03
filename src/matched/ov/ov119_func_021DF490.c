@@ -16,8 +16,8 @@
  */
 typedef struct { int a, b; } Pair;
 extern const Pair d_021E76D4;
-extern int func_021E12AC(void *);
-extern void func_021E131C(void *, int *, int, int, int);
+extern int func_021E12AC(char *p);
+extern void func_021E131C(char *p, int *ids, int count, int x, int y);
 extern void func_021D8E84(void *, int);
 extern void func_021DF43C(void *);
 void func_021DF490(void *p)

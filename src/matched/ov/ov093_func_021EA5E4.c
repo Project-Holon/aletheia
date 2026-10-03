@@ -13,7 +13,8 @@
  *   func_02045838  0x02045838  arm
  */
 
-void func_02045838(void *dst, void *src);
+struct U16Vec;
+void func_02045838(struct U16Vec *dst, struct U16Vec *src);
 
 void func_021EA5E4(unsigned char *p, void *src)
 {

@@ -34,8 +34,8 @@ struct nninfo_s {
     int cookie;
 };
 
-extern char *func_02175F3C(void);
-extern char *func_02198620(int ip, int a, int b);
+extern int func_02175F3C(void);
+extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_0219EF60(int sb, char *addr, int port, int cookie);
 extern int func_02173D9C(int sbError);
 extern int func_02195E60(int gt2sock);

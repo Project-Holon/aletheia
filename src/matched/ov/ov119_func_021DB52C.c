@@ -19,12 +19,14 @@
  *   d_021E7FE0 0x021E7FE0 data a4
  */
 extern unsigned int func_0203633C(void);
-extern void func_020355D8(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
 extern void func_021DD018(char *, int);
 extern int func_021E4E0C(char *, int *);
 extern int func_021DB4EC(char *, int);
 extern int func_021DB4B4(int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021DB7AC(char *, int, int);
 extern const int d_021E7FE0[];
 void func_021DB52C(char *p)

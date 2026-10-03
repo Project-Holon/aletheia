@@ -18,9 +18,12 @@
  */
 extern unsigned func_02045770(void *);
 extern int func_0201C6C4(unsigned, unsigned);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern unsigned char func_02045730(void *);
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 int func_021C1174(unsigned owner, void *p, int *state) {
     unsigned q = func_02045770(p);

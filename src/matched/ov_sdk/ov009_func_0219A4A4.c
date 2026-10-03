@@ -35,9 +35,10 @@ typedef struct {
 extern NegotiateGlobals g_021AE698;
 extern NatGlobals g_021A5A70;
 extern int func_02199BE4(int sock);
-extern int func_02184200(void *array);
+struct _NATNegotiator;
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
-extern void func_0219A054(void *neg);
+extern void func_0219A054(struct _NATNegotiator *neg);
 
 void func_0219A4A4(void)
 {

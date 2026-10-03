@@ -19,8 +19,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern u8 *g_021797A4;
-u8 *func_0203D798(void);
-u16 func_0203F1FC(void *p, u32 off);
+void *func_0203D798(void);
+u16 func_0203F1FC(const u8 *src, u32 len);
 
 typedef int (*CheckFn)(u8 a, u8 b, u32 c);
 

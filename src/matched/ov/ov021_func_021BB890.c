@@ -19,7 +19,8 @@
 extern int d_021DE2F8;
 
 int *func_02030734(int a, int b, int c, void *d, int e);
-int func_02030CB0(int n);
+typedef unsigned int   u32;
+u32 func_02030CB0(u32 idx);
 int func_02030CBC(int n, int buf);
 
 int *func_021BB890(int a, int b, int n)

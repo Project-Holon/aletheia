@@ -36,11 +36,11 @@ typedef struct {
     u16 hi   : 6;
 } Owner;
 
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_0203D7BC(int a);
-extern void func_02167B18(Owner *o);
+extern void func_02167B18(void *p);
 extern int func_0203D1B4(void);
-extern void func_0203CEAC(int a);
+extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 
 int func_021CB8AC(void *task, int *state, Owner **work)

@@ -13,7 +13,7 @@
  *   func_02175B14 0x02175B14 thumb ov011
  */
 typedef unsigned char u8;
-extern int func_02175B14(void *p);
+extern int func_02175B14(u8 *p);
 int func_0217620C(u8 *p, int key)
 {
     if (func_02175B14(p) == 0) return 0;

@@ -20,7 +20,7 @@
 int func_021A23D4(int *p);
 int *func_021A21B8(int *p);
 int func_021A23E8(int *p);
-void func_021A2400(int *p);
+int func_021A2400(int *p);
 int func_021A240C(int *p);
 void func_021A22E0(int *p, int a, int b, int c);
 

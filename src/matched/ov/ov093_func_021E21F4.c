@@ -30,11 +30,13 @@ typedef struct Word { u32 v; } Word;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int a, int b);
-extern int func_021D62C4(void *p, int i);
-extern u32 func_021D78AC(int k);
+struct QQ;
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern u32 func_021D78AC(u32 range);
 extern void *func_021C88A4(int a, int k, int b);
 extern Word func_021E896C(int a, int b);
-extern u16 func_021D70A8(void *p);
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021C88C8(int a, void *b);
 
 void func_021E21F4(void *u, int a, int b, int *p)

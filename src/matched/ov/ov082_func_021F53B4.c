@@ -66,18 +66,18 @@ extern void func_0207D63C(u32 reg, int plane1, int plane2, int ev1, int ev2);
 extern int func_02188C54(int a);
 extern int func_02190378(int a);
 extern void func_021904D0(int a);
-extern void func_020403F4(int);
+extern void func_020403F4(u32 i);
 extern void func_0203FCA0(int, void *, int);
-extern void *func_02048F60(int a, int b, int c);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern int func_02062A4C(void *p, Chr **out);
 extern int func_02062B30(void *p, Scr **out);
 extern int func_02062A98(void *p, Plt **out);
-extern void func_02040B1C(u32 index, void *src, u32 size, u32 offset);
-extern void func_020409E0(u32 index, void *src, u32 mode, u32 offset);
+extern void func_02040B1C(u8 index, const void *src, u32 size, u32 tile);
+extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 extern void func_02040E78(u32 index, void *src, u32 size, u32 offset);
 extern void func_020307B0(void *p);
-extern void func_0204047C(int a, int b);
-extern void func_02040588(int a, int b);
+extern void func_0204047C(int idx, unsigned short val);
+extern void func_02040588(u32 which, u32 enable);
 
 #define reg_G2_BG3CNT  (*(volatile u16 *)0x0400000E)
 

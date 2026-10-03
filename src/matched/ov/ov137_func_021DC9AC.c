@@ -16,7 +16,8 @@
  * d_0000005B 0x0000005B data a1
  */
 typedef unsigned int u32;
-extern int func_021DC924(void *);
+typedef unsigned char  u8;
+extern void *func_021DC924(u8 *p);
 extern void *func_021DC950(void *,int,int);
 extern void func_0203D7B0(int);
 extern void func_02031348(void *,int,const void *,void *);

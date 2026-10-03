@@ -92,7 +92,7 @@ struct Obj {
 extern s16 g_020A1B38[];
 
 extern void func_020663D0(s32 x, s32 y, s32 z);
-extern void func_020664CC(u32 a, u32 b, u32 c);
+extern void func_020664CC(s32 x, s32 y, s32 z);
 extern void func_02066620(s32 a, s32 b);
 extern void func_02065CE4(u32 a);
 extern void func_02065D4C(void *p);

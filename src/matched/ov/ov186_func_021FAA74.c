@@ -11,11 +11,11 @@
  *   func_021FD73C 0x021FD73C thumb
  *   func_021FA284 0x021FA284 thumb
  */
-extern int func_021FAF24(void *, int);
+extern int func_021FAF24(char *ctx, int kind);
 extern void *func_021FD12C(void *, int, unsigned);
 extern void func_021FD170(void *, void *, int);
 extern void func_021FD73C(void *, void *);
-extern void func_021FA284(void);
+extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FAA74(void *p, int *state, unsigned *ctx)
 {
     int value;

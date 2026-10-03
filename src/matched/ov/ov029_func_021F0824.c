@@ -14,8 +14,9 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   d_021F3292 0x021F3292 data ov029 a1
  */
-extern unsigned int func_021F0D08(unsigned short *p, int i);
-extern void func_021F08BC(void *p, int i, int j, int k);
+struct W;
+extern unsigned short func_021F0D08(unsigned short *p, int i);
+extern void func_021F08BC(struct W *p, int i, int j, int k);
 extern unsigned char d_021F3292[];
 void func_021F0824(void *p, int i, unsigned short *q)
 {

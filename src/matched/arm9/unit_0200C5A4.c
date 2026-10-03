@@ -70,8 +70,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *func_02012EBC(void *sys);
-extern void  func_020072A4(void *save, u32 id);
+struct Big;
+struct Sub020072A4Ctrl;
+extern void *func_02012EBC(struct Big *p);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void  func_020307B0(void *p);
 
 struct DistHdr {

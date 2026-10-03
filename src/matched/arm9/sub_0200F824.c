@@ -16,9 +16,9 @@
 
 typedef unsigned int u32;
 
-extern u32  func_0203CD98(void);
-extern void func_0203CF5C(void);
-extern void func_0208459C(u32 a, u32 b);
+extern int func_0203CD98(void);
+extern u32 func_0203CF5C(void);
+extern void func_0208459C(int clear, u32 irqFlags);
 
 void sub_0200F824(void)
 {

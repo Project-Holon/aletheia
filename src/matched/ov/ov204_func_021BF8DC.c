@@ -35,8 +35,10 @@ extern void *func_02047CFC(u16,u16,u32);
 extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
 extern u16 func_02047E88(void *,const void *);
 extern void *func_02048A18(void *,u16);
-extern u32 func_020477A4(void *,u32);
-extern int func_020477D4(void *,u32);
+struct G3dSys;
+struct Owner;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern int func_020477D4(struct Owner *owner, u32 index);
 char *func_021BF8DC(void *owner,int kind,u32 heap)
 {
     Vec3 a,b,c;

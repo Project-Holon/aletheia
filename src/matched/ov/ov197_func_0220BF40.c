@@ -18,8 +18,11 @@
 typedef unsigned char u8;
 struct Row { u8 a,b,c,d; };
 extern const struct Row d_0220DB44[];
-extern void func_0202CE50(void *,unsigned,int,int,u8,u8,u8);
-extern void func_0202CC58(void *,unsigned);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct WinMgr;
+extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 void func_0220BF40(char *p)
 {
     if(*(u8 *)(p+0x527)) {

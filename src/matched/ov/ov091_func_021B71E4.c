@@ -20,10 +20,12 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u16 heap);
+struct GfFont;
+struct MsgBank;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u16 heap);
-extern void *func_0201C450(u32 a, u16 heap);
+extern void *func_0201C450(u16 n, u32 heap);
 extern void func_0201DD68(void);
 
 void func_021B71E4(char *p)

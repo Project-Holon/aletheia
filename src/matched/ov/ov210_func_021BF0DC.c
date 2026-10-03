@@ -46,8 +46,10 @@ struct Obj021BF0DC {
     int c[4];
 };
 
-extern void *func_0204B100(u32 n, u32 a, u32 heap);
-extern void func_0204B688(void *obj, int v);
+struct Actor;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern int func_02012BF8(void *p, u32 v);
 extern void *func_021C940C(void *set, struct Tpl021BF0DC *t, u32 heap);
 extern void func_021BEDB8(struct Obj021BF0DC *p, int a, int b);

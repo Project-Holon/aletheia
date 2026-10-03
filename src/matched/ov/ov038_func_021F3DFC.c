@@ -39,17 +39,19 @@ typedef struct {
     int z;
 } V3;
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
-extern int func_02188D2C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern void *func_02188CB4(void *p);
+extern void *func_02188CB4(u8 *p);
 extern void func_021BE4B4(int p, int i, int j, int v);
 extern void func_021BE700(int p, int i, int j, int k, int flag);
 extern void func_021BE6CC(int p, int i, int j, int k, int flag);
 extern void func_020061E4(u32 se);
 extern void func_02006210(void);
-extern int func_02197DA0();
+extern int func_02197DA0(u32 a);
 extern int func_02197DAC();
 extern void func_021A3038(void *q, V3 *v);
 extern void func_021A3044(void *q, V3 *v);

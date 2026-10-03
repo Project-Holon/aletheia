@@ -17,8 +17,9 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-u16 func_021A3C3C(int a);
-u16 func_021A3C54(int a);
+typedef unsigned int   u32;
+int func_021A3C3C(u32 keys);
+int func_021A3C54(u32 keys);
 
 void func_021A3C24(u8 *p, int a)
 {

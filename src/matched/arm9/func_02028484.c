@@ -46,11 +46,12 @@ typedef struct Blk {
 
 extern u32 func_0201CE30(void *h);
 extern void func_0201CE38(void *h);
-extern void func_0201CE5C(void *h, u32 v);
+struct Rec;
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_020061E4(u32 id);
-extern s32 func_020284F4(u32 flags);
-extern s32 func_02028528(u32 flags);
-extern s32 func_0202855C(u32 flags);
+extern u32 func_020284F4(u32 a);
+extern u32 func_02028528(u32 a);
+extern u32 func_0202855C(u32 a);
 
 s32 func_02028484(Blk *blk, void *h)
 {

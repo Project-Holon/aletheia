@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct { u32 id; s16 x; s16 y; } Entry;
 extern const Entry tbl_0220301C[], tbl_02202FC4[];
 extern const char str_02203C18[];
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_021F882C(u8 *dst, int i, int kind)
 {
     const Entry *table;

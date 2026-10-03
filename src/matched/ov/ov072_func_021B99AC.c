@@ -14,7 +14,9 @@
  *   func_0204E804 0x0204E804 arm
  *   func_021B9964 0x021B9964 thumb ov072
  */
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_021B9964(int *);
 void func_021B99AC(int *p, int *state) {

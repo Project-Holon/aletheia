@@ -21,13 +21,16 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern char d_021DFBA0[];
-extern void *func_02030734(u16,int,int,const char *,int);
+typedef unsigned char  u8;
+struct Bmp;
+struct Descriptor;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void *func_02045770(void *);
-extern u32 func_020437DC(void *);
-extern u32 func_020437E4(void *);
-extern u32 func_02043994(void *);
-extern void *func_02043678(u32,u32,u32,u16);
+extern void *func_02045770(struct Descriptor *p);
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
+extern u8 func_02043994(struct Bmp *b);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 void *func_021DA338(char *p,u16 heap)
 {
     u32 i;

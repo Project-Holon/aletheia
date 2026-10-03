@@ -16,11 +16,12 @@
  */
 extern void func_021D584C(char *);
 extern void func_021D62B4(char *, int);
-extern void *func_02009448(void *);
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern int func_02009370(void *);
 extern void func_021D57B8(char *, int);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D8304(void);
+extern void func_021D8304(char *p);
 void func_021D834C(char *p)
 {
     func_021D584C(*(char **)(p + 0x18));

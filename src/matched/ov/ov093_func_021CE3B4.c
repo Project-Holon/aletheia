@@ -14,5 +14,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EA614(void *,void *);
+struct H;
+extern void func_021EA614(char *p, struct H *h);
 void func_021CE3B4(u8 *p, void *q) { func_021EA614(*(void **)(p+0x54),q); p[0x120]=1; }

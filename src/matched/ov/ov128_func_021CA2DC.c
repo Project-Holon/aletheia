@@ -13,8 +13,10 @@
  * Extent ends with two bytes of zero alignment padding.
  */
 
-extern int func_020355C4(void);
-extern void func_021CA25C(int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
+extern void func_021CA25C(u32 a, u32 b);
 void func_021CA2DC(char *p)  {
     unsigned i;
     if(func_020355C4()==1)  {

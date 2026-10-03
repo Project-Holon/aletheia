@@ -89,7 +89,7 @@ extern char g_021A4EEC[];
 extern int func_02181010(unsigned int theIp, unsigned short thePort, int *thePeerState);
 extern char *func_02094B20(const char *s1, const char *s2);
 extern int func_020949F4(const char *s1, const char *s2, unsigned long n);
-extern int func_02193418(char *command, char *key, char *value, int len);
+extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern int func_020964E0(const char *s);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern unsigned long func_0209477C(const char *s);

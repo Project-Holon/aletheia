@@ -18,7 +18,8 @@
  */
 typedef struct Rect { unsigned int x0, y0, x1, y1; } Rect;
 
-extern int func_02035D20(unsigned int *x, unsigned int *y);
+typedef unsigned int   u32;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern Rect g_021E3808[];
 
 int func_021E04C8(void)

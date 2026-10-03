@@ -16,7 +16,8 @@
  */
 extern int func_0201134C(int a);
 extern int func_021FCF2C(int a, int b);
-extern void func_021F7F58(int a, int b, int c, int d, int e);
+typedef unsigned int   u32;
+extern void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e);
 
 int func_021FB2D0(int a, char *b)
 {

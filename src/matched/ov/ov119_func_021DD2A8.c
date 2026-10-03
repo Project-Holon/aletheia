@@ -15,10 +15,12 @@
  *   func_021DD21C 0x021DD21C thumb ov119
  */
 extern int func_0201293C(int);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
 extern int func_02007984(int);
-extern int func_021DD21C(void *);
+extern int func_021DD21C(char *p);
 int func_021DD2A8(char *p)
 {
     int a, b, n;

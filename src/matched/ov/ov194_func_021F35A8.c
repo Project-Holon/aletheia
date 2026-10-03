@@ -19,8 +19,9 @@
  *   func_020409B4 0x020409B4 arm
  *   func_021F2884 0x021F2884 thumb ov194
  */
-extern void func_021F2608(char *);
-extern int func_021F3358(int,int,unsigned char);
+typedef unsigned int   u32;
+extern void func_021F2608(void *p);
+extern u32 func_021F3358(u32 a, u32 b, u32 c);
 extern void func_021F256C(char *,unsigned,int,void *,unsigned short);
 extern int func_02045770(int);extern void func_02043B5C(int,unsigned);
 extern void func_021F26F0(char *,void *,int,int,unsigned short);

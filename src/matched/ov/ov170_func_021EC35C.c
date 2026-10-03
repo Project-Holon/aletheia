@@ -18,7 +18,8 @@
  *   func_0201BBE8 0x0201BBE8 thumb
  */
 
-extern int func_020079BC(void *save, unsigned box, unsigned slot, int field, int arg);
+typedef unsigned int   u32;
+extern int func_020079BC(void **save, u32 box, u32 slot, int field, int arg);
 extern void *func_021DD2D0(char **p, int a, unsigned b);
 extern void *func_021EC338(char *p, void *m, void **out);
 extern void MIi_CpuCopy32(const void *src, void *dst, unsigned size);

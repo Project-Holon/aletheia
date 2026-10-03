@@ -24,9 +24,10 @@
 typedef struct Pair { int a, b; } Pair;
 extern const Pair d_021D575C;
 extern int d_021D5890[], d_021D5720[], d_021D5718[], d_021D5728[];
-extern void func_021D4630(void);
-extern int func_021D4C50(void);
-extern void func_021D4FE4(void);
+typedef unsigned int   u32;
+extern void func_021D4630(int a, int b, u32 *p);
+extern int func_021D4C50(int value, char *p);
+extern void func_021D4FE4(char *p);
 extern void func_021D4384(int, Pair *, void *, void *, void *, void *);
 extern void func_021D5004(void *);
 extern void func_021D4244(void *, void *, int);

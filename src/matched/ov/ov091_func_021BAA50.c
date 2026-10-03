@@ -35,10 +35,11 @@ typedef struct {
 } R;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_0201AB28(int base, int idx);
-extern int func_020185F4(int x);
+extern void *func_0201AB28(void *p, u32 idx);
+extern void *func_020185F4(void *p);
 extern int func_0201BA68(int x);
-extern int func_0204A6C8(void *a, int b, int c, int d, u16 e);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *a);
 extern int func_0201BBE8(int x);
 extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
@@ -53,7 +54,7 @@ void func_021BAA50(u8 *a, u8 *s)
     R rc;
 
     h = func_020490F4(7, *(u16 *)a);
-    t = func_020185F4(func_0201AB28(**(int **)(a + 0x280), s[4]));
+    t = (int)func_020185F4(func_0201AB28(**(void ***)(a + 0x280), s[4]));
     *(int *)(s + 0x2c) = func_0204A6C8(h, func_0201BA68(t), 0, 0, *(u16 *)a);
     func_02049238(h);
     r = func_0201BBE8(t);

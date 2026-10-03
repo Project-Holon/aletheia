@@ -34,7 +34,8 @@ extern void *func_02157DD8(void *);
 extern int func_02157E34(void *);
 extern int func_0203CD98(void);
 extern void func_0203D34C(unsigned, unsigned);
-extern void func_021DEEA4(void *, void *);
+typedef unsigned int   u32;
+extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE910(void *, int *, char *);
 extern u8 d_0209DF0C;
 void func_021DE830(void *a, int *state, char *p)

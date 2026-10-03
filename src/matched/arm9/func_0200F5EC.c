@@ -30,8 +30,11 @@
 
 extern void *sub_0201283C(void *a);
 extern int   DWC_IsValidFriendData(const void *friendData);
-extern void *sub_020099C8(void *obj, int i);
-extern int   sub_02009A1C(void *obj, unsigned i);
+typedef unsigned int   u32;
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
+extern int sub_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern void *func_02009860(void *p);
 extern int   sub_0200F34C(void *a, void *b, void *c);
 extern void  sub_0200F594(void *a0, void *a1, void *a2, int a3, void *a4,

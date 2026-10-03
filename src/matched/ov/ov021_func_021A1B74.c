@@ -26,7 +26,7 @@ typedef unsigned int   u32;
 extern const u32 d_021D886C[];
 extern const u32 d_021D8868[];
 extern void func_021A20C8(u32 v);
-extern void func_021A1C04(void *p);
+extern void func_021A1C04(u8 *p);
 extern void func_021A1BF8(void *p, u32 v);
 extern void func_021A1FEC(u32 obj, u32 v, int b, int c, int d, int e, int f);
 

@@ -22,7 +22,7 @@
 
 extern char *func_0217EAC8(char *p, int n);
 extern void func_02193734(int *connection, int string);
-extern void func_02092344(void *dst, const void *src, int n);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern char g_021A44C8[];
 
 int func_021893C8(int *connection, int *buffer, int src, int n)

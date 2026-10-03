@@ -45,7 +45,9 @@ typedef struct {
 } Work;
 
 extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
-extern void func_0204B92C(void *o, int v);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern const ObjTemplate d_021C8AA0[36];
 
 void func_021C75E4(Work *p)

@@ -19,10 +19,10 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, int b);
-extern u8 func_021D69AC(void *a, int i);
-extern int func_021C814C(void *a, int b);
-extern int func_021D76BC(int a, int b);
+extern void *func_021C7CF4(int *p, int i);
+extern unsigned char func_021D69AC(unsigned char *base, int idx);
+extern int func_021C814C(u8 *p, int v);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E8104(int a, void *b, int c)
 {

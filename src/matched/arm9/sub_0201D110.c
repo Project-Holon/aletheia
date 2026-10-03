@@ -89,8 +89,8 @@ struct Rec {
     struct PrintCtx ctx; /* 0x34 */
 };
 
-extern s32  func_02013020(void);
-extern s32  func_02013050(void);
+extern signed char func_02013020(void);
+extern signed char func_02013050(void);
 extern void sub_0201CDF4(s32 v, u8 *out);
 extern void func_02043B5C(u32 win, u32 c);
 

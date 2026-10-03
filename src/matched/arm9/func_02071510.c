@@ -37,7 +37,7 @@ struct Obj {
     volatile int s[3];    /* +0x4c */
 };
 
-extern void func_0206DDA4(int op, void *p, int n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_02071510(struct Obj *o)
 {

@@ -19,7 +19,7 @@ extern int func_0207C778(int);
 extern void func_0207D59C(void *, int *, int, int, int, int);
 extern void func_020307B0(void *);
 extern int func_021BE100(void);
-extern void func_021B63B8(void *);
+extern void func_021B63B8(char *p);
 extern void func_020306F0(int);
 void func_021B70A8(int unused, char *q)
 {

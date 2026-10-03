@@ -17,7 +17,9 @@
  */
 extern const char d_02200D78[];
 extern const char d_02200B74[];
-extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_021FBE54(char *, unsigned, unsigned);
 extern void func_021FEEF4(char *, int, char *, const char *, unsigned);

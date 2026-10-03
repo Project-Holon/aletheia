@@ -11,7 +11,8 @@
  * symbols:
  *   func_02021D50 0x02021D50 thumb
  */
-extern void func_02021D50(void *p);
+struct S02021D50;
+extern void func_02021D50(struct S02021D50 *p);
 void func_021F2508(void *task, char *p)
 {
     if (*(void **)(p + 0x210) != 0)

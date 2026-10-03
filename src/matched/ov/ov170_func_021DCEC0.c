@@ -11,7 +11,9 @@
  *   func_02045EC0 0x02045EC0 arm
  *   func_02027F60 0x02027F60 thumb
  */
-extern void *func_02045EC0(void *,unsigned);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void *func_02027F60(unsigned,unsigned,void *,void *,unsigned short);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define PTR(p,n) (*(void **)(WORK(p)+(n)))

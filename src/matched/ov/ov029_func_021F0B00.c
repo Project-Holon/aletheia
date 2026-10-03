@@ -30,7 +30,7 @@ typedef struct {
     u8  f7;
 } Ent;
 
-extern u8 func_021F0C70(void *q, int a, int b, int c);
+extern int func_021F0C70(void *p, int i, int j, int k);
 extern void func_021F1290(void *q, int a, int b, int c);
 extern void func_021F0C00(Ent *p, int t);
 

@@ -22,7 +22,7 @@ extern u8 *func_021B9934(char *p, int i);
 extern int func_021B8DC0(void *p, void *a, u8 b);
 struct Unk021D6C50;
 extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
-extern void func_021EA8B4(void *w, int a, int b);
+extern void func_021EA8B4(char *ctx, u32 a, u32 b);
 extern int func_021EA8D4(void *w);
 
 int func_021D28AC(u8 *p, int *st, u32 *c)

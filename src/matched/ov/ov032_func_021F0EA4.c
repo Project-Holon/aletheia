@@ -14,6 +14,8 @@
  *   func_021F0ED0 0x021F0ED0 thumb ov032
  */
 extern void func_02025774(unsigned char *,unsigned);
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021F0ED0(char *,int);
 void func_021F0EA4(char *p,unsigned a) { func_02025774(*(unsigned char **)(p+0x18),a); func_0204B3DC(*(void **)(p+0x10),a); func_0204B3DC(*(void **)(p+0xc),a); if(a==0) func_021F0ED0(p,a); }

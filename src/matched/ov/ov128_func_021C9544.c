@@ -16,10 +16,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_0201C6B4(void *);
-extern int func_021C94DC(void *, int *, void *, int *);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern int func_021C94DC(void *p, void *q, void *r, int *flag);
 extern int func_021C9450(void *, int *, void *);
-extern void func_020355D8(int);
+extern void func_020355D8(u8 v);
 int func_021C9544(void *p,int *q,char *r) {
  int flag=0; int ret;
  if(!func_0201C6B4(*(void **)(r+0x34))) return 2;

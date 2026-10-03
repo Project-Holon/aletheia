@@ -59,11 +59,14 @@ typedef struct {
     void *f28;
 } Ov021Mover;
 
-void *func_021B8514(void *row, int dir, void *map, void *t, int flag);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u8 *func_021B8514(u8 *p, u32 v, u8 *q, u16 *r, int flag);
 int func_021B854C(Ov021Mover *p, void *e, int dir, int a, int b, int len, int pos);
 int func_021B8674(void *map, void *e, void *row);
 int func_021B868C(void *map, void *e, void *row);
-void *func_021B87D8(void *map, int idx);
+u8 *func_021B87D8(u8 *p, u32 idx);
 int func_021B9278(void *e, int a, void *map);
 int func_021B9280(void *e, int v, int len, void *map);
 int func_021B9338(Ov021Mover *p, Ov021Seg *seg, int end, int dir);
@@ -71,7 +74,7 @@ int func_021B93D4(int dir);
 int func_021B9404(int dir);
 int func_021B9434(int dir);
 void func_021B9530(void *t, Ov021Mover *p, int dx, int dy, int dir);
-void func_021B96AC(void *row, void *map);
+int func_021B96AC(u8 *a, u8 *b);
 
 int func_021B88DC(Ov021Mover *p, int dir, int d)
 {

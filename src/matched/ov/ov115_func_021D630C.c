@@ -14,7 +14,8 @@
  *   func_021D6134  0x021D6134  thumb  ov115
  */
 
-int func_020221A4(void);
+typedef unsigned int   u32;
+u32 func_020221A4(void);
 void func_021D6134(void *a0, int a1, int a2);
 
 void func_021D630C(void *a0)

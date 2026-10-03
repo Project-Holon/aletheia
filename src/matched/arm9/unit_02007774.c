@@ -58,8 +58,8 @@ extern const char sub_020077B8_File[];
 
 extern struct Sub02007774Header *sub_020074CC(void *save);
 extern struct Sub02007774Entry  *sub_02007AF4(void *save, u32 box);
-extern int  sub_02017E88(struct Sub02007774Entry *entry, int field, int arg);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int sub_02007774(void *save)
 {

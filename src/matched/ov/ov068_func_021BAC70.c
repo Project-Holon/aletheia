@@ -33,8 +33,8 @@ typedef struct {
 extern Ent d_021BB704[];
 extern void func_020061E4(u32 id);
 extern int  func_021BB508(int *rect, void *b);
-extern void func_021BAFD8(void *p, int i);
-extern void func_021BACF4(void *p, int a, int b);
+extern void func_021BAFD8(u8 *p, int i);
+extern void func_021BACF4(u8 *p, u32 a, u32 b);
 
 void func_021BAC70(u8 *p, void *b)
 {

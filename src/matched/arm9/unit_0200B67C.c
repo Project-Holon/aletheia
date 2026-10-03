@@ -91,11 +91,13 @@ struct BattleRec {
 
 extern struct BattleRec *gObj_0214616C;
 
-extern void *func_02012EBC(void *a);
+struct Big;
+struct Sub02007324Ctrl;
+extern void *func_02012EBC(struct Big *p);
 extern void  func_02007324(void *h, u32 c, u16 e, void *p, u32 size);
 extern void  func_02012E4C(void *a, u32 c);
-extern u32   func_02012E7C(void *a, u32 c);
-extern void  func_0200734C(void *h, u32 c);
+extern int func_02012E7C(char *p, int a1);
+extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern void  func_0200BA44(struct RecC4 *p);
 extern void  func_0200B908(void *a, u32 b, u32 c);
 extern void  func_0200B7D8(void *h, struct QRec *q, const struct RecC4 *src,

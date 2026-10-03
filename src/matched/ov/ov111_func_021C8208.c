@@ -88,8 +88,9 @@ typedef struct { u32 hour, minute, second; } RTCTime;
 extern void func_0203F49C(RTCDate *date, RTCTime *time);
 extern s64 RTC_ConvertDateTimeToSecond(const RTCDate *date, const RTCTime *time);
 extern void RTC_ConvertSecondToDateTime(RTCDate *date, RTCTime *time, s64 sec);
-extern s64 sub_02008A44(void *obj);
-extern int sub_02008ACC(void *obj, int i);
+struct Sub020089A8Obj;
+extern unsigned long long sub_02008A44(const struct Sub020089A8Obj *obj);
+extern u16 sub_02008ACC(const struct Sub020089A8Obj *obj, u32 i);
 
 void func_021C8208(Work *p)
 {

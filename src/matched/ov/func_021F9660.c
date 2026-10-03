@@ -40,10 +40,12 @@ typedef struct {
 
 struct WinMgr;
 extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *a, u32 b);
-extern void func_02045334(void *p);
-extern void func_020452E8(void *p);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void func_02040DA8(u32, u32, u32);

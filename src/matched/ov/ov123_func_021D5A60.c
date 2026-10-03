@@ -19,9 +19,10 @@
 
 typedef unsigned int u32;
 
-extern void func_0201F7A8(void *, int);
-extern void func_020456F8(void *);
-extern void func_02041B6C(int);
+struct Descriptor;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041B6C(u32 bit);
 
 void func_021D5A60(char *p)
 {

@@ -83,10 +83,11 @@ struct Res {
 extern void func_0204A8D4(u32 i);
 extern void func_0204AFD8(u32 i);
 extern void func_0204ADA4(u32 i);
-extern void func_0204DC64(struct RecC *p);
-extern void func_0204E010(struct RecA *p);
-extern void func_0204E0C4(struct RecB *p);
-extern void func_020345DC(void *p);
+struct Struct020345DC;
+extern void func_0204DC64(void *ptr);
+extern void func_0204E010(void *ptr);
+extern void func_0204E0C4(void *ptr);
+extern void func_020345DC(struct Struct020345DC *obj);
 
 void func_0204D8AC(struct Res *res)
 {

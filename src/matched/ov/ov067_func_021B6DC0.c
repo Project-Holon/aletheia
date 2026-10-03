@@ -106,24 +106,25 @@ typedef struct {
 
 extern const char d_021B9564[];
 
-extern S *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct ArcFile;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_020414AC(u32 a);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_020493D4(void *narc, int fileId);
-extern void func_0204932C(void *narc, int fileId, void *dest);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern int func_02062A98(void *p, Pltt **out);
 extern void func_020307B0(void *p);
-extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_020498F4(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
-extern void func_020409B4(u8 a);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020409B4(u32 index);
 extern void func_02049238(void *h);
 extern void func_021B7718(int which, int idx, void *data);
-extern void func_02040588(int a, int b);
-extern void func_02049B40(u32 h, u32 a, u32 c, u32 d, u32 e, u32 heap);
-extern int func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern int func_02045770(int a);
 extern void func_02043B5C(int a, int b);
 extern void func_021B6208(void *out, In *in, int unused, u16 d);

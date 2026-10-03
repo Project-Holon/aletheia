@@ -12,6 +12,6 @@
  *   func_021BB42C 0x021BB42C thumb ov072
  *   func_02082BCC 0x02082BCC arm
  */
-extern void func_021BB42C(void *p);
+extern void func_021BB42C(void **p);
 extern void func_02082BCC(void *p,int v,int n);
 void func_021BB534(void *p) { func_021BB42C(p); func_02082BCC(p,0,0x20); }

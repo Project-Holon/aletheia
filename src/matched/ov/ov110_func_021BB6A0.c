@@ -28,7 +28,8 @@ extern unsigned func_021BAC3C(u8 *);
 extern void func_021BCF7C(u8 *, int, int);
 extern void func_021BB224(unsigned, int *, int *);
 extern void func_0204B404(void *, const Vec2 *, unsigned);
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BB6A0(u8 *p, unsigned index)
 {
     Vec2 pos;

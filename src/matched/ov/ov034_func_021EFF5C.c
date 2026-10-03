@@ -20,7 +20,8 @@
 
 extern int func_0201C6B4(int);
 extern void *func_020120F4(int);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
 extern void func_0204B3DC(int, int);
 

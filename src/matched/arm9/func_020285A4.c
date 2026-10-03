@@ -23,8 +23,7 @@ typedef unsigned int   u32;
 
 extern const char app_keycursor_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020436FC(void *pixels, u32 width, u32 height, u32 depth,
                            u16 heap);
 

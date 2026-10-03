@@ -16,11 +16,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02039CB4(void *, int, int);
 extern void func_021E1784(void *, int);
 extern void *func_0201088C(unsigned, unsigned);
-extern void *func_0202EE30(void *, void *, u8, u8, u16);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 int func_021DF5EC(u8 *p)
 {
     if (func_02039CB4(func_020399A8(), 205, 40)) {

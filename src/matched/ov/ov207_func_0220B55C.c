@@ -62,7 +62,7 @@ extern void func_02045808(struct U16Vec *);
 extern void func_02045C04(struct MsgBank *);
 extern void func_0201ED04(struct WordSet *);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern struct CharBuf *func_02045770(struct Descriptor *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_02045334(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);

@@ -17,9 +17,10 @@
  */
 typedef unsigned short u16;
 typedef struct {int a,b,c;} Obj;
-extern int func_02035630(void);
+typedef unsigned char  u8;
+extern u8 func_02035630(void);
 extern void func_021BA794(Obj*,char*,u16);
-extern void func_021BA6F0(Obj*,char*);
+extern void func_021BA6F0(void *obj, char *p);
 void func_021BA45C(Obj*obj,char*p)
 {
     unsigned threshold;

@@ -63,20 +63,24 @@ typedef struct {
     void *f64;
 } Work;
 
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern Work *func_020124E8(void *task);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Self;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, u32 n);
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02188CE8(u8 *p);
 extern u32 func_02012F2C(void *a);
 extern void *func_02188C7C(u8 *q);
 extern void *func_02188CB4(u8 *p);
-extern void *func_021A3074(void *p);
+extern void *func_021A3074(u8 *p);
 extern u16 func_0216D5F8(void *p);
 extern void func_021A3038(void *id, VecFx32 *out);
 extern u32 func_021A34EC(void *id);
 extern int func_021C5C64(void *unused, u8 *a, VecFx32 *out);
-extern int func_021AA900(void *self, s16 *pos);
+extern int func_021AA900(struct Self *self, short *pos);
 /* 021AA180 reads a mode in r1 (its own file: (ctx, mode)); this caller
  * passes none, leaving r1 = the f59 flag just stored.  Declaring the second
  * argument makes mwcc reload f59 (+4 bytes). */

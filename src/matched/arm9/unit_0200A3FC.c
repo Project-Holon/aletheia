@@ -106,10 +106,11 @@ typedef signed int     s32;
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
-extern u16  func_0203F2FC(void *base, u32 size);
-extern void func_0203F328(void *base, u32 size, u32 seed);
+struct Sub020071CCCtrl;
+extern u32 func_0203F2FC(const u8 *p, u32 len);
+extern void func_0203F328(u16 *p, u32 size, u32 seed);
 extern void func_0203F37C(void *base, u32 size, u32 seed);
-extern void *func_020071CC(void *sys, u32 id);
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 

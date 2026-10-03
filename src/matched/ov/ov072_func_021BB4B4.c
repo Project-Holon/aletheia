@@ -30,11 +30,14 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BB3E8(void *p, u32 a, u32 b, u32 c, u8 d, u8 e, u8 f, u8 g, u16 h);
 extern void func_0204B404(void *h, struct Pt *p, u16 v);
 extern void func_0204B84C(void *h, u32 a);
-extern void func_0204B800(void *h, u32 a);
-extern void func_0204B3DC(void *h, u32 a);
-extern void func_0204B878(void *h, u16 a);
-extern void func_0204B92C(void *h, u32 a);
-extern void func_0204B974(void *h);
+struct Actor;
+struct Node;
+struct Obj;
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B974(struct Actor *a);
 
 void func_021BB4B4(u32 *p, u32 a, u32 b, u32 c, u32 d, u16 e)
 {

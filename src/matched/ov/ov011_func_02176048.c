@@ -67,9 +67,9 @@ typedef struct {
 } Work;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02175B14(void *p);
+extern int func_02175B14(u8 *p);
 extern int func_02175FB8(void *p, Src *src);
-extern int func_020392B8(void);
+extern u32 func_020392B8(void);
 extern int func_0203D1B4(void);
 extern void func_02175920(void *p);
 extern u32 func_0203F4FC(void);

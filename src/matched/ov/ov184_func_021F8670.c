@@ -20,7 +20,7 @@ extern int func_021FB4B4(int,int,int);
 extern void func_021FD860(int,int,int *);
 extern int func_021FD73C(int,void *);
 extern void func_021F8624(int,int *,char *);
-extern void func_021F86EC(int,int *,char *);
+extern void func_021F86EC(int task, unsigned *state, char *p);
 void func_021F8670(int a,int b,char *p)
 {
     int x,y;

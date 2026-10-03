@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045770(u32 a);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 a);

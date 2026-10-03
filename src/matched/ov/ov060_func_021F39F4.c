@@ -20,9 +20,9 @@
 
 typedef unsigned char u8;
 
-extern u8 *func_021BE674(void *p, int i, int j, int k);
-extern int func_021BE6BC(u8 *p);
-extern void func_021BE4B4(void *p, int i, int j, int v);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern int func_021BE6BC(int *p);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 
 void func_021F39F4(u8 *a, void *p)
 {

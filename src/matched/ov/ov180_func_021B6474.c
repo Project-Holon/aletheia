@@ -16,7 +16,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 struct WordSet; struct Rec;
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *);
 extern void func_0201D83C(void *);
 extern void func_02045C04(struct Rec *);

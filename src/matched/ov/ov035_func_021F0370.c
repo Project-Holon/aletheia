@@ -18,7 +18,8 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020279E8(void *m);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 
 u32 func_021F0370(char *p)
 {

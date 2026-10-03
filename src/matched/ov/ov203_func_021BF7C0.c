@@ -14,7 +14,9 @@
  *   d_021C3D4C 0x021C3D4C data a4
  */
 typedef struct {unsigned short heap,alternate;int config;int ended;int done;int previous;int index;char flags[4];char *owner;int task;int text;int assets;int extra;} Context;
-extern Context *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021BF8E8(Context *);
 extern int func_021BF964(Context *,char *,int *);
 extern const char d_021C3D4C[];

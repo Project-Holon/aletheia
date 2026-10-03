@@ -30,7 +30,7 @@ extern void func_0219D7D0(u32);
 extern u32 func_0216D57C(u32, u32);
 extern void func_02197EB4(u32);
 extern u32 func_0216DB10(u32);
-extern u32 func_0219D780(u32);
+extern int func_0219D780(u32 a);
 extern void func_0216D708(u32);
 extern void func_0219D7F0(u32);
 extern void func_0219D824(u32);

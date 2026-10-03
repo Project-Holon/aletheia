@@ -74,7 +74,7 @@ union Packed {
 extern struct WazaTool *gWazaTool;
 extern struct Waza g_02146534;
 
-extern void func_02048F4C(struct Waza *dest, u32 kind, u16 id);
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
 u32 sub_0201BF44(const struct Waza *p, u32 bit);
 

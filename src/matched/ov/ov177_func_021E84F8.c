@@ -12,9 +12,12 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02045334 0x02045334 arm
  */
-extern unsigned func_02045770(void *);
-extern int func_0201C6C4(void *, unsigned);
-extern void func_02045334(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
 int func_021E84F8(char *p, void *q)
 {
  int result=1;

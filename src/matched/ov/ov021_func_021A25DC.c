@@ -20,7 +20,7 @@ typedef unsigned int  u32;
 
 int func_02005C64(void);
 void func_02028A7C(u32 x, int a);
-void func_020061E4(int a);
+void func_020061E4(u32 a);
 
 void func_021A25DC(u8 *p, int a)
 {

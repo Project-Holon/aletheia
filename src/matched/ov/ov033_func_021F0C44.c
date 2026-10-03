@@ -22,11 +22,13 @@ typedef unsigned short u16;
 typedef signed   short s16;
 typedef unsigned int   u32;
 
-extern void func_02030D28(void *);
-extern u32 func_02021ED8(void *);
+struct Actor;
+struct Ctx;
+extern void func_02030D28(struct Ctx *c);
+extern u32 func_02021ED8(const char *ptr);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
-extern void func_0204B95C(void *);
-extern void func_0204B974(void *);
+extern void func_0204B95C(struct Actor *a);
+extern void func_0204B974(struct Actor *a);
 
 void func_021F0C44(char *p)
 {

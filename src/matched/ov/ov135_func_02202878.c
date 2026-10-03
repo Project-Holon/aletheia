@@ -15,8 +15,9 @@
  */
 typedef unsigned char u8;
 typedef signed short s16;
-extern void func_0201CE48(void *);
-extern int func_02012FFC(void);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
+extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *, s16, s16, unsigned, unsigned, int, unsigned, unsigned, unsigned, unsigned);
 void func_02202878(void *a, unsigned b, unsigned c, int d, int e, u8 *p)
 {

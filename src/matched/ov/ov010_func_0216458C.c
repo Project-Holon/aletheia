@@ -14,6 +14,8 @@
  */
 
 typedef unsigned short u16;
-extern u16 func_02012AC8(void *);
-extern int func_02013E04(u16);
+typedef unsigned int   u32;
+struct Rec44;
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern u32 func_02013E04(u32 id);
 int func_0216458C(void *a, void *b, void *c) { return func_02013E04(func_02012AC8(c)); }

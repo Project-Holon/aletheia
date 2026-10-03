@@ -17,5 +17,6 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct Vec2 { s16 x,y; } Vec2;
 extern void func_0204B454(void *,Vec2 *,u32);
-extern void func_0204B404(void *,const Vec2 *,u32);
+struct Obj;
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 void func_021BFE24(u8 *p,int y) { Vec2 pos; func_0204B454(*(void **)(p+0x1c),&pos,0); pos.y=y; if(pos.y<18) pos.y=18; if(pos.y>149) pos.y=149; func_0204B404(*(void **)(p+0x1c),&pos,0); }

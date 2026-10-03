@@ -11,7 +11,8 @@
  *   func_020452E8 0x020452E8 arm
  *   func_021E6DEC 0x021E6DEC thumb
  */
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_021E6DEC(char *);
 void func_021E2680(char *p)
 {

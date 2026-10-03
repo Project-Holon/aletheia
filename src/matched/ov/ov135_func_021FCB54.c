@@ -38,11 +38,12 @@ extern void *func_0202D6F4(PalFile **out, void *src, u32 a2, u32 heap);
 extern void func_020862F0(void *p, u32 n);
 extern void func_0207E780(void *src, u32 dst, u32 n);
 extern void func_020307B0(void *p);
-extern u32 func_0202D060(void);
+typedef signed int     s32;
+extern int func_0202D060(void);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_02017EAC(void *mon);
-extern u32 func_0202D0D4(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021FCB54(void *mon)
 {

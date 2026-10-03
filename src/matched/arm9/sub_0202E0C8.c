@@ -31,7 +31,8 @@ struct Obj0202E0C8 {
     void *unk08[2];
 };
 
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void sub_0202E0C8(struct Obj0202E0C8 *p)
 {

@@ -16,11 +16,14 @@
  *   func_021E0E4C 0x021E0E4C thumb ov119
  */
 extern void *func_02045770(int);
-extern void func_02043B5C(void *,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_020456F8(int);
 extern void func_020452E8(int);
-extern void func_02041B6C(int);
-extern void func_021E0E4C(void *);
+extern void func_02041B6C(u32 bit);
+extern void func_021E0E4C(char *p);
 void func_021E2438(char *p,int i)
 {
     if (*(int *)(p+0x5bc+4*i)) {

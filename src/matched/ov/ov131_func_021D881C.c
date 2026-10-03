@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 
 void func_021D881C(void *a, u8 *p)

@@ -91,7 +91,8 @@ struct Rec {
 
 extern u32   func_02045770(u32 p);
 extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
-extern struct Rec *func_02031290(void *task);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern u16  *func_02045A90(u32 a);
 extern void  func_0201CEE0(void *task, struct Rec *p);
 extern void  func_0201C808(struct PrintCtx *c, void *w, void *x, s16 y, s16 z);

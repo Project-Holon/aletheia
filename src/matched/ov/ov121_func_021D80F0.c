@@ -15,9 +15,10 @@
  */
 typedef unsigned char u8;
 extern void func_021D9F08(u8 *, int, int, int);
-extern int func_021D9FF8(void *);
+typedef unsigned int   u32;
+extern unsigned func_021D9FF8(u8 *p);
 extern void func_021DA8B0(void *, void *);
-extern void func_021D6E3C(void);
+extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 void func_021D80F0(void *a, int *state, u8 *p)
 {
     switch (*state) {

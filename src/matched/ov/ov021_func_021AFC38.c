@@ -28,10 +28,13 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern void *func_02012EBC(void *p);
+typedef unsigned int   u32;
+struct Big;
+struct Blk34;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
 extern int func_02158F74();
-extern int func_0200C1DC();
+extern u32 func_0200C1DC(struct Blk34 *p);
 extern int func_0201EFA4();
 
 int func_021AFC38(Ctx *a0, int a1)

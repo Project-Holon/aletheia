@@ -14,7 +14,9 @@
  *   func_021BD4DC 0x021BD4DC thumb ov209
  */
 extern void func_021BD4F4(char *, unsigned);
-extern unsigned func_0200CA70(void *);
+typedef unsigned int   u32;
+struct Blk37;
+extern u32 func_0200CA70(struct Blk37 *p);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned);
 extern void func_021BD4DC(char *);
 void func_021BD5D4(char *p)

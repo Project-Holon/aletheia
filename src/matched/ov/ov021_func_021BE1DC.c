@@ -20,8 +20,11 @@
  */
 
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012EC4(void *p);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int func_0200B3AC(void *p);
 extern void func_02034AC4(void *);
 

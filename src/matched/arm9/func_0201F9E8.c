@@ -16,7 +16,7 @@ typedef unsigned int   u32;
 struct Obj;
 
 extern void func_02020D3C(u32 v);
-extern void func_020307B0(struct Obj *o);
+extern void func_020307B0(void *p);
 
 void func_0201F9E8(struct Obj *o, u8 *out)
 {

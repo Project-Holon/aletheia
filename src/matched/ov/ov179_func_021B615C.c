@@ -13,7 +13,8 @@
  *   func_020433E0  0x020433E0  arm
  */
 
-extern void func_020433E0(void *);
+struct DispVram;
+extern void func_020433E0(const struct DispVram *c);
 
 void func_021B615C(void)
 {

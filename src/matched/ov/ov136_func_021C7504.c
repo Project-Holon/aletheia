@@ -24,8 +24,8 @@ struct Bf7 {
     u8 w : 1;
 };
 extern const u8 d_021C7D5C[];
-extern u32 func_0202138C(u32);
-extern int func_021C3CC0(void *, u32, u8, u32, u32);
+extern u8 func_0202138C(u16 v);
+extern void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap);
 extern void func_02031348(void *, u32, const void *, void *);
 int func_021C7504(u8 *p)
 {

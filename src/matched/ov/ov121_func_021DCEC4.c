@@ -18,13 +18,15 @@
  *   func_021DC08C 0x021DC08C thumb ov121
  */
 extern void *func_021D9CA4(int,int,void *,void *,int);
-extern void func_021D9FFC(void *,int,int);
-extern void func_021D9F08(void *,int,int,int);
-extern int func_021D9FF8(void *);
-extern void func_021D9E04(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D9FFC(u8 *p, int a, int b);
+extern void func_021D9F08(u8 *a, int b, int c, int d);
+extern unsigned func_021D9FF8(u8 *p);
+extern void func_021D9E04(u8 *p);
 extern void func_021DA8B0(void *,void *);
-extern void func_021D9E50(void *);
-extern void func_021DC08C(void);
+extern void func_021D9E50(u8 *p);
+extern void func_021DC08C(void *task, u32 *state, char *p);
 void func_021DCEC4(void *arg,int *state,char *p)
 {
     switch (*state) {

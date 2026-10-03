@@ -18,7 +18,7 @@ typedef unsigned int u32;
 struct WinMgr;
 extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
-extern void func_021C6028(u8 *,u16,u16,u8);
+extern void func_021C6028(u8 *p, u32 a1, int idx, int sel);
 void func_021C5C00(u8 *p)
 {
     u16 idx;

@@ -14,7 +14,8 @@
  *   func_02088234 0x02088234 arm
  */
 
-extern void func_02030534(void);
+typedef unsigned int   u32;
+extern signed int func_02030534(u32 size);
 extern void func_02088234(void);
 
 asm void func_02030BA4(void)

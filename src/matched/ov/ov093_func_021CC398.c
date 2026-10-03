@@ -27,7 +27,8 @@ extern int func_021D5B68(void *m);
 extern u8 func_021D5440(u8 *p);
 extern int func_021CC418(void *p, int id);
 extern u32 func_021CC428(int i);
-extern int func_021D62C4(void *m, u32 k);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 

@@ -44,7 +44,7 @@ extern void func_0216D568();
 extern void func_0216D60C(u32, u16);
 extern void func_0216D674();
 extern void func_0216D7CC();
-extern void func_020061E4();
+extern void func_020061E4(u32 a);
 
 void func_0219E00C(u32 o, u32 id, u32 p, u8 q, S s, u32 fn)
 {

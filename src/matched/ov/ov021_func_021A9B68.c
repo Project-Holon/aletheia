@@ -26,7 +26,7 @@ typedef signed int     s32;
 
 struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 
-extern u32 func_02019C90(u32 id, u32 a, u32 b);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern u32 func_021A9DC8(void);
 
 u8 func_021A9B68(u8 *u, struct Spec *specs, u32 type)

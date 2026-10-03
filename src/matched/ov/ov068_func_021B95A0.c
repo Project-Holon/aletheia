@@ -70,7 +70,8 @@ typedef struct {
 
 extern u8 ov067_id[];
 
-extern void  func_02034AC4(u32 v);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
 extern void  func_0203064C(u32 a, u32 b, u32 c);
 extern Work *func_0203159C(void *proc, u32 size, u32 heap);
 extern void  func_02082BCC(void *p, u32 v, u32 n);

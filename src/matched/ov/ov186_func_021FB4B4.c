@@ -15,7 +15,8 @@
  */
 
 extern int func_021FB4CC(int obj, int x, int y);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 int func_021FB4B4(int obj, int x, int y)
 {

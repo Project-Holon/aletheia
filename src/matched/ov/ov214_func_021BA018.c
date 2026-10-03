@@ -18,11 +18,15 @@
  *   func_020452E8 0x020452E8 arm
  */
 typedef unsigned short u16;
-extern void func_0201CE48(void*);
-extern void func_02045808(void*);
-extern void func_02031140(void*);
+struct Descriptor;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02031140(struct S02031140 *p);
 extern void func_0203FB44(unsigned,u16,u16);
-extern void func_020452E8(void*);
+extern void func_020452E8(struct Descriptor *d);
 void func_021BA018(int unused,char*p)
 {
     if(*(void**)(p+0x5c))func_0201CE48(*(void**)(p+0x5c));

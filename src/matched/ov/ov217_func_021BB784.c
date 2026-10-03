@@ -28,8 +28,10 @@
  *   func_021C1038 0x021C1038 thumb ov217
  */
 struct S { char pad0[0x32]; unsigned char f32; char pad33[0x81]; void *arr[8]; };
-extern int func_021BB98C(struct S *p);
-extern void func_021BB990(struct S *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BB98C(void *p);
+extern void func_021BB990(void *p);
 extern void func_021BBB60(struct S *p);
 extern void func_021BC2D8(struct S *p);
 extern void func_021BC338(struct S *p);
@@ -37,13 +39,13 @@ extern void func_021BC43C(struct S *p);
 extern void func_021BC168(struct S *p);
 extern void func_021BC014(struct S *p);
 extern void func_021BBF60(struct S *p);
-extern int func_021BC2FC(struct S *p);
+extern int func_021BC2FC(void *p);
 extern int func_021BC5B8(struct S *p, int v);
 extern void func_021BC72C(struct S *p, int a, int b);
 extern void func_021BC50C(struct S *p);
 extern int func_021BC55C(struct S *p);
-extern void func_021BB91C(struct S *p);
-extern void func_021C1038(void *a, int v);
+extern void func_021BB91C(void *p);
+extern void func_021C1038(u8 *p, u8 palette);
 
 void func_021BB784(struct S *p)
 {

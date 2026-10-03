@@ -17,8 +17,10 @@ typedef unsigned char u8;
 extern u32 func_02045770(u32);
 extern int func_0201C6C4(u32,u32);
 extern void func_02045334(u32);
-extern int func_020200CC(void *);
-extern int func_02020350(void *,int);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_020200CC(struct Obj *o);
+extern u32 func_02020350(struct Obj *obj, u32 what);
 int func_021DA178(char *p)
 {
     u32 q = *(u32 *)(p+4);

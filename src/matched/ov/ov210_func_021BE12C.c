@@ -16,7 +16,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021B93B8(void *);
+extern int func_021B93B8(char *p);
 extern void func_021B93D4(void *, int);
 extern void func_021BF85C(u8 *, u16, unsigned int);
 extern void func_021BE978(u8 *);

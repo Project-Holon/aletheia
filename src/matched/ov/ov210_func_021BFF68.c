@@ -21,10 +21,11 @@
 
 extern int func_02025DE8(int h);
 extern unsigned func_020362DC(void);
-extern void func_020355D8(int a);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
+extern u8 func_020355C4(void);
 extern void func_020260F4(int h, int v);
-extern void func_021C003C(int p, int v);
+extern void func_021C003C(int p, unsigned b);
 
 int func_021BFF68(int p)
 {

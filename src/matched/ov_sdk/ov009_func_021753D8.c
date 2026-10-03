@@ -16,7 +16,7 @@
  *   func_0216EB68  0x0216EB68  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0216EB68(int error, int code);
 
 int func_021753D8(int ignoreError)

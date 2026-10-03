@@ -31,9 +31,11 @@ struct Unit {
     void *f04;
 };
 
-extern int func_0200D488(void *party, int i);
-extern void *func_0200D4AC(void *party, int i);
-extern u32 func_0200D4B8(void *mon, int field);
+struct Blk38;
+struct GdsEnt;
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
+extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
 extern int func_021A996C(struct Unit *u, u8 n);
 extern u32 func_02005728(u32 v);
 

@@ -17,7 +17,8 @@
  */
 
 extern char *g_021A8264;
-extern void func_02156BD8(int v);
+typedef unsigned int   u32;
+extern void func_02156BD8(u32 i);
 
 void func_02156C60(void)
 {

@@ -25,17 +25,21 @@
 
 typedef unsigned int u32;
 
-extern int func_0201C6B4(void *a);
+struct PrintSys;
+struct Rec3;
+struct S020315D4;
+struct U16Vec;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_020435F4(u32 a);
-extern void func_0201CE48(void *a);
-extern void func_02045808(void *a);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021B7068(void *a);
 extern void func_021B7BE4(void *a);
-extern void func_021B7B9C(void *a);
+extern void func_021B7B9C(char *p);
 extern void func_021B7AAC(void *a);
 extern void func_021B7994(void *a);
 extern void func_021B78D4(void);
-extern void func_020315D4(void *a);
+extern void func_020315D4(struct S020315D4 *p);
 
 int func_021B7824(void *a, void *b, char *c, char *d)
 {

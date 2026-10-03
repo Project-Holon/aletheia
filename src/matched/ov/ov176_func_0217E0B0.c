@@ -28,7 +28,7 @@ extern int func_0203D1B4(void);
 extern const unsigned d_0217E564[];
 extern int d_0217E630;
 extern const unsigned d_0217E544[];
-extern void func_0217E524(int, int);
+extern int func_0217E524(int a, int b);
 int func_0217E0B0(unsigned *p)
 {
     switch (*p) {

@@ -42,7 +42,7 @@ extern void func_020084A0(int);
 extern int func_021CC070(u32 a, u32 b);
 extern void func_02045A38(int, void *, int);
 extern void func_02045808(int);
-extern void func_020084D4(int, char *);
+extern u32 func_020084D4(u32 value, void *dst);
 extern void func_0200854C(int, u32);
 extern const char d_021DE59C[];
 

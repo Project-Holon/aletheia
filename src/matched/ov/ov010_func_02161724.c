@@ -40,7 +40,7 @@ typedef struct AnimWork {
     u8 busy;            /* 0x0C */
 } AnimWork;
 
-extern void *func_02188C7C(void *field);
+extern void *func_02188C7C(u8 *p);
 extern void *func_0216DEE0(void *map);
 extern void *func_0216DE54(void *map, u32 kind);
 extern void func_0216D9A0(void *map);

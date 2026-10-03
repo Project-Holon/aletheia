@@ -17,7 +17,7 @@
  *   func_02180334                  0x02180334  arm ov009
  */
 
-extern int func_0218022C(char *theUTF8String, int theUTF8StringLength);
+extern int func_0218022C(const char *s, int n);
 extern void *func_0217EAB0(unsigned long size);
 extern int func_02180334(char *theUTF8String, int theUTF8Length, unsigned short *theUCS2String, int theMaxUCS2Length);
 

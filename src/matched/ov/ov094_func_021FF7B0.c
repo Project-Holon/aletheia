@@ -42,7 +42,7 @@ extern int func_021FFD9C(Work *w, int key);
 extern void func_022018A8(Work *w, Vec3 *out, int key);
 extern void func_021FF4C0(Work *w, int key, int a, Vec3 *v, int b, int c, int d);
 extern void *func_021F86B4(void);
-extern void func_022089BC(void *p, int i);
+extern void func_022089BC(char *p, int i);
 extern void func_021FF374(Work *w, int key, int kind);
 
 void func_021FF7B0(Work *w, int a, int b)

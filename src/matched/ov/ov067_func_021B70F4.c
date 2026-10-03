@@ -66,7 +66,7 @@ typedef struct {
 extern u8 func_021B76C8(u32 a, u32 b, u32 c);
 extern void func_0204B404(int h, Pt *pt, u16 v);
 extern void func_021B7718(int which, int idx, void *data);
-extern void func_02040588(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
 extern int func_02045770(int a);
 extern void func_02043B5C(int a, int b);
 extern u32 func_0201D304(u32 a, u32 b, u32 c);
@@ -75,8 +75,8 @@ extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(int a);
 extern void func_02045374(int a);
 extern int func_02045730(int a);
-extern void func_02041B6C(int a);
-extern int func_020355C4(void);
+extern void func_02041B6C(u32 bit);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(int a, int b);
 extern void func_0204B92C(int a, int b);
 

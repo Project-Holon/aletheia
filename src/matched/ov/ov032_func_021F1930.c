@@ -23,7 +23,8 @@ typedef unsigned int u32;
 extern void func_021F0B80(char *p, u32 a, u8 *s);
 extern void func_021F178C(char *p, int a, u8 *s);
 extern int func_021F0BA8(u8 *s);
-extern void func_02031194(void *task);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F1930(void *task, u8 *s)
 {

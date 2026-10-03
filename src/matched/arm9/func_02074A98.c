@@ -30,7 +30,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
 u32 func_02074A98(u32 a, u32 b)
 {

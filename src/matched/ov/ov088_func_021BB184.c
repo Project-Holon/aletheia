@@ -50,14 +50,16 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *, void *, int);
 extern u32 func_02008550(int);
 extern int func_0204B100(int, int, int);
-extern int func_0204A6C8(void *, int, int, int, int);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ABF0(void *, int, int, int, int);
-extern int func_0204AF28(void *, int, int, int);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204B294(int, int, int, int, void *, int, int);
-extern void func_0204B3DC(void *, int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(int, int);
-extern void func_020434DC(int, int);
-extern void func_02043598(int, int);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 extern void func_02049238(void *);
 
 void func_021BB184(int *p)

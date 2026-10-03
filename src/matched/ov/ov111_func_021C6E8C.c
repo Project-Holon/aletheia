@@ -61,9 +61,11 @@ typedef struct {
 } Anim;
 
 extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, ObjPos *pos, u32 f, u32 heap);
-extern void func_0204B3DC(void *o, int v);
-extern void func_0204B954(void *o, u32 v);
-extern void func_0204B92C(void *o, int v);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B954(struct Actor *a, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern const ObjTemplateTable d_021C87A4;
 
 void func_021C6E8C(Anim *a)

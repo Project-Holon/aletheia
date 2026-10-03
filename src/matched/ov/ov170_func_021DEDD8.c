@@ -43,12 +43,14 @@ typedef struct {
 } Summary;
 
 extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
-extern void *func_02030734(unsigned heap, unsigned size, unsigned clear, const char *file, unsigned line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern unsigned char func_020185A0(void *mon);
 extern unsigned char func_02017F08(void *mon);
-extern int func_02017EB4(void *mon);
-extern int func_0201B268(void *mon);
-extern int func_0201B28C(void *mon);
+extern u32 func_02017EB4(void *p);
+extern u32 func_0201B268(void *mon);
+extern u32 func_0201B28C(void *mon);
 extern const char d_021F1400[];
 
 Summary *func_021DEDD8(void *mon)

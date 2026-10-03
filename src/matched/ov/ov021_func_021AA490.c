@@ -41,17 +41,20 @@ struct Unit {
 };
 struct Info { u32 f00; u32 f04; u8 f08; u8 f09; u16 f0A; u8 f0C; u8 f0D; u8 pad0E[2]; };
 
-extern void *func_0201A920(u32 heap);
+struct Party;
+struct PartyMon;
+struct Slot14;
+extern struct Party *func_0201A920(u32 heap);
 extern u32 func_020173EC(void);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_0201A98C(void *party, void *mon);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
 extern void func_0201347C(void *a0, void *a1, void *a2, struct Info *a3, u32 a4, u16 a5);
-extern void func_02013144(void *p, int v);
+extern void func_02013144(char *p, int v);
 extern void func_020307B0(void *p);
 extern const char data_021DDFA4[];
 struct Slot14 { u8 raw[0x14]; };
-extern void func_021A96B8(void *mon, struct Unit *u, struct Slot14 *s);
+extern void func_021A96B8(void *mon, const struct Unit *u, struct Slot14 *s);
 
 void func_021AA490(struct Ctx *ctx, struct Unit *u, void *a2, u16 heap, struct Slot14 *slots)
 {

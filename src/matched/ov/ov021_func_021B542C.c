@@ -45,10 +45,11 @@ typedef struct {
 } Out;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188C58();
 extern int func_02011330();
-extern void func_02048F4C();
+extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern void func_0218F900();
 
 int func_021B542C(int a0, int a1)

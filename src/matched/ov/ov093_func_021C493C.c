@@ -33,14 +33,14 @@ extern u8 *func_021C4A44(u32);
 extern void func_021C4A54(u8 *, u8 *, Word, u32, u8 *);
 extern u8 func_021D5440(u8 *p);
 extern u8 *func_021B9934(char *, int);
-extern int func_021D5B68(u8 *);
+extern int func_021D5B68(void *p);
 extern int func_021D6064(u8 *, u8 *, Word *, u32 *);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(void *, u32, int);
 extern int func_021BC2B0(u8 *);
-extern u32 func_021D806C(u8 *);
-extern void func_021CD4B0(void *, u32, ...);
-extern void func_021C5200(u8 *);
+extern u32 func_021D806C(const u8 *p);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern int func_021C5200(u8 *p);
 void func_021C493C(u8 *p, u8 *a)
 {
     u8 list[6];

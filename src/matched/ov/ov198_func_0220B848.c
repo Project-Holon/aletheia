@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u8 low:7,high:1;} Bits;
-extern int func_02210B00(u8 *,u32);
+extern int func_02210B00(u8 *p, int i);
 extern void func_0220B6D0(u8 *,u8,u8,u8);
 extern void func_0220BBF0(u8 *);
 extern int func_022110D4(u8 *,int);

@@ -22,9 +22,10 @@
 typedef unsigned short u16;
 
 extern void *func_0215A5F4(void *p);
-extern void **func_02158FB4(void *p);
+typedef unsigned int   u32;
+extern void *func_02158FB4(void *p);
 extern u16 *func_02159AE8(void *a, void *b);
-extern void **func_02030734(int heap, int size, int clear, const char *site, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_0217294C[];
 extern void func_0215F168(void);
 extern void func_020113D0(void *a, void (*cb)(void));

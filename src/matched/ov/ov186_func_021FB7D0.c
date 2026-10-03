@@ -22,11 +22,15 @@ extern int func_021FB7B0(void *,int);
 extern void *func_0201EC64(unsigned short);
 extern void func_0201EE0C(void *,int,unsigned,unsigned,int,int);
 extern void *func_02045EC0(int,int);
-extern unsigned short func_020458F8(void *);
-extern void *func_020457B0(unsigned,unsigned short);
-extern void func_0201F250(void *,void *,void *);
-extern void func_0201ED04(void *);
-extern void func_02045808(void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct U16Vec;
+struct WordSet;
+extern u16 func_020458F8(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045808(struct U16Vec *vec);
 void *func_021FB7D0(unsigned *const *p,void *record,int archive,unsigned short heap)
 {
     int n,index,ok;

@@ -55,9 +55,11 @@ typedef struct {
 } Work;
 
 extern s16 FX_SinCosTable_[];
-extern void func_020061E4(int se);
-extern void func_0202DCD4(void *p, u32 a, u32 b);
-extern void func_0202DCB0(void *p, u32 a, u32 b);
+struct Obj0202DC98;
+struct Obj0202DCC4;
+extern void func_020061E4(u32 a);
+extern void func_0202DCD4(struct Obj0202DCC4 *p, u32 i, u32 val);
+extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
 extern void func_021C479C(Work *p);
 extern void func_021C4B74(Work *p, int flag);
 extern void func_021C58E0(Work *p);

@@ -42,10 +42,12 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *sub_02012A30(void *a);
-extern int   sub_020120F0(void *a);
-extern int   sub_020289B8(void *a);
+struct Ctx;
+struct Sys;
+extern u32 sub_020120F0(const struct Ctx *p);
+extern u32 sub_020289B8(struct Sys *s);
 extern void  func_0215FA44(void *a);
-extern void  func_02188BD8(void *a);
+extern void func_02188BD8(u8 *obj);
 
 int sub_02014488(void *a0, u32 *a1, u8 *a2)
 {

@@ -26,7 +26,7 @@ typedef struct Vec3 {
     int z;
 } Vec3;
 
-extern u8 *func_021A3960(u8 *p);
+extern void *func_021A3960(u8 *p);
 extern void func_0216D88C(u8 *a, Vec3 *out);
 extern void func_02164208(int dir, Vec3 *p, int amt);
 extern int  func_02163E58(u8 *a, Vec3 *p, int *out);

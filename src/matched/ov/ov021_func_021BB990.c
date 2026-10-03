@@ -22,11 +22,13 @@ typedef unsigned short u16;
 
 extern int d_021DE2F8;
 
-void func_02034AC4(int a);
+typedef signed int     s32;
+typedef unsigned int   u32;
+int func_02034AC4(s32 handle);
 int func_02030DA8(int a, void *fn, int *b, int c);
 int func_02030734(int a, int b, int c, void *d, int e);
-void func_021BB960(void);
-void func_021BB978(void);
+void func_021BB960(u32 a, u32 b, u32 c, u32 d);
+void func_021BB978(u32 a, u32 b, u32 c, u32 d);
 
 int *func_021BB990(int a, int *d, const int *c)
 {

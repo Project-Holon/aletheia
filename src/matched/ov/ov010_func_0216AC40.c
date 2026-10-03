@@ -31,12 +31,13 @@ typedef struct {
 } Bits;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern void func_02012138();
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_0215A5CC();
 extern u8 *func_021664CC();
 extern void func_0217C37C();
-extern void func_020307B0();
+extern void func_020307B0(void *p);
 
 int func_0216AC40(int a0, int a1)
 {

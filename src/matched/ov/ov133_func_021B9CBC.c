@@ -23,12 +23,16 @@ typedef unsigned short u16;
 extern void *func_021F4F10(u8 *);
 extern u8 *func_021BA20C(u8 *);
 extern u8 func_021F5158(void *, int);
-extern void *func_0201EC64(unsigned int);
-extern void *func_02045EC0(void *, unsigned int);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EE0C(void *, unsigned int, void *, unsigned int, unsigned int, unsigned int);
 extern void func_021B9C08(u8 *, unsigned int, void *);
-extern void func_02045808(void *);
-extern void func_0201ED04(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 void func_021B9CBC(u8 *p, u8 *entry)
 {
     void *manager = func_021F4F10(*(u8 **)(p + 0x1884));

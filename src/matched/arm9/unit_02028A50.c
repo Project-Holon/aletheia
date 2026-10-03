@@ -70,7 +70,8 @@ struct SoundSys {
     void         *ringtone;
 };
 
-extern void func_02028D2C(void *sys, void *res);
+struct Sys;
+extern void func_02028D2C(struct Sys *s, void *desc);
 extern void func_02028794(struct Fader *s, u8 level, u16 frames);
 extern void func_02029F54(void *p);
 extern void func_02029F60(void *p);

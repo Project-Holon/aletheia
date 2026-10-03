@@ -18,9 +18,12 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 f00; char *f04; void (*f08)(void); } Params;
-extern void func_0204B92C(void *, int);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204BA00(void *, Params *);
-extern void func_0204B9A0(void *);
+extern void func_0204B9A0(struct Actor *a);
 extern void func_021D4BDC(void);
 extern void func_021D4BF0(void);
 extern void func_021D4244(char *, void *, int);

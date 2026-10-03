@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203A5E4(int);
-extern void func_0203CEAC(int);
+extern void func_0203A5E4(u32 key);
+extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 int func_0217E1C0(int *p) {switch(*p) {case 0:func_0203A5E4(0x1f00);func_0203CEAC(0);*p=1;break;case 1:if(func_0203CDBC())*p=2;break;case 2:return 1;}return 0;}

@@ -22,9 +22,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u8 count,pad;u16 values[4];} Group;
 extern int func_021F4E58(int,int,u16 *,int,u8 *),func_021F4E18(int,int,u16 *,int,u8 *);
-extern u16 func_021F4ED8(void *,u16 *);
+typedef unsigned int   u32;
+extern u16 func_021F4ED8(const char *p, const u16 *b);
 extern int func_021F2190(char *,u16),func_021F2150(u8 *);
-extern void func_021F4DDC(void *,u16,u16 *,int,u8 *);
+extern void func_021F4DDC(const char *p, int i, u16 *dst, u32 n, u8 *count);
 extern int func_021F4E98(char *,int,u16 *,unsigned,u8 *);
 extern u16 func_02045A98(void);
 int func_021F23FC(u8 *p,int direction)

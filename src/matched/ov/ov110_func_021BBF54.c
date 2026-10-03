@@ -22,7 +22,8 @@ typedef struct { u8 pad[0x14]; void *desc[2]; void *items[2][2]; } Obj;
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern s16 func_0204B4EC(void *,u16,unsigned);
 extern void func_0204B49C(void *,s16,u16,unsigned);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 int func_021BBF54(Obj *p)
 {
     int delta,i,j;

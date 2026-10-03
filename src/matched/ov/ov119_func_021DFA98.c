@@ -14,7 +14,8 @@
 typedef struct { int id; int key; } Ent;
 typedef struct { Ent e[22]; } Tbl;
 extern const Tbl d_021E7794;
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 void func_021DFA98(int key)
 {
     Tbl t = d_021E7794;

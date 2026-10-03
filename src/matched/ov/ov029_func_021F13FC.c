@@ -15,9 +15,11 @@
  *   d_021F332C     0x021F332C  data  a4
  */
 
-extern int func_021F2B9C(void *, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021F2B9C(u8 *p, int row, int col);
 extern void func_021F1290(void *, int, int, int);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 extern const int d_021F332C[2];
 
 void func_021F13FC(void *p)

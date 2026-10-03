@@ -17,7 +17,7 @@
 typedef enum { KEY_0 } Key;
 
 extern void *func_021F8694(void);
-extern int func_021FFD9C(void *w, int key);
+extern int func_021FFD9C(char *p, int key);
 extern void func_022004BC(void *w, int key);
 void func_021FE4F8(void)
 {

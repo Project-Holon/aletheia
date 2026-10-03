@@ -14,7 +14,7 @@
  */
 extern void func_021BED98(char *, int, int);
 extern void func_021BEDF0(void *, int, int);
-extern void func_021BEE38(char *, int, unsigned short, short, unsigned short);
+extern void func_021BEE38(char *p, int idx, unsigned short a, unsigned short b, unsigned short c);
 void func_021BF618(char *p)
 {
     unsigned char v = (*(unsigned char **)(*(char **)p + 8))[6];

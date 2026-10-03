@@ -61,7 +61,9 @@ extern void func_02082A60(void *src, void *dst, u32 size);
 extern void func_020307B0(void *p);
 extern int func_02062B30(void *file, Scr **out);
 extern void *func_0207DFB4(void);
-extern int func_02062AD4(void *file, void **out);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern int func_02062A98(void *file, Pal **out);
 
 static inline void Copy(void *src, void *dst, u32 size)

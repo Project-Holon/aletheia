@@ -29,10 +29,11 @@
 
 typedef unsigned char u8;
 
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern int func_021B3B14(u8 *, int);
-extern void func_02012F08(void *);
+extern void *func_02012F08(int *p);
 extern int func_0200C258(void);
 extern void func_021B38E0(u8 *, int, int, int);
 extern void func_021B39C4(u8 *, int);

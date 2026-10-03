@@ -48,7 +48,8 @@ typedef struct Work {
     Res *f18;           /* 0x18 */
 } Work;
 
-extern void func_02045CAC(void *bank, u32 index, void *vec);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_02169EBC(Work *w);
 
 void func_02169EA4(Work *w, u32 n)

@@ -15,9 +15,11 @@
  *   func_0203D34C  0x0203D34C  arm
  */
 
-extern void func_021B63AC(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021B63AC(u8 *p);
 extern void func_021B7ADC(void *, int, int);
-extern void func_0203D34C(int, int);
+extern void func_0203D34C(u32 a, u32 b);
 
 int func_021B7C00(void *p)
 {

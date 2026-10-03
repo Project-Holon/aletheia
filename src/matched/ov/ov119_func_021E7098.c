@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { void *a, *b; u32 size, c, d; } Slot;
-extern Slot *func_02021518(u32);
+extern void *func_02021518(u32 heap);
 extern void func_0202155C(Slot *,u32,u32,u32);
 extern void func_020216D4(Slot *,u32,u32,u32);
 extern void func_02021FD8(Slot *,u32,u32,u32,u8,u16);

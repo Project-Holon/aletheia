@@ -12,7 +12,8 @@
  * symbols:
  *   func_0204B3B4 0x0204B3B4 arm
  */
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 struct Slot { void *object; int a; int b; };
 struct Obj { char pad[0x3c]; struct Slot slots[20]; };
 void func_021F30C8(struct Obj *p)

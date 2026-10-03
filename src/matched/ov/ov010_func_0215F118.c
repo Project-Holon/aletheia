@@ -32,7 +32,8 @@ typedef struct Area {
 extern u32 func_02188C80(void *p);
 extern void *func_020120F4(u32 v);
 extern void *func_0201296C(void *p);
-extern int func_020142E8(void *p, u32 flag);
+typedef signed int     s32;
+extern u32 func_020142E8(void *bitmap, s32 id);
 
 int func_0215F118(const Area *a, u16 x, u16 z, u32 flag, void *field)
 {

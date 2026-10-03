@@ -22,7 +22,8 @@ typedef unsigned int u32;
 struct SaveBlock;
 extern void *func_0215A5E4(void *a0);
 extern void *func_020127A4(struct SaveBlock *p);
-extern int func_02012AC8();
+struct Rec44;
+extern u16 func_02012AC8(const struct Rec44 *p);
 
 int func_02159B38(int a0)
 {

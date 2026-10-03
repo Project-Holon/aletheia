@@ -12,7 +12,7 @@
 
 typedef unsigned short u16;
 
-extern void func_0201433C(char *a0, u16 a1);
+extern void func_0201433C(char *a0, int a1);
 
 void func_02014368(char *a0, int a1, int a2)
 {

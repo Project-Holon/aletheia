@@ -46,8 +46,10 @@ typedef struct TriggerSet {
     Trigger *list;      /* 0x1C */
 } TriggerSet;
 
-extern int func_02162E48(Trigger *t, const void *pos);
-extern int func_02162E9C(Trigger *t, const void *cell);
+struct CellKey;
+struct VecFx32;
+extern int func_02162E48(struct Trigger *t, const struct VecFx32 *pos);
+extern int func_02162E9C(struct Trigger *t, const struct CellKey *k);
 extern u16 func_02164708(u16 id);
 extern u32 func_020142E8(void *bitmap, s32 id);
 

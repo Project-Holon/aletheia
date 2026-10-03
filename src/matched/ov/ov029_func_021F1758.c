@@ -44,11 +44,11 @@ extern int func_021EFEC0(int a, int b);
 extern void func_021F2AEC(void *p, int a1, int a2, int a3, int k);
 extern void func_020409B4(u32 layer);
 extern void func_020061E4(u32 id);
-extern int func_021F2DA8(void *p);
+extern int func_021F2DA8(u8 *p);
 extern void func_021F1910(void *p, int on);
 extern void func_0203FB44(int, u16, u16);
 extern void func_020090E8(int obj, u8 v);
-extern void func_021F1458(void *p, int a, int b, int c);
+extern void func_021F1458(u8 *p, int a, int b, int c);
 extern void func_021F13FC(void *p);
 extern void func_021F1A44(void *p, int a);
 

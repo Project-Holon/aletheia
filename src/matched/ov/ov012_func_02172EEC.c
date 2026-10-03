@@ -32,12 +32,13 @@ typedef struct {
     Sub sub;
 } Work;
 
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
 extern int func_021739CC(void);
 extern int func_02080D24(u8 a);
 extern int func_0203D1B4(void);
 extern void func_0203D7BC(int a);
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_02172D38(Work *w);
 
 void func_02172EEC(Work *w)

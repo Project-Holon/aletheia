@@ -28,10 +28,10 @@ typedef unsigned char u8;
 extern char d_021F3E84[];
 
 extern void *func_02188D2C(void *p);
-extern u16 func_02188C84(void *p);
-extern void *func_02189764(void *a, int b, int c, int d);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(void *a, void *b, int c);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(u8 *p, int v);
 extern void func_021BE6B0(u8 *p, int v);

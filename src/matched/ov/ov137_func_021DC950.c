@@ -14,10 +14,11 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u16,u32,int,const void *,int);
-extern void *func_02012934(void *p);
-extern void *func_0201292C(void *);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201292C(const struct BigObj *p);
 extern int func_0201AA18(void *);
-extern void func_0201AB28(void *,int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern const unsigned char d_021E2260[];
 struct DC950Src {
     u32 pad_00[4];

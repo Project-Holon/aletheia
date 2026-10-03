@@ -72,9 +72,9 @@ extern u32   func_0208A674(Bank *o, u32 i);
 extern u32   func_0208A638(Bank *o);
 extern void  func_0208A640(Bank *o, u32 i, void *p);
 extern void *func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern u32   func_020745A4(u32 h, void *dst, u32 len, u32 off);
+extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void  DC_StoreRange(void *addr, u32 size);
-extern void  func_020752F4(void);
+extern void func_020752F4(u32 a, u32 n, u32 x, u32 y);
 
 u32 func_0207533C(Bank *o, u32 i, u32 h, u32 *heap)
 {

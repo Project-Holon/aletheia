@@ -18,12 +18,13 @@
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned char u8;
-extern int func_021BE2A8(char *, int);
+typedef unsigned int   u32;
+extern void *func_021BE2A8(char *p, int key);
 extern char *func_021C23B8(int);
 extern void *func_021B9968(char *, int, int);
-extern void func_021C2028(char *, int, int);
+extern void func_021C2028(char *p, int i, u8 v);
 extern void func_021BE21C(char *, void *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021BF1CC(char *p)
 {
     int changed = 0;

@@ -46,7 +46,8 @@ struct Task;
 extern void func_0203064C(void *,u32,u32);
 extern u8 *func_0203159C(struct Task *,u32,u32);
 extern void func_02082BCC(void *,int,int);
-extern u32 func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern void func_0201F73C(void *,int,u16,int);
 extern void func_02041F6C(u32,u32,u16),func_02041FB0(u32,u32,u16);
 extern void func_021B784C(u8 *,int);
@@ -62,7 +63,7 @@ extern int func_021B7CA0(void *),func_021B7CA4(void *);
 extern void *func_021B70DC(u32,u32,u16,u16,u8,u32,u32,u32,u16);
 extern void func_021B728C(int,int);
 extern void func_021B84B4(u8 *,int,int,int);
-extern int func_021B8840(u32,int);
+extern unsigned int func_021B8840(unsigned int x, int y);
 extern void func_021B80BC(u8 *,void (*)(u8 *,u16 *));
 extern void func_021B80D8(u8 *,u16 *);
 #define CTX (*(u8 **)(p+0x1a4))

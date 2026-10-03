@@ -26,7 +26,7 @@ typedef struct CPSMd5Ctx {
     unsigned char buffer[64];
 } CPSMd5Ctx;
 
-extern void func_02162FD8(unsigned long *d, unsigned char *s, unsigned int len);
+extern void func_02162FD8(void *a, void *b, int n);
 extern unsigned long g_021A1E28[64];
 extern unsigned char g_021A1DA8[64];
 

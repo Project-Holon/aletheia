@@ -21,10 +21,11 @@ typedef unsigned int u32;
 extern char d_021FDD00[];
 extern int func_0201134C(void *);
 extern void *func_02030734(u32, u32, int, const char *, u16);
-extern u16 func_021F9E04(void *);
-extern void func_021F9E08(void *, u16);
+typedef unsigned char  u8;
+extern u16 func_021F9E04(u8 *p);
+extern void func_021F9E08(u8 *p, u16 v);
 extern void *func_021FADA0(char *, u32, u32, u32);
-extern void func_021FB190(void *, void *);
+extern void func_021FB190(void *unused, char *p);
 int func_021FB104(void *unused, char *ctx)
 {
     char *p;

@@ -25,7 +25,7 @@
  */
 
 
-extern void func_021F8670(void);
+extern void func_021F8670(int a, int b, char *p);
 extern int func_021FE784(int, int, int, int);
 extern int func_021FE7B0(int);
 extern void func_021FD73C(int, void *);

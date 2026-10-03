@@ -15,8 +15,11 @@
  */
 typedef struct { int f0, f4, f8; } Obj;
 extern int func_0217CF0C(int, int *, Obj *);
-extern void *func_020122C0(void *, void *, int (*)(int, int *, Obj *), unsigned int);
-extern void *func_020124E8(void *);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 void *func_0217CEE8(void *p, int a, int b)
 {
     void *task;

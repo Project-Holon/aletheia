@@ -18,7 +18,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef short s16; typedef
 typedef struct {u32 objects[3]; u16 current[3]; u16 bound[3]; int step[3]; u8 pad[12]; u8 digits[3];u8 pad1;int state[3];} Display;
 typedef struct {s16 x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
-extern u32 func_021B78C8(void *,int);
+extern u32 func_021B78C8(u8 *p, int i);
 extern void func_0204B404(u32,Pair *,int);
 extern void func_0204B3DC(u32,int);
 extern void func_021B8440(Display *,unsigned);

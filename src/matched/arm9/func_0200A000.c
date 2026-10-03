@@ -14,7 +14,7 @@
 extern int func_0200A400(void *p);
 extern void func_0200A49C(void *p);
 extern void func_0200A480(void *p);
-extern void *func_02009FD4(char *p, int idx);
+extern void *func_02009FD4(char *p, unsigned int idx);
 extern void func_02082D44(void *dst, void *src, int n);
 int func_0200A000(char *p, int idx, void *buf)
 {

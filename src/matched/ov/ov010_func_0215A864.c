@@ -54,10 +54,10 @@ typedef struct {
 extern int func_0215A5FC(void *);
 extern int func_02190ACC(int, int, int, int);
 extern unsigned func_02190AC4(int);
-extern int func_02190AEC(int, int, int, int);
+extern unsigned func_02190AEC(unsigned a, unsigned b, unsigned c, int d);
 extern void func_02190B08(void *, unsigned short, unsigned short, unsigned short, unsigned short, unsigned short);
 extern int func_02190988(int, void *, int, void *, void *, int, int, int);
-extern void func_0215A9C0(void);
+extern void func_0215A9C0(int a);
 extern L32 d_02171140;
 
 void func_0215A864(int *p)

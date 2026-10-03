@@ -16,7 +16,7 @@
  *   func_021E0190 0x021E0190 thumb ov170
  */
 extern int func_021EC01C(char *, int);
-extern int func_021EBFEC(char *, int);
+extern void func_021EBFEC(char *p, int i);
 extern void func_021ED108(char *, int);
 extern void func_021EBFA8(char *, int, int);
 extern void func_021EC000(char *, int, int);

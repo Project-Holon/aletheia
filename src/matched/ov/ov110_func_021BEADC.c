@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021BD808(u8 *,void *);
 extern u32 func_020362DC(void);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern int func_021B9C90(void *,int);
-extern void func_021BE580(u8 *,void *);
-extern void func_021BE934(u8 *,void *);
+extern void func_021BE580(u8 *p, u32 *q);
+extern void func_021BE934(u8 *p, u32 *q);
 void func_021BEADC(u8 *p,void *q) {
     if(func_021BD808(p,q)) {
         if(p[105]==0) {

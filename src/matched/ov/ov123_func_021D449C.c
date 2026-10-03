@@ -14,13 +14,16 @@
  *   func_021D4A04 0x021D4A04 thumb ov123
  *   func_021D4D40 0x021D4D40 thumb ov123
  */
-extern int func_020279E8(void *);
-extern int func_02027A04(void *);
-extern void func_020414EC(int);
-extern void func_02027858(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void func_020414EC(u32 i);
+extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D4FB8(void);
-extern void func_021D4A04(void);
+extern void func_021D4A04(char *p);
 extern void func_021D4D40(char *, int);
 void func_021D449C(char *p)
 {

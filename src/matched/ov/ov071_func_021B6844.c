@@ -42,13 +42,15 @@ struct W6844 {
     void *unk_2c;
 };
 
+typedef unsigned int   u32;
+struct Bank;
 void func_021B6844(struct W6844 *p)
 {
     struct S6844 s;
     void func_0204A48C(void *, void *, int);
-    void *func_0204B100(int, int, int);
-    void func_0204B270(void *);
-    u8 *func_02025318(int, int, int);
+    struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+    void func_0204B270(struct Bank *bank);
+    u8 *func_02025318(u32 a0, u8 a1, u8 a2);
     void *func_02025538(unsigned int a0, void *a1);
 
     s = d_020A1448;

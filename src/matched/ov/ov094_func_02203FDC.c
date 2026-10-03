@@ -45,10 +45,13 @@ extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022044C0(Main *, int, int, int, int);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void func_02045808(void *);
-extern void func_02045374(void *);
-extern void func_02045334(void *);
-extern void func_020409B4(int);
+struct Cfg;
+struct Descriptor;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
+extern void func_020409B4(u32 index);
 extern void func_0220687C(Main *, void *);
 void func_02203FDC(void *h, Ctx *c)
 {

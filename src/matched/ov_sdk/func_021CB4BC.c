@@ -20,7 +20,8 @@
  *       --func func_021CB4BC --addr 0x021CB4BC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02085A38(int);
+typedef unsigned int   u32;
+extern void func_02085A38(u32 msec);
 extern void func_021CB6A4(void);
 extern void func_021CB4DC(void);
 extern void func_021CB514(void);

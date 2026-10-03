@@ -20,12 +20,12 @@
 
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DDBF0(void *);
+extern void func_021DDBF0(char *p);
 extern int func_02039CB4(unsigned,int,int);
 extern unsigned func_020399A8(void);
 extern void func_021DD24C(void *);
 extern void func_021DD294(void *,int,int);
-extern void func_021DDDB8(void *);
+extern void func_021DDDB8(unsigned char *p);
 
 void func_021DDDF4(unsigned char *p)
 {

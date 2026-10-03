@@ -30,7 +30,7 @@ struct S {
 
 extern struct S *d_021F3B88;
 extern int func_02039CB4(u32 a0, int a1, int a2);
-extern void func_0203A424(void *p, int a, int b, int c);
+extern void func_0203A424(char *p, int a, int b, int c);
 
 int func_021D4B18(int a)
 {

@@ -43,17 +43,21 @@ typedef struct S1C {
     s16 f1a;
 } S1C;
 
-extern void *func_020070A4(void);
+struct Blk34;
+struct Flags02008450;
+struct Sub02007084Ctrl;
+struct Sub02008700Obj;
+extern struct Sub02007084Ctrl *func_020070A4(void);
 extern u32 func_02008448(void *);
-extern u8 func_0200C31C(void *);
-extern void func_020070C8(void *);
-extern void *func_0200873C(void *);
+extern u8 func_0200C31C(struct Blk34 *p);
+extern int func_020070C8(char *self);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u8 func_02008414(void *);
 extern void func_0200890C(void *, void *);
 extern void *func_02011EEC(u32, u16, Rec12 *, int);
 extern void func_020312F8(int, void *, void *);
-extern void func_02008450(void *, u32);
-extern void func_0200C324(void *, u8);
+extern void func_02008450(struct Flags02008450 *p, int on);
+extern void func_0200C324(struct Blk34 *p, u8 v);
 extern void func_020315D4(int);
 extern char d_0209DF9C[];
 

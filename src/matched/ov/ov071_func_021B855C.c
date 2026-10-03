@@ -35,14 +35,17 @@ typedef struct {
     unsigned char f2d;
 } C;
 
+typedef unsigned int   u32;
+struct Ctx;
+struct Descriptor;
 int func_021B855C(int a, int *p, C *c, unsigned char *d)
 {
-    extern unsigned func_02012138(void *);
-    extern int func_02158344(unsigned);
+    extern u32 func_02012138(const struct Ctx *p);
+    extern int func_02158344(int a0);
     extern void func_021B6F04(Q *, unsigned char *);
     extern unsigned func_02045770(void *);
     extern int func_0201C6C4(void *, unsigned);
-    extern void func_02045334(void *);
+    extern void func_02045334(struct Descriptor *d);
     extern void func_021B8798(C *, Q *, unsigned char *, int, unsigned);
     int r;
     int n;

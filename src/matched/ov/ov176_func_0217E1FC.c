@@ -16,7 +16,7 @@
  */
 extern int func_020399A8(void);
 extern int func_0203D1A4(int);
-extern unsigned func_0201A918(void);
+extern int func_0201A918(void);
 extern void func_0203D3F8(int, unsigned char, int, unsigned, int, int, int, int);
 void func_0217E1FC(int unused, int arg)
 {

@@ -31,11 +31,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Evt;
+extern void *func_0201210C(const struct Ctx *p);
 extern int   func_02012138(u32 a0);
 extern int   func_02026454(int x);
 extern void *func_020144DC(u32 a0, void *a1);
-extern void  func_02012374(void *obj, void *out);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
 extern void *func_020145CC(u32 a0, void *a1);

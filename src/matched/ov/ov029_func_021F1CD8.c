@@ -23,10 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021F05B4(char *p);
-extern int func_02026C8C(void);
+struct S;
+extern u32 func_02026C8C(void);
 extern int func_02026CA0(int *p);
 extern void *func_02026C78(int n);
-extern u8 func_02165CD8(void *p);
+extern u8 func_02165CD8(struct S *p);
 extern void func_020215BC(int, void *, int, u16, u16);
 extern const int d_021F33CC[];
 

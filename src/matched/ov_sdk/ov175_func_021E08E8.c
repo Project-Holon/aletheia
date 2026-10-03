@@ -53,7 +53,7 @@ typedef struct {
     int mInit;
 } SCWebServices;
 
-extern int func_021834D0(void *stream);
+extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_02183A24(void *stream, char *matchtag, int *valueOut);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);

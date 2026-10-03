@@ -45,7 +45,7 @@ extern struct Work *d_021B3C80;
 
 extern u64 func_020870D0(void);
 extern void func_021B386C(void);
-extern int func_0216B838(void);
+extern unsigned char func_0216B838(void);
 extern int func_021AEC74(int x);
 extern int func_021AECC4(int x);
 

@@ -13,11 +13,12 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8270 0x021D8270 thumb ov123
  */
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern int func_021D580C(char *);
 extern void *func_021D5890(char *, int);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D8270(void);
+extern void func_021D8270(char *p);
 void func_021D8304(char *p)
 {
     if (*(int *)(p + 0x64) % 110 == 0) func_020061E4(0x659);

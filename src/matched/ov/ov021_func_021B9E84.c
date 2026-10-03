@@ -53,7 +53,7 @@ typedef struct {
 int *func_021B8224(void *p, int k);
 int *func_021B8230(void *p, int a);
 int func_021B823C(void *p, int k);
-int func_021B8248(void *p);
+u32 func_021B8248(u8 *p);
 void func_021B8250(void *p, Rec *r, Rec *o);
 int func_021B8378(int x);
 int func_021B7D38(void *p, Rec *r, int c);

@@ -38,32 +38,36 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02155664(void (*)(void));
+typedef unsigned int   u32;
+struct Descriptor;
+struct Obj;
+struct Sub020097BCObj;
+extern void func_02155664(void (*callback)(void));
 extern void func_021BEE64(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
 extern void func_02082BCC(void *,int,int);
-extern void func_020452E8(void *);
-extern void func_0202020C(void *,void *,void *);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *);
 extern int func_021B96CC(char *);
-extern void *func_02012944(void *);
+extern u8 *func_02012944(void *p);
 extern int func_02008550(void *);
-extern unsigned func_02009A54(void *);
+extern u32 func_02009A54(struct Sub020097BCObj *obj);
 extern void func_021B95A0(char *,int,void *,int,int,int,void *,void *);
 extern void *func_021B9900(char *,int);
 extern void func_021BE21C(char *,void *);
 extern int func_021C1A44(char *);
 extern void func_021C1A58(char *,int,int);
-extern int func_021C282C(void *);
+extern int func_021C282C(u8 *p);
 extern void func_021C205C(char *,int);
 extern void func_021BA8EC(char *);
 extern int func_021BE788(char *);
 extern void func_021BEDA0(char *);
-extern void func_021BDD0C(char *,int);
+extern void func_021BDD0C(void *p, int on);
 extern void func_02049238(void *);
-extern void func_0202208C(void *,int,int,int,int,int,int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 void func_021BEEBC(char *p)
 {
     void *h;

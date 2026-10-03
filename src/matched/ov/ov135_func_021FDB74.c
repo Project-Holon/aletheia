@@ -18,13 +18,14 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 typedef unsigned int u32;
-extern void func_021F99D0(void *);
+typedef unsigned char  u8;
+extern void func_021F99D0(u8 *p);
 extern void func_021FDEFC(void *);
 extern void func_021FE178(void *);
-extern void func_021FE0BC(void *);
+extern void func_021FE0BC(unsigned char *p);
 extern void func_021FDCE4(void);
 extern void func_022000E4(void *);
-extern void func_021F4EC8(void *);
+extern void func_021F4EC8(u8 *p);
 extern void func_0204B3DC(u32, int);
 int func_021FDB74(unsigned char *p)
 {

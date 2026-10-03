@@ -16,7 +16,8 @@
  * 0x3f7 service with a zeroed first three arguments.
  */
 
-extern void func_0203C9AC(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 void func_021DCE24(char *p, int v)
 {

@@ -16,8 +16,10 @@
  * Two calls after setting the first argument.
  */
 
-extern void func_0204335C(int);
-extern void func_020433E0(void *);
+typedef unsigned int   u32;
+struct DispVram;
+extern void func_0204335C(u32 keep);
+extern void func_020433E0(const struct DispVram *c);
 
 void func_021DC9C4(void)
 {

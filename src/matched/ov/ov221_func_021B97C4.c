@@ -27,7 +27,8 @@ extern int func_021B9B64(unsigned char*);
 extern int func_021B9DAC(unsigned char*);
 extern void func_021B9B18(unsigned char*);
 extern void func_021B9D38(unsigned char*);
-extern void func_021B9F7C(void*);
+struct PrintSys;
+extern void func_021B9F7C(char *p);
 extern int func_02005E50(void);
 extern void func_02005DE4(void*);
 extern void func_02005E64(void);
@@ -40,7 +41,7 @@ extern int func_0204E804(void);
 extern u32 func_020362DC(void);
 extern void func_020355D8(unsigned char);
 extern u32 func_02035D20(u32*,u32*);
-extern u32 func_0201C4E4(void*);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021B97C4(int unused, int *state, int unused2, unsigned char *p)
 {
  int ready;

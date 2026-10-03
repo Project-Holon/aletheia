@@ -23,13 +23,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_020122C0(void *a, u32 b, void (*fn)(void *, void *), u32 size);
-extern void *func_020124E8(void *task);
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_0200BE48(void *p);
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Rec;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern u16 *func_0200BE48(void *sys);
 extern void func_021CFB1C(void *a, void *b, void *c);
-extern void func_021CFBA8(void *task, void *work);
+extern int func_021CFBA8(u32 a, u32 unused, const struct Rec *src);
 
 void *func_021CFC14(void *a, void *unused, void *c)
 {

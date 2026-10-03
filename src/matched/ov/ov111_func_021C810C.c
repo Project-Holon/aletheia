@@ -101,12 +101,14 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void *func_02012F08(void *p);
-extern int func_0200C234(void *obj, int i);
-extern void func_0204B3DC(void *o, int v);
+struct Blk34;
+struct Obj;
+extern void *func_02012F08(int *p);
+extern u32 func_0200C234(struct Blk34 *p, u32 bit);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021C80E8(Work *p, int row, int v);
 extern int func_02012BF8(void *p, int id);
-extern void func_0204B878(void *o, u16 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_021C810C(Work *p, int a, int b)
 {

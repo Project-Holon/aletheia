@@ -119,7 +119,7 @@ extern char *func_02094860(char *dst, const char *src, unsigned long n);
 extern char *func_02094B20(const char *s1, const char *s2);
 extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
-extern int func_02178F4C(DWCCalInfo *cal);
+extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);
 extern int func_0217A044(DWCHttp *http, char *data);

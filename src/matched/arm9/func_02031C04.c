@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02032970(u8 *p, u32 v);
+struct SaveBackup;
+extern void func_02032970(struct SaveBackup *p, u32 flag);
 extern void func_020331D0(void);
 
 void func_02031C04(void)

@@ -21,11 +21,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void*func_02045770(void*);
-extern void func_02043B5C(void*,u8);
-extern void func_0201CE48(void*);
-extern void func_02045808(void*);
-extern void*func_02045EC0(void*,unsigned);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec3;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern signed char func_02012FFC(void);
 extern void*func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
 void func_021BA108(int unused,char*p,unsigned entry,int v)

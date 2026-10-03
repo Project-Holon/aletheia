@@ -10,7 +10,7 @@
  * symbols:
  *   func_021E131C 0x021E131C thumb ov119
  */
-extern void func_021E131C(void *, int *, int, int, int);
+extern void func_021E131C(char *p, int *ids, int count, int x, int y);
 void func_021E1410(void *p, int *ids, int count)
 {
     if (count == 1) {

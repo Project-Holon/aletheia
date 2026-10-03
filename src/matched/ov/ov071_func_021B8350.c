@@ -25,12 +25,14 @@ typedef struct {
     int f3c;
 } W;
 
+typedef unsigned int   u32;
+typedef unsigned char  u8;
 void func_021B8350(W *w, int *b)
 {
-    extern void func_0201F554(int, int, int, int);
-    extern int func_0201F548(int);
+    extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
+    extern u8 func_0201F548(int i);
     extern void func_020215EC(int, int, int, int, int, int, int, int);
-    extern int func_020450F0(int, int, int, int, int, int, int);
+    extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
     extern int func_02045770(int);
     extern void func_02043B5C(int, int);
     extern void func_02045374(int);

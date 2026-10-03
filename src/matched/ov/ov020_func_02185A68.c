@@ -32,26 +32,31 @@
  *   func_02185A34  0x02185A34  thumb  ov020
  */
 
-void *func_020120F4(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+struct Ctx;
+struct Sub02014444Obj;
+void *func_020120F4(const struct Ctx *p);
 void *func_02012844(void *p);
-void *func_0201210C(void *p);
-int func_02012B70(void *p);
-int func_02013D5C(int v);
-void *func_02012B38(void *p);
-void func_02014450(void *p, int v);
-int func_02013CC8(int v);
-int func_02013CE0(int v);
-int func_02013DF0(int v);
-int func_02013D20(int v);
-int func_020129AC(void *p);
-void func_020129B8(void *p, int v);
-int func_02012984(void *p);
+void *func_0201210C(const struct Ctx *p);
+u8 func_02012B70(const struct BigObj *p);
+u32 func_02013D5C(u32 id);
+void *func_02012B38(const struct BigObj *p);
+void func_02014450(struct Sub02014444Obj *o, u32 v);
+u32 func_02013CC8(u32 id);
+u32 func_02013CE0(u32 id);
+u32 func_02013DF0(u32 id);
+u32 func_02013D20(u32 id);
+u8 func_020129AC(const struct BigObj *p);
+void func_020129B8(struct BigObj *p, u8 v);
+u8 func_02012984(const struct BigObj *p);
 void *func_02012974(void *p);
-int func_02013B44(int v);
+u32 func_02013B44(u32 id);
 void func_02162408(void *p, int v, int w);
 void func_02159B94(void *p, int a, int b, int c);
 void func_02159CC4(void *p, void *a, int b);
-void func_02185A34(void *p, int v);
+void func_02185A34(void *p, unsigned int id);
 
 void func_02185A68(void *a, int b)
 {

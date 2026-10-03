@@ -20,7 +20,7 @@
  *       --func func_021D7474 --addr 0x021D7474 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_0208C6A4(int);
+extern unsigned int func_0208C6A4(unsigned int pattern);
 
 void func_021D7474(void)
 {

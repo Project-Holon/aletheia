@@ -15,9 +15,10 @@
  *   func_021D5C4C 0x021D5C4C thumb ov131
  */
 extern void *func_021D60A4(void *);
-extern void *func_021D6064(void *);
-extern void func_021D60D4(void *,int);
-extern int func_02017E1C(void *,int,int);
+typedef unsigned int   u32;
+extern void *func_021D6064(unsigned char *p);
+extern void func_021D60D4(unsigned char *p, int a);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_021D62F4(void *,void *);
 void func_021D5C4C(unsigned char *p) {
  void *q=func_021D60A4(p);

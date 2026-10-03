@@ -20,5 +20,5 @@ extern unsigned int func_0201134C(struct Cursor *);
 extern void *func_021F9DAC(void *);
 extern int func_021FAE4C(char *,int *);
 extern void func_021F6B9C(void *,unsigned int *,unsigned int *);
-extern void func_021FADF8(void *,void *);
+extern void func_021FADF8(char *p, char *q);
 void func_021FBF74(int unused,char *p) { int pos[3]; void *ctx; int result;ctx=func_021F9DAC(*(void **)(p+4));result=func_021FAE4C(p+4,pos);func_021F6B9C(ctx,*(unsigned int **)p,(unsigned int *)pos);if(result==1)func_021FADF8(*(void **)(p+0x30),*(void **)(p+0x34));}

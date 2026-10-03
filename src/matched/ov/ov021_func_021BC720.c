@@ -15,8 +15,11 @@ typedef struct {
     void *f24;
 } Obj;
 
-extern void *func_02045770(void *a);
-extern void func_02043B5C(void *a, int b);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
 void func_021BC720(Obj *p)
 {

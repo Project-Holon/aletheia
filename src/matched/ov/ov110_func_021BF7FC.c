@@ -20,5 +20,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern u8 *func_021BB1C0(u8 *);
+extern u8 func_021BB1C0(u8 *p);
 void func_021BF7FC(u8 *p) { func_021BB1C0((u8 *)(*(u32 *)(p + 0x1c))); }

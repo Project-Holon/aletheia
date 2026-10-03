@@ -14,8 +14,10 @@
  *   func_02082D44 0x02082D44 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_02012EBC(void *);
-extern void *func_02009470(void *);
+struct Big;
+struct Sub02009470Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
 extern unsigned sub_02009454(void);
 extern void func_02082D44(void *, void *, int);
 extern void func_020307B0(void *);

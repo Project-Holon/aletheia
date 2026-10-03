@@ -28,10 +28,10 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern u32 func_021B8588(void *p);
-extern u8 func_021B86C0(void *p);
+extern u32 func_021B8588(void **p);
+extern u8 func_021B86C0(u8 **p);
 extern u32 func_021CDEE8(BattleSeq *s);
-extern int func_021B9F70(void *p, int i);
+extern int func_021B9F70(u8 *p, int i);
 
 int func_021D1C40(BattleSeq *s, u32 x, int *out)
 {

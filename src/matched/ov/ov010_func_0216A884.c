@@ -36,12 +36,14 @@ extern void *func_0215A5DC(void *a0);
 extern int func_02159B10();
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int *func_020124E8(struct Desc *p);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Orbit;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *map, u32 id);
 extern void func_0216D88C();
-extern void func_0215897C();
-extern int func_0216A8F0();
+extern void func_0215897C(void *vm, void *task);
+extern int func_0216A8F0(void *unused, u32 *mode, struct Orbit *o);
 
 int func_0216A884(int a0, int a1)
 {

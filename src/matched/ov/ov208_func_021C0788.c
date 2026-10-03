@@ -47,8 +47,8 @@ struct WinCfg4 {
 extern const struct WinCfg2 data_021C8570;
 extern const struct WinCfg4 data_021C85A4;
 
-extern void func_02049B90(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heap);
-extern u32  func_020450F0(u32 bg, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 base);
+extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32  func_02045770(u32 win);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 win);

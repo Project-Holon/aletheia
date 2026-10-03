@@ -19,10 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
+struct Blk37;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0200CA1C(void *p);
-extern int func_0200CED4(void *a, u16 b);
-extern void func_0200CDE0(void *a, void *mon);
+extern u32 func_0200CED4(struct Blk37 *p, u16 id);
+extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 void func_021C32BC(void **p, void *mon)

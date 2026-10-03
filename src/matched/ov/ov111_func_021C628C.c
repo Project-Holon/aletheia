@@ -46,15 +46,20 @@ typedef struct {
     void *f3234;
 } Work;
 
-extern void *func_02045770(void *p);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern u32 func_0201D304(void *a, void *b, u32 c);
-extern void func_02043B5C(void *a, int b);
-extern void *func_02045EC0(void *a, u32 b);
-extern void func_02045808(void *p);
-extern void func_02045374(void *p);
-extern void func_02045334(void *p);
-extern void func_02041B6C(u8 bg);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02041B6C(u32 bit);
 
 void func_021C628C(Work *p, int k, int flush)
 {

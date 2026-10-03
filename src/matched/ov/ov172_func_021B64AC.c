@@ -20,7 +20,7 @@
  */
 extern int func_02085D3C(void);
 extern void func_021B657C(char *, int);
-extern void func_021B65C4(char *);
+extern void func_021B65C4(void *p);
 extern void func_021B655C(int, int);
 extern int func_021B6564(void);
 extern void func_021B656C(int, int);

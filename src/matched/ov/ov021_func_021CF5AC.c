@@ -23,7 +23,8 @@ typedef struct Res021CF {
     int n;
 } Res021CF;
 
-extern void func_02034A5C(u32 v);
+typedef signed int     s32;
+extern void func_02034A5C(s32 handle);
 
 void func_021CF5AC(Res021CF *r)
 {

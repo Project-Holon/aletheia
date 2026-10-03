@@ -17,7 +17,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern void func_021D7040(void *n);
+struct Node;
+extern void func_021D7040(struct Node *n);
 
 void func_021E1F70(void *u, int a, int b, int *p)
 {

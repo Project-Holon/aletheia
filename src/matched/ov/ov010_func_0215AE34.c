@@ -32,13 +32,15 @@ extern void *func_0215A5E4(void *a0);
 extern int func_0215A5CC();
 extern int func_02159B10();
 extern int func_02159F28();
-extern int func_02159B94();
+struct BigObj;
+struct Rec44;
+extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern int func_02159CC4();
-extern int func_02012974();
+extern u32 func_02012974(const struct BigObj *p);
 struct SaveBlock;
 extern void *func_020127A4(struct SaveBlock *p);
-extern int func_02012AC8();
-extern int func_02013B44();
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern u32 func_02013B44(u32 id);
 
 int func_0215AE34(int a0, int a1)
 {

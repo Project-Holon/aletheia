@@ -14,7 +14,8 @@
  *   func_0203D3A8 0x0203D3A8 arm
  */
 extern int func_021BCBD8(char *, int);
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 int func_021BD924(char *p, int v)

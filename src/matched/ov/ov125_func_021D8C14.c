@@ -20,7 +20,7 @@ extern u8 *d_021DAA88;
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_0208CC78(const char *);
 extern char *func_021D7C7C(u32);
-extern void func_0208CADC(char *, const char *);
+extern char *func_0208CADC(char *destp, const char *srcp);
 void func_021D8C14(const char *s, u8 *p)
 {
     func_02082D44(d_021DAA88, p, 0x830);

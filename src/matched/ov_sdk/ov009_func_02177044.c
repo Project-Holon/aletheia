@@ -28,7 +28,7 @@ typedef struct TransInfo {
 
 extern int func_02059F38(void);
 extern int DWC_IsValidAID(int aid);
-extern int func_0216B838(void);
+extern unsigned char func_0216B838(void);
 extern void DWCi_SendUnreliable(int myaid, int aid, void *buffer, int size, int flag);
 extern TransInfo *g_021AB180;
 

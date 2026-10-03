@@ -18,13 +18,15 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
-extern void func_021BB308(void *);
-extern void func_021BB7F4(void *);
-extern void func_021BBA14(void *);
-extern void func_021BBAE8(void *);
-extern void func_021B9DEC(void *);
-extern void func_02030EAC(void *);
-extern void func_020315D4(void *);
+struct Node;
+struct S020315D4;
+extern void func_021BB308(char *p);
+extern void func_021BB7F4(char *p);
+extern void func_021BBA14(char *p);
+extern void func_021BBAE8(char *p);
+extern void func_021B9DEC(char *p);
+extern void func_02030EAC(struct Node *n);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 int func_021B9660(void *proc, void *a, void *b, char *work)
 {

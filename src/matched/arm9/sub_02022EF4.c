@@ -15,7 +15,8 @@
 
 typedef unsigned int u32;
 
-extern void func_02022F34(void *p, void *elems);
+struct WipeSubElem;
+extern void func_02022F34(void *p, struct WipeSubElem *elems);
 extern u32 sub_020056A0(void *callback, void *arg, u32 mask);
 
 u32 func_02022EF4(void *arg)

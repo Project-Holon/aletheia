@@ -48,7 +48,7 @@ struct Sys {
     u8         head;        /* 0xa1 */
 };
 
-extern u32 func_02028DB8(struct Sys *s);
+extern int func_02028DB8(void *obj);
 
 struct Cmd *func_02028D8C(struct Sys *s)
 {

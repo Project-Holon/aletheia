@@ -106,7 +106,7 @@ extern void func_02066DEC(BOOL flag);   /* NNSi_G2dSetOamSoftEmuAutoZOffsetFlag 
 extern void func_02066E10(fx32 step);   /* NNSi_G2dSetOamSoftEmuAutoZOffsetStep */
 extern void func_02066DFC(void);        /* NNSi_G2dResetOamSoftEmuAutoZOffset */
 extern void func_0206615C(void);        /* NNS_G2dPushMtx */
-extern void func_02066380();            /* NNS_G2dPopMtx */
+extern void func_02066380(int n);            /* NNS_G2dPopMtx */
 extern BOOL func_02067B50(const void *pRnd);   /* NNS_G2dIsRndCoreFlipH */
 extern BOOL func_02067B64(const void *pRnd);   /* NNS_G2dIsRndCoreFlipV */
 extern void func_020663D0(fx32 x, fx32 y, fx32 z);    /* NNS_G2dTranslate */

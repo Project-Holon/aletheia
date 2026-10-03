@@ -28,7 +28,7 @@ extern void func_021F1268(u8 *p);
 extern int func_02165B5C(int a);
 extern u8 func_02165A10(int a, int b, int c, void *d);
 extern int func_021659F0(int, int);
-extern u8 *func_021F0F44(u8 *p, u8 id);
+extern u8 *func_021F0F44(u8 *p, int a);
 extern u32 func_0200C1E0(int a);
 
 int func_021F0140(u8 *p)

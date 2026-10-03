@@ -32,7 +32,8 @@ typedef struct E {
 } E;
 
 extern E d_021C3AC8[];
-extern void func_020413B0(int, int, int, int, int, int);
+typedef unsigned int   u32;
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_020409B4(int);
 extern void func_021BEB6C(char *p);
 

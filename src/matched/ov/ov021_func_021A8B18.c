@@ -29,8 +29,9 @@ typedef signed int     s32;
 extern u32 func_02013CC8(u16 v);
 extern u32 func_02013CE0(u16 v);
 extern u32 func_02013D20(u16 v);
-extern u32 func_02012B70(void *p);
-extern u32 func_020142E8(void *p, u32 v);
+struct BigObj;
+extern u8 func_02012B70(const struct BigObj *p);
+extern u32 func_020142E8(void *bitmap, s32 id);
 
 u32 func_021A8B18(void *a, void *b, u32 c)
 {

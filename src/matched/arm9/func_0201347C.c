@@ -72,14 +72,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_020130C4(void *a);
+struct BigObj;
+extern void func_020130C4(u8 *p);
 extern void func_02013360(void *a, void *b, u32 c);
 extern void func_0201333C(void *a, void *b, u16 c);
 extern u32  func_0201A920(u16 a);
 extern void func_0201AC2C(u32 a, ...);
 extern u32  func_0201AA18(u32 a);
 extern u32  func_0201AA14(u32 a);
-extern u32  func_0201293C(void *a);
+extern u32 func_0201293C(const struct BigObj *p);
 extern int  func_020076D0(u32 s, u32 *a, u32 *b);
 extern void func_02013144(void *a, int b);
 

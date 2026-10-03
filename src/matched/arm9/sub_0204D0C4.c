@@ -40,7 +40,9 @@ struct Sub {
     u32 kind;
 };
 
-extern u32 sub_0204D134(void *c);
+typedef signed int     s32;
+struct Req;
+extern s32 sub_0204D134(const struct Req *r);
 extern void (*const gUnk_020A1394[][3])(struct Sub *s, void *c, u32 e);
 
 void sub_0204D0C4(struct Sub *s, void *c, u32 e)

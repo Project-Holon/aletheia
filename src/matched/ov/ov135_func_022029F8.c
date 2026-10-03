@@ -30,10 +30,12 @@ typedef struct {
     void *active[8];
 } Printer;
 
-extern void *func_02045770(void *win);
-extern int func_0201C6C4(void *queue, void *bmp);
-extern void func_02045334(void *win);
-extern void func_0201C4E4(void *queue);
+struct Descriptor;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 
 void func_022029F8(Printer *q)
 {

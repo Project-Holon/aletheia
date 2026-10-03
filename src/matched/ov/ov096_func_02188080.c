@@ -18,11 +18,13 @@
  *   func_0218A458 0x0218A458 thumb ov096
  */
 typedef unsigned char u8;
-extern u8 *func_02011324(void *);
+typedef unsigned int   u32;
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02049238(void *);
 extern void func_020307B0(void *);
 extern void func_02011264(void *);
-extern int func_0201C408(void);
+extern u32 func_0201C408(void);
 extern void func_0201C3C0(void);
 extern void func_0218A458(void);
 void func_02188080(void *a)

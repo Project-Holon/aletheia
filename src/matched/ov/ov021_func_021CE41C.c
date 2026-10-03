@@ -42,7 +42,7 @@ extern void func_021CE9E4(u32 *p, int n);
 extern u32 func_02188C54(u32 a);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern u32 func_02190C78(u32 a);
-extern void func_021909BC(u32 h);
+extern int func_021909BC(u32 a);
 extern void func_021CE36C(u32 *p);
 extern int func_021CE73C(u32 *p);
 

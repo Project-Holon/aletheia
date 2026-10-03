@@ -14,5 +14,7 @@
  */
 
 extern void *func_021B7118(void *, int, int, int);
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B9BE8(char *p, char *q) { *(void **)(q + 0x18) = func_021B7118(*(void **)(p + 4), 0x80, 0x1c, 9); *(void **)(q + 0x1c) = func_021B7118(*(void **)(p + 4), 0x80, 0xa4, 10); func_0204B3DC(*(void **)(q + 0x18), 0); func_0204B3DC(*(void **)(q + 0x1c), 0); }

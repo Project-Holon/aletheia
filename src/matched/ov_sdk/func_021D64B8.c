@@ -21,13 +21,13 @@
  *   g_021DE688     0x021DE688  data
  */
 
-extern void *func_021D6414(int a, int b);
+extern void *func_021D6414(unsigned long size, int alignment);
 extern int   func_0208A998(void *p);
 extern void  func_02088234(void);
 extern void  func_0208AA2C(void *p);
 extern void  func_0208AC0C(int a, int b, void *c, int d);
-extern void  func_0208B220(int a);
-extern int   func_0208B238(int a);
+extern void func_0208B220(unsigned int command_flgs);
+extern unsigned int func_0208B238(unsigned int command_flgs);
 extern void  func_021D656C(void);
 extern void *g_021DE688[];
 

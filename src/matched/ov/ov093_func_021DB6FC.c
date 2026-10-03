@@ -16,8 +16,10 @@
  *   func_021C88C8 0x021C88C8 thumb ov093
  */
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *,int);
-extern unsigned short func_021D5B40(void *);
+typedef unsigned short u16;
+struct QI;
+extern void *func_021C7CF4(int *p, int i);
+extern u16 func_021D5B40(struct QI *p);
 extern void *func_021C88A4(void *,int,int);
 extern void func_021C88C8(void *,void *);
 void func_021DB6FC(int a,void *b,int c) { unsigned char *p; if(c==func_021D775C(2) && func_021D5B40(func_021C7CF4(b,c))) { p=func_021C88A4(b,0x21,c); p[4]=c; func_021C88C8(b,p); } }

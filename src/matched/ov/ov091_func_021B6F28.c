@@ -29,7 +29,7 @@ extern void func_02046440(int, int, int, int, int, int, int);
 extern int func_02048A24(int, int, int, int, int, int, int, int, void *, void *, void *, int);
 extern void func_02048AD0(int);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
-extern void func_02050B80(int);
+extern void func_02050B80(u32 heap);
 extern char d_021BEAB8[];
 extern char d_021BEAD0[];
 extern char d_021BEAC4[];

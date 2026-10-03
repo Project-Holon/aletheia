@@ -19,8 +19,10 @@ typedef struct Res {
     char pad[0x80 - 8];
     u16 heap;
 } Res;
-extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_0204B100(int, int, u16);
+typedef unsigned char  u8;
+struct Bank;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern const char d_0220AE88[];
 
 Res *func_02201A8C(void *owner, u16 heap)

@@ -19,7 +19,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
 extern u32 func_021D78AC(u32 range);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E2D20(int u, int a, int b)
 {

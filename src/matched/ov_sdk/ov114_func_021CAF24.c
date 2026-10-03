@@ -25,7 +25,7 @@ typedef struct {
 	int flags;
 } BIGNUM;
 
-extern BIGNUM *func_021CACE4(void);
+extern void *func_021CACE4(void);
 extern BIGNUM *func_021CADAC(BIGNUM *a, int words);
 extern void func_021CAC8C(BIGNUM *a);
 

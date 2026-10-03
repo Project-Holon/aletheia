@@ -24,15 +24,18 @@
 typedef unsigned char u8;
 extern u8 ov_abs_84[];
 extern unsigned func_020221A4(void);
-extern void func_0207D534(void *,int);
+typedef unsigned short u16;
+struct Node;
+struct S020315D4;
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021F4300(u8 *);
 extern void func_021F3BF0(u8 *);
 extern void func_021F3AE0(void *);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 extern void func_02034A5C(int);
 extern void func_020307B0(void *);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
     if (!func_020221A4()) return 0;

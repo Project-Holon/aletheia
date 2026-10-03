@@ -24,8 +24,11 @@ typedef struct {
 } Obj;
 
 extern void func_0204B528(void *o, Pos *p);
-extern void func_0204B800(void *o, int v);
-extern void func_0204B3DC(void *o, int v);
+typedef unsigned int   u32;
+struct Node;
+struct Obj;
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021B9F90(Obj *o, Pos pos, int c)
 {

@@ -15,7 +15,7 @@
  *   func_02166384  0x02166384  arm  ov009
  */
 
-extern int func_02166384(void);
+extern unsigned char *func_02166384(void);
 
 int func_0215CD24(void)
 {

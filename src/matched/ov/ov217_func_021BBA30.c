@@ -23,7 +23,8 @@ extern unsigned func_021BC3E0(void);
 extern unsigned func_021BC3F8(unsigned);
 extern unsigned func_021BC400(unsigned);
 extern int func_021BC3EC(unsigned);
-extern unsigned func_021BBAA4(unsigned, u8);
+typedef unsigned int   u32;
+extern u32 func_021BBAA4(u32 a0, u32 a1);
 extern void func_021BBD38(void *, u8);
 void func_021BBA30(u8 *p)
 {

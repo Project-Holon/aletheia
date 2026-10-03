@@ -25,7 +25,7 @@ extern void func_02165088(void);
 extern void func_02165204(void);
 extern void func_02165478(void);
 extern void func_02165560(void);
-extern void func_0205C2E4(void);
+extern void func_0205C2E4(int error);
 
 asm int DisConnectAP(void)
 {

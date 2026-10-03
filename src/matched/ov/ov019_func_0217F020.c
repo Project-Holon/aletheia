@@ -15,7 +15,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201EC74(u32 n, u32 size, u8 heap);
+struct WordSet;
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern void func_0217EE90(void *p);
 void func_0217F020(u8 *p)
 {

@@ -23,7 +23,8 @@
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern int func_02159B10(int a, int b);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02158F50(void *p);
 extern void *func_021C98F4(void *a, void *b, void *c, int d);
 extern void func_0215897C(void *a, void *b);

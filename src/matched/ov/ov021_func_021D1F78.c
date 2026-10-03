@@ -39,7 +39,7 @@ extern u32 func_0202D7C8(u32 a);
 extern u32 func_02017DBC(u32 a);
 extern u32 func_0202D934(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_0202D8D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D9A4(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_0202D9A4(u32 h, u32 b1, u32 b2, u32 b3, u16 key);
 extern void func_02017DE4(u32 a, u32 b);
 extern void func_02049238(u32 a);
 extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Tbl *e, u32 f, u32 g);

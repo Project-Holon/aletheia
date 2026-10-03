@@ -60,7 +60,8 @@ struct Sys {
 
 extern const char g_020A7590[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02028CD4(struct Sys *s, void *desc);
 extern void *func_02028760(u32 heap, u32 kind);
 extern void *func_02029F14(u32 heap, void *owner);

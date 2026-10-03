@@ -17,7 +17,7 @@
  */
 
 extern void func_021D3CD0(void);
-extern void func_021D3638(void);
+extern int func_021D3638(void);
 
 int func_021D3D44(void)
 {

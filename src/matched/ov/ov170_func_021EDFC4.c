@@ -17,8 +17,12 @@
 extern const short d_021EFCD8[];
 extern void func_021EC08C(char *, int, short, short, short);
 extern void func_021EC000(char *, int, int);
-extern void func_0202590C(void *, short, short);
-extern void func_02025774(void *, int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Grid;
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
+extern void func_02025774(u8 *g, u32 a);
 void func_021EDFC4(char *p, int i)
 {
     short y = d_021EFCD8[i];

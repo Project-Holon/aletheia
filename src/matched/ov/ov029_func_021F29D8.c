@@ -26,7 +26,8 @@
  */
 
 extern int func_02012138(int a);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_021F05B4(char *p);
 extern void func_020061E4(unsigned int id);
 extern void func_021F3098(char *p);

@@ -24,7 +24,7 @@ struct SBL { char pad0[8]; void *keys; };
 extern void func_021A027C(struct SBL *slist);
 extern void *func_02184144(int elemSize, int num, void (*fn)(void *));
 extern int func_0219F978(char *buf, int len);
-extern char *func_0219F8B0(struct SBL *slist, char *str);
+extern char *func_0219F8B0(void *slist, char *str);
 extern void func_02184234(void *array, void *elem);
 int func_021A0E30(struct SBL *slist, char *buf, int len)
 {

@@ -26,14 +26,14 @@
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern int func_02035C08(void *p);
-extern void func_020061E4(int id);
+extern void func_020061E4(u32 a);
 extern void func_021BB91C(void *p);
 extern void func_021BB910(void *p, int v);
 extern void func_021BBA00(void *p, int v);
 extern void func_021BC5A8(void *p, int v);
-extern void func_021BC580(void *p, int v);
+extern void func_021BC580(char *p, int i);
 extern void func_021BB934(void *p, int v);
-extern int func_021BC6D0(void *p);
+extern u32 func_021BC6D0(void *p);
 extern void func_021BB9A0(void *p);
 extern void func_021BB9D0(void *p);
 

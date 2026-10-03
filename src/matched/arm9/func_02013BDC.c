@@ -48,7 +48,7 @@ struct ZoneRec {
     u16 conn12;
 };
 
-extern struct ZoneRec *sub_02013AD0(u32 id);
+extern void *sub_02013AD0(u32 id);
 
 u32 func_02013BDC(u32 id, u32 which)
 {

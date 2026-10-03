@@ -38,8 +38,8 @@ struct SpritePos {
     s16 y;
 };
 
-extern int func_02035D20(u32 *x, u32 *y);
-extern int func_02035CB8(u32 *x, u32 *y);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern u32 func_021BDFE4(void *p);
 extern void func_020061E4(u32 id);
 extern void func_021BCEF8(void *ctx, u8 *st);

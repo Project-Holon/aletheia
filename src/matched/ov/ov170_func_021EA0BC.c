@@ -30,7 +30,9 @@ extern void func_021ED594(unsigned char *p, unsigned i);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);
 extern void func_021EF680(char *w);
 extern void func_021EF69C(char *w);
-extern void func_02026124(void *obj, int v);
+typedef unsigned int   u32;
+struct Sound;
+extern void func_02026124(struct Sound *obj, u32 idx);
 extern void func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0778(unsigned char *p);
 

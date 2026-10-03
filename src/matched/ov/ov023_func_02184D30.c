@@ -63,8 +63,8 @@ extern void func_0204B878(u32, u16);
 extern void func_0204B3DC(u32, int);
 extern void func_0204B84C(u32, int);
 extern void func_0204B800(u32, int);
-extern void func_020434DC(int, int);
-extern void func_02043598(int, int);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 
 void func_02184D30(Work *p)
 {

@@ -54,15 +54,17 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(void *a);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 func_02012944(void *a);
 extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void func_0201F02C(u32 ws, u32 i, u32 a);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0201EE60(u32 ws, u32 i, u16 v);
 extern void func_0203F4CC(RtcTime *t);
@@ -72,8 +74,8 @@ extern const Entry d_021DD774[];
 extern u32 func_02008DFC(u32 p, u32 v);
 extern void func_0201EFA4(u32 ws, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_02008550(u32 a);
-extern int func_021D2CE8(void *h, int k);
-extern u16 func_021D2D24(void *h, int k, u32 v);
+extern u32 func_021D2CE8(void *a, int i);
+extern u32 func_021D2D24(void *a, u32 v, int c);
 
 int func_021D2B54(u32 a, u32 b)
 {

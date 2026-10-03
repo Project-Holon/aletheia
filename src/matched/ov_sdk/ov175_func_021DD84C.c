@@ -47,10 +47,11 @@ typedef struct SAKERequestInternal {
 } SAKERequestInternal;
 
 extern int func_021DD610(int httpResult);
-extern int func_021834D0(void *stream);
+typedef signed int     s32;
+extern int func_021834D0(int *p);
 extern int func_021834E8(void *stream, char *matchtag);
 extern int func_0218372C(void *stream, char *matchtag, char *valueOut, int maxLen);
-extern int func_021DD64C(char *sakeResult);
+extern s32 func_021DD64C(const char *p);
 extern void *func_0217EAB0(unsigned long size);
 extern void func_0217EAE0(void *ptr);
 extern void func_021DD604(SAKERequestInternal *request);

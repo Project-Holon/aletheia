@@ -33,15 +33,17 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(void *);
-extern void *func_02012FD8(void *);
+struct Ctx;
+struct Strbuf;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012FD8(void **p);
 extern u32 func_02159B10(void *, void *);
 extern void *func_02158F7C(void *);
 extern void *func_02158F74(void *);
-extern int func_0200E740(void *, u32);
-extern u16 *func_0200E7AC(void *, u32);
+extern u32 func_0200E740(const void *obj, u32 idx);
+extern void *func_0200E7AC(void *obj, u32 idx);
 extern u16 func_02045A98(void);
-extern void func_02045924(void *, u16 *);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_0201EE0C(void *, u32, void *, int, int, int);
 
 int func_021B6628(void *a, void *b)

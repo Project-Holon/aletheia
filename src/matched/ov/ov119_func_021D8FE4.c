@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 extern int func_020399A8(void);
 extern int func_0203D1A4(int);
-extern int func_020173EC(void);
+typedef unsigned int   u32;
+extern u32 func_020173EC(void);
 extern void func_02082D44(void *,void *,int);
 void func_021D8FE4(int idx,int a,int b,void *p,int id) {
  if(id==func_020399A8()) {

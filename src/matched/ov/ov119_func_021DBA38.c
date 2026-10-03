@@ -22,9 +22,11 @@ extern int func_021D8A24(void *);
 extern void func_021D94A0(void *,int);
 extern void func_021D8E80(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DBAF8(void *);
-extern void *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+typedef unsigned int   u32;
+struct Entry;
+extern void func_021DBAF8(char *p);
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_021DBA38(void *p)
 {
     if (func_021D8A24(p)==0) {

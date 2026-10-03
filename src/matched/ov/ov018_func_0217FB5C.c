@@ -18,8 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int f0; int f4; int f8; u16 fC; } Req;
-extern void *func_020122C0(void *, void *, void *, u32);
-extern Req *func_020124E8(void *);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, u8, u32);
 extern int func_0217FB94(int, int *, Req *);
 void *func_0217FB5C(void *owner, int b, int unused, int d, int e, u16 f)

@@ -45,7 +45,7 @@ extern void func_021BB1A8(char *);
 extern void func_021BDE94(char *);
 extern void func_021BE6F0(char *, int, int);
 extern int func_0203CD98(void);
-extern void func_021BA7D8(char *);
+extern void func_021BA7D8(void *p);
 extern void func_0203D34C(u32, u32);
 int func_021C24F0(void *obj, int unused, char *args)
 {

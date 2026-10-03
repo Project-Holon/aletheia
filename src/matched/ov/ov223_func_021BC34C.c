@@ -18,11 +18,12 @@
  */
 typedef enum { TOON, HIGHLIGHT } Shading;
 extern char d_021BC960[];
-extern void func_020434DC(int,int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
 extern void func_0207DD24(unsigned short,int,int,int,int);
 extern void func_02046A94(unsigned char,void *);
-extern void func_02046BE0(int,int);
+extern void func_02046BE0(u32 a, u32 b);
 static inline void shading(Shading s)
 {
     *(volatile unsigned short *)0x04000060=(unsigned short)((*(volatile unsigned short *)0x04000060 & ~0x3002)|(s<<1));

@@ -12,5 +12,7 @@
  * symbols:
  *   func_02030EE8 0x02030EE8 arm
  */
-extern unsigned char *func_02030EE8(void *);
+typedef unsigned int   u32;
+struct S02030EE8;
+extern u32 func_02030EE8(struct S02030EE8 *p);
 int func_021B9C90(unsigned int a,int b) { int i; int value; for(i=0;i<4;i++) if(*(void **)(a+(unsigned)i*4+8)) { value=*(int *)(func_02030EE8(*(void **)(a+(unsigned)i*4+8))+12); if(value==b) return 0; } return 1; }

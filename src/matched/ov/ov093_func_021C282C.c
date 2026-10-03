@@ -24,7 +24,7 @@ extern int func_021D62C4(struct Unk021D62A8 *, int);
 extern int func_021D62A8(struct Unk021D62A8 *);
 extern int func_021C2AB0(u8 *);
 extern u16 func_021D57FC(void *);
-extern int func_021E8D24(u16, int);
+extern int func_021E8D24(int x, int k);
 extern int func_021D59B4(u8 *p, int k);
 int func_021C282C(u8 *a, struct Unk021D62A8 *b, int c, int d, u8 e)
 {

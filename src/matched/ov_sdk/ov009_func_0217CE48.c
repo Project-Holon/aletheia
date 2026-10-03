@@ -38,7 +38,7 @@ typedef struct GSTask {
     void (*cb24)(void *);
 } GSTask;
 
-extern GSCoreMgr *func_0217CA20(void);
+extern void *func_0217CA20(void);
 extern unsigned int func_0217F264(void);
 extern void func_0217F108(void *cs);
 extern void func_02184234(void *array, void *elem);

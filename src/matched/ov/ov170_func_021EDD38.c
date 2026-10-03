@@ -22,8 +22,11 @@
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
-extern void func_020258E8(void *o, short *x, short *y);
-extern void func_0202590C(void *o, short x, short y);
+typedef signed short   s16;
+struct Grid;
+struct Obj02025774;
+extern void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 extern unsigned char func_021DEB14(char *p, signed char a);
 extern void func_021EDB64(char *p, int a, int i);
 extern void func_021EB874(char *p, unsigned a, int i);

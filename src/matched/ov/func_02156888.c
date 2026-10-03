@@ -22,9 +22,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02158768(u32, int, int, int);
+struct Desc;
+struct Evt;
+extern struct Desc *func_02158768(int a0, int a1, int a2, int a3);
 extern void *func_021589D0(void *h);
-extern void func_02012374(void *, void *);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_02156888(void *a0, void *a1, int a2)
 {

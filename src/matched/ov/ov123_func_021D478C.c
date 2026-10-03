@@ -25,9 +25,11 @@ struct Point { u16 x, y, z; u8 a, b; };
 struct Triple { u8 v[3]; };
 extern const struct Triple d_021DA638, d_021DA634, d_021DA63C;
 extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
-extern void func_0204B92C(void *, int);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B688(void *, u32);
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021D478C(char *p)
 {
     struct Triple x, y, z;

@@ -54,7 +54,8 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 struct Blk36 {
     u8 unk00[26];

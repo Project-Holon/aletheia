@@ -22,7 +22,7 @@
  *   pop   {r3, pc}
  */
 
-extern int func_02075DA0(void);
+extern void *func_02075DA0(void);
 extern void func_02088234(void);
 
 void CARD_CheckEnabled(void)

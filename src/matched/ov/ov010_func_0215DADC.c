@@ -14,7 +14,7 @@
  *   func_0200A750 0x0200A750 thumb
  */
 typedef unsigned char u8;
-extern int func_02159B10(void *,void *);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012F44(void *);
 extern u8 *func_0200A750(void *,u8);

@@ -20,9 +20,9 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int func_0203D1C0(int i);
+extern u32 func_0203D1C0(u32 index);
 extern void func_021CE3D8(u8 *p, u8 i);
-extern void func_021CEA84(u8 *p, u8 i);
+extern void func_021CEA84(u8 *p, int n);
 extern void func_021CEAB0(u8 *p);
 
 void func_021CE24C(u8 *p)

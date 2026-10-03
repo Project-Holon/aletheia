@@ -13,10 +13,10 @@
  *   func_021FD73C 0x021FD73C thumb ov186
  *   func_021E1E3C 0x021E1E3C thumb ov183
  */
-extern int func_021FE784(int,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int);
 extern void func_021FD73C(int,void *);
-extern void func_021E1E3C(void);
+extern void func_021E1E3C(int task, int *state, char *p);
 void func_021E1DA8(int a,int *state,char *p)
 {
     switch (*state) {

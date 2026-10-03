@@ -26,8 +26,9 @@ struct Ctx;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0201210C(void *p);
-extern int func_02012138();
+typedef unsigned int   u32;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_02026454();
 extern int func_02026474();
 extern void func_0217BBCC();

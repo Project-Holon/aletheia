@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021BA1A8(void *battle, int flag);
+extern int func_021BA1A8(char **p, int m);
 
 int func_021EB820(u8 *a)
 {

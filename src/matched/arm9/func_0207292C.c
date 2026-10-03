@@ -41,7 +41,8 @@ struct Global0214DEC0 {
 };
 
 extern struct Global0214DEC0 g_0214DEC0;
-extern void func_020895D8(int, int);
+typedef unsigned int   u32;
+extern void func_020895D8(u32 chBitMask, u32 flags);
 
 int func_0207292C(int mask)
 {

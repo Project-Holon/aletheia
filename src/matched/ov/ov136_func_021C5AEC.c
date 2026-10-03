@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,h; } Template;
 extern void *func_02027778(Template *, void *);
-extern void func_02027858(void *);
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 void func_021C5AEC(u8 *p)
 {
     Template t;

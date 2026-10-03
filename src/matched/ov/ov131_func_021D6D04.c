@@ -22,7 +22,8 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void func_021D797C(u8 *p, void **q);
-extern void func_0204B3DC(void *, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021D6D04(void *a, u8 *p)
 {

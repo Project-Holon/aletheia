@@ -31,10 +31,11 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern void func_021D7704(int a, int b);
 extern int func_021DED0C(u16 v);
-extern void *func_021C7CF4(void *a, int b);
+struct QL;
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D679C(void *m);
-extern int func_021D67A8(void *m);
-extern u32 func_021DCFF8(int a, int k);
+extern u16 func_021D67A8(struct QL *p);
+extern int func_021DCFF8(int a, int b);
 
 void func_021DEC70(int a, void *b, int c)
 {

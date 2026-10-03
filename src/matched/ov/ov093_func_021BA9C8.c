@@ -25,11 +25,11 @@ extern u8 d_021F3A60[];
 extern u8 *func_02030734(u16, int, int, const void *, u16);
 extern int func_020457B0(int, int);
 extern void func_021D787C(void *);
-extern void func_021BB828(void *);
+extern void func_021BB828(u8 *p);
 extern u8 *func_021BB968(u8 *, void *, void *, void *, int, u16);
-extern void *func_021BC550(u8 *);
+extern u8 *func_021BC550(u8 *p);
 extern void func_021BABEC(void *, void *);
-extern void func_021BAC04(void);
+extern int func_021BAC04(char *p, int *st);
 
 u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap)
 {

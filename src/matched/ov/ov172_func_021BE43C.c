@@ -13,7 +13,7 @@
  *   func_021BD43C 0x021BD43C thumb ov172
  */
 typedef unsigned int u32;
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern int func_021BD43C(char *ctx); /* ov172 definition: src/pending/ov/ov172_func_021BD43C.c (one argument; r1 is overwritten before use) */
 int func_021BE43C(void *a, void *b, void *c, u32 *p)

@@ -14,9 +14,11 @@
  *   func_021DA3C0 0x021DA3C0 thumb ov121
  *   func_021DBEE4 0x021DBEE4 thumb ov121
  */
-extern void func_02030EAC(void *);
+typedef unsigned char  u8;
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
-extern void func_021DA3C0(void *);
+extern void func_021DA3C0(u8 *p);
 extern void func_021DBEE4(void *);
 void func_021DD980(char *p)
 {

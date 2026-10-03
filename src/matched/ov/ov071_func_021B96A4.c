@@ -24,13 +24,17 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_0201F554(u32 a, u32 b, u32 c, u16 d);
-extern u32 func_0201F548(int a);
-extern void func_020215EC(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct PalAnmSlot;
+extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
+extern u8 func_0201F548(int i);
+extern void func_020215EC(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void *func_02045770(void *a);
-extern void func_02043B5C(void *a, u32 b);
-extern void func_02045374(void *a);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045374(struct Cfg *cfg);
 extern void func_020409B4(u32 a);
 
 void func_021B96A4(char *a, void **b)

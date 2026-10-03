@@ -18,7 +18,8 @@
  */
 extern char *d_0220AF20;
 extern void func_0204A648(void);
-extern void func_02021D50(void *);
+struct S02021D50;
+extern void func_02021D50(struct S02021D50 *p);
 
 void func_021F8B90(void)
 {

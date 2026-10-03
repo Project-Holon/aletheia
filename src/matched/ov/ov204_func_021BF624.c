@@ -17,7 +17,11 @@
 
 struct Vec { int v[3]; };
 extern const struct Vec defaultPos;
-extern void *func_020159C8(void *, unsigned int, unsigned int, unsigned int, void *);
+typedef unsigned int   u32;
+struct Obj;
+struct Rec;
+struct Sub150;
+extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
 extern void func_02015CAC(void *, void *);
 extern void func_021BF7F0(void *, void *);
 extern void func_02015F2C(void *, void *, void (*)(void *, void *), int);

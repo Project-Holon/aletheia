@@ -31,7 +31,8 @@ typedef struct {
 } Arg;
 
 extern void *func_020146F8(int a, int b, int c, const char *d, void *e);
-extern void func_02012374(void *a, void *b);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern char d_021DEA44[];
 extern char ov171_id[];
 

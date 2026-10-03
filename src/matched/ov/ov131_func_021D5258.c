@@ -13,9 +13,11 @@
  *   func_02045C04 0x02045C04 arm
  *   func_0201D83C 0x0201D83C thumb
  */
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
-extern void func_02045C04(void *);
+struct PrintSys;
+struct Rec;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
 void func_021D5258(char *p)
 {

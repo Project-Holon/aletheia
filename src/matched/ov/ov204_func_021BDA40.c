@@ -30,8 +30,9 @@ extern unsigned char *func_021BDC18(int, int, unsigned short);
 extern struct GfFont *func_0201D7EC(int, int, int, int, unsigned);
 extern struct MsgBank *func_02045B38(unsigned, unsigned, unsigned, unsigned);
 extern char *func_021BF594(unsigned short, int);
-extern void *func_021BF8DC(unsigned char *, int, unsigned short);
-extern void *func_021BFC24(unsigned char *, unsigned short);
+typedef unsigned int   u32;
+extern char *func_021BF8DC(void *owner, int kind, u32 heap);
+extern char *func_021BFC24(void *owner, unsigned heap);
 extern char *func_021BEF20(void *, unsigned, unsigned, char *, unsigned, unsigned short);
 extern const char ov067_id[];
 int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)

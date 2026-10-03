@@ -22,10 +22,11 @@ typedef unsigned int u32;
 typedef struct {int x,y;} Pair;
 extern u32 func_020362DC(void);
 extern int func_021F2828(char *,int,int *);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern int func_021F2818(char *,int,int);
-extern void func_020061E4(int);
-extern void func_020355D8(unsigned);
+extern void func_020061E4(u32 a);
+extern void func_020355D8(u8 v);
 extern void func_021F1A1C(char *,int,int *,int,int);
 int func_021F3B18(char *p,int *out) {
     int changed=0;

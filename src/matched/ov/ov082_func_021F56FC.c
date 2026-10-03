@@ -13,7 +13,8 @@
  *   func_02043534  0x02043534  arm
  */
 
-void func_02043534(int);
+typedef unsigned int   u32;
+void func_02043534(u32 planes);
 
 void func_021F56FC(int *p)
 {

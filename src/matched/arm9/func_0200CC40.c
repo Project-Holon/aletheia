@@ -50,7 +50,8 @@ extern const struct FormCount func_0200CA98_Table[];
 extern u32 func_0200C7F4(u16 id);
 extern u32 func_0200C7C0(u16 id);
 extern void *func_0201ADE4(u32 a, u16 b, u16 c);
-extern u32 func_0201AE1C(void *p, u32 b);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 
 static inline u32 TestBit(const u8 *row, u16 x)

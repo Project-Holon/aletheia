@@ -18,12 +18,13 @@
  *   func_021D6F70 0x021D6F70 thumb ov123
  *   func_021D6F04 0x021D6F04 thumb ov123
  */
-extern void func_021B9774(void *);
+typedef unsigned char  u8;
+extern void func_021B9774(u8 *p);
 extern void func_021D584C(char *);
 extern int func_021D5950(char *,int);
 extern void func_021D5960(char *,int,int);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D6F70(char *);
+extern void func_021D6F70(int a);
 extern void func_021D6F04(char *);
 void func_021D6FF0(char *p)
 {

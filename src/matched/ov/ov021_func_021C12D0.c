@@ -14,7 +14,8 @@
 
 extern char **func_02030EE8(void *h);
 extern void func_020307B0(void *p);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_021C12D0(void *h)
 {

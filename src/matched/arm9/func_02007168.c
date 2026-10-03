@@ -44,8 +44,8 @@ struct Sub02007168 {
 };
 
 extern void func_02007428(void);
-extern u32  func_02031BB4(u32 a);
-extern u32  func_02008754(struct Sub02007168 *p);
+extern int func_02031BB4(u32 a0);
+extern u8 func_02008754(void *sys);
 
 u32 func_02007168(struct Sub02007168 *p)
 {

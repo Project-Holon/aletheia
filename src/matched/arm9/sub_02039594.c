@@ -40,7 +40,7 @@ struct Session {
 };
 
 extern struct LinkState *unk_021469D0;
-extern struct Session *func_0203D798(void);
+extern void *func_0203D798(void);
 
 int sub_02039594(void)
 {

@@ -48,9 +48,10 @@ struct Registration {
     s32 state;
 };
 
-extern struct Registration *func_02034CBC(s32 area);
-extern s32 func_02034D60(s32 handle);
-extern s32 func_02034D08(s32 area);
+typedef unsigned char  u8;
+extern void *func_02034CBC(int i);
+extern int func_02034D60(u32 id);
+extern u8 func_02034D08(int i);
 extern void sub_02034A3C(struct Registration *entry);
 
 void sub_02034A5C(s32 handle)

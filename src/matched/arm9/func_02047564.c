@@ -69,7 +69,7 @@ struct G3dRec {
 extern struct G3dCtx *g_02146A5C;
 extern char g_020A7EA8[];
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int  func_0206E9A4(struct G3dSub *a0, int a1);
 extern int  func_02047554(struct G3dOwner *a0);
 extern int  func_0206E964(u32 a0);

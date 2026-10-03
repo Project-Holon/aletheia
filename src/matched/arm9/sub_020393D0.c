@@ -43,7 +43,7 @@ struct LinkRoot {
 };
 
 extern struct LinkState *unk_021469D0;
-extern struct LinkRoot *func_0203D788(void);
+extern void *func_0203D788(void);
 
 int sub_020393D0(void)
 {

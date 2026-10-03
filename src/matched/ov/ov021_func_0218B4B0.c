@@ -52,17 +52,17 @@ struct FieldCtx {
     u32 b3 : 1;
 };
 
-extern void *func_021A3074(void *p);
+extern void *func_021A3074(u8 *p);
 extern void func_021A3460(void *p, s16 *x, s16 *y, s16 *z);
 extern void func_02164294(int x, int y, int z, int *out);
 extern void *func_02188C98(u8 *p);
-extern u32 func_021AB0D4(void *a, int *b);
+extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB194(u16 id);
 extern u16 func_0216D5F8(void *p);
-extern void func_02164240(u16 v, s16 *x, s16 *z, int a);
+extern void func_02164240(int dir, s16 *x, s16 *z, s16 amt);
 extern void *func_02188C7C(u8 *p);
-extern int func_0216D8AC(void *p);
+extern u32 func_0216D8AC(void *p);
 extern int func_0216DDDC(void *p, int x, int z, int h, int a, int b);
 
 int func_0218B4B0(struct FieldCtx *p, u8 *pos)

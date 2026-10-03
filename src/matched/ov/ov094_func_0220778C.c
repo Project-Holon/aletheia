@@ -23,7 +23,8 @@ typedef struct {
 typedef struct { char pad[0x40]; Entry entries[8]; } Work;
 extern void func_0204A8D4(unsigned int);
 extern void func_0204AFD8(unsigned int);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_0220778C(Work *p, int i)
 {
     if (p->entries[i].f40 == 0)

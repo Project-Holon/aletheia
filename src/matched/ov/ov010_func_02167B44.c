@@ -33,11 +33,12 @@ typedef struct Obj {
     u16 h66e;
 } Obj;
 
-extern void *func_02012944(void *a);
+struct Sub0200852CObj;
+extern u8 *func_02012944(void *p);
 extern void *func_021CA210(Obj *o);
-extern u16 func_02008550(void *a);
-extern void *func_0201AB28(void *list, int i);
-extern u16 func_02017E1C(void *a, int b, int c);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u16 func_021CA234(u8 *p);
 extern u16 func_021CA2CC(u16 v);
 

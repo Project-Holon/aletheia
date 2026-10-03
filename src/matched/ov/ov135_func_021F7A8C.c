@@ -16,12 +16,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021F8950(void *p, u16 *old);
-extern void func_0202020C(void *p, u16 *a, u16 *b);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Obj;
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *p);
 extern void func_02202644(void *p, int on);
 extern void func_0201F7A8(void *p, unsigned kind);
-extern void func_020452E8(void *p);
-extern void func_021F4EC0(void *p, unsigned a, unsigned b);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
 extern void func_020061E4(unsigned se);
 int func_021F7A8C(u8 *p)
 {

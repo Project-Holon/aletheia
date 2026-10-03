@@ -80,7 +80,7 @@ extern void func_021FF4C0(char *p, int key, int b, Vec *v, int d, int e, int f);
 extern void func_022018A8(char *p, Vec *out, int key);
 extern int func_022019F4(char *p, int key);
 extern void *func_021F86B4(void);
-extern void func_022089BC(void *p, int key);
+extern void func_022089BC(char *p, int i);
 extern void func_021F89BC(void *task);
 
 #define MUL(a, b) ((int)(((long long)(a) * (b) + 0x800) >> 12))

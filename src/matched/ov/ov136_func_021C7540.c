@@ -20,10 +20,11 @@ struct Flags { u8 index : 7; u8 flag : 1; };
 extern int func_021C3E00(u8 *);
 extern int func_021C3E04(u8 *, void *);
 extern void func_021C3E24(u8 *);
-extern void *func_02012934(void *p);
-extern void *func_0201292C(void *);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201292C(const struct BigObj *p);
 extern void *func_0201AB28(void *, u32);
-extern int func_02007F1C(void *, u16, int, int);
+extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 int func_021C7540(u8 *p)
 {
     *(int *)(p + 0x24) = func_021C3E00(*(u8 **)(p + 0x10));

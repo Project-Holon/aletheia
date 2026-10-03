@@ -43,7 +43,8 @@ extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 v);
 extern Word func_021D7D18(int x);
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 
 void func_021DF640(void *self, void *q, int id)
 {

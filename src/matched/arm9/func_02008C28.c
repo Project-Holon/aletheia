@@ -34,7 +34,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern void func_02008C64(void *obj, int commit);
+struct Sub02008C20Obj;
+extern void func_02008C64(struct Sub02008C20Obj *obj, int commit);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 

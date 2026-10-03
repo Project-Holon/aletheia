@@ -18,12 +18,14 @@
  *   func_021BD47C  0x021BD47C  thumb  ov021
  */
 
-extern int func_021BD2D8(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD2D8(u8 *p);
 extern void func_021BD3EC(void *p);
 extern void func_021BD430(void *p);
 extern void func_021BD5D4(void *p);
 extern int func_021BD340(void *p);
-extern void func_021BD47C(void *p);
+extern void func_021BD47C(u8 *p);
 
 void func_021BD3BC(void *p)
 {

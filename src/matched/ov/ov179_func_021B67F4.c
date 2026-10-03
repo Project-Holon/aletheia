@@ -13,7 +13,7 @@
  *   func_0204047C  0x0204047C  arm
  */
 
-extern void func_0204047C(int, int);
+extern void func_0204047C(int idx, unsigned short val);
 
 int func_021B67F4(int a, int *q)
 {

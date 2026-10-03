@@ -16,7 +16,7 @@
  */
 extern void func_02034A5C(int);
 extern unsigned char ov014_id[];
-extern void func_020774A0(int);
+extern void func_020774A0(int (*callback)(void));
 extern void func_020307B0(void *);
 extern void func_02040588(unsigned,unsigned);
 void func_021EF74C(unsigned char *p) {

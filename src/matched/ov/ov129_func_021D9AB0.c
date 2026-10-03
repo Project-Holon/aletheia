@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef struct { u16 x,y,frame; u8 speed,flag; } Params;
 extern int func_0204B294(int,int,int,int,void *,int,int);
 extern void func_0204B3DC(int,int);
-extern unsigned func_021DA158(int,int);
+extern int func_021DA158(int x, int flag);
 void func_021D9AB0(char *p)
 {
     Params s;

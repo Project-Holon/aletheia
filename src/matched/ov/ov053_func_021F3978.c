@@ -18,8 +18,9 @@
 typedef struct { int v[5]; } T5;
 
 extern T5 d_021F3CF0;
-extern int *func_02048F60(int, int, int);
-extern void func_020307B0(int *);
+typedef unsigned int   u32;
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
+extern void func_020307B0(void *p);
 
 void func_021F3978(char *a)
 {

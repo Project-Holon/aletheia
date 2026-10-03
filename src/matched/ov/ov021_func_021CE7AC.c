@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern u32 func_02188C54(u32 a);
 extern u32 func_02190708(u32, u32, u16, u16, u16, u16);
-extern void func_02190740(u32 a, u32 b, u32 c, u16 d);
+extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
 extern u8 data_021DB498[];
 
 void func_021CE7AC(u32 *p)

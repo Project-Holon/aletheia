@@ -35,7 +35,7 @@ typedef enum { K_0 } KType;
 struct Rec { u32 f0; u32 f4; Word f8; u8 fc; u8 fd; u8 fe; u8 ff; };
 
 extern Word func_021E896C(int a, int b);
-extern void func_021C88C8(u8 *a, u8 *b);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E4828(int a0, u8 *s, int k)
 {

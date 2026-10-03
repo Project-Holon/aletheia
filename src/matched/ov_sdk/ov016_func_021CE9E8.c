@@ -40,8 +40,8 @@ typedef struct {
 } MemSbT;
 
 extern int func_021CED30(void);
-extern void func_021CFFAC(int no);
-extern void func_021CFFD0(int volume);
+extern void func_021CFFAC(unsigned int v);
+extern void func_021CFFD0(unsigned int v);
 extern int func_021D6B64(void *c);
 extern void func_021CEC9C(int idx);
 extern void func_021CECC8(void);

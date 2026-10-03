@@ -55,7 +55,7 @@ struct Block {
 
 extern void         *func_02047788(void *p);
 extern struct Owner *func_0204755C(void *p);
-extern void          func_0206DDA4(u32 a, void *b, u32 c);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern int           func_02047C04(void *p);
 
 int func_02047B4C(void *a0)

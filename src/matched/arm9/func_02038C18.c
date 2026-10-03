@@ -78,15 +78,15 @@ struct Err {
 
 extern struct Handle *g_021469D0;
 
-extern struct Rec *func_0203D798(void);
-extern int    func_02039414(void);
-extern int    func_0203C990(void);
+extern void *func_0203D798(void);
+extern u32 func_02039414(void);
+extern u32 func_0203C990(void);
 extern int    func_02039594(void);
 extern int    func_020368C0(void *tbl, u32 a, u32 b, u32 c, u32 d, u32 e,
                             u32 f);
 extern void   func_02039548(void);
 extern struct Err *func_0203CA98(void);
-extern void   func_0203C9AC(u32 a, u32 b, u32 c, u32 line);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7)
 {

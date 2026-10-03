@@ -30,12 +30,13 @@
 typedef unsigned int u32;
 
 extern u32 func_02012EBC(void *sys);
-extern void *func_02030734(u32 heap, u32 size, int a, const char *file, int line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_020A721C[];
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_02012E4C(void *sys, int id);
-extern int func_02012E7C(void *sys, int id);
+extern int func_02012E7C(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
 extern void func_0200734C(u32 sv, u32 id);
 extern void func_020307B0(void *p);

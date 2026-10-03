@@ -31,12 +31,12 @@ extern int func_0216DD1C(u32 x, u8 **o, int *n);
 extern void func_0216D244(u32 x, u8 *o);
 extern int func_0216D55C(u8 *o, u32 v);
 extern void func_0216D268(u32 x, u8 *o);
-extern int func_0216D57C(u8 *o, u32 v);
-extern void func_0216D730(u8 *o);
+extern u32 func_0216D57C(void *p, u32 v);
+extern void func_0216D730(void *a0);
 extern void func_0216D570(u8 *o, u32 v);
-extern int func_0216DAA0(u8 *o);
+extern int func_0216DAA0(void *a0);
 extern void func_0216E114(u8 *o);
-extern void func_0216D794(u8 *o);
+extern void func_0216D794(void *a0);
 extern void func_0216E174(u8 *o);
 
 void func_0216D2F8(u32 x)

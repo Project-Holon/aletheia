@@ -77,7 +77,7 @@ typedef struct {
     u8 flag[8];
 } Save;
 
-extern int func_02188D2C(void *p);
+extern int func_02188D2C(int *p);
 extern Work *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
@@ -89,19 +89,19 @@ extern void func_021F47D8(int a, int f, int i);
 extern void func_02011558(u32 a);
 extern u32 func_02011428(u32 heap, u32 a1, u16 a2, void *a3, u32 a4);
 extern void *func_021BE674(int base, int i, u8 j, u8 k);
-extern int func_021BE6B0(void *s, int b);
+extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_02028A7C(int a, int b);
 extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
 extern void func_02028B18(int a, u32 id, u32 who);
-extern void *func_02006138(int a);
+extern u32 *func_02006138(int i);
 extern void func_02072F34(void *o, u8 v);
 extern int func_021BE6E8(int p, int i, u8 j, u8 k);
-extern int func_021F4864(u8 v, int r, u8 *out);
+extern int func_021F4864(u32 a, u32 b, u8 *out);
 extern void func_02028B50(int a, int b);
 extern void func_02006210(void);
 extern u32 func_02011688(u32 p, Vec *dst, u32 idx);
-extern void *func_02188CB4(void *p);
+extern void *func_02188CB4(u8 *p);
 extern void func_021A3044(void *q, Vec *v);
 extern void func_021F4A18(void *a, Work *s);
 

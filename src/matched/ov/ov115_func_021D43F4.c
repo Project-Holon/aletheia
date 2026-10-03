@@ -20,6 +20,6 @@
  *   func_021D43CC 0x021D43CC thumb ov115
  */
 typedef unsigned char u8; typedef unsigned int u32;
-extern int func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
+extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern u8 *func_02012944(void *); extern void *func_02009CC0(void *); extern void func_02008540(void *,void *); extern void func_02012DAC(u8 *); extern void func_021D43CC(u8 *);
 void func_021D43F4(u8 *p) { void *a; if(func_021D5C70(*(int *)(p+0x38))) { a=func_02012944(*(void **)(p+0x44)); func_02008540(a,func_02009CC0(*(void **)(p+0x3C))); func_02012DAC(*(u8 **)(p+0x44)); *(int *)(p+0x24)=1; func_021D426C(p,(u32)func_021D43CC); } }

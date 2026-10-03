@@ -18,10 +18,13 @@
 
 typedef unsigned int u32;
 
-extern void *func_020122C0(void *a, int b, void (*cb)(void), int size);
-extern u32 *func_020124E8(void *task);
-extern void func_021BF348(void);
-extern void *func_021BEA6C(int x);
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern int func_021BF348(u32 p0, int *st, u8 *q);
+extern int func_021BEA6C(int x);
 
 void *func_021BEC84(void *a, u32 b)
 {

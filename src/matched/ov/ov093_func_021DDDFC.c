@@ -15,7 +15,7 @@
  *   func_021DCFF8 0x021DCFF8 thumb ov093
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  */
-extern void *func_021C7CF4(void *, int);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021DDEA4(void *, int, unsigned int);
 extern void func_021DD044(void *, void *, int);
 extern int func_021DCFF8(int, int);

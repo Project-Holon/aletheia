@@ -28,7 +28,9 @@ extern int func_02188C58(int);
 extern int func_02188D38(int);
 extern int func_0218FE80(int);
 extern void func_0218FEA0(int, int *);
-extern void func_0216C0E8(void);
+typedef unsigned int   u32;
+struct Work;
+extern int func_0216C0E8(void *evt, u32 *state, struct Work *w);
 extern B32 d_02172528;
 
 int func_0216C204(int a, int b)

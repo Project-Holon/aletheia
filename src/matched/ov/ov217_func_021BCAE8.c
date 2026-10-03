@@ -18,10 +18,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Arc;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02049250(struct Arc *, u32, u32);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *, void **);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
-extern u32 func_02041B6C(u32);
+extern void func_02041B6C(u32 bit);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
 void func_021BCAE8(char *p)

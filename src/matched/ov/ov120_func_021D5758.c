@@ -18,14 +18,16 @@
  *   func_021D69F4 0x021D69F4 thumb ov120
  */
 typedef unsigned char u8;
-extern int func_021D7AF4(void *);
-extern void func_021D79F4(void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern int func_021D7AF4(char *p);
+extern void func_021D79F4(u8 *p, u16 n);
 extern void *func_021D6988(void *);
-extern void func_021B64D0(void *, int);
+extern void func_021B64D0(u8 *p, u32 v);
 extern void func_021D4244(int, int, int);
-extern void func_021D5AD4(void);
-extern int func_020355C4(void);
-extern void func_021D69F4(void *, void *, int);
+extern void func_021D5AD4(u8 *p);
+extern u8 func_020355C4(void);
+extern void func_021D69F4(u8 *p, void *q, u32 n);
 void func_021D5758(u8 *p)
 {
     if (func_021D7AF4(*(void **)(p + 0x40))) {

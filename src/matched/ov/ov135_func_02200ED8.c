@@ -45,7 +45,7 @@ typedef struct {
 extern void func_021F90A0(Work *p, void *msg, u32 c, u32 d, u16 e);
 extern void func_021F4E98(Work *p, u32 a, u32 b);
 extern void func_0203D34C(u32 a, u32 b);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F4FA4(Work *p);
 extern const char str_02203F58[];
 

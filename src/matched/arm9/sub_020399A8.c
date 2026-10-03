@@ -22,7 +22,8 @@
 
 struct Entry;
 
-extern int func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern struct Entry *func_0203996C(int idx);
 
 struct Entry *sub_020399A8(void)

@@ -18,9 +18,11 @@
 
 typedef unsigned short u16;
 
-extern int   sub_0200CED4(void *a, int i);
-extern int   sub_0200C7A0(int i);
-extern u16  *sub_0201AF80(int a, int b);
+typedef unsigned int   u32;
+struct Blk37;
+extern u32 sub_0200CED4(struct Blk37 *p, u16 id);
+extern int sub_0200C7A0(u32 v);
+extern u16 *sub_0201AF80(u32 heap, u16 *countOut);
 extern void  func_020307B0(void *p);
 
 int sub_0200D310(void *a0, int a1)

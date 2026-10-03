@@ -20,7 +20,7 @@
  */
 
 extern int func_021C2AD0(unsigned long width, unsigned long height, unsigned long sampling);
-extern void func_021C1D8C(void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option);
+extern void func_021C1D8C(const void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option);
 extern unsigned long func_021C20B0(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, int thumb, unsigned char *thumb_src, unsigned long thumb_size, void (*func)(void *, unsigned long, unsigned long, void *));
 extern void func_021C2050(void *src, unsigned long width, unsigned long height, void *dst);
 extern void func_021C1F04(void *src, unsigned long width, unsigned long height, void *dst);

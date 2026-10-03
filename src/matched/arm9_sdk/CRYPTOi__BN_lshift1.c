@@ -13,7 +13,9 @@
  *   func_020789FC 0x020789FC arm
  */
 
-extern void func_020789FC(void);
+typedef unsigned int   u32;
+struct FSFile;
+extern int func_020789FC(struct FSFile *file, const char *path, u32 mode);
 asm void CRYPTOi__BN_lshift1(void)
 {
     ldr ip, =func_020789FC

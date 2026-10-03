@@ -18,10 +18,11 @@
  *   func_021F20AC  0x021F20AC  thumb  ov029
  */
 
-extern char *func_021F279C(int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern void *func_021F279C(int a, int b, int c, int d);
 extern void func_021EFEF8(char *p, void (*f)(void), int a);
 extern void func_021F21F8(void);
-extern int func_020056EC(int a);
+extern u32 func_020056EC(u32 range);
 extern void func_021F3190(int a, int b, int c, int d);
 extern void func_021F20AC(char *p);
 

@@ -26,7 +26,7 @@ typedef signed char    s8;
 int func_02155244(int x)
 {
     int func_02156690(int);
-    void func_02156730(void);
+    int func_02156730(void);
     int t;
     if (x == 0) t = 1;
     else t = 0;

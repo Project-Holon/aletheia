@@ -20,7 +20,7 @@ extern int func_02211420(u8 *);
 extern int func_0221189C(u8 *);
 extern void func_0220BBF0(u8 *);
 extern void func_0220C67C(u8 *);
-extern void func_0220E27C(void *);
+extern void func_0220E27C(u8 *p);
 int func_02211810(u8 *p)
 {
     if (func_02211420(p) == 0) {

@@ -15,9 +15,11 @@
  *   func_021F44C0 0x021F44C0 thumb ov038
  */
 typedef unsigned int u32;
-extern u32 func_0201210C(const void *);
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *, int);
-extern void *func_020122C0(void *, void *, void *, u32);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F44C0(void *, int *);
 void *func_021F41DC(void *p, int v)
 {

@@ -55,7 +55,8 @@ extern int func_0218B974(int a, int o, void *p, int n);
 extern int func_02193924(int a, void *p, int b, int o, int prev, int x, int y, u16 c);
 extern int func_0218DCF4(int q);
 extern int func_0218DCFC(int q);
-extern void func_021A7410(int a, int b, int c, int d);
+typedef unsigned int   u32;
+extern int func_021A7410(u32 a, u32 b, u32 c, u32 d);
 
 int func_02193628(int o, int q)
 {

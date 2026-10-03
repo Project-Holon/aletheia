@@ -21,7 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_02193F34(void *, u32);
+struct E50;
+struct V;
+extern struct E50 *func_02193F34(struct V *v, u32 key);
 
 void *func_0219390C(void *a, u32 b)
 {

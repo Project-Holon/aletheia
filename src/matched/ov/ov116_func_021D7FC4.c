@@ -14,8 +14,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203FB44(u32,u16,u16);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void func_02030EAC(struct Node *n);
 void func_021D7FC4(u8 *p) {
     u32 x=*(u32 *)(p+0x984);
     func_0203FB44(1,(u16)x,(u16)(x>>16));

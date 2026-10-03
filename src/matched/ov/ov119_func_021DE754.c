@@ -21,10 +21,11 @@
  *   func_021DE70C 0x021DE70C thumb ov119
  */
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_021B6558(int,int,int);
 extern void func_021D9468(void *,int,void *);
-extern int func_020173EC(void);
+extern u32 func_020173EC(void);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021D8F60(void *,int,int);
 extern void func_021D8E84(void *,int);

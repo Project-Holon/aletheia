@@ -38,16 +38,16 @@
 typedef unsigned long u32;
 
 extern int func_0203CD98(void);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void func_0203D7B0(int a);
 extern void func_0203D7BC(int a);
 extern void func_02006210(void);
 extern int func_02012E40(u32 h);
 extern void func_02012E08(u32 h);
-extern void func_0200F7C0(int a);
+extern void func_0200F7C0(u32 value);
 extern int func_02157170(void *a, void *b);
-extern u32 func_021DCE60(u32 a);
-extern u32 func_021DCEE0(u32 a, u32 b, u32 c);
+extern u32 func_021DCE60(int a);
+extern u32 func_021DCEE0(int a, int b, int c);
 extern u32 func_021DCFDC(u32 v);
 extern void func_0203C968(void);
 extern void func_0203CA04(void);

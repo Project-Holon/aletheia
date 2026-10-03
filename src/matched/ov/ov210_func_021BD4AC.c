@@ -21,7 +21,9 @@ extern int func_021C00FC(u8 *);
 extern void func_021BCCA8(char *);
 extern void func_021BE7E4(u8 *);
 extern u8 func_020355C4(void);
-extern void func_020260F4(void *, unsigned int);
+typedef unsigned int   u32;
+struct Struct_02025CD0;
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021BCF0C(u8 *);
 int func_021BD4AC(u8 *p)
 {

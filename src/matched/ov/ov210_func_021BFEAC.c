@@ -17,9 +17,14 @@
  */
 extern const unsigned d_021C0B60[], d_021C0B14[];
 extern unsigned char func_020355C4(void);
-extern void *func_02025CD0(unsigned, unsigned, unsigned, unsigned, unsigned char, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+struct Struct_02025D1C;
+extern struct Struct_02025CD0 *func_02025CD0(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 heapId);
 extern void func_021BFF30(int, unsigned, unsigned);
-extern void func_02025D1C(void *);
+extern void func_02025D1C(struct Struct_02025D1C *obj);
 void func_021BFEAC(char *ctx, int index)
 {
     if (func_020355C4() == 1) {

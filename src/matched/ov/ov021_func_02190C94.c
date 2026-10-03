@@ -25,10 +25,10 @@ typedef short          s16;
 
 extern char d_021DDA50[];
 
-extern u32 func_02030734(u32 a, u32 b, u32 c, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0201CD10(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f, u32 g, u32 h,
                          u32 i, u32 j, void *k);
-extern void func_02190D08(void);
+extern int func_02190D08(int x);
 extern void func_02193200(u32 a);
 
 u32 *func_02190C94(u32 *a, u32 b, u32 c, u32 d, s16 e0, u32 f, u16 g)

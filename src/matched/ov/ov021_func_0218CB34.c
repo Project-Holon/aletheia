@@ -31,7 +31,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 
 extern void func_0218DD70(void *e);
-extern void func_0218D1D0(char *p, void *a, void *b);
+typedef unsigned int   u32;
+struct Elem;
+extern void func_0218D1D0(char *p, void *a, struct Elem *e);
 extern void func_0218D304(char *p, void *a, void *b);
 extern void func_0218D444(char *p, void *a, void *b);
 extern void func_0218D570(char *p, void *a, void *b);
@@ -41,9 +43,9 @@ extern void func_02169520(int o, u16 **out);
 extern void func_02169308(int o);
 extern void func_0218DEFC(char *p, int o, int i);
 extern void func_0218DF80(char *p);
-extern int func_0207C768(int a, int b);
-extern void func_0218B83C(void *a);
-extern void func_021A73DC(void *a);
+extern u32 func_0207C768(u32 a, u32 b);
+extern void func_0218B83C(char *p);
+extern void func_021A73DC(u32 *s);
 
 int func_0218CB34(char *p)
 {

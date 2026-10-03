@@ -23,7 +23,7 @@ extern u32 func_0201134C(void *);
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern unsigned int func_021FE38C(char *, unsigned int);
-extern int func_021FD1A8(char *, unsigned int);
+extern int func_021FD1A8(char *p, int v);
 extern void func_021FDD60(char *, int *, int, int);
 
 int func_021FA288(void *a, char *s)

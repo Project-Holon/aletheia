@@ -35,7 +35,7 @@ typedef struct {
     int n;
 } B;
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 Slot *func_021F0E64(A *p, B *q, int idx)
 {

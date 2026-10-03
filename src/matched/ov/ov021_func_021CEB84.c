@@ -44,14 +44,15 @@ extern int func_020392B8(void);
 extern int func_02039ACC(void);
 extern u32 func_020362DC(void);
 extern void func_021CE9E4(u8 *p, int n);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_020399B8(void);
 extern int func_021CF1AC(u8 *p, int a, u8 b);
 extern u32 func_02188C54(u32 a);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern u32 func_02190C78(u32 a);
 extern int func_0219049C(u32 a);
-extern void func_021909BC(u32 h);
+extern int func_021909BC(u32 a);
 extern void func_02190B1C(u32 h);
 extern int func_02190EF0(u32 h);
 

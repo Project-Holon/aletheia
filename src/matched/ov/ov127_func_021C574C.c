@@ -21,14 +21,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern int func_021C49A4(void *, unsigned int);
-extern int func_021C58F8(void *, int);
-extern void func_021C5944(void *, int, int);
+typedef unsigned int   u32;
+extern int func_021C49A4(u8 *p, unsigned int i);
+extern int func_021C58F8(char *p, int b);
+extern void func_021C5944(u8 *p, int n, int a);
 extern void func_021C5914(void *, s16 *, s16 *);
-extern void func_021C41DC(void *, s16, s16);
+extern void func_021C41DC(u8 *p, int x, int y);
 extern int func_021C5878(int, int);
-extern void func_021C4214(void *, u16);
-extern void func_021C42C4(void *);
+extern void func_021C4214(u8 *p, u32 v);
+extern void func_021C42C4(u8 *p);
 void func_021C574C(u8 *p)
 {
     if (p[19]) {

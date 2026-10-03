@@ -81,9 +81,10 @@ extern void func_0217EAE0(void *ptr);
 extern void func_0218D840(GPConnection *connection);
 extern int func_0218D7F4(GPConnection *connection);
 extern void func_02186788(GPConnection *connection);
-extern void func_0218E240(GPConnection *connection, void *operation);
+struct GPIOperation;
+extern void func_0218E240(void **connection, struct GPIOperation *operation);
 extern int func_0218FFFC(GPConnection *connection, int (*func)(GPConnection *, GPIProfile *, void *), void *data);
-extern int func_021867C0(GPConnection *connection, GPIProfile *profile, void *data);
+extern int func_021867C0(int unused, struct GPIProfile *profile);
 
 int func_021867E8(GPConnection *connection)
 {

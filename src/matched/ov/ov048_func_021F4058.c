@@ -28,16 +28,17 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_021A9810(int);
+struct WordSet;
+extern u16 func_021A9810(int a);
 extern int func_02012984(int a);
-extern void *func_0201EC64(int);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern u32 func_02045B38(u32, u32, u32, u32);
-extern unsigned int func_02013E4C(int);
+extern u32 func_02013E4C(u32 id);
 extern u32 func_02045EC0(u32, u32);
 extern void func_0201EE0C(void *, u32, u32, u32, u32, u32);
 extern void func_02045808(u32);
 extern void func_02045C04(u32);
-extern void func_0201ED04(void *);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_021F3D38(int *p, int unused, int b, int *c);
 extern u8 d_021F50C0[];
 

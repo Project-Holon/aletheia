@@ -13,7 +13,7 @@
  *   func_02184200    0x02184200  arm
 */
 
-extern void func_02184200(void *next);
+extern int func_02184200(const int *p);
 
 void DWCi_LSTlPopFront(void *list)
 {

@@ -51,17 +51,20 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017DBC(void *p);
-extern u32  func_02017DE4(void *p, u32 f);
+struct Mon;
+struct Personal;
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32  func_02017FB0(void *p);
-extern u32  func_02018D34(void *p);
-extern void func_02018D8C(void *p);
-extern u32  func_02018E34(void *p, u32 id, u32 v);
-extern void func_02019388(void *p, u32 id, u32 v);
-extern void *func_02019C54(u32 a, u16 b);
-extern u32  func_0201AE1C(void *p, u32 n);
+extern u32 func_02018D34(struct Sav *p);
+extern void func_02018D8C(struct Sav *p);
+extern u32 func_02018E34(struct Mon *p, u32 id, u32 v);
+extern void func_02019388(struct Mon *p, u32 id, u32 v);
+extern void *func_02019C54(u32 a, u32 b);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 
 u32 func_02017EB4(void *p);
 u32 func_02017ED8(u32 a, u32 b);

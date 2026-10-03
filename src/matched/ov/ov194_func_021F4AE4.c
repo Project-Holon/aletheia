@@ -40,7 +40,9 @@ extern void func_0201DD60(void);
 extern void func_021F4C0C(void *, unsigned short);
 extern void func_021F4CB0(unsigned char *, int, int);
 extern void *sub_020056A0(unsigned, unsigned, unsigned);
-extern void func_021F4BF8(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021F4BF8(u32 a, u8 *b);
 static inline void G2_BlendNone(void) { *(volatile unsigned short *)0x04000050 = 0; }
 static inline void G2S_BlendNone(void) { *(volatile unsigned short *)0x04001050 = 0; }
 static inline void GX_SetVisibleWnd(int window) { *(volatile unsigned *)0x04000000 = (*(volatile unsigned *)0x04000000 & ~0xE000) | (window << 13); }

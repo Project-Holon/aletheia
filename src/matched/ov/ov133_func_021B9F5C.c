@@ -29,13 +29,15 @@ typedef short s16;
 typedef struct { s16 x, y; } Pos;
 extern u8 func_020416D4(u32);
 extern void func_0204B84C(void *, u32);
-extern void func_0204B688(void *, u32);
+struct Actor;
+struct Obj;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern u32 func_0203F0A8(void);
 extern void func_0204B404(void *, const Pos *, unsigned int);
-extern void func_0204B878(void *, u16);
-extern u32 func_0204B3F4(void *);
-extern u32 func_0204B98C(void *);
-extern void func_0204B3DC(void *, u32);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern u32 func_0204B3F4(struct Obj *p);
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B9F5C(u8 *p)
 {
     int a, b, delay, c, d;

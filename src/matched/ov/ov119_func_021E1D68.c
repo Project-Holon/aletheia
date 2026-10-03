@@ -23,18 +23,19 @@
  *   func_021E2A98 0x021E2A98 thumb ov119
  *   func_021B6558 0x021B6558 thumb ov067
  */
-extern void func_02040588(int,int);
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_0207D658(int,int,int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021E3230(void *);
-extern void func_021E1098(void *);
+extern void func_021E1098(char *p);
 extern void func_021E2438(char *,int);
 extern void func_021E5958(void *);
-extern void func_021E219C(void *,void *,int,int);
+extern void func_021E219C(char *p, void *mon, int side, int flag);
 extern int func_021D8AA8(void *);
-extern void func_021E5998(void *);
-extern void func_021E3F30(void *);
+extern void func_021E5998(char *p);
+extern void func_021E3F30(char *p);
 extern void func_021E2A98(void *,void *);
 extern void func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_021B6558(int,int,int);

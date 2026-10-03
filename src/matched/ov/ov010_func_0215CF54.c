@@ -17,11 +17,13 @@
  *   func_021C3204 0x021C3204 thumb ov021
  */
 typedef unsigned short u16;
-extern int func_02159B10(void *, void *);
+struct BigObj;
+struct Ctx;
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern void *func_02012934(void *p);
-extern void *func_0201210C(void *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D50(unsigned char *);
 extern void func_021C3204(unsigned int *, unsigned int, unsigned int);
 

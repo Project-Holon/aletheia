@@ -57,10 +57,12 @@ struct PrintCtx {
     void *unk18;
 };
 
-extern u32  func_02043994(void *s);
+typedef signed int     s32;
+struct Bmp;
+extern u8 func_02043994(struct Bmp *b);
 extern void func_0201DE00(u8 *r, u8 *g, u8 *b);
-extern void sub_0201CA2C(void *a, s16 b, u32 c, u32 d, u16 e, const u8 *f);
-extern void sub_0201CA78(void *a, s16 b, u32 c, u32 d, u16 e, const u8 *f);
+extern void sub_0201CA2C(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
+extern void sub_0201CA78(void *a, s32 b, u32 c, u32 d, u16 e, const u8 *f);
 
 void sub_0201C808(struct PrintCtx *p, void *w, void *x, s16 y, s16 z)
 {

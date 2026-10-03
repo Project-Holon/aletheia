@@ -30,19 +30,23 @@
 extern char *d_0220AF20;
 extern void func_020066E8(void *);
 extern void func_021F8B6C(void);
-extern void func_020215A0(void *, int);
+typedef unsigned int   u32;
+struct Node;
+struct PalAnmSlot;
+struct Res;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 extern void func_021FEB78(void *);
 extern void func_021F6898(void *);
 extern void func_021F6CF0(void *);
-extern void func_021F6EC0(void *);
-extern void func_02201AC4(void *);
-extern void func_02206E28(void *);
+extern void func_021F6EC0(void **p);
+extern void func_02201AC4(struct Res *r);
+extern void func_02206E28(char *p);
 extern void func_022092E8(void *);
 extern void func_0220977C(void *);
 extern void func_02050ED4(void);
 extern void func_021F94D8(void *);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
 extern void func_020307B0(void *);
 #define FIELD(k) (*(void **)(d_0220AF20 + (k)))

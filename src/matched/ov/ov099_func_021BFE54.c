@@ -17,7 +17,8 @@
 extern int func_020399A8(void);
 extern int func_02039CB4(unsigned,unsigned,unsigned);
 extern int func_020399EC(void);
-extern void func_0203C554(int);
+typedef unsigned int   u32;
+extern void func_0203C554(u32 a);
 extern void func_021BA8EC(char *);
 int func_021BFE54(char *p, int ret) {
     if (func_02039CB4(func_020399A8(),21,10) || func_020399EC()!=2) {

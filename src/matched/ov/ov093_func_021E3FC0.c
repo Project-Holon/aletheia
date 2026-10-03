@@ -34,15 +34,15 @@ typedef unsigned int u32;
 typedef struct Word { unsigned int v; } Word;
 
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern Word func_021D62A8(void *q);
-extern int func_021D6314(void *q, int k);
+extern u32 func_021D6314(u8 *p, int i);
 extern u8 *func_021C88A4(void *a, int k, int c);
 extern int func_021E8A78(int s);
 extern Word func_021E8A58(void);
 extern int func_021D7D18(int k);
 extern void func_021C88C8(void *a, void *p);
-extern void func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 extern int d_021F27BC[];
 
 void func_021E3FC0(int u, void *a, int c)

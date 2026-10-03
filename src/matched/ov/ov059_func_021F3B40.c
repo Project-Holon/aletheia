@@ -15,9 +15,12 @@
  *   func_021F3C6C  0x021F3C6C  thumb  ov059
  */
 
-extern void *func_0201210C(const void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *p, int idx);
-extern void *func_020122C0(void *owner, void *a, int (*callback)(void *), unsigned int size);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3C6C(void *p);
 
 void func_021F3B40(void *p, int v)

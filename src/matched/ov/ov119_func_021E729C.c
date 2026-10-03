@@ -62,7 +62,7 @@ struct Curve {
 #define FX_INT_TO_FX32(x) ((fx32)(((x) > 0) ? ((float)((x) << 12) + .5f) \
                                             : ((float)((x) << 12) - .5f)))
 
-extern fx32 sub_0207C768(fx32 numer, fx32 denom);
+extern u32 sub_0207C768(u32 a, u32 b);
 
 int func_021E729C(struct Curve *c)
 {

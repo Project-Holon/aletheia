@@ -14,7 +14,8 @@
  *   func_02084E54 0x02084E54 arm
  */
 
-extern void func_02084D68(void);
+struct _FSFreeAreaSize;
+extern int func_02084D68(struct _FSFreeAreaSize *freesize, char *path, unsigned long size);
 extern void func_02084E54(void);
 
 asm void OS_LockCard(void)

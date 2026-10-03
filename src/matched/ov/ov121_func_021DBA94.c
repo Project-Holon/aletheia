@@ -19,7 +19,8 @@ typedef signed char s8;
 typedef unsigned int u32;
 extern void func_0204B454(void *,void *,u32);
 extern void func_0204B404(void *,void *,u32);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02040618(u32,u32,u32);
 int func_021DBA94(char *p)
 {

@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-extern void func_0202BF84(void *p);
+extern void func_0202BF84(u32 *p);
 
 void func_0202BEE4(void *p)
 {

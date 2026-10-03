@@ -24,7 +24,9 @@ extern int func_021ABE24(int a);
 extern int func_02046E24(int a, int b);
 extern int func_02047180(unsigned int *p);
 extern int func_020056A0(void *fn, void *arg, int z);
-extern void func_021ADD64(void);
+typedef unsigned int   u32;
+struct Q;
+extern void func_021ADD64(u32 a, struct Q *q);
 
 void func_021ADCF0(int *p)
 {

@@ -29,8 +29,8 @@ extern int func_021B9A84(u8 *p);
 extern int func_021B9AB4(u8 *p);
 extern void func_0204B3DC(int h, int f);
 extern void func_0207D63C(u16 *r, int a, int b, int c, int d);
-extern void func_02041570(int a, int b);
-extern int func_020355C4(void);
+extern void func_02041570(int channel, u16 val);
+extern u8 func_020355C4(void);
 
 #define W(o) (*(int *)(p + (o)))
 

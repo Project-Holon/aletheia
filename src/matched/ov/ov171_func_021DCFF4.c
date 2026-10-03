@@ -16,10 +16,12 @@
  */
 typedef signed char s8;
 typedef unsigned short u16;
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021DE8A8(char *);
 extern int func_021DD51C(char *,s8);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern int func_021DD500(char *,int,int,int);
 int func_021DCFF4(char *p) {
     int choice;

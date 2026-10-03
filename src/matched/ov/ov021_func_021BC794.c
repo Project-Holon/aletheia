@@ -19,8 +19,11 @@ typedef struct {
 } Obj;
 
 extern unsigned short func_021BD090(Obj *p);
-extern void *func_0204B100(int a, int b, int c);
-extern void func_0204B22C(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 
 void func_021BC794(Obj *p)
 {

@@ -23,8 +23,9 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 
 extern void *func_0200C0F0(void *sys);
-extern int func_0200C32C();
-extern u64 func_0200C37C();
+struct Blk34;
+extern u8 func_0200C32C(struct Blk34 *p);
+extern unsigned long long func_0200C37C(struct Blk34 *p);
 extern u64 func_0203F524();
 extern void func_020891E0();
 

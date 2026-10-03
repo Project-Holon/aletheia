@@ -41,7 +41,8 @@ typedef struct {
     int fb0;                /* 0xb0 */
 } Cam;
 
-extern fx32 func_0207C768(fx32 a, fx32 b);
+typedef unsigned int   u32;
+extern u32 func_0207C768(u32 a, u32 b);
 
 #define FX_INT_TO_FX32(x) ((fx32)(((x) > 0) ? ((float)((x) << 12) + .5f) \
                                             : ((float)((x) << 12) - .5f)))

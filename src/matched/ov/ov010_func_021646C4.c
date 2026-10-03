@@ -17,6 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Desc;
 extern struct Desc *func_020122C0(void *,void *,void *,u32);
-extern void **func_020124E8(void *);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern int func_021646A0(void *,void *,void **);
 void *func_021646C4(void *a,void *b){void *t=func_020122C0(b,0,(void *)func_021646A0,8);void **p=func_020124E8(t);p[0]=b;p[1]=a;return t;}

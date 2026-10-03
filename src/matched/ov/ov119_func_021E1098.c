@@ -16,7 +16,8 @@
  */
 extern void func_0202F038(int);
 extern void func_020456F8(int);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(int,int);
 extern void func_020452E8(int);
 void func_021E1098(char *p) { if(*(int *)(p+0x5f0)) {func_0202F038(*(int *)(p+0x5f0));*(int *)(p+0x5f0)=0;} if(*(int *)(p+0x71c)) {func_020456F8(*(int *)(p+0x71c));func_02041B6C(6);func_0201F7A8(*(int *)(p+0x71c),2);func_020452E8(*(int *)(p+0x71c));*(int *)(p+0x71c)=0;} }

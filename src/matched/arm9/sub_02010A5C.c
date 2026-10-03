@@ -27,8 +27,10 @@ extern void  func_0203064C(int a, int b, int c);
 extern u8   *func_0203159C(void *a, int b, int c);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *sub_020124F4(u16 heap);
-extern void *sub_02012EBC(void *p);
-extern void *sub_02009448(void *sys);
+struct Big;
+struct Sub02009448Obj;
+extern void *sub_02012EBC(struct Big *p);
+extern struct Sub02009448Obj *sub_02009448(void *sys);
 extern u8    sub_020092EC(const void *obj);
 
 int sub_02010A5C(void *a0)

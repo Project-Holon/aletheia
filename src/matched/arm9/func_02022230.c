@@ -24,7 +24,7 @@
  */
 typedef unsigned int u32;
 
-extern void func_020222CC(u32 which, u32 unused);
+extern void func_020222CC(u32 which, int brightness);
 
 void func_02022230(u32 which)
 {

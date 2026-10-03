@@ -27,12 +27,15 @@ typedef struct Flags {
     u8 pad[0x10];
 } Flags;
 
-extern void *func_020120F4(void *p);
-extern void *func_020127A4(void *p);
+struct Ctx;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern int func_021644C4(int i, void *a, void *b);
 extern void func_02028748(Flags *f, int i, int v);
-extern u32 func_02012B28(void *save);
+extern u32 func_02012B28(const struct Rec44 *p);
 
 void func_02164480(Flags *f, void *a, void *b)
 {

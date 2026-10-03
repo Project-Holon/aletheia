@@ -23,11 +23,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_02034714(void *file, int line, void *msg);
+struct Ctx;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 extern void func_02175358(u8 *a, u8 *slot, u8 i, int d);
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F2C(void *p);
 
 void func_02175280(u8 *a, void *b, u8 *out, int d)

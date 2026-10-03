@@ -44,7 +44,7 @@
  */
 
 typedef unsigned int u32;
-extern void func_02066890(int a0, int a1, int a2, int a3, int s0, int s1, int s2, int s3);
+extern void func_02066890(u32 idx, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02064140(char *p, int v);
 extern void func_02062F38(char *self);
 extern void func_0206434C(char *self, int v);

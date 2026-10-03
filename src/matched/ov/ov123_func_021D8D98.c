@@ -20,10 +20,12 @@
 extern void func_021D65F4(char *);
 extern void func_021D57B8(char *,int);
 extern void func_021D5A7C(char *);
-extern void func_021D6650(void *,int);
-extern void func_021D62BC(void *,int,unsigned int);
-extern void func_021D62B4(void *,int);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D6650(u8 *p, int flag);
+extern void func_021D62BC(u8 *p, int i, u32 v);
+extern void func_021D62B4(u8 *p, unsigned int i);
+extern void func_020061E4(u32 a);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D8D08(void);
 void func_021D8D98(char *p)

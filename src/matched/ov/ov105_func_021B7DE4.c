@@ -22,8 +22,10 @@ typedef short s16;
 extern int func_021B7CA0(void *);
 extern int func_021B7CA4(void *);
 extern int func_021B7CA8(void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045CAC(int,int,void *);
 extern void func_0201C6FC(int,void *,s16,s16,void *,int);
 void func_021B7DE4(u8 *p,void *a,int b,int x,s16 y) {

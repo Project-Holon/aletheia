@@ -25,8 +25,8 @@ typedef struct MemSsea {
     unsigned char result;
 } MemSsea;
 
-extern int func_021D1568();
-extern void func_021CFFAC();
+extern signed char func_021D1568(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524();
 extern void func_021C0E40();
 extern void func_021C7A0C();

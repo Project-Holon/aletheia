@@ -38,7 +38,8 @@ extern int func_021B6B54(void *),func_021B6B6C(void *),func_021B6BA0(void *);
 extern int func_021B7B60(void *),func_021B7B8C(void *),func_021B7C00(void *);
 extern int func_021B8110(void *),func_021B815C(void *),func_021B817C(void *);
 extern void func_021B6390(void *),func_0204A600(void),func_020310C4(void *);
-extern u32 func_0201C4E4(void *);
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021B6174(void *unused0,u32 *state,void *unused2,u8 *p)
 {
     switch(*state) {

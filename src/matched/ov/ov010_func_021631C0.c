@@ -42,7 +42,7 @@ extern void func_02082C60();
 extern int func_0216D7E4();
 extern int func_0216D7DC();
 extern u16 func_021AB0F0(u32 attr);
-extern int func_021AB0F8();
+extern u16 func_021AB0F8(u32 attr);
 extern void *func_0216E3C4(void *p);
 extern int func_0216D67C(int a0);
 extern u32 func_0216D534(void *p);

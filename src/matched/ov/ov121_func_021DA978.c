@@ -19,7 +19,8 @@
 typedef unsigned short u16;
 
 extern void func_02043B5C(int, int);
-extern void func_020257D0(void *);
+struct Obj;
+extern void func_020257D0(struct Obj *o);
 
 void func_021DA978(char *p)
 {

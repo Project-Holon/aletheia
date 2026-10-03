@@ -16,11 +16,15 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_0201D7EC(int,int,int,int,u32);
-extern void *func_0201EC64(u32);
+struct GfFont;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_0201C450(u16,u32);
-extern void *func_020457B0(u32,u32);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_02210710(char *p)
 {
     *(void **)(p+0x1ea0)=func_02045B38(0,2,0x12,*(u16 *)(*(char **)p+0x10));

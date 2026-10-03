@@ -31,7 +31,7 @@ typedef struct {
     u8 slots[1];
 } Obj021A28A0;
 
-void func_021A2A68(u8 *s, int i, u32 x);
+void func_021A2A68(u8 *p, int i, int x);
 
 void func_021A28A0(Obj021A28A0 *p)
 {

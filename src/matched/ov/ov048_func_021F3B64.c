@@ -31,10 +31,11 @@ typedef struct St {
 } St;
 
 extern void *func_02012F68(int a);
-extern int func_0200EC14(void *a);
+struct U16Vec;
+extern int func_0200EC14(char *p);
 extern void func_0200EC2C(void *a, int b, St *c);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045808(void *p);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021F3B64(u16 *p, u32 *out, int *cnt)
 {

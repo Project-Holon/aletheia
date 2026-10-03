@@ -23,11 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *g_021797A8;
-void func_0217814C(u32 a);
-void func_02178138(u32 a);
+void func_0217814C(int error);
+void func_02178138(int state);
 u32 func_0203D6BC(void);
 u32 func_0203D680(void);
-int func_0203D5D4(void);
+u32 func_0203D5D4(void);
 int func_0209004C(void *p, u32 a, u32 b, u16 c, u32 d);
 
 void func_021783FC(u16 *a)

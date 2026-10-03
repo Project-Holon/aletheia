@@ -22,7 +22,8 @@ typedef unsigned int u32;
 struct Big;
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *sys);
-extern int func_0200D488();
+struct Blk38;
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
 
 int func_0215E6F8(int a0, int a1)
 {

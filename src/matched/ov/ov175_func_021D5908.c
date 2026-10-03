@@ -70,7 +70,7 @@ extern int func_021D9F04(char *, void *, void *);
 extern void func_021D65F0(u32 *, u32 *);
 extern void func_021DA0D4(void *, int, int, int, u32 *);
 extern void func_021D6954(char *);
-extern int func_021DA1E4(void *);
+extern int func_021DA1E4(char *obj);
 extern void func_021D9ED4(char *, u32);
 extern int func_021D9EEC(char *);
 extern int func_021DC1A0(char *, u32);

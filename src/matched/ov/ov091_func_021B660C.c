@@ -43,12 +43,12 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201AA18(int);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
 extern void func_021B6D90(u8 *p);
 extern void func_021B7298(u8 *p);
 extern void func_021B71E4(u8 *p);
-extern int func_0201AB28(int, int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021BA6A0(u8 *p, int k, int e);
 extern int func_021BA81C(u8 *p, int k);
 extern int func_021BB43C(int p);
@@ -62,7 +62,7 @@ extern int func_021BB594(u8 *p);
 extern int func_021BBA8C(u8 *p);
 extern void func_021B7698(u8 *p);
 extern void func_02041B6C(u32 id);
-extern void func_0203D34C(u32 a, u16 heap);
+extern void func_0203D34C(u32 a, u32 b);
 
 #define W(o) (*(int *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))
@@ -127,7 +127,7 @@ int func_021B660C(u8 *p)
     func_021B71E4(p);
     for (i = 0; i < 6; i++) {
         if (i < n) {
-            e = func_0201AB28(*(int *)W(0x280), i);
+            e = (int)func_0201AB28(*(void **)W(0x280), i);
             *(int *)(p + i * 4 + 0x160) = func_021BA6A0(p, i, e);
         } else
             *(int *)(p + i * 4 + 0x160) = func_021BA81C(p, i);

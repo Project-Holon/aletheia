@@ -21,11 +21,14 @@
 
 typedef unsigned int u32;
 extern unsigned func_0201CE30(void*);
-extern void func_0201CE5C(void*,int);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Rec;
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern void func_0201CE38(void*);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
-extern void func_020355D8(unsigned);
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_020061E4(unsigned);

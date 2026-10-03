@@ -17,7 +17,8 @@
  *   func_021D839C 0x021D839C thumb ov116
  * volatile: hardware registers 0x04000050, 0x04001050, 0x04000000, 0x04001000 are read/written at 021D8244..021D8258 or 021D82C4..021D82DA.
  */
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021D8364(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);

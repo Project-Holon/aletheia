@@ -25,8 +25,9 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern u8 *func_0204ABBC(u32, u32);
-extern u8 *func_020437D4(void *);
-extern u32 func_020437EC(void *);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_020862F0(void *, u32);
 extern void func_0207E780(void *, void *, u32);
 extern int func_021B811C(char *);

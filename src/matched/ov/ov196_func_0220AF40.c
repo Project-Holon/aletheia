@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern u8 *sub_02030734(u32,u32,int,const char *,u16);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_0220B100[];
 u8 *func_0220AF40(u16 v) { u8 *p; p=sub_02030734(v,24,0,d_0220B100,43); *(u16 *)(p+16)=v; *(u32 *)(p+20)=1; return p; }

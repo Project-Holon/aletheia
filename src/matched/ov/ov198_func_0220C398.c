@@ -22,14 +22,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_022110D4(u8 *,int);
-extern void *func_02045EC0(void *,u32);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045770(void *);
 extern void func_0201C724(u32,u32,u32,u32,u32,u32,u16);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern u32 func_020457B0(u32,u32);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(void *,u32,void *);
-extern void func_0201EF8C(void *,u32,u32);
+extern void func_0201EF8C(struct WordSet *p, u32 i, u32 v);
 void func_0220C398(u8 *p,int slot,int index)
 {
     char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;

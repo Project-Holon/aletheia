@@ -20,8 +20,8 @@
 struct Node;
 extern void func_02030EAC(struct Node *);
 extern void func_021BAE40(int *);
-extern void func_021BAD98(unsigned char *);
-extern void func_021BAD14(unsigned char *);
+extern void func_021BAD98(void *p);
+extern void func_021BAD14(void *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_020307B0(void *);

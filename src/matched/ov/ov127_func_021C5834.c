@@ -16,7 +16,7 @@
  *   func_021C425C  0x021C425C  thumb  ov127
  */
 
-extern int func_021C425C(void *p);
+extern int func_021C425C(char *p);
 
 int func_021C5834(char *p)
 {

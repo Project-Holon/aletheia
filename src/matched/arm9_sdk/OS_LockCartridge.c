@@ -14,7 +14,10 @@
  *   func_02084DC4 0x02084DC4 arm
  */
 
-extern void func_02084CFC(void);
+typedef signed int     s32;
+typedef unsigned short u16;
+struct OSLockWord;
+extern s32 func_02084CFC(u16 lockID, struct OSLockWord *lockp, void (*ctrlFuncp)(void), int disableFIQ);
 extern void func_02084DC4(void);
 
 asm void OS_LockCartridge(void)

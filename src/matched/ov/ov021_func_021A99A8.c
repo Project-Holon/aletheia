@@ -28,11 +28,13 @@ typedef signed int     s32;
 
 struct Entry8 { u32 a, b; };
 
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Blk38;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0201296C(void *p);
-extern int func_020142E8(void *p, u32 flag);
+extern u32 func_020142E8(void *bitmap, s32 id);
 extern void *func_0200D418(void *p);
-extern u32 func_0200D454(void *p);
+extern u8 func_0200D454(struct Blk38 *p);
 extern const struct Entry8 data_021D8DE8[];
 
 const struct Entry8 *func_021A99A8(void *p)

@@ -36,11 +36,12 @@ typedef signed int s32;
 int func_021C815C(int a);
 int func_021D775C(int a);
 void *func_021C7CF4(int a, int b);
-int func_021B9A24(int c, int k);
-int func_021D62C4(void *p, int k);
+struct Unk021D62A8;
+int func_021B9A24(unsigned int a, unsigned int b);
+int func_021D62C4(struct Unk021D62A8 *p, int i);
 int func_021C830C(int a);
 int func_021C8290(int a, int k, int c, int t);
-void func_021D76BC(int a, int b);
+int func_021D76BC(int key, u32 val);
 
 void func_021E0BE8(void *a, int b, int c)
 {

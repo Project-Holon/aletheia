@@ -16,10 +16,11 @@
  *   func_021C2408 0x021C2408 thumb ov099
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
-extern int func_021BA858(char *);
+typedef unsigned int   u32;
+extern u32 func_021BA858(char *p);
 extern void func_021B9B64(char *);
 extern void func_021C23C8(char *,int);
-extern void func_021C18C8(char *,int,unsigned);
+extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021C23D8(char *,int);
 extern void func_021C2408(char *);
 extern void func_021BA8EC(char *);

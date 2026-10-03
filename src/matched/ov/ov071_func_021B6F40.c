@@ -13,7 +13,8 @@
  *   func_021583CC 0x021583CC thumb ov010
  */
 typedef unsigned char u8;
-extern void *func_020120F4(void *);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_021583CC(void *, u8);
 void *func_021B6F40(u8 **p)
 {

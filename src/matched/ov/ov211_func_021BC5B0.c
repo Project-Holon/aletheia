@@ -33,7 +33,7 @@ struct Big;struct Ctrl;struct Sub020073D8Ctrl;struct Sub020072A4Ctrl;
 extern void *func_02012EBC(struct Big *);
 extern u32 func_0200725C(struct Ctrl *,u32,u32);
 extern void *func_020073D8(struct Sub020073D8Ctrl *,u32,u32);
-extern u32 func_0200E8D8(void *);
+extern u32 func_0200E8D8(const void *obj);
 extern void *func_0200E8CC(void *),*func_0200E8D0(void *);
 extern void func_02040B1C(u8,const void *,u32,u32);
 extern void func_02040E78(u32,void *,u32,u32);

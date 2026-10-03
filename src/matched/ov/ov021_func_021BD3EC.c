@@ -31,7 +31,7 @@ typedef struct {
     T t;
 } S;
 
-extern int func_021BD36C(S *p);
+extern int func_021BD36C(void *p);
 
 void func_021BD3EC(S *p)
 {

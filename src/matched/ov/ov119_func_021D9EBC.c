@@ -15,7 +15,7 @@
  */
 
 extern int func_02035D20(int *,int *);
-extern int func_021E51A4(void *,int,int,int *,int *,int *,int *,int *);
+extern int func_021E51A4(char *p, int x, int y, int *outA, int *outB, int *outSlot, int *outColumn, int *outRow);
 extern int func_021D8DD0(int,int,int,char *);
 extern int func_02017E88(int,int,int);
 int func_021D9EBC(char *p,int *a,int *b,int *c,int *d) {

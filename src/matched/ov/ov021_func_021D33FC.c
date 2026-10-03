@@ -37,9 +37,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02012138(void *);
-extern int func_02013D74(int);
-extern void *func_020120F4(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_02013D74(u32 key);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_021D3554(void *, int);
 extern int func_0215850C(int, void *);
 extern int func_02158468(int);

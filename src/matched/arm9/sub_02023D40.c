@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *sub_020056A0(void *cb, void *param, u32 flag);
-extern void sub_02023DC4(void);
+struct Args3;
+extern u32 sub_02023DC4(void *obj, struct Args3 *args);
 
 struct Item_02023D40 {
     void *val;

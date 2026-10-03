@@ -14,7 +14,8 @@
  *   func_02084E98 0x02084E98 arm
  */
 
-extern void func_02084CEC(void);
+struct _FSFreeAreaSize;
+extern int func_02084CEC(struct _FSFreeAreaSize *freesize, char *path, unsigned long size);
 extern void func_02084E98(void);
 
 asm void func_02084E10(void)

@@ -24,7 +24,7 @@ extern int func_02035C08(const void *);
 extern int func_02035BA4(const void *);
 extern void func_0204B878(struct Obj *, u16);
 extern void func_0200616C(void *, int);
-extern void func_02006268(int, int, int, int);
+extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern const u8 d_021C6F8F[];
 void func_021B99F4(void *unused, u8 *q)
 {

@@ -41,7 +41,7 @@ typedef struct {
 } D;
 
 extern void func_021EED00(u8 a, u32 b);
-extern int func_021B8DDC(int m);
+extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int a, u8 b, int c);
 extern void *func_021B86B8(void ***p);
 extern void func_02045CAC(u32 a, u16 b, u32 c);

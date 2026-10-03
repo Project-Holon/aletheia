@@ -13,7 +13,8 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_02082BCC 0x02082BCC arm
  */
-extern void func_0204B3B4(void *a);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(void *p, unsigned int v, unsigned int n);
 void func_021B691C(void **p)
 {

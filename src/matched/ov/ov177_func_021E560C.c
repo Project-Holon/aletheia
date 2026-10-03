@@ -27,9 +27,11 @@ extern unsigned char d_021E8B10[];
 extern void func_02082BCC(int, int, int);
 extern void func_0204A48C(void *, int, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void *);
-extern void func_020434DC(int, int);
-extern void func_02043598(int, int);
+typedef unsigned int   u32;
+struct Bank;
+extern void func_0204B270(struct Bank *bank);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 
 void func_021E560C(int *p, int b, int c)
 {

@@ -29,9 +29,10 @@ struct Blk34;
 
 extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA18(void *a0);
-extern void *func_0201AB28(void *p, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_02012F08(int *p);
 extern void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src);

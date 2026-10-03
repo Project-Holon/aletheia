@@ -14,7 +14,9 @@
  *   func_021EC000 0x021EC000 thumb
  */
 
-extern int func_020260F0(void *);
+typedef unsigned int   u32;
+struct Sound;
+extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EC000(char *p, int i, int v);
 
 void func_021ED55C(char **p, int flag)

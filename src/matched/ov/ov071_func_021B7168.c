@@ -16,9 +16,10 @@
  *   func_0204B3B4  0x0204B3B4  arm
  */
 
+struct Obj;
 void func_021B7168(void *p)
 {
-    void func_0204B3B4(void *p);
+    void func_0204B3B4(struct Obj *p);
     func_0204B3B4(p);
 }
 

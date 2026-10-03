@@ -28,7 +28,7 @@ typedef enum FSResult {
     FS_RESULT_PROC_ASYNC = 0x100
 } FSResult;
 
-extern int func_020774B0(void);
+extern void *func_020774B0(void);
 extern void func_02078734(FSArchive *arc, FSResult ret);
 
 static void func_0207A9C8(void *arg)

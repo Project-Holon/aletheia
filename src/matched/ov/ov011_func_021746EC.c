@@ -21,7 +21,8 @@
 int func_02026478(int a);
 int func_020127D0(int a, int b);
 int func_021583EC(int a, int b);
-void func_021861F4(void *a, int b);
+typedef unsigned short u16;
+void func_021861F4(u16 *p, int x);
 void func_02082D44(void *d, void *s, int n);
 void func_02012800(int a, void *b);
 

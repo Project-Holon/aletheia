@@ -24,11 +24,13 @@ typedef struct { short x,y,z; u8 a,b; } Pos;
 extern void func_02082BCC(void *,int,int);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern void *func_021DA8CC(Pos *,int,int,void *,u8,int,void *,int,u16);
-extern void func_021DA9EC(void *,int);
-extern void func_021DA9F0(void *,int,int,int);
-extern void func_021DA994(void *,int,int,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_021DA9EC(u8 *p, int a);
+extern void func_021DA9F0(u32 *p, u32 a, u32 b, u32 c);
+extern void func_021DA994(char *p, int a, int b, int c);
 extern void *func_021D6C58(const void *,int);
-extern void func_0204B3DC(void *,int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D93F4(u8 *p,const void *q,int n,int k,int x,int y,int z,u16 heap)
 {
     Pos pos;

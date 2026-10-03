@@ -20,9 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0216BB90();
-extern int func_0216BB80();
-extern u32 func_0216BBB4();
+extern void func_0216BB90(int index, u8 *out);
+extern int func_0216BB80(int index);
+extern int func_0216BBB4(int index);
 extern u32 func_0216B970();
 
 int func_0216BA40(int c, int vm)

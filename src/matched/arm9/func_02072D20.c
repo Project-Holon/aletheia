@@ -64,10 +64,10 @@ typedef struct {
     u32 f10;
 } Obj;
 
-extern int func_0208A07C(void);
-extern int func_02089D40(void);
+extern unsigned long func_0208A07C(void);
+extern u32 func_02089D40(void);
 extern void func_02089B38(int v);
-extern void func_02089CD4(int v);
+extern void func_02089CD4(u32 tag);
 
 void func_02072D20(Obj *obj)
 {

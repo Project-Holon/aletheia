@@ -21,7 +21,7 @@ extern void func_021C2304(char *);
 extern void func_021C231C(char *);
 extern void func_021C232C(char *);
 extern void func_021BC4F4(int, unsigned);
-extern void func_021BC6BC(void *);
+extern void func_021BC6BC(char *p);
 void func_021BFFEC(void *unused, char *p)
 {
     switch (*(u8 *)(p + 0x414)) {

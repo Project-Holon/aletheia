@@ -16,11 +16,12 @@ typedef struct {
     unsigned count;
     short base[14];
 } Work;
-extern int func_020407E8(int);
+typedef unsigned int   u32;
+extern u32 func_020407E8(u32 layer);
 extern void func_0204B454(void *, Pos *, int);
 extern void func_0204B404(void *, Pos *, int);
 extern int func_0209C2B0(int, int);
-extern void func_02041EE4(int, int, int);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 int func_021E8338(Work *p)
 {
     int done;

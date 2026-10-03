@@ -14,11 +14,16 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_020457B0 0x020457B0 arm
  */
-extern void *func_02045B38(int, int, int, unsigned);
-extern void *func_0201D7EC(int, int, int, int, unsigned);
-extern void *func_0201EC64(unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void *func_0201C440(unsigned);
-extern void *func_020457B0(unsigned, unsigned);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 void func_021DCC24(char *p)
 {
     *(void **)(p+0xb60)=func_02045B38(0,2,0x55,0x8c);

@@ -41,8 +41,9 @@
 
 typedef unsigned int u32;
 
-extern int func_02012104(void *o);
-extern void func_02012108(void *o, u32 r);
+struct Ctx;
+extern u32 func_02012104(const struct Ctx *p);
+extern void func_02012108(struct Ctx *p, u32 v);
 
 int func_020123D8(void *o, u32 (*fn)(void *, void *), void *a2)
 {

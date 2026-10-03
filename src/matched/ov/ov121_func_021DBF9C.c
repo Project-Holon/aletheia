@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern int func_021DC024(void *);
 extern char *func_021DC02C(void *);
-extern int func_0201BABC(u16,u8,u8,u8);
+extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_02020E60(u32,u32);
 int func_021DBF9C(void *p)
 {

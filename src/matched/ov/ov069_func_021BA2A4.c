@@ -17,7 +17,8 @@
  */
 extern int func_02035C08(const void *key);
 extern unsigned func_020362DC(void);
-extern void func_020061E4(int v);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_021BA2D8(char *o, int k);
 extern const char d_021BA5FC[];
 int func_021BA2A4(char *p)

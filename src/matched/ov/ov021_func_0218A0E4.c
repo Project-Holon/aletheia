@@ -77,17 +77,19 @@ struct FieldInput {
 extern void *func_02012138(void *sys);
 extern void *func_02026474(void *p);
 extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
-extern int func_0200FB24(void);
-extern int func_020221A4(void);
+struct Comm;
+struct Ctx;
+extern u32 func_0200FB24(void);
+extern u32 func_020221A4(void);
 extern int func_021C06CC(void *sys, u8 *pos);
 extern int func_021850FC(void *sys, u8 *pos);
-extern int func_0217391C(void *ev);
-extern int func_02173928(void *ev);
-extern void func_02026400(void *p);
+extern int func_0217391C(u8 *p);
+extern int func_02173928(u8 *p);
+extern void func_02026400(struct Comm *p);
 extern int func_0218A784(struct FieldInput *p, int d);
 extern int func_0217B80C(void *sys, u8 *pos);
-extern int func_0217B83C(void *sys, u8 *pos);
-extern int func_0217394C(void *sys);
+extern int func_0217B83C(void *sys, void *pos);
+extern int func_0217394C(const struct Ctx *p);
 extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
 extern u32 func_0216D5B8(int p);
 extern int func_02158D90(u16 v);
@@ -96,7 +98,7 @@ extern u32 func_0216D588(int p);
 extern int func_0217AF38(u32 v);
 extern void func_021A2F6C(u32 obj);
 extern int func_0219F01C(void *sys, u8 *pos, u32 a, void *m, int ev, u16 id);
-extern int func_0201212C(void *sys);
+extern u8 func_0201212C(const struct Ctx *p);
 extern int func_0215FCE0(void *sys, u8 *pos, u16 id);
 
 int func_0218A0E4(void *sys, u8 *pos)

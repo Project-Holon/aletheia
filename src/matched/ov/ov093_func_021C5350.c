@@ -25,9 +25,9 @@ extern u8 *func_021B9BF0(u8 *, u8);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *, u8, ...);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021D69B8(u8 *, u32 *, u8 *);
-extern void func_021BA1CC(void *, int, u32);
+extern void func_021BA1CC(char **p, int i, u32 delta);
 int func_021C5350(u8 *p, u8 *g, const struct Entry *q)
 {
     u32 i;

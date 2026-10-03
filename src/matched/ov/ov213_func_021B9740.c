@@ -15,8 +15,11 @@
  *   func_02041EE4 0x02041EE4 arm
  */
 extern void func_021BA7D0(void *),func_021BAC68(void *),func_02041EE4(unsigned,unsigned,unsigned);
-extern int func_021B6144(void *);
-extern unsigned func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+struct S;
+extern int func_021B6144(struct S *s);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 int func_021B9740(int a,int b,int c,char *p)
 {
     func_021BA7D0(p+0x24);

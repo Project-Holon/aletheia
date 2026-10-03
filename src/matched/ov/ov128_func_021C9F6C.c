@@ -15,6 +15,6 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_021C9F30(char *,int);
+extern void func_021C9F30(char *p, u32 index);
 extern void func_021C9F8C(void *,char *);
 void func_021C9F6C(char *p,void *q) { int i; for(i=0;i<8;i++)func_021C9F30(p,i);func_021C9F8C(q,p); }

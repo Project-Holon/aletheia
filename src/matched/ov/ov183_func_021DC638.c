@@ -39,16 +39,16 @@ extern void func_021FE784(int *,int,int,int);
 extern int func_021FE7B0(int *);
 extern void func_021DCE28(char *,char *),func_021DCE48(char *,char *),func_021DD054(char *,char *),func_021DD128(char *,char *),func_021DD1D4(char *,char *);
 extern void func_021DD0AC(char *,char *),func_021DD0F4(char *,char *);
-extern int func_02035D20(u32 *,u32 *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021DD2FC(char *,int,int),func_021DD33C(char *,int,int);
 extern void func_021FD170(void *,int,int);
 extern int func_02012DAC(int),func_02012DD0(u8 *);
 extern void func_021FD860(int,int,int *);
-extern int func_02006254(int);
+extern int func_02006254(u32 a);
 extern void func_021F9C50(S *);
 extern int func_021FD744(int);
 extern void func_021FD73C(int *,int);
-extern void func_021DBC68(int *,int *,char *);
+extern void func_021DBC68(int a, int b, char *p);
 void func_021DC638(int *a,int *state,char *p)
 {
     u32 x,y;

@@ -20,8 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B6460(char *);
 extern u16 func_021B7438(char **);
-extern void *func_020120F4(void *);
-extern void func_020120B4(void *, u32, void *, void *);
+struct Ctx;
+struct IcaAnime;
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern char d_021DC800[];
 extern char k_83[];
 int func_021B7B8C(char *p)

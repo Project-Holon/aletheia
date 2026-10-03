@@ -27,7 +27,8 @@
  */
 
 extern int func_02059A5C(void *b, void *c);
-extern int func_020598EC(void *a, void *b);
+struct DWCstAccUserData;
+extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 
 int sub_0200F34C(void *a, void *b, void *c)
 {

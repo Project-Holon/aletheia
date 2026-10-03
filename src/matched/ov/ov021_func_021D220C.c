@@ -36,10 +36,13 @@ struct Milestone {
 
 extern const struct Milestone data_021DD6BC[5];
 
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_02008854(void *p);
-extern u16 func_02008990(void *p);
+struct Big;
+struct Ctx;
+struct Sub02008828Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008828Obj *func_02008854(void *sys);
+extern u16 func_02008990(const struct Sub02008828Obj *obj);
 extern u16 func_02188C84(u8 *p);
 extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
 

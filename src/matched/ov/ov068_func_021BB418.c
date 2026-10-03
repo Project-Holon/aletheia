@@ -33,12 +33,12 @@ typedef struct {
 
 extern void func_021BA9E0(u8 *p, Blk *out);
 extern u32  func_021BB0D0(Blk *b);
-extern void func_021BAE90(u8 *p, u32 v);
-extern void func_02040588(int a, int b);
+extern void func_021BAE90(void *p, u32 value);
+extern void func_02040588(u32 which, u32 enable);
 extern u16  func_021BAEBC(u8 *p);
 extern void func_021BB138(void *p, int v);
-extern void func_021BB4A4(void);
-extern void func_021BB4D4(void);
+extern void func_021BB4A4(void *a, u32 b, u8 *p);
+extern void func_021BB4D4(void *a, u32 b, u8 *p);
 extern void func_021BAE28(u8 *p);
 
 void func_021BB418(void *a0, u32 *st, u8 *base)

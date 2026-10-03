@@ -16,10 +16,10 @@
 
 typedef unsigned int u32;
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D706C(void);
+extern void func_021D706C(char *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021D8A38(char *p)
 {
     if (*(int *)(p+0x64) % 110 == 0) func_020061E4(0x659);

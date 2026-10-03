@@ -15,13 +15,15 @@
  *   func_0203C9AC 0x0203C9AC arm
  *   func_0203C938 0x0203C938 arm
  */
-extern void func_021D66D0(void *,int);
-extern int func_02012DD0(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D66D0(u8 *p, int n);
+extern int func_02012DD0(u8 *p);
 extern void func_020307B0(void *);
-extern void func_0203C9AC(int,int,int,int);
-extern void func_0203C938(int);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+extern u32 func_0203C938(u8 mode);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D8A9C(void);
+extern void func_021D8A9C(char *p);
 void func_021D8B0C(char *p)
 {
     if (*(int *)(p+0x70)<100) ++*(int *)(p+0x70);

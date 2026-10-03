@@ -32,9 +32,10 @@ struct S {
 extern struct S *d_021F3B88;
 extern u8 d_021F3A98[];
 extern void *func_02030734(u16, int, int, const void *, u16);
-extern u32 func_0203D1A4(void *);
+struct Link;
+extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_0203D1B4(void);
-extern void func_021D4AF4(u8);
+extern void func_021D4AF4(int a);
 void func_021D4150(void *link, u16 mask, u16 heap)
 {
     u32 count, i, j, k, limit;

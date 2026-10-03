@@ -15,9 +15,10 @@
  *   func_0203D3F8  0x0203D3F8  arm
  */
 
-extern void func_02034714(void *file, int line, void *msg);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_020399A8(void);
-extern int func_0203D3F8(int a, int b, int c, int d, int e, int f, int g, int h);
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void func_02173BB0(unsigned char *p)
 {

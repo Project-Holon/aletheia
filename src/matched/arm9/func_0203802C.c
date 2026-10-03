@@ -42,12 +42,13 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u8 *func_0203D788(void);
+struct Entry;
+extern void *func_0203D788(void);
 extern int func_020366A8(u8 *p);
-extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
-extern void *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D6BC(void);
-extern u32 func_02037D98(u32 a);
+extern int func_02037D98(int a);
 extern void func_020381D8(u32 a, u32 b);
 extern u8 *g_021469D0;
 extern u8 d_020A7A20[];

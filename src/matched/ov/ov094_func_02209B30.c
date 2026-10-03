@@ -22,11 +22,13 @@ typedef struct {
     int f14;
 } P;
 
-extern void func_02030EAC(void *p);
+typedef unsigned int   u32;
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_02209C18(P *p);
-extern void func_0204A8D4(int h);
-extern void func_0204AFD8(int h);
-extern void func_0204ADA4(int h);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 extern void func_0204B1CC(int h);
 extern void func_020307B0(void *p);
 

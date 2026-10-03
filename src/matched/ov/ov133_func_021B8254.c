@@ -20,11 +20,13 @@
 typedef unsigned char u8;
 typedef struct { int x,y,z; } Vec;
 extern u8 *func_021BA218(u8 *);
-extern void func_021BA148(void *, u8 *);
-extern void func_021BA124(void *, u8 *);
-extern u8 *func_021BA184(void *);
+typedef signed short   s16;
+typedef unsigned int   u32;
+extern void func_021BA148(u8 *p, u8 *q);
+extern void func_021BA124(u8 *p, u8 *q);
+extern void *func_021BA184(char *p);
 extern u8 *func_021BA208(u8 *);
-extern void func_021F4EB4(int, int, short, short);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4EA4(int, int, Vec *);
 extern void func_021F4E8C(int, int, Vec *);
 void func_021B8254(u8 *p)

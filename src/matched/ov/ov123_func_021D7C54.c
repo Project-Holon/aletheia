@@ -14,10 +14,12 @@
  *   func_020093F0 0x020093F0 thumb
  *   func_0203EFC8 0x0203EFC8 arm
  */
-extern void *func_02009390(void *, int);
+struct Sub02009210Ent;
+struct Sub02009210Obj;
+extern struct Sub02009210Ent *func_02009390(struct Sub02009210Obj *obj, int i);
 extern int func_0203EFC8(const void *, const void *, int);
-extern void func_020093A8(void *, int, const void *);
-extern void func_020093F0(void *, int);
+extern void func_020093A8(struct Sub02009210Obj *obj, int i, const void *src);
+extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 void func_021D7C54(void *p, char *q)
 {
     int changed = 0;

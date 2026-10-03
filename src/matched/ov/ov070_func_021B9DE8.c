@@ -13,7 +13,8 @@
  *   func_0204A8D4 0x0204A8D4 arm
  *   func_0204ADA4 0x0204ADA4 arm
  */
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);
 void func_021B9DE8(char *p) { if (*(void **)(p + 0x6A0)) { func_0204B3B4(*(void **)(p + 0x6A0)); func_0204A8D4(*(unsigned *)(p + 0x54C)); func_0204ADA4(*(unsigned *)(p + 0x548)); *(void **)(p + 0x6A0) = 0; } }

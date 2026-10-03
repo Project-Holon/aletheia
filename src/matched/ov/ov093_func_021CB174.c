@@ -16,7 +16,8 @@
  *   func_021B9BF0 0x021B9BF0 thumb ov093
  */
 typedef unsigned char u8;
-extern u8 func_021B8C50(void *, unsigned int, int);
+typedef unsigned int   u32;
+extern u8 func_021B8C50(char **p, u32 v, int k);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
 extern u8 *func_021BB85C(u8 *, unsigned int);
 extern void *func_021B9BF0(void *, u8);

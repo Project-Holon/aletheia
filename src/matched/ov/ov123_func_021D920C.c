@@ -23,16 +23,19 @@
  *   ov114_id 0x00000072 data
  */
 extern int func_020221A4(void *);
-extern void func_02027858(void *);
+typedef unsigned char  u8;
+struct S020315D4;
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 extern void func_020307B0(void *);
-extern void func_021D5644(void *);
-extern void func_021D5E8C(void *);
-extern void func_021D5B70(void *);
+extern void func_021D5644(char *p);
+extern void func_021D5E8C(u8 *p);
+extern void func_021D5B70(char *p);
 extern int func_0203CD98(void);
 extern void func_02156DE0(int,int);
-extern void func_021B9838(void *);
+extern void func_021B9838(u8 *p);
 extern void func_02156DC4(int,int);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 extern void func_02034A5C(void *);
 extern char ov114_id[];

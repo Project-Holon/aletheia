@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern u16 d_021D3620[];
 extern void func_0203F8F4(u16 heap);
 extern void func_02040E78(u32 a, void *b, u32 c, u32 d);
-extern void func_0204363C(int a);
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 
 void func_02188D5C(u16 *p)

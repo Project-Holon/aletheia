@@ -14,10 +14,13 @@
  *   func_0204B878 0x0204B878 arm
  */
 
-extern void func_021DBCA4(void *, int);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_021DBCA4(u8 *p, int v);
 extern void func_02041300(unsigned int,int,int,int,unsigned char,unsigned char,unsigned char);
 extern void func_020409B4(unsigned int);
-extern void func_0204B878(void *, int);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D90C0(unsigned char *a, unsigned char *p)
 {
     unsigned char i;

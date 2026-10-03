@@ -16,8 +16,9 @@
  */
 
 typedef unsigned int u32;
-extern int func_0201CE30(void *);
-extern void func_0201CE48(void *);
+struct Rec3;
+extern u32 func_0201CE30(void *p);
+extern void func_0201CE48(struct Rec3 *p);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_0201CE38(void *);

@@ -15,7 +15,9 @@
 
 typedef unsigned int u32;
 typedef struct { void *p; u32 n; } Work;
-extern void *func_020122C0(void *, void *, void *, u32);
-extern Work *func_020124E8(void *);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021645E0(void *, int *, int *);
 void *func_02164654(void *unused, void *a) { void *task; Work *w; int zero=0; task=func_020122C0(a,0,(void *)func_021645E0,8); w=func_020124E8(task); w->p=a; w->n=zero; return task; }

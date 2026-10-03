@@ -16,10 +16,11 @@
  *   func_0204047C 0x0204047C arm
  *   func_020414AC 0x020414AC arm
  */
-extern int func_02043658(void);
+typedef unsigned int   u32;
+extern u32 func_02043658(void);
 extern void func_02188DA0(void);
-extern void func_02043534(int n);
-extern void func_0204047C(int a, int b);
+extern void func_02043534(u32 planes);
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_020414AC(int a);
 void func_02187884(char *unused)
 {

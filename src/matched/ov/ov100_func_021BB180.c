@@ -27,11 +27,11 @@ typedef unsigned int u32;
 struct Word { int x; };
 struct Task { u16 state,pad; int context; void (*callback)(int); };
 extern const struct Word d_021BB69C,d_021BB68C;
-extern void func_021BA5F4(int);
+extern void func_021BA5F4(unsigned a);
 extern void func_021BA3A4(struct Word *,int);
-extern void func_021BA64C(int,int);
+extern void func_021BA64C(unsigned a, unsigned b);
 extern void func_0204BA00(int,struct Task *);
-extern void func_02040588(int,int);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021BB0C4(int),func_021BB10C(int);
 void func_021BB180(int p)
 {

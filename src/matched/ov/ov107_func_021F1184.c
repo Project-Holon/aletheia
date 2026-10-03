@@ -33,7 +33,8 @@ typedef struct {
     Ov107Flags f18;
 } Ov107Ctx;
 
-int func_020173E8(void);
+typedef unsigned int   u32;
+u32 func_020173E8(void);
 void func_02017550(void *);
 
 void func_021F1184(Ov107Ctx *p)

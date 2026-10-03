@@ -17,7 +17,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilWork;
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D6744(u8 *, u8, u32, u8, u16, u16);
+extern void func_021D6744(u8 *p, u8 a, int f, u8 b, u16 c, u16 d);
 int func_021D3A40(u32 *a, int *b, const u32 *c)
 {
     u8 *x;

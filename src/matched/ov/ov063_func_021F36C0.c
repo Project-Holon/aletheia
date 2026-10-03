@@ -51,13 +51,14 @@ extern int func_0219E348(int a);
 extern int func_02188CD0(u32 a);
 extern int func_02188C58(u32 a);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A2F6C(void *a);
+typedef unsigned short u16;
+extern void func_021A2F6C(u32 *p);
 extern void func_0216DB4C(int a, int b);
 extern void func_0216DC98(int a, int b);
 extern void func_0216DAE0(int a, int b);
 extern void func_0216DAF8(int a);
 extern u32 func_02188D30(u32 a);
-extern W *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(u32 owner, void *cb, void *arg, u32 n);
 extern void func_021F377C(void);
 

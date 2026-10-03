@@ -20,7 +20,9 @@
 typedef unsigned int u32;
 
 extern int func_020221A4(char *);
-extern void func_02051C88(void *);
+typedef signed int     s32;
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
 extern void func_021D4C4C(char *);
 
 void func_021D4CA0(char *p)

@@ -56,7 +56,7 @@ extern int func_0216D83C(void *);
 extern int func_0216D86C(void *);
 extern int func_0202A128(int);
 extern void func_0202A170(int);
-extern int func_02005728(int);
+extern u32 func_02005728(u32 range);
 extern void func_0217C1D0(Ctx *, Entry *, u16, u16, u16, int);
 
 void func_0217C37C(int a0, int a1, Entry *list, int a3, int kind)

@@ -14,7 +14,8 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02027F60(u16, u16, u32, u32, u16);
+struct R;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 void func_021F0140(char *p, u16 heap)
 {
     *(void **)(p + 0x40) = func_02027F60(4, 3, *(u32 *)(p + 0x34), *(u32 *)(p + 0x3c), heap);

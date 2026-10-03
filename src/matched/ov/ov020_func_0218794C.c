@@ -23,14 +23,16 @@
  */
 
 void *func_020490F4(unsigned int id, unsigned int heap);
-void *func_02049250(void *x, int i, int b);
+typedef unsigned int   u32;
+struct ArcFile;
+void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 void func_02062A98(void *v, int **o);
 void func_02040E78(int a, int b, int c, int d);
 void func_020307B0(void *v);
 void func_02062A4C(void *v, int **o);
 void func_02040B1C(int a, int b, int c, int d);
 void func_02062B30(void *v, int **o);
-void func_020409E0(int a, int *b, int c, int d);
+void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 void func_02049238(void *x);
 
 void func_0218794C(int sel, int b)

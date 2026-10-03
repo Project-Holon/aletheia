@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 extern void *func_020450F0(u8,u8,u8,u8,u8,u8,u8);
 extern void func_0201F73C(void *,int,int,int);
-extern void func_02045374(void *);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern void func_021DA578(void *,int,int,int);
 void func_021DA524(void **p,int a,int b,int c,int d,int e,int f,int g,int h)
 {

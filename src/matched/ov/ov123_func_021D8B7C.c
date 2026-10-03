@@ -18,17 +18,19 @@
  */
 typedef unsigned int u32;
 struct RtcDate { u32 year, month, day, week; };
-extern void *func_02009448(void *);
+struct Sub02009210Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_0203F4E4(struct RtcDate *);
-extern void func_020093CC(void *,u32);
-extern int func_020093D8(void *);
-extern void func_02009428(void *,int);
-extern void func_020093F0(void *,int);
+extern void func_020093CC(struct Sub02009210Obj *obj, u32 value);
+extern u32 func_020093D8(const struct Sub02009210Obj *obj);
+extern void func_02009428(struct Sub02009210Obj *obj, int value);
+extern void func_020093F0(struct Sub02009210Obj *obj, int value);
 extern int func_02012F2C(void *);
 extern void func_02008DF0(int,int);
 extern int func_02012DAC(void *);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D8B0C(void);
+extern void func_021D8B0C(char *p);
 void func_021D8B7C(char *p)
 {
     void *q;

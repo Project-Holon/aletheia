@@ -24,7 +24,7 @@ int func_02188C80(u32 x);
 int func_020120F4(int x);
 int func_02012A30(int x);
 int func_02188C9C(u32 x);
-void func_02029D8C(int a, int b, u16 c);
+void func_02029D8C(u32 a0, u32 a1, u32 a2);
 
 void func_021A4114(u32 *p)
 {

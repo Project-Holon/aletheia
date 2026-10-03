@@ -56,9 +56,10 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C6B8(void *p);
-extern void sub_0202C638(void *p);
-extern void sub_0202C654(void *p);
+struct Obj0202C6B8;
+extern u32 sub_0202C6B8(struct Obj0202C6B8 *p);
+extern u32 sub_0202C638(void *p);
+extern u32 sub_0202C654(void *p);
 
 void sub_0202C630(void *p);
 void sub_0202C634(void *p);

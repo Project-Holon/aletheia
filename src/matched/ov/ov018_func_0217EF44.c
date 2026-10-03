@@ -15,8 +15,10 @@
  * interface: r1 holds p[0xd8] at 0x0217EF64 and EF70 reads it.
  */
 typedef unsigned char u8;
-extern void *func_020120F4(const void *);
-extern unsigned int func_02012138(const void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
 extern void func_0217EF70(void *, int);
 void func_0217EF44(u8 *p)
 {

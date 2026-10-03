@@ -26,15 +26,18 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void *func_0201283C(void *);
 extern void *func_02009860(void *);
-extern u64 func_0205994C(void *);
-extern int func_02009A1C(void *,int);
+struct DWCstAccUserData;
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
+extern int func_02009A1C(struct Sub020097BCObj *obj, u32 i);
 extern u64 func_021CA014(void *,int *);
 extern int func_02059354(void *,u32,u32);
 extern int func_0200F43C(void *,u32,u32,int *);
-extern void *func_020099C8(void *,int);
+extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
 extern void func_02059980(void *,u32,u32);
 extern void func_02009A00(void *,int,u32);
-extern void func_02009918(void *,int,int,int);
+extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 int func_021C6460(char *p,void *q,u32 arg)
 {
     int i;

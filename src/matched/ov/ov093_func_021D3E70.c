@@ -26,9 +26,11 @@ typedef struct {
 } Pair;
 
 extern Pair d_021EFF94[];
-extern u32 func_021D805C(void *s, int k);
-extern int func_021D5D14(void *m, u32 e, int d);
-extern int func_021D5F14(void *m);
+typedef signed char    s8;
+struct UtilWork;
+extern u32 func_021D805C(void *p, u32 n);
+extern int func_021D5D14(s8 *p, int i, int sign);
+extern u8 func_021D5F14(struct UtilWork *p);
 
 int func_021D3E70(void *s, void *m)
 {

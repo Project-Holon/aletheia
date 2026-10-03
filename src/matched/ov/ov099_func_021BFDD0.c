@@ -25,7 +25,7 @@ extern int func_020399EC(void);
 extern void func_021563D0(void);
 extern void func_021C24A4(char *,int);
 extern void func_021BA8EC(char *);
-extern void func_021C18C8(char *,int,unsigned);
+extern void func_021C18C8(char *p, int kind, int value);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern void func_02039C68(unsigned,unsigned,unsigned);

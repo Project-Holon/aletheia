@@ -36,7 +36,7 @@ extern int   func_02062820(void *ptr, u32 val);
 extern int   func_02062A00(void *ptr, u32 val);
 extern int   func_02062A4C(void *ptr, u32 val);
 extern int   func_02062A98(void *ptr, u32 val);
-extern int   func_02062B30(void *ptr, u32 val);
+extern int   func_02062B30(void *ptr, void **out);
 extern void  func_020307B0(void *ptr);
 
 void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
@@ -91,7 +91,7 @@ void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A1BC(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062B30(res, a3)) {
+        if (!func_02062B30(res, (void **)a3)) {
             func_020307B0(res);
             return 0;
         }
@@ -99,11 +99,11 @@ void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049EF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *func_02049EF4(void *a0, u32 a1, u32 a2, void **out, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
-        if (!func_02062B30(res, a3)) {
+        if (!func_02062B30(res, out)) {
             func_020307B0(res);
             return 0;
         }

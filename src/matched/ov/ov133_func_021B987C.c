@@ -11,5 +11,7 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_021B9C90 0x021B9C90 thumb ov133
  */
-extern void func_0204B3DC(void *,unsigned int); extern void func_021B9C90(unsigned char *);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v); extern void func_021B9C90(unsigned char *);
 void func_021B987C(unsigned char *p) {*(unsigned int *)(p+0x183c)=0;*(unsigned int *)(p+12)=1;func_0204B3DC(*(void **)(p+0x1854),0);func_021B9C90(p);}

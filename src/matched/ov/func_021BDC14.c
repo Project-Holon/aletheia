@@ -16,7 +16,7 @@
  */
 
 
-extern int func_021BD3A4(int, int, int);
+extern void func_021BD3A4(int a, int b, int c);
 
 void func_021BDC14(char *p, int b)
 {

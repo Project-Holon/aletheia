@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 extern u8 func_020355C4(void);
-extern void func_021CA124(int,int);
+typedef unsigned int   u32;
+extern void func_021CA124(u32 a, u32 b);
 void func_021CA19C(unsigned *p)
 {
     unsigned i;

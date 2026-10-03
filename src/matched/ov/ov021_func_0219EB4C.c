@@ -34,7 +34,7 @@ extern u8 d_021D84AC[];
 
 extern E *func_0216D69C();
 extern int func_0219EA10();
-extern int func_0219EA24();
+extern u32 func_0219EA24(u32 a, u32 b);
 extern void func_0216D5E0(u32, u16);
 extern int func_0219EA78();
 

@@ -28,7 +28,7 @@ struct G {
     u64 add;
 };
 
-extern u32 func_021B8588(void *p);
+extern u32 func_021B8588(void **p);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D0644(void *g, void *m, void *a, int b);
 extern int func_021D055C(void *g, void *a, int b);

@@ -14,8 +14,9 @@
  *   func_02050DB8  0x02050DB8  arm
  *   func_020307B0  0x020307B0  arm
  */
-extern void *func_02051640(void *p);
-extern void func_02050DB8(void *p);
+typedef unsigned char  u8;
+extern void *func_02051640(char *p);
+extern void func_02050DB8(u8 *p);
 extern void func_020307B0(void *p);
 
 void func_021FDB08(void *p)

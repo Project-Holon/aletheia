@@ -18,9 +18,10 @@
  */
 extern void func_021E8AA0(unsigned,void *);
 extern void func_021DA36C(void *);
-extern void func_021D4608(void);
-extern void func_021D51BC(void);
-extern void func_021D5E24(void);
+typedef unsigned int   u32;
+extern void func_021D4608(u32 sys, int *state, u32 *p);
+extern void func_021D51BC(unsigned sys, int *state, char *p);
+extern void func_021D5E24(unsigned sys, int *state, char *p);
 extern void func_021D54E8(unsigned,int *,int *);
 extern void func_021D6000(unsigned,int *,int *);
 void func_021D458C(unsigned sys,int *state,int *p)

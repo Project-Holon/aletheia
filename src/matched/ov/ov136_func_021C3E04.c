@@ -15,8 +15,8 @@
  *   func_02017E40 0x02017E40 thumb
  */
 typedef unsigned int u32;
-extern u32 func_021C3E00(void *);
-extern void func_02017E40(void *p, int field, u32 v);
+extern u32 func_021C3E00(u32 *p);
+extern void func_02017E40(void *p, u32 id, u32 v);
 int func_021C3E04(u32 *p, void *q)
 {
     if (func_021C3E00(p) == 0) return 0;

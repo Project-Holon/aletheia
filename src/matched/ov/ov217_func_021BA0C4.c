@@ -52,13 +52,13 @@ extern u32 func_021BA7D0();
 extern u32 func_021BA82C();
 extern u32 func_021BA848();
 extern u32 func_021BA8E0();
-extern u32 func_021BA960();
-extern u32 func_021BA9D0();
+extern u32 func_021BA960(u32 a0);
+extern u32 func_021BA9D0(u32 a0);
 extern u32 func_021BAA28();
 extern u32 func_021BAAB8();
 extern u32 func_021BAAF4();
 extern u32 func_021BAB38();
-extern u32 func_021BAB68();
+extern void func_021BAB68(void);
 extern u32 func_021C09E0();
 extern u32 func_021C09EC();
 u32 func_021BA0C4(u32 a0)

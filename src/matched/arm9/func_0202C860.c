@@ -44,11 +44,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215E6A8(u8 *a0, u16 a1);
+extern int func_0215E6A8(void *a, int x);
 extern u32 func_0215E6F8(u8 *a0);
 extern u32 func_02012994(u8 *a0);
 extern void func_020129A0(u8 *a0, u32 v);
-extern u32 func_02013C10(u16 a1);
+extern u32 func_02013C10(u32 id);
 
 void func_0202C860(u8 *a0, u32 a1)
 {

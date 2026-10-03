@@ -24,7 +24,7 @@ extern const unsigned d_021C3A18[];
 extern const unsigned d_021C3A74[][11];
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_0203F8F4(u16);
-extern void func_02045088(unsigned);
+extern void func_02045088(u16 heapId);
 extern void func_0203FC28(const void *);
 extern void func_0203FCA0(u8,const void *,u8);
 extern void func_020414AC(u8);

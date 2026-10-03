@@ -49,7 +49,7 @@ extern void func_021F37FC(int *p);
 extern void func_021F3908(int *p);
 extern void func_021F3818(int *p);
 extern void func_021F3830(int *p);
-extern void func_021F3D78(int *p);
+extern void func_021F3D78(void *p);
 extern void func_021F3870(int *p);
 extern void func_021F39E4(int *p);
 extern void func_021F39BC(int *p);

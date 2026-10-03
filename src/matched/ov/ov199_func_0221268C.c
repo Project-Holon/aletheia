@@ -18,13 +18,16 @@
  *   func_020306F0 0x020306F0 arm
  *   func_02005D28 0x02005D28 thumb
  */
-extern void func_0221372C(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct S020315D4;
+extern void func_0221372C(char *p);
 extern void func_022133D0(char *);
 extern void func_0200B424(void);
 extern void func_020307B0(void *);
-extern void func_02012704(void *);
-extern void func_02087BCC(int);
-extern void func_020315D4(void *);
+extern void func_02012704(u8 *p);
+extern void func_02087BCC(u32 parameter);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 extern void func_02005D28(void);
 int func_0221268C(void *sys, int unused, void *data, char *p)

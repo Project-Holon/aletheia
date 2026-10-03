@@ -25,7 +25,7 @@ struct Rec { u16 a; u16 b; u8 c; u8 d; u8 e; };
 
 extern u8 func_021D5440(u8 *p);
 extern void func_021D6848(u8 *c, struct Rec *r);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 
 void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w)
 {

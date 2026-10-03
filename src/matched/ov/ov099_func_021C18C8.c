@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 extern int func_021C282C(u8 *);
 extern int func_02156A3C(void);
-extern void func_02009B80(void *, int);
+struct Sub020097BCObj;
+extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 extern void func_021C1908(char *, int, int);
 extern void func_021BE6E4(char *);
 void func_021C18C8(char *p, int kind, int value)

@@ -64,7 +64,7 @@ typedef struct Obj {
 extern void func_02167B44(Obj *o, void *t);
 extern void func_02167B9C(Obj *o);
 extern void func_02167BB4(Obj *o, u32 v);
-extern void *func_02012944(void *a);
+extern u8 *func_02012944(void *p);
 extern void func_02008494(void *a, void *b);
 extern void func_02167BCC(Obj *o);
 extern void func_02167BD8(Obj *o, u32 v);

@@ -46,11 +46,14 @@ extern u8 func_021B8DE4(u8 *);
 extern void func_021B8BC0(u8 *,Block *);
 extern void func_021B8338(u8 *,void (*)(u8 *,u16 *));
 extern void func_021B8A44(u8 *,u16 *);
-extern void *func_020120F4(void *);
-extern void *func_02012EBC(void *);
+struct Big;
+struct Ctx;
+struct T0200A9A4;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern u32 func_02008530(const void *);
-extern int func_0200A9D4(void *,u32);
+extern int func_0200A9D4(struct T0200A9A4 *o, u32 v);
 extern void func_020061E4(u32);
 #define CTX (*(u8 **)(p+0xb0c))
 void func_021B8828(u8 *p,u16 *state) {

@@ -16,7 +16,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021D57A8(void *p, u8 *a, u8 *b);
+extern void func_021D57A8(u8 *p, u8 *a, u8 *b);
 extern u16 func_021E8CE0(u32 a, u32 b);
 
 u16 func_021D57FC(void *p)

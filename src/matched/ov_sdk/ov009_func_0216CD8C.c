@@ -50,29 +50,30 @@ typedef struct DWCstMatchControl {
 } DWCstMatchControl;
 
 extern DWCstMatchControl *func_02175F3C(void);
-extern int func_02195E60(void *connection);
-extern int func_02195E40(void *connection);
+struct qr2_implementation_s;
+extern int func_02195E60(const int *p);
+extern unsigned short func_02195E40(const unsigned short *p);
 extern int func_0219AEB4(void **qrec, int s, int boundport, char *gamename, char *secret_key,
                          int ispublic, int natnegotiate, void *server_key_callback,
                          void *player_key_callback, void *team_key_callback,
                          void *key_list_callback, void *playerteam_count_callback,
                          void *adderror_callback, void *userdata);
-extern void func_0219B540(void *qrec);
+extern void func_0219B540(struct qr2_implementation_s *qrec);
 extern int func_02173E30(int error);
 extern void func_0219B1AC(void *qrec, void *cb);
 extern void func_0219B134(void *qrec, void *cb);
 extern void func_0219B170(void *qrec, void *cb);
 extern void func_02176ABC(void);
 extern void func_0219B490(void *qrec);
-extern void func_02174AA0();
+extern void func_02174AA0(int keyid, void *outbuf);
 extern void func_02174C2C();
 extern void func_02174C30();
-extern void func_02174C34();
+extern void func_02174C34(int keytype, void *keybuffer);
 extern int func_02174CF0();
 extern void func_02174CF8();
 extern void func_02174D04();
-extern void func_02174D28();
-extern void func_02174ED0();
+extern void func_02174D28(int cookie);
+extern void func_02174ED0(char *data, int len);
 
 int func_0216CD8C(void)
 {

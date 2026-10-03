@@ -39,7 +39,7 @@ struct Unit {
 
 extern u8 func_021A9B68(struct Unit *u, struct Spec *specs, u32 type);
 extern void func_021A9B00(struct Spec *spec, struct Slot14 *s);
-extern void func_021A9BE8(struct Unit *u, struct Spec *specs, struct Slot14 *s);
+extern void func_021A9BE8(const struct Unit *u, const struct Spec *specs, struct Slot14 *s);
 extern u32 (*const data_021D8DD8[])(u8 n);
 
 void func_021A9C58(struct Unit *u, struct Spec *specs, struct Slot14 *s)

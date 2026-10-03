@@ -36,10 +36,12 @@ extern void  sub_0202DE6C(u32 a, u32 b, u32 c, const struct Pos *base,
                           struct Pos *out);
 extern u32   sub_0202E430(u32 id);
 extern u32   func_02045730(u32 cell);
-extern u32   func_020416D4(u32 a);
+typedef unsigned char  u8;
+struct Obj;
+extern u8 func_020416D4(u32 layer);
 extern void  func_0204B404(void *h, struct Pt *p, u16 v);
 extern void  func_0204B84C(void *h, u32 a);
-extern void  func_0204B878(void *h, u16 a);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_0202E040(void *h, u32 cell, u32 b, u32 c,
                    u32 n, const struct Pos *base)

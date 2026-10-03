@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_02021930(u32 val, int bit);
+extern u8 func_02021930(u32 val, int bit);
 extern void func_02021BC8(u8 *p, u32 idx, u32 arg);
 
 struct S02021B6C {

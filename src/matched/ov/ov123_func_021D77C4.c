@@ -17,11 +17,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_021D5BA0(int);
-extern u16 func_0203F1FC(const void *,int);
+typedef unsigned int   u32;
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern int func_0200C5C8(int,void *,int,u16);
 extern void func_021D6EE0(int,int,int);
-extern void func_021D6FF0(void);
-extern void func_021D7798(void);
+extern void func_021D6FF0(char *p);
+extern void func_021D7798(u8 *p);
 void func_021D77C4(int a,int n)
 {
     u8 *p;

@@ -22,8 +22,8 @@ struct B { u16 lo:8; u16 mid:7; u16 hi:1; };
 
 extern int func_021D775C(int key);
 extern u8 *func_021C88A4(u8 *p, int a, int b);
-extern int func_021E899C(int k);
-extern void func_021C88C8(u8 *a, u8 *b);
+extern int func_021E899C(u32 a);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E48C0(int a0, u8 *s, int k)
 {

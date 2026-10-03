@@ -23,14 +23,15 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_02020E60(int,int);
+struct Obj;
+extern u32 func_02020E60(u32 item, u32 which);
 extern void *func_0204AC18(void *,u32,u32,u32,u32,u32,u16);
 extern void *func_0204A6C8(void *,u32,u32,u32,u16);
 extern void *func_0204AF28(void *,u32,u32,u16);
 extern void func_02049238(void *);
 extern void *func_0204B294(u32,void *,u32,u32,struct Point *,u16,u16);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B3DC(void *,u32);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D6D5C(u8 *p)
 {
     struct Point pt;

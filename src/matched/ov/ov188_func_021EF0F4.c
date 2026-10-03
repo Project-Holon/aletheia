@@ -13,7 +13,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02045A38(void *, u16 *, u32);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 void func_021EF0F4(u8 *a, u8 *b)
 {
     unsigned i;

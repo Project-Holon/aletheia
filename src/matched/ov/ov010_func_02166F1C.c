@@ -30,14 +30,16 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *a);
 extern void *func_0215A5DC(void *a);
 extern void *func_0215A5E4(void *a);
-extern void *func_0201210C(void *p);
+struct BigObj;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C6C(u8 *p);
-extern int func_02159B10(void *a, void *b);
-extern u16 func_02188C9C(void *a);
-extern int func_0202C794(void *a, int b);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern u16 func_02188C9C(u8 *p);
+extern u8 func_0202C794(void *a0, u32 a1);
 extern void func_021A1BE4(int a, int b);
 extern void func_021A1BDC(int a, int b);
-extern void func_020129A0(void *a, u32 b);
+extern void func_020129A0(struct BigObj *p, u8 v);
 
 int func_02166F1C(void *a, void *b)
 {

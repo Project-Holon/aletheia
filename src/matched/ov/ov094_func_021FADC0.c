@@ -36,7 +36,8 @@ typedef struct {
 } Req;
 
 extern int func_0201134C(void *);
-extern int func_0207C768(int a, int b);
+typedef unsigned int   u32;
+extern u32 func_0207C768(u32 a, u32 b);
 extern int func_021FCA04(State *s, int id, int *out);
 extern void *func_021F8694(void);
 extern void func_021FFB04(void *w, Req *r);

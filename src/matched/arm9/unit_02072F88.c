@@ -46,15 +46,15 @@ struct Obj { struct Sub * volatile p; };
 
 extern short g_020A5D08[];
 extern void func_020893E8(u8, u32);
-extern void func_02089580(u8, u32, u32);
-extern void func_020895B0(u8, u32, u32);
+extern void func_02089580(int playerNo, u32 trackBitMask, int flag);
+extern void func_020895B0(int playerNo, u32 trackBitMask, int mute);
 extern void func_02089400(u8, u32, int);
 extern void func_0208941C(u8, u32, u32);
 extern void func_02089438(u8, u32, u32);
 extern void func_02089454(u8, u32, u32);
 extern void func_02089470(u8, u32, u32);
 extern void func_020893B8(u8, u32);
-extern int  func_02072894(u8, u32, u32);
+extern u32 func_02072894(u32 a, u32 b, u32 c);
 
 void func_02072F88(struct Obj *o, u32 v)
 {

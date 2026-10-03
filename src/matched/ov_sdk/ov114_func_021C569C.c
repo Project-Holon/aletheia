@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0205A17C(int, int, int);
+extern void *func_0205A17C(int name, unsigned long size, int align);
 
 void func_021C569C(int a, int b)
 {

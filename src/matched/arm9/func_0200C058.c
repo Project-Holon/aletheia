@@ -38,11 +38,14 @@ typedef struct {
     u8  f49;
 } Obj;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02045EC0(void *a, u32 b);
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void  func_02045A38(void *a, void *dst, u32 n);
-extern void  func_02045808(void *a);
-extern void  func_02045C04(void *a);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern void  func_0200C10C(Obj *p);
 extern void *memset(void *dst, int c, u32 n);
 

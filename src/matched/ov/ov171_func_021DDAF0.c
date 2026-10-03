@@ -22,14 +22,20 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_02043B5C(void *,u32);
-extern void *func_02045EC0(void *,u32);
-extern u32 func_0201D304(void *,u32,u32);
+struct CharBuf;
+struct MsgBank;
+struct Obj;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
-extern void func_02045808(void *);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
-extern void func_020257D0(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_020257D0(struct Obj *o);
 void func_021DDAF0(u8 *p)
 {
     void *s1,*s2,*font,*text;

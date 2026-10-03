@@ -19,7 +19,9 @@
  */
 struct WinMgr;
 extern int func_021E2094(char *);
-extern int func_020260F0(void *);
+typedef unsigned int   u32;
+struct Sound;
+extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EC000(char *, int, int);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(unsigned char *);

@@ -41,7 +41,8 @@ struct Obj20_02016880 {
 extern void func_02063A54(void *a, u32 b, int c, u32 d);
 extern void func_02063E54(void *a, u32 b, int c, u32 d);
 extern void sub_020307B0(void *p);
-extern void sub_02030EAC(void *p);
+struct Node;
+extern void sub_02030EAC(struct Node *n);
 
 void func_02016880(void *a0, struct Obj_02016880 *a1)
 {

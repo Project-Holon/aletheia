@@ -23,7 +23,8 @@ typedef struct Obj {
     int f1C;
 } Obj;
 
-extern u32 func_02021014(void *rec, u32 sel);
+struct Rec;
+extern u32 func_02021014(struct Rec *p, u32 sel);
 extern u32 func_0202136C(u16 v);
 
 void func_021B822C(Obj *o, void *rec, u16 *p, u8 *out)

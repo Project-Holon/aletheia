@@ -61,8 +61,8 @@ extern const char sub_0200734C_File[];
 
 extern void *func_02031948(struct Sub02007324Desc *desc, u32 heap, u32 a,
                            u32 b, u32 c);
-extern void  func_0203195C(void *stream);
-extern void  func_02034714(const char *file, int line, const char *msg);
+extern void func_0203195C(u8 *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void sub_02007324(struct Sub02007324Ctrl *ctrl, u32 id, u32 heap, u32 a,
                   u32 b)

@@ -24,8 +24,9 @@ typedef unsigned int u32;
 
 extern const char d_02172978[];
 
-extern void *func_020120F4(void *p);
-extern u32 *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u32 *func_02161378(char *c)
 {

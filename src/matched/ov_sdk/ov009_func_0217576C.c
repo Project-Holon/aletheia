@@ -50,7 +50,7 @@ struct DWCstNodeInfo {
 extern int func_0216BA08(void);
 extern struct DWCstMatchControl *func_02175F3C(void);
 extern u64 func_020870D0(void);
-extern u32 func_0216B908(void);
+extern int func_0216B908(void);
 extern int func_0217603C(void);
 extern struct DWCstNodeInfo *func_0217637C(int index);
 extern struct DWCstNodeInfo *func_02176344(void);

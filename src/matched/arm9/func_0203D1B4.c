@@ -13,7 +13,7 @@
  *   func_020399EC  0x020399EC  arm
  */
 
-extern void func_020399EC(void);
+extern int func_020399EC(void);
 
 void func_0203D1B4(void)
 {

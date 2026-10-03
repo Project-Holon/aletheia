@@ -22,8 +22,11 @@ Config;
 extern const Config d_020A1448;
 extern void func_0204A48C(const Config *,unsigned,unsigned);
 extern void func_020434DC(unsigned,unsigned);
-extern void *func_0204B100(int,unsigned char,unsigned);
-extern void func_0204B270(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 void func_021D9838(char *p,unsigned a)  {
     Config c = d_020A1448;
     ((unsigned char *)&c)[8] = 16;

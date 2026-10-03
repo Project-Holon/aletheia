@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021BC898(void *);
+extern int func_021BC898(u8 *p);
 extern void func_02040588(u32,u32);
 int func_021BB854(u8 *p) { if (func_021BC898(p+24)!=0) { func_02040588(1,0); return 1; } return 0; }

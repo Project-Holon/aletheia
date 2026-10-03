@@ -43,7 +43,8 @@ extern void *func_021F8694(void);
 extern void *func_021F86F0(void);
 extern int func_021FCF2C(int a, int idx);
 extern void func_021FF3F4(void *obj, void *out, int idx);
-extern void *func_02201B20(void *w, int a, int b, int c, int d, int e, s16 f, s16 g, int h, int i);
+typedef unsigned int   u32;
+extern int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f);
 
 int func_021FC148(int a, State *s)
 {

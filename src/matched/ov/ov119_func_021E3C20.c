@@ -22,8 +22,9 @@ typedef struct { void *f0; u32 f4; int f8; u32 fC, f10, f14; int f18, f1C; } Con
 extern const Template d_021E7C0C;
 extern void func_02082BCC(void *, int, int);
 extern void *func_021B62E0(Config *, int);
-extern void func_021B6558(void *, int, int);
-extern void func_021B6520(void *, u32);
+typedef unsigned char  u8;
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
+extern void func_021B6520(u8 *p, u32 v);
 void func_021E3C20(char *p)
 {
     Template t = d_021E7C0C;

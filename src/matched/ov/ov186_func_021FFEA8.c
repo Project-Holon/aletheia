@@ -17,12 +17,13 @@
  *   d_02200DAC 0x02200DAC data a1
  */
 typedef struct Request { unsigned short x, y, id; unsigned char flag, pad; } Request;
-extern int func_021FC20C(char *);
+typedef unsigned int   u32;
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern int func_021FC124(void *, unsigned, void *);
 extern void *func_021FB378(void *, int, int, int, int, int, int, int, void *, unsigned short);
 extern void *func_02082BCC(void *, int, unsigned);
-extern void func_02034714(const char *, int, const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200DAC[];
 void func_021FFEA8(char *p)
 {

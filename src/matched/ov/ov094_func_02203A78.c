@@ -36,9 +36,12 @@ typedef struct Ctx {
 } Ctx;
 
 extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
-extern void func_02045374(void *p);
-extern void func_020409B4(int a);
-extern void func_02045334(void *p);
+typedef unsigned int   u32;
+struct Cfg;
+struct Descriptor;
+extern void func_02045374(struct Cfg *cfg);
+extern void func_020409B4(u32 index);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0220687C(Main *m, int a);
 
 void func_02203A78(int a0, Ctx *c)

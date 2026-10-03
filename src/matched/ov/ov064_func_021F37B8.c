@@ -33,7 +33,8 @@ typedef struct {
     int c;
 } V3;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(unsigned char *a, V3 *v);

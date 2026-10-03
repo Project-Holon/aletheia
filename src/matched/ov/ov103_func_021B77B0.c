@@ -24,7 +24,8 @@ extern int func_0204E804(void);
 extern u32 func_021B7FF0(u8 *);
 extern int func_021B8100(void *, void *);
 extern void func_021B7918(u8 *);
-extern int func_021B63D0(void *);
+struct Obj;
+extern int func_021B63D0(struct Obj *p);
 extern void func_021B71E4(int);
 int func_021B77B0(void *unused, u32 *state, int unused2, char *p)
 {

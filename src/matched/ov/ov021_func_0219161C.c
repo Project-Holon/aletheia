@@ -42,9 +42,10 @@ typedef struct R {
     u16 f28;
 } R;
 
-extern void func_02190538(void *s);
+struct Slot;
+extern void func_02190538(struct Slot *s);
 extern void *func_021904EC(Fx *p, u32 a, u32 b);
-extern void func_02190550(void *s, int x, int y, u32 z);
+extern void func_02190550(struct Slot *s, int x, int y, u32 z);
 
 void func_0219161C(R *r, int b, int c, u32 d)
 {

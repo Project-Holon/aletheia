@@ -16,8 +16,11 @@ typedef unsigned short u16;
 extern int func_02034AC4(int);
 extern char overlay94[];
 extern void *func_02021518(unsigned);
-extern void func_02021EE4(void *,int);
-extern void func_0202155C(void *,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+struct Obj02021EE4;
+struct PalAnmSlot;
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 extern void *func_02202058(void *,int,void *,void *,void *,u16);
 void func_0220B954(unsigned *p)
 {

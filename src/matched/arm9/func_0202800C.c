@@ -23,9 +23,11 @@ typedef unsigned int   u32;
 
 extern u32 *func_02028084(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                           u32 a7, u32 a8);
-extern void func_02045334(void *p);
-extern void func_02045374(void *p);
-extern u8   func_02045730(void *p);
+struct Cfg;
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7,

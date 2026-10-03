@@ -50,10 +50,11 @@ struct Glob
     u16 f6e;
 };
 
-extern struct Glob *func_0203D798(void);
+typedef signed int     s32;
+extern void *func_0203D798(void);
 extern int func_020395EC(struct Peer *a);
 extern void func_0203A118(struct Peer *);
-extern int func_0203EFC8(const void *, const void *, u32);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern struct Peer *func_0203996C(u32);
 extern void func_0203DAC4(void *);
 extern void OS_GetMacAddress(u8 *);

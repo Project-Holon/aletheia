@@ -21,13 +21,14 @@
  */
 typedef unsigned short u16;
 typedef unsigned u32;
-extern void func_0201CE48(void *);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045CAC(u32,u32,u32);
 extern void func_0201F250(u32,u32,u32);
 extern u32 func_02045770(u32);
 extern void func_02043B5C(u32,int);
-extern void func_0201DD78(int,int,int);
-extern u32 func_02012FFC(void);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(u32,int,int,u32,u32,u32,u32,int,u16,int);
 extern void func_0201F73C(u32,int,u16,int);
 extern void func_02045334(u32);

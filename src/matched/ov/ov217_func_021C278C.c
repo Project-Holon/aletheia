@@ -26,10 +26,12 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void func_0204B404(void *h, u16 *pos, u32 v);
-extern void func_0204B878(void *h, u32 v);
-extern void func_0204B8C4(void *h, u32 v);
-extern void func_0204B974(void *h);
-extern void func_0204B3DC(void *h, u32 v);
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B974(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021C28EC(void *p, u16 *a, u16 *b);
 extern void func_021C28DC(void *p, u16 *a, u16 *b);
 extern void func_021C28CC(void *p, u16 *a, u16 *b);

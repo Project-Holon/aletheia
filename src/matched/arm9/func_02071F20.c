@@ -86,7 +86,7 @@ typedef struct Rec {
 
 typedef void (*Fill)(s32 *out, Obj *o);
 
-extern void func_0206DDA4(u32 hdr, s32 *body, s32 n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern Fill data_020A8458[];
 
 void func_02071F20(Obj *o)

@@ -12,7 +12,9 @@
  *   func_02012138  0x02012138  thumb
  *   func_02158468  0x02158468  thumb
  */
-extern int func_02012138(void *a0);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158468(int a0);
 
 int func_0202E83C(void *a0)

@@ -13,7 +13,8 @@
  *   func_021D6770 0x021D6770 thumb ov125
  *   func_02156DE0 0x02156DE0 thumb ov009
  */
-extern int func_02012E40(void *);
+typedef unsigned char  u8;
+extern u8 func_02012E40(const u8 *o);
 extern void func_021D7124(char *, int, int, int);
 extern void func_021D6770(char *);
 extern void func_02156DE0(int, int);

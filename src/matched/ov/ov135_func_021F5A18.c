@@ -17,10 +17,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 extern void func_021F663C(u8 *, u32, u32, u32, u32, u32);
 extern void func_021F4E98(u8 *, u32, u32);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32, int);
 int func_021F5A18(u8 *p)
 {

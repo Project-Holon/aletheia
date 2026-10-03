@@ -85,7 +85,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *sub_02030098(u32 heapId, u32 size);
-extern void sub_02030524(void);
+extern u16 sub_02030524(void);
 extern void sub_02030880(void *p, const char *site, u16 tag);
 extern void sub_02030958(u32 heapId, u32 size, const char *site, u16 tag);
 extern void sub_02030A00(u32 heapId, void *p, u32 size);

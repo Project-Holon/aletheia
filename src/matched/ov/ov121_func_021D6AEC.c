@@ -29,7 +29,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 typedef struct { s16 x,y,z; u8 a,b; } Record;
-extern void *func_020490F4(u32,u32);
+struct Obj;
+extern void *func_020490F4(u32 id, u16 heap);
 extern int func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
@@ -39,8 +40,8 @@ extern void func_020307B0(void *);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,int);
 extern void *func_0204B294(u32,u32,u32,u32,Record *,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern int func_02005728(int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern u32 func_02005728(u32 range);
 void func_021D6AEC(char *p,u32 owner,u16 heap)
 {
     void *res;

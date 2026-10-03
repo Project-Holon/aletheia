@@ -33,7 +33,7 @@ typedef signed int     s32;
 struct Ctx { void *f00; u8 pad04[4]; void *f08; };
 struct Info { u32 f00; u32 f04; u8 f08; u8 f09; u16 f0A; u8 f0C; u8 f0D; u8 pad0E[2]; };
 
-extern void func_020130C4(void *a);
+extern void func_020130C4(u8 *p);
 extern u32 func_0202A230(void *a, u32 idx);
 extern u32 func_0202A420(u32 key);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);

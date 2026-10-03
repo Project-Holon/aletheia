@@ -53,7 +53,7 @@ extern u32 func_021D7324(u8 *);
 extern void func_021D7B70(u8 *,u32),func_021D7C58(u8 *),func_021D8010(void *,u32);
 extern int func_021D80CC(void *),func_021D8168(void *),func_021D81EC(u8 *),func_0204E804(void);
 extern void func_021D8118(u8 *,int,int,void *),func_021D8134(void *),func_021D8190(void *),func_021D81B4(void *),func_021D81D0(u8 *),func_0204E720(int,int,int,int);
-extern void func_02167ED8(void *,void *);
+extern int func_02167ED8(void *date, void *time);
 extern int func_0200DDD0(void *,u8,u8,void *);
 int func_021D7550(u8 *p,int heap)
 {

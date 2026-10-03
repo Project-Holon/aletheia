@@ -30,7 +30,8 @@ struct Obj;
 
 extern u32  func_020127A4(u32 v);
 extern void func_02012AC8(u32 v);
-extern void func_02005C44(void);
+typedef unsigned short u16;
+extern u16 func_02005C44(void);
 
 u32 func_0202B7F8(struct Obj *o)
 {

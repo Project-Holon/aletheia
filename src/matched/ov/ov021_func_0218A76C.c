@@ -22,8 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern int func_0218A8BC(void *p);
-extern int func_0218A784(void *p, int dir);
+struct Ctx784;
+struct FieldCtx;
+extern int func_0218A8BC(struct FieldCtx *p);
+extern int func_0218A784(struct Ctx784 *c, int a);
 
 int func_0218A76C(void *p)
 {

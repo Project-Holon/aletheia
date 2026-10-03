@@ -26,9 +26,10 @@ extern unsigned func_0217B930(int *);
 extern void func_0217B924(int *);
 extern void func_0217B970(int *,int);
 extern void func_021E8AA0(int,int);
-extern void func_0217B4A0(void);
-extern void func_0217B6AC(void);
-extern void func_0217B468(void);
+typedef unsigned char  u8;
+extern void func_0217B4A0(int p, unsigned *state, int *q);
+extern void func_0217B6AC(int p, unsigned *state, int *q);
+extern void func_0217B468(int *p, int *state, u8 *q);
 void func_0217B3C0(int p, unsigned *state, int *q)
 {
     unsigned result;

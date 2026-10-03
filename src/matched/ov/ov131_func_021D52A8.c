@@ -12,7 +12,9 @@
  *   func_021D52D4 0x021D52D4 thumb ov131
  *   func_021D54A8 0x021D54A8 thumb ov131
  */
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021D52D4(char *);
 extern void func_021D54A8(char *);
 void func_021D52A8(char *p)

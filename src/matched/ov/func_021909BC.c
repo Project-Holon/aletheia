@@ -29,7 +29,7 @@ extern u32 func_0201F868(u32);
 extern u32 func_0202020C(u32, u32, u32);
 extern u32 func_020307B0(u32);
 extern u32 func_02190538(u32);
-extern u32 func_02193130(u32);
+extern int func_02193130(u32 a);
 
 int func_021909BC(u32 a)
 {

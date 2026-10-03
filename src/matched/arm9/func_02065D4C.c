@@ -37,7 +37,8 @@ extern int func_02066E20(void);
 extern void func_02066DEC(int);
 extern void func_02066E10(int);
 extern void func_02066DFC(void);
-extern void func_02065878(void *);
+struct Obj02065878;
+extern void func_02065878(struct Obj02065878 *c);
 
 void func_02065D4C(void *a0)
 {

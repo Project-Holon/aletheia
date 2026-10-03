@@ -18,9 +18,10 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned short u16;
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021F669C(void *);
-extern void func_021F6600(void *);
+extern void func_021F6600(char *p);
 extern void func_021F657C(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);

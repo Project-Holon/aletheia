@@ -17,10 +17,13 @@
  *   func_02045808 0x02045808 arm
  */
 typedef unsigned char u8;
-extern int func_020279E8(void *p);
-extern int func_02027A04(void *p);
-extern void func_02027858(void *p);
-extern void func_02045808(void *p);
+typedef unsigned int   u32;
+struct TaskMenu;
+struct U16Vec;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void func_02027858(struct TaskMenu *m);
+extern void func_02045808(struct U16Vec *vec);
 int func_021C4998(u8 *p)
 {
     int r = -1;

@@ -52,13 +52,13 @@ typedef struct Obj {
 } Obj;
 
 extern char d_021DDF7C;
-extern u32 func_021A7A28(u32 a, u32 b);
+extern int func_021A7A28(u32 a, u32 b);
 extern void func_021A7AB0(u32 src, void *t);
-extern u32 func_02046C94(void);
+extern int func_02046C94(void);
 extern void *func_02030734(u16 heap, u32 size, u32 one, char *file, u32 line);
-extern u32 func_021A7A34(u32 a, u32 b);
+extern int func_021A7A34(u32 a, u32 b);
 extern void func_02046CE0(void *dst, u32 src);
-extern u32 func_021A7A88(void *t);
+extern u32 func_021A7A88(u8 *p);
 extern Pair func_021A7A40(void *t, u32 idx, u32 key);
 extern u16 func_021A7A90(void *t, u32 idx);
 extern s32 func_021A78EC(u32 a, void *b, u32 idx);

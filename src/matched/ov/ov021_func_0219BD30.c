@@ -28,11 +28,11 @@ extern u32 func_0216D83C(u32);
 extern u32 func_0216D86C(u32);
 extern u32 func_0216D804(u32);
 extern u32 func_0216D81C(u32);
-extern u32 func_021642B4(u32, u32, u32, u32);
+extern u16 func_021642B4(int x0, int y0, int x1, int y1);
 extern u32 func_021641E8(u16);
 extern u32 func_021641F8(u16);
 extern u32 func_02197E7C(u16, u32);
-extern void func_0216D438(u32, u32);
+extern void func_0216D438(int a0, int a1);
 
 int func_0219BD30(u32 a, u32 b)
 {

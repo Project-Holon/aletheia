@@ -13,7 +13,9 @@
  *   func_0201EF6C 0x0201EF6C thumb
  */
 typedef unsigned char u8;
-extern void func_0201EF6C(void *, int, unsigned int, int, int);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 void func_021B6204(u8 *p, int a, unsigned int b, int c, int d)
 {
     func_0201EF6C(*(void **)(p + 0x520), a, b, c, d);

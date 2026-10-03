@@ -14,7 +14,8 @@
  *   func_021FB3BC 0x021FB3BC thumb ov186
  */
 extern void *func_02045EC0(int, int);
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
 void *func_021FB378(void *ctx, int file, int a, int b, int c, int d, int e, int archive, void *config, unsigned short heap)
 {

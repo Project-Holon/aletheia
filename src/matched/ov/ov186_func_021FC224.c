@@ -16,7 +16,9 @@
  *   func_021FC394  0x021FC394  thumb  ov186
  */
 
-extern int func_021FC394(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u16 func_021FC394(u32 n);
 
 int func_021FC224(char *p)
 {

@@ -23,8 +23,8 @@
  *   func_0216D588  0x0216D588  thumb
  */
 
-extern int *func_021F3D6C(int a);
-extern unsigned int func_021F3724(int a);
+extern void *func_021F3D6C(int a);
+extern int func_021F3724(int a);
 extern int *func_021F3718(int a);
 extern void func_021F3D04(int a, int b);
 extern int func_021F3958(int a, int b, int c);

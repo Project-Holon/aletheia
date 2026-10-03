@@ -16,7 +16,8 @@
  *   func_0207C7B4  0x0207C7B4  arm
  */
 
-extern int func_0203F734(int x);
+typedef unsigned short u16;
+extern u16 func_0203F734(int x);
 extern int func_0207C7B4(int x);
 
 int func_02185D64(int *p, int *q)

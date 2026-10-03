@@ -39,7 +39,7 @@ typedef struct GHIConnection {
     GHIPost *post;
 } GHIConnection;
 
-extern int func_02184200(void *);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *, int);
 extern unsigned int func_0209477C(const char *);
 extern int func_02181E20(void *);

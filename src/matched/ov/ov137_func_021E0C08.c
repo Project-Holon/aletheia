@@ -15,7 +15,8 @@
  *   d_021E22B8 0x021E22B8 data
  */
 typedef unsigned short u16;
-extern void *func_02030734(u16,unsigned,int,const void *,int);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,unsigned);
 extern void func_02030DA8(void *,void (*)(void *,void *),void *,int);
 extern void func_021E0C70(void *,void *);

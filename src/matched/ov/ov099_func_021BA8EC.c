@@ -19,7 +19,8 @@ struct PrintSys;
 extern void func_021BA8D4(void *);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_0201C6EC(struct PrintSys *);
-extern void func_0201CE48(void *);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 extern int func_021BA8BC(void *);
 void func_021BA8EC(char *p)
 {

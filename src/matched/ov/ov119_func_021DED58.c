@@ -17,7 +17,7 @@
 
 extern unsigned func_020221A4(void);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DECA0(void *p);
+extern void func_021DECA0(char *p);
 
 void func_021DED58(void *p)
 {

@@ -15,7 +15,8 @@
  *   func_021DCBC4   0x021DCBC4  thumb  ov137
  */
 
-extern int func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern void func_021E1604(char *, int);
 extern void func_021DCBC4(int, int, void *, int);
 

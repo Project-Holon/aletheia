@@ -23,9 +23,10 @@ typedef unsigned int u32;
 
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D50(void *a0);
-extern int func_021C34C4(int a0);
+extern u8 func_021C34C4(void **p);
 
 int func_0215CFD8(int a0, int a1)
 {    int t5;
@@ -41,9 +42,8 @@ a0 = t5 + 0;
 loc_0215CFE8:
     v2 = func_0201210C(v1);
 loc_0215CFEC:
-    a0 = (int)func_02188D50(v2);
+    a0 = func_021C34C4((void **)func_02188D50(v2));
 loc_0215CFF0:
-    a0 = func_021C34C4(a0);
 loc_0215CFF4:
 *(u16 *)((char *)v0) = a0;
 a0 = 0;

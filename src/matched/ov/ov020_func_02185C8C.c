@@ -23,13 +23,17 @@
 
 typedef struct { int f[7]; } S7;
 
-void func_020061E4(int a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+void func_020061E4(u32 a);
 int func_02189A08(int a);
 int func_021CF498(int a, int b, int c);
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02184CEC(void *obj, void *p);
-void func_02184504(void);
+int func_02184504(int a, int *state, u8 *p);
 void func_02012374(int a, void *b);
 void *func_021BE9F0(int a, int b, int c, int d, int e);
 

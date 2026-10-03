@@ -13,6 +13,7 @@
  *   func_021BB85C 0x021BB85C thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B8DDC(int);
+typedef unsigned int   u32;
+extern u8 func_021B8DDC(u32 x);
 extern u8 *func_021BB85C(u8 *, unsigned int);
 int func_021C7EEC(u8 *p, int i) { return func_021BB85C(*(u8 **)p, func_021B8DDC(i))[9]; }

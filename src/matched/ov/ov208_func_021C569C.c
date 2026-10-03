@@ -40,7 +40,8 @@ struct Ov208Mdl {
 extern u16  func_021BC3C0(int key);
 extern int  func_021BC3A4(int key);
 extern void *func_0200CA1C(int a);
-extern u32  func_0200D288(void *p, u32 v);
+struct Blk37;
+extern u32 func_0200D288(struct Blk37 *p, u32 which);
 extern void ov208_func_021C5128(struct Ov208Mdl *m, u32 heap, u32 sys, u32 species, u32 a4,
                                 u32 a5, u32 a6, u32 a7, u32 a8, u32 a9);
 extern void func_021C80AC(struct Ov208Mdl *m, int k, Vec *v);

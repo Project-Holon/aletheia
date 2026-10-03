@@ -21,8 +21,11 @@
 extern char d_021DE534;
 extern char d_00000024[];
 
-extern char *func_02030734(int a, int b, int c, void *d, int e);
-extern void func_02034AC4(int a);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_02034AC4(s32 handle);
 extern void func_02034A5C(int a);
 extern void func_021F36C0(char *p);
 

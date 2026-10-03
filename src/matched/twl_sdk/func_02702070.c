@@ -13,7 +13,8 @@
  *   func_02700DB8  0x02700DB8  arm twl
  */
 
-extern void func_02700DB8(void);
+typedef unsigned int   u32;
+extern u32 func_02700DB8(u32 a0);
 
 asm void func_02702070(void) {
     ldr ip, =func_02700DB8

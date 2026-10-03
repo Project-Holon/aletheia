@@ -55,7 +55,7 @@ extern u32 func_02045770(u32 a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void *func_021BBC2C(void *r, int i);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F07AC(void *a, void *b, u8 c);
 extern void func_021F09A0(void *a, B *b);
 extern void func_021F0AA0(void *a, B *b, int d);

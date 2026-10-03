@@ -15,7 +15,8 @@
  */
 extern void func_021B9FF0(void *p, void *list, int idx);
 extern void func_021B9FC8(char *p, int i);
-extern void func_020061E4(int v);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 void func_021B9F70(char *p, int i)
 {
     func_021B9FF0(p, *(void **)(p + 8), (int)((unsigned)i + (unsigned)*(unsigned short *)(p + 0x160) * 10u));

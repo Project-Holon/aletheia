@@ -30,18 +30,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045C04(void *bank);
+struct MsgBank;
+struct Rec;
+struct Sub02008F80Obj;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 extern void func_02019B58(void *mon);
-extern u16 *func_02045A90(void *s);
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern void func_02017E40(void *mon, u32 id, u32 v);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 extern void *func_02008F08(int a0);
-extern void func_02008F88(void *dst, u16 *src);
+extern void func_02008F88(struct Sub02008F80Obj *obj, const void *src);
 extern void func_020307B0(void *p);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_0220254C(void *mon, u32 heap)
 {

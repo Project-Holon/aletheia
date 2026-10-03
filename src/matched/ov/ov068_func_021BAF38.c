@@ -15,7 +15,8 @@
  */
 typedef unsigned char u8;
 extern int func_021BA31C(u8 *);
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 int func_021BAF38(u8 *p)
 {
     if (func_021BA31C(p)) {

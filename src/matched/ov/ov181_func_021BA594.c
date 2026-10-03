@@ -11,7 +11,8 @@
  *   func_02045770 0x02045770 arm
  *   func_021BA4AC 0x021BA4AC thumb ov181
  */
-extern void *func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_021BA4AC(char *, unsigned char *, void *, int);
 void func_021BA594(char *p, unsigned char *q)
 {

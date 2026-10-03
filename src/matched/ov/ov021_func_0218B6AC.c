@@ -18,11 +18,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_020120F4(void *p);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, int i);
-extern int func_02017E1C(void *p, int a, int b);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 int func_0218B6AC(void *ctx)
 {

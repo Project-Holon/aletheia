@@ -23,13 +23,18 @@
 
 typedef unsigned int u32;
 
-extern void *func_02045770(void *p);
-extern void func_02034714(void *a, int b, void *c);
-extern void func_0201CE48(void *a);
-extern void func_02045808(void *a);
-extern void func_02040588(int a, int b);
-extern void func_02043B5C(void *p, u32 v);
-extern void func_02045334(void *p);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct Rec3;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0201DD78(u32, u32, u32);
 extern char d_021BABF4[];
 

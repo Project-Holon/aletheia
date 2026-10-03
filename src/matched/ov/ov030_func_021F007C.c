@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0203FB44(int, u32, u32);
-extern void func_020403F4(int);
-extern void func_02040588(int, int);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void func_020403F4(u32 i);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_02043598(u32 a, u32 b);
 
 void func_021F007C(char *p)

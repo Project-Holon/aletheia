@@ -42,7 +42,8 @@ extern int d_021D9240[];
 
 extern int func_021ABE14(int a);
 extern unsigned int func_02188CFC(u8 *p);
-extern int func_021ABEA0(int a, int b);
+typedef unsigned int   u32;
+extern int func_021ABEA0(u32 a, u32 b);
 extern void *func_02082BCC(void *p, u8 v, unsigned n);
 extern void *func_02188C7C(unsigned char *p);
 extern u8 func_021ABFA8(int a, void *b, int c, int d, void *e, int f);

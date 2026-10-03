@@ -13,7 +13,8 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0203D1B4 0x0203D1B4 arm
  */
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
 extern int func_0203D1B4(void);
 int func_02175628(void)
 {

@@ -72,22 +72,23 @@ extern void **func_021BBA6C(u32 a);
 extern void func_021BBA1C(u32 a);
 extern int func_020120F4(int a);
 extern int func_02012944(int a);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021F3B10(void *o, void *a1, int a2, int a3, int idx);
 extern void func_021F392C(void *o, int a1, int heap, int idx);
 extern void func_021F3D60(void *o, int idx, int heap);
 extern void func_021F3890(void *o, int a, int idx);
 extern void func_021F3BF0(void *o);
-extern void func_021F3CC4(void *o, int flag);
+extern void func_021F3CC4(u8 *p, int flag);
 extern void func_021F3904(void *o);
 extern int func_021F3A78(void *o);
 extern int func_021F3C84(void *o);
 extern int func_021F3DB8(void *o);
 extern int func_021F3918(void *o);
-extern void func_021F3C4C(void *o);
+extern void func_021F3C4C(u8 *p);
 extern void func_021F3D9C(void *o);
-extern void func_021F3A14(void *o);
-extern void func_021F38D4(void *o);
+extern void func_021F3A14(u8 *p);
+extern void func_021F38D4(unsigned char *p);
 
 extern const u8 d_021F42C0[];
 

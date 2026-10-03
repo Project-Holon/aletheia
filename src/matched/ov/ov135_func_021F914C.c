@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 extern int func_022026C4(void *, u8, void *, int);
-extern int func_02045738(void *);
+struct Descriptor;
+extern u8 func_02045738(struct Descriptor *p);
 int func_021F914C(void *win, void *str, int x, int align, int unused, int font, void *ctx)
 {
     int width;

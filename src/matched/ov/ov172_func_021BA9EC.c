@@ -55,7 +55,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u16  func_021BE00C(void *c);
+extern u16 func_021BE00C(u16 *p);
 extern u32  func_021BE02C(void *c);
 extern u32  func_021BDFDC(void *c);
 extern u32  func_021BDFE4(void *c);

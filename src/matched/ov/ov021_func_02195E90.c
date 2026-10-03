@@ -32,13 +32,14 @@ struct FrameStyle {
     u32 bgLayer;
 };
 
-extern u16 func_02045758(void *win);
-extern u16 func_02045760(void *win);
-extern u16 func_02045748(void *win);
-extern u16 func_02045750(void *win);
-extern void func_020456F8(void *win);
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
+extern void func_020456F8(struct Descriptor *d);
 extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
-extern void func_020409B4(u8 layer);
+extern void func_020409B4(u32 index);
 
 void func_02195E90(struct FrameStyle *style, void *win)
 {

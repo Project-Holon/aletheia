@@ -16,7 +16,9 @@
  *   func_021B99E8  0x021B99E8  thumb  ov072
  */
 
-void func_0204E720(int a, int b, int c, int d);
+typedef signed int     s32;
+typedef unsigned int   u32;
+void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 int func_0204E804(void);
 void func_021B995C(int a, int b);
 void func_021B99E8(void);

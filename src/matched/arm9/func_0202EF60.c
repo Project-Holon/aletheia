@@ -27,7 +27,8 @@ struct Obj {
 };
 
 extern void *func_02030734(void *heap, u32 size, u32 flags, const void *file, u32 line);
-extern void *func_0204384C(u32 a, u32 b, u32 c, u32 d);
+struct Bmp;
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern const char g_020A7814[];
 
 struct Obj *func_0202EF60(u32 heap)

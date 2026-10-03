@@ -19,7 +19,8 @@
 int func_02026478(int a);
 int func_02012B38(int a);
 int func_02014484(int a);
-void func_02174E14(void *p, int a);
+typedef unsigned char  u8;
+void func_02174E14(u8 *p, int a);
 
 void func_02174AE0(unsigned char *p)
 {

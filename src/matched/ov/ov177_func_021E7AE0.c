@@ -15,11 +15,16 @@
  *   func_0202DBC4 0x0202DBC4 thumb
  *   func_0202DC98 0x0202DC98 thumb
  */
-extern unsigned func_02045770(void *);
-extern int func_0201C6C4(void *, unsigned);
-extern void func_02045334(void *);
-extern void func_0202DBC4(void *);
-extern int func_0202DC98(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Descriptor;
+struct Obj0202DC98;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0202DBC4(u8 *p);
+extern u32 func_0202DC98(struct Obj0202DC98 *o);
 static inline int poll_entry(unsigned char *e, void *mgr)
 {
     if (e[0x28] != 0) {

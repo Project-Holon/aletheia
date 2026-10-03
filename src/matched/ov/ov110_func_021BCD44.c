@@ -17,7 +17,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern int func_021BF824(u8 *);
-extern void func_020282AC(void *, u16 *, u32, u32, u16);
+struct T;
+extern void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4);
 void func_021BCD44(u8 *p)
 {
     if (func_021BF824(*(u8 **)(p + 4)) != 0) {

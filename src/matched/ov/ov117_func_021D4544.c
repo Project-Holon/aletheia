@@ -39,8 +39,8 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D4484(void *p, int a);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_021D4484(u8 *p, u32 v);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021D4480(int);
 extern void func_021DFD24(u32);
 extern u32 func_021DFB84(u32, int, Vec *, u32);
@@ -48,7 +48,7 @@ extern void func_02015F2C(u32 obj, void *arg, void (*cb)(void), int a);
 extern void func_021DFD0C(void);
 extern void func_02015F50(u32, u32, u32, s32, u32);
 extern void func_021E106C(void *p);
-extern void func_02040EBC(int a, int b);
+extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D4664(u8 *p);
 extern const char d_021D55B0[];

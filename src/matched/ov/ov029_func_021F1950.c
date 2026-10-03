@@ -41,7 +41,7 @@ extern int func_0204B294(int, int, int, int, S13Rec *, int, int);
 extern void func_0204B3DC(int, int);
 extern void func_0204BA20(int, int);
 extern void func_021F1910(char *p, int on);
-extern void func_021F1F80(void *);
+extern void func_021F1F80(char *p);
 extern void func_021F20AC(char *p);
 extern const u8 d_021F3526[];
 extern const u8 d_021F3531[];

@@ -88,7 +88,8 @@ static inline fx32 FX_CosIdx(int idx)
 {
     return FX_SinCosTable_[idx * 2 + 1];
 }
-extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
+struct Quad;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u8 func_02017F00(void *p);
 extern u32 func_02017EAC(void *p);
@@ -100,7 +101,7 @@ extern Grid *func_0220685C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a
 extern void func_02206A5C(Grid *g, u16 heap);
 extern void func_02206E2C(Grid *g, u16 heap);
 extern void func_022081A4(Grid *g, int heap, u16 color, s16 cur, s16 end, s16 wait, s16 step);
-extern void *func_02208478(u32 tex, u32 pltt, u16 heap);
+extern struct Quad *func_02208478(u32 tex, u32 pltt, u16 heap);
 extern void func_02206768(Owner *o, u32 x, u32 y, u32 z);
 
 void func_022063E0(Owner *o)

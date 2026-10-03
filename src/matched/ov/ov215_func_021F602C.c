@@ -13,7 +13,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02005E30(int);
+typedef unsigned int   u32;
+extern void func_02005E30(u32 a);
 void func_021F602C(void *unused, char *p)
 {
     func_02005E30(0x3c);

@@ -44,7 +44,8 @@ extern void func_02183ED4(int);
 extern void func_02183F30(void);
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u16,u32,int,const char *,u32);
-extern void *func_02030CBC(u32,void *);
+struct Ctx;
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_0218414C(char *,int);
 extern void func_021841F8(void *,int);
@@ -53,10 +54,10 @@ extern void func_02183F6C(int,u32);
 extern void func_02183FC4(char *,u16);
 extern void func_02184398(int *,int,int,int);
 extern void func_02183D0C(int *,int,int);
-extern void func_02183F40(void);
-extern void func_021844C8(void);
-extern void func_02183D4C(void);
-extern void func_02005E30(int);
+extern void func_02183F40(void *unused, char *p);
+extern void func_021844C8(int event, char *p);
+extern void func_02183D4C(int a, int *state);
+extern void func_02005E30(u32 a);
 enum Result {DONE=1};
 enum Result func_02183B60(void *obj)
 {

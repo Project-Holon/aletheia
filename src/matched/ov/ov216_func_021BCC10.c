@@ -22,7 +22,8 @@ extern u32 func_020362DC(void);
 struct Ctx;
 extern unsigned func_02012204(const struct Ctx *);
 extern void func_021BD89C(void *,int);
-extern int func_021BCCC4(void *);
+typedef unsigned char  u8;
+extern int func_021BCCC4(u8 *p);
 extern void func_021BCD00(int);
 extern void func_021BD6F0(void *);
 int func_021BCC10(unsigned char *p)

@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_0202E474(u32 a, u32 b, u32 c, u32 d);
+extern void *func_0202E474(int a0, int a1, int a2, int a3);
 extern void func_02031348(void *a, u32 id, void *b, void *c);
 extern u8 ov070_id[];
 

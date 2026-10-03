@@ -13,8 +13,9 @@
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
 extern void func_0201DD68(void);
-extern int func_021BA858(void *);
-extern void func_021BA8EC(void *);
+typedef unsigned int   u32;
+extern u32 func_021BA858(char *p);
+extern void func_021BA8EC(char *p);
 int func_021BD5FC(char *p, int ret)
 {
     int v;

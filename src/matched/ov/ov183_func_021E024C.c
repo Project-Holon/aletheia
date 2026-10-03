@@ -20,15 +20,17 @@
  *   func_02008570 0x02008570 thumb
  */
 typedef unsigned char u8;
-extern void func_021FCD0C(void *);
-extern int func_021FCDA8(void *);
-extern int func_02035D20(unsigned int *, unsigned int *);
-extern int func_021FB4B4(int, unsigned int, unsigned int);
+typedef unsigned int   u32;
+struct Sub0200852CObj;
+extern void func_021FCD0C(char *p);
+extern int func_021FCDA8(char *p);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern int func_021FB4B4(int obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021E03B0(char *, char *, int);
-extern void *func_02012944(void *);
-extern int func_0200856C(void *);
-extern int func_02008570(void *);
+extern u8 *func_02012944(void *p);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
 int func_021E024C(char *p, char *q)
 {
     int selected, pressed;

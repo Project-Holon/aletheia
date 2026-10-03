@@ -14,7 +14,8 @@
  */
 typedef struct Bits { unsigned b0:1; unsigned mid:30; unsigned b31:1; } Bits;
 typedef struct Obj { char pad[0x64]; void *h64; Bits f68; } Obj;
-extern int func_02021ED8(void *);
+typedef unsigned int   u32;
+extern u32 func_02021ED8(const char *ptr);
 
 int func_022033CC(Obj *p)
 {

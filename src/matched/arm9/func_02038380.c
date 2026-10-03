@@ -47,7 +47,7 @@ struct Oth {
     u8 f65;
 };
 
-extern struct Ctx *func_0203D788(void);
+extern void *func_0203D788(void);
 extern struct Oth *func_0203D798(void);
 extern u32  func_0203D680(void);
 extern u32  func_0203D6BC(void);
@@ -56,7 +56,7 @@ extern void func_02037224(u32 state, u32 line);
 extern u32  func_02037258(void);
 extern void func_02038570(void);
 extern void func_02038924(u32 a, u32 b, u16 c);
-extern void func_02038A90(u32 a);
+extern int func_02038A90(u32 a);
 extern u8   g_020A7A20[];
 extern u32 *g_021469D0;
 

@@ -36,7 +36,7 @@ typedef struct { u32 a, b, c; } Tri;
 typedef enum { K242 = 0x242 } Off;
 
 extern const Tri d_021C37DC;
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_021BA874(char *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);

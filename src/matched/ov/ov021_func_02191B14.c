@@ -47,7 +47,7 @@ extern void func_020409B4(u32 layer);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020437AC(u32 p);
 extern void func_02045808(u32 p);
-extern void func_021927E8(void *p);
+extern void func_021927E8(u32 *p);
 extern void func_020307B0(void *p);
 
 void func_02191B14(u32 *a)

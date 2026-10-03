@@ -18,9 +18,10 @@
  */
 typedef struct Config { unsigned words[11]; } Config;
 extern void func_021BEAB8(void *, void *);
-extern void func_021BEAF8(void *, void *);
+struct S02030FB4;
+extern void func_021BEAF8(void *node, int *s);
 extern void *func_020311B8(void *, void (*)(void *, void *), unsigned, unsigned);
-extern void *func_02031290(void *);
+extern void *func_02031290(struct S02030FB4 *p);
 extern unsigned short func_02080C54(void);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
 extern void func_021BEB48(Config *);

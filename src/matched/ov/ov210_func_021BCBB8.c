@@ -21,9 +21,9 @@ typedef unsigned short u16;
 extern const char d_021C0E80[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02049EF4(void *, u32, u32, void *, u16);
+extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void func_02082A60(const void *, void *, u32);
-extern u32 func_020307B0(void *);
+extern void func_020307B0(void *p);
 extern void func_02049238(void *);
 void func_021BCBB8(char *p)
 {
@@ -32,7 +32,7 @@ void func_021BCBB8(char *p)
     void *blob;
     *(void **)(p + 0x2bc) = func_02030734(123, 384, 0, d_021C0E80, 0x3b0);
     h = func_020490F4(159, 0x807b);
-    blob = func_02049EF4(h, 91, 0, &out, 0x807b);
+    blob = func_02049EF4(h, 91, 0, (void **)&out, 0x807b);
     func_02082A60((char *)out + 12, *(void **)(p + 0x2bc), 384);
     func_020307B0(blob);
     func_02049238(h);

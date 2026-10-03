@@ -26,8 +26,8 @@
 
 extern void func_021CDA0C(void);
 extern void func_021CDA10(void);
-extern int func_021D1568(void);
-extern void func_021CFFAC(int no);
+extern signed char func_021D1568(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524(void);
 extern void func_021C0E40(void (*scene)(void));
 extern void func_021CDA14(void);

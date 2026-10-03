@@ -29,13 +29,14 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_02012E40(u32 a);
-extern void func_020120F4(void *a);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_020129F0(void);
 extern void func_0218CC34(u32 a);
 extern void func_021A0E58(u32 a);
 extern void func_021903E0(void);
 extern void func_021BC4F0(void);
-extern void func_021890AC(void *a);
+extern void func_021890AC(unsigned char *p);
 
 u32 func_02188910(void *a, u8 *b)
 {

@@ -52,8 +52,8 @@ struct NetState {
 extern char g_020A7CA0[];
 extern char g_020A7CE8[];
 
-extern struct NetState *func_0203D798(void);
-extern struct NetState *func_0203D788(void);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
 extern u32  func_020338F8(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 extern void func_02037010(u32 a, u32 b, u32 c, u32 d);

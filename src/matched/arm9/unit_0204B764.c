@@ -44,7 +44,8 @@ typedef struct Struct36 {
     int w[9];
 } Struct36;
 
-extern void func_020637BC(void *ptr, int val);
+typedef unsigned int   u32;
+extern int func_020637BC(const u32 *p, u32 i);
 
 static inline void copy_inline1(const Struct36 *src, Struct36 *dst) {
     *dst = *src;

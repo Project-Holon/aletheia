@@ -40,11 +40,12 @@ extern int func_02006148(u32 a0);
 extern int func_02006224(u32 a0);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern void func_021A30A4(void *a, u32 b);
+typedef unsigned char  u8;
+extern void func_021A30A4(u8 *p, u32 b);
 extern int func_021CD440(u32 field, u16 *out);
 extern u32 func_02184FD4(u32 a, u16 b);
 extern void func_02012374(u32 a, u32 b);
-extern void func_0216D410(void *o, u32 v);
+extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454(void *o);
 
 int func_021D2278(u32 a, int *seq, int *w)

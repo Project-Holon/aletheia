@@ -87,7 +87,7 @@ extern s16 g_020A5D08[];
 
 extern u32 func_0208A054(void);
 extern struct Voice *func_02060614(void *list, void *curr);
-extern u32 func_02089D6C(u32 tag);
+extern int func_02089D6C(u32 tag);
 extern void func_0207368C(struct Voice *v);
 extern void func_02075C08(struct Env *e);
 extern s32 func_02075BD4(struct Env *e);

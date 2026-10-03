@@ -37,7 +37,8 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_02025B64(u32 key);
+typedef unsigned char  u8;
+extern u8 sub_02025B64(u32 v);
 
 u32 func_02025BEC(u32 a, u32 b, u32 c)
 {

@@ -28,7 +28,7 @@ extern int func_02159B10();
 extern int func_0215A5CC();
 extern int func_0215B4AC();
 extern void *func_0216F948();
-extern int func_0216FAA0();
+extern int func_0216FAA0(u16 *p);
 extern int func_020307B0();
 
 int func_0215BFD4(int a0, int a1, int a2)

@@ -17,8 +17,9 @@
  */
 typedef unsigned int u32;
 
-extern void func_02034714(void *a, u32 b, void *c);
-extern void func_0203133C(void *p);
+struct S020314B8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_0203133C(struct S020314B8 *p);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 
 void func_0220B0CC(char *p)

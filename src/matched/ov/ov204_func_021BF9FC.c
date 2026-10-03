@@ -16,7 +16,8 @@
  *   func_02047A60 0x02047A60 arm
  */
 
-extern void func_02048AD0(void *);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void func_0207ADC4(void *);
 extern void *func_02048A18(void *, unsigned short);
 extern void func_02047A60(void *, void *);

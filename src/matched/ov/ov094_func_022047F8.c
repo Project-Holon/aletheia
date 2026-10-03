@@ -28,7 +28,8 @@ typedef struct Ctx {
 } Ctx;
 
 extern Ctx *func_02030EE8(void *h);
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204B1CC(int h);
 
 void func_022047F8(void *h)

@@ -34,7 +34,7 @@ extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, int a);
 extern void func_021C88C8(int a, void *p);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021DA8DC(int a, int b, int c)
 {

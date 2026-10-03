@@ -21,7 +21,8 @@ typedef unsigned short u16;
 
 int func_021736D8(void);
 void func_02175D20(char *a);
-void *func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D3A8(void *a, u16 b, u16 c, char *d);
 void func_02175BAC(char *a);
 

@@ -25,7 +25,7 @@ typedef struct S { u32 f0; u8 pad[0x30]; u8 *f34; } S;
 
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D454(void *a);
-extern void func_0216D480(void *a);
+extern int func_0216D480(char *p);
 
 int func_021AE6E0(S *s)
 {

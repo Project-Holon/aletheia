@@ -17,11 +17,12 @@
  *   func_0203C554 0x0203C554 arm
  */
 extern int func_021BA928(char *, int);
-extern int func_021BA858(char *);
+typedef unsigned int   u32;
+extern u32 func_021BA858(char *p);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BC090(char *);
 extern void func_021BA8EC(char *);
-extern void func_0203C554(int);
+extern void func_0203C554(u32 a);
 int func_021C1768(char *p, int ret)
 {
     int choice;

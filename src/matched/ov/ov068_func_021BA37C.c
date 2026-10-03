@@ -32,8 +32,8 @@ typedef struct { u32 w[8]; } Req;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
 extern u32  func_021B62E0(Req *r, u16 a);
-extern void func_021BA6B8(u8 *p, u16 a);
-extern int  func_02012BF8(u32 a, u32 b);
+extern void func_021BA6B8(u8 *p, u32 arg);
+extern int func_02012BF8(int a0, int a1);
 extern void func_021B6598(u32 a, u32 b, u32 c);
 extern Tbl  d_021BB5D4;
 

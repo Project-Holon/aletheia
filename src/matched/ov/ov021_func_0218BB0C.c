@@ -21,8 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_0204961C(void *obj);
-extern u8 *func_02049250(void *h, u32 n, u32 id);
+struct ArcFile;
+extern u16 func_0204961C(void *obj);
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void func_02049238(void *h);
 
 void func_0218BB0C(u8 *s, u32 a, u32 n)

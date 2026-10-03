@@ -20,7 +20,9 @@
 typedef unsigned int u32;
 
 extern void func_02035750(void *ctx);
-extern int  func_020357C0(void *ctx);
+typedef unsigned short u16;
+struct Kind;
+extern u16 func_020357C0(struct Kind *p);
 extern void *func_02035760(void *ctx);
 extern void *func_02035780(void *ctx);
 extern int  func_02035ADC(void *param, void *a, void *b);

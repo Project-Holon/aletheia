@@ -50,23 +50,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020395E0(u32 slot);
+extern int func_020395E0(int slot);
 extern int func_020395EC(void *p);
 extern u8 *func_0203996C(u32 idx);
 extern u32 func_02039160(u16 mode);
 extern u32 func_020399B8(u8 *e);
 extern void func_02039A5C(void);
-extern u32 func_02039338(void);
+extern u16 func_02039338(void);
 extern u8 *func_020399A8(void);
 extern u32 func_02039CD8(u8 *e);
-extern u32 func_0203A2F0(u16 mask, u32 idx);
+extern u32 func_0203A2F0(u32 a0, u32 a1);
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 extern u32 func_0203D378(void);
 extern u32 func_0203D394(u8 *e);
 extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
 extern int func_0203D3A8(u8 *e, u16 b, u16 c, void *q);
 extern u32 func_0203D650(void);
-extern u8 *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
 extern u8 *g_021469D4;

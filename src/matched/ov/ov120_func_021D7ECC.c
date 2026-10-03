@@ -14,11 +14,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020457B0(int,u16);
-extern void func_02045CAC(void *,u16,void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_0201D304(void *,int,int);
 extern void *func_0202800C(void *,void *,u8,u8,u8,u8,int,int,u16);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void *func_021D7ECC(char *p,u16 n)
 {
     int width;

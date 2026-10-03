@@ -18,7 +18,7 @@
 
 typedef unsigned char u8;
 
-extern u8 func_02027A04(void *p);
+extern u8 func_02027A04(const u8 *p);
 
 u8 func_021F0364(char *p)
 {

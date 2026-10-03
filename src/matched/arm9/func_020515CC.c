@@ -24,7 +24,7 @@
  *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
  */
 
-extern int func_020525A0(void *p, int b, void (*fn)(void *));
+extern int func_020525A0(char *p, int b, void (*fn)(void *));
 extern int *g_02146A88;
 int func_020515CC(int *p, int a, int b, int c)
 {

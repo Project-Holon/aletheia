@@ -25,13 +25,14 @@
 
 typedef unsigned char u8;
 
-extern void func_020061E4(int a);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern int *func_02030734(int a, int b, int c, int *d, int e);
 extern int func_02012EBC(int a);
 extern void func_0217422C(u8 *a, int b, int *c);
 extern int func_02174268(u8 *a);
 extern void func_021736A0(u8 *a, int b);
-extern void func_020307B0(int *a);
+extern void func_020307B0(void *p);
 extern int d_021807E8[];
 
 int func_0217BD9C(u8 *a, int b, int c, u8 *d)

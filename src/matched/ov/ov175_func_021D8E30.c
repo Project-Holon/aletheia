@@ -28,8 +28,8 @@ extern void func_021E8AB8(u32);
 extern void func_021D98E4(char *, u32);
 extern int func_021D9A08(char *);
 extern void func_021D99F4(char *);
-extern void func_021D8FA8(void);
-extern void func_021D8CF0(void);
+extern void func_021D8FA8(u32 sys, int *state, char *ctx);
+extern void func_021D8CF0(u32 sys, int *state, char *p);
 void func_021D8E30(u32 sys, int *state, char *ctx)
 {
     int result;

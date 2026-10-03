@@ -24,10 +24,14 @@ typedef struct Work {
     int f0C;
 } Work;
 
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern Work *func_020124E8(void *task);
-extern void *func_0201210C(void *p);
-extern void func_021D10A8(void);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_021D10A8(u32 a, u32 *b, u32 *c);
 extern int func_021D1164(int a, void *b);
 extern void func_021D11B0(int p);
 

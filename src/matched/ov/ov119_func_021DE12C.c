@@ -22,14 +22,15 @@
  */
 extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+typedef unsigned int   u32;
+extern void func_021E1030(char *p);
 extern int func_021D8A24(void *);
 extern void func_021D9468(void *,int,void *);
-extern int func_020173EC(void);
+extern u32 func_020173EC(void);
 extern void *func_021D8FA4(void *,int);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021D8E84(void *,int);
-extern void func_021DDF74(void *);
+extern void func_021DDF74(char *p);
 extern void func_021DE0F0(void *);
 void func_021DE12C(char *p)
 {

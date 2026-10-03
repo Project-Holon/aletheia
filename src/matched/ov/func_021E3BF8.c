@@ -28,10 +28,10 @@ extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(char *, int);
 extern void func_021EBA5C(int, int);
 extern void func_021DD14C(char *);
-extern void func_021EF670(int);
+extern void func_021EF670(char *p);
 extern void func_021EF68C(int);
 extern int func_021E8FE0(char *, int);
-extern void func_021E8FC0(char *, int, int);
+extern int func_021E8FC0(char *p, int a, int b);
 void func_021E3BF8(char *p)
 {
     func_021EF57C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));

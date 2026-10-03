@@ -14,7 +14,10 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm
  */
-extern void *func_02012950(void *, int);
+typedef unsigned int   u32;
+struct Rec44;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02008468(void);
 extern void func_02082D44(const void *, void *, int);
 extern int func_020399A8(void);

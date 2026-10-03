@@ -83,7 +83,8 @@ void sub_0201CE38(void *p)
     ((u8 *)p)[0x22] = ((u8 *)p)[0x22] | 4u;
 }
 
-extern void func_02031194(void *ptr);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 struct Rec3 {
     u32 pad[4];

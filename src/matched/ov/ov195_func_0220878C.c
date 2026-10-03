@@ -37,9 +37,10 @@ extern void func_02208C10(Anim *p);
 extern int func_02208C18(Anim *p);
 extern void func_02208C28(Anim *p);
 extern int func_02208C30(Anim *p);
-extern void func_02208A48(void *ptc, s32 timer);
+struct Ptc;
+extern void func_02208A48(struct Ptc *p, s32 timer);
 extern void func_02208B6C(Anim *p);
-extern void func_022089A4(void *ptc);
+extern void func_022089A4(struct Ptc *p);
 
 void func_0220878C(Anim *p)
 {

@@ -20,17 +20,24 @@
  */
 
 extern signed char func_02012FFC(void);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned char);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(unsigned int, unsigned int, unsigned int);
-extern void func_02045CAC(void *, unsigned int, void *);
-extern void func_0201F250(void *, void *, void *);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_0201CCE4(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
 extern void func_0201F73C(void *, int, int, int);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern unsigned char func_02045730(void *);
-extern void func_02041B6C(unsigned char);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_02041B6C(u32 bit);
 
 void func_021BF23C(char *p, void *a, int flag)
 {

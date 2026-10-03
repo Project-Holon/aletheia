@@ -62,18 +62,22 @@ typedef struct Self {
     Sub  sub;
 } Self;
 
-extern void  func_02034714(const char *file, int line, const char *msg);
+struct MsgBank;
+struct Strbuf;
+struct U16Vec;
+struct WordSet;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u16  *func_020084F4(u32 a);
 extern int   func_02008550(u32 a);
-extern void *func_020457B0(int a, int b);
-extern void  func_02045924(void *s, u16 *name);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void  func_0201EE0C(void *win, int a, void *s, int b, int c, int d);
-extern void  func_02045808(void *s);
+extern void func_02045808(struct U16Vec *vec);
 extern void  func_0201F02C(void *win, int a, u32 b);
-extern void *func_02045EC0(void *msg, int id);
-extern void  func_0201F048(void *win, int a, int b);
-extern void  func_0201F094(void *win, int a, int b, int c);
-extern void  func_0217EFE0(u32 a, int n);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void func_0217EFE0(int a, unsigned int n);
 extern const char d_021807F8[];
 
 void func_0217EE90(Self *self)

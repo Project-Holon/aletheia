@@ -29,7 +29,7 @@ typedef struct W {
 } W;
 
 extern void func_020403F4(u32 a);
-extern void func_02192EE0(u32 a);
+extern void func_02192EE0(int a);
 
 void func_02192F74(W *w)
 {

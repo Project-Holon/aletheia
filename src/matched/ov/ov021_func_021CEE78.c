@@ -46,7 +46,8 @@ typedef struct {
     u16  f2d4;
 } N;
 
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_02008494(u32 name, void *dst);
 

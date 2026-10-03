@@ -47,9 +47,11 @@ typedef struct {
 } Work;
 
 extern void func_0201EFA4(void *p, int idx, int v, int digits, int a, int b);
-extern void func_0201F250(void *p, void *str, void *fmt);
+struct Descriptor;
+struct WordSet;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern int func_0201D304(void *str, void *font, int a);
-extern void *func_02045770(void *win);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *bmp, s16 x, s16 y, void *str, void *font, u16 col);
 extern const u16 d_021C8768[];
 

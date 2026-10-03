@@ -22,11 +22,13 @@ typedef unsigned short u16;
 typedef struct Item { char raw[0xdc]; } Item;
 typedef struct Obj { char pad[0x28]; Item items[12]; char tail[0xacc-0x28-12*0xdc]; volatile int index; } Obj;
 extern void func_021DA898(char *);
-extern void func_021DD240(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021DD240(void **p);
 extern void func_021DDF84(char *);
 extern int func_021DBF04(void *);
-extern void func_021DE0AC(void *,int);
-extern void func_021DE0DC(void *);
+extern void func_021DE0AC(u8 *p, u32 b);
+extern void func_021DE0DC(char *p);
 extern void func_021DCFA4(char *,int,int,u16);
 void func_021DAEF0(Obj *obj)
 {

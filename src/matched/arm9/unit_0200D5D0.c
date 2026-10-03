@@ -64,20 +64,24 @@ extern void OS_GetOwnerInfo(void *info);
 extern u16   func_02045A98(void);
 extern u16   func_0203F1FC(const void *src, u32 size);
 
-extern void *func_02012EBC(void *sys);
-extern void *func_02012944(void *sys);
-extern void *func_02012F08(void *sys);
-extern void  func_02009470(void *a);
+struct Big;
+struct Blk34;
+struct Sub0200852CObj;
+struct Sub02009470Obj;
+extern void *func_02012EBC(struct Big *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02012F08(int *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
 extern void *func_0200E6E8(void *a);
 extern void  func_0200E6FC(void *a, u32 b, void *dest);
 extern void *func_020084F4(void *a);
 extern void  func_0201F41C(const void *src, void *dest, u32 size);
-extern u32   func_02008530(void *a);
-extern u8    func_02008550(void *a);
-extern u8    func_02008554(void *a);
-extern u8    func_0200856C(void *a);
-extern u8    func_02008570(void *a);
-extern void  func_0200C164(const void *blk, u32 *a, u32 *b, u32 *c, u32 *d);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
+extern void func_0200C164(const struct Blk34 *p, u32 *a, u32 *b, u32 *c, u32 *d);
 
 struct OwnerInfo {
     u8 unk00;

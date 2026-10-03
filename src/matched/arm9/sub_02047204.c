@@ -52,7 +52,8 @@ struct BufHdr {
 };
 
 extern void *func_0206E964(struct BufHdr *buf);
-extern void  func_0206A00C(void *rec, u32 flag);
+struct Up;
+extern void func_0206A00C(struct Up *u, u32 wrap);
 extern void  func_0206A12C(void *rec, u32 flag);
 extern void  DC_FlushRange(void *addr, u32 size);
 

@@ -41,9 +41,11 @@ typedef struct Work {
 
 extern u8 func_021568E8(Work *w, u8 j);
 extern u8 func_021568A8(Work *w, u8 n);
-extern u8 func_02157374(void *d, u8 i);
+struct Deal;
+struct Sub0200852CObj;
+extern u8 func_02157374(struct Deal *d, u8 i);
 extern void *func_021FCE28(void *sess, u32 i);
-extern u32 func_02008550(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 
 u8 func_021569EC(Work *w, u8 j)
 {

@@ -26,9 +26,10 @@ typedef struct Ent { Rec r; int f3c; int f40; int f44; } Ent;
 
 extern Ent d_021D3700[];
 extern int func_02189B28(int a);
-extern unsigned short func_02159BF4(void *p);
-extern unsigned short func_02159BF8(void *p);
-extern int func_02159BFC(void *p);
+struct Obj;
+extern unsigned short func_02159BF4(struct Obj *p);
+extern unsigned short func_02159BF8(struct Obj *p);
+extern int func_02159BFC(struct Obj *p);
 extern int func_02159C20(void *p);
 extern int func_020140BC(int x);
 extern int func_020140C0(int x);

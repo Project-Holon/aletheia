@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct Tab16 { u8 b[16]; };
 extern const struct Tab16 d_021BC174;
 extern int func_0204A39C(void *a, int b, int c, u32 d, int *e);
-extern void func_02049B68(void *a, int id, int b, int c, int d, int e);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
 extern u32 func_02045770(void *p);
 extern void func_02043B5C(u32 a, u32 b);

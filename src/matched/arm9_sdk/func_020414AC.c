@@ -14,8 +14,9 @@
  *   func_020414EC 0x020414EC arm
  */
 
-extern void func_020414C4(void);
-extern void func_020414EC(void);
+typedef unsigned int   u32;
+extern void func_020414C4(u32 idx);
+extern void func_020414EC(u32 i);
 
 asm void func_020414AC(void)
 {

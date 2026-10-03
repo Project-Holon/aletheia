@@ -48,10 +48,12 @@ struct Obj {
 
 extern void MIi_CpuClear16(u32 val, void *dst, u32 size);
 
-extern void func_02065020(void);
-extern void func_02065134(void);
-extern void func_020651B8(void);
-extern void func_020653A4(void);
+struct Cell;
+struct Host;
+extern void func_02065020(struct Host *h, void *a1);
+extern void func_02065134(void *a0, void *a1);
+extern void func_020651B8(struct Cell *c, void *a1, void *a2);
+extern void func_020653A4(void *a0, void *a1, void *a2);
 
 void func_02065B74(struct Obj *p)
 {

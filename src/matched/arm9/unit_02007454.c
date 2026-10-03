@@ -101,13 +101,16 @@ struct Sub02007454Header {
 
 extern const char sub_0200752C_File[];
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct MsgBank;
+struct Rec;
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern struct Sub02007454Entry *sub_02007AF4(void **save, u32 box);
-extern int  sub_02017E88(struct Sub02007454Entry *entry, int field, int arg);
-extern void sub_020181A0(struct Sub02007454Entry *entry);
-extern void func_02034714(const char *file, int line, const char *msg);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 heap);
-extern void  func_02045C04(void *msg);
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern void sub_020181A0(void *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
 extern void  func_02045F5C(void *msg, u32 id, void *dest, u32 size);
 
 void sub_02007464(struct Sub02007454Header *h);

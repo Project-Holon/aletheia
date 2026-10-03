@@ -16,13 +16,17 @@
  *   func_020452E8 0x020452E8 arm
  *   func_021D9A40 0x021D9A40 thumb ov121
  */
-extern void func_02040DA8(int,int,int);
-extern void func_0204B3B4(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Descriptor;
+struct Obj;
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
 extern void func_0204ADA4(void *);
-extern void func_020452E8(void *);
-extern void func_021D9A40(void *);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_021D9A40(u8 *p);
 void func_021DB3E8(char *p)
 {
     int i;

@@ -14,6 +14,8 @@
  *   func_0203D3A8 0x0203D3A8 arm
  */
 typedef unsigned int u32;
-extern u32 func_020399A8(void);
-extern void func_0203D3A8(u32, u32, u32, u32);
+typedef unsigned short u16;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_02174F34(void) { func_0203D3A8(func_020399A8(), 0x150d, 0, 0); }

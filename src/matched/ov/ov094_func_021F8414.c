@@ -42,7 +42,7 @@ typedef struct {
 extern Work *d_0220AF20;
 extern const char d_0220AC90[];
 
-extern St *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern int func_021F935C(int x);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);

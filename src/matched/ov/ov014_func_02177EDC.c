@@ -15,7 +15,7 @@
  *   func_02177ED8 0x02177ED8 thumb ov014
  */
 
-extern void func_02179328(int (*fn)(void));
+extern void func_02179328(void *v);
 extern int func_02177ED4(void);
 extern int func_02177ED8(void);
 void func_02177EDC(int a) { if (a != 0) func_02179328(func_02177ED4); else func_02179328(func_02177ED8); }

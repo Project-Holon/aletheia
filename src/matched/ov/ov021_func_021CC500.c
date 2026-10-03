@@ -31,10 +31,14 @@ typedef struct Task {
     u32 f58;
 } Task;
 
-extern void *func_020120F4(void *p);
-extern void *func_02012934(void *p);
-extern void *func_020122C0(void *a, u32 b, void *c, u32 d);
-extern Task *func_020124E8(void *h);
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021CC390(u32 a, u32 b, u32 c);
 
 void *func_021CC500(void *a, u32 b, u32 c)

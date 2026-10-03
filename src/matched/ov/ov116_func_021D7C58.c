@@ -23,16 +23,22 @@
  *   func_021D82AC 0x021D82AC thumb ov116
  */
 typedef unsigned char u8;
-extern void func_0201CE48(void *);
-extern void func_02031140(void *);
-extern void func_02045C04(void *);
-extern void func_0201ED04(void *);
+struct Descriptor;
+struct Rec;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+struct WordSet;
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02031140(struct S02031140 *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *);
-extern void func_02045808(void *);
-extern void func_021D7FC4(void *);
-extern void func_021D81B4(void *);
-extern void func_0201FEF4(void *);
-extern void func_020452E8(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021D7FC4(u8 *p);
+extern void func_021D81B4(u8 *p);
+extern void func_0201FEF4(u8 *o);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_021D82AC(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);

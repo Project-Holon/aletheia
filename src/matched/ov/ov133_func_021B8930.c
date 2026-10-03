@@ -29,7 +29,7 @@ extern int func_021F50F4(unsigned);
 extern void func_021B9028(u8 *, int, u16);
 extern void func_021B9D54(u8 *, int);
 extern void func_021B765C(u8 *, u16, s16, int, u16);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 int func_021B8930(u8 *p)
 {
     int pos[2];

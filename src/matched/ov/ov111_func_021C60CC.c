@@ -66,18 +66,23 @@ typedef struct {
     void *f32B0;
 } Work;
 
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *a, int b);
+struct CharBuf;
+struct Descriptor;
+struct Obj0202DC98;
+struct PmsDraw;
+struct Strbuf;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void func_02045924(void *dst, const void *src);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
 extern void func_021C6C38(Work *p, void *a, int x, int dx, int y, void *s);
 extern void func_021C6B5C(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u32 mode, int idx);
 extern void func_021C61EC(Work *p, int k, int flush);
 extern void func_021C628C(Work *p, int k, int flush);
 extern void func_021C6954(Work *p, void *a, int x, int dx, int y, void *s, u32 n, u8 digits, u32 mode, int k, int idx);
-extern void func_0202DE5C(void *p, u32 a);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 extern void func_0202DC48(void *p, void *a, void *b, u32 c);
-extern void func_0202DCB0(void *p, u32 a, u32 b);
+extern void func_0202DCB0(struct Obj0202DC98 *o, int i, u32 a1);
 
 void func_021C60CC(Work *p, void **bg, const Info *info)
 {

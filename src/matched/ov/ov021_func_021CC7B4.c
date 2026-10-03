@@ -37,7 +37,7 @@ typedef struct Obj {
 } Obj;
 
 extern u32 func_021CC8B0(Obj *p, u32 *out);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021CCDF8(Obj *p);
 extern void func_021CCCC4(Obj *p);
 extern void func_021CCB98(Obj *p);
@@ -45,7 +45,7 @@ extern void func_021CC9A4(Obj *p);
 extern void func_021CCEE4(Obj *p);
 extern void func_0201D83C(u32 a);
 extern void func_0204B1CC(u32 a);
-extern void func_020307B0(Obj *p);
+extern void func_020307B0(void *p);
 extern const char d_021DE5BC[];
 
 u32 func_021CC7B4(Obj *p, u32 *out)

@@ -38,7 +38,9 @@ struct Obj {
     void      *unk_74;
 };
 
-extern void *sub_020627D8(void *h, u32 idx);
+struct AnimBank;
+struct AnimSequence;
+extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
 extern void  sub_0206469C(struct Rec *r, void *v);
 
 void sub_0204D380(struct Obj *o, u32 idx)

@@ -64,12 +64,13 @@ extern unsigned d_021BA978[];
 extern Menu d_021BA9F8[];
 extern int d_021BA9C8[][4];
 
-extern u32 func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 *func_02158344(u32);
 extern void func_021B82A4(void *a, void *p);
 extern void func_021B82FC(void *p);
 extern int func_02035C08(void *);
-extern void func_020355D8(int);
+extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
 extern void func_021B6B98(void *p, void *tbl, int n, int sel, int c);

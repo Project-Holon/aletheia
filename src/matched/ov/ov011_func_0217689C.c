@@ -28,7 +28,8 @@ typedef struct {
     u8 b7 : 1;
 } Flags;
 
-extern int func_02013D9C(int);
+typedef unsigned int   u32;
+extern u32 func_02013D9C(u32 id);
 
 int func_0217689C(u8 *ctx, int arg)
 {

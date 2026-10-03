@@ -13,10 +13,11 @@
  *   func_021BDB98 0x021BDB98 thumb ov110
  */
 typedef unsigned char u8;
-extern int func_021BD808(u8 *,unsigned *);
+typedef unsigned int   u32;
+extern int func_021BD808(u8 *p, void *q);
 extern int func_021BD8D8(u8 *,unsigned *);
 extern int func_021BDB98(u8 *,unsigned *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 int func_021BDC70(u8 *p,unsigned *q) {
  int result;
  if(*q<=1 && func_021BD808(p,q) && !*(int *)(p+0x70)) { func_020061E4(1352); return 0; }

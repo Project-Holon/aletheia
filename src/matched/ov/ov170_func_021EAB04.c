@@ -11,7 +11,8 @@
  *   func_02045334 0x02045334 arm
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern void func_02045334(void *);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 void func_021EAB04(unsigned char *w) {
  unsigned i; unsigned char mask; unsigned char index;
  for(i=0;i<28;i++) {

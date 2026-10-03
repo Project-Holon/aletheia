@@ -13,7 +13,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u16 tbl_02203B84[];
-extern u32 func_0200D064(void *bag, u16 id);
+struct Blk37;
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void *func_0201F81C(u32 n, u32 heap);
 extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
 int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag)

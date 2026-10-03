@@ -29,7 +29,7 @@ extern void func_02045088(u32);
 extern void func_0203FC28(const void *);
 extern void func_0203FCA0(u8, const void *, u8);
 extern void func_020414AC(u8);
-extern void func_02040588(u8, u8);
+extern void func_02040588(u32 which, u32 enable);
 void func_021D97C8(void *p, u32 a)
 {
     u32 i;

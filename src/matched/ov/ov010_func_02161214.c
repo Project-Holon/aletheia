@@ -49,10 +49,15 @@ typedef struct Work {
 } Work;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(void *p);
-extern void *func_020127A4(void *p);
-extern u16 func_02012AC8(void *p);
-extern void *func_020128B8(void *p);
+struct BigObj;
+struct Ctx;
+struct Rec1C;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern struct Rec1C *func_020128B8(const struct BigObj *p);
 
 extern const char d_02172978[];
 

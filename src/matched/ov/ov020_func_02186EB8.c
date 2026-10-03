@@ -30,13 +30,14 @@ void *func_0215A5F4(void *a);
 void *func_0215A5E4(void *a);
 void func_020127C4(void *a);
 void *func_020127F0(void *a);
-void *func_02012934(void *a);
+struct BigObj;
+void *func_02012934(const struct BigObj *p);
 u16 *func_02159AE8(void *a, void *b);
 u32 func_0201AA18(void *a);
-int func_021869D0(void *a);
+u16 func_021869D0(char *p);
 void func_0203F4E4(int *d);
 void *func_0201AB28(void *a, u32 i);
-int func_02017E1C(void *a, int id, int c);
+u32 func_02017E1C(void *p, u32 id, u32 v);
 
 int func_02186EB8(void *a0, void *a1)
 {

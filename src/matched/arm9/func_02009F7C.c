@@ -12,9 +12,11 @@
 
 typedef unsigned char u8;
 typedef struct { int w[0x33]; } Slot;
-extern int func_0200A400(void *p);
-extern int func_02009F50(void *p, unsigned int i);
-extern void *func_0200A43C(void *p, unsigned int i);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0200A400(struct Obj *obj);
+extern int func_02009F50(char *p, unsigned int idx);
+extern void *func_0200A43C(struct Obj *obj, u32 index);
 extern void func_02082BCC(void *dst, int v, int n);
 void func_02009F7C(void *p, unsigned int idx)
 {

@@ -28,9 +28,9 @@ struct Big;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C404(void *sys);
-extern int func_0200C468();
+extern u16 func_0200C468(const u8 *a);
 extern void func_021605C0();
-extern int func_021C5334();
+extern int func_021C5334(u32 a);
 
 int func_02160668(int *a0, int *a1)
 {

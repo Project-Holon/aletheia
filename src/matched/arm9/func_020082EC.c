@@ -13,8 +13,11 @@
  */
 
 extern char g_020A70A0[];
-extern void *func_02030734(int a, int b, int c, void *d, int e);
-extern void func_02008320(void *p);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Flags02008320;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02008320(struct Flags02008320 *p);
 
 void *func_020082EC(int a0)
 {

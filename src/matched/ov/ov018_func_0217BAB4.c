@@ -35,17 +35,19 @@ typedef struct { int x, y, z; } Vec;
 extern int func_020120F8(void *);
 extern int func_02012AC8(int);
 extern void func_02012AE4(int);
-extern int func_02012138(void *);
-extern int func_020120F4(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02026454(int);
-extern int func_02013D5C(int);
-extern int func_02175E90(u8 *, u8 *);
+extern u32 func_02013D5C(u32 id);
+extern int func_02175E90(void *p, u8 *q);
 extern void func_021A3038(void *, Vec *);
-extern int func_020120D8(void *);
+extern int func_020120D8(char *p);
 extern void func_021A3044(void *, Vec *);
 extern void func_02175274(u8 *, int);
-extern int func_02039338(void);
-extern void func_02175710(u8 *, int);
+extern u16 func_02039338(void);
+extern void func_02175710(u8 *o, u32 v);
 extern void func_02161FEC(u8 *, u8);
 
 void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)

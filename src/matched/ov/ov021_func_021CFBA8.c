@@ -31,8 +31,8 @@ typedef struct Rec {
     u16 v[10];
 } Rec;
 
-extern u32  func_021587B0(u32 a, u32 id, u32 b, u32 c);
-extern void func_02159058(u32 h, u32 a, u32 b, u32 c, u32 d);
+extern int func_021587B0(int a0, int a1, int a2, int a3);
+extern void func_02159058(int a, int b, int c, int d, u16 e);
 extern u32  func_02158F74(u32 a);
 extern u32  func_020457B0(u32 size, u32 heap);
 extern void func_02045994(u32 dst, const void *src, u32 len);

@@ -116,10 +116,13 @@ typedef struct {
 } Counter;
 
 extern void func_0207ADC4(MtxFx33 *m);
-extern void func_02048AD0(void *p);
+typedef signed int     s32;
+struct AnmCtl;
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern void *func_02048A18(void *p, u16 id);
-extern int func_0204779C(void *mdl);
-extern void func_02047828(void *mdl, int a, int *out);
+extern int func_0204779C(int *p);
+extern u32 func_02047828(struct AnmCtl *c, u32 idx, s32 *frame);
 extern void func_0204784C(void *mdl, u16 i, void *q);
 extern void func_02047964(void);
 extern void func_020479D8(void);

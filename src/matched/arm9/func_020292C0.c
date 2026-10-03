@@ -15,8 +15,8 @@ typedef unsigned int  u32;
 
 extern u32  func_02005E50(u8 *p);
 extern u32  func_0202947C(u8 *p);
-extern void func_02029408(u8 *p);
-extern void func_02029344(u8 *p, u32 v);
+extern u32 func_02029408(u8 *p);
+extern void func_02029344(void *obj, u32 value);
 
 void func_020292C0(u8 *p)
 {

@@ -14,7 +14,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern u32 func_0201D304(void *, u32, u32);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_02045770(void *);
 extern void func_0201C724(void *, u32, s16, s16, void *, u32, u16);
 void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align)

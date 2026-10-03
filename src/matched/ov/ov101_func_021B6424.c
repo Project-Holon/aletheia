@@ -14,10 +14,13 @@
  *   func_021B64B8 0x021B64B8 thumb ov101
  */
 typedef unsigned char u8;
-extern unsigned int func_020399A8(void);
-extern unsigned int func_0203D1A4(void *);
+typedef unsigned int   u32;
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_02039468(unsigned int,unsigned int);
-extern int func_021B64B8(int,int,int,int,u8,int,int,int);
+extern u32 func_021B64B8(u32 p, u32 a, u32 b, u32 c, u8 d, u32 e, u32 f, u32 g);
 int func_021B6424(int p)
 {
     unsigned int id;

@@ -21,11 +21,11 @@
 typedef unsigned short u16;
 extern int func_020279E8(int);
 extern int func_02027A04(int);
-extern void func_021E12F8(void *);
-extern void func_021E1098(void *);
+extern void func_021E12F8(char *p);
+extern void func_021E1098(char *p);
 extern void func_021D8E84(void *,int);
-extern void func_021D9750(void *);
-extern void func_021D99F4(void *);
+extern void func_021D9750(char *p);
+extern void func_021D99F4(char *p);
 extern void func_021DADAC(void *);
 extern void func_0202208C(int,int,int,int,int,int,int);
 void func_021D9A50(char *p) { int v; if(func_020279E8(*(int *)(p+0x64c))) {v=func_02027A04(*(int *)(p+0x64c));func_021E12F8(p);func_021E1098(p);*(int *)(p+0x64c)=0;switch(v) {case 0:func_021D8E84(p,(int)func_021D9750);return;case 1:func_0202208C(3,0,0,0,6,1,*(u16 *)(p+0x5f4));func_021D8E84(p,(int)func_021D99F4);return;case 2:func_021D8E84(p,(int)func_021DADAC);return;} } }

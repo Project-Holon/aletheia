@@ -29,13 +29,16 @@ typedef struct {
 } Pt;
 
 extern const Pt d_021DAAB4;
-extern void func_02040588(int, int);
-extern void func_02040E78(int a, void *b, int c, int d);
-extern void func_02040C14(int, int, int, int);
+typedef unsigned int   u32;
+struct St021D3244;
+struct St021D325C;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02040E78(u32 r7, void *r6, u32 r5, u32 r4);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
-extern void func_020409B4(int);
-extern void func_021D325C(void *, int, int, int, int);
-extern void func_021D3244(void *, int, int);
+extern void func_020409B4(u32 index);
+extern void func_021D325C(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_021D3244(struct St021D3244 *p, int i, u8 v);
 
 void func_021C62F0(u8 *p)
 {

@@ -26,18 +26,26 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_02202608(unsigned);
-extern void *func_02007A18(void *, unsigned, unsigned);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct Party;
+struct PerapVoice;
+struct Rec0200AD94;
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void func_022026A0(void *, void *);
 extern void func_0200ADB8(void *, void *, unsigned);
 extern void func_02007664(void *, unsigned, unsigned);
 extern void func_020307B0(void *);
 extern void *func_0201AB28(void *, unsigned);
-extern void func_0201A9C8(void *, unsigned);
-extern void *func_020120F4(void *);
+extern u32 func_0201A9C8(struct Party *p, s32 idx);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F98(void *);
-extern void *func_02012934(void *p);
-extern void func_02007C34(void *, void *);
-extern void func_0200AD94(void *, u16);
+extern void *func_02012934(const struct BigObj *p);
+extern void func_02007C34(struct PerapVoice *p, void *a);
+extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 void func_022021F8(u8 *p, int flag)
 {
     void *mon;

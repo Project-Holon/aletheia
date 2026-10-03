@@ -15,7 +15,7 @@
 typedef signed char s8;
 typedef unsigned char u8;
 extern void func_0220B520(char *);
-extern void func_0220B584(void *);
+extern void func_0220B584(char *p);
 int func_0220CFA4(char *p)
 {
     unsigned index = *(u8 *)(p + 0x533);

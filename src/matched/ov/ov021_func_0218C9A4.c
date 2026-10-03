@@ -16,8 +16,9 @@
  */
 
 int func_0218C990(void *p, unsigned short *out);
-int func_02006148(unsigned short v);
-int func_02006224(int x);
+typedef unsigned int   u32;
+int func_02006148(u32 a0);
+int func_02006224(u32 a0);
 
 int func_0218C9A4(void *p)
 {

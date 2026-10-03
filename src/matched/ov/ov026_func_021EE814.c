@@ -31,7 +31,7 @@ extern void func_021A22E0(int, int, int, int);
 extern void func_021A2254(u8 *p, void (*fn)(u8 *, int, u32), int n, int m, int k, u16 w);
 extern void func_021A25BC(int, int);
 extern void func_021A2114(int, int, int);
-extern int func_02014A10(int);
+extern u16 func_02014A10(u32 i);
 extern void func_021EEA18(u8 *, int, u32);
 
 int func_021EE814(int a, int b, u16 c)

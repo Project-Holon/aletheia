@@ -20,7 +20,7 @@
  */
 
 struct SBL { char pad0[4]; void *servers; };
-extern int func_02184200(void *a);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
 extern void func_0219F738(struct SBL *l, void *s);
 extern void func_0218452C(void *a);

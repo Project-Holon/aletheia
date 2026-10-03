@@ -17,12 +17,16 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov114_id 0x00000072 data
  */
-extern void func_021B99B8(void *);
-extern void func_021B9838(void *);
+typedef unsigned char  u8;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_021B99B8(u8 *p);
+extern void func_021B9838(u8 *p);
 extern void func_021D85B4(void);
-extern void func_02045808(void *);
-extern void func_0201ED04(void *);
-extern void func_02045C04(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 extern void func_02034A5C(void *);
 extern char ov114_id[];

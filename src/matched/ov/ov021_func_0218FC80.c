@@ -31,8 +31,9 @@ typedef int            s32;
 extern u16 func_0218FDF0(u16 *a, u16 *b, s32 d, s32 n);
 extern void func_0218FD88(s32 *a, s32 *b, s32 d, s32 n, s32 *out);
 extern void func_0218FE40(u8 *p);
-extern void func_02048B80(void *o, s32 v);
-extern void func_02048B94(void *o, s32 v);
+struct Light;
+extern void func_02048B80(struct Light *l, u32 v);
+extern void func_02048B94(struct Light *l, u32 v);
 extern s16 d_020A1B38[];
 
 void func_0218FC80(u8 *p)

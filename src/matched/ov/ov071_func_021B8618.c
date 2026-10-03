@@ -17,9 +17,12 @@
  *   func_021B878C 0x021B878C thumb ov071
  */
 
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+struct S020315D4;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02043534(unsigned int);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_021B8750(void **);
 extern void func_021B869C(void);
 extern void func_021B878C(void *);

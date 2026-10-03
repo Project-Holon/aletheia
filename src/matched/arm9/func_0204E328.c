@@ -39,8 +39,8 @@ typedef unsigned int  u32;
 
 extern const char s_textprint_c[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0204E180(void *buf, u32 a1);
 extern void  func_0204E388(u32 a0, void *buf, u32 a2);
 extern void  func_020307B0(void *p);

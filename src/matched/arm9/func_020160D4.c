@@ -63,8 +63,9 @@ typedef unsigned int   u32;
 
 extern char data_020A72CC[];
 
-extern void  func_0201691C(void *a, void *b);
-extern void  func_02016C38(int v);
+struct Obj_0201691C;
+extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
+extern int func_02016C38(int a0);
 extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
 extern int   func_020056A0(int fn, int arg, int n);
 extern int   func_02030734(u16 heap, int size, int kind, int file, int line);

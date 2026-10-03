@@ -71,12 +71,12 @@ extern const VecFx32 d_02208F30;
 extern const u32 d_02208E9C[2];
 extern char d_02208F7C[];
 extern s16 FX_SinCosTable_[];
-extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02050B80(u32 heap);
 extern void *func_02050C30(void *buf, u32 size, u32 a2, u32 a3, u32 a4, u32 a5, u32 heap);
 extern void func_02051758(void *spl);
 extern void func_02051648(void *spl, void *src, u32 a2, void *a3, void *a4, void *a5, u32 a6);
-extern u32 func_0205121C(u32 a, u32 b, u32 heap);
+extern int func_0205121C(u32 a, u32 b, u32 c);
 extern u16 func_02051B04(u32 res);
 extern void func_02051230(void *spl, u32 res, u32 a2, u32 a3);
 

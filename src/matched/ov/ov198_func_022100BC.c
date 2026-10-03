@@ -24,7 +24,7 @@ struct Sound;
 extern int func_02025DE8(struct Sound *);
 extern int func_022110D4(u8 *,int);
 extern void func_02211970(u8 **,u32);
-extern void func_0220B760(u8 *,u8);
+extern void func_0220B760(u8 *p, unsigned int state);
 int func_022100BC(u8 *p)
 {
     u32 selection=func_02025DE8(*(struct Sound **)(p+0x2184));

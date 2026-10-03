@@ -50,7 +50,7 @@ extern void func_0204B1CC(struct Bank *);
 extern void func_0204A5AC(void);
 extern void func_021B7498(char *);
 extern void func_021F5330(int,int);
-extern void func_021F51B0(u32);
+extern void func_021F51B0(int a);
 extern void func_02030EAC(struct Node *);
 extern void func_0204ED24(void *);
 extern void func_02048AC4(void *);

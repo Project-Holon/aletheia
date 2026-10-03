@@ -15,7 +15,8 @@
  *   func_0204A5AC 0x0204A5AC arm
  */
 typedef unsigned char u8;
-extern void func_0204B1CC(void *p);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 void func_021C5470(u8 *p)
 {

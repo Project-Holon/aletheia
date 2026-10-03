@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
-extern void func_021F80E4(u8);
+typedef unsigned int   u32;
+extern void func_021F80E4(u32 a);
 void func_021ED9EC(struct E *e)
 {
     if (e->fa != 0) {

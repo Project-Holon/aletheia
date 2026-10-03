@@ -25,7 +25,7 @@ extern Pos func_021C4AC4(void *);
 extern Pos func_021C4AD0(void *);
 extern Pos func_021C4A54(Pos, int);
 extern int func_021C49A4(u8 *, u32);
-extern u32 func_021C4914(void *);
+extern u32 func_021C4914(u8 *p);
 extern u8 *func_021C499C(void *, u16);
 u8 *func_021C4BA4(u8 *p, void *list, int n)
 {

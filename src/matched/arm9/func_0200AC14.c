@@ -89,7 +89,7 @@ typedef struct {
 } Self;
 
 extern void func_02082BCC(void *p, int c, u32 n);
-extern void sub_0201F41C(const void *src, void *dst, u32 n);
+extern void sub_0201F41C(const u16 *src, u16 *dst, u32 n);
 
 void sub_0200AC14(Self *self, const void *src, u32 a2, u32 a3,
                   u8 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7)

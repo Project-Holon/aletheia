@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0217B93C(int *,int);
 extern int func_0217B964(u8 *);
-extern void func_0217B6AC(void);
+extern void func_0217B6AC(int p, unsigned *state, int *q);
 extern void func_021E8AA0(int *,int);
 void func_0217B768(int *p,int *state,u8 *q) {switch(*state) {case 0:func_0217B93C((int *)q,15);*state=1;break;case 1:if(func_0217B964(q)==1) func_021E8AA0(p,(int)func_0217B6AC);break;}}

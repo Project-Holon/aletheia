@@ -33,7 +33,7 @@ extern FocusState g_021DE614;
 extern signed char g_021DA7DF[2][4][4];
 extern Rect g_021DA858[2][4];
 extern int func_021C0EF0(unsigned long flag);
-extern void func_021CFFAC(int no);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021BD4C8(int x0, int x1, int y0, int y1);
 
 void func_021CD018(int dir)

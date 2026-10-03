@@ -33,7 +33,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020457B0(u32 size, u16 tag);
-extern void  func_02045994(void *dest, const void *src, u32 size);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
 void *func_0200D6D0(const void *src, u32 tag)
 {

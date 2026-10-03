@@ -33,7 +33,7 @@ typedef struct {
 extern int func_021CA270(int kind);
 extern int func_0200D884(u32 h, int id, void *val);
 extern void *func_021CA210(u8 *p);
-extern u32 func_0201AB28(void *h, u8 idx);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u16 func_02017E1C(u32 m, int id, int c);
 
 void func_021C9C54(u8 *p)
@@ -46,7 +46,7 @@ void func_021C9C54(u8 *p)
     func_0200D884(*(u32 *)(p + 0x70), 5, p + 0x1e);
     h = func_021CA210(p);
     for (i = 0; i < p[8]; i++) {
-        m = func_0201AB28(h, p[0x1e + i]);
+        m = (u32)func_0201AB28(h, p[0x1e + i]);
         ((Stats *)p)->a22[i] = func_02017E1C(m, 5, 0);
         ((Stats *)p)->a2a[i] = func_02017E1C(m, 6, 0);
     }

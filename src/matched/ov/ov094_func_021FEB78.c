@@ -32,7 +32,8 @@ typedef struct {
 
 extern int func_021FFD9C(Work *w, int key);
 extern void func_021FF0F8(Work *w, int key);
-extern void func_02014BA8(void *obj);
+typedef unsigned char  u8;
+extern void func_02014BA8(u8 *a0);
 extern void func_020307B0(void *p);
 
 void func_021FEB78(Work *w)

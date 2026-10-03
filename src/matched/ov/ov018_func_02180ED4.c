@@ -66,18 +66,23 @@ typedef struct {
 extern u8 ov083_id[];
 extern const u16 d_02183890[];
 
-void *func_020124E4(void *);
+typedef signed int     s32;
+struct Ctx;
+struct Evt;
+struct Obj;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 int func_02158344(void *);
-void func_0201F02C(void *, int, void *);
-void *func_020120F4(void *);
-void *func_02012944(void *);
-void func_0201F184(void *, int, u32);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void *func_020120F4(const struct Ctx *p);
+u8 *func_02012944(void *p);
+void func_0201F184(struct WordSet *p, u32 i, s32 v);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
 void *func_020124AC(void *h, u32 n, u32 (*fn)(void *, u32), Args *a);
-void func_02012374(void *, void *);
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(int v, Ov018Outer *c);
 u32 func_021F5260(void *, u32);
 

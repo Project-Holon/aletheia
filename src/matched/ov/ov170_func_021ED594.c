@@ -45,9 +45,12 @@ typedef struct {
 
 extern void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space);
 extern int func_0204B838(void *a);
-extern unsigned func_0204B864(void *a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern u32 func_0204B864(u8 *a0);
 extern void *func_021EBEE0(char *w, const Desc *s);
-extern void func_0204B6F4(void *a, int b, int c);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B7C8(void *src, Struct36 *dst);
 extern void func_0204B784(void *dst, const Struct36 *src);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);

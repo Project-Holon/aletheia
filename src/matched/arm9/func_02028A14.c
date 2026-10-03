@@ -26,7 +26,8 @@ struct T {
 
 extern void func_02028D54(void *p);
 extern void func_02029F4C(void *p);
-extern void func_0202878C(void *p);
+struct Fader;
+extern void func_0202878C(struct Fader *s);
 extern u32  g_020A7554[];
 extern u32  g_020A7518[];
 

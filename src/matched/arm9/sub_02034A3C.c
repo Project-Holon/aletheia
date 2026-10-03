@@ -32,7 +32,7 @@ struct Obj02034A3C {
     u32 unk04;
 };
 
-extern void func_020792B8(u32 a, u32 b);
+extern int func_020792B8(u32 a, u32 b);
 
 void sub_02034A3C(struct Obj02034A3C *p)
 {

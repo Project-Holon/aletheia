@@ -24,7 +24,8 @@
 typedef unsigned int u32;
 
 extern void *g_02146990;
-extern void sub_020314DC(void *obj, u32 a1, u32 a2, u32 a3);
+struct S020314DC;
+extern void sub_020314DC(struct S020314DC *p, u32 a, u32 b, u32 c);
 
 void func_020312F8(u32 a1, u32 a2, u32 a3)
 {

@@ -16,7 +16,9 @@
  * a tail call through the pool with the id in r1.
  */
 
-extern void *func_020071CC(void *sys, unsigned int id);
+typedef unsigned int   u32;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *func_0200AD6C(void *sys)
 {

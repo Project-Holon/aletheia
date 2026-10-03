@@ -17,9 +17,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02049BDC(void *,unsigned,unsigned,int,unsigned,unsigned,u16);
+typedef unsigned int   u32;
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_020413B0(unsigned,u8,u8,u8,u8,u8);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern const u8 d_021B7484[],d_021B7480[];
 void func_021B6F3C(char *p,u8 *q)
 {

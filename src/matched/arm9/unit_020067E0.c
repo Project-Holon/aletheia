@@ -125,9 +125,9 @@ extern u8   sub_0200674C(u8 volume);
 extern u32  func_02072A44(u32 kind);
 extern int  func_02072AA0(u32 channel, u32 a, void *data, u32 b, u32 c,
                           u32 length, u32 loop, u8 volume, u32 rate, u8 pan);
-extern struct Sub020067E0Head *func_02074450(u32 id);
+extern void *func_02074450(int index);
 extern u32  func_0207457C(u32 group);
-extern int  func_020745A4(u32 group, void *dest, u32 handle, u32 a);
+extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void func_0208A638(void *block);
 
 int sub_020067E0(struct Sub02006544Entry *e, u32 id)

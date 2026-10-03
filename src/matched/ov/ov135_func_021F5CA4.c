@@ -28,7 +28,7 @@ typedef struct {
 
 extern int func_02035C08(const void *key);
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern const u8 tbl_02202E24[];
 
 int func_021F5CA4(Work *p)

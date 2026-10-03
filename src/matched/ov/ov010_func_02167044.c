@@ -16,8 +16,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02166F9C(void *, int *, int *);
 extern const char d_02172A00[];
-extern void *func_020122C0(void *, void *, void *, u32);
-extern void *func_020124E8(void *);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 void *func_02167044(void *a, void *b) {
     void *task;

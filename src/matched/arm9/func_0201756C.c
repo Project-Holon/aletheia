@@ -22,7 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef unsigned long long u64;
 
-extern void func_02017588(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct Mon;
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 
 void func_0201756C(void *obj, u16 species, u16 level, u64 id)
 {

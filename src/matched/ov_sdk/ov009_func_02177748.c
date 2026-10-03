@@ -17,7 +17,7 @@
  */
 
 extern unsigned long long OS_GetTick(void);
-extern char *func_02177770(int aid);
+extern int func_02177770(int i);
 
 void func_02177748(int aid)
 {

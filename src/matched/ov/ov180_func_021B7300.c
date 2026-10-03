@@ -13,7 +13,9 @@
  *   func_02041F28  0x02041F28  arm
  */
 
-extern void func_02041F28(int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02041F28(u32 which, u32 op, u16 value);
 
 void func_021B7300(void)
 {

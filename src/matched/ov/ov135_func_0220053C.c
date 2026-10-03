@@ -22,7 +22,7 @@ extern void func_021F4E98(u8 *, u32, u32);
 extern int func_021F4ED4(u8 *);
 extern void func_022009A4(u8 *, int, int, int, int);
 extern void func_02200A10(u8 *, int, int, int, int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_0220053C(u8 *p, int mode)
 {
     switch (mode) {

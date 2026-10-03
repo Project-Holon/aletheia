@@ -29,12 +29,14 @@ extern void *func_021B90F0(void *);
 extern int func_021E9E60(void *);
 extern char *func_021BA1E4(char **);
 extern void *func_021B86B8(void ***);
-extern int func_021BA1A8(void *, int);
-extern u32 func_021B9B04(int, int);
+struct Q1;
+struct S2;
+extern int func_021BA1A8(char **p, int m);
+extern unsigned char func_021B9B04(int a, int b);
 extern void func_021E9984(u8 *, u8 *, int, u8, int);
 extern void *func_021D3D7C(void *);
-extern u8 func_021B9B94(void *);
-extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 func_021B9B94(struct Q1 *p);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D62C4(void *, int);
 
 void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)

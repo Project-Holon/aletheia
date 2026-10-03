@@ -11,7 +11,9 @@
  * symbols:
  *   func_0204B3DC 0x0204B3DC arm
  */
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BB2D4(char *p)
 {
     unsigned char i;

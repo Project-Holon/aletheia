@@ -33,7 +33,8 @@ extern u8 ov112_id[];
 
 extern void func_020307B0(void *p);
 extern void func_02012F74(void *h, void *w);
-extern void func_02034A5C(u32 id);
+typedef signed int     s32;
+extern void func_02034A5C(s32 handle);
 
 void func_0215DE0C(void *w, void *h)
 {

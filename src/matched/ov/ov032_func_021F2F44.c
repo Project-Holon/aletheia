@@ -24,9 +24,12 @@
 typedef struct { int w[4]; } T16;
 
 extern T16 d_021F35E0;
-extern void *func_0204B100(int, int, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_0204B034(T16 *a0, unsigned int a1, unsigned int heap);
-extern void func_0204B258(void *, void *);
+extern void func_0204B258(struct Bank *bank, void *p);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_021F3264(char *);
 extern void func_021F32F8(char *, unsigned char);

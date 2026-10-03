@@ -36,12 +36,13 @@ extern void func_02082BCC(void *,int,int);
 extern void *func_021BC930(int,int);
 extern void func_021BBFEC(char *);
 extern void func_021BC0C8(char *);
-extern void func_021BC1E4(char *,unsigned);
+typedef unsigned short u16;
+extern void func_021BC1E4(char *p, u16 heap);
 extern void func_021BC6D8(char *);
 extern void func_021BC454(char *,void *);
 extern void func_021BC650(char *);
 extern void func_021BC70C(char *);
-extern void *func_021BCA38(void *);
+extern void *func_021BCA38(char *p);
 extern void *func_021BC398(void *,unsigned);
 int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
 {

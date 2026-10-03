@@ -35,11 +35,13 @@ extern u32 func_021C1718(u8 *);
 extern void func_021B6208(void *,In *,int,u16);
 extern int func_021B629C(void *,int,u16,u16,u8,u16);
 extern void func_0204B84C(void *,u32);
-extern void func_0204B92C(void *,u32);
+struct Obj;
+struct R;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021C060C(u8 *,u16,void *,void *,void *);
 extern void func_021C09E0(u8 *);
 extern void *func_021C0A54(int,void *,int);
-extern void *func_02027F60(u16,u16,u32,u32,u16);
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern void func_021C0B54(char *);
 extern void func_0203D34C(u32,u32);
 void func_021C0490(u8 *p)

@@ -17,5 +17,5 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_02168124(void);
+extern int func_02168124(void);
 int func_021F8A80(void) { switch(func_02168124()) {case 3:return 1;case 0:case 4:case 5:return 2;default:return 0;} }

@@ -16,7 +16,7 @@ typedef struct { unsigned v[8]; } Table;
 typedef struct { Table *table; unsigned count; void *p; unsigned mode,a,b,c,d; } Descriptor;
 extern const Table data_021C39F8;
 extern void *func_021B62E0(Descriptor *,int);
-extern void func_021B6588(void *,int,int);
+extern void func_021B6588(unsigned char *p, unsigned int id, unsigned int v);
 void *func_021C0A54(int unused,void *p,int heap) {
     Descriptor desc={0};
     Table table=data_021C39F8;

@@ -22,7 +22,7 @@ extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_02039C68(unsigned,unsigned,unsigned);
 extern void func_0215642C(int);
 extern void func_021D8E84(void *,int);
-extern void func_021DEE00(void *);
+extern void func_021DEE00(unsigned char *p);
 void func_021DEEA8(void *p) {
  unsigned h=func_020399A8();
  *(unsigned short *)((char *)p+0x109a)=0;

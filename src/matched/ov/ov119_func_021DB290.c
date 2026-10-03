@@ -20,12 +20,13 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DB278 0x021DB278 thumb ov119
  */
-extern void func_020435F4(int);
-extern void func_021E5D84(void *);
-extern void func_021E1098(void *);
+typedef unsigned int   u32;
+extern void func_020435F4(u32 planes);
+extern void func_021E5D84(char *p);
+extern void func_021E1098(char *p);
 extern void func_021DF7AC(void *,int);
 extern void func_021E71E0(void *,int);
-extern void func_021DBB6C(void *);
+extern void func_021DBB6C(char *p);
 extern void func_021E6700(void *);
 extern void func_021E7058(void *);
 extern void func_021D8E84(void *,int);

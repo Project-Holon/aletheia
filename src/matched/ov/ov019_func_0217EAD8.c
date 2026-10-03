@@ -36,8 +36,8 @@ typedef struct {
 void func_0217BAF0(u8 *w, int a, int v);
 void func_0217F098(u8 *w, int a);
 void func_0217F188(u8 *w, int msg);
-int func_0217F1EC(u8 *w);
-void func_0217F074(u8 *w);
+u32 func_0217F1EC(u8 *p);
+void func_0217F074(void *p);
 int func_0217B8E4(u8 *w, int v);
 void func_0217422C(u8 *w, int b, void *c);
 int func_02174268(u8 *w);

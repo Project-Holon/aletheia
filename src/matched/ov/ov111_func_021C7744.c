@@ -106,7 +106,7 @@ typedef struct { fx32 x, y, z; } VecFx32;
 extern void *func_02047CFC(int a, int b, int heap);
 extern u16 func_02047E88(void *p, const void *q);
 extern void *func_02048A18(void *p, u16 id);
-extern int func_0204779C(void *mdl);
+extern int func_0204779C(int *p);
 extern void func_020477A4(void *mdl, u16 i);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern const unsigned char d_021C8834[];

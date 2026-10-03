@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021DD924(void *);
+extern void func_021DD924(void);
 extern int func_021DCBC4(void *,u32,const void *,u32);
 extern void func_0203D7BC(int);
 int func_021DDC7C(char *p,int state) {if(*(u8 *)(p+0x4813)==0) {if(func_021DCBC4(*(void **)(p+16),0x2804,0,0)==1) {*(int *)(p+280)=27;func_0203D7BC(1);}}return state;}

@@ -18,7 +18,7 @@
  */
 
 extern unsigned char func_0216B838(void);
-extern void *func_02176410(unsigned char aid);
+extern char *func_02176410(unsigned char aid);
 extern char g_021AA878[];
 
 int func_0216B94C(unsigned char aid)

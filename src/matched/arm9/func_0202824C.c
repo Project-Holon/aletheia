@@ -28,9 +28,11 @@
 typedef unsigned int u32;
 
 extern u32 func_02035D20(u32 *x, u32 *y);
-extern u32 func_02045738(void *w);
-extern u32 func_02045758(void *w);
-extern u32 func_02045760(void *w);
+typedef unsigned char  u8;
+struct Descriptor;
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
 
 u32 func_0202824C(void **p)
 {

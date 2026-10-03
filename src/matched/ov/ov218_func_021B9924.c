@@ -18,7 +18,7 @@
 
 typedef unsigned int u32;
 
-extern int func_02023F98(int a);
+extern void func_02023F98(u32 mask);
 extern int func_02023EF4(int a, int b, int c, int d, int e);
 
 int func_021B9924(void)

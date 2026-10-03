@@ -29,7 +29,7 @@ extern u32 func_020399A8(void);
 extern u32 func_020173EC(void);
 extern int func_0203D3A8(u32 h, u16 b, u16 c, void *q);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DE6AC(void *p);
+extern void func_021DE6AC(char *p);
 
 void func_021DE70C(void *p)
 {

@@ -32,14 +32,18 @@ typedef struct Out {
     u8  f0e;
 } Out;
 
-extern void *func_02012EBC(void *p);
-extern void *func_0200BE48(void *p);
+typedef unsigned short u16;
+struct Big;
+struct BigObj;
+struct Rec1B0;
+extern void *func_02012EBC(struct Big *p);
+extern u16 *func_0200BE48(void *sys);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
-extern u32   func_0200BF70(void *p);
-extern int   func_02012B70(void *p);
+extern u32 func_0200BF70(struct Rec1B0 *p);
+extern u8 func_02012B70(const struct BigObj *p);
 extern void *func_02012FCC(void *p);
-extern u64   func_0200BFA4(void *p, void *x, u32 n);
-extern u64   func_0200BF94(void *p);
+extern unsigned long long func_0200BFA4(u8 *p, void *q, u32 mode);
+extern unsigned long long func_0200BF94(struct Rec1B0 *p);
 extern void  func_0200BF54(void *p, void *out, u32 n);
 
 void func_02175648(void *sv, Out *o)

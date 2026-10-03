@@ -13,7 +13,7 @@
  *   func_0217BAF0 0x0217BAF0 thumb ov019
  */
 extern void func_0217F074(void *ctx);
-extern void func_0217BAF0(void *ctx, int a, int v);
+extern void func_0217BAF0(char *p, int x, unsigned int v);
 int func_0217DE88(void *ctx, void *unused, int a)
 {
     func_0217F074(ctx);

@@ -26,7 +26,8 @@ typedef struct {
     short y;
 } Pos;
 
-extern int func_0201AA18(void *party);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021EC000(char *p, int i, int v);

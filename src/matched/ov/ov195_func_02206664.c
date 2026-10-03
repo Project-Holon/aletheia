@@ -70,16 +70,17 @@ typedef struct Owner {
 extern const VecFx32 d_02208E8C;
 extern GlbState d_02148BCC;
 extern void func_020467EC(void *save);
-extern void func_02046AFC(void *save);
+struct Light;
+extern void func_02046AFC(u8 *dst);
 extern void func_0207ADC4(MtxFx33 *m);
 extern void func_0206A9DC(const VecFx32 *trans);
 extern void func_02082B60(const MtxFx33 *src, MtxFx33 *dst);
 extern void func_0206AA0C(const VecFx32 *scale);
-extern void func_02048AD0(void *tex);
+extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern void func_0206DB80(void);
 extern void func_02046858(void *save);
-extern void func_02046B40(void *save);
+extern void func_02046B40(u8 *a0);
 extern void func_02207510(void *grid, u16 heap);
 extern void func_02208570(void *quad, u16 heap);
 

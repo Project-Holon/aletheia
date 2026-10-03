@@ -43,15 +43,15 @@ extern void  func_0202223C(u32 a, u32 color);
 extern void  func_021B96D4(void *p, u32 a);
 extern void  func_021B97D4(void);
 extern void  func_021B97F4();
-extern void  func_021B98AC(void *p);
-extern void  func_021B9A50(void *p);
+extern void func_021B98AC(u8 *p);
+extern void func_021B9A50(u8 *p);
 extern void  func_021B9B44(void *p);
 extern void  func_021B9C44(void *p);
-extern void  func_021B9D08(void *p);
+extern void func_021B9D08(u8 *p);
 extern void  func_021B9F24(void *p);
 extern void  func_021BA384(char *o, int i, int n);
 extern void  func_021BA438(void *o, int v);
-extern void  func_0202208C(int, int, int, int, int, int, int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void  func_0203D34C(u32 a, u32 b);
 
 int func_021B95A0(void *a, u32 b, u32 c)

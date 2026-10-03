@@ -32,7 +32,8 @@ extern unsigned func_0201F91C(int);
 extern void func_02045CAC(int, int, int);
 extern void func_0201F250(int, int, int);
 extern int func_02045874(int, int);
-extern void func_02190A64(int, int, int, int);
+typedef unsigned int   u32;
+extern int func_02190A64(u32 a, u32 b, u32 c, u32 d);
 
 void func_0215A7F0(unsigned short *p, int a, int b, int c, int s0, int s1)
 {

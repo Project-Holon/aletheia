@@ -40,8 +40,10 @@ extern unsigned char d_021EE710b[12];
 
 void func_02082D44(void *src, void *dst, int n);
 void func_021A1698(void *a, int b, void *c, int d);
-void func_021A16D4(void *a, int b);
-void func_021A16D8(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+void func_021A16D4(u8 *p, u32 v);
+void func_021A16D8(u8 *p, u8 v);
 
 void func_021A2A18(Obj *o, int idx, void *p, void *src, unsigned short x)
 {

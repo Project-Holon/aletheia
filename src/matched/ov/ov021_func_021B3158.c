@@ -52,21 +52,22 @@ typedef struct Buf24 {
 } Buf24;
 
 extern void *func_0215A5F4(void *p);
-extern Work **func_02158FB4(void *a);
+struct Ctx;
+extern void *func_02158FB4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *a);
-extern void func_0218F0A8(void *a);
-extern int func_0218F0E8(void *a);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
 extern void func_021B30C8(Work *w, void *a, void *h);
-extern int func_0218FE50(void *a);
+extern int func_0218FE50(u8 *a);
 extern void func_02193060(u32 a);
 extern int func_021B35A4(void *a, u8 *p, u8 c, u8 d);
 extern void func_0218F9C4(void *h, Buf24 *src, u16 v);
 extern void func_0218EC60(void *a);
 extern void func_0218F1AC(void *a, u32 b);
-extern void func_0218F05C(void *a);
-extern void func_0218F878(void *a);
+extern void func_0218F05C(unsigned char *a);
+extern void func_0218F878(u8 *a);
 extern void func_020307B0(void *p);
 extern const Buf24 d_021D9738;
 

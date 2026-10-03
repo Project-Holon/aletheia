@@ -12,11 +12,15 @@
  *   func_020456F8 0x020456F8 arm
  *   func_02041B6C 0x02041B6C arm
  */
-extern void func_0202F038(void *);
-extern void func_0201CE48(void *);
-extern void func_0201F7A8(void *, int);
-extern void func_020456F8(void *);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Descriptor;
+struct Rec3;
+extern void func_0202F038(u8 *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041B6C(u32 bit);
 void func_021D584C(char *p)
 {
     if (*(void **)(p+0x7c)) {

@@ -22,9 +22,9 @@ typedef signed int s32;
 
 extern void func_0270212C(void);
 extern void func_02087A04(u32);
-extern u32 func_027020F0(void);
+extern s32 func_027020F0(void);
 extern void func_027021E4(void);
-extern void func_02700DB8(u32);
+extern u32 func_02700DB8(u32 a0);
 
 void func_02700BD0(void) {
     s32 r5 = 0x001991B0;

@@ -13,7 +13,8 @@
  *   func_02088F2C 0x02088F2C arm
  */
 
-extern void func_02088F2C(void);
+typedef unsigned int   u32;
+extern int func_02088F2C(u32 command);
 asm void RTCi_ReadRawDateAsync(void)
 {
     ldr ip, =func_02088F2C

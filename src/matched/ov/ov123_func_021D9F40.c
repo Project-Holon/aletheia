@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef short s16;
 extern void func_0207E3D0(void *, unsigned int, unsigned int);
 extern void func_0207E468(void *, unsigned int, unsigned int);
-extern void func_02040618(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 void func_021D9F40(void *unused, char *p)
 {
     if (*(int *)(p+4)) {

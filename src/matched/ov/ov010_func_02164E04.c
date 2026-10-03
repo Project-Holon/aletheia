@@ -37,7 +37,7 @@ typedef struct Ent {
 extern int   func_02178098(u8 a);
 extern Ent  *func_0203CF10(int a);
 extern Ent  *func_02164F9C(Ent *a, Ent *b);
-extern void  func_02177BF4(int a);
+extern void func_02177BF4(unsigned int idx);
 
 Ent *func_02164E04(u8 *obj, int *out)
 {

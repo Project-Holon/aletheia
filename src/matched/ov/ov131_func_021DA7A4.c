@@ -22,7 +22,9 @@ extern void func_020410D0(unsigned,int,int,int,int,void *,int,int,int,int);
 extern void func_02041B6C(unsigned);
 extern void func_021D9EF0(u8 *,u8 *);
 extern void func_021DB964(u8 *,void *,u8 *);
-extern void func_0204B878(void *,int);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021D5A9C(u8 *,int);
 extern void func_021DB468(u8 *,u8 *,u8,int);
 void func_021DA7A4(u8 *a,u8 *b) {

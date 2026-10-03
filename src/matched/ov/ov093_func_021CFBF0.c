@@ -47,7 +47,7 @@ extern int func_021D0304(void *, void *, void *, u8 *);
 extern u8 func_021D0980(u8 *, u8 *);
 extern void func_021D09E0(void *, u8 *, u8, void *);
 extern int func_021CFBBC(void *, u8);
-extern void func_021CFBE0(void *, u32, u8);
+extern void func_021CFBE0(u8 *p, u32 i, u32 v);
 int func_021CFBF0(u8 *g, void *m, u32 slot, u8 *out)
 {
     u8 choice;

@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021F9690(void *);
+extern void func_021F9690(char *p);
 
 int func_021FC5D8(int a, char **pp)
 {

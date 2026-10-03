@@ -21,7 +21,7 @@ struct Cfg;
 struct CharBuf;
 typedef struct { struct Descriptor *window; struct CharBuf *buffer; struct Descriptor *copy; unsigned char state; } Window;
 extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,unsigned char,unsigned char,unsigned char);
-extern struct CharBuf *func_02045770(struct Descriptor *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *,unsigned char);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);

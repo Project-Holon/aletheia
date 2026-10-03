@@ -13,7 +13,8 @@
  *   func_02017E1C  0x02017E1C  thumb
  */
 
-extern int func_02017E1C(void *, int, int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 int func_0215D198(void *x)
 {

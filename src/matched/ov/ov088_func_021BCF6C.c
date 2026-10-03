@@ -32,11 +32,12 @@ typedef struct B32 {
 extern A16 d_021BD980;
 extern B32 d_021BD990;
 
-extern void func_0203F8F4(int);
+typedef unsigned short u16;
+extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(void *);
 extern void func_0203FCA0(int, void *, int);
-extern void func_020434DC(int, int);
-extern void func_02040EBC(int, int);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02040EBC(u32 a0, u32 a1);
 
 void func_021BCF6C(void)
 {

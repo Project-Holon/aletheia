@@ -36,23 +36,25 @@ typedef unsigned int u32;
 
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 h);
-extern int func_021E12AC(void *p);
-extern int func_021DD140(void *p);
+struct MsgBank;
+struct WordSet;
+extern int func_021E12AC(char *p);
+extern int func_021DD140(char *p);
 extern int func_021D8A24(void *p);
 extern u32 func_02039CB4(u32 h, u32 a, u32 b);
 extern void func_02039C68(u32 h, u32 a, u32 b);
-extern int func_021DD24C(void *p);
-extern void func_021DD294(void *p, int a, int b);
-extern void func_02045CAC(void *arc, int entry, void *dst);
+extern int func_021DD24C(char *p);
+extern void func_021DD294(char *p, int a, int b);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_021D8FA4(void *p, int idx);
-extern void func_0201EEF4(void *a, int b, void *c);
-extern void func_0201F250(void *a, void *b, void *c);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021E1024(void *p);
 extern void func_021D8E84(void *p, int next);
-extern void func_021D89CC(void *p);
+extern void func_021D89CC(char *p);
 extern void func_021D9434(void *p);
-extern void func_021DDF28(void *p);
-extern void func_021DE8C0(void *p);
+extern void func_021DDF28(char *p);
+extern void func_021DE8C0(char *p);
 
 void func_021DDF74(char *p)
 {

@@ -15,7 +15,9 @@
  *   func_02084D78  0x02084D78  arm
  */
 
-extern void func_02084D78(int a);
+typedef signed int     s32;
+typedef unsigned short u16;
+extern s32 func_02084D78(u16 lockID);
 
 asm void func_02084D98(int a)
 {

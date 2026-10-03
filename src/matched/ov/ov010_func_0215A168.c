@@ -26,14 +26,18 @@
 typedef unsigned int u32;
 
 extern void *func_020120F4(int);
-extern void *func_02012934(void *p);
-extern u32 *func_02030734(int, int, int, const char *, int);
+typedef unsigned short u16;
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020122C0(int, int, void (*)(void), int);
-extern u32 *func_020124E8(void *);
-extern void *func_0201210C(void *p);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_0200CA1C(void *);
 extern int func_0200CA38(int);
-extern int func_0201AA18(void *);
+extern u32 func_0201AA18(void *p);
 extern void func_0215A214(void);
 extern const char d_021728CC[];
 

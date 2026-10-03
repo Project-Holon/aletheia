@@ -24,12 +24,13 @@ struct Slot {u32 kind:3, rest:29;};
 struct Byte7 {u8 v[7];};
 struct Work {u8 pad[0x1c]; struct Slot slots[36]; u8 counters[36]; u8 padD0[0x2c]; struct Byte7 copy; u8 pad103[0xef]; u16 f1f2;};
 extern int func_021D66A0(u32);
-extern int func_021D5BDC(void *, u32);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021D5FE4(void *, u32);
 extern int func_021D58A8(u8 *, int);
 extern void func_021D5970(u8 *, int, u16);
 extern void func_021D6D70(u8 *);
-extern void func_021D63B8(void *, int);
+extern void func_021D63B8(u8 *p, int all);
 extern void func_021D53C0(char *);
 extern void func_02082BCC(void *, u8, u32);
 void func_021D65C8(struct Work *p, struct Work *q)

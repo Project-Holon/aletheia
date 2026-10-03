@@ -15,7 +15,7 @@
  * ARM tail jump to func_021DF968, the ov175 +0x5c/+0x84 string writer.
  */
 
-extern void func_021DF968(void);
+extern char *func_021DF968(void);
 
 void func_021DFE20(void)
 {

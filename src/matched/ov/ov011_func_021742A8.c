@@ -17,7 +17,8 @@
 
 int func_021736D8(void);
 int func_020399A8(void);
-int func_0203D4D0(int a, int b, int c, int d, void *e, int f, int g, int h);
+typedef unsigned int   u32;
+u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 int func_021742A8(int a)
 {

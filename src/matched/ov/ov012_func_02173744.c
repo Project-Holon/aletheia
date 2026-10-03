@@ -24,8 +24,10 @@
 extern int func_02012138(int a);
 extern int func_020120F4(int a);
 extern int func_02026454(int a);
-extern void func_02034714(const char *file, int line, const char *msg);
-extern int *func_02030734(int heap, int size, int flag, const char *file, int line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02012944(int a);
 extern void func_020263D8(int a, int b, void *c);
 extern void func_021653C4(void);

@@ -37,12 +37,14 @@ typedef struct {
 
 extern void func_0201C6EC(u32 a);
 extern void *func_02045770(u32 p);
-extern void func_02043B5C(void *a, u32 b);
+struct CharBuf;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u16  func_021BBB3C(u32 tbl, int idx, int field);
-extern int  func_02013E4C(int a0);
+extern u32 func_02013E4C(u32 id);
 extern void *func_02045EC0(u32 bank, u32 index);
 extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 extern void func_0204B878(u32 obj, u32 anim);
 extern void func_0204B404(u32 obj, Pt *pos, int n);

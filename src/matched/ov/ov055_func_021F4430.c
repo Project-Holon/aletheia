@@ -13,5 +13,6 @@
  *   func_02045C04 0x02045C04 arm
  */
 extern void func_021F45A4(unsigned short *,unsigned int);
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 void func_021F4430(unsigned char *p) { int i; for (i=0;i<16;i++) func_021F45A4((unsigned short *)(p+16+i*8),*(unsigned int *)(p+12)); *(unsigned int *)(p+12)=0; func_02045C04(*(void **)(p+8)); *(void **)(p+8)=0; }

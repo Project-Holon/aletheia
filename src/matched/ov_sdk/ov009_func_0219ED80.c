@@ -40,7 +40,7 @@ extern unsigned long strlen(const char *s);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern void func_0219DEE8(ServerBrowser *engine, unsigned char keyid);
 extern int func_0219FFD4(void *slist, char *fieldList, char *serverFilter, int options, int maxServers);
-extern void func_0217F2BC(int ms);
+extern void func_0217F2BC(unsigned int msec);
 extern int func_0219EFD0(ServerBrowser *sb);
 extern char g_021A81DC[];
 extern char *g_021A7C90[];

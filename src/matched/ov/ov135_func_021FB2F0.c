@@ -46,10 +46,12 @@ typedef struct {
 } Menu;
 
 struct WinMgr;
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
-extern void func_02045334(void *win);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FB2F0(Menu *m, int page, int total)

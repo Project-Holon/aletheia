@@ -17,6 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0204A600(void);
-extern void func_0202EA40(void *);
+struct Row;
+extern void func_0202EA40(struct Row *p);
 extern void func_021D75F4(u8 *);
 void func_021D5F98(u8 *p){func_0204A600();if(*(void **)(p+0xf8))func_0202EA40(*(void **)(p+0xf8));if(*(void **)(p+0xfc))func_0202EA40(*(void **)(p+0xfc));func_021D75F4(p);}

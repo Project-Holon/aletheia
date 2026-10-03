@@ -19,12 +19,13 @@
  *   d_021DFABC 0x021DFABC data a4
  */
 extern void func_0203CBAC(void *, unsigned, unsigned);
-extern void func_02043598(unsigned, int);
+typedef unsigned int   u32;
+extern void func_02043598(u32 mask, u32 enable);
 extern int func_0203CD98(void);
 extern void func_0203D34C(unsigned, unsigned);
 extern void *func_02010360(int, unsigned short);
 extern void func_0203D010(void);
-extern void func_021DEEA4(void *, void *);
+extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE6F8(int, int, char *);
 extern unsigned d_021DFABC[];
 void func_021DE61C(void *a, int *state, char *p)

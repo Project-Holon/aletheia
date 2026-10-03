@@ -26,7 +26,9 @@
 typedef struct { int x,y; } Pair;
 typedef struct { int x,y,z; } Triple;
 typedef struct { char pad[0xC];int index;int task;char *resources;char pad18[0x1E0];int handles[12]; } Handles;
-extern char *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,unsigned),func_02034714(const char *,int,const char *);
 extern int func_021FD6D8(char *,void (*)(void),int),func_021FC124(char *,int,Triple *);
 extern void func_021FD964(void),func_021FBE54(char *,unsigned,unsigned);

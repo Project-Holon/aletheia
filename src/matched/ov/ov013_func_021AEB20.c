@@ -29,8 +29,8 @@ extern u8 *d_021B3C80;
 
 extern void func_0208B24C(void);
 extern void func_0208B8B0(void);
-extern void func_0208BEF0(int x);
-extern void func_0208BF38(int x);
+extern unsigned int func_0208BEF0(unsigned int status);
+extern unsigned int func_0208BF38(unsigned int gain);
 extern void func_021B0CD8(int x);
 extern void func_020726D0(void);
 extern void func_020737C0(void *p);

@@ -26,7 +26,7 @@ typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; Vec3 v; } Arg;
 
 extern void func_0216D88C(u32 a, Vec3 *v);
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern u8 d_021D90AC[];
 

@@ -11,5 +11,5 @@
  * symbols:
  *   func_021FB494 0x021FB494 thumb ov186
  */
-extern void func_021FB494(void *);
+extern void func_021FB494(char *p);
 void func_021FFF1C(char *p) {func_021FB494(*(void **)(p+44));}

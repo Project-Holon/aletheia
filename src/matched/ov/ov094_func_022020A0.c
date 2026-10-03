@@ -51,8 +51,9 @@ typedef struct Obj {
 } Obj;
 typedef struct Res { Obj *owner; int v; } Res;
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern int func_02030CB0(int n);
-extern void *func_02030CBC(int n, void *buf);
+struct Ctx;
+extern u32 func_02030CB0(u32 idx);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern int func_02045B38(int, int, int, int);
 extern void *func_02030DA8(void *, void (*)(void *, Res *), void *, u32);
 extern void func_0220684C(Obj *, void *, void (*)(void *));

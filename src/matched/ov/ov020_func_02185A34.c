@@ -15,9 +15,12 @@
  *   func_0201446C 0x0201446C thumb
  * interface: 0201446C's full-word input matches the absent call-site truncation.
  */
-extern void *func_02012B38(void *p);
+typedef unsigned char  u8;
+struct BigObj;
+struct Sub02014444Obj;
+extern void *func_02012B38(const struct BigObj *p);
 extern unsigned int func_02013F6C(unsigned int id);
-extern unsigned char func_02014468(void *p);
+extern u8 func_02014468(struct Sub02014444Obj *o);
 extern void func_0201446C(void *p, unsigned int value);
 void func_02185A34(void *p, unsigned int id)
 {

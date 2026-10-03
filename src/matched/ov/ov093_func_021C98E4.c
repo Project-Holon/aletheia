@@ -37,12 +37,12 @@ struct Cmd {
 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021C3B8C(void *w, u32 a, u32 b);
-extern void func_021C3BB8(void *w, u32 a, u32 b);
+extern void func_021C3BB8(u8 *p, u32 a, u32 b);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021C5A34(u8 *p, u8 *a);
 extern int func_021C99A0(void *w, void *c);
 extern u32 func_021CC8D8(void *lock, int line);
-extern void func_021C7BF8(void *w);
+extern void func_021C7BF8(u8 *p);
 extern void func_021CC95C(void *lock, u32 v, int line);
 
 u8 func_021C98E4(u8 *w, struct Cmd *c)

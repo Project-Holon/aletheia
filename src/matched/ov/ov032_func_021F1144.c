@@ -30,10 +30,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_02165CE4(void *r);
-extern u8 func_02165D08(void *r);
-extern void func_02165C34(void *r, void *buf);
-extern void func_0204581C(void *buf);
+struct Rec;
+struct U16Vec;
+extern u16 func_02165CE4(u8 *r);
+extern u8 func_02165D08(struct Rec *r);
+extern void func_02165C34(struct Rec *r, void *buf);
+extern void func_0204581C(struct U16Vec *vec);
 extern void func_02165D50(void *r, void *buf);
 extern void func_021F10D8(u8 *p, u8 *q, void *r);
 extern void func_021F0F74(u8 *p, u8 *q, void *r);

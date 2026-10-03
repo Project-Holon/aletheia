@@ -18,14 +18,15 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned short u16;
-extern void func_020414EC(int);
-extern void func_0204047C(int,int);
+typedef unsigned int   u32;
+extern void func_020414EC(u32 i);
+extern void func_0204047C(int idx, unsigned short val);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B68(void *,int,int,int,int,unsigned);
-extern unsigned func_02049740(void *,int,int,int,int,unsigned);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_020498F4(void *,int,int,u16,int,int,unsigned);
 extern void func_02049238(void *);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 void func_0220B260(unsigned *p)
 {
     void *r;

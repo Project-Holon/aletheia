@@ -57,7 +57,8 @@ typedef unsigned int   u32;
 
 extern u32   func_020056EC(u32 x);
 extern u32   func_02007B50(void *p);
-extern void *func_02007B64(void *p);
+struct PerapVoice;
+extern u8 *func_02007B64(struct PerapVoice *p);
 extern u32   func_02007B68(void *p, void *q);
 extern void  func_02048F4C(void *dst, u32 archive_id, u32 member);
 

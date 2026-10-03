@@ -33,7 +33,7 @@ extern u8 *func_021C48F0(u8 *a);
 extern u8 func_021D5440(u8 *p);
 extern void func_021C4F64(u8 *p, u8 *q);
 extern u8 *func_021C4900(u8 *a);
-extern void func_021C5200(u8 *p);
+extern int func_021C5200(u8 *p);
 
 void func_021C4838(u8 *p, u8 *a, u8 *b)
 {

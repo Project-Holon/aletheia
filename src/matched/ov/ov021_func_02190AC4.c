@@ -16,7 +16,9 @@
  *   func_0201F91C  0x0201F91C  thumb
  */
 
-extern unsigned func_0201F91C(void *p);
+typedef unsigned int   u32;
+struct Slot;
+extern u32 func_0201F91C(struct Slot *s);
 
 unsigned func_02190AC4(void *p)
 {

@@ -14,7 +14,7 @@
  *   func_0203CDBC 0x0203CDBC arm
  */
 extern int func_0203CD98(void);
-extern void func_0203CEAC(int);
+extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 int func_0217E178(int *p)
 {

@@ -42,7 +42,7 @@ typedef unsigned int u32;
 extern void func_02086028(void *a0);
 extern int func_020860D0(void *a0);
 extern void func_02086078(void *a0);
-extern u32 func_0209D728(u32 a0);
+extern int func_0209D728(int a);
 
 extern u32 g_02150FEC[];
 extern u32 g_02153B8C;

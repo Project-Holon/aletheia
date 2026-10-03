@@ -38,9 +38,10 @@ typedef unsigned int  u32;
 
 extern void *func_0203D5EC(void);
 extern u8   *func_0203D610(void);
-extern int   func_0203D634(void);
+struct DWCstAccUserData;
+extern u32 func_0203D634(void);
 extern int   func_020596D8(void *p);
-extern int   func_020598EC(void *a, void *b);
+extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int   func_02059A5C(void *a, void *b);
 
 int func_0200F38C(void *a, int *out)

@@ -33,7 +33,8 @@ typedef struct {
 extern unsigned char d_02183B2C[];
 
 void func_02034714(void *, int, void *);
-void func_02190F7C(void *);
+struct P;
+void func_02190F7C(struct P *p);
 
 void func_0217F3E4(Ov018Obj *p)
 {

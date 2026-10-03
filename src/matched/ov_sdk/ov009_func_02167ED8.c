@@ -20,9 +20,11 @@
  *   g_021AA840     0x021AA840  data
  */
 
-extern int func_020889C0(void *date, void *time);
-extern long long func_02089004(void *date, void *time);
-extern void func_020891E0(void *date, void *time, long long sec);
+struct RTCDate;
+struct RTCTime;
+extern int func_020889C0(struct RTCDate *date, struct RTCTime *time);
+extern long long func_02089004(struct RTCDate *date, struct RTCTime *time);
+extern void func_020891E0(struct RTCDate *date, struct RTCTime *time, long long sec);
 extern int g_021AA834;
 extern long long g_021AA838;
 extern long long g_021AA840;

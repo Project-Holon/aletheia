@@ -14,7 +14,8 @@
  *   func_020306F0 0x020306F0 arm
  */
 
-extern void func_020315D4(void *p);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 
 int func_021B9D48(void *p)

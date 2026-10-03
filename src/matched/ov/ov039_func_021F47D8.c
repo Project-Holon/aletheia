@@ -22,10 +22,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021F3DE4(void *a, u8 b, u8 c);
-extern void func_021F3E04(void *a, u8 b, u8 c, int d);
+extern int func_021F3DE4(void *p, u8 delta, u16 i);
+extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
 extern void func_021BE700(void *a, int b, int c, int d, int e);
-extern u8 *func_021BE674(void *a, int b, int c, int d);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern u8 func_021BE6B4(u8 *p);
 extern void func_021BE6B0(u8 *p, int v);
 

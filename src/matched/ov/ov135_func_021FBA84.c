@@ -36,7 +36,7 @@ extern const int tbl_02203324[];
 extern const Cell tbl_02203236[];
 extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32,int);
 extern void func_0204B878(u32,u16);
 extern void func_0204B92C(u32,int);

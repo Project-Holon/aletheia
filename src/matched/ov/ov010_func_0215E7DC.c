@@ -14,9 +14,11 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void *func_0200D4AC(void *,u32);
-extern void func_0200D480(void *,u32,u8);
-extern void func_0200D50C(void *,u32,u32);
+struct Blk38;
+struct GdsEnt;
+extern struct GdsEnt *func_0200D4AC(struct Blk38 *p, u32 i);
+extern void func_0200D480(struct Blk38 *p, u32 i, u8 v);
+extern void func_0200D50C(struct GdsEnt *e, u32 i, u32 v);
 void func_0215E7DC(void *p,u32 i,u8 v,u32 n)
 {
  void *rec = func_0200D4AC(p,i);

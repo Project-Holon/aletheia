@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern u32 func_020173EC(void);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char g_02203F5C[];
 
 void *func_02202608(u32 heap)

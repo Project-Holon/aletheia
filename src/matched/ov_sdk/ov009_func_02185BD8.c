@@ -32,8 +32,7 @@ typedef struct GPGetInfoResponseArg {
 typedef void (*GPCallback)(void **, void *, void *);
 
 extern void func_02193734(void **connection, char *errorString);
-extern int func_0218D4A4(void **connection, int profile, int checkCache, int blocking,
-                         GPCallback callback, void *param);
+extern int func_0218D4A4(void **connection, int profile, int checkCache, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern char g_021A4010[];
 extern char g_021A4024[];
 

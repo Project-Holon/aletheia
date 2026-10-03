@@ -40,8 +40,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02017DBC(void *p);
-extern u32 func_02017DE4(void *p, u32 f);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_0201850C(u16 species, u16 form, u32 exp);
 

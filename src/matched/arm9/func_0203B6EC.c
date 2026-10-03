@@ -28,8 +28,8 @@ extern u8 *g_021469DC;
 extern u8 *func_0203D788(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02037894(u32 a, u32 b, u32 c, u32 d);
-extern void func_0203B6B4(void);
-extern void func_0203B688(void);
+extern int func_0203B6B4(int a0, int a1, int a2, int a3);
+extern int func_0203B688(int a0, int a1, int a2, int a3);
 
 void func_0203B6EC(u8 *p)
 {

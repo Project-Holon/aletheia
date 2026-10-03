@@ -46,8 +46,8 @@ struct Channel {
 
 extern struct Channel *ptr_02146A44;
 extern void MIi_CpuClear16(u16 val, void *dest, u32 size);
-extern void func_020409B4(int channel);
-extern void func_02041B6C(int channel);
+extern void func_020409B4(u32 index);
+extern void func_02041B6C(u32 bit);
 
 void func_0204152C(int channel, u16 val)
 {

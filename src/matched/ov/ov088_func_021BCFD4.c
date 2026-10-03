@@ -17,8 +17,9 @@
  *   func_0203F9B4  0x0203F9B4  arm
  */
 
-extern void func_020434DC(int, int);
-extern void func_020403F4(int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_020403F4(u32 i);
 extern void func_0203F9B4(void);
 
 void func_021BCFD4(void)

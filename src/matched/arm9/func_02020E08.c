@@ -60,13 +60,13 @@ struct FSFile {
 
 extern char g_020A73B0[];
 
-extern void  func_02020DEC(struct FSFile *file, u32 archive_id);
+typedef unsigned short u16;
+extern void func_02020DEC(void *p, u32 x);
 extern void  FS_CloseFile(struct FSFile *file);
 extern u32   FS_SeekFile(struct FSFile *file, int offset, u32 origin);
 extern u32   FS_ReadFile(struct FSFile *file, void *dst, u32 size);
 extern u32   FS_GetLength(struct FSFile *file);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
-                          u32 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *func_02020E08(u32 archive_id, u32 heap, u32 offset, u32 size)
 {

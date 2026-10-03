@@ -39,8 +39,7 @@ struct Obj02031538 {
 
 extern const char func_02031538_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap)
 {

@@ -19,7 +19,8 @@
 
 extern int _s32_div_f(int, int);
 extern char d_021A1C5C[];
-void func_02034714(char *a, int b, char *c);
+typedef unsigned int   u32;
+void func_02034714(const char *expr, u32 line, const char *file);
 
 int func_02156460(int err, int kind)
 {

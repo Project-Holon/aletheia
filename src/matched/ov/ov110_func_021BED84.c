@@ -13,7 +13,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021BF734(void *);
+extern u32 func_021BF734(u8 *p);
 void func_021BED84(u8 *p, void *q) {
     *(u16 *)p=0; p[6]=0; p[7]=0;
     *(u16 *)(p+4)=func_021BF734(q);

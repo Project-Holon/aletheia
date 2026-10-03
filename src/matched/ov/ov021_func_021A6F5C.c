@@ -41,13 +41,13 @@ extern u32 func_0216D3CC(void *a);
 extern u32 func_021A2FB0(u32 a);
 extern u32 func_021A30C8(u32 a);
 extern u32 func_021A3128(u32 a, u32 b);
-extern u32 func_021AB0F0(u32 a);
-extern u32 func_021BB1A0(u32 a);
-extern u32 func_021AB11C(u32 a);
-extern u32 func_021A71E4(u32 a, u32 *b, u16 *c, u32 d);
+extern u16 func_021AB0F0(u32 attr);
+extern int func_021BB1A0(int x);
+extern int func_021AB11C(u32 attr);
+extern int func_021A71E4(u32 a, u32 *b, u16 *c, u32 d);
 extern void func_021A70D0(u32 a, u32 *b, u32 c, u32 d, u16 *e, u32 f, u32 g);
-extern u32 func_021A35BC(u32 a);
-extern void func_021A35F0(u32 a, u32 b, u32 c, u32 d);
+extern int func_021A35BC(int a);
+extern int func_021A35F0(u32 a, u32 b, u32 c, u32 d);
 
 void func_021A6F5C(u32 a, u32 *b)
 {

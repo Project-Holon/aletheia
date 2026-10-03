@@ -38,7 +38,7 @@ typedef unsigned int   u32;
 
 extern u8 g_0202F099[];
 
-extern u8   func_020056EC(u32 a);
+extern u32 func_020056EC(u32 range);
 extern u32  func_02045730(u32 a);
 extern u32  func_02045758(u32 a);
 extern u32  func_02045738(u32 a);

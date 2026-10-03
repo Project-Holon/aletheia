@@ -34,9 +34,11 @@ typedef struct {
 } Obj;
 
 extern void func_021762C0(void *a, int b, void *c, void *d);
-extern void func_0201EFA4(void *a, int b, int c, int d, int e, int f);
-extern void func_0201EF40(void *a, int b, int c);
-extern void func_0201F184(void *a, int b, int c);
+typedef signed int     s32;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F184(struct WordSet *p, u32 i, s32 v);
 
 void func_021762D8(const Obj *obj, void *a1, void *a2, void *a3)
 {

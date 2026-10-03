@@ -53,7 +53,7 @@ typedef struct MemSsea {
 
 extern void func_021D5F14();
 extern void func_021D5E5C();
-extern void func_021D5FC4();
+extern void func_021D5FC4(int x);
 extern MemSsea *g_021DE5E4;
 extern COORD g_021DA5E8;
 extern unsigned char g_021DA5D4[];

@@ -20,7 +20,8 @@ struct Blk37;
 extern unsigned func_0200CA70(struct Blk37 *);
 extern unsigned func_0200CED4(struct Blk37 *,u16);
 extern unsigned func_0200D064(struct Blk37 *,u16);
-extern unsigned func_021C976C(int,unsigned,u16 **);
+typedef unsigned int   u32;
+extern u32 func_021C976C(u32 mode, int heap, u16 **out);
 u16 func_021C9288(struct Blk37 *save,u16 **out,unsigned heap)
 {
     u16 *list;

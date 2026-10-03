@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 int func_0216D5F8(u32 h);
 void func_0216D4B4(u32 h);
-void func_0216D5E0(u32 h, int v);
+void func_0216D5E0(int a0, int a1);
 void func_0216D674(u32 h, int a);
 void func_021A3964(u32 h, int s);
 

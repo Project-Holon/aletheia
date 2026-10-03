@@ -41,11 +41,14 @@ struct O {
     int f1c;
 };
 
-extern void *func_020457B0(u32 size, u32 heap);
+typedef unsigned char  u8;
+struct Descriptor;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int func_021672D0(struct O *o);
 extern int func_021672E4(struct O *o);
 extern int func_021672F8(struct O *o);
-extern int func_0216730C(int a);
+extern int func_0216730C(unsigned int n);
 extern int func_02012944(int a);
 extern void func_0201F02C(int a, int b, int c);
 extern void func_0201EFA4(int a, int b, int c, int d, int e, int f);
@@ -54,9 +57,9 @@ extern void func_0201F250(int a, void *b, void *c);
 extern void func_0201F31C(int a);
 extern void func_02190758(int a, int b, int c, void *d);
 extern int func_021907C0(int a);
-extern unsigned char func_02045730(void *p);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
-extern void func_02045808(void *a);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021671FC(struct O *o)
 {

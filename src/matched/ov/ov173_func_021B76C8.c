@@ -53,11 +53,12 @@ extern u32 func_02027600(u32);
 extern void func_02049238(void *);
 extern int func_0202D7C8(int);
 extern void *func_020185F0(void *);
-extern u32 func_02017DBC(void *);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern int func_0202D934(int,void *,int,int,u16);
 extern int func_0202D8D0(int,void *,int,int,u16,u16);
 extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
-extern u32 func_02017DE4(void *,u32);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 void func_021B76C8(char *p,void *other)
 {
     void *bank;

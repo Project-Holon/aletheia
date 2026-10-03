@@ -72,23 +72,26 @@ extern void func_0218FE78(void *p, void *q);
 extern void func_0218FF00(void *p);
 extern int func_021C6E48(void *p);
 extern void func_0218FE98(void *p);
-extern u16 func_02188C84(void *field);
+struct Evt;
+struct IcaAnime;
+struct S0201235C;
+extern u16 func_02188C84(u8 *p);
 extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
-extern u32 func_02006148(u32 id);
+extern int func_02006148(u32 a0);
 extern void func_0200616C(u32 id, u32 v);
 extern void func_02011610(void *anim, VecFx32 *out);
 extern void *func_02188D2C(void *field);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
-extern void *func_02188CB4(void *field);
+extern void *func_02188CB4(u8 *p);
 extern void func_021A3038(void *q, VecFx32 *v);
 extern void func_021A3044(void *q, const VecFx32 *v);
-extern int func_02011590(void *anim, u32 v);
-extern void func_02011558(void *anim);
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
+extern void func_02011558(struct IcaAnime *p);
 extern void *func_021BE8D4(void *sys, void *proc, u32 a, u32 b);
 extern void *func_021854B0(void *p, void *q, u32 id, Pos *pos, u32 flag);
-extern void func_02012374(void *evt, void *task);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_0216C44C(void *sys, void *field);
-extern void func_0201235C(void *evt, void *next);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_0216C0E8(void *evt, u32 *state, Work *w)
 {

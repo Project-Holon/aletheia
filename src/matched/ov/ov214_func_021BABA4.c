@@ -19,8 +19,9 @@
 typedef unsigned char u8;
 typedef struct {u8 a,b;} Pair;
 extern const Pair d_021BB4C4[];
-extern void func_0204B3B4(void*);
-extern void func_021B6284(void*);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_021B6284(unsigned int *p);
 void func_021BABA4(void*p,void*actor)
 {
     func_0204B3B4(actor);

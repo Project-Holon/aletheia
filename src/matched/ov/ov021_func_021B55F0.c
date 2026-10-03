@@ -21,7 +21,8 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 
 struct Ctx;
 
-extern void *func_020124E4(void *o);
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *o);
 extern int func_0218FE50(u8 *a);

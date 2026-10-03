@@ -40,7 +40,7 @@ extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern int func_0204AF28(u32,u32,u32,u32);
 extern void func_02049238(void *);
-extern u8 *func_021B9A08(void *);
+extern u32 func_021B9A08(const u8 *p);
 extern struct Obj *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 extern void func_0204B3DC(struct Obj *,u32);
 extern void func_0204B92C(struct Obj *,u32);

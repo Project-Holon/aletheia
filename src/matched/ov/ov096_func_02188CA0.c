@@ -41,9 +41,10 @@ extern int func_0201134C(int);
 extern u8 func_0218A160(u8 *p, int k);
 extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A378(Conn *, int, int);
-extern int func_021D57FC(void *);
-extern int func_021E8CFC(int);
-extern int func_021E8D04(int);
+typedef signed int     s32;
+extern u16 func_021D57FC(void *p);
+extern u8 func_021E8CFC(s32 v);
+extern unsigned char func_021E8D04(int x);
 
 int func_02188CA0(int a, Conn *b)
 {

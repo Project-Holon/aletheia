@@ -22,16 +22,18 @@
 
 typedef unsigned int u32;
 
-extern unsigned func_020399A8(void);
+typedef unsigned char  u8;
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_021E12AC(void *);
 extern u32 func_020362DC(void);
-extern void func_020355D8(int);
+extern void func_020355D8(u8 v);
 extern int func_02035C60(void);
 extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
 extern void func_021E1030(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DDB64(void *);
+extern void func_021DDB64(unsigned char *p);
 
 void func_021DDB90(unsigned char *p)
 {

@@ -17,7 +17,8 @@
  */
 extern const char d_021BB978[];
 extern int func_02035C08(const void *p);
-extern void func_020355D8(int v);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
 int func_021B8DAC(void)
 {
     int result;

@@ -21,7 +21,7 @@
 extern char g_02150FEC[];
 extern unsigned char *func_0215ADC4(unsigned long *len, void *soc);
 extern unsigned char *func_021629BC(unsigned long *len, void *soc);
-extern unsigned char *func_0215AE18(unsigned long *len, void *soc);
+extern unsigned char *func_0215AE18(unsigned long *len, char *soc);
 
 unsigned char *func_0215AEB0(unsigned long *len)
 {

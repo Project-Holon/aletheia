@@ -54,8 +54,8 @@ struct Area {
     s16 y1;
 };
 
-extern void *func_02188CB4(void *p);
-extern void *func_021A3074(void *p);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern int func_0216D83C(void *o);
 extern int func_0216D86C(void *o);
 extern u32 func_02005728(u32 v);

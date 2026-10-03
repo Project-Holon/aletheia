@@ -54,7 +54,7 @@ struct Ctx {
 
 extern struct Tbl *g_021469F4;
 
-extern struct Ctx *func_0203D798(void);
+extern void *func_0203D798(void);
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 

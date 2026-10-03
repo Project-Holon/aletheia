@@ -14,7 +14,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02013FFC(u16);
+extern u32 func_02013FFC(u32 id);
 extern int d_02171258[];
 extern int d_02171200[];
 int func_0215F088(u16 *p, int i)

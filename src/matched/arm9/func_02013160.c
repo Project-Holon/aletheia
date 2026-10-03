@@ -69,7 +69,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0200AE54(void *a, u32 key);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern void func_0200B040(void *a, u8 *dst);
 extern void func_0201A2A8(void *a, u32 b);
 extern void func_0201A30C(void *a, u32 b, u32 c);

@@ -66,26 +66,27 @@ typedef struct TabTbl {
 extern const TabTbl d_021BB984;
 
 extern int func_021B61C8(Obj *o);
-extern void func_021B80C4(Obj *o, int v);
+typedef unsigned char  u8;
+extern void func_021B80C4(struct Obj *o, int flag);
 extern void func_021B8CE4(Obj *o, int u, int a, void *fn);
-extern void func_021B8F90();
+extern void func_021B8F90(void *o);
 extern void func_021B8080(Obj *o);
 extern void func_021B6138(Obj *o);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B8EA8();
+extern void func_021B8EA8(int p);
 extern int func_021B811C(Obj *o);
 extern void func_021B81B8(Obj *o);
 extern void func_021B8C1C(Obj *o, int a, void *fn);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_021B7250(Obj *o);
 extern int func_021B61B8(Obj *o);
 extern void func_021B624C(void *o, int a, int b);
 extern void func_021B9850(Obj *o);
-extern void func_021B8B7C();
-extern int func_021B8134(Obj *o, int k);
+extern void func_021B8B7C(int p);
+extern int func_021B8134(struct Obj *o, int k);
 extern void func_020061E4(unsigned int se);
-extern void func_021B6288(Obj *o, int a, int b);
-extern void func_021B80BC(Obj *o);
+extern void func_021B6288(struct Obj *o, int a, int b);
+extern void func_021B80BC(void *p);
 
 void func_021B83B8(u32 idx, int flag, Obj *o)
 {

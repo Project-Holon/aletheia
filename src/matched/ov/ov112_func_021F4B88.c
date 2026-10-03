@@ -29,7 +29,8 @@ extern u8 *func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern void func_021F4AC8(Entry *,u8 *,u8 *);
 extern Entry *func_021F4C94(Object *,u16,int *,s16,s16);
-extern u32 func_0204EF58(void *,u32,u32,u32,u8,u8);
+struct Desc;
+extern u32 func_0204EF58(struct Desc *desc, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5);
 Entry *func_021F4B88(Object *p,int type,u32 id,int *v)
 {
     int index;

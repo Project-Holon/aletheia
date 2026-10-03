@@ -16,7 +16,8 @@
  *   ov094_id 0x0000005E data
  */
 extern void func_021B632C(void *);
-extern void func_020315D4(void *);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 extern void func_02034A5C(int);
 extern char ov094_id[];

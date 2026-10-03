@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_0204E720(u32, u32, u32, u32);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 void func_021BA354(void)
 {
     func_0204E720(3, 0x10, 0, 0);

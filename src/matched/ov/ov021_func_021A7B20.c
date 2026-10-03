@@ -48,15 +48,18 @@ typedef struct Args {
     void *f14;
 } Args;
 
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern Work *func_020124E8(void *task);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02012A30(void *p);
 extern u8 func_021A80FC(void *p);
 extern void *func_021BDC94(void *p);
 extern void func_021A810C(void *p, void *q);
 extern void func_021A8214(Work *w);
 extern void func_021A7B88(Work *w);
-extern void func_021A7CE8(void);
+extern int func_021A7CE8(void *task, int *state, struct Work *w);
 
 void *func_021A7B20(Args *a)
 {

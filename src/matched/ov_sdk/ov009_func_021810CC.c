@@ -74,19 +74,19 @@ typedef struct GT2ConnectionCallbacks {
     void (*ping)(void *, int);
 } GT2ConnectionCallbacks;
 
-extern GSUdpEngineObject *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern void *func_02184208(void *array, int n);
-extern int func_02195E00(void *connection);
+extern int func_02195E00(const int *p);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern int func_02195B44(void *socket, void **connection, char *remoteAddress, unsigned char *message, int len, int timeout, GT2ConnectionCallbacks *callbacks, int blocking);
 extern void func_02184234(void *array, void *newElem);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern int func_02180420(void *theFirstHandler, void *theSecondHandler);
 extern void func_02180518(void *theConnection, int reason);
-extern void func_021806A8(void *theConnection, int theResult, unsigned char *theMessage, int theMessageLen);
+extern void func_021806A8(void *theConnection, int theResult);
 extern void func_02180924(void *theConnection, int theLatency);
 extern void func_02180A64(void *theConnection, unsigned char *theMessage, int theMessageLen, int reliable);
 extern char g_021A3B9C[];

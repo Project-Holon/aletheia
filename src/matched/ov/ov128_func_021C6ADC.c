@@ -18,13 +18,18 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
-extern void func_02045334(void *);
-extern void func_02045CAC(void *,unsigned,void *);
-extern void func_0201F250(void *,void *,void *);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_021B6AE4(u8 *,void *,u16,u16,void *,void *,u16,unsigned);
-extern void func_021CA4B4(void *);
+extern void func_021CA4B4(char *p);
 void func_021C6ADC(u8 *p,u8 *q,unsigned v)
 {
     func_02043B5C(func_02045770(*(void **)q),0);

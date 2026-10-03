@@ -32,12 +32,12 @@ typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
-extern void func_02049658(void *p, int a, int b, int c, int d, int e, int f);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern u16 *func_0204162C(int a);
-extern void *func_02049EF4(void *p, int a, int b, u8 **out, int d);
+extern void *func_02049EF4(void *p, u32 a, u32 b, void **out, u16 d);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_020307B0(void *p);
-extern void func_02049B68(void *p, int a, int b, int c, int d, int e);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049238(void *h);
 
 void func_021F0378(u32 *p)
@@ -54,7 +54,7 @@ void func_021F0378(u32 *p)
     p[1] = r;
     func_02049658(h, 0x1C, 5, r, 0x80, 0, 0x15);
     pal = func_0204162C(5);
-    res = func_02049EF4(h, 0x1D, 0, &out, 0x15);
+    res = func_02049EF4(h, 0x1D, 0, (void **)&out, 0x15);
     func_02082D44((u16 *)(out + 0xC) + 0x2A0, pal + 0x2A0, 0xC0);
     func_020307B0(res);
     for (i = 0; i < 0x60; i++)

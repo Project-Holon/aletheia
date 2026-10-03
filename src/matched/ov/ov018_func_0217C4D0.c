@@ -85,18 +85,21 @@ typedef struct {
     u8 f84;
 } Work;
 
-extern void *func_020124E4(void *);
+struct Ctx;
+struct Evt;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_02012138(void *);
 extern u8 *func_02158344(void *);
 extern void func_0217F528(void *, void *, int, int, int, int);
 extern void func_021762D8(Info *, void *, int, u16);
 extern void func_0217F574(void *, u16, int, int);
-extern void *func_02029830(void *, int);
-extern void func_02012374(void *, void *);
+extern void *func_02029830(void *a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_02005F38(void);
-extern void *func_02029620(void *, int, int);
+extern void *func_02029620(void *a, u16 b, u16 c);
 extern void func_0217F58C(void *);
-extern void *func_020120F4(void *);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B58(void *);
 extern void func_0217C658(Rec *, void *, int, u16, u8, u8);
 extern int func_0217C688(Rec *, void *);

@@ -35,12 +35,12 @@ extern char d_021F4080[];
 extern char d_021F3E74[];
 
 extern void *func_02188D2C(void *p);
-extern int func_02188C84(void *p);
+extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(void *a, int b, u16 c, int d);
 extern u8 *func_021897BC(void *p, int i);
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void func_021BE310(void *a, void *b, int c);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B8(u8 *p, int v);
 extern void func_021BE6B0(u8 *p, int v);

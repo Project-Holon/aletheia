@@ -21,7 +21,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0201F7A8(void *,int),func_020456F8(void *),func_02041B6C(unsigned),func_020452E8(void *),func_0201CE48(void *),func_02045808(void *);
-extern unsigned func_02045730(void *);
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_021B7350(int,int *);
 void func_021B6994(u8 *p)
 {

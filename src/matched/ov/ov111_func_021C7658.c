@@ -95,7 +95,8 @@ typedef struct {
 extern void func_0204A8D4(void *p);
 extern void func_0204ADA4(void *p);
 extern void func_0204AFD8(void *p);
-extern void func_0204B1CC(void *p);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 
 void func_021C7658(Work *p)

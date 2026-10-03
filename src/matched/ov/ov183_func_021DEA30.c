@@ -20,17 +20,20 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020315D4 0x020315D4 arm
  */
-extern void func_021DF388(void *);
-extern void func_021FC734(void *);
-extern void func_021FB494(void *);
-extern void func_021FC0C8(void *, int);
+typedef unsigned char  u8;
+struct PrintSys;
+struct S020315D4;
+extern void func_021DF388(char *p);
+extern void func_021FC734(u8 *p);
+extern void func_021FB494(char *p);
+extern void func_021FC0C8(char *p, unsigned i);
 extern void func_021FBDA4(void *, int);
 extern void func_021FD714(void *);
 extern void func_021FD15C(void *, int);
-extern void func_021FD820(void *);
+extern void func_021FD820(char *r5);
 extern void func_02025588(void *);
-extern void func_0201C4C0(void *);
-extern void func_020315D4(void *);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020315D4(struct S020315D4 *p);
 int func_021DEA30(void *a, int b, char *q, char *p)
 {
     int i;

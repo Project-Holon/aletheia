@@ -23,15 +23,19 @@
 
 typedef unsigned char u8;
 
-extern int func_02009864(void *h, int id, int n);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct Sub020097BCObj;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_02040AF0(int a, void *b, void *c, int d);
 extern void func_020414AC(int a);
-extern void *func_02045770(void *a);
-extern void func_02043B5C(void *a, int b);
-extern void func_021BB528(void *p, int v);
-extern void func_02041B6C(int a);
-extern void func_02045334(void *a);
-extern void func_02043598(int a, int b);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_021BB528(char *p, int v);
+extern void func_02041B6C(u32 bit);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02043598(u32 mask, u32 enable);
 
 void func_021BB2F0(char *p, int v)
 {

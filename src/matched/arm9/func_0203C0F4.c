@@ -25,9 +25,9 @@ typedef unsigned int  u32;
 typedef signed int    s32;
 
 extern int  g_021469DC;
-extern u8  *func_0203D788(void);
+extern void *func_0203D788(void);
 extern void func_0203AD80(int a0, int a1, int a2, int a3);
-extern void func_0203C0DC(void *p, int v);
+extern void func_0203C0DC(u8 *p, u32 v);
 extern void func_0203C0B4(void);
 extern void func_0203C060(void);
 extern void func_0203C064(void);

@@ -22,9 +22,10 @@
  */
 typedef unsigned short u16;
 
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_0204363C(int);
+typedef unsigned int   u32;
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204363C(u32 swap);
 extern void func_021B615C(void);
 extern void func_021B616C(char *);
 extern void *func_020490F4(unsigned int id, u16 heap);

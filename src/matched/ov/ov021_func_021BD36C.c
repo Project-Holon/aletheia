@@ -20,7 +20,9 @@ typedef struct {
 } Inner;
 
 extern Inner *func_021BD304(void *p);
-extern int func_021BD2D8(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021BD2D8(u8 *p);
 
 int func_021BD36C(void *p)
 {

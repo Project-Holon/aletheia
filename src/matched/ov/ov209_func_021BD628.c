@@ -21,16 +21,18 @@
  */
 typedef unsigned short u16;
 typedef struct WordSet WordSet;
-extern unsigned func_0200CA70(void *);
-extern u16 func_0200D0CC(void *);
-extern u16 func_0200CF28(void *);
-extern u16 func_0200D0F8(void *, unsigned);
-extern u16 func_0200CF54(void *, unsigned);
+typedef unsigned int   u32;
+struct Blk37;
+extern u32 func_0200CA70(struct Blk37 *p);
+extern u16 func_0200D0CC(struct Blk37 *p);
+extern u16 func_0200CF28(struct Blk37 *p);
+extern u16 func_0200D0F8(struct Blk37 *p, u32 heap);
+extern u16 func_0200CF54(struct Blk37 *p, u32 heap);
 extern void func_021BD4F4(char *, unsigned);
 extern void func_021BD440(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
 extern void func_021BD488(char *, unsigned, unsigned, unsigned, unsigned, u16, unsigned);
 extern void func_021BD4DC(char *);
-extern void func_0201EFA4(WordSet *, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021BD628(char *p)
 {
     unsigned a, b;

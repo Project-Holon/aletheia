@@ -25,12 +25,14 @@ typedef struct V {
     int z;
 } V;
 
-extern void *func_02188CB4(void *p);
-extern int func_021A3050(void *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
+extern u16 func_021A3050(u8 *p);
 extern void func_021A3038(void *p, V *out);
 extern void func_021A3484(void *p, int k, V *out);
 extern void func_0207CEE4(int a, V *b, V *c, V *d);
-extern void *func_021A3074(void *p);
+extern void *func_021A3074(u8 *p);
 extern void func_02163E58(void *p, V *in, int *out);
 
 void func_021A8140(void *a, V *out)

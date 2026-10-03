@@ -27,12 +27,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct State { u8 pad[0x2177]; u8 step:4; u8 flags:4; } State;
-extern int func_0201C6B4(void *);
+typedef unsigned short u16;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0220BDD4(char *);
 extern void func_0220BC70(u8 *,u32);
 extern int func_0220BE2C(char *,int);
 extern void func_02210D4C(u8 *,u32);
-extern void func_02041570(u32,u32);
+extern void func_02041570(int channel, u16 val);
 extern void func_0220E25C(u8 *);
 extern void func_02210BFC(u8 *,int);
 extern void func_0220EA68(char *,unsigned);

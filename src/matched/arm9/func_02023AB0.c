@@ -22,7 +22,9 @@
 
 typedef unsigned int u32;
 
-extern void func_02023AF4(void *a0, void *a1, u32 a2, u32 a3);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern void func_02023AF4(u8 *desc, u8 *out, s32 num, s32 den);
 
 void func_02023AB0(void *p)
 {

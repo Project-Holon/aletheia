@@ -15,7 +15,9 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void *func_0203996C(int);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_0203996C(s32 idx);
 extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
 int func_021FD5E4(char *p,u32 i)
 {

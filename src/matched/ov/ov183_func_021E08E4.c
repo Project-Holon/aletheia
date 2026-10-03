@@ -12,7 +12,8 @@
  *   func_0204B3B4 0x0204B3B4 arm
  *   func_021E10BC 0x021E10BC thumb ov183
  */
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_021E10BC(char *);
 void func_021E08E4(char *p)
 {

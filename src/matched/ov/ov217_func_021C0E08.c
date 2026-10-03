@@ -21,7 +21,8 @@
 extern const int d_021C4050[];
 extern int func_02030734(int heap, int a, int b, const int *tab, int c);
 extern void func_021C0E6C(int h);
-extern void func_021C0E78(int h, int a, int b);
+typedef unsigned int   u32;
+extern void func_021C0E78(u32 a0, u32 a1, u32 a2);
 
 int func_021C0E08(int a0, int a1)
 {

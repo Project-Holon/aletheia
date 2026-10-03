@@ -21,13 +21,13 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 f0, f4, size; u16 data[1]; } Pal;
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02049EF4(void *, u32, u32, Pal **, u16);
+extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_020307B0(void *);
-extern void func_0204047C(int, int);
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_02049238(void *);
-extern void func_02041B6C(int);
-void func_021E6F0C(char *p, int side)
+extern void func_02041B6C(u32 bit);
+void func_021E6F0C(char *p, int side, void *mon)
 {
     void *h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
     void *f;
@@ -35,9 +35,9 @@ void func_021E6F0C(char *p, int side)
     u16 *d;
     u32 i;
     if (side == 0)
-        f = func_02049EF4(h, 5, 0, &pal, *(u16 *)(p + 0x5f4));
+        f = func_02049EF4(h, 5, 0, (void **)&pal, *(u16 *)(p + 0x5f4));
     else
-        f = func_02049EF4(h, 6, 0, &pal, *(u16 *)(p + 0x5f4));
+        f = func_02049EF4(h, 6, 0, (void **)&pal, *(u16 *)(p + 0x5f4));
     d = pal->data;
     for (i = 0; i < pal->size / 2; i++)
         d[i] += (u16)*(int *)(p + 0x86c);

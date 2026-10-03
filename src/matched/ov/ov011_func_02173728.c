@@ -20,7 +20,8 @@ struct Link;
 extern void *func_02026478(void *);
 extern struct Link *func_020399A8(void);
 extern unsigned int func_0203D1A4(struct Link *);
-extern void func_02012B4C(void *, unsigned int);
+struct BigObj;
+extern void func_02012B4C(struct BigObj *p, u8 v);
 void func_02173728(unsigned int a, int b, u8 *c, u8 *d)
 {
     void *h;

@@ -17,11 +17,12 @@
  *   func_021F2180  0x021F2180  thumb  ov029
  */
 
-extern void func_0202223C(int a, int b);
-extern void func_02022230(int a);
+typedef unsigned int   u32;
+extern void func_0202223C(u32 a, u32 color);
+extern void func_02022230(u32 which);
 extern void func_021F26E0(int *p);
 extern void func_021F251C(int *p, int a, int b, int c, int d);
-extern void func_021F2180(void);
+extern void func_021F2180(char *p);
 
 int func_021F2994(int *p)
 {

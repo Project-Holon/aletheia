@@ -38,18 +38,18 @@ extern int func_021D4B18(u8);
 extern int func_021D4438(void *);
 extern int func_021D44CC(void);
 extern void *func_021D4D24(u32,u16);
-extern void func_021D4D64(void *,void *,u8);
-extern int func_021D4680(void *);
-extern int func_021D4784(u8);
+extern void func_021D4D64(u32 *p, const void *src, u32 a);
+extern u32 func_021D4680(u32 *a);
+extern int func_021D4784(u32 a);
 extern void func_021D4D5C(void *);
 extern void *func_021D47A4(u8);
 extern void func_021D4800(void);
 extern void func_021B93E0(void *,void *,int);
-extern int func_021B8B9C(void *,u8);
+extern int func_021B8B9C(unsigned char *p, unsigned char k);
 extern void func_021BA128(void *,u8,void *);
 extern void func_021BA648(void *,u8,void *);
 extern void func_021B9460(void *,void *,u8);
-extern u32 func_0201A918(void);
+extern int func_0201A918(void);
 int func_021B7758(u8 *p,u32 *state)
 {
     u8 *q;

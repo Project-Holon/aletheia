@@ -12,8 +12,9 @@
  *   func_020403F4 0x020403F4 arm
  */
 typedef unsigned char u8;
-extern void func_02040DA8(int, int, int);
-extern void func_020403F4(int);
+typedef unsigned int   u32;
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_020403F4(u32 i);
 void func_021E57A4(int p)
 {
     if (*(u8 *)(p + 0x11eb) == 1) {

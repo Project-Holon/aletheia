@@ -10,8 +10,9 @@
  * symbols:
  *   func_021E3D04 0x021E3D04 thumb ov119
  */
-extern int func_0201AA18(void *);
-extern void *func_0201AB28(void *, int);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F0(void *);
 extern unsigned char func_021E3D04(void *, unsigned int);
 void func_021E3DBC(char *p, void *party, unsigned char *out)

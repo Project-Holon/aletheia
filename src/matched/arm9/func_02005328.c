@@ -72,7 +72,7 @@ extern void FS_Init(int dma);
 extern void *DWC_StartUtilityEx(int a, void *b);
 extern void *OS_AllocFromArenaLo(int id, void *size, int align);
 extern void sub_02061C0C(void *p, int n);
-extern int  sub_0202EB0C(void);
+extern u32 sub_0202EB0C(void);
 extern void func_02005440(void);
 extern void func_020053E4(void *p);
 extern void PM_GetAmp(u32 *out);

@@ -32,7 +32,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 extern u16 *func_0216D6F0(u32);
-extern u32 func_0216D910(u32);
+extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u32);
 extern void func_02197CCC(u32, s32 *);
 extern void func_0219FFBC(u32, s32 *);
@@ -42,7 +42,7 @@ extern u32 func_0216D678(u32);
 extern u32 func_0219FFD4(u32);
 extern void func_0219FEB0(u16 *, u32, u32, u32);
 extern void func_0205082C(u32, u32, u32);
-extern void func_0205085C(u32, u32, u32);
+extern void func_0205085C(void *p, int idx, u16 v);
 extern void func_021A000C(u32, u32, u32, u32, u32);
 
 void func_0219F3F0(u32 a)

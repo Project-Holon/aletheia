@@ -31,7 +31,8 @@ typedef struct {
 } Entry;
 
 extern const Entry Data_0209FF88[];
-extern int func_0202B818(void *o);
+struct Obj;
+extern u8 func_0202B818(struct Obj *o);
 
 void func_0202B84C(void *a)
 {

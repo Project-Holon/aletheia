@@ -13,7 +13,8 @@
  *   func_02078B44 0x02078B44 arm
  */
 
-extern void func_02078B44(void);
+struct FSFile;
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
 asm void NHTTPi_GetConnection(void)
 {
     ldr ip, =func_02078B44

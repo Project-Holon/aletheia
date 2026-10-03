@@ -40,7 +40,7 @@ typedef struct GHIConnection {
 extern char *func_02094A28(const char *s, int c);
 extern void func_021C4C00(GHIConnection *connection, char *data, int len);
 extern int func_021C4BD8(GHIConnection *connection);
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021C4B18(GHIConnection *connection, char *data, int len);
 extern char g_021CF24C[];
 extern char g_021CF25C[];

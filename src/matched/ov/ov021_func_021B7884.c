@@ -35,7 +35,7 @@ struct Obj {
 };
 
 extern const char g_021DE2A0[];
-extern void *func_02030734();
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021B9164(struct Elem *e, void *p, struct Obj *o);
 
 struct Obj *func_021B7884(u16 heap, u32 n, int a2)

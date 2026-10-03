@@ -27,7 +27,7 @@ typedef struct {
 
 extern G *d_021A8264;
 int func_02155A80(int a, int b, int c);
-int func_0216B838(void);
+unsigned char func_0216B838(void);
 
 int func_02155B14(int a, int b)
 {

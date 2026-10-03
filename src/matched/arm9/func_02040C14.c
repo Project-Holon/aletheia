@@ -69,7 +69,9 @@ extern char g_020A7E5C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void  func_020307B0(void *p);
-extern void  func_020341F0(void *arena, u32 unit, u32 count);
+typedef signed int     s32;
+struct AreaMan;
+extern s32 func_020341F0(struct AreaMan *p, u32 start, u32 len);
 extern void  func_02082AC0(u32 value, void *dst, u32 size);
 extern void  func_020425B4(u32 layer, const void *src, u32 offset, u32 size);
 

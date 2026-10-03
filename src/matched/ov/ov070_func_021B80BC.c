@@ -17,6 +17,6 @@
 
 void func_021B80BC(void *p)
 {
-    void func_021BB5A4(void *p);
+    void func_021BB5A4(char *p);
     func_021BB5A4(p);
 }

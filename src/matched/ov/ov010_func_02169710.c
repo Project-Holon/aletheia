@@ -73,11 +73,12 @@ extern char g_02148B98[];
 
 extern void *func_02047788(void *p);
 extern void *func_0204755C(void *p);
-extern void  func_0206DDA4(int cmd, const void *data, int n);
+struct P02047C8C;
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void  VEC_Add(const Vec *a, const Vec *b, Vec *dst);
 extern void  MTX_RotY33_(void *m, s16 sinv, s16 cosv);
 extern int   func_021699A0(void *p);
-extern void  func_02047C8C(void *p);
+extern void func_02047C8C(struct P02047C8C *p);
 
 void func_02169710(Obj *obj)
 {

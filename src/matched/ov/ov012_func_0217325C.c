@@ -92,20 +92,21 @@ typedef struct Save {
 } Save;
 
 extern void func_02082BCC(void *dst, int val, int size);
-extern int  func_0203D378(void);
+struct Sub0200852CObj;
+extern u32 func_0203D378(void);
 extern void func_02087C6C(void *p);
 extern void MI_CpuCopy8(const void *src, void *dst, int n);
 extern int  func_0203D1B4(void);
 extern void func_020084F8(void *s, void *dst, u32 size);
-extern u8   func_02008554(void *s);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32  func_02008550(void *s);
-extern u32  func_02008530(void *s);
-extern u8   func_0200856C(void *s);
-extern u8   func_02008570(void *s);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008570(const struct Sub0200852CObj *obj);
 extern u32  func_020120F4(u32 a);
 extern u32  func_0201283C(u32 a);
 extern void func_02009CB0(u32 a, void *dst);
-extern int  func_021840C8(void *p);
+extern int func_021840C8(u8 *p);
 
 void func_0217325C(u8 *self, Rec *out)
 {

@@ -33,7 +33,8 @@ struct Evt {
     void *unk_10;
 };
 
-extern void func_02012108(void *p, u32 v);
+struct Ctx;
+extern void func_02012108(struct Ctx *p, u32 v);
 
 void func_02012374(struct Evt *evt, struct Evt **out)
 {

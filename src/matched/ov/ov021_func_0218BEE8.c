@@ -25,14 +25,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_02046C94(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_02046C94(void);
 extern void func_02046CE0(void *dst, void *src);
 extern void *func_0218B924(u8 *s, int x);
-extern u8 *func_0218BC00(void *p, int x);
+extern char *func_0218BC00(char *p, int i);
 extern u8 *func_0218BC10(u8 *p, int i);
 extern int func_0218BC8C(u8 *p);
-extern u8 *func_0218BCAC(void *p);
+extern u8 *func_0218BCAC(u8 *p);
 extern char d_021DD9CC[];
 
 void func_0218BEE8(u8 *s, void **out, int x)

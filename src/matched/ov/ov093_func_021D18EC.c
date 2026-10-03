@@ -31,13 +31,13 @@ typedef struct {
     u8 unk1A6;            /* 0x1A6 */
 } BattleSeq;
 
-extern int func_021BA1A8(void *battle, int flag);
-extern int func_021B9210(void *battle);
-extern int func_021B8FF4(void *battle);
+extern int func_021BA1A8(char **p, int m);
+extern u32 func_021B9210(u8 *p);
+extern u8 func_021B8FF4(u8 *p);
 extern void func_021EAF18(void *msg, int a, int id);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EA614(void *win, void *msg);
-extern int func_021EA710(void *win);
+extern int func_021EA710(u32 *p);
 
 int func_021D18EC(BattleSeq *s, int *state)
 {

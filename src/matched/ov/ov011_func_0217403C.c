@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_0203D378(void);
+u32 func_0203D378(void);
 typedef struct Rec { u32 w[13]; } Rec;
 int func_02175C88(u8 *a, Rec *b, int c);
 

@@ -47,8 +47,8 @@
 typedef unsigned int u32;
 typedef int s32;
 
-extern s32  sub_0201AA18(void *p);
-extern void *sub_0201AB28(void *p, s32 idx);
+extern u32 sub_0201AA18(void *p);
+extern void *sub_0201AB28(void *p, u32 idx);
 extern u32  func_02017E1C(void *entry, u32 id, u32 v);
 extern u32  sub_0201AD18(void *entry);
 extern u32  sub_0201AD40(void *entry);

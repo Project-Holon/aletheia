@@ -15,7 +15,8 @@
  *   func_021738E4  0x021738E4  thumb ov011
  */
 
-int func_0203D378(void);
+typedef unsigned int   u32;
+u32 func_0203D378(void);
 int func_0203D1C0(unsigned char a);
 void func_021738E4(void *p, int i);
 

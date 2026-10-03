@@ -24,7 +24,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_02074BEC(u32 a, u32 b, u32 c, u32 d, u32 *out);
 
 u32 func_02074AC4(u32 a, u32 b, u32 c)
 {

@@ -36,7 +36,7 @@ typedef unsigned int u32;
 typedef struct Data { u32 f00; u8 f04,f05; u16 f06; u8 f08,f09,f0a; u8 low:4,high:4; u8 tail[32]; } Data;
 typedef struct {u32 objects[3]; u8 pad[0x24];u8 digits[3];u8 pad1;int state[3];} Display;
 extern void func_021B871C(u8 *);
-extern int func_021B8730(u8 *);
+extern unsigned func_021B8730(u8 *p);
 extern void func_021B83E0(Display *,int);
 extern int func_021B8438(Display *,int);
 extern void func_021B7EEC(u8 *,void *,u8,u16,u16);

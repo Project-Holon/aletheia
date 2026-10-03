@@ -17,8 +17,11 @@
  *   func_02082BCC 0x02082BCC arm
  */
 extern void func_021DA978(void *),func_021DA958(void *);
-extern void *func_021D6C58(void *,int);
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void *func_021D6C58(u8 *p, int i);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02025588(void *);
 extern void func_02082BCC(void *,int,int);
 void func_021D9488(void **p) {

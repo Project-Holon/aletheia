@@ -24,9 +24,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021D775C(int);
-extern u8 *func_021C7CF4(void *a, int b);
-extern int func_021D62A8(u8 *p);
-extern int func_021D85C0(int a, int b);
+struct Unk021D62A8;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62A8(struct Unk021D62A8 *p);
+extern int func_021D85C0(int a, u32 b);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F0878[];

@@ -17,7 +17,8 @@
  */
 extern int func_020399A8(int x);
 extern int func_0203D1A4(int x);
-extern void func_02034714(void *a, int b, void *c);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_0217E64C[];
 
 int func_0217E4FC(int a, int b)

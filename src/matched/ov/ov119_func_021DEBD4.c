@@ -15,7 +15,7 @@
 typedef unsigned short u16;
 typedef unsigned u32;
 extern void func_0207D658(u32,int,int);
-extern void func_02040588(int,int);
+extern void func_02040588(u32 which, u32 enable);
 static inline void inside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x04001048 & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x04001048=(u16)tmp;}
 static inline void outside(int wnd,int effect) {u32 tmp=(*(volatile u16 *)0x0400104a & ~0x3f)|wnd;if(effect)tmp|=0x20;*(volatile u16 *)0x0400104a=(u16)tmp;}
 void func_021DEBD4(void *p) {

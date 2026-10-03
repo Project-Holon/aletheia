@@ -21,10 +21,14 @@
 typedef unsigned char u8;
 
 extern void func_020307B0(void *p);
-extern void func_02045808(void *a);
-extern void func_0201ED04(void *p);
-extern void func_02045C04(void *a);
-extern void func_02030EAC(void *a0);
+struct Node;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02030EAC(struct Node *n);
 extern void func_02049238(void *p);
 
 void func_021B9784(u8 *p)

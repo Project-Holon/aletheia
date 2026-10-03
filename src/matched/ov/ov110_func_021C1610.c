@@ -41,7 +41,7 @@ extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_021C1738(void *,u16);
 extern void func_021C17DC(void *,unsigned,unsigned);
-extern void func_021C1724(void *,void *);
+extern void func_021C1724(int a, u8 *p);
 extern void *func_020056A0(void *,void *,unsigned);
 void *func_021C1610(unsigned arg, u16 heap) {
     u8 *p;

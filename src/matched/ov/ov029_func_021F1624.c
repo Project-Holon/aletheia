@@ -50,7 +50,7 @@ struct BgTemplate {
 
 extern void func_02040588(u8 which, u32 enable);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_0204047C(int a, int b);
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
 extern void func_021F1740(void *p);

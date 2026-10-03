@@ -26,8 +26,10 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C4CC(void *p);
-extern u32 sub_0202C4D0(void *p, u32 idx);
+struct Arr0202C4D0;
+struct Obj0202C4CC;
+extern u32 sub_0202C4CC(struct Obj0202C4CC *p);
+extern u32 sub_0202C4D0(struct Arr0202C4D0 *p, u32 idx);
 
 u32 sub_0202C4D8(void *a, u32 b)
 {

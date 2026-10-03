@@ -13,7 +13,8 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_021D5B68 0x021D5B68 thumb ov093
  */
-extern int func_02017E1C(void *, int, int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_021D5B68(void *);
 int func_021D5B7C(void *m)
 {

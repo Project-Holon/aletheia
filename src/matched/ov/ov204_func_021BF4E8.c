@@ -20,10 +20,15 @@
  */
 
 extern void func_0201F7A8(void *, unsigned int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned char);
-extern void func_02045334(void *);
-extern void func_0202020C(void *, unsigned short *, unsigned short *);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct Obj;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *);
 extern void func_02082BCC(void *, int, unsigned int);
 

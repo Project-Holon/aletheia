@@ -30,7 +30,8 @@ extern u32 func_0201BA68(void *);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern u32 func_0204B294(u32,u32,u32,u32,Rec *,u16,u16);
 extern int func_0201BBE8(void *);
-extern void func_0204B6F4(void *,u32,u32);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021BBC34(char *p, void *a, int k, u32 o)
 {
     int i,n;

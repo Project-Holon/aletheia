@@ -47,10 +47,11 @@ extern char g_021E45FC[];
 extern int func_021E1830(int *result);
 extern void func_021E214C(void);
 extern void *func_021DD3A8(void *sake, void *input, void (*callback)(void), void *userData);
-extern int func_021DD2CC(void *sake);
+typedef unsigned int   u32;
+extern u32 func_021DD2CC(char *obj);
 extern void func_021E17D8(int line, char *fmt, ...);
 extern int func_021E1F18(int process, int result);
-extern void func_021E212C(int process);
+extern void func_021E212C(u32 v);
 extern void func_021E1948(void);
 
 int func_021E1618(char *gdb_name, char **field_names, int field_num, void (*callback)(int, void **, void *), void *user_param)

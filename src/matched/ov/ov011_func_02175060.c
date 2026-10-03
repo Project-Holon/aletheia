@@ -43,10 +43,10 @@ typedef struct Entry {
     u8 hi : 1;
 } Entry;
 
-extern int func_02039338(void);
-extern int func_02013D5C(u16);
-extern int func_02013D9C(u16);
-extern int func_02013E90(u16, u16);
+extern u16 func_02039338(void);
+extern u32 func_02013D5C(u32 id);
+extern u32 func_02013D9C(u32 id);
+extern u32 func_02013E90(u32 a, u32 b);
 extern int func_021677E4(int, int);
 extern int func_02026478(int);
 extern int func_021583EC(int, int);

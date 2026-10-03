@@ -23,15 +23,16 @@
  *   func_021BAB20  0x021BAB20  thumb  ov088
  */
 
-extern int func_0203D210(void);
-extern void func_02043534(int);
-extern void func_020435F4(int);
+typedef unsigned int   u32;
+extern u32 func_0203D210(void);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
 extern void func_021BA9C8(void *);
-extern void func_021BAC64(void *);
-extern void func_021BB474(void *);
-extern void func_021BB328(void *);
-extern void func_021BB164(void *);
-extern void func_021BB5C4(void *);
+extern void func_021BAC64(char *p);
+extern void func_021BB474(char *p);
+extern void func_021BB328(char *p);
+extern void func_021BB164(char *p);
+extern void func_021BB5C4(char *p);
 extern void func_021BACD8(void *);
 extern void func_021BAB20(void);
 

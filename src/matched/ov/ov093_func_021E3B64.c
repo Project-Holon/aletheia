@@ -22,10 +22,11 @@
 typedef unsigned char u8;
 
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *a, int b);
-extern unsigned func_021D69AC(void *q, int k);
-extern int func_021D78AC(u8 x);
-extern void func_021D76BC(int a, int b);
+typedef unsigned int   u32;
+extern void *func_021C7CF4(int *p, int i);
+extern unsigned char func_021D69AC(unsigned char *base, int idx);
+extern u32 func_021D78AC(u32 range);
+extern int func_021D76BC(int key, u32 val);
 extern int func_021E8624(void *a, int c);
 extern const u8 d_021F2856[];
 

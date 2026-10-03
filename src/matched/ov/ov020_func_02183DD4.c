@@ -14,7 +14,8 @@
  *   func_02161D64 0x02161D64 thumb ov010
  * interface: 020127C4 forwards 020127D0's returned pointer in r0.
  */
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127C4(void *p);
 extern void func_02161D64(void *p);
 void func_02183DD4(void *p)

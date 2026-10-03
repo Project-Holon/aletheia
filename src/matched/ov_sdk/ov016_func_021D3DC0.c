@@ -41,16 +41,16 @@ typedef struct Sub021D3DC0 {
 
 extern Sub021D3DC0 *dat_021DE668;
 
-extern void func_021D3D44(void);
+extern int func_021D3D44(void);
 extern void func_021D4148(void);
 extern void func_021D41F0(void);
 extern void func_021D4214(void);
 extern void func_021D439C(void);
 extern void func_021D43C8(void);
 extern void func_021D455C(void);
-extern void func_021D4574(void);
-extern int func_021D3250(void);
-extern void func_021D3AC8(void);
+extern int func_021D4574(void);
+extern unsigned int func_021D3250(void);
+extern int func_021D3AC8(void);
 extern void func_021D39C0(void);
 extern void func_021F5F74(void);
 

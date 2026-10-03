@@ -73,7 +73,7 @@ struct S02021D50 {
     u16 b_hi : 1;
 };
 
-extern int func_02021930(u32 mask, u32 bit);
+extern u8 func_02021930(u32 val, int bit);
 extern void func_020862F0(void *a, u32 b);
 extern void func_0207E3D0(void *a, u32 b, u32 c);
 extern void func_0207E468(void *a, u32 b, u32 c);

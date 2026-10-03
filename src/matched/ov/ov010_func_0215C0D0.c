@@ -26,9 +26,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159B10(void *, void *);
-extern int func_0215B4AC(void *, int, void *);
-extern void func_02017E40(void *, int, int);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern int func_0215B4AC(void *a0, u32 a1, void **a2);
+extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020185C4(void *);
 extern struct { u16 a; u16 b; } d_0217118E[6];
 

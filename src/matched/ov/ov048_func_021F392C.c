@@ -37,7 +37,7 @@ typedef struct Obj {
 extern const char d_021F5224[];
 
 extern u32 func_02188C9C(u32 a);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02049030(u32 id);
 extern u32 func_020111E8(void);
 extern void func_021F4C10(Rec *r, u32 id, u32 i);

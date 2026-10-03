@@ -21,13 +21,18 @@
  */
 
 extern void *sub_02008510(void *a, int b);
-extern int   sub_02008530(void *a);
-extern int   sub_0200853C(void *a);
-extern int   sub_02008550(void *a);
-extern int   sub_02008554(void *a);
-extern void  sub_02009918(void *obj, int i, int field, int value);
-extern void  sub_02009A00(void *obj, int i, void *dest);
-extern void  func_02045808(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+struct Sub020097BCObj;
+struct U16Vec;
+extern u32 sub_02008530(const struct Sub0200852CObj *obj);
+extern u32 sub_0200853C(const struct Sub0200852CObj *obj);
+extern u8 sub_02008550(const struct Sub0200852CObj *obj);
+extern u8 sub_02008554(const struct Sub0200852CObj *obj);
+extern void sub_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
+extern void sub_02009A00(struct Sub020097BCObj *obj, int i, void *dest);
+extern void func_02045808(struct U16Vec *vec);
 
 void sub_0200F520(void *obj, void *src, int i, int sel, int flag)
 {

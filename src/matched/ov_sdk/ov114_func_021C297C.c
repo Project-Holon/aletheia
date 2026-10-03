@@ -16,7 +16,8 @@
  *   func_021C2620   0x021C2620  arm
  */
 extern int func_021C26B8(void *connection);
-extern int func_021C2620(void *connection);
+struct GHIConnection;
+extern int func_021C2620(struct GHIConnection *connection);
 
 int ghiPostGetContentLength(void *connection)
 {

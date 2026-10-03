@@ -19,10 +19,13 @@
 typedef short s16;
 typedef struct { int v[5]; } T5;
 extern const T5 d_021E7984;
-extern void func_02045CAC(void *, unsigned, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct WordSet;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_02017E1C(int, int, int);
-extern void func_0201EFA4(void *, int, int, int, int, int);
-extern void func_0201F250(void *, void *, void *);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(int);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 void func_021E1880(int a, int b, int c, int d, char *p)

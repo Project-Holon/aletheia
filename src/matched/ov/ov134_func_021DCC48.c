@@ -12,12 +12,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02012EBC(void *);
-extern void *func_02012944(void *);
+struct Big;
+struct Blk37;
+extern void *func_02012EBC(struct Big *p);
+extern u8 *func_02012944(void *p);
 extern void *func_0200CA1C(void *);
 extern u32 func_0200873C(void *);
-extern int func_0201AA18(void *);
-extern u32 func_0200CA38(void *);
+extern u32 func_0201AA18(void *p);
+extern u32 func_0200CA38(struct Blk37 *p);
 void func_021DCC48(u8 *p, void *unused, u8 *out)
 {
     void *a;

@@ -26,19 +26,26 @@
  */
 extern void func_0200566C(void);
 extern void func_02028604(void *);
-extern void func_021E106C(void *);
-extern void func_021E12F8(void *);
+typedef unsigned char  u8;
+struct Descriptor;
+struct Rec;
+struct S02031140;
+struct TaskMenuState;
+struct U16Vec;
+struct WordSet;
+extern void func_021E106C(char *p);
+extern void func_021E12F8(char *p);
 extern void func_0201CE48(int);
-extern void func_02028148(void *);
-extern void func_02027FD8(void *);
-extern void func_020452E8(void *);
-extern void func_0201ED04(void *);
-extern void func_02045C04(void *);
+extern void func_02028148(u8 *p);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C6EC(unsigned);
 extern void func_0201C4C0(unsigned);
-extern void func_02031140(void *);
+extern void func_02031140(struct S02031140 *p);
 void func_021E11A8(char *p)
 {
     int i;

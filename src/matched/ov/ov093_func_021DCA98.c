@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern int func_0201C1E8(u16 a);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021DCA98(int a, int b, int c)
 {

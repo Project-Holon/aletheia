@@ -14,8 +14,8 @@
  */
 typedef unsigned char u8;
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D7B68(void);
-extern void func_021D746C(void);
+extern void func_021D7B68(char *p);
+extern void func_021D746C(int a);
 void func_021D7BDC(char *p)
 {
     if (*(u8 *)(p + 0xa5)) {

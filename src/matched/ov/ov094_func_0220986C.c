@@ -30,7 +30,7 @@ extern char d_0220AEF0[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_0207C768(u32, u32);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
-extern void func_021F896C(void *, void (*)(void *), int);
+extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021F918C(const Vec *, const Vec *, Vec *, int);
 extern float _fflt(int);
 extern float _fadd(float, float);

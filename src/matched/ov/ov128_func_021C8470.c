@@ -15,10 +15,12 @@
  */
 typedef unsigned char u8;
 extern void func_02027974(void *);
-extern int func_020279E8(void *);
+typedef unsigned int   u32;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
-extern void func_02027858(void *);
-extern int func_020355C4(void);
+extern void func_02027858(struct TaskMenu *m);
+extern u8 func_020355C4(void);
 extern void func_021C875C(u8 *, void *);
 extern void func_021C8784(char *);
 extern const int d_021CA68C[][8];

@@ -18,7 +18,9 @@ typedef struct {
     unsigned negy:1;
     unsigned steps:30;
 } Motion;
-extern void *func_02030734(unsigned,unsigned,unsigned,const char *,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F1418[];
 void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty)
 {

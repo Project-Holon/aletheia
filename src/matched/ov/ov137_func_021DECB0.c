@@ -12,6 +12,7 @@
  *   func_02039CB4 0x02039CB4 arm
  */
 typedef unsigned short u16;
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02039CB4(void *,int,int);
 int func_021DECB0(char *p) {if(func_02039CB4(func_020399A8(),202,40))*(int *)p=12;return 0;}

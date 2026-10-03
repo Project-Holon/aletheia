@@ -16,7 +16,8 @@
  *   g_02150DA0 0x02150DA0 data
  */
 
-extern void func_02075E10(void);
+typedef unsigned short u16;
+extern void func_02075E10(u16 lock_id);
 extern void func_02075E80(void);
 extern void func_0207A980(void);
 extern int g_02150DA0;

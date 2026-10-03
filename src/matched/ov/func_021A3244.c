@@ -17,7 +17,8 @@
  * blocker target of ov010's func_0216A244 (pkt_0216A244).
  */
 
-extern void func_021A3A3C(void *);
+typedef unsigned int   u32;
+extern int func_021A3A3C(u32 *p);
 
 void func_021A3244(void *p)
 {

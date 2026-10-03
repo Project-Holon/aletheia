@@ -41,7 +41,7 @@ extern void func_02156DC4(int, int);
 extern void func_021D7260(u8 *);
 extern u8 *func_021B97F4(u8 *);
 extern u8 func_021B99F0(u8 *);
-extern u8 *func_021B9A14(u8 *, int);
+extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_02082D44(const void *, void *, u32);
 extern u32 func_021B99F4(u8 *, int);
 extern void func_021D724C(u8 *, u32);

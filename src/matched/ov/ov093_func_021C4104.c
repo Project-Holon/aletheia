@@ -30,10 +30,10 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct { int a; u8 b; } S;
 
 extern u8 func_021D5440(u8 *p);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C5D88(u8 *p, u8 *a, int b);
 extern void func_021C5840(u8 *p, int k, void *x, void *y, int z);
-extern void func_021C59C4(u8 *p, int k, void *x, void *y, int z);
+extern void func_021C59C4(u8 *p, u32 n, u8 **a, u8 *b, int flag);
 extern int func_021D6D9C(u8 *c, u16 *d);
 extern void func_021C41C0(u8 *p, u8 *a);
 extern void func_021C1DCC(u8 *p, u8 *q, u32 a, u8 *b, u32 s);

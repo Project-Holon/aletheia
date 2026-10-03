@@ -35,8 +35,9 @@ typedef struct {
 } RTCTime;
 
 extern int DWC_GetDateTime(RTCDate *date, RTCTime *time);
-extern void func_0200ADD8(void *p, u32 value);
-extern void func_0200ADD0(void *p, u32 value);
+struct RegB;
+extern void func_0200ADD8(struct RegB *p, u32 value);
+extern void func_0200ADD0(struct RegB *p, u32 value);
 
 void func_0220246C(void *p, int which)
 {

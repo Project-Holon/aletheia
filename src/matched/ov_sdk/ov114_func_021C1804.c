@@ -41,7 +41,7 @@ typedef struct CPSSslConnection {
     char pad2[0x830 - 0x81c];
 } CPSSslConnection;
 
-extern GHTTPTwlCaList *func_021C1230(char *);
+extern void *func_021C1230(char *url);
 extern void func_02088168(unsigned long *);
 extern void func_02162248(void *, unsigned long);
 extern void *func_0217EAB0(unsigned long);

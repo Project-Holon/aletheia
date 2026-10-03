@@ -13,7 +13,9 @@
 
 typedef unsigned short u16;
 
-extern int func_0200CED4(void *p, u16 i);
+typedef unsigned int   u32;
+struct Blk37;
+extern u32 func_0200CED4(struct Blk37 *p, u16 id);
 extern int func_0200C780(u16 v);
 
 u16 func_0200D2D8(void *a0)

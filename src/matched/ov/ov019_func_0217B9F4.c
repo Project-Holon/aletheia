@@ -13,7 +13,8 @@
  *   func_020307B0 0x020307B0 arm
  *   d_021807E4 0x021807E4 data a1
  */
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_020307B0(void *);
 extern const char d_021807E4[];
 void func_0217B9F4(void *p)

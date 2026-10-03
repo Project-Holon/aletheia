@@ -51,8 +51,9 @@ typedef struct Args {
 
 extern u8 ov008_id[];
 
-extern void *func_02029BCC(void *h, u16 v);
-extern void func_02012374(void *evt, void *task);
+struct Evt;
+extern void *func_02029BCC(void *a, u32 b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020124AC(void *h, u32 n, u32 (*fn)(void *, u32), Args *a);
 extern void func_020130DC(Obj *o);
 extern void *func_02029C00(void *h);

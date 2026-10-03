@@ -17,7 +17,7 @@ typedef unsigned int u32;
 extern void *func_0201F81C(u32 n, u32 heap);
 extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
 extern void func_021F4D50(void *p, u32 a, int b, u32 c);
-extern void func_021F5034(int a);
+extern void func_021F5034(u32 x);
 int func_021FC6B8(char *p)
 {
     *(void **)(p + 0xde8) = func_0201F81C(2, 0x48);

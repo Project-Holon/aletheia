@@ -22,8 +22,10 @@ extern u32 func_021B6FB4(char *);
 extern void func_021B70D8(char *);
 extern void *func_0201F81C(u32, u32);
 extern void func_0201F878(void *, u32, u32, u32, u32);
-extern void *func_02045B38(u32, u32, u32, u32);
-extern void func_02045C04(void *);
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
 void func_021B7128(char *p)
 {
     u32 i;

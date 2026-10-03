@@ -52,7 +52,7 @@ extern void func_021D61A4(void), func_021D4608(void);
 extern int func_021D9F04(char *, void *, void *);
 extern void func_021D63DC(char *);
 extern void func_021D6788(char *, void *);
-extern void func_021D61F0(void);
+extern void func_021D61F0(u32 sys, int *state, char *p);
 extern u32 func_021D679C(char *);
 extern void func_021D61CC(void), func_021D495C(void);
 void func_021D4730(u32 sys, int *state, u32 *p)

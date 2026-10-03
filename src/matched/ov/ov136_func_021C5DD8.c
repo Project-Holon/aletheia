@@ -15,9 +15,12 @@
  */
 typedef unsigned char u8;
 extern void *func_0201C440(int);
-extern void *func_0204B100(int,int,int);
+typedef unsigned int   u32;
+struct Bank;
+struct PmsDraw;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_0202DB0C(void *,int,void *,void *,int,int,int);
-extern void func_0202DE5C(void *,int);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 void func_021C5DD8(u8 *p)
 {
     *(void **)(*(u8 **)(p+8)+0x36c) = func_0201C440(102);

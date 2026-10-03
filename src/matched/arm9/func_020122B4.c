@@ -11,7 +11,8 @@
  * status:   EXACT
  */
 
-extern void func_02035064(int a, int b);
+typedef unsigned int   u32;
+extern void func_02035064(const void *fn, u32 arg);
 void func_020122B4(void)
 {
     func_02035064(0, 0);

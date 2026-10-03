@@ -26,8 +26,9 @@ typedef struct { s16 x,y; } Pair;
 extern void func_021BC578(Pair *,Pair *);
 extern void func_021BAC64(void *,Triple *,int,int);
 extern void *func_021BAC78(void *,Triple *,int,int,int,int);
-extern void func_021BC69C(void *,int);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_021BC69C(u8 *p, int flag);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B84C(void *,int);
 void func_021BC1B8(u8 *p)
 {

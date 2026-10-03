@@ -31,7 +31,7 @@ extern char d_021A2080[];
 extern char d_021A2084[];
 extern char d_021A2088[];
 extern char d_021A208C[];
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int OS_SNPrintf(char *dst, int len, const char *fmt, ...);
 extern int func_02168454(const char *key, const char *value, char *string, char sep);
 extern int func_0216848C(const char *key, const char *value, char *string, char sep);

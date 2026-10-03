@@ -49,9 +49,9 @@ extern void func_021C2BF0(Rec *);
 extern void func_021C2C30(Rec *);
 extern void func_021C2C70(Rec *);
 extern void func_021C2CB0(Rec *);
-extern void func_021C2CF0(Rec *);
+extern void func_021C2CF0(void *p);
 extern void func_021C2D28(Rec *);
-extern void func_021C2D68(Rec *);
+extern void func_021C2D68(void *p);
 
 void func_021C2A30(Rec *p)
 {

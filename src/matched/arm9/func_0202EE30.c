@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 extern char g_020A7814[];
 extern u8   unk_0202F099[];
 
-extern void *func_02030734(u16 heap, u32 size, u32 a2, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02030DA8(void *owner, u8 *tag, void *p, u32 a3);
 extern void  func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 

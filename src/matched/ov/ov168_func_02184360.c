@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
-extern void *func_02045770(void *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *,u8);
 extern void func_020456F8(struct Descriptor *);
 extern void func_020452E8(struct Descriptor *);

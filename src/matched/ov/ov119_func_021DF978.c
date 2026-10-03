@@ -15,10 +15,11 @@
  *   func_02041B6C 0x02041B6C arm
  */
 extern void func_021E6308(void *,int,int);
-extern void func_021E293C(void *,int);
+typedef unsigned int   u32;
+extern void func_021E293C(char *p, int i);
 extern void func_021E36D8(void *,int);
 extern void func_02041300(int,int,unsigned char,int,int,int,int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021DF978(void *p)
 {
     int i;

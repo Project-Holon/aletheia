@@ -21,7 +21,9 @@
  *   func_021E3B2C 0x021E3B2C thumb ov119
  */
 extern void func_0207F7A0(void);
-extern void *func_02030734(unsigned short, int, int, const void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021E81C0[];
 extern void func_02082BCC(void *, int, int);
 extern void func_021E380C(void *, void *, int);

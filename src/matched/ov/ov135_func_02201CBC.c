@@ -18,12 +18,14 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0200ADE0(void *);
+struct Rec0200AD94;
+struct RegB;
+extern u16 func_0200ADE0(struct RegB *p);
 extern void func_022022B8(void *, void *, u32, int);
-extern void func_022024B0(void *, void *);
-extern void func_02201B44(void *, void *, void *, void *);
-extern void func_0200AD94(void *, u16);
-extern void func_0220251C(void *, u32, u32);
+extern void func_022024B0(void *obj, u8 *p);
+extern void func_02201B44(u8 *p, void *mon, u8 *r, void *old);
+extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
+extern void func_0220251C(u8 *p, u16 a, u16 b);
 int func_02201CBC(u8 *p)
 {
     func_022022B8(p, p + 0xe4, func_0200ADE0(**(void ***)p), *(s8 *)(p + 0x207));

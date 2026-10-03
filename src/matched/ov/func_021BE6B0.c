@@ -27,7 +27,7 @@
 
 typedef unsigned long u32;
 
-extern void sub_0204047C(int a, int b);
+extern void sub_0204047C(int idx, unsigned short val);
 
 typedef struct {
     char pad[0x1CC];

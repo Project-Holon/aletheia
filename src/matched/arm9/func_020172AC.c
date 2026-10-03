@@ -32,7 +32,9 @@
  */
 
 extern void sub_02014CF0(int a0, int a1, int a2);
-extern void func_020172BC(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020172BC(u8 *a0, u8 **a1, u32 a2);
 
 void func_020172AC(int a0, int a1)
 {

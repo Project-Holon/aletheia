@@ -45,8 +45,9 @@ extern void func_021730C8(Work *w);
 extern void func_0217303C(Work *w);
 extern void func_02172FF0(Work *w);
 extern void func_02172EEC(Work *w);
-extern int func_0200FB24(void);
-extern int func_0203D378(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
+extern u32 func_0203D378(void);
 extern void func_02172D38(Work *w);
 
 void func_02172E48(int a, int b, Work *w)

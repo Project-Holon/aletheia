@@ -14,9 +14,10 @@
  *   func_021B9BA4 0x021B9BA4 thumb ov110
  */
 typedef unsigned char u8;
-extern void func_0207D658(int,int,int);
+typedef unsigned int   u32;
+extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021BC964(void *, u8 *);
-extern void *func_021B9BA4(void (*)(void *,u8 *),u8 *,int);
+extern void *func_021B9BA4(void (*fn)(void *, u8 *), u8 *p, int n);
 void func_021BC8FC(u8 *p,int a,int start,int end,int n)
 {
     func_0207D658(0x4000050,a,start);

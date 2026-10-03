@@ -16,7 +16,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0207D658(int reg, int a, int b);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_021E26AC(void)
 {

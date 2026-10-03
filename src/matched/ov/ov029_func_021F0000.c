@@ -16,7 +16,9 @@
  */
 
 extern int func_0204B918(void *o);
-extern int func_0204B8F4(void *o);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B8F4(struct Obj *p);
 
 struct Slot {
     void *obj;

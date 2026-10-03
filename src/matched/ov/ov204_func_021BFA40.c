@@ -18,11 +18,14 @@
  */
 
 extern void func_0207D63C(void *, int, int, int, int);
-extern unsigned int func_020061E4(int);
+typedef unsigned int   u32;
+struct G3dSys;
+struct Owner;
+extern void func_020061E4(u32 a);
 extern void *func_02048A18(void *, unsigned short);
 extern int func_020478B8(void *, int, int);
-extern int func_020477D4(void *, unsigned int);
-extern unsigned int func_020477A4(void *, unsigned int);
+extern int func_020477D4(struct Owner *owner, u32 index);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_021BFBC8(char *, unsigned int);
 
 int func_021BFA40(char *p)

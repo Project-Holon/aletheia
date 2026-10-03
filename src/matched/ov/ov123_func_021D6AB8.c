@@ -26,8 +26,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Record { void *h; u16 x,y,a,b,age,c,d,e,f,g; };
 struct Obj { u8 pad[0x40f4]; struct Record records[30]; };
-extern void *func_020490F4(u32, u32);
-extern void *func_02049250(void *, u32, u32);
+struct ArcFile;
+extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void func_02049238(void *);
 extern u32 func_02020E60(u16, int);
 extern void func_02062A98(void *, u8 **);
@@ -35,8 +36,8 @@ extern void func_02062A4C(void *, u8 **);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_020307B0(void *);
 extern int func_02019D30(u16, u8);
-extern u32 func_0201BB5C(int, int, int, int);
-extern u32 func_0201BABC(int, int, int, int);
+extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
+extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 void func_021D6AB8(u8 *p)
 {
     void *h;

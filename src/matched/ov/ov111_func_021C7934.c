@@ -40,7 +40,8 @@ typedef struct {
     int state;
 } Work;
 
-extern void *func_0201D7EC(int a, int b, int c, int d, int heap);
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C440(int heap);
 
 void func_021C7934(Work *p)

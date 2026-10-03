@@ -28,7 +28,7 @@ extern NodeInfo *func_02176344(void);
 extern unsigned long long OS_GetTick(void);
 extern int func_0217603C(void);
 extern NodeInfo *func_0217637C(int index);
-extern void *func_0216BAF4(int aid);
+extern int func_0216BAF4(int aid);
 
 unsigned long long func_02176594(void)
 {

@@ -15,7 +15,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct S { u32 f0; u32 f4; u32 f8; };
-extern void func_02089638(u32, u32, u32);
+extern void func_02089638(u32 chBitMask, int volume, int shift);
 
 void func_02072C18(struct S *s, u32 v)
 {

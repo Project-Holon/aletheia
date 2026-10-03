@@ -13,9 +13,13 @@
  *   func_0215F0E8 0x0215F0E8 thumb ov010
  *   func_0215EA94 0x0215EA94 thumb ov010
  */
-extern void *func_020122C0(void *,int,int (*)(void *,void *,void *),int);
-extern void *func_020124E8(void *);
-extern void func_0215F0E8(void *,void *,void *);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+struct Pair;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_0215F0E8(u32 *out, const struct Pair *in, u32 *ctx);
 extern int func_0215EA94(void *,void *,void *);
 void *func_0215EA6C(void *a,void *b)
 {

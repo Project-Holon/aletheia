@@ -27,15 +27,19 @@ typedef unsigned int u32;
 typedef short s16;
 
 extern void *func_0215A5E4(void *a0);
-extern int func_0201296C();
+struct BigObj;
+struct Ctrl;
+struct Sub020072A4Ctrl;
+struct Sub020073D8Ctrl;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_020142E8();
 struct Big;
 extern void *func_02012EBC(struct Big *p);
-extern int func_0200725C();
-extern int func_020073D8();
-extern int func_0200ECB4();
-extern int func_020072A4();
+extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern u32 func_0200ECB4(char *o);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 int func_0215B190(int a0, int a1)
 {
     void *p = func_0215A5E4((void *)a1);

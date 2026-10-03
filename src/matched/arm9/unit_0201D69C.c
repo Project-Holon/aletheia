@@ -53,7 +53,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020458F8(void *s);
+struct U16Vec;
+extern u16 func_020458F8(struct U16Vec *vec);
 
 struct Ring {
     u16 head;

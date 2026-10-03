@@ -22,7 +22,7 @@ typedef signed char    s8;
 
 typedef struct P { u32 f0; } P;
 
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021ADCF0(P *p);
 extern char d_021DE10C[];
 

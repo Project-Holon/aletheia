@@ -16,8 +16,8 @@
  *   func_021BD1EC  0x021BD1EC  thumb  ov088
  */
 
-extern int func_021BD188(void *);
-extern void func_021BD1EC(void *);
+extern int func_021BD188(char *p);
+extern void func_021BD1EC(unsigned char *p);
 
 void func_021BCE20(void *p, int *st)
 {

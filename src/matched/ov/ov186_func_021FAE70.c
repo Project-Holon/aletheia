@@ -13,7 +13,8 @@
  *   d_02200D18 0x02200D18 data a1
  */
 typedef struct Record { int state; int mode; int words[15]; } Record;
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021FADB8(Record *, int);
 extern char d_02200D18[];
 void func_021FAE70(void *ctx, Record *dest, const Record *source, int mode)

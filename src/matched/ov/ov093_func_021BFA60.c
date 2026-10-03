@@ -51,7 +51,7 @@ extern int func_021D775C(int);
 extern void func_021D7704(int, int);
 extern void func_021D7540(int);
 extern int func_021D5BB0(u8 *, u32);
-extern u32 func_021D7908(u8, u8);
+extern unsigned char func_021D7908(int a, int i);
 extern u32 func_021D7B10(u32, u32);
 extern int func_021B911C(void *, int);
 extern u32 func_021D78AC(u32);

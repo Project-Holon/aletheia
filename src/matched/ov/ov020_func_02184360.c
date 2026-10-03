@@ -14,9 +14,12 @@
  *   func_021841C0 0x021841C0 thumb ov020
  */
 typedef unsigned char u8;
-extern void *func_020122C0(void *owner, void *a, void *b, unsigned int n);
-extern void *func_020124E8(void *p);
-extern void func_021841C0(void);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern int func_021841C0(int ctx, int *state, u8 **pp);
 void *func_02184360(u8 *p, int value)
 {
     void *task;

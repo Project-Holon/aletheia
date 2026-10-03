@@ -41,15 +41,15 @@ typedef struct {
 extern const char d_02187EB4[];
 extern const Tmpl d_02187DE0;
 
-extern int func_02186854(void *p);
-extern Tmpl *func_02030734(int heap, int size, int clear, const char *file, int line);
+extern int func_02186854(u16 *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021867C4(int, int);
 extern u8 *func_02186830(int h, int b, int heap);
-extern int func_021868A0(void *p, int i);
+extern int func_021868A0(u16 *p, int i);
 extern u8 *func_0218684C(u8 *t, int i);
-extern u16 func_02186898(void *p, int i);
+extern u16 func_02186898(u16 *p, int i);
 extern void func_0216E618(Tmpl *, u16, u16, int);
-extern void func_0218683C(u8 *t);
+extern void func_0218683C(void *p);
 extern void func_02186804(int);
 
 Tmpl *func_021868B8(void *p, int a1, int a2, int id)

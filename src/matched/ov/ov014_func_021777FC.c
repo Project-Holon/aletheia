@@ -24,11 +24,11 @@ typedef unsigned int u32;
 
 extern u8 *g_021797A4;
 extern u8 d_02179790[];
-extern u8 *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_02034714(u8 *a, int b, u8 *c);
 extern void func_02082D44(void *src, void *dst, int n);
 extern int func_02177A74(void);
-extern void func_02177D58(u8 *p, int n);
+extern void func_02177D58(u8 *buf, u32 len);
 
 typedef int (*SizeFn)(u32 a);
 typedef u32 (*DataFn)(u32 a);

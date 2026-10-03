@@ -21,15 +21,18 @@
  *   func_021F6EE8  0x021F6EE8  thumb  ov097
  */
 
-extern void func_02045088(int);
-extern int func_020450F0(int, int, int, int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02045088(u16 heapId);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern int func_02045770(int);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_021F6B7C(int, int);
 extern void func_021F6CE4(int, int);
 extern void func_021F6D70(int, int);
-extern void func_021F6EE8(int, int);
+extern void func_021F6EE8(unsigned p, unsigned i);
 
 void func_021F6A98(int a)
 {

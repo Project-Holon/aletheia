@@ -17,7 +17,7 @@
  *   func_021C4230  0x021C4230  thumb  ov127
  */
 
-extern void func_021C4230(void *p, int a);
+extern void func_021C4230(char *p, int a);
 
 void func_021C5840(char *p, int a)
 {

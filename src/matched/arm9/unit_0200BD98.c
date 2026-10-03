@@ -35,7 +35,8 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
-extern void *func_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 struct Blk32 {
     u8 unk000[0x1CC];

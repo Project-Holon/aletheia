@@ -12,7 +12,8 @@
  *   func_021F2BB8 0x021F2BB8 thumb ov029
  *   d_021F32B3 0x021F32B3 data a1
  */
-extern int func_021F2BB8(void *, int, int);
+typedef unsigned char  u8;
+extern int func_021F2BB8(u8 *p, int row, int col);
 extern const unsigned char d_021F32B3[][9];
 int func_021F0C70(void *p, int i, int j, int k)
 {

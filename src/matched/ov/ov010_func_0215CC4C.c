@@ -38,9 +38,11 @@ typedef struct Req {
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
 extern u32 func_02159B10(void *c, void *vm);
-extern void *func_0201210C(void *sys);
+typedef signed int     s32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_020124AC(void *sys, u32 n, void *fn, void *arg);
-extern void func_02154438(void);
+extern void func_02154438(s32 a, s32 *b);
 extern u8 ov002_id[];
 extern void func_0215897C(void *p, void *v);
 

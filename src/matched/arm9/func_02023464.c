@@ -55,11 +55,9 @@ struct Obj {
     u32 f44;      /* 0x44 */
 };
 
-extern void *func_02030734(int heap, int size, int flag, const char *file,
-                           int line);
-extern void  func_0202350C(struct Obj *o, u8 *cfg, u32 a2, u32 a3, u32 a4,
-                           u32 a5);
-extern void  func_02022E88(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0202350C(struct Obj *obj, const u8 *cfg, u32 a2, u32 a3, u32 a4, u32 a5);
+extern int func_02022E88(int a0, int a1, int a2, int a3);
 
 void func_02023464(struct Task *t, u8 *cfg)
 {

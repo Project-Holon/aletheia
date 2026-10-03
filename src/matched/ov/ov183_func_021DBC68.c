@@ -20,7 +20,7 @@
  */
 
 
-extern void func_021DBCA8(void);
+extern void func_021DBCA8(int *task, int *state, char *p);
 extern void func_021DCEE4(char *, int);
 extern void func_021DCDD8(char *, int);
 extern void func_021DC8EC(char *, int);

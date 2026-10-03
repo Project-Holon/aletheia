@@ -22,9 +22,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02012AC8(void *);
-extern int func_02013D20(int);
-extern int func_02013E04(int);
+struct Rec44;
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern u32 func_02013D20(u32 id);
+extern u32 func_02013E04(u32 id);
 
 int func_021645C0(void *a0, void *a1, void *a2)
 {

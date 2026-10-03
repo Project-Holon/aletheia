@@ -73,7 +73,7 @@ static u16 ipid = 0;
 static u32 CPSDhcpMode = 0;
 static struct CPSBss cps = {0};
 extern unsigned long long OS_GetTick(void);
-extern u32 func_0215B504(void);
+extern long func_0215B504(void);
 extern void func_02157390(void);
 extern u8 *func_0215AEB0(u32 *len);
 extern int func_021579BC(u8 *a, u8 *b);

@@ -34,7 +34,7 @@ extern int func_021DF2F8(u32 h);
 extern int func_021DF328(u32 h);
 extern int func_021DF358(u32 h, int dir, void *buf, int d, int mode, u32 id, void *aux);
 extern int func_021DF3B0(u32 h, u32 a, int flag);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 
 int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, RoundFn cb, int flag, int have, int twoway)

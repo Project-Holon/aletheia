@@ -45,7 +45,7 @@ typedef struct {
 } NetOutBuf;
 
 extern void func_0203675C(NetSendItem *item, NetOutBuf *out);
-extern int  func_020364D4(void *ring, u8 *dst, u32 len, u32 max);
+extern int func_020364D4(char *p, unsigned char *dst, int len, int max);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 int func_020367C4(NetSendItem *item, NetOutBuf *out, void *ring, BOOL needHeader)

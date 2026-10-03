@@ -21,8 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0201C4E4(void *);
-extern void func_020310C4(void *);
+struct PrintSys;
+struct Tcbl;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_020310C4(struct Tcbl *p);
 
 void func_021DD1B4(u8 *p)
 {

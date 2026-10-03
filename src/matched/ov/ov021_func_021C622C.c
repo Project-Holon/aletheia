@@ -30,10 +30,13 @@ typedef struct {
 
 extern void func_021C62F0(Ctx *c);
 extern void func_021C6368(Ctx *c);
-extern void func_020061E4(int n);
+typedef unsigned int   u32;
+struct St021D3244;
+struct St021D325C;
+extern void func_020061E4(u32 a);
 extern void func_021D3288(void *a, int b, int c);
-extern void func_021D325C(void *a, int b, int c, int d, int e);
-extern void func_021D3244(void *a, int b, int c);
+extern void func_021D325C(struct St021D325C *p, u32 a, u32 b, u32 c, u32 d);
+extern void func_021D3244(struct St021D3244 *p, int i, u8 v);
 
 int func_021C622C(void *unused, int *st, Ctx *c)
 {

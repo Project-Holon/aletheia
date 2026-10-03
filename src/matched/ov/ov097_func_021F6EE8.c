@@ -12,7 +12,8 @@
  *   func_02045770 0x02045770 arm
  *   func_02043AF4 0x02043AF4 arm
  */
-extern void *func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct Bmp;
 extern void func_02043AF4(struct Bmp *, unsigned, unsigned, unsigned, unsigned, unsigned);
 void func_021F6EE8(unsigned p, unsigned i)

@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_0207D658(u32 reg, u32 plane, s32 value);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 #define REG_DB_DISPCNT  (*(volatile u32 *)0x04001000)
 #define REG_DB_WIN0H    (*(volatile u16 *)0x04001040)

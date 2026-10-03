@@ -31,7 +31,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F50(void *base);
 extern int func_02159B10();
 extern void *func_021D0FE8(void *a, int unused, int c);
-extern int func_0215897C();
+extern void func_0215897C(void *vm, void *task);
 
 int func_0216A6EC(int a0, int a1)
 {

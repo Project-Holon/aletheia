@@ -42,7 +42,7 @@ typedef struct {
 extern Wk *g_021DE668;
 
 extern void func_02082D44(void *srcp, void *dstp, u32 size);
-extern int func_021D3250(void);
+extern unsigned int func_021D3250(void);
 extern int func_021D3904(void *data);
 extern u16 func_021D323C(void);
 extern u16 *func_021D38DC(u16 aid);

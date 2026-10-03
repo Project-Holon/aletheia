@@ -17,7 +17,7 @@ typedef unsigned int u32;
 struct Ov208Item { char b[0x38]; };
 struct Ov208Mgr { int f0; u32 count; int f8; int fc; int f10; char f14[0x14]; struct Ov208Item items[1]; };
 extern void func_021BD74C(struct Ov208Item *it);
-extern void func_021BD538(void *p);
+extern void func_021BD538(char *p);
 extern void func_020307B0(void *p);
 void func_021BD208(struct Ov208Mgr *m)
 {

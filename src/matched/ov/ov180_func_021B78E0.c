@@ -35,7 +35,7 @@ extern struct Sav *func_020185F0(struct Sav *);
 extern u32 func_02017DBC(struct Sav *),func_02017DE4(struct Sav *,u32);
 extern u32 func_02017E88(void *,u32,u32);
 extern void func_02043B5C(struct CharBuf *,u8);
-extern struct StrObj *func_02045EC0(struct MsgBank *,u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201EF14(struct WordSet *,u32,void *);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern void func_02045808(struct StrObj *);

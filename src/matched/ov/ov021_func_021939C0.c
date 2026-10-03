@@ -34,7 +34,7 @@ extern Ent *func_02049250(int h, int a, u16 heap);
 extern void *func_02030734(u16 heap, u32 size, u32 clear, void *file, u32 line);
 extern void func_020307B0(void *p);
 extern int func_02194044(u8 *p, u16 a, u16 b);
-extern void func_0216245C(void *o, u16 idx);
+extern void func_0216245C(u8 *o, u16 idx);
 
 void func_021939C0(u8 *o, void *dst, int skip, u32 heap)
 {

@@ -53,7 +53,7 @@ typedef struct {
 
 extern void func_021D600C(CoordT *c, CoordT *s, RectT *r);
 extern int func_021D696C(RectT *r);
-extern int func_021D6824(int key);
+extern int func_021D6824(unsigned int f);
 extern void func_021D1A80(int idx);
 extern MemWinT *g_021DE658;
 extern u8 g_021DA9A6[6];

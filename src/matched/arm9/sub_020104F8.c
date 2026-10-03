@@ -49,8 +49,10 @@ typedef unsigned char u8;
 
 extern u8 *g_021461E0;
 
-extern int func_0203F004(u8 *p);
-extern int func_0203EFC8(u8 *p, u8 *q, int n);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern u32 func_0203F004(const u8 *s);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int sub_020104F8(u8 *obj)
 {

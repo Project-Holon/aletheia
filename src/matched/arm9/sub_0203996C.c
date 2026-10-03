@@ -38,7 +38,7 @@ struct Owner {
     struct Entry table[9];
 };
 
-extern struct Owner *func_0203D788(void);
+extern void *func_0203D788(void);
 
 struct Entry *sub_0203996C(s32 idx)
 {

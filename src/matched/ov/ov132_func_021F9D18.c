@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef struct { int x, y, z; } Vec;
 extern void func_021F8044(void *, void *, Vec *);
 extern void func_021F9F74(char *, unsigned, const int *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 void func_021F9D18(char *p, unsigned i)
 {
     Vec v;

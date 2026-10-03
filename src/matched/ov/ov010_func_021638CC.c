@@ -54,7 +54,8 @@ extern int func_02163E58(void *m, VecFx32 *pos, fx32 *y);
 extern int func_02163BAC(void *m, int x, int y, int z);
 extern void *func_0216D67C(void *m);
 extern void *func_0216D52C(void *p);
-extern int func_0218DC04(void *p, VecFx32 *pos);
+struct Grid;
+extern int func_0218DC04(struct Grid *g, struct VecFx32 *pos);
 
 u32 func_021638CC(void *m, Obj *o, s16 x, s16 y, int z, u16 kind)
 {

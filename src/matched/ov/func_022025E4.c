@@ -21,14 +21,16 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern void *func_0201747C(void *a, u32 b);
-extern void func_0201EEF4(u32 a, u32 b, void *c);
+struct Mon;
+struct WordSet;
+extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_020307B0(void *blk);
 
 void func_022025E4(u32 a, u32 b, u32 c)
 {
     void *blk = func_0201747C((void *)c, 0x48);
 
-    func_0201EEF4(a, b, blk);
+    func_0201EEF4((void *)a, b, blk);
     func_020307B0(blk);
 }

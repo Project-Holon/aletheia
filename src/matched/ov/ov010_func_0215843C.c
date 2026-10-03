@@ -18,10 +18,12 @@
  */
 typedef unsigned char u8;
 extern void *func_02026478(void *);
-extern int func_02012B70(void *);
+struct BigObj;
+struct Sub0200852CObj;
+extern u8 func_02012B70(const struct BigObj *p);
 extern int func_02012B80(void *);
 extern void *func_021583EC(void *, u8);
-extern int func_0200855C(void *);
+extern u8 func_0200855C(const struct Sub0200852CObj *obj);
 int func_0215843C(void *p)
 {
     void *q = func_02026478(p);

@@ -33,7 +33,7 @@ struct NetSys {
     u8 mode;
 };
 
-extern struct NetSys *func_0203D788(void);
+extern void *func_0203D788(void);
 
 u32 func_0203D26C(void)
 {

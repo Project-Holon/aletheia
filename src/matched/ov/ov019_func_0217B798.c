@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern void func_021BBA70(char *, u8 *, int, int);
 extern void func_02087C6C(void *);
 extern int memcmp(const void *a, const void *b, int n);
-extern int func_0217B8F0(char *, int);
+extern int func_0217B8F0(char *p, char v);
 extern void func_021734A8(char *, int, u8 *);
 
 void func_0217B798(char *base, u8 *p)

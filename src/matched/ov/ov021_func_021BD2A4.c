@@ -15,7 +15,8 @@ typedef struct {
     void *fC;
 } Obj;
 
-extern void func_0202570C(void *a);
+struct Grid;
+extern void func_0202570C(struct Grid *g);
 
 void func_021BD2A4(Obj *p)
 {

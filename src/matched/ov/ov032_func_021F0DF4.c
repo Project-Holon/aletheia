@@ -12,6 +12,9 @@
  *   func_0204B878 0x0204B878 arm
  *   func_0204B9A0 0x0204B9A0 arm
  */
-extern void func_0204B878(void *, unsigned short);
-extern void func_0204B9A0(void *);
+typedef unsigned short u16;
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
 void func_021F0DF4(void *p, unsigned short v) { func_0204B878(p,v); func_0204B9A0(p); }

@@ -36,11 +36,11 @@ typedef unsigned int  u32;
 
 extern const char func_0204913C_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  FS_InitFile(void *file);
 extern void  FS_CreateFileFromMemory(void *file, void *src, u32 size);
-extern void  func_0204919C(void *file);
+extern void func_0204919C(u8 *p);
 
 void *func_0204913C(void *a0, u32 a1, u32 heap)
 {

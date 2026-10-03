@@ -40,7 +40,8 @@ typedef unsigned int   u32;
 extern void *unk_021469AC;
 
 extern u16 *G2_GetBG0ScrPtr(void);
-extern void *func_020437D4(void *x);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void DC_FlushRange(void *addr, u32 size);
 extern void GXS_LoadBG0Char(const void *src, u32 offset, u32 size);
 extern void OS_Terminate(void);

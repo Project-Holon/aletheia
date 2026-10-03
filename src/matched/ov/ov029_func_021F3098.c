@@ -13,7 +13,8 @@
  *   func_021EFF58 0x021EFF58 thumb ov029
  */
 typedef unsigned char u8;
-extern int func_021F2B9C(u8 *, int, int);
+typedef unsigned int   u32;
+extern u32 func_021F2B9C(u8 *p, int row, int col);
 extern void func_021EFF58(u8 *, int, int);
 void func_021F3098(u8 *p)
 {

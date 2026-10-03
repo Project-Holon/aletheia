@@ -32,10 +32,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020457B0(u32, u32);
+struct GfFont;
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_020450F0(u32, u32, u32, u32, u8, u8, u8);
-extern void *func_0201D7EC(int, int, int, int, u32);
-extern void *func_02045B38(u32, u32, u32, u32);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32 func_020490F4(u32, u32);
 extern void func_02049B68(u32, u32, u32, u32, u32, u16);
 extern void *func_02049F78(u32, u32, u32, u32);

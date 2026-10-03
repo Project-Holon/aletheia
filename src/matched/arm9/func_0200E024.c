@@ -33,8 +33,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F2FC(const void *p, u32 off);
-extern void func_0203F328(void *p, u32 off, u32 sum);
+typedef unsigned char  u8;
+extern u32 func_0203F2FC(const u8 *p, u32 len);
+extern void func_0203F328(u16 *p, u32 size, u32 seed);
 
 #define unk_02FFFC3C (*(volatile u32 *)0x02FFFC3C)
 

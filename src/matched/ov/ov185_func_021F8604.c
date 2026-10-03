@@ -15,7 +15,7 @@
  *   func_021F86A4 0x021F86A4 thumb ov185
  */
 extern int func_021FFE34(int);
-extern int func_021FE784(int,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int);
 extern int func_021FD73C(int,void *);
 extern void func_021F86A4(int,int,char *);

@@ -65,10 +65,10 @@ extern int func_021B2DD0(struct Pkt *pkt, struct Event *ev);
 extern struct Node *func_021B2A20(unsigned char id);
 extern int func_021B2894(struct Node *node, struct Pkt *pkt);
 extern int func_021B279C(struct Pkt *pkt, struct Node *node);
-extern struct Node *func_021B24FC(unsigned char id);
+extern struct Node *func_021B24FC(unsigned int idx);
 extern void func_021B2724(struct Node *list, unsigned char id);
 extern void func_021B25B0(struct Node *list, int reason);
-extern void func_021B1F54(struct Node *node);
+extern int func_021B1F54(struct Node *p);
 
 int func_021B2AA0(struct Pkt *pkt, struct Event *ev)
 {

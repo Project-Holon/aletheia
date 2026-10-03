@@ -47,8 +47,10 @@ struct BgSys {
 
 extern struct BgSys *g_02146A44;
 
-extern u32  sub_020416B8(u8 kind);
-extern void func_0203422C(void *arena, u32 unit, u32 count);
+typedef signed int     s32;
+struct AreaMan;
+extern u8 sub_020416B8(int channel);
+extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
 
 void func_0203FB44(u32 layer, u32 offset, u32 size)
 {

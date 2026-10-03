@@ -15,5 +15,6 @@
 typedef struct {unsigned short count,unused;void *records;int unknown;} Descriptor;
 extern const Descriptor d_022007F0[];
 extern char d_02200D38[];
-extern void func_02034714(void *,int,void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 unsigned short func_021FB760(void *p,int i) { if(i>=12)func_02034714(d_02200D38,0,d_02200D38);return d_022007F0[i].count; }

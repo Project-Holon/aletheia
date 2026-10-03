@@ -24,7 +24,7 @@ struct Sub02008AECSession;
 
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008AECSession *func_02008B14(void *sys);
-extern int func_02008BD0();
+extern int func_02008BD0(const struct Sub02008AECSession *s);
 
 int func_02169138(int a0)
 {

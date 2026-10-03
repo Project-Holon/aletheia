@@ -27,16 +27,18 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void func_02187860(void *o);
-int func_0202E8A4(int x);
+typedef signed int     s32;
+typedef unsigned int   u32;
+void func_02187860(char *p);
+u8 func_0202E8A4(s32 x);
 void func_0218794C(int a, int b);
-void func_02040588(int a, int b);
+void func_02040588(u32 which, u32 enable);
 void func_0207D534(int a, int b);
-void func_0207D658(int a, int b, int c);
-int func_02187D40(void *o);
-int func_02187D74(void *o);
-int func_02187D54(void *o);
-int func_02187D20(void *o);
+void func_0207D658(u32 addr, int plane, int brightness);
+int func_02187D40(char *p);
+int func_02187D74(char *p);
+int func_02187D54(char *p);
+u32 func_02187D20(char *p);
 void func_02188DB0(int x);
 void func_02187D94(void *o);
 

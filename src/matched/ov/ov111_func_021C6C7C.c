@@ -25,10 +25,12 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern void *func_02045770(void *p);
+struct Descriptor;
+struct PlayTime;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern u32 func_0200864C(void *p);
-extern u32 func_02008650(void *p);
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
 extern void func_021C6BD4(void *p, void *a, int x, int dx, int y, void *s, int n, u8 kind, u32 mode, int w0, int h0, int idx);
 extern const u16 d_021C8768[];
 

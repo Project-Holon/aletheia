@@ -15,5 +15,5 @@
 typedef unsigned short u16;
 extern int func_021E170C(char *);
 extern void *func_021DEB10(char *);
-extern unsigned func_021841A4(void *);
+extern int func_021841A4(unsigned char *p);
 int func_021DEB1C(char *p) {unsigned v;v=func_021E170C(p)+1;if(v!=func_021841A4(func_021DEB10(p)))return 0;*(int *)p=5;return 1;}

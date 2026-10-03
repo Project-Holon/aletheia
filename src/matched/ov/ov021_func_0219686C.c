@@ -26,9 +26,9 @@ extern u32 func_02155A94(u32 a);
 extern u32 func_0200873C(u32 h);
 extern u32 func_02008428(unsigned short *p);
 extern void func_02196034(void *p, void *fn, u32 n);
-extern void func_02196804();
-extern void func_02197700();
-extern void func_02196A60();
+extern void func_02196804(u8 *p);
+extern void func_02197700(u8 *a);
+extern void func_02196A60(u8 *p);
 
 void func_0219686C(u8 *p)
 {

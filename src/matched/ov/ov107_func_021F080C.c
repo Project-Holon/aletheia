@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021F0D1C(u16);
 extern int func_021F5E7C(int);
-extern int func_021F0850(void *);
+extern int func_021F0850(const char **p);
 extern void func_02034714(void *,int,void *);
 extern u8 d_021F6EAC[],d_021F6E24[];
 void func_021F080C(void *p,int channel){

@@ -17,8 +17,9 @@
 
 
 extern void func_02005E9C(int);
-extern void func_02005DE4(int);
-extern void func_02005DF8(int);
+typedef unsigned int   u32;
+extern void func_02005DE4(void *p);
+extern void func_02005DF8(u32 a);
 
 void func_021C2BF4(int unused, char *p)
 {

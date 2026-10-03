@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021BC868(void *,int,int,int,int,int);
+extern void func_021BC868(u8 *p, int a, int b, int start, int end, int frames);
 void func_021BFB7C(u8 *p) {
     *(u32 *)(p+0x88)=0;
     func_021BC868(p+0x4c,4,63,124,0,12);

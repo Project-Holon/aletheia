@@ -31,7 +31,9 @@
 struct DispVram;
 extern char d_021BB33C[];
 extern const struct DispVram d_021BB1C8;
-extern void *func_02030734(unsigned heap,unsigned size,unsigned flag,char *file,unsigned line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p,unsigned value,unsigned size);
 extern void func_0204335C(unsigned mode);
 extern void func_020433E0(const struct DispVram *p);
@@ -43,7 +45,7 @@ extern void func_0201DD60(void);
 extern void func_021BACB4(void *p,unsigned heap);
 extern void func_021BAD58(int *p,int descriptor,int heap);
 extern void func_021BADC8(unsigned **p,unsigned heap);
-extern void func_021BACA0(void);
+extern void func_021BACA0(void *unused, char *p);
 extern void *func_020056A0(void *callback,void *ctx,int priority);
 void *func_021BAB64(unsigned mode,unsigned heap)
 {

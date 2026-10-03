@@ -22,7 +22,7 @@ extern int func_021862B0(char *);
 extern void func_02186444(char *, unsigned int);
 extern void func_02185354(char *);
 extern char *func_020399A8(void);
-extern void func_0203A424(char *, int, int, u16);
+extern void func_0203A424(char *p, int a, int b, int c);
 int func_02185880(char *p, int a)
 {
     if (func_021862B0(p)) {

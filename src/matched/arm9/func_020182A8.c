@@ -62,7 +62,7 @@ typedef unsigned int   u32;
 
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern void func_02017E64(void *p, u32 id, u32 v);
-extern u32  func_0201C158(u16 move, u8 ppUp);
+extern u8 func_0201C158(u16 move, u32 ppUp);
 
 void func_020182A8(void *p, u16 move, u8 slot)
 {

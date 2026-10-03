@@ -25,15 +25,16 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u32 func_021B8588(void *p);
+struct Unk021B8CB0;
+extern u32 func_021B8588(void **p);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *p, int a, u32 b);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u32 sub_0201BEB8(u16 id, u32 bit);
 extern int func_021D80A8(int m);
-extern u8 func_021B8C50(void *p, u32 v, int k);
+extern u8 func_021B8C50(char **p, u32 v, int k);
 extern u8 func_021B8D38(void *p, int a, int k, u8 *out);
-extern u8 func_021B8778(void *p, int k, u8 *out);
+extern u8 func_021B8778(struct Unk021B8CB0 **p, int k, u8 *out);
 extern u32 func_021D78AC(u32 range);
 
 int func_021D80BC(void *p, int a, int m, u16 move)

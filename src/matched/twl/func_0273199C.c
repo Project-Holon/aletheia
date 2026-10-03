@@ -19,9 +19,9 @@
 
 typedef unsigned int u32;
 
-extern void *func_021657C8(void);
-extern u32 func_02702434(void *a, u32 b, u32 c);
-extern void func_02165A4C(u32 phase);
+extern int func_021657C8(void);
+extern u32 func_02702434(u32 a0, u32 a1, u32 a2);
+extern void func_02165A4C(unsigned char phase);
 extern u32 func_02702B08(void *arg);
 extern void func_027320D0(void);
 

@@ -50,7 +50,7 @@ extern void func_021CEB64(u8 *p);
 extern void func_021CE81C(void *p);
 extern void func_021CEB20(u8 *p);
 extern void func_0203D010(void);
-extern int func_021CEB84(u8 *p);
+extern u32 func_021CEB84(u8 *p);
 extern void func_0201F02C(int a, int b, int c);
 extern void func_021CE7AC(u8 *p);
 extern int func_021CF068(u8 *p);
@@ -61,15 +61,15 @@ extern u32 func_020399A8(void);
 extern void func_02039C68(u32 h, int a, int b);
 extern int func_02039CB4(u32 h, int a, int b);
 extern u32 func_0203D650(void);
-extern u8 *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_021CF17C(void);
-extern void func_0203CEAC(int a);
+extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern void func_0203CBAC(void *a, void *b, void *c);
 extern int func_0203CD98(void);
 extern void func_021CF164(u8 *p);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern u8 data_021DB498[];
 
 #define U32(o) (*(u32 *)(p + (o)))

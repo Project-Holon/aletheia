@@ -62,11 +62,11 @@ typedef struct {
 
 int *func_021B8224(void *p, int k);
 int *func_021B8230(void *p, int a);
-int func_021B8248(void *p);
+u32 func_021B8248(u8 *p);
 void *func_021B824C(void *p);
 void func_021B8250(void *p, Rec *r, Rec *o);
-u32 func_021B82FC(void *o);
-u32 func_021B8304(void *o);
+u32 func_021B82FC(u8 *p);
+u32 func_021B8304(u8 *p);
 int func_021B8378(int x);
 int func_021B7D38(void *p, Rec *r, int c);
 void func_021B7EE4(void *o, Rec *r);

@@ -27,7 +27,7 @@ typedef int BOOL;
 
 extern void func_021B9B64(char *p);
 extern int func_021BA928(void *p);
-extern void func_021BA828(void *p);
+extern void func_021BA828(char *p);
 
 int func_021BC4A8(char *p, int v)
 {

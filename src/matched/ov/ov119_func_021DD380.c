@@ -14,8 +14,9 @@
  *   d_021E80E0 0x021E80E0 data a4
  */
 typedef unsigned short u16;
-extern void *func_02030734(u16,int,int,void *,u16);
-extern int func_020173EC(void);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020173EC(void);
 extern void func_02082D44(void *,const void *,int);
 extern const char d_021E80E0[];
 void func_021DD380(char *p,int i,void *src)

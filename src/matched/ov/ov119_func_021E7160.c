@@ -23,7 +23,7 @@ extern void func_02082D44(void *dst, void *src, int n);
 extern void func_020862F0(void *a, u32 b);
 extern void func_0207E468(void *a, u32 b, u32 c);
 extern void func_0207E5D0(void *a, u32 b, u32 c);
-extern void func_021E7098(void *p, int a, int b);
+extern void func_021E7098(char *p, int bank, int mask);
 
 void func_021E7160(void *p, int a1, int a2, int a3)
 {

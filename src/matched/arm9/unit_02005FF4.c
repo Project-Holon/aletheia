@@ -89,7 +89,7 @@ extern void func_020746B0(u32 a);
 extern int  func_020755A8(u32 *req, int a, int b, int c, u32 arg);
 extern void func_02072E9C(u32 *info);
 extern void func_02072F34(u32 *req, int level);
-extern void func_02085A38(int a);
+extern void func_02085A38(u32 msec);
 
 void sub_02005FF4(void)
 {

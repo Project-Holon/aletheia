@@ -27,12 +27,15 @@ typedef unsigned int u32;
 
 extern u8 g_02203F5C[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C440(u32 heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0201EC64(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 
 typedef struct {
     void *font;

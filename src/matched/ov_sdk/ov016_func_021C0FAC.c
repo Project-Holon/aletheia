@@ -24,7 +24,7 @@ typedef struct {
 } Info;
 
 extern void *func_021D54C4(void *que);
-extern char *func_021D4B68(char *path, unsigned long *size, int align);
+extern void *func_021D4B68(char *path, unsigned long *size, int alignment);
 extern char *g_021DE58C;
 
 void *func_021C0FAC(char *file)

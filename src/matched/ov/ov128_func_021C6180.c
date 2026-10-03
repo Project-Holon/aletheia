@@ -24,14 +24,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 extern char id127[],id67[];
-extern void func_02034AC4(u32);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
 extern void func_0203064C(int,int,int);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,int);
 extern void func_021C63EC(void *,void *,int);
-extern void func_021C658C(void *,void *,int);
+extern void func_021C658C(char *p, void *q, int heap);
 extern void *func_020056A0(void *,void *,int);
-extern void func_021C6354(void *,void *);
+extern void func_021C6354(void *p, char *q);
 int func_021C6180(void *p,int unused,void *q)
 {
     char *v;

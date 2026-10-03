@@ -35,9 +35,10 @@ int func_02026478(int a);
 void *func_02012EBC(int p);
 void *func_0200E0B0(void *p);
 void func_0216749C(void *a, Blk *b, int c, int d, u8 *e);
-int func_021673C4(void *a);
-int func_021673A8(void *a);
-int func_02039338(void);
+typedef unsigned short u16;
+u8 func_021673C4(u8 *p);
+u8 func_021673A8(u8 *p);
+u16 func_02039338(void);
 
 void func_02174D5C(int *p, const u8 *q)
 {

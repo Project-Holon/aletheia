@@ -26,12 +26,12 @@ extern void func_0203064C(int,int,int);
 extern u8 *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_021D4D38(u16,int,int);
-extern void *func_021D5984(u16,int,int);
+extern u8 *func_021D5984(u32 heap, u32 bank, u32 mode);
 extern void func_021D6134(void *,void (*)(void),int);
 extern void func_021D6150(void);
-extern void func_021D5CCC(void *,int);
+extern void func_021D5CCC(u8 *p, u32 n);
 extern void func_02005D90(int,int);
-extern void func_0203D34C(int,u16);
+extern void func_0203D34C(u32 a, u32 b);
 int func_021D603C(void *ctx,int unused,u8 *q) {
     u8 *p;
     BOOL flag;

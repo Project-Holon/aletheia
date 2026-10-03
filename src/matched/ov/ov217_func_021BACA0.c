@@ -99,7 +99,7 @@ extern void func_021BC6EC(void *,u8);
 extern void func_021BC014(u8 *);
 extern u32 func_021BC168(u32);
 extern void func_021BBF60(u8 *);
-extern int func_021BC06C(void *);
+extern int func_021BC06C(char *p);
 extern u32 func_021BB928(u8 *);
 extern void func_021BBD68(u8 *);
 extern u32 func_021BC128(u32);

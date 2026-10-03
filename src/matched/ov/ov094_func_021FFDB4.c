@@ -31,7 +31,9 @@ typedef struct {
 } Work;
 
 extern int func_022019F4(Work *w, int key);
-extern void func_02015F50(void *obj, u8 cur, u8 target, int step, u32 e);
+typedef signed int     s32;
+struct McssFade;
+extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
 
 void func_021FFDB4(Work *w, int key, u8 cur, u8 target, s8 step, u32 e)
 {

@@ -15,9 +15,10 @@ typedef unsigned int u32;
 struct Row { int (*a)(u8 *); int (*b)(u8 *); };
 extern const struct Row d_021C7D68[];
 extern void func_02027974(void *);
-extern u32 func_020279E8(void *);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
-extern void func_02027858(void *);
+extern void func_02027858(struct TaskMenu *m);
 int func_021C6B4C(u8 *p)
 {
     func_02027974(*(void **)(*(u8 **)(p + 8) + 0x310));

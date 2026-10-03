@@ -18,14 +18,14 @@
  *   func_021F4EC8 0x021F4EC8 thumb ov135
  */
 typedef unsigned char u8;
-extern void func_021F7964(void *p);
-extern void func_021F99D0(void *p);
+extern void func_021F7964(u8 *p);
+extern void func_021F99D0(u8 *p);
 extern void func_021F79EC(void *p);
 extern void func_021F7840(void *p);
 extern void func_021F76BC(void);
 extern void func_022000E4(void *p);
 extern void func_0204B3DC(unsigned p, int on);
-extern void func_021F4EC8(void *p);
+extern void func_021F4EC8(u8 *p);
 int func_021F74F8(u8 *p)
 {
     func_021F7964(p);

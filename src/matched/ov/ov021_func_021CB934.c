@@ -36,14 +36,15 @@ typedef struct {
 } Work;
 
 extern void *func_0215A5F4(void *p);
-extern void func_0215A684(void *a, int b);
+struct Ctx;
+extern void func_0215A684(int *p, unsigned short v);
 extern int func_0215A690(void *a);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C54(void *a);
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188C54(u8 *p);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern int func_02190C78(u32 s);
-extern void func_021909BC(u32 s);
+extern int func_021909BC(u32 a);
 
 int func_021CB934(void *task, int *state, Work *w)
 {

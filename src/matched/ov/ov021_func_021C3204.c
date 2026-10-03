@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 
 extern int func_0200BCB8(u32);
-extern u32 func_0201AB28(u32, u32);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void func_021C3248(void);
 extern void func_021C3250(u32);
 extern void func_0200BC4C(u32, int, u32);
@@ -33,7 +33,7 @@ extern void func_021C38DC(u32, u32);
 void func_021C3204(u32 *p, u32 b, u32 c)
 {
     int n = func_0200BCB8(p[2]);
-    u32 m = func_0201AB28(b, c);
+    u32 m = (u32)func_0201AB28((void *)b, c);
 
     if (n < 2) {
         func_021C3248();

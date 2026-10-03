@@ -29,7 +29,7 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u8 state, index; u16 move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[2]; int mode; u8 p9c[0x10]; void *script; int fb0, fb4, fb8; u8 *fbc; int fc0, fc4; u8 pc8[8]; u64 tick; } Obj;
 extern u8 func_021D5584(void *, u32);
-extern u16 func_021D54C0(void *, u32);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u32 func_021D5448(void *);
 extern int func_021B9A6C(int, u32);
 extern void *func_0218A494(u8 *);

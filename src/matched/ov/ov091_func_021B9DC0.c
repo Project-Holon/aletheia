@@ -23,11 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_020457B0(u32 size, u32 heap);
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(u32 h, u32 idx);
-extern void  func_0201F250(void *obj, void *a, void *b);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern u32   func_02045770(u32 p);
-extern void  func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void  func_0201C7D0(u32 bmp, s16 x, s16 y, void *text, u32 f, u16 color);
 
 void func_021B9DC0(u8 *p, u32 win, void *set, u32 idx, s16 x, s16 y, u16 color)

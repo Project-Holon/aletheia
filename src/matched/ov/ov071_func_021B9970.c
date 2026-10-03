@@ -42,8 +42,11 @@ typedef struct {
 
 extern void func_020120F4(void *a);
 extern void *func_021B6F40(void *a);
-extern void *func_02043678(u32 a, u32 b, u32 c, u32 d);
-extern int func_0216FE2C(void *tbl, int idx, void *pos, u8 *flags);
+struct Bmp;
+struct Pos;
+struct Rec;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
 
 void func_021B9970(char **a, List *l, char *c)
 {

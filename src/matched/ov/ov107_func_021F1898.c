@@ -30,12 +30,16 @@ typedef struct {
     void *f5C;
 } Ov107Ctx;
 
-void *func_02045770(void *);
-void func_02043B5C(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+void *func_02045770(struct Descriptor *p);
+void func_02043B5C(struct CharBuf *buf, u8 value);
 int func_02194A34(void *, void *);
-void func_020409B4(int);
-void func_0201F7A8(void *, int);
-void func_0202F038(void *);
+void func_020409B4(u32 index);
+void func_0201F7A8(void *desc, u32 kind);
+void func_0202F038(u8 *p);
 
 void func_021F1898(Ov107Ctx *p)
 {

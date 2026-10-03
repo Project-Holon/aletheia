@@ -35,7 +35,7 @@ typedef signed int s32;
 int func_021D775C(int a);
 void *func_021C7CF4(int a, int b);
 void *func_021C88A4(int a, int k, int b);
-int func_021D57FC(void *p);
+u16 func_021D57FC(void *p);
 void func_021C88C8(int a, void *p);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);

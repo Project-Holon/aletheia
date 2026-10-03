@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 extern void func_020307B0(void *p);
 extern void func_021F5074(void *p);
-extern void func_021F4EC8(void *p);
+extern void func_021F4EC8(u8 *p);
 int func_021F7268(u8 *p)
 {
     if (*(void **)(p + 0xD8)) {

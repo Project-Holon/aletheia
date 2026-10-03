@@ -25,13 +25,16 @@ typedef unsigned char u8;
 
 struct Desc;
 
-void *func_020124E4(void *a0);
-unsigned int func_02012138(void *a0);
+typedef unsigned int   u32;
+struct Ctx;
+struct Obj;
+void *func_020124E4(struct Obj *p);
+u32 func_02012138(const struct Ctx *p);
 u8 *func_02158344(int a0);
 void func_0217F2B4(void *a0, void *a1);
 int func_0217F5A0(void *p);
-void func_0217F4A0(void *a0, int a1, int a2, int a3);
-void *func_0201210C(void *p);
+void func_0217F4A0(void **p, unsigned int index, int a, int b);
+void *func_0201210C(const struct Ctx *p);
 struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3);
 void func_0217FA1C(void *p);
 void func_0201235C(void *a0, void *a1);

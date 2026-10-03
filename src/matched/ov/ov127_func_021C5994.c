@@ -16,7 +16,7 @@
 typedef signed short s16;
 typedef struct { s16 x, y; } Pos;
 extern Pos func_021C4ADC(void *);
-extern void func_021C59DC(void *, s16, s16);
+extern void func_021C59DC(s16 *p, s16 a, s16 b);
 extern void func_02082BCC(void *, int, int);
 void func_021C5994(void *p, void *q)
 {

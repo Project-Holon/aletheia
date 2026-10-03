@@ -23,12 +23,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+struct Big;
+struct Sub02009470Obj;
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
-extern void *func_02012EBC(void *sys);
+extern void *func_02012EBC(struct Big *p);
 extern u32 sub_02009454(void);
-extern void *func_02009470(void *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
 extern const char d_021E8130[];
 
 static inline void GFL_STD_MemCopy(const void *src, void *dst, u32 size)

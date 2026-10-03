@@ -30,7 +30,7 @@ typedef struct WCMCpsifWork {
     void (*callback)(long);
 } WCMCpsifWork;
 
-extern WCMCpsifWork *func_02166378();
+extern void *func_02166378(void);
 extern long func_0208FF0C(void (*callback)(void *), unsigned char *destAdr, unsigned short *sendData, unsigned short sendDataSize);
 extern void OS_SleepThread(void *queue);
 extern void func_02167DE0(void *arg);

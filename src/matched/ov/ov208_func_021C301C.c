@@ -33,7 +33,8 @@ struct Pos { s16 x; s16 y; };
 struct Pair { int x; int y; };
 
 extern void func_0204B454(void *obj, struct Pos *out, int space);
-extern void func_0204B5C0(void *obj, struct Pair *out);
+struct Obj;
+extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 extern void func_0204B404(void *obj, struct Pos *pos, int space);
 extern void func_0204B5AC(void *obj, struct Pair *scale);
 

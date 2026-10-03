@@ -18,7 +18,7 @@ extern int func_021D8A24(void *);
 extern int func_020399A8(void);
 extern int func_02039CB4(int,int,int);
 extern void func_021D8E84(void *,int);
-extern void func_021DA700(void *);
+extern void func_021DA700(char *p);
 void func_021DA76C(void *p) {
  if(!func_021D8A24(p) || func_02039CB4(func_020399A8(),13,8)) func_021D8E84(p,(int)func_021DA700);
 }

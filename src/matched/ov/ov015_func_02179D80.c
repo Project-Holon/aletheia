@@ -47,7 +47,7 @@ extern void IRC_SetRecvCallback(void (*cb)(u8 *, u32, u32));
 extern void func_02179FC4(void);
 extern void func_0217A134(void);
 extern int func_02179B24(void);
-extern void func_0203A338(int v);
+extern void func_0203A338(u32 a0);
 
 #define W(off) (*(u32 *)(w + (off)))
 #define B(off) (w[(off)])

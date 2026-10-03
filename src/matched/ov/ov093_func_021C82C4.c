@@ -16,7 +16,7 @@
  * through the `matched` class and the thunk is byte-exact.
  */
 
-void func_06898CF4(int, int);
+int func_06898CF4(int a, int b);
 
 void func_021C82C4(int a, int b, int c)
 {

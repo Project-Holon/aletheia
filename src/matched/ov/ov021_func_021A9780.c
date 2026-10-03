@@ -34,8 +34,10 @@ struct Unit {
     u32 f20;
 };
 
-extern u32 func_0200D4B8(void *mon, int field);
-extern void func_02017588(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct GdsEnt;
+struct Mon;
+extern u32 func_0200D4B8(const struct GdsEnt *e, u32 i);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020185C4(void *p);
 

@@ -19,7 +19,7 @@
 
 struct KeyEnt { int a; int type; };
 struct SBL { char pad0[8]; void *keys; };
-extern int func_02184200(void *a);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
 extern int func_0219F978(char *buf, int len);
 int func_021A04C4(struct SBL *slist, char *buf, int len)

@@ -19,11 +19,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 extern int func_021D4240(u8 *);
 extern void func_021D5D3C(int);
 extern void func_021D5ED8(int,int);
-extern int func_0202EB0C(void);
+extern u32 func_0202EB0C(void);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D4910(u8 *);
 #define W(k) (*(int *)(p+(k)))

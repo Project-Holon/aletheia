@@ -17,11 +17,13 @@
  *   func_021DF040 0x021DF040 thumb ov170
  */
 extern void *func_021DD2D0(void *p, int a, unsigned b);
-extern int func_02017DBC(void *p);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern void *func_021DEDD8(void *p);
 extern void func_021DEF60(char *p, void *s);
 extern void func_021DEF58(void *s);
-extern void func_02017DE4(void *p, int a);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_021DF040(char *p);
 int func_021DEF98(char *p, int a, unsigned b)
 {

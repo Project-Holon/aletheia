@@ -57,7 +57,8 @@ struct MsgData {
 
 extern void func_02046180(struct MsgData *msg);
 extern void func_0204960C(void *file, u32 pos);
-extern void func_020495F4(void *file, u32 size, void *dst);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern u32  func_02045E3C(u16 *str, u32 count, u32 msgIndex);
 extern u16  func_02045A98(void);
 

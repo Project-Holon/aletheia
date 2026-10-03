@@ -25,9 +25,10 @@ typedef struct { u16 a[32]; } Table;
 extern const Table d_021DA868;
 extern const u16 d_021DA864;
 extern int func_0203F1FC(const void *,int);
-extern void func_0204581C(void *);
-extern void func_02045AFC(void *,u16);
-extern void func_0201D60C(void *,u8, u8, u8, const u16 *);
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02045AFC(struct U16Vec *vec, u16 value);
+extern void func_0201D60C(void *s, u32 b, u32 c, u16 n, const u16 *arr);
 void func_021D97CC(int value, void *p)
 {
     Table table;

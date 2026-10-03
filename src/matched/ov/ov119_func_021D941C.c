@@ -11,7 +11,8 @@
  *   func_020221A4 0x020221A4 thumb
  *   func_021D8E84 0x021D8E84 thumb ov119
  */
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 extern void func_021D8E84(void *, int);
 void func_021D941C(void *p)
 {

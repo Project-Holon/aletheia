@@ -15,9 +15,13 @@
  *   func_021BA4E8 0x021BA4E8 thumb ov214
  */
 typedef unsigned short u16;
-extern void*func_02045EC0(void*,unsigned);
-extern void*func_02045770(void*);
-extern void func_02045808(void*);
+typedef unsigned int   u32;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C724(void*,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
 extern void func_021BA4E8(void*,char*);
 void func_021BA5C8(void*obj,char*p)

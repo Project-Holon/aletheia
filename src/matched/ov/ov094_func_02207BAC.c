@@ -37,7 +37,8 @@ typedef struct {
 } E;
 typedef struct { char pad[0x40]; E e[8]; } O;
 extern int func_021D59B4(u8 *p, int k);
-extern u16 func_021D5444(void *);
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 extern u32 func_02018584(u16, u16, u16);
 extern void func_02207EA8(E *, int);
 void func_02207BAC(O *o, void *q, int idx)

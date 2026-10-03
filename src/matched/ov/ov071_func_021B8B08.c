@@ -26,12 +26,14 @@ typedef struct {
     } e[6];
 } P;
 
+typedef unsigned int   u32;
+typedef unsigned char  u8;
 void func_021B8B08(int unused, P *p)
 {
-    extern int func_020450F0(int, int, int, int, int, int, int);
+    extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
     extern void func_02045334(int);
     extern void func_02045374(int);
-    extern void func_020409B4(int);
+    extern void func_020409B4(u32 index);
     int i;
 
     p->h[0] = func_020450F0(4, 2, 0, 0x1e, 3, 0xd, 1);

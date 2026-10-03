@@ -27,7 +27,8 @@ extern void *func_02030734(int,int,int,void *,int);
 extern void func_0207EB78(void *,int,int);
 extern void func_0207ECF0(void *,int,int);
 extern void func_020307B0(void *);
-extern void func_020434DC(int,int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
 extern unsigned char d_021B6B00[];
 void func_021B616C(char *unused)
 {

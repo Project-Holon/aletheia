@@ -16,7 +16,8 @@
 struct S { char pad[0x34]; int f34; int f38; int f3c; int f40; int f44; int f48; };
 
 extern int _s32_div_f(int, int);
-extern void func_021BC330(struct S *p, int v);
+typedef unsigned int   u32;
+extern void func_021BC330(void *p, u32 v);
 
 void func_021BC2D8(struct S *p)
 {

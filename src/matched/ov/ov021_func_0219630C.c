@@ -52,12 +52,12 @@ typedef struct Obj {
     int x2f4;
 } Obj;
 extern void func_020414EC(u32);
-extern void func_02049B40(u32, u32, u32, u32, u32, u32);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_020456F8(u32);
 extern void func_0201F7A8(u32, u32);
 extern void func_020452E8(u32);
 extern void func_0201DD78(u32, u32, u32);
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045770(u32);
 extern void func_02043B5C(u32, u32);
 extern void func_02045CAC(u32, u32, u32);

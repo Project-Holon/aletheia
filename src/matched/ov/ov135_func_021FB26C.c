@@ -28,7 +28,8 @@ extern u16 *func_021F8498(u32 heap, u32 unused, u32 *count);
 extern void func_021F84BC(u32 i, int *start, int *end);
 extern int func_021FB240(u32 unused, void *bag, u32 c, u16 *list, int start, int end);
 extern void *func_0201F81C(u32 n, u32 heap);
-extern u32 func_0200D064(void *bag, u16 id);
+struct Blk37;
+extern u32 func_0200D064(struct Blk37 *p, u16 id);
 extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
 extern void func_020307B0(void *p);
 

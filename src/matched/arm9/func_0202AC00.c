@@ -13,13 +13,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int  func_0202ACC8(u8 *p);
-extern void func_0202AEB8(u8 *p, u32 v);
+extern u32 func_0202ACC8(void *obj);
+extern void func_0202AEB8(void *obj, u32 value);
 extern void func_0202AEBC(u8 *p);
 extern u32  func_0202ACBC(u8 *p);
 extern void func_0202ADB4(u8 *p, u32 v);
 extern int  func_0202AD8C(u8 *p);
-extern void func_0202ABFC(u8 *p, u32 v);
+extern void func_0202ABFC(void *obj, u32 value);
 
 void func_0202AC00(u8 *p)
 {

@@ -23,7 +23,8 @@ typedef struct {
 } S;
 
 extern unsigned char d_021D3D50[];
-int func_020113D8(unsigned char id);
+typedef unsigned int   u32;
+u32 func_020113D8(u32 row);
 
 void func_0218BCF4(S *p)
 {

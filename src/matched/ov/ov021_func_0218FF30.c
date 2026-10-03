@@ -20,7 +20,7 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021DDA38[];
 
 void *func_0218FF30(u32 heap)

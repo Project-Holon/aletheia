@@ -24,12 +24,13 @@
 typedef unsigned short u16;
 
 extern int func_0201134C(int a);
-extern void func_0204047C(int a, int b);
+typedef unsigned int   u32;
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_02049624(int a, int b, int c, int d, int e, int f, u16 g);
-extern void func_0204989C(int a, int b, int c, int d, int e, int f, u16 g);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020215EC(int a, int b, int c, u16 d, int e, int f, int g, int h);
-extern int func_020407E8(int a);
-extern int func_02040804(int a);
+extern u32 func_020407E8(u32 layer);
+extern u32 func_02040804(u32 layer);
 extern int func_021F86E0(void);
 extern int func_021F8700(void);
 extern void func_02209784(int a, int b, int c);

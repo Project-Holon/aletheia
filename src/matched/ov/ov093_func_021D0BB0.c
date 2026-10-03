@@ -17,10 +17,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021B9B94(void *);
+struct Q1;
+struct S2;
+extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021B99C0(void *, int);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
-extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *);
 extern void func_021D8394(void *, u8, u8);
 void func_021D0BB0(u8 *p)

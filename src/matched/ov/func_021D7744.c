@@ -20,7 +20,9 @@
  *       --func func_021D7744 --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D7750(unsigned int idx, void *r4);
+typedef unsigned int   u32;
+struct StructR4;
+extern void func_021D7750(u32 idx, struct StructR4 *r4);
 
 void func_021D7744(unsigned int idx, void *r4)
 {

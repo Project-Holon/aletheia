@@ -32,8 +32,8 @@ extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern void *func_0200E3A0(void *a);
 extern int func_02159B10();
-extern void func_0200E3E8();
-extern void func_02027100();
+extern void func_0200E3E8(u8 *bits, int id, u32 value);
+extern void func_02027100(const void *src);
 
 int func_0216B7B0(int c, int vm)
 {

@@ -239,15 +239,18 @@ struct BlockD {
 
 extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 extern u16  func_02019A9C(const void *p, u32 size);
-extern u32  func_0201850C(u16 species, u32 form, u32 exp);
+struct MsgBank;
+struct MsgData;
+struct Strbuf;
+extern u32 func_0201850C(u16 species, u16 form, u32 exp);
 extern u8   func_02017F50(u32 species, u16 form, u32 pid);
-extern u32  func_0201C158(u16 move, u32 ppUp);
-extern u32  func_02019BBC(u16 item);
-extern u32  func_02019C90(u16 species, u32 form, u32 n);
-extern void func_0201F41C(const void *src, void *dest, u32 n);
-extern void func_02045924(void *dest, const void *src);
-extern void func_02045CAC(void *bank, u32 id, void *dest);
-extern void func_02045F5C(void *bank, u32 id, void *dest, u32 n);
+extern u8 func_0201C158(u16 move, u32 ppUp);
+extern u32 func_02019BBC(u32 item);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 
 extern void *gMsgBank;
 

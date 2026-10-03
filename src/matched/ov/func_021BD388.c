@@ -17,7 +17,7 @@
  */
 
 
-extern int *func_021BD43C(void *mgr, int key);
+extern void *func_021BD43C(void *mgr, int key);
 extern void func_021BD808(int *p);
 
 void func_021BD388(void *mgr, int key)

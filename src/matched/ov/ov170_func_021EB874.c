@@ -20,14 +20,21 @@
  *   func_020257D0 0x020257D0 thumb
  */
 
-extern void *func_02045EC0(void *bank, unsigned index);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern unsigned func_020078C4(unsigned a, unsigned b);
-extern void func_0201EFA4(void *obj, unsigned a, unsigned b, unsigned c, unsigned d, unsigned e);
-extern void func_0201F250(void *ws, void *dst, void *src);
-extern void func_02043B5C(void *buf, unsigned char value);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7D0(void *x, short y, short z, void *s, void *w, unsigned short v);
-extern void func_02045808(void *vec);
-extern void func_020257D0(void *o);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020257D0(struct Obj *o);
 
 void func_021EB874(char **p, unsigned a, int i)
 {

@@ -31,7 +31,7 @@ extern int func_021D5448(void *);
 extern u16 func_021D5528(u8 *, u8, u8 *, u8 *);
 extern int func_021D5B68(void *);
 extern void func_02204CC0(void *, Buffer *);
-extern void func_02205F88(void *);
+extern void func_02205F88(char *p);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
 extern const Palette d_0220A386[];
 #define INDEX (((Flags *)m)->index)

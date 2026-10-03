@@ -26,19 +26,25 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef short s16;
-extern void *func_0201EC64(u32);
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_02045EC0(void *,u32);
-extern void *func_020457B0(u32,u32);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045808(void *);
-extern void func_02045C04(void *);
-extern void func_0201ED04(void *);
-extern void func_02045334(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045334(struct Descriptor *d);
 extern void func_020409B4(u32);
 void func_021DA578(void *p,int a,void *b,u32 c)
 {

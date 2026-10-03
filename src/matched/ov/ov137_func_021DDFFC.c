@@ -16,8 +16,8 @@
 typedef unsigned short u16;
 typedef signed short s16;
 extern void *func_021DCF50(void *);
-extern unsigned func_021841A4(void *);
-extern int func_02039338(void);
+extern int func_021841A4(unsigned char *p);
+extern u16 func_02039338(void);
 extern void func_021DD924(char *);
 int func_021DDFFC(char *p, int state) {
     if (*(unsigned *)(p+0x481c) != 0) {

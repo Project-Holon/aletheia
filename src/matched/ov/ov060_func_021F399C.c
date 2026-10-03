@@ -24,7 +24,7 @@ typedef struct {
     int c;
 } V;
 
-extern void func_021BE4B4(void *p, int i, int j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
 extern V *func_021BE480(void *p, int i, int j);
 

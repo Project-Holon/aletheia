@@ -19,10 +19,10 @@
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
-extern void *func_021F9DA0(void *);
-extern int func_021FAEE8(void *);
+extern void *func_021F9DA0(char *p);
+extern int func_021FAEE8(char *p);
 extern void func_021F8084(void *, void *, const Vec *);
-extern void func_021FADF8(void *, void *);
+extern void func_021FADF8(char *p, char *q);
 extern const s16 d_020A1B38[];
 void func_021FB8CC(int unused, char *p)
 {

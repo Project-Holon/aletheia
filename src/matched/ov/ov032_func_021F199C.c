@@ -23,8 +23,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_02165EBC(void *r);
-extern u8 func_02165D20(void *r);
+struct Rec;
+extern u16 func_02165EBC(struct Rec *r);
+extern u8 func_02165D20(struct Rec *r);
 extern u8 sub_02010EA0(int slot, u8 *rec);
 extern void func_02165FCC(void *r, u32 win, u32 heap);
 extern void func_0201F250(u32 a, u32 b, u32 c);

@@ -13,7 +13,8 @@
  *   func_020061E4 0x020061E4 thumb
  */
 
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_0220D8B0(char **a, int b)
 {

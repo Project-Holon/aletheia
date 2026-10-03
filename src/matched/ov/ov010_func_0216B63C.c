@@ -41,7 +41,7 @@ extern void func_0200C334(struct Blk34 *p, u8 v);
 extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
 extern void func_0200C358(struct Blk34 *p, u8 i, int v);
 extern u64 func_0203F524();
-extern void func_0200C384();
+extern void func_0200C384(struct Blk34 *p, u32 lo, u32 hi);
 
 int func_0216B63C(int a0, int a1)
 {

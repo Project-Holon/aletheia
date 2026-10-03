@@ -20,18 +20,19 @@
  */
 typedef unsigned char u8;
 extern int func_020221A4(void *);
-extern int func_0200FB24(void);
-extern void func_021D5D58(void *);
-extern void func_021B9774(void *);
-extern void func_02012E08(void *);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
+extern int func_021D5D58(char *p);
+extern void func_021B9774(u8 *p);
+extern void func_02012E08(char *p);
 extern void func_021D8F58(char *);
-extern void func_0200F7C0(int);
-extern void func_0202223C(int,int);
+extern void func_0200F7C0(u32 value);
+extern void func_0202223C(u32 a, u32 color);
 extern void func_02157170(int,int);
 extern void func_02027974(void *);
-extern void func_021D5D7C(void *);
-extern void func_021D5E60(void *);
-extern void func_021D562C(void *);
+extern void func_021D5D7C(char *p);
+extern void func_021D5E60(u8 *p);
+extern void func_021D562C(char *p);
 int func_021D9158(void *a, int b, int c, char *p)
 {
     void (*callback)(char *);

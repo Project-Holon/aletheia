@@ -15,7 +15,8 @@
  *   func_0204AFD8 0x0204AFD8 arm
  */
 extern void func_0204B3B4(int);
-extern void func_020437AC(void *);
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
 extern void func_0204A8D4(unsigned int);
 extern void func_0204ADA4(unsigned int);
 extern void func_0204AFD8(unsigned int);

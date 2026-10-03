@@ -15,7 +15,7 @@
  */
 typedef unsigned short u16;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
-extern void func_021FA7E0(void *);
+extern void func_021FA7E0(char *p);
 extern const char d_021FDCD8[];
 static inline void inside(int wnd, int effect)
 {

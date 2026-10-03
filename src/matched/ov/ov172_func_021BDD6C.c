@@ -25,14 +25,15 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021BE05C(u8 *p);
+struct PrintSys;
+extern int func_021BE05C(void *p);
 extern u32 func_021B8BA4(u8 *unused, char *base, int i);
 extern u32 func_021B8B8C(u8 *unused, char *base, int i);
 extern u32 func_021B7B30(u8 *unused, char *base, int i);
 extern char *func_021B8B94(u8 *unused, char *base, int i);
 extern void func_021BDEF0(u8 *p, char *a, u32 b);
 extern void *func_02045770(u32 p);
-extern u32 func_0201C6C4(void *q, void *item);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
 extern int func_02045730(u32 p);

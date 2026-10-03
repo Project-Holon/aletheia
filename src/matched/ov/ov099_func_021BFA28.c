@@ -31,8 +31,8 @@ extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
 extern int func_0203C3EC(void);
 extern void func_021BA8EC(char *);
-extern void func_021C282C(void *);
-extern void func_021C18C8(char *, int, unsigned);
+extern int func_021C282C(u8 *p);
+extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021C24A4(char *, int);
 extern void func_021BAADC(char *, int, int);
 int func_021BFA28(char *p, int ret)

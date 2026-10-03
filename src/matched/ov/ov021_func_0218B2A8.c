@@ -19,7 +19,8 @@
 typedef unsigned short u16;
 typedef signed short   s16;
 
-extern int func_02188C9C(void *a);
+typedef unsigned char  u8;
+extern u16 func_02188C9C(u8 *p);
 extern void func_02014134(int *buf, int a, int b, int c, int d, int e, int f, int g);
 extern void func_02012878(void *a, int *buf);
 

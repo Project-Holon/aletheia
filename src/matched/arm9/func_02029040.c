@@ -27,7 +27,7 @@ struct T {
     u32 f1c;
 };
 
-extern void func_02029344(struct T *p, u32 v);
+extern void func_02029344(void *obj, u32 value);
 extern void func_02029354(struct T *p);
 extern void func_02029364(struct T *p);
 extern void func_0202938C(struct T *p);

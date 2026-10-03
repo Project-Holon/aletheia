@@ -30,7 +30,8 @@ extern int func_0215A5CC();
 extern int func_0216AF1C();
 extern void *func_0215A5F4(void *p);
 extern int func_02158F74();
-extern void func_0201EE84(int, int, void *);
+struct WordSet;
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern int func_020307B0();
 
 int func_0216AD1C(int a0, int a1, int a2, int a3)
@@ -76,7 +77,7 @@ loc_0216AD5A:
 loc_0216AD5E:
 a1 = t7 + 0;
 a2 = t5 + 0;
-    func_0201EE84(a0, a1, (void *)a2);
+    func_0201EE84((void *)a0, a1, (void *)a2);
 loc_0216AD66:
 a0 = t5 + 0;
     a0 = func_020307B0(a0);

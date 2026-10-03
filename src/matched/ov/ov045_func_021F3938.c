@@ -21,7 +21,7 @@ typedef unsigned short u16;
 extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B0(void *p, int b);
+extern void func_021BE6B0(unsigned char *p, int v);
 
 void func_021F3938(void *a0, int a1, int a2, int a3)
 {

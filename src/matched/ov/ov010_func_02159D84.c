@@ -29,10 +29,11 @@ typedef struct Obj {
     u8 f0c[1];
 } Obj;
 
-extern Obj *func_02030734(int, int, int, const char *, int);
+struct ArcFile;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_020493D4(void *, int);
-extern void func_02159E8C(void *, int);
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void func_02159E8C(u8 *out, int obj);
 extern const char d_021728BC[];
 
 Obj *func_02159D84(int a, int b)

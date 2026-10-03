@@ -17,7 +17,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct S S;
 extern char *func_021B9E48(void *,char *);
-extern int func_021B7A64(S *);
+extern int func_021B7A64(struct S *p);
 int func_021B95A0(void *owner,int *state,char *input,u8 *p)
 {
     switch(*state){

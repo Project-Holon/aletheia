@@ -25,11 +25,12 @@ struct Desc {u16 x,y,z;u8 kind,flag;};
 enum E {E_0};
 struct Grid {void *f0;u16 f4;s16 f6;u32 f8;u32 f12;u8 f16;u8 f17;u16 f18;u32 f20;};
 extern void *func_0204B294(u32,u32,u32,u32,void *,u32,u16);
-extern void func_0204B3DC(void *,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern s16 func_021D9440(u8 *,u32);
 extern void *func_02043754(u32,int,int,int,int);
 extern void *func_021DBAD0(void *,struct Grid *);
-extern void func_021DBCA4(void *,int);
+extern void func_021DBCA4(u8 *p, int v);
 void func_021D8938(u8 *a,u8 *p)
 {
     struct Desc d;

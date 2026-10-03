@@ -27,7 +27,7 @@ typedef struct {
 } List;
 
 extern u32 func_0216DD60(u32 a, u32 b, u32 c, u32 d, List *out);
-extern int func_0216D8AC(u8 *o);
+extern u32 func_0216D8AC(void *p);
 
 u8 *func_0216DDDC(u32 a, u32 b, u32 c, s32 x, s32 lim, u32 d)
 {

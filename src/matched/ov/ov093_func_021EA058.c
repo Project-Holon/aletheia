@@ -19,8 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 
-extern void sub_020082B8(void *p, const s16 *a, const s16 *b);
-extern void sub_020082D4(void *p, u16 a, u16 b);
+struct MyItemSave;
+extern void sub_020082B8(struct MyItemSave *p, const s16 *a, const s16 *b);
+extern void sub_020082D4(struct MyItemSave *p, u16 a, u16 b);
 
 void func_021EA058(char *p)
 {

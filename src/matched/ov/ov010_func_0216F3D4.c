@@ -21,7 +21,8 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02008DFC(void *p, u16 v);
+struct Sub02008C20Obj;
+extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
 extern u16 d_02172620[][7];
 
 u32 func_0216F3D4(void *p, int idx, u32 cap)

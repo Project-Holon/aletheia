@@ -22,7 +22,7 @@
 
 typedef void (*MatchedCallback)(int error, int cancel, int self, int isServer, int index, void *param);
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02172E7C(void);
 extern void DWCi_SetError(int error, int errorCode);
 extern void func_0216F20C(int status);

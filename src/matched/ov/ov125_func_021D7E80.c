@@ -26,9 +26,9 @@ extern char d_021D9F80[];
 extern u8 d_021DA258[];
 extern int func_0215F428(int, int, int);
 extern int func_021D7E20(const char *, char *);
-extern u32 func_0215C910(const char *);
+extern unsigned long func_0215C910(char *name);
 extern void func_021D8C14(const char *, u8 *);
-extern int func_0215FC80(int, u8 *);
+extern int func_0215FC80(int s, void *con);
 int func_021D7E80(void)
 {
     char out[16];

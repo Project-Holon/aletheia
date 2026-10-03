@@ -29,12 +29,14 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int func_020120F4(void *p);
-int func_02012138(void *p);
-void *func_020124E8(void *p);
+struct Ctx;
+struct Obj;
+u32 func_02012138(const struct Ctx *p);
+void *func_020124E8(struct Obj *p);
 int func_02026454(int x);
 void func_02026400(int x);
 u32 func_0201A920(u32 a);
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 int func_02012EBC(int a);
 int func_0201283C(int a);
 u16 func_02005C44(void);

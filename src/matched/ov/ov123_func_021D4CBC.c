@@ -21,15 +21,17 @@
  *   func_02021540 0x02021540 thumb
  */
 typedef unsigned short u16;
-extern void *func_02021518(u16);
-extern void func_0202155C(void *, int, int, u16);
-extern void func_020216D4(void *, int, int, int);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void *func_02021518(u32 heap);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void func_02021FD8(void *, int, int, u16, int, int);
 extern void *func_02021730(void *, int);
 extern void func_020862F0(void *, int);
 extern void func_0207E5D0(void *, int, int);
 extern void func_0207E468(void *, int, int);
-extern void func_020215A0(void *, int);
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 void func_021D4CBC(char *p, int n, int count)
 {

@@ -33,16 +33,21 @@ extern void func_02213684(const u8 *,u8 *,u8 *);
 extern void func_0200BA58(void);
 extern void func_021EEE78(void *);
 extern void func_0200BA68(void);
-extern void *func_02012EBC(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Big;
+struct Rec160;
+struct Reg2;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200B358(void *);
-extern void *func_0200B1D4(void *,unsigned);
+extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200AE14(void *);
-extern int func_0200B078(void *,unsigned);
-extern void func_022133E4(void *,void *,void *,void *,void *,int,void *,void *,int);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
+extern void func_022133E4(u8 *p, void *party1, void *party2, u8 *save, void *reg, int setting, u8 *record, void *other, int mode);
 extern void *func_0201A354(int,int);
 extern void func_020307B0(void *);
 extern void func_020130DC(void *);
-extern void func_02213808(void *,int);
+extern void func_02213808(char *p, int value);
 int func_02212E74(void *manager, u8 *arg, u8 *p)
 {
     u8 *record = *(u8 **)(arg + 4);

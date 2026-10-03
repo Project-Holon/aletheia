@@ -63,9 +63,10 @@ extern void *g_021469D4;
 extern const char file_020A7A68[];
 extern const char msg_020A7A7C[];
 
-extern void func_02039764(u32 idx);
-extern u8 *func_0203D798(void);
-extern void *func_02030734(int a, int b, int c, const char *d, int e);
+struct Entry;
+extern struct Entry *func_02039764(u32 idx);
+extern void *func_0203D798(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 
 void func_02039834(void)

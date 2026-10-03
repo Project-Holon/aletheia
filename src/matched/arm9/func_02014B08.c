@@ -51,7 +51,8 @@ extern void *func_02030734(void *heap, u32 size, u32 flag, char *file, u32 line)
 extern void  func_020637D4(void *p);
 extern u32   func_02049F34(u32 a, u32 b, void *c, u32 d);
 extern void *func_020056A0(void *fn, Sub *s, u32 a);
-extern void  func_02016880(void);
+struct Obj_02016880;
+extern void func_02016880(void *a0, struct Obj_02016880 *a1);
 extern char  sFile_020A72CC[];
 
 void *func_02014B08(u32 id, void *heap)

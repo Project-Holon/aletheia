@@ -77,8 +77,8 @@ extern void *func_02030734(u32 a, u32 b, u32 c, u8 *file, u32 line);
 extern u32  func_020399A8(void);
 extern void func_02039C68(u32 ctx, u32 id, u32 size);
 extern void func_02010888(void *p, u32 v);
-extern void func_0201093C(void);
-extern void func_020307B0(struct Sub0201088CObj *p);
+extern void func_0201093C(u8 *p);
+extern void func_020307B0(void *p);
 extern u32  func_0200FB24(void);
 extern void func_02012E08(u32 v);
 

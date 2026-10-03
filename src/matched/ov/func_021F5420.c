@@ -76,7 +76,7 @@ extern void func_02082BCC(void *, int, int);
 extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
 extern void func_0204B92C(u32, int);
 extern void func_0204B878(u32, u16);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32, int);
 extern void func_0204B84C(u32, int);
 extern void func_0204B974(u32);

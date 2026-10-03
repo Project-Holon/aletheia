@@ -56,7 +56,7 @@ extern struct Net *lbl_021469D0;
 extern char str_020A7A24[];
 extern u32 func_0203D680(void);
 extern u32 func_02037258(void);
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0203D6BC(void);
 extern void func_02036AF4(u8 *p, u32 n, u8 *q, u32 heap);
 extern void func_02037478(void);

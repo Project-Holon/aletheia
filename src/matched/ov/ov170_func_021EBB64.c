@@ -12,7 +12,9 @@
  *   func_0202136C 0x0202136C thumb
  *   func_021EBA84 0x021EBA84 thumb ov170
  */
-extern void func_0201EF40(void *, unsigned, unsigned);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 extern unsigned func_0202136C(unsigned short);
 extern void func_021EBA84(unsigned char *, int, int);
 void func_021EBB64(unsigned char *p, unsigned v, int i)

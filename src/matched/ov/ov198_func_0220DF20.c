@@ -37,7 +37,8 @@ extern void func_0220D090(char *,int,int),func_0220D218(char *,int,unsigned);
 extern void func_0220D348(char *,int,int),func_0220D418(char *,int,int);
 extern void func_0220D494(char *,int,int,int),func_0220D628(char *,int);
 extern unsigned sub_0201BD28(u16,unsigned);
-extern int sub_0201C1F4(u16);
+typedef unsigned int   u32;
+extern u32 sub_0201C1F4(u16 id);
 void func_0220DF20(char *p) {
     unsigned index,offset,type;
     char *base,*rec;

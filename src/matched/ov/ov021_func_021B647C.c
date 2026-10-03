@@ -35,16 +35,19 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02159B10(void *, void *);
-extern void *func_020120F4(void *);
-extern void *func_0201210C(void *p);
-extern void *func_02012934(void *p);
-extern void *func_0201AB28(void *party, int i);
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern u32 func_02188C84(void *);
-extern void *func_021CBFB0(u32 heap, u32 x);
-extern void func_021CC040(void *);
-extern u32 func_021CC060(void *);
-extern u32 func_021CC068(void *);
+extern u16 func_02188C84(u8 *p);
+extern struct Obj *func_021CBFB0(u32 a, u32 b);
+extern void func_021CC040(struct Obj *o);
+extern u32 func_021CC060(u8 *p);
+extern u32 func_021CC068(u8 *p);
 
 int func_021B647C(void *a, void *b)
 {

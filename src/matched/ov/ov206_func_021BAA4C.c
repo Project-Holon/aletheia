@@ -32,15 +32,17 @@ extern void *d_020A7370;
 extern void func_021BAA08(int heap, int window, int bank, int printer, int font, int message, u16 x, u16 y, u16 color, int alignment, int expansion);
 extern void func_021BA960(int heap, int window, int printer, int font, int input, u16 right, u16 y, u16 color, int alignment, int expansion);
 extern void func_021BAF7C(char *p);
-extern u16 *func_0201AF80(u32 a, u32 b);
+struct MsgBank;
+struct U16Vec;
+extern u16 *func_0201AF80(u32 heap, u16 *countOut);
 extern void func_020307B0(void *p);
 extern u32 func_0201EC64(u32 a);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_0201ED04(u32 p);
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045770(void *p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, void *text, u32 f, u16 color);
-extern void func_02045808(void *s);
+extern void func_02045808(struct U16Vec *vec);
 void func_021BAA4C(char *p)
 {
     int l2c = *(int *)(p+0x1e0);

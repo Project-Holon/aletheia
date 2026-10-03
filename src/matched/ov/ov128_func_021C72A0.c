@@ -18,9 +18,12 @@
 typedef unsigned char u8;
 extern void func_021CA444(char *);
 extern void func_021CA458(void *,void *);
-extern void func_02027FD8(void *);
-extern void func_02045808(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 void func_021C72A0(u8 *p, int unused, u8 *q)
 {

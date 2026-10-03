@@ -14,7 +14,8 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_0200D478(void *, u32);
+struct Blk38;
+extern u8 func_0200D478(struct Blk38 *p, u32 i);
 extern const u16 d_021711C6[];
 u32 func_0215E3E4(void *p, u32 slot)
 {

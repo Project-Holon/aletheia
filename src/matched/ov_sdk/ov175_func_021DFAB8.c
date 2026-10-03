@@ -20,7 +20,8 @@
 
 typedef unsigned int u32;
 
-extern int func_021E26BC(void *);
+struct GSLoginCertificate;
+extern int func_021E26BC(struct GSLoginCertificate *cert);
 extern int func_021E0774(void *, u32, u32, u32, u32, u32, u32);
 
 int func_021DFAB8(u32 *p, u32 a, u32 b, u32 c, u32 d, u32 e)

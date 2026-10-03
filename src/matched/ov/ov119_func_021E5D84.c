@@ -16,13 +16,14 @@
  *   func_020452E8 0x020452E8 arm
  *   func_02041B6C 0x02041B6C arm
  */
-extern void func_02040588(int, int);
-extern void func_02040618(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204B3DC(int, int);
 extern void func_020456F8(int);
 extern void func_0201F7A8(int, int);
 extern void func_020452E8(int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021E5D84(char *p)
 {
     unsigned i;

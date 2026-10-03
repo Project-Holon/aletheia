@@ -33,7 +33,9 @@ typedef struct Self {
     void *f10;
 } Self;
 
-extern char *func_02012A38(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+extern u32 func_02012A38(const struct BigObj *p);
 extern int func_021AAEC0(Self *self, int x, short y, int z, int skip);
 extern void func_021AAFA0(Self *self, void *p);
 

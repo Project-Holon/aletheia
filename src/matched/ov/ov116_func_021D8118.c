@@ -15,7 +15,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021D8118(u8 *p, u32 i, u32 a, u32 b)
 {
     func_0201EFA4(*(void **)(p + 0x994), i, a, b, 2, 1);

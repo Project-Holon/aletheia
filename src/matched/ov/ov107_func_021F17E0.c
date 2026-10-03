@@ -46,18 +46,26 @@ typedef struct {
     void *f5C;
 } Ov107Ctx;
 
-void func_0201CE48(void *);
-void func_0202F038(void *);
-void func_02045808(void *);
-void *func_02045770(void *);
-void func_02043B5C(void *, int);
-void *func_02045EC0(void *, int);
-void *func_020457B0(int, int);
-void func_0201F250(void *, void *, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec3;
+struct U16Vec;
+struct WordSet;
+void func_0201CE48(struct Rec3 *p);
+void func_0202F038(u8 *p);
+void func_02045808(struct U16Vec *vec);
+void *func_02045770(struct Descriptor *p);
+void func_02043B5C(struct CharBuf *buf, u8 value);
+void *func_02045EC0(struct MsgBank *bank, u32 index);
+struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+void func_0201F250(struct WordSet *ws, void *dst, void *src);
 int func_02194A24(void *, void *, int);
 void func_0201F73C(void *, int, int, int);
 void func_0201C6FC(void *, void *, int, int, void *, void *);
-void func_020409B4(int);
+void func_020409B4(u32 index);
 
 void func_021F17E0(Ov107Ctx *p, int a)
 {

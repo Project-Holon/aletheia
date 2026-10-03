@@ -55,7 +55,8 @@ struct Font {
 };
 
 extern void func_0204960C(void *handle, u32 off);
-extern void func_020495F4(void *handle, u32 n, void *dst);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0201DC44(const struct Font *f, const u8 *g, u32 w, void *d, u8 *out);
 
 void func_0201DBF4(const struct Font *f, u32 i, void *d, u8 *out)

@@ -25,17 +25,21 @@
  *   func_021D4440 0x021D4440 thumb ov123
  */
 typedef unsigned int u32;
-extern void func_0204BA10(void *);
-extern void func_0204B92C(void *, int);
-extern void func_020452E8(void *);
+struct Actor;
+struct Descriptor;
+struct MsgBank;
+struct Obj;
+extern void func_0204BA10(struct Actor *a);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_020452E8(struct Descriptor *d);
 extern int func_02085D3C(void);
-extern void func_02045CAC(void *, int, void *);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D4EF0(char *, int, int);
 extern void func_021D4D40(char *, int);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D4FAC(char *);
-extern void func_021D4AFC(void);
-extern void func_021D44F4(void);
+extern void func_021D4AFC(char *p);
+extern void func_021D44F4(char *p);
 extern void func_021D4FB8(void);
 extern void func_021D4440(void);
 void func_021D451C(char *p)

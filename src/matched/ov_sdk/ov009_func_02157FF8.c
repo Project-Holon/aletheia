@@ -27,7 +27,7 @@ typedef struct CPSArpCache {
 } CPSArpCache;
 
 extern unsigned long func_02157888(unsigned long ip);
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 extern unsigned long long OS_GetTick(void);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned char g_021A826C;

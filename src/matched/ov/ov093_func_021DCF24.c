@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Node Node;
 extern u8 func_021D5440(u8 *p);
-extern Node *func_021D732C(int, int);
-extern Node *func_021D7360(Node *);
+extern struct Node *func_021D732C(int id, int sub);
+extern struct Node *func_021D7360(struct Node *n);
 extern u32 func_021D70B4(Node *, int);
-extern void func_021D7040(Node *);
+extern void func_021D7040(struct Node *n);
 void func_021DCF24(u8 *p)
 {
     Node *n = func_021D732C(5, func_021D5440(p));

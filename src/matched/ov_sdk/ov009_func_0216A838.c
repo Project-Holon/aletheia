@@ -59,7 +59,8 @@ extern unsigned long long func_02178F00(void);
 extern void func_020590C8(void *loginId, unsigned long long userid);
 extern int func_02178E90(void);
 extern void func_0216A3B8(int error, int errorCode);
-extern void func_0216A4D4(void **pconnection, void *arg);
+struct GPConnectResponseArg;
+extern void func_0216A4D4(void **pconnection, struct GPConnectResponseArg *arg);
 
 void func_0216A838(void)
 {

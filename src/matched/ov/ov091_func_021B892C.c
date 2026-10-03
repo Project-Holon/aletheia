@@ -39,11 +39,11 @@ extern void func_0204B3DC(int h, int f);
 extern int  func_021BB43C(int p);
 extern int  func_02019E54(u32 a0, u32 a1, u32 a2);
 extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
-extern void func_021B9E20();
+extern void func_021B9E20(u8 *p);
 extern void func_020061E4(u32 id);
 extern void func_021BB97C(u8 *p, u32 obj);
 extern void func_021BB9EC(u8 *p, u32 obj, u32 a, u16 b, u8 c);
-extern void func_021BB98C(u8 *p, u32 obj);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021BBE5C(int h, int f);
 extern void func_021BBE68(int h, int f);
 

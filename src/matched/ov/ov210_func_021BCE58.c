@@ -17,7 +17,8 @@
 typedef unsigned short u16;
 typedef signed short s16;
 struct WinMgr;
-extern void func_02041EE4(unsigned int, unsigned int, int);
+typedef unsigned int   u32;
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
 extern void func_021BEE38(char *, int, int, int, unsigned short);

@@ -32,7 +32,10 @@ typedef struct {u32 group,id,config;} Row;
 typedef struct {short x,y,id;u8 a,b;} Config;
 extern const Row d_02184910[];
 extern const Config d_021848AC[];
-extern void *func_0204B100(int,u8,u32);
+struct Actor;
+struct Bank;
+struct Obj;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_020490F4(u32,u16);
 extern u32 func_020275E4(void);
 extern u32 func_0204ABF0(void *,u32,u32,u32,u16);
@@ -40,10 +43,10 @@ extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B570(void *,u32);
-extern void func_0204B604(void *,u32,u32);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B570(struct Actor *actor, u32 value);
+extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
 void func_02183FC4(char *p,u16 heap)
 {
     void *first,*second;

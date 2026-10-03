@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021E0478(void *,int);
+extern void func_021E0478(u8 *p, u32 i);
 int func_021DF01C(u8 *p) { int i; *(int *)(p+12)+=1; if(*(int *)(p+12)<95) return 0; for(i=0;i<*(int *)(p+48);i++) func_021E0478(p,i); *(int *)(p+12)=0; *(int *)p=26; return 0; }

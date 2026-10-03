@@ -18,6 +18,7 @@
 typedef unsigned char u8;
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021EF948(int);
 int func_021C824C(u8 *p, int v) { void *m; m=func_021B9934(*(char **)(p+8),v); if(func_021D59B4(m,17)==103) return 0; if(func_021D62C4(m,19)) return 0; if(func_021EF948(7)==0) return 1; return 0; }

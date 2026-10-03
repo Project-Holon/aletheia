@@ -15,7 +15,8 @@
  * The thunk's caller supplies r0 and consumes its forwarded return.
  */
 extern int func_021D8E00(void *, int);
-extern int func_021C8288(void *);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern void func_021D8E7C(int, void *, unsigned int, unsigned int, unsigned char);
 void func_021D8E1C(int a, void *b, int c, int *d)
 {

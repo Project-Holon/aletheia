@@ -20,7 +20,7 @@
  *       --func func_021CE818 --addr 0x021CE818 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021CE844(void);
+extern void func_021CE844(void *task);
 extern void func_021D7680(unsigned int, void *, unsigned int, unsigned int);
 
 void func_021CE818(unsigned int v)

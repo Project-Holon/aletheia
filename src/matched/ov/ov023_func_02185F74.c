@@ -52,7 +52,7 @@ typedef struct {
     Ent e1c8[5];
 } W;
 
-extern int  func_02039338(void);
+extern u16 func_02039338(void);
 extern int  func_02186170(W *p);
 extern void func_0204B3DC(u32 a, int b);
 extern void func_0201C6EC(u32 a);

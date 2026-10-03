@@ -16,9 +16,10 @@
 
 typedef unsigned short u16;
 
-extern void func_020434DC(int a, int b);
-extern void func_02043598(int a, int b);
-extern void func_02040588(int a, int b);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
+extern void func_02040588(u32 which, u32 enable);
 
 void func_02186564(void)
 {

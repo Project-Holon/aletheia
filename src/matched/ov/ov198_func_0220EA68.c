@@ -18,7 +18,9 @@
  *   func_0220EE44 0x0220EE44 thumb ov198
  *   func_0220EECC 0x0220EECC thumb ov198
  */
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0220EAF0(void *);
 extern void func_0220EBCC(void *);
 extern void func_0220EC2C(void *);

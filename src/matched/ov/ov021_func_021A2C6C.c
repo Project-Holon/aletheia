@@ -26,7 +26,7 @@ typedef struct {
 } Snd021A2C6C;
 
 void func_02028B50(int a, u16 id);
-int func_02006148(u16 id);
+int func_02006148(u32 a0);
 void func_020061F8(int h);
 
 void func_021A2C6C(Snd021A2C6C *p, int a)

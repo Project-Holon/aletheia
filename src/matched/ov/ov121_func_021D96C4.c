@@ -17,8 +17,9 @@
  *   func_021D9828 0x021D9828 thumb ov121
  */
 typedef unsigned char u8;
-extern void func_02030EAC(void *);
-extern void func_021D98C0(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_021D98C0(u8 *p);
 extern void func_021D9828(void *);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *,int,int);

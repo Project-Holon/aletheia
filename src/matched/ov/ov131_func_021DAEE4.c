@@ -33,18 +33,20 @@ typedef unsigned int u32;
 struct Point { s16 x,y; };
 extern u32 func_020362DC(void);
 extern void func_021DB468(u8 *,u8 *,u8,int);
-extern void func_0204B878(void *,u16);
-extern void func_020061E4(int);
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_020061E4(u32 a);
 extern void func_021DBA78(u8 *,int);
-extern void func_0204B3DC(void *,int);
-extern void func_021DB614(u8 *,u8 *,int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_021DB614(void *a, u8 *b, int c);
 extern void *func_021D6064(u8 *);
-extern int func_02017E88(void *,int,int);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_0202F72C(void *,u16,u16);
 extern void func_021DB688(u8 *,u8 *,int);
 extern void func_021DBA54(u8 *,struct Point *);
 extern void func_0204B404(void *,const struct Point *,u16);
-extern void func_0204B9A0(void *);
+extern void func_0204B9A0(struct Actor *a);
 extern void func_021DB3F0(u8 *,u8 *);
 int func_021DAEE4(u8 *a,u8 *p)
 {

@@ -34,7 +34,8 @@ typedef struct {
 extern int func_0217AED4(int, Ent *);
 extern int func_0217AE40(void *, int, int, int);
 extern void func_0216DAC8(int, int);
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021807E0[];
 
 Ent *func_0217AFE4(char *a, int b, Src *c, int d, int e, int *f)

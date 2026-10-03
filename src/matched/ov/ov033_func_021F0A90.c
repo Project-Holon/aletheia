@@ -17,9 +17,10 @@
  *   func_02024DCC 0x02024DCC thumb
  */
 extern void func_0204B3B4(int);
-extern void func_0204AFD8(int);
-extern void func_0204A8D4(int);
-extern void func_0204ADA4(int);
-extern void func_0203FB44(int,unsigned short,unsigned short);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02024DCC(void);
 void func_021F0A90(char *p) { unsigned v; func_0204B3B4(*(int *)(p+0x24)); func_0204AFD8(*(int *)(p+0x20)); func_0204A8D4(*(int *)(p+0x1c)); func_0204ADA4(*(int *)(p+0x18)); v=*(unsigned *)(p+0x14); func_0203FB44(4,(unsigned short)v,(unsigned short)(v>>16)); func_02024DCC(); }

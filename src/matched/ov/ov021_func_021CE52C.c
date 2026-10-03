@@ -35,7 +35,7 @@ extern u32 func_02188C54(u32 a);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern int func_021CEA50(u32 *p);
 extern u32 func_02190C78(u32 a);
-extern void func_021909BC(u32 h);
+extern int func_021909BC(u32 a);
 
 int func_021CE52C(u32 *p)
 {

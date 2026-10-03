@@ -35,18 +35,19 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0204B1CC(void *);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_021E3E60(void *);
-extern void *func_0204B100(int, int, int);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void func_021DFD3C(void *);
 extern void func_021D8E84(void *, int);
-extern void func_021D9434(void);
-extern void func_021E10D8(void *);
+extern void func_021D9434(void *p);
+extern void func_021E10D8(char *p);
 extern void func_02005DE4(int);
 extern void func_02005E64(void);
-extern void func_02005E30(int);
-extern void func_021DFE48(void);
+extern void func_02005E30(u32 a);
+extern void func_021DFE48(char *p);
 
 void func_021DFDA0(void *p)
 {

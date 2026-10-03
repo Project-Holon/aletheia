@@ -17,14 +17,17 @@
  *   func_021FBDA4 0x021FBDA4 thumb ov186
  *   func_020409B4 0x020409B4 arm
  */
-extern void func_0204B3DC(void *,int);
-extern void func_0204B3B4(void *);
-extern void func_0204A8D4(int);
-extern void func_0204ADA4(int);
-extern void func_0204AFD8(int);
-extern void func_021FC734(void *);
-extern void func_021FBDA4(int,int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
+extern void func_021FC734(u8 *p);
+extern void func_021FBDA4(int a, unsigned mode);
+extern void func_020409B4(u32 index);
 void func_021DCE48(char *p,char *q)
 {
     int i;

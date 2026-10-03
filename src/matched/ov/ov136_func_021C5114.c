@@ -15,9 +15,12 @@
  *   func_0207D63C 0x0207D63C arm
  */
 typedef unsigned char u8;
-extern void func_020215A0(void *, unsigned int);
+typedef unsigned int   u32;
+struct Node;
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 extern void func_02030DA4(void *);
 extern void func_020307B0(void *);
 extern void func_0207D63C(void *, int, int, int, int);

@@ -24,8 +24,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct Bf { u8 pad[0x10]; u32 f : 1; };
 extern u8 func_021D5440(u8 *p);
-extern u32 func_021CC8C0(void *arr, int i);
-extern void func_021C8810(void *q);
+extern u32 func_021CC8C0(u32 *p, u32 i);
+extern void func_021C8810(u8 *p);
 extern void func_021D74F8(int line);
 extern void func_021D75EC(int key, u32 val);
 extern void func_021D7630(int key, u32 val);

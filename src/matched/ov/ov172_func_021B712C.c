@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021B78B8(void *, char *);
 extern int func_021BE100(void);
-extern void func_021B64AC(void *);
+extern void func_021B64AC(char *p);
 static inline void window0(int x1, int y1, int x2, int y2)
 {
     *(volatile u16 *)0x04000040 = ((x1 << 8) & 0xff00) | (x2 & 255);

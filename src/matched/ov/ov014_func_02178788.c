@@ -40,13 +40,13 @@ extern char d_0217979C[];
 extern void func_0217814C(int err);
 extern void func_02178138(int state);
 extern int func_02178964(void);
-extern int func_0217873C(void *desc);
-extern void func_02010864(u8 level);
+extern int func_0217873C(u8 *p);
+extern void func_02010864(u32 v);
 extern void func_02010884(void);
 extern void DC_InvalidateRange(void *p, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_0203D650(void);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 typedef struct ScanExCb {
     u16 apiid;

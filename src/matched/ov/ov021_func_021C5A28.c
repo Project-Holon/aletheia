@@ -17,9 +17,11 @@
 
 typedef unsigned int u32;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
-void func_021C5A54(void);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+int func_021C5A54(int a, int *st, int *c);
 
 void *func_021C5A28(void *a, u32 b, u32 c, u32 d)
 {

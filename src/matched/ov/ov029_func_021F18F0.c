@@ -13,7 +13,7 @@
  *   func_021F1758 0x021F1758 thumb ov029
  */
 typedef unsigned char u8;
-extern int func_021F2DA8(void *p);
+extern int func_021F2DA8(u8 *p);
 extern void func_021F1758(u8 *p, int key);
 void func_021F18F0(int key, int flag, u8 *p)
 {

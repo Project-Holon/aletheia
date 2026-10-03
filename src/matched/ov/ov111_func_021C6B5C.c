@@ -25,9 +25,11 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern void *func_02045770(void *p);
+struct Descriptor;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
-extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(void *a, u32 b, void *c);
 extern u32 func_0201D304(void *a, void *b, u32 c);
 extern const u16 d_021C8768[];

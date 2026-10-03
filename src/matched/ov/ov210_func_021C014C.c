@@ -22,7 +22,8 @@ extern int func_02035C08(const void *);
 extern void func_020355D8(unsigned char);
 extern u32 func_020362DC(void);
 extern unsigned char func_020355C4(void);
-extern void func_021B940C(void *);
+struct S;
+extern void func_021B940C(struct S *s);
 int func_021C014C(char *ctx)
 {
     int result = func_02035C08(d_021C0B3C);

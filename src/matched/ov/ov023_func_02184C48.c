@@ -38,14 +38,15 @@ extern u32 func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *, void *, u32);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern void func_02049238(void *h);
 
 void func_02184C48(u8 *p, void *q)

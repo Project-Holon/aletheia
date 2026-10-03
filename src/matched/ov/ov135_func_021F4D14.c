@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02027974(void *);
-extern u32 func_020279E8(void *);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *);
 extern void func_021F5060(void);
 int func_021F4D14(char *p) { int result; result=0; if(*(void **)(p+0xe08)) { func_02027974(*(void **)(p+0xe08)); if(func_020279E8(*(void **)(p+0xe08))) { result=func_02027A04(*(void **)(p+0xe08)); if(result==0) result=1; else if(result==1) result=2; func_021F5060(); } } return result; }

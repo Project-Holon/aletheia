@@ -45,7 +45,7 @@ struct Obj {
     void *unk3C;
 };
 
-extern void func_02020DC8(void *x, int heap);
+extern void func_02020DC8(char *p, int a);
 extern void func_020206C0(struct Obj *p);
 
 void func_02020CF8(struct Obj *p, int heap)
@@ -65,8 +65,7 @@ void func_02020D10(u8 *p, u8 v)
 }
 
 extern const char func_02020D18_File[];
-extern void *func_02030734(u16 heap, u32 size, u32 count, const char *file,
-                            u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void *func_02020D18(u32 heap)
 {

@@ -19,10 +19,13 @@
  */
 
 int func_02026478(int a);
-void *func_020399A8(void);
+typedef unsigned short u16;
+struct Entry;
+struct Rec44;
+struct Entry *func_020399A8(void);
 unsigned int func_0203D1A4(void *p);
 void *func_020127A4(int a);
-unsigned short func_02012AC8(void *p);
+u16 func_02012AC8(const struct Rec44 *p);
 unsigned int func_02013D9C(unsigned int id);
 
 void func_02174908(int a, int b, int c, unsigned char *d)

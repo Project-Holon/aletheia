@@ -27,7 +27,7 @@ extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,unsigned char,unsigned);
 extern void *func_02031324(int);
 extern u16 func_021C9288(struct Blk37 *,u16 **,unsigned);
-extern void func_021C92EC(struct Blk37 *,u16 *,unsigned);
+extern void func_021C92EC(void *p, u16 *ids, unsigned count);
 extern void func_021C9380(struct Blk37 *,unsigned char *);
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 {

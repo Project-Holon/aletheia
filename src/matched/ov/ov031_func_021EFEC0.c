@@ -41,7 +41,8 @@ extern char str_021F10C0[];
 extern u8 d_021F1038[];
 
 extern void *func_02012138(void *);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct PmsDraw;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021F01F0(u32 *p);
 extern void func_021F0250(u32 *p, void *h);
@@ -50,13 +51,13 @@ extern void func_021F0490(u32 *p, void *h);
 extern void func_021F04EC(u32 *p, void *h);
 extern void func_021F0378(u32 *p);
 extern void func_02049238(void *h);
-extern void *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heap);
-extern void func_0202DE5C(void *p, u32 a);
+extern struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 extern u8 *func_02026474(void *);
 extern u8 func_02173940(u8 *p);
 extern void func_021F09A0(void *a, u8 *b);
 extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
-extern void func_0203D34C(int a, int b);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_02037174(void);
 
 #define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)

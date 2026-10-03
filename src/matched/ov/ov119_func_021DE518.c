@@ -22,7 +22,8 @@
 typedef unsigned short u16;
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
 extern int func_020221A4(void *);
-extern int func_02017E1C(void *,int,int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_021E1D68(void *,void *);
 extern void func_021E6440(void *,int,int);
 extern void func_021DEBD4(void *);
@@ -30,7 +31,7 @@ extern void func_0202208C(int,int,int,int,int,int,int);
 extern void func_021D8980(void *);
 extern void func_021DD09C(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DE3E8(void *);
+extern void func_021DE3E8(char *p);
 void func_021DE518(State *p)
 {
     char *b=(char *)p;

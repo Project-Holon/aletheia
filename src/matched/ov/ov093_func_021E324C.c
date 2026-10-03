@@ -23,10 +23,10 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern int func_021C824C(void *p, int key);
-extern void *func_021C7CF4(void *p, int key);
+extern int func_021C824C(u8 *p, int v);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B40(void *p);
-extern void func_021D76BC(int key, int v);
+extern int func_021D76BC(int key, u32 val);
 extern void func_021C83DC(void *p, int x);
 extern u8 data_021F2A78[];
 

@@ -13,7 +13,8 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D8D98 0x021D8D98 thumb ov123
  */
-extern void func_021D62B4(void *,int);
+typedef unsigned char  u8;
+extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D8D98(void);
+extern void func_021D8D98(char *p);
 void func_021D8DFC(char *p) { if(--*(int *)(p+0x60)==0) { func_021D62B4(*(void **)(p+0x14),4); *(int *)(p+0x60)=60; func_021D6EE0(p,(int)func_021D8D98,0x9b9); } }

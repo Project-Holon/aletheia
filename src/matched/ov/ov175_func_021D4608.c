@@ -30,9 +30,9 @@ extern void func_021D6550(u32 *, int);
 extern int func_021D65DC(char *);
 extern void func_021D65C8(char *);
 extern void func_021E8AA0(int *, int);
-extern void func_021D57BC(void);
-extern void func_021D4730(void);
-extern void func_021D61CC(void);
+extern void func_021D57BC(unsigned sys, int *state, int *p);
+extern void func_021D4730(u32 sys, int *state, u32 *p);
+extern void func_021D61CC(void *a, u32 **pp, char *p);
 extern int func_021E8844(const int *);
 extern void func_021E8AB8(u32);
 void func_021D4608(u32 sys, int *state, u32 *p)

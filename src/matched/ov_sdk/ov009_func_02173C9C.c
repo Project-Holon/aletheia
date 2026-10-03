@@ -19,7 +19,7 @@
 
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 
 unsigned int func_02173C9C(int valid)
 {

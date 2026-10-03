@@ -23,7 +23,8 @@ typedef unsigned long  u32;
 
 extern u8 *func_02020D0C(void *p);
 extern int func_021C27E0(void *a);
-extern void func_02020268(void *obj, u8 a, u8 b, u8 c);
+struct Obj;
+extern void func_02020268(struct Obj *obj, u8 a, u8 b, u8 c);
 
 void func_021BABDC(void *obj, int k)
 {

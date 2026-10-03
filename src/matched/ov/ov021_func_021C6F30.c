@@ -43,10 +43,10 @@ typedef struct {
 } Work;
 
 extern void *func_02188C58(void *o);
-extern fx32 func_0218ED54(void *o);
-extern u32 func_0218E138(void *o);
-extern void func_0218E13C(void *o, u32 v);
-extern void func_0218ED58(void *o, fx32 v);
+extern u32 func_0218ED54(u8 *p);
+extern u32 func_0218E138(u8 *p);
+extern void func_0218E13C(u8 *a, u32 s);
+extern void func_0218ED58(u8 *p, u32 v);
 
 #define FX_FX32_TO_F32(x) ((f32)((x) / 4096.0f))
 #define FX_F32_TO_FX32(x) ((fx32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))

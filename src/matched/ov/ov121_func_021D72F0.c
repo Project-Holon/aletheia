@@ -18,15 +18,17 @@
  *   func_021DA8C4 0x021DA8C4 thumb ov121
  *   func_021D6E3C 0x021D6E3C thumb ov121
  */
-extern void func_021D9F08(void *, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D9F08(u8 *a, int b, int c, int d);
 extern void func_021D81B0(void *, int, int);
-extern int func_021D83B0(void *);
-extern void func_021D8380(void *);
-extern void func_021DA8C0(void *, int);
+extern int func_021D83B0(char *p);
+extern void func_021D8380(char *p);
+extern void func_021DA8C0(u32 *p, u32 a);
 extern void func_021DA8B0(void *, void *);
-extern int func_021D9FF8(void *);
-extern void func_021DA8C4(void *);
-extern void func_021D6E3C(void);
+extern unsigned func_021D9FF8(u8 *p);
+extern void func_021DA8C4(u32 *p);
+extern void func_021D6E3C(void *task, u32 *state, u8 *p);
 void func_021D72F0(void *a, int *state, char *p)
 {
     int result;

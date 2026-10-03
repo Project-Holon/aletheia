@@ -25,9 +25,9 @@ typedef struct Flags {
     u8 hi : 6;
 } Flags;
 
-extern int func_02175B14(void *o);
-extern int func_02175894(void *o);
-extern int func_021758B4(void *o);
+extern int func_02175B14(u8 *p);
+extern int func_02175894(u8 *p);
+extern int func_021758B4(u8 *p);
 
 int func_021758C8(u8 *o)
 {

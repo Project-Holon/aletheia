@@ -48,26 +48,28 @@ typedef struct {
 } Rect;
 
 extern void *func_020120F4(int);
-extern void *func_02012934(void *p);
+typedef signed int     s32;
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
 extern int func_0204B100(int, int, unsigned);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0201AB28(void *list, u32 i);
 extern void *func_020185F4(void *a);
-extern int func_0201BA68(void *);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0201BC3C(void);
-extern u32 func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32 func_0201BC40(void);
-extern u32 func_0201BCB4(void);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+extern u32 func_0201BA68(void *mon);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
-extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern int func_0204B294(int, int, int, int, Rect *, int, int);
 extern void func_0204B3DC(int, int);
 extern int func_0201BBE8(void *a0);
 extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
-extern void func_02043598(int, int);
+extern void func_02043598(u32 mask, u32 enable);
 
 extern const Rect d_021F0A60[2];
 

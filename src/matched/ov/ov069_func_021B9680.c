@@ -24,15 +24,16 @@
 
 typedef unsigned int u32;
 
-extern void func_021B9F58(void *p);
-extern void func_021B9DE8(void *p);
-extern void func_021B9CD8(void *p);
-extern void func_021B9BF0(void *p);
+typedef unsigned char  u8;
+extern int func_021B9F58(char *p);
+extern void func_021B9DE8(u8 *p);
+extern void func_021B9CD8(u8 *p);
+extern void func_021B9BF0(char *p);
 extern void func_021B9A44(void *p);
 extern void func_021B9888(void *p);
-extern void func_021B9784(void *p);
+extern void func_021B9784(u8 *p);
 extern void func_020315D4(u32 v);
-extern void func_0203084C(int heap);
+extern void *func_0203084C(u32 heapId);
 extern void func_020306F0(int a);
 
 int func_021B9680(u32 a, u32 b, u32 c, void *p)

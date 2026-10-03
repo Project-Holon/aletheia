@@ -15,7 +15,7 @@
  */
 
 int func_021A3098(int a);
-int func_021AB5AC(int b, int c);
+int func_021AB5AC(unsigned long a, unsigned long b);
 
 int func_021A3504(int a, int b, int c)
 {

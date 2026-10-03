@@ -37,7 +37,7 @@ typedef struct Rec {
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_02013B38(int a);
 extern Rec *func_0204A39C(void *h, u32 id, u32 c, u16 heap, u32 *size);
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_020307B0(void *p);
 extern void func_02049238(void *h);

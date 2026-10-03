@@ -62,7 +62,7 @@ typedef union {
 
 extern char *func_02094860(char *dst, const char *src, u32 n);
 extern u32 func_02095EAC(const char *s, char **end, int base);
-extern int func_021C98E0(char *gamename, char *secretkey, u32 k1, u32 k2, u32 k3, u32 k4);
+extern int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4);
 extern int func_021BF558();
 extern Session g_021CF7AC;
 extern char *g_021CF7A8;

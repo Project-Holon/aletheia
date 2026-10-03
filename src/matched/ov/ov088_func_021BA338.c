@@ -23,7 +23,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0202EA40(void *p);
+struct Row;
+extern void func_0202EA40(struct Row *p);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern int func_021BC0AC(char *p, int v);

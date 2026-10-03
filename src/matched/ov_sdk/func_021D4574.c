@@ -16,8 +16,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D3250(void);
-extern void func_021D3AC8(void);
+extern unsigned int func_021D3250(void);
+extern int func_021D3AC8(void);
 
 int func_021D4574(void)
 {

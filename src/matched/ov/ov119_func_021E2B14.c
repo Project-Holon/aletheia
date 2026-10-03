@@ -22,7 +22,8 @@ extern char d_021E799C[];
 extern void *d_021F4560;
 extern short d_020A1DF8[];
 extern void *func_02048BC4(void *,int);
-extern void func_02048C58(void *);
+struct LightSlot;
+extern void func_02048C58(struct LightSlot *slots);
 extern void func_02046858(Config *);
 void func_021E2B14(int a) {
     Config c;

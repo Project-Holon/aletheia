@@ -15,7 +15,9 @@
  *   func_021BA96C  0x021BA96C  thumb  ov070
  */
 
-extern int func_020450F0(int, int, int, int, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021BAF38(int, int);
 extern void func_021BA96C(int, unsigned);
 

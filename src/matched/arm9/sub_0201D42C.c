@@ -33,7 +33,8 @@ struct StrObj {
 };
 
 extern u16 *sub_02045A90(struct StrObj *s);
-extern u32  sub_0201DC80(void *font);
+struct Font;
+extern u32 sub_0201DC80(struct Font *p);
 
 u32 sub_0201D42C(struct StrObj *s, void *font)
 {

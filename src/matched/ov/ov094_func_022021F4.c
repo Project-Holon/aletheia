@@ -22,7 +22,8 @@ typedef struct Obj {
 } Obj;
 extern void func_022068E8(Obj *);
 extern void func_022023D0(Obj *);
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_02209B30(void *);
 extern void func_02030DA4(void *);
 extern void func_020307B0(void *);

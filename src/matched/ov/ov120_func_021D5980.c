@@ -18,12 +18,13 @@
  */
 typedef unsigned char u8;
 extern int func_021D596C(u8 *, int);
-extern void func_021D69F4(void *, void *, int);
+typedef unsigned int   u32;
+extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D7D3C(char *);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern void func_021D4244(int, int, int);
-extern void func_021D4EC0(void);
-extern void func_021D57B0(void);
+extern void func_021D4EC0(u8 *p);
+extern void func_021D57B0(u8 *p);
 void func_021D5980(u8 *p)
 {
     int state = func_021D596C(p, *(int *)(p + 0x15c));

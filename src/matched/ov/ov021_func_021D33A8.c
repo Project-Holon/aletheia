@@ -25,8 +25,9 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *sub_02030734(u32, u32, int, const char *, u32);
-extern void func_021D33FC(void *, u16, u16);
+typedef unsigned char  u8;
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_021D33FC(u8 *a0, u16 a1, u16 a2);
 
 void *func_021D33A8(u16 heapId, void *a1, void *a2, u16 a3)
 {

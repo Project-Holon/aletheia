@@ -11,5 +11,6 @@
  * symbols:
  *   func_02030EAC 0x02030EAC arm
  */
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_021F54C0(void *p,int *flag) { *(unsigned int *)0x04000064=0x81330010; func_02030EAC(p); if(flag) *flag=1; }

@@ -41,17 +41,19 @@ struct Ent    { u8 pad_00[0x14]; u32 unk_14; };          /* 0x18 */
 struct Surf   { u8 pad_00[8]; u32 unk_08; u32 unk_0c; };
 struct Holder { u8 pad_00[0xc]; struct Ent *ents; };
 
-extern void func_02062AD4(void *p, void **out);
+typedef signed int     s32;
+struct NitroFileHeader;
+extern s32 func_02062AD4(struct NitroFileHeader *file, void **out);
 extern int  func_02062A98(void *p, struct Surf **out);
 extern void func_020637D4(struct Ent *ent);
 extern int  func_0204D9B4(void *p, int which);
 extern void func_02063E54(struct Surf *s, u32 size, int mode,
                          struct Ent *ent);
-extern u32  func_02080C34(void);
-extern u32  func_02080C74(void);
+extern u16 func_02080C34(void);
+extern u16 func_02080C74(void);
 extern void func_0208068C(void);
-extern void func_020801F8(u32 saved);
-extern void func_0208083C(u32 saved);
+extern void func_020801F8(int objExtPltt);
+extern void func_0208083C(int sub_objExtPltt);
 
 void func_0204DD08(struct Holder *h, int idx, void *src, void *sel,
                   u32 size, u16 head, u16 tail)

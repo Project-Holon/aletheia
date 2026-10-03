@@ -39,11 +39,13 @@ typedef struct Obj {
 extern void func_021BB0F8(Obj *o);
 extern int func_021B619C(unsigned int a, int b, u16 c);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
-extern void func_0201EFA4(void *obj, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e);
-extern void func_0201F250(void *obj, void *a, void *b);
-extern void func_021BADAC(Obj *o);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BADAC(void *p);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B7B80();
+extern void func_021B7B80(struct Obj *o);
 
 void func_021B7B08(Obj *o)
 {

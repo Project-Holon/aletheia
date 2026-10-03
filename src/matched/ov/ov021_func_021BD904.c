@@ -37,8 +37,8 @@ typedef struct {
 
 extern u32 func_02012134(u32 a);
 extern void *func_0202B580(u32 a);
-extern int func_0202B434(void *p);
-extern int func_0202B438(void *p, u16 id);
+extern u32 func_0202B434(u8 *p);
+extern u32 func_0202B438(u8 *p, u32 id);
 
 int func_021BD904(Obj *o)
 {

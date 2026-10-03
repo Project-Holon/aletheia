@@ -14,7 +14,7 @@
  *   g_02150E2C 0x02150E2C data
  */
 
-extern void func_0208098C(void);
+extern void func_0208098C(int a0, int a1, int a2, int a3);
 extern int g_02150E2C;
 
 asm void GX_BeginLoadClearImage(void)

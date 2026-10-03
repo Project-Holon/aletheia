@@ -20,7 +20,7 @@
  */
 
 extern void func_0217CD94(void);
-extern void func_0217CCCC(void *p);
+extern void func_0217CCCC(unsigned int theMS);
 extern int  func_0217CE1C(void);
 
 void func_021E191C(void)

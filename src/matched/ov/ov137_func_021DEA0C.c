@@ -17,13 +17,15 @@
  */
 typedef unsigned char u8;
 extern int (*const d_021E217C[])(void *);
-extern void func_021E0570(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void func_021E0570(u8 *p);
 extern void func_021E07A4(void *);
 extern void func_021DF864(void *);
 extern void func_021DEA68(void *);
-extern void func_02030D28(void *);
-extern int func_020221A4(void);
-extern int func_0200FB24(void);
+extern void func_02030D28(struct Ctx *c);
+extern u32 func_020221A4(void);
+extern u32 func_0200FB24(void);
 int func_021DEA0C(int a, int b, int c, u8 *p)
 {
     int result;

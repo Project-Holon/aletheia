@@ -68,9 +68,10 @@ typedef struct {
 } Req;
 
 int func_0217BB20(u8 *w);
-void func_0217F074(u8 *w);
-int func_0217F1EC(u8 *w);
-void func_0217F210(u8 *w, int a, int msg);
+typedef unsigned int   u32;
+void func_0217F074(void *p);
+u32 func_0217F1EC(u8 *p);
+void func_0217F210(u8 *p, int a, u32 b);
 int func_0217B8E4(u8 *w, int v);
 void func_0217422C(u8 *w, int b, Req *c);
 int func_02174268(u8 *w);

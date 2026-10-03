@@ -19,6 +19,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 extern unsigned func_020221A4(void);
 extern void func_021D9760(char *);
-extern void func_02051C88(void *);
+typedef signed int     s32;
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
 extern void func_021D8FA0(char *);
 int func_021D8C5C(char *p) {if(*(int *)(p+564)==0){if(func_020221A4()==1)*(int *)(p+564)+=1;}else {func_021D9760(p);func_02051C88(*(void **)(p+660));func_021D8FA0(p);}return 0;}

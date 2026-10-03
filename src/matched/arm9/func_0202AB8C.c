@@ -32,7 +32,7 @@ struct A {
     u8  unk18;
 };
 
-extern s32  func_02049030(u32 n);
+extern u32 func_02049030(u32 a);
 extern void *func_02030734(void *heap, u32 size, u32 flags, const void *file, u32 line);
 extern u32  func_0202AEEC(void *a1, u32 i);
 extern const char g_020A76E8[];

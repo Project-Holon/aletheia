@@ -32,7 +32,7 @@ typedef struct St021D04D8 {
 } St021D04D8;
 
 extern int func_0216E1C4(u32 a, void *b);
-extern u32 func_0219BF3C(u32, u32);
+extern void func_0219BF3C(int a, u32 v);
 
 void func_021D0504(void *a, St021D04D8 *s)
 {

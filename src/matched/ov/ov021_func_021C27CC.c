@@ -14,7 +14,7 @@
 
 typedef unsigned char u8;
 
-extern void func_0204047C(u8, int);
+extern void func_0204047C(int idx, unsigned short val);
 
 void func_021C27CC(u8 *p)
 {

@@ -22,8 +22,8 @@ extern int func_02027A04(int);
 extern void func_021E12F8(void *);
 extern void func_021E1098(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DDE4C(void *);
-extern void func_021DDE90(void *);
+extern void func_021DDE4C(unsigned char *p);
+extern void func_021DDE90(unsigned char *p);
 
 void func_021DDED4(unsigned char *p)
 {

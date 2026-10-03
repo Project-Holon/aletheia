@@ -11,7 +11,8 @@
  * symbols:
  *   func_021B621C 0x021B621C thumb ov070
  */
-extern void func_021B621C(void *, int, int);
+typedef unsigned char  u8;
+extern void func_021B621C(u8 *p, int a, int b);
 void func_021B624C(void *p, int a, int b)
 {
     if (a == b) return;

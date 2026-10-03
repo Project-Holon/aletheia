@@ -21,9 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_02017DBC(void *sav);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017DE4(void *sav, u32 f);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern const u32 tbl_02202C58[];
 
 u32 func_021F6BC4(void *sav)

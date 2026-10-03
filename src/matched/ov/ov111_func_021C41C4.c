@@ -40,12 +40,16 @@ typedef struct {
     void *f3294[5];
 } Work;
 
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045CAC(void *bank, u32 id, void *dest);
-extern void *func_02045EC0(void *a, u32 b);
-extern void *func_0201EC64(u32 heap);
+struct GfFont;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct WordSet *func_0201EC64(u32 heap);
 
 void func_021C41C4(Work *p)
 {

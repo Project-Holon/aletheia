@@ -29,7 +29,7 @@ typedef signed char    s8;
 typedef signed int     s32;
 extern int func_021B7AB0(u32 a);
 extern int func_021C014C(u8 *p);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_020061E4(u32 id);
 extern void func_021BE0E4(u8 *p, u32 v);
 extern void func_021BEDB8(u8 *p, u32 a, u32 b);

@@ -49,11 +49,13 @@ struct Slot14 { u16 f00; u16 f02; u8 f04; u8 f05; u8 f06; u8 f07; };
 
 extern void *func_0201ADE4(u16 a, u16 b, u16 c);
 extern u32 func_021A9D30(const struct Unit *u, void *src, struct Slot14 *s);
-extern void func_02017588(void *obj, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct Mon;
+struct Sub0200852CObj;
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_02018A00(void *mon, u16 species, u8 form);
+extern void func_02018A00(void *p, u32 a, u32 b);
 extern void func_021A9CAC(void *mon, void *src, int a, int b);
-extern u32 func_02008550(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u32 func_020084F4(void *p);
 extern void func_020185C4(void *p);
 extern void func_0201AE14(void *p);

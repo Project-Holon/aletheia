@@ -21,8 +21,10 @@
 extern void func_021EECD8(void);
 extern void func_021E907C(void *p);
 extern void func_021EB234(void *p);
-extern void func_02031140(void *p);
-extern void func_02045808(void *p);
+struct S02031140;
+struct U16Vec;
+extern void func_02031140(struct S02031140 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201D83C(void *p);
 extern void func_020307B0(void *p);
 

@@ -58,7 +58,7 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
 extern u8 *func_0200E8F8(u32 h);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201AB28(u32 party, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
@@ -67,7 +67,8 @@ extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_020307B0(void *p);
 extern void func_0200734C(u32 sv, u32 id);
 extern void *func_02008C58(u32 h);
-extern void func_02008E88(void *x, u32 v);
+struct Sub02008C20Obj;
+extern void func_02008E88(struct Sub02008C20Obj *obj, u32 value);
 extern void func_02008E68(void *x, u8 v);
 
 #define U32(o) (*(u32 *)(w + (o)))
@@ -140,7 +141,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
     func_02082BCC(e->mons, 0, 0x10);
     for (i = 0; i < (int)U32(0x124); i++) {
         m = &e->mons[i];
-        mon = func_0201AB28(U32(0x128), i);
+        mon = func_0201AB28((void *)U32(0x128), i);
         m->species = func_02017E1C(mon, 5, 0);
         m->b2 = func_02017E1C(mon, 0x6f, 0);
         m->b3 = func_02017E1C(mon, 0x6e, 0);

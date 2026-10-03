@@ -16,7 +16,8 @@
  */
 typedef unsigned char u8;
 typedef struct { int x; int y; } Pair;
-extern void *func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_021D9BE8(unsigned,const Pair *,const void *,void *,int,Pair *);
 void func_021D9BC0(const u8 *p,int a,Pair *out) {
     void *bitmap=func_02045770(*(void **)(p+0xc));

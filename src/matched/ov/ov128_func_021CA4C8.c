@@ -16,9 +16,10 @@
  *   func_0204B3B4  0x0204B3B4  arm
  */
 
-extern void func_0204A8D4(int x);
-extern void func_0204ADA4(int x);
-extern void func_0204AFD8(int x);
+typedef unsigned int   u32;
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204B3B4(int x);
 
 void func_021CA4C8(int *p)

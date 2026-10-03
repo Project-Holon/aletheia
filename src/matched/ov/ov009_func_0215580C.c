@@ -52,9 +52,10 @@ typedef void (*Fn)(void);
 
 extern G *d_021A8264;
 extern char d_021A1C5C[];
-void func_02034714(char *a, int b, char *c);
+typedef unsigned int   u32;
+void func_02034714(const char *expr, u32 line, const char *file);
 void func_02156C60(void);
-void func_02156C00(int i);
+void func_02156C00(u32 a);
 void func_02155374(int v);
 int func_0216B284(int a, u8 n, int b, Fn c, int d, Fn e, int f, int g,
                   int h, int i, int j, int k);

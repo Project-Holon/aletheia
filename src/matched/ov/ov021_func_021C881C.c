@@ -23,9 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C80(u8 *p);
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern u32 *func_02012ED0(void *a);
 extern u32 func_021C8608(void);
 int func_021C881C(void *task, u32 a)

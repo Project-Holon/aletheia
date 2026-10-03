@@ -20,11 +20,11 @@
 
 typedef unsigned int u32;
 
-extern void *func_021657C8(void);
+extern int func_021657C8(void);
 extern u32 func_027034C0(void *a, u32 b, u32 c, void *d);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u32 func_02703960(void *a, void *b);
-extern void func_02165A4C(u32 phase);
+extern void func_02165A4C(unsigned char phase);
 extern void func_027320D0(void);
 
 asm u32 func_02731BF8(void)

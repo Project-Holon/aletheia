@@ -25,7 +25,8 @@ extern char g_021A21B0[];
 extern char g_021A2170[];
 extern char g_021A2164[];
 extern char g_021A20A4[];
-extern int func_0219E120(void *server, const char *key, int def);
+struct SBServer;
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 
 int func_02173BE4(void *server)
 {

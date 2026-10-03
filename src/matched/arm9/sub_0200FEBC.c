@@ -110,7 +110,7 @@ extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void func_0203D828(u32 *a, u32 *b);
 extern void GX_SetGraphicsMode(u32 dispMode, u32 bgMode, u32 bg0_2d3d);
 extern u32  func_020809A0(void);
-extern u32  func_020808F4(void);
+extern void func_020808F4(void);
 extern void GX_SetBankForBG(u32 bank);
 extern void GX_SetBankForSubBG(u32 bank);
 extern BOOL GX_HBlankIntr(BOOL on);

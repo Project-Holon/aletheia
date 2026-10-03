@@ -43,8 +43,7 @@ struct G3dSys {
 extern struct G3dSys *g_02146A5C;
 extern u8 sG3dSystemFile;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02049250(u32 a0, u32 a1, u32 n);
 extern void func_02046CE0(void *node, u32 v);
 

@@ -25,7 +25,8 @@
  */
 
 extern void *func_020606A8(void *p);
-extern void func_020605B4(void *a, void *b);
+struct DList;
+extern void func_020605B4(volatile struct DList *list, void *elem);
 
 void NHTTP_CleanupAsync(void *p)
 {

@@ -13,7 +13,8 @@
  *   func_02005E30 0x02005E30 thumb
  */
 
-extern void func_02005E30(int);
+typedef unsigned int   u32;
+extern void func_02005E30(u32 a);
 
 int func_021F5EB8(int a, char *b)
 {

@@ -59,7 +59,7 @@ extern int func_021B9CC8(char *,int);
 extern u16 func_021B9BF8(char *,int,int);
 extern char *func_021BBA74(char *,char *);
 extern int func_021BBB0C(char *);
-extern void func_021BBAE8(void *);
+extern void func_021BBAE8(char *p);
 extern char *func_021BB854(char *,char *);
 extern void func_021B9E60(char *);
 int func_021B96BC(void *a,u32 *state,void *unused,char *p)

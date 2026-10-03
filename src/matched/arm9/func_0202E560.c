@@ -53,14 +53,15 @@ typedef int s32;
 extern char g_020A033C[];
 extern char g_020A77E0[];
 
-extern u32 func_02046C94(void);
-extern void *func_02030734(u32 heap, u32 size, u32 align, char *file, u32 line);
+typedef unsigned short u16;
+extern int func_02046C94(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_02046C9C(void *blk, u32 k, void *buf);
-extern void *func_0206E964(void *buf);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern u32 func_02069FD0(void *p);
-extern u32 func_02080C44(void);
-extern void func_02069FF8(void *p, u32 v, u32 z);
+extern u16 func_02080C44(void);
+extern void func_02069FF8(char *p, int a, int b);
 
 void *func_0202E560(u32 heap, u32 sel)
 {

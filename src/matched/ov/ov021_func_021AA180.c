@@ -59,15 +59,15 @@ struct Obj {
 };
 
 extern int func_021AA3E0(struct Ctx *t, int i, int add);
-extern u32 func_02188C6C(void *p);
+extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u32 v);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
 extern u32 func_021A94B0(struct Sel *o, void *unused, u32 n);
 extern u32 func_021AA6E0(void);
 extern void func_02082BCC(void *p, int v, int n);
-extern u16 func_02188C9C(void *p);
+extern u16 func_02188C9C(u8 *p);
 extern int func_021A954C(void *a0, void *u, u16 id, void *slots);
-extern struct Obj *func_02013090(int a);
+extern void *func_02013090(u32 heap);
 extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
 extern void func_02013144(void *p, int v);
 

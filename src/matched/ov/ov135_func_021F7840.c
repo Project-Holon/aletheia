@@ -16,5 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02202940(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021F7840(char *p) { int i; func_02202940(p+0xfa0); func_020452E8(*(void **)(p+0xde0)); for(i=0;i<6;i++) func_020452E8(*(void **)((u32)p+(u32)i*4+0xd90)); func_020452E8(*(void **)(p+0xd40)); }

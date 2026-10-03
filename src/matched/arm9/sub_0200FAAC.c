@@ -31,8 +31,8 @@ struct Blk16_0200FAAC {
 
 extern int   sub_02010054(void);
 extern int   func_0203CDBC(void);
-extern int   func_0203C990(void);
-extern void *func_0203CA98(void);
+extern u32 func_0203C990(void);
+extern u32 func_0203CA98(void);
 extern u8   *func_0203D798(void);
 extern u8    g0214617C[];
 

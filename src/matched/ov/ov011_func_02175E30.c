@@ -31,7 +31,7 @@ typedef struct {
 extern u8 *func_020127B8(void *a);
 extern int func_02012950(void *a, int i);
 extern u32 func_02008530(int a);
-extern int func_021584F4(u32 a, u32 b);
+extern int func_021584F4(int a0, int a1);
 
 void func_02175E30(void *a, u8 *b, Rec *c)
 {

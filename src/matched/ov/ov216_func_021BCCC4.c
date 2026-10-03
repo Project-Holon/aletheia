@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02035D20(u32*,u32*);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021BCCC4(u8*p){u32 x,y;if(func_02035D20(&x,&y)){if((u32)(x-(*(short*)(p+0x25c)-12))<=24 && (u32)(y-(*(short*)(p+0x25e)-16))<=32)return 1;}return 0;}

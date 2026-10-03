@@ -15,7 +15,7 @@
 
 typedef unsigned short u16;
 
-extern void func_02159030(int, int, int);
+extern int func_02159030(int a0, int a1, int a2);
 
 void func_02159058(int a, int b, int c, int d, u16 e)
 {

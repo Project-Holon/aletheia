@@ -35,7 +35,8 @@ typedef struct {
 
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern u32  func_0204A6C8(void *h, u32 a, u32 b, u32 c, u16 heap);
+typedef signed int     s32;
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u16 f, u16 heap);
 extern void func_0204B92C(u32 obj, int v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);

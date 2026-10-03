@@ -11,8 +11,9 @@
  * status:   EXACT
  */
 
-extern int *func_0203D788(void);
-extern void func_020394DC(int v);
+typedef unsigned char  u8;
+extern void *func_0203D788(void);
+extern void func_020394DC(u8 v);
 void func_0203C0B4(void)
 {
     int *r = func_0203D788();

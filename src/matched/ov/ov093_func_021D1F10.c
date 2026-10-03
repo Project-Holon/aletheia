@@ -26,7 +26,7 @@ typedef struct {
 
 extern u32 func_021CD9E0(void *s);
 extern void func_021EA694(void *win, u16 a, void *b);
-extern int func_021EA710(void *win);
+extern int func_021EA710(u32 *p);
 
 int func_021D1F10(Seq *s, int *state, u32 *a)
 {

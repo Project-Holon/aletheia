@@ -18,8 +18,10 @@
  *   func_021897BC  0x021897BC  thumb
  */
 
-extern void *func_020124E4(void *task);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int *func_021897BC(char *, int);
 
 int func_021F38D0(void *task)

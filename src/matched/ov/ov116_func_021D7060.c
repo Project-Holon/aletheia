@@ -15,9 +15,11 @@
  *   func_0200DEA0 0x0200DEA0 thumb
  */
 typedef unsigned char u8;
-extern u8 func_0200DE94(void *);
-extern u8 func_0200DEA0(void *);
-extern u8 func_0200DCFC(void *);
+struct Blk1AC;
+struct RecSlot;
+extern u8 func_0200DE94(struct RecSlot *p);
+extern u8 func_0200DEA0(struct RecSlot *p);
+extern u8 func_0200DCFC(struct Blk1AC *p);
 extern void func_021C9530(u8,u8,u8,void *,void *,int);
 extern void func_021D70E4(u8 *);
 void func_021D7060(u8 *p, u8 *q) {

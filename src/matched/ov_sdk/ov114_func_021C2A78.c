@@ -50,7 +50,7 @@ typedef struct GHIConnection {
     int i184;
 } GHIConnection;
 
-extern int func_02184200(void *);
+extern int func_02184200(const int *p);
 extern void *func_02184144(int, int, void (*)(void *));
 extern void *func_02184208(void *, int);
 extern int func_021C29AC(GHIPostState *);

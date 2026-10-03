@@ -23,8 +23,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_0216DC34(u32);
-extern u32 func_021AB0F8(u32);
-extern u32 func_02163F40(u32, u32);
+typedef unsigned short u16;
+extern u16 func_021AB0F8(u32 attr);
+extern int func_02163F40(int a, int dir);
 extern u32 func_0219DC08(u32);
 extern u32 func_0216D67C(u32);
 extern void func_0216DC18(u32, u32);

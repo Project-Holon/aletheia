@@ -16,7 +16,9 @@
  */
 
 extern void func_021F0DE0(void *, short, short);
-extern void func_0202590C(void *, short, short);
+typedef signed short   s16;
+struct Grid;
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 
 void func_021F1218(char *p, short x, short y)
 {

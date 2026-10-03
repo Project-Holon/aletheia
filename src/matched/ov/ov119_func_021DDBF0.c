@@ -30,18 +30,19 @@ typedef unsigned int u32;
 
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 h);
-extern int func_021E12AC(void *p);
-extern int func_021DD140(void *p);
+struct MsgBank;
+extern int func_021E12AC(char *p);
+extern int func_021DD140(char *p);
 extern int func_021D8A24(void *p);
 extern u32 func_02039CB4(u32 h, u32 a, u32 b);
-extern int func_021DD24C(void *p);
-extern void func_021DD294(void *p, int a, int b);
+extern int func_021DD24C(char *p);
+extern void func_021DD294(char *p, int a, int b);
 extern void func_021DD080(u32 h, int id, void *p);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DA76C(void *p);
-extern void func_02045CAC(void *arc, int entry, void *dst);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *p);
-extern void func_021DDB90(void *p);
+extern void func_021DDB90(unsigned char *p);
 
 void func_021DDBF0(char *p)
 {

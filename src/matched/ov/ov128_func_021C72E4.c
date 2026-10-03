@@ -20,7 +20,8 @@ extern void func_021C6ADC(u8 *,u8 *,unsigned);
 extern void func_02041090(unsigned,void *,unsigned,unsigned,u8,u8);
 extern void func_02040618(unsigned,unsigned,unsigned);
 extern void func_021CA16C(u8 *,int);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+extern void func_02041B6C(u32 bit);
 void func_021C72E4(u8 *p,int *q,u8 *ctx)
 {
     u16 *data;

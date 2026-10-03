@@ -14,9 +14,9 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9434 0x021D9434 thumb ov119
  */
-extern int func_021E2984(void *, int);
+extern void *func_021E2984(char *p, int a);
 extern int func_021E2A80(void *);
-extern void func_021D89CC(void *);
+extern void func_021D89CC(char *p);
 extern void func_021D8E84(void *, int);
 extern void func_021D9434(void *);
 int func_021DD24C(char *p)

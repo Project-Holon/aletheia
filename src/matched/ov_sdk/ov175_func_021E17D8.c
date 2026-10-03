@@ -19,7 +19,7 @@
 
 extern char g_021E4640[];
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
-extern int func_02084FA8(char *dst, unsigned long len, const char *fmt, char *vlist);
+extern int func_02084FA8(char *s, unsigned int n, const char *format, void *arg);
 
 void func_021E17D8(int line, char *fmt, ...)
 {

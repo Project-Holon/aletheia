@@ -20,7 +20,8 @@
  *       --func func_021CADAC --addr 0x021CADAC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_02085A38(int);
+typedef unsigned int   u32;
+extern void func_02085A38(u32 msec);
 extern void func_021CAF78(void);
 extern void func_021CADCC(void);
 extern void func_021CAE04(void);

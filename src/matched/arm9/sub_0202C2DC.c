@@ -34,7 +34,8 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_0202C24C(void *p);
+struct Obj0202C244;
+extern u32 sub_0202C24C(struct Obj0202C244 *p);
 extern void sub_0202C338(u32 v);
 
 void sub_0202C2DC(void *p)

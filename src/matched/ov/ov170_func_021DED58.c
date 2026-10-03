@@ -14,7 +14,10 @@
  *   func_02041B6C 0x02041B6C arm
  */
 extern void func_021DEB40(char *p, int a, int b);
-extern void func_02021640(void *p, int a, int b, int c, int d, int e, unsigned short f);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void func_021DEB90(char *p, int a, int b, int c, int d);
 extern void func_02041B6C(unsigned bit);
 typedef struct {

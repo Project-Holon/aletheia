@@ -17,7 +17,7 @@
  *   func_021641FC  0x021641FC  arm  ov009
  */
 
-extern int func_02163F24(unsigned short *a, int digits);
+extern int func_02163F24(const unsigned short *p, int n);
 extern void func_02082BCC(void *dst, unsigned char data, unsigned long size);
 extern void func_021641FC(unsigned short *a, unsigned long b, int i, int digits);
 

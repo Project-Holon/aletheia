@@ -14,7 +14,8 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  */
-extern unsigned func_02017E1C(void *,unsigned,void *);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02045CAC(int,int,int);
 extern void func_0201EFA4(int,int,int,int,int,int);
 extern void func_0201F250(int,int,int);

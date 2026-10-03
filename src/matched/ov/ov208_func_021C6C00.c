@@ -29,14 +29,14 @@ typedef signed short   s16;
 
 extern void *func_021BC3B4(int key);
 extern u32  func_02035CB8(u32 *x, u32 *y);
-extern int  func_02035D20(u32 *x, u32 *y);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_021BDC48(void *scene, u32 on);
 extern void func_0204B404(u32 obj, s16 *pos, int flag);
 extern u16  ov208_func_021C6DD8(u16 n, u8 x);
 extern u16  ov208_func_021C6E60(void *a0, u8 *p, int key, u16 skip, u16 want);
 extern void ov208_func_021C5C64(void *a0, u8 *p, int key);
-extern void func_020061E4(int se);
-extern void func_020355D8(int v);
+extern void func_020061E4(u32 a);
+extern void func_020355D8(u8 v);
 
 #define W(o) (*(u32 *)(p + (o)))
 #define H(o) (*(u16 *)(p + (o)))

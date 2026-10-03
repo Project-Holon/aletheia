@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021E6EFC(unsigned *p)
 {
     unsigned i;

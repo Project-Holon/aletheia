@@ -26,7 +26,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021B8588(void *);
+extern u32 func_021B8588(void **p);
 extern u8 func_021B8FF4(u8 *);
 extern int func_021B9064(void *, int, int);
 extern char *func_021B9AEC(char *, int);
@@ -37,7 +37,7 @@ extern u32 func_021C4724(u8 *, u32);
 extern u32 func_021C4734(u8 *, u32);
 extern u8 func_021B8DEC(void *, int);
 extern u32 func_021B99F0(u32);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021BD43C(u8 *, int, u8, u8, int);
 extern void func_021BD4E4(u8 *, int, u8, u8);
 void func_021C4614(u8 *p)

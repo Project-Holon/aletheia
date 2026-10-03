@@ -35,8 +35,8 @@ extern void *func_020127A4(struct SaveBlock *p);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub020089A8Obj *func_020089C0(void *sys);
 extern int func_02008554();
-extern int func_02025C88(int a0);
-extern int func_020089F4();
+extern u32 func_02025C88(u32 x);
+extern u8 func_020089F4(const struct Sub020089A8Obj *obj);
 extern int func_02008A00();
 
 int func_0215B0B4(int a0, int a1)

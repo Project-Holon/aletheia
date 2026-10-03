@@ -31,13 +31,13 @@ typedef struct {
     int n;
 } B;
 
-extern int func_02035D20(u32 *a, u32 *b);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021F0F68(void *, int, int);
 extern void func_021F0ED8(void *, B *, int);
 extern u8 *func_021BBC2C(B *, int);
 extern void func_02082D44(void *dst, void *src, int n);
 extern void func_021F0F40(void *, B *, int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 
 int func_021F0DB0(char *a0, void *a1, B *a2)
 {

@@ -18,7 +18,9 @@ typedef struct S {
     void *last[2];
     int index;
 } S;
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021BBDA8(S *, int);
 void func_021BBE34(S *p, int v)
 {

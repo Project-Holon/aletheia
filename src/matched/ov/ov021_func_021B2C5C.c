@@ -18,7 +18,8 @@
  */
 
 extern int func_02159B10(int a, int b);
-extern int func_021B2BD8(int b);
+typedef unsigned int   u32;
+extern int func_021B2BD8(u32 a);
 extern int func_021B2BEC(int a, int b, int c, int d);
 extern void func_0218C69C(int a, int b, int c, int d);
 

@@ -21,7 +21,10 @@
 
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
-extern void *func_02060CA0(void *heap, unsigned long size, int align);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct ExpHeap;
+extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern void OS_Terminate(void);
 extern void *g_021DE684;
 

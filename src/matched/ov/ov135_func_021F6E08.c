@@ -11,9 +11,9 @@
 typedef unsigned char u8;
 typedef struct { u8 pad[12]; void *save; } Ctx;
 typedef struct { Ctx *ctx; u8 pad[0xC8-4]; unsigned count; } Work;
-extern unsigned func_020076A4(void *save);
+extern u8 func_020076A4(void *save);
 extern int func_020078C4(void *save, unsigned i);
-extern unsigned func_020076B4(void *save);
+extern u8 func_020076B4(void *save);
 void func_021F6E08(Work *p)
 {
     unsigned i;

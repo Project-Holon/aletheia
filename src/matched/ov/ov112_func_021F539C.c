@@ -12,5 +12,5 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021F62A0(void *);
+extern void func_021F62A0(char *p);
 void func_021F539C(void **p) {func_021F62A0(p[3]); if(p[4])func_021F62A0(p[4]); }

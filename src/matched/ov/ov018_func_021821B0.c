@@ -41,11 +41,14 @@ typedef struct {
     u8 f28;
 } Src;
 
-extern void *func_020120F4(void *);
-extern void *func_02012944(void *);
-extern void *func_020122C0(void *, u32, void (*)(), u32);
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_02182214();
-extern Task *func_020124E8(void *);
+extern void *func_020124E8(struct Obj *p);
 extern void func_020084F8(void *, void *, int);
 extern void func_0217F2B4(Task *, void *);
 

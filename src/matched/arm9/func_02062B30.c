@@ -35,7 +35,8 @@ typedef struct {
     u32 size;
 } Blk;
 
-extern Blk *func_02062B64(void *file, u32 sig);
+struct NitroFileHeader;
+extern void *func_02062B64(struct NitroFileHeader *file, u32 signature);
 
 BOOL func_02062B30(void *file, void **out)
 {

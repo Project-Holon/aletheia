@@ -29,7 +29,7 @@ typedef struct {
     u16 f6;
 } Pos;
 
-extern u8 *func_0219E968(u32, u32);
+extern void *func_0219E968(u32 a, u32 size);
 extern void func_0219E2F4(u32, Pos *);
 extern void func_0216D674(u32, u32);
 extern void func_0216DA50(u32);

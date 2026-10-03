@@ -51,13 +51,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0201AA18(void *q);
+extern u32 func_0201AA18(void *p);
 extern void MI_CpuFill8(void *dst, u8 v, u32 n);
-extern void *func_0201AB28(void *q, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_02019DA4(void *ctx, void *mon);
 extern int func_0200AE54(void *ctx, u32 k);
-extern int func_0201A59C(void *ctx, void *q, u32 v);
+extern int func_0201A59C(void *a0, void *a1, void *a2);
 
 int sub_02019ED4(void *ctx, void *q)
 {

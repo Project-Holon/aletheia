@@ -15,5 +15,6 @@
  */
 extern void func_02045CAC(int, int, int);
 extern void func_021B61F4(void *, int, unsigned);
-extern void func_0201F250(void *, void *, void *);
+struct WordSet;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021BADB8(char *p, unsigned v) { func_02045CAC(*(int *)(p + 0x51C), 0x2B, *(int *)(p + 0x524)); func_021B61F4(p, 0, v); func_0201F250(*(void **)(p + 0x520), *(void **)(p + 0x528), *(void **)(p + 0x524)); }

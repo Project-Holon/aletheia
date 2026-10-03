@@ -17,5 +17,6 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct Pt { u16 x,y; } Pt;
-extern void func_0204B528(void *,const Pt *);
+struct Actor;
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 void func_021C428C(char *p,int x,int y) { Pt pt; if(*(void **)(p+8)) { pt.x=x+8; pt.y=y+14; func_0204B528(*(void **)(p+8),&pt); } }

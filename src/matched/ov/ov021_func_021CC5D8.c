@@ -30,12 +30,14 @@ typedef struct {
     u8 *pc;
 } ScriptVM;
 
-extern u16 *func_02159AE8(ScriptVM *vm, void *ctx);
+struct Big;
+struct Blk34;
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *ctx);
-extern void *func_02012EBC(void *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *p);
-extern u16 func_0200C1A4(void *p);
-extern u16 func_0200C184(void *p);
+extern u8 func_0200C1A4(struct Blk34 *p);
+extern u32 func_0200C184(struct Blk34 *p);
 
 int func_021CC5D8(ScriptVM *vm, void *ctx)
 {

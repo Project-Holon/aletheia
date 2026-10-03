@@ -26,7 +26,7 @@ extern void func_020061E4(u32 a);
 extern int func_02006148(u32 a);
 extern void func_0200616C(u32 a, int b);
 extern char *func_02006138(int i);
-extern void func_02006268(int i, int a, int b, int c);
+extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern void func_02072F34(char *p, unsigned int v);
 extern void func_02073058(char *p, u16 a, unsigned int v);
 extern void func_02073078(char *p, u16 a, unsigned int v);

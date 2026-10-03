@@ -12,7 +12,8 @@
 
 typedef struct { void *h; } E;
 typedef struct { char pad[0x1fc]; E a[4]; } W;
-extern void func_0204B3B4(void *h);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_02205F64(W *p)
 {

@@ -38,22 +38,31 @@ typedef struct {
     char *raw;
 } Chr;
 
-extern void *func_02045770(void *win);
-extern unsigned char func_02045730(void *win);
-extern unsigned char func_02045758(void *win);
-extern unsigned char func_02045760(void *win);
-extern unsigned char func_02045738(void *win);
-extern unsigned char func_02045740(void *win);
-extern void func_02043B5C(void *bmp, unsigned c);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bmp;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Obj020437AC;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern u8 func_02045730(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02049DB4(unsigned arc, unsigned id, int comp, Chr **out, unsigned short heap);
-extern void *func_020436FC(void *data, int w, int h, int bpp, unsigned short heap);
-extern void func_020439A0(void *src, void *dst, unsigned sx, unsigned sy, int dx, int dy, unsigned w, unsigned h, unsigned key);
-extern void func_020437AC(void *bmp);
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_020437AC(struct Obj020437AC *p);
 extern void func_020307B0(void *p);
 extern unsigned func_020275E4(void);
-extern void *func_02045EC0(void *msg, unsigned idx);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_021B6AE4(void *win, void *font, unsigned short x, short y, void *str, unsigned color, unsigned short col, int mode);
-extern void func_02045808(void *str);
+extern void func_02045808(struct U16Vec *vec);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define HEAP 0x804C

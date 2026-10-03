@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 w; u16 values[5]; u8 id; u8 f0:1,f1:1,f2:1,f3:1,f4:1,pad:3; u8 msg[36]; } Ent;
 extern int func_021C95C0(void *, u8);
-extern u8 *func_021B9934(void *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D5970(u8 *, int, u16);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C99A0(void *, const void *);
 int func_021C94C8(u8 *p, const Ent *e)
 {

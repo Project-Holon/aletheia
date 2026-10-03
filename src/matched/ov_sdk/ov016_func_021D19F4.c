@@ -22,7 +22,7 @@ typedef enum {
     EFF_HIDE = 0x200
 } Eff;
 
-extern int func_021D4FEC();
+extern unsigned char func_021D4FEC(char *p);
 extern void func_021D5250(void *cell, int idx, int *x, int *y);
 extern void func_021D4FF4(void *cell, int idx, Eff eff, int affine);
 

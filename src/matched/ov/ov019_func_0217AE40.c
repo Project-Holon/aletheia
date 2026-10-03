@@ -32,7 +32,7 @@ typedef union { u32 w[9]; u16 h[18]; } Tmpl;
 typedef struct { s16 x, y; } Pt;
 
 extern int func_02012964(int);
-extern u16 func_02025C74(u32);
+extern u32 func_02025C74(u32 x);
 extern void func_0216E618(void *, u32, u32, int);
 extern int func_0216CE60(int, void *, int);
 extern const Tmpl d_0217FFF8;

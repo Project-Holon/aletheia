@@ -8,7 +8,8 @@
  * isa: thumb
  * status: EXACT
  */
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_021E74FC(char *p)
 {
     int i;

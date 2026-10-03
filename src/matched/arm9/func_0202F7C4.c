@@ -49,12 +49,12 @@ typedef unsigned int u32;
 #define REG16(a) (*(volatile u16 *)(a))
 
 extern void func_0207D534(u32 a, u32 b);
-extern void func_0207D3AC(u32 a);
-extern void func_0207D3E4(u32 a);
+extern long func_0207D3AC(int enable);
+extern long func_0207D3E4(int enable);
 extern void func_020808F4(void);
 extern void func_020809A0(void);
 extern void func_0207FDCC(u32 a);
-extern void func_0207D4B0(u32 a, u32 b, u32 c);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0202F870(void);
 extern void func_0202F940(u32 a);
 

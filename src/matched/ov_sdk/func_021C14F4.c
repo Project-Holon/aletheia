@@ -19,7 +19,7 @@
 
 extern int func_021BC724(void);
 extern void func_02088234(void);
-extern void func_021D6438(void *);
+extern void func_021D6438(void **mem);
 
 void func_021C14F4(void)
 {

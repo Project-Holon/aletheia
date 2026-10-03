@@ -26,11 +26,13 @@ struct Pair { int x,y; };
 extern const s16 d_020A1B38[][2];
 extern void func_0204B454(void *, struct Pos *, u16);
 extern void func_0204B404(void *, struct Pos *, u16);
-extern void func_0204B3DC(void *, unsigned int);
-extern void func_0204B5C0(void *, struct Pair *);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 extern void func_0204B5AC(void *, struct Pair *);
 extern void func_021D679C(struct Record *);
-extern int func_020056EC(int);
+extern u32 func_020056EC(u32 range);
 void func_021D6830(struct Record *p)
 {
     struct Pos pos;

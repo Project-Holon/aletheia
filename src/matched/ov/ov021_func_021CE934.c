@@ -30,7 +30,7 @@ extern void func_0201F02C(int a, int b, int c);
 extern u32 func_02008534(u32 a);
 extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_0201F250(u32, u32, u32);
-extern void func_02190758(u32, u32, u32, u32);
+extern int func_02190758(u32 a, u32 b, u32 c, u32 d);
 
 void func_021CE934(S *p, u32 b, u32 c)
 {

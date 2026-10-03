@@ -15,7 +15,7 @@
  *   func_020113D0 0x020113D0 thumb
  *   func_021FC9E4 0x021FC9E4 thumb ov094
  */
-extern void func_020113D0(void *, int);
+extern void func_020113D0(char *p, int val);
 extern int func_021FC9E4(void *, void *);
 
 int func_021FC354(void *a, char *s)

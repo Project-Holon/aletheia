@@ -21,7 +21,7 @@
 
 extern void *func_021C09AC(void *p);
 extern void *func_021BFA14(void *a);
-extern void func_021BFA30(void *r);
+extern void func_021BFA30(char *p);
 extern void func_021BF74C(void *a, void *b);
 extern void func_021BF754(void *a, void *b);
 

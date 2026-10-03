@@ -23,7 +23,7 @@ typedef struct {
     s16 y;
 } P2;
 
-extern void func_021C428C(void *p, s16 x, s16 y);
+extern void func_021C428C(char *p, int x, int y);
 
 void func_021C5898(char *p, P2 v)
 {

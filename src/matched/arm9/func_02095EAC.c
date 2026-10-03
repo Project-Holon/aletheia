@@ -37,7 +37,7 @@
  */
 typedef unsigned int u32;
 extern u32 func_02095B3C(u32 mode, u32 lim, u32 cb, u32 *buf, u32 *len, u32 *sign, u32 *err);
-extern u32 func_020946D8(u32 a, u32 b, u32 c);
+extern int func_020946D8(u32 *p, u32 a1, u32 a2);
 extern u32 g_02153FAC;
 
 u32 func_02095EAC(u32 a0, u32 *a1, u32 mode)

@@ -85,7 +85,8 @@ typedef unsigned int  u32;
 
 struct Sub0200852CObj;
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void sub_02008574(struct Sub0200852CObj *obj, u8 a, u8 b);
 
 struct Sub02009470Obj {

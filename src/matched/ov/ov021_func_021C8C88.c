@@ -44,7 +44,8 @@ struct Work8C88 {
 typedef int (*TaskFn)(void *task, int *state, void *work);
 
 extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern struct Work8C88 *func_020124E8(void *task);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_02006148(u32 a0);

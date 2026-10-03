@@ -17,11 +17,15 @@
  */
 typedef unsigned char u8;
 extern int func_0217BC90(void *);
-extern void *func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern void *func_02045EC0(void *,unsigned);
-extern void func_02045C04(void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 extern unsigned func_020084E4(unsigned,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 int func_021D6C50(u8 *p,unsigned heap) {
     int flag,ready;
     void *bank,*str;

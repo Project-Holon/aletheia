@@ -18,7 +18,8 @@
  */
 
 extern int func_021DD98C(void);
-extern void func_021DDA98(void *);
+struct SAKERequestInternal;
+extern void func_021DDA98(struct SAKERequestInternal *request);
 
 int func_021DDB10(void *p, int v)
 {

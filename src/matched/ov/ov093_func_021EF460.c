@@ -52,12 +52,13 @@ typedef struct {
 
 extern G d_021F6398;
 extern H d_021F63D8;
-extern int func_021B8DDC(u8 v);
+struct WordSet;
+extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int a, u8 b, int c);
 extern void *func_021B86B8(void ***p);
 extern void func_02045CAC(void *s, u16 v, void *buf);
 extern void func_021EED00(u8 a, u32 b);
-extern void func_0201F250(void *a, void *b, void *c);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 
 void func_021EF460(u32 a, u32 b, P *p)
 {

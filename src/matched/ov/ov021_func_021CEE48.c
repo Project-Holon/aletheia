@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_0203CF10(int i);
+extern u32 func_0203CF10(u32 a);
 extern void func_021CEE78(u8 *p, u8 *a, u32 b);
 
 typedef struct Sub021CEE48 {

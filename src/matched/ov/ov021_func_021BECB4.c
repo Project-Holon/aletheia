@@ -25,10 +25,13 @@ typedef struct {
     u32 xc;
 } Work;
 
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-extern Work *func_020124E8(void *task);
-u32 func_021BEA6C(u32 k);
-void func_021BF208(void);
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+int func_021BEA6C(int x);
+int func_021BF208(u32 p0, int *st, u8 *q);
 
 void *func_021BECB4(void *p, u32 b)
 {

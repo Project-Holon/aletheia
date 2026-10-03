@@ -43,7 +43,7 @@ extern struct bucket_s *func_02193CD0(struct bucketset_s *set, char *name);
 extern void *func_02193CB0(struct bucket_s *pbucket);
 extern int func_0209477C(char *s);
 extern void *func_0217EAB0(unsigned long size);
-extern char *func_02094798(char *dst, char *src);
+extern char *func_02094798(char *dst, const char *src);
 extern char *func_020948B0(char *dst, char *src);
 extern void *func_02193C3C(struct bucket_s *pbucket, void *value);
 extern void func_0217EAE0(void *ptr);

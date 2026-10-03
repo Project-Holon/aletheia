@@ -23,7 +23,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02092430(void *p, u32 val, u32 count);
+extern void func_02092430(u8 *dest, u32 val, u32 count);
 
 void *func_020923B0(void *p, int c, u32 n)
 {

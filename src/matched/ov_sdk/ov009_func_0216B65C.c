@@ -63,7 +63,8 @@ extern void *g_021AA8A0[32];
 extern int DWC_CancelMatch(void);
 extern int func_02059F38(void);
 extern int func_0217603C(void);
-extern int func_0216F20C(int matchType);
+struct GTI2Connection;
+extern void func_0216F20C(int status);
 extern void DWCi_NNFreeNegotiateList(void);
 extern void func_0216BC84(int state);
 extern void DWCi_ClearQR2Key(void);
@@ -72,7 +73,7 @@ extern void func_02175F4C(int state);
 extern void func_0216F6C0(void);
 extern void func_02195DE4(struct GT2Socket *socket);
 extern struct DWCstNodeInfo *func_0217637C(int index);
-extern void func_0216C230(void *connection, int reason, int isPseudClose, u8 closeAid);
+extern void func_0216C230(struct GTI2Connection *connection, int reason, int isPseudClose, unsigned char closeAid);
 extern int func_0216B994(void);
 
 int func_0216B65C(void)

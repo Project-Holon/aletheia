@@ -15,7 +15,8 @@
  *   func_0200BAF4 0x0200BAF4 thumb
  * Return from the legacy void tail forwarder 0200BAC8 is used by this caller.
  */
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern unsigned int func_0200BBA8(void *);
 extern void *func_0200BAF4(int, int);

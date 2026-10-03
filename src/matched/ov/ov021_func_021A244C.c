@@ -41,7 +41,7 @@ extern void func_02048B30(void *cam, VecFx32 *out);
 extern void func_02048AE8(void *cam, VecFx32 *out);
 extern fx32 func_0207CF3C(const VecFx32 *a, const VecFx32 *b);
 extern void func_021A2D30(void *p, fx32 dist, fx32 *w, fx32 *h);
-extern fx32 func_0207C768(fx32 numer, fx32 denom);
+extern u32 func_0207C768(u32 a, u32 b);
 
 void func_021A244C(u8 *o, s32 *outX, s32 *outY)
 {

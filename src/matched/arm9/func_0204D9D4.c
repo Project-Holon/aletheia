@@ -57,7 +57,8 @@ struct CompHeader {
 
 extern char s_clact_c[];
 
-extern void *func_02049250(void *owner, u32 which, u32 mode);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void sub_020307B0(void *p);

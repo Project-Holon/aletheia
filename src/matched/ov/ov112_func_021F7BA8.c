@@ -29,7 +29,7 @@ extern void func_0207C9D0(const Vec *,const Vec *,Vec *);
 extern void func_021F9FD0(char *,int,int);
 extern int func_021F9DC0(int);
 extern void func_021F9FB4(char *,int);
-extern void func_021F9F58(void *,void *);
+extern void func_021F9F58(u8 *unused, u8 *p);
 extern void func_020061F8(int);
 void func_021F7BA8(u8 *p,u8 *q)
 {

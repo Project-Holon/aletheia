@@ -69,7 +69,8 @@ struct OSOwnerInfo {
 extern void OS_GetMacAddress(u8 *mac);
 extern void OS_GetOwnerInfo(struct OSOwnerInfo *info);
 extern s64  OS_GetOwnerRtcOffset(void);
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x25
 

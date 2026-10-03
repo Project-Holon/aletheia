@@ -23,8 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 x,y,z;u8 priority,flags;} ObjPos;
 extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B92C(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021DB700(u8 *,void *,u8 *,u8);
 void func_021D9A4C(u8 *a,u8 *p)
 {

@@ -53,9 +53,9 @@ struct Net {
 
 extern struct Net *g_021469D0;
 extern u8 str_020A7A20[];
-extern s32 func_0203D680(void);
-extern s32 func_02037258(void);
-extern s32 func_0203D6BC(void);
+extern u32 func_0203D680(void);
+extern u32 func_02037258(void);
+extern u32 func_0203D6BC(void);
 extern void func_02082BCC(u8 *p, u32 v, u32 n);
 extern void func_0203640C(u8 *dst, u8 *src, u32 n);
 extern void func_02037234(u8 *p);

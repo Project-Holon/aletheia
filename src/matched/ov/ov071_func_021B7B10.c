@@ -19,7 +19,8 @@
 
 extern void func_021B6C54(void *a);
 extern void func_021B6A0C(int a, void *b, int c, int d, int e, int f, int g, int h);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern void func_021B6B98(void *p, void *tbl, int n, int sel, int c);
 extern void func_021B6B58(void *p, int v);
 

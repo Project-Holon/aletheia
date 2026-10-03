@@ -43,7 +43,7 @@ extern void func_02045334(u32);
 extern int func_0201C6C4(int,u32);
 extern void func_02045374(u32);
 extern u8 func_02045730(u32);
-extern void func_02041B6C(u8);
+extern void func_02041B6C(u32 bit);
 extern u32 func_0202EE8C(u32,u32,int,int,u16);
 extern void func_0201C4E4(int);
 #define W(o) (*(u32 *)(s+(o)))

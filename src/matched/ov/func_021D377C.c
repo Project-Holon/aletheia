@@ -25,7 +25,7 @@ typedef signed int s32;
 
 /* 021D377C  shape F4: (u8) of a word arg, then func_021D5FB8 */
 extern u8 *func_021B9934(char *p, int i);
-extern void func_021D5FB8(void *p);
+extern void func_021D5FB8(u8 *p);
 
 int func_021D377C(u8 *p, int b, u32 *q)
 {

@@ -41,8 +41,8 @@ extern char  *g_02146940;
 extern char   g_020A74BC[];
 extern char   g_020A74C0[];
 
-extern void   func_02034714(void *a, u32 b, void *c);
-extern void  *func_02030734(u32 heap, u32 size, u32 flags, void *file, u32 line);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 void func_020266E0(u32 a0)
 {

@@ -48,7 +48,7 @@ extern NodeInfo *func_02176344(void);
 extern void func_02175F4C(int status);
 extern void func_02175F84(int status);
 extern int func_0216F20C(int matchType);
-extern void func_02173D28(int gpResult);
+extern int func_02173D28(int error);
 
 void func_021755D4(int init)
 {

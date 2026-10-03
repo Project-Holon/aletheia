@@ -55,8 +55,8 @@ struct Net {
 };
 
 extern struct Net *lbl_021469D0;
-extern struct Ctx *func_0203D788(void);
-extern struct Oth *func_0203D798(void);
+extern void *func_0203D788(void);
+extern void *func_0203D798(void);
 extern u32  func_020370F4(u32 a);
 extern int  func_020393D0(void);
 extern void func_02037F48(void);
@@ -64,7 +64,7 @@ extern void func_0203802C(void);
 extern void func_02038298(void);
 extern void func_02038340(void);
 extern void func_02039050(void);
-extern int  func_02039338(void);
+extern u16 func_02039338(void);
 extern int  func_02039160(u32 a);
 extern void func_020385C4(void);
 extern void func_020390BC(void);

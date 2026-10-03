@@ -50,7 +50,8 @@ struct Obj0203335C {
     u32 *slots;
 };
 
-extern u32 sub_02033BF0(void *p);
+struct Obj02033BF0;
+extern u32 sub_02033BF0(struct Obj02033BF0 *p);
 
 void sub_0203335C(struct Obj0203335C *p)
 {

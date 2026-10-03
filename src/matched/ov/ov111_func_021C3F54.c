@@ -83,20 +83,23 @@ typedef struct {
     TouchPos prev;
 } Work;
 
-extern int func_020221A4(void);
+struct Actor;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_020221A4(void);
 extern int func_021C56E8(Work *p);
 extern void func_021C5718(Work *p, int sel, int *seq);
 extern void func_021C5AEC(Work *p);
 extern int func_021C5F64(u8 *pix, TouchPos *cur, TouchPos *prev, int flush, const void *src, u8 clip, u8 side);
 extern void func_021C3F18(Work *p, int speed);
-extern int func_0204B98C(void *p);
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_0202208C(int a, int b, int c, int d, int e, int f, int heap);
 extern int func_021C4B9C(Work *p);
 extern int func_021C4E0C(Work *p);
 extern void func_0204A600(void);
-extern void func_0202DBC4(void *p);
-extern void func_0201C4E4(void *p);
-extern void func_020310C4(void *p);
+extern void func_0202DBC4(u8 *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_020310C4(struct Tcbl *p);
 
 int func_021C3F54(void *proc, int *seq, int c, Work *p)
 {

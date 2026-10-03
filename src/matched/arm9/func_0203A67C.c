@@ -69,7 +69,7 @@ extern void  *g_020A7AE8_arr[];
 extern char   g_020A7AF8[];
 extern char   g_020A7B08[];
 extern struct HugeRecv *g_021469D8;
-extern void func_02034714(char *file, int line, char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 struct BaseTable *func_0203A67C(u32 cmd)
 {

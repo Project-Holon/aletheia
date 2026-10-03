@@ -33,11 +33,13 @@ extern u32 *func_02158F58(void *a);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_02188CCC(u32 a);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020122C0(void *a, u32 b, void *c, u32 d);
-extern u32 *func_020124E8(void *task);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021D1AEC(int a, int *seq, u32 *c);
 extern void func_0215897C(void *vm, void *task);
-extern void func_02159144(u32 a);
+extern void func_02159144(int n);
 
 int func_021D1B2C(u32 a, u32 b)
 {

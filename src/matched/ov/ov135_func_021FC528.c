@@ -12,8 +12,10 @@
  *   func_02045EC0 0x02045EC0 arm
  */
 typedef unsigned int u32;
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_02045EC0(void *bank, u32 index);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021FC528(char *p)
 {
     int i;

@@ -28,7 +28,7 @@ extern int func_021BE878(u8 *p, u8 *a, u32 c);
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern int func_021C88E4(u8 *p);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021BE8C4(u8 *p, u8 *a);
 extern void func_021C5718(u8 *p, u8 *a, u32 b);
 extern void func_021CC95C(void *lock, u32 v, int line);

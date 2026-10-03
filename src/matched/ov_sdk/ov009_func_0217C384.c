@@ -26,7 +26,7 @@ typedef struct {
 extern Svl *g_021ACEF4;
 extern int OS_IsThreadTerminated(void *thread);
 extern int func_0217C448(void);
-extern void func_02179CF4(void *http);
+extern void func_02179CF4(char *http);
 extern void DWCi_SetError(int error, int code);
 
 int func_0217C384(void)

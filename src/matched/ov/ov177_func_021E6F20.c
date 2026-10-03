@@ -31,9 +31,10 @@ typedef struct {
     u32 layer;           /* 0x234 */
 } Work;
 extern void *func_020490F4(u32 id, u16 heap);
-extern u32 func_0201BC3C(void);
-extern u32 func_0201BC40(void);
-extern u32 func_0201BCB4(void);
+struct Obj;
+extern int func_0201BC3C(void);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
 extern void *func_0204ACEC(void *, u32, u32, u16, u16);
 extern void *func_0204AF28(void *, u32, u32, u32);
 extern u32 func_0200B214(void *, int, u8);
@@ -49,7 +50,7 @@ extern void *func_0204AC18(void *, u32, u32, u16, u32, u32, u16);
 extern void func_02082BCC(void *, u32, u32);
 extern void *func_0204B294(void *, void *, void *, void *, const Request *, u16, u32);
 extern u32 func_0201BB5C(u32, u32, u32, u32);
-extern void func_0204B6F4(void *, u32, u32);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021E6F20(Work *w, void *owner, void *rec, u16 heap)
 {
     u8 form;

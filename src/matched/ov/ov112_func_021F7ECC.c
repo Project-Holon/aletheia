@@ -25,8 +25,10 @@ typedef struct { u16 count,pad; int index,a,b; } Tail;
 typedef struct { short y,x; } Scale;
 extern void func_021F4EA4(int,int,Vec *);
 extern void func_021F4E8C(int,int,Vec *);
-extern void func_021F4EC4(int,int,short *,short *);
-extern void func_021F4EB4(int,int,short,short);
+typedef signed short   s16;
+typedef unsigned int   u32;
+extern void func_021F4EC4(u32 unused, u32 p, s16 *a, s16 *b);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 extern void func_021F4E6C(int,int,int);
 extern void func_020061F8(int);
 void func_021F7ECC(char *p,char *q)

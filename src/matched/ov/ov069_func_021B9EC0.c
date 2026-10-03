@@ -14,5 +14,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0204B98C(void *p);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 int func_021B9EC0(u8 *p) { if (func_0204B98C(*(void **)(p+0x128))==0) *(int *)(p+0x158)=3; return 1; }

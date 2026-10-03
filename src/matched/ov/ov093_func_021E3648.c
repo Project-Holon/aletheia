@@ -25,7 +25,8 @@ extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *l, int a, int b);
 extern void func_021C8860(void *l, u32 v);
 extern void func_021C88C8(void *a, void *b);
-extern void func_021D7040(void *n);
+struct Node;
+extern void func_021D7040(struct Node *n);
 
 void func_021E3648(void *u, void *p, int key, int *o)
 {

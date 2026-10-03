@@ -28,15 +28,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0200FB24(void);
-extern u8 *func_0203CA98(void);
+extern u32 func_0200FB24(void);
+extern u32 func_0203CA98(void);
 extern void func_021D5F7C(int);
 extern void func_021D5D3C(int);
 extern void func_021D5C94(int);
 extern void func_0200F83C(void);
 extern void func_021D5938(int);
 extern int func_0203CD98(void);
-extern void func_0200FBB0(void);
+extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);
 extern void func_0200FBA0(void);
 extern void func_0203C968(void);

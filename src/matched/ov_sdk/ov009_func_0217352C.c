@@ -22,7 +22,8 @@
  */
 
 extern char *func_02175F3C(void);
-extern int func_02172EAC(int id);
+typedef unsigned int   u32;
+extern int func_02172EAC(u32 bitmap);
 extern int func_0217603C(void);
 extern int func_02176554(void);
 extern unsigned long long func_020870D0(void);

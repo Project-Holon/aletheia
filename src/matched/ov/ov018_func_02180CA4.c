@@ -16,7 +16,8 @@
  */
 typedef unsigned int u32;
 extern void func_0201232C(void *, void *, int);
-extern void *func_020124E8(void *);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(const void *, void *, u32);
 extern int func_02180CC8(void *, int *, void *);
 void func_02180CA4(void *task, const void *src)

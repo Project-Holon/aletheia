@@ -17,9 +17,12 @@
  *   func_021C1D18  0x021C1D18  thumb  ov021
  */
 
+typedef unsigned int u32;
+
 void *func_020120F4(int a);
-void *func_02012934(void *p);
-int func_0201AB28(void *a, int b);
+struct BigObj;
+void *func_02012934(const struct BigObj *p);
+extern void *func_0201AB28(void *p, u32 idx);
 int func_02017E1C(int a, int b, int c);
 int func_02017EAC(int a);
 int func_021C1D18(int a, int b, int c, int d, int e, int f, int g);
@@ -33,7 +36,7 @@ int func_021C1D68(int a, int b, int c)
     int xe;
     int x4c;
 
-    p = func_0201AB28(func_02012934(func_020120F4(a)), c);
+    p = (int)func_0201AB28(func_02012934(func_020120F4(a)), c);
     x5 = func_02017E1C(p, 5, 0);
     x6f = func_02017E1C(p, 0x6f, 0);
     x6e = func_02017E1C(p, 0x6e, 0);

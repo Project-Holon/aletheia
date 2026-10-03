@@ -31,17 +31,19 @@ typedef struct { u8 lo : 4; u8 b4 : 1; u8 hi : 3; } Fb;
 typedef struct { int x, y, z; } Vec;
 
 extern int func_020120F4(void *);
-extern int func_02012114(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_02012114(const struct Ctx *p);
 extern int func_02012944(int);
 extern int func_02008550(int);
 extern int func_02012B58(int);
-extern int func_02175598(u8 *, int);
-extern void *func_0201210C(void *p);
+extern u16 func_02175598(u8 *o, u32 id);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3220(void *, u16);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(void *, Vec *);
-extern void func_021A322C(void *);
+extern void func_021A322C(u8 *p);
 
 void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
 {

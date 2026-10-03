@@ -18,8 +18,10 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { s16 x, y; } Vec2;
 extern void func_021BC564(const Vec2 *, Vec2 *);
-extern void *func_02045770(void *);
-extern void func_02043AF4(void *, u32, u32, u32, u32, u32);
+struct Bmp;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 void func_021BC58C(void *p, const Vec2 *a)
 {
     Vec2 pos;

@@ -13,7 +13,8 @@
  *   func_020897B4 0x020897B4 arm
  */
 
-extern void func_020897B4(void);
+typedef unsigned int   u32;
+extern void func_020897B4(int playerNo, u32 offset, u32 data, int size);
 
 asm void SND_SetPlayerChannelPriority(void)
 {

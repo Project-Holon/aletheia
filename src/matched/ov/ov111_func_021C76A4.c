@@ -108,11 +108,12 @@ typedef struct {
     int f1C;
 } Camera;
 
-extern void func_02046440(int a, int b, int c, int d, int e, int heap, int g);
+struct LightSlot;
+extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern void *func_02048BC4(const void *p, int heap);
-extern void func_02048C58(void *slots);
+extern void func_02048C58(struct LightSlot *slots);
 extern void func_02046858(Camera *c);
-extern void func_02040588(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
 extern const void *const d_021C8810;
 extern const Camera d_021C896C;
 extern const s16 FX_SinCosTable_[];

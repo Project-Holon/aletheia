@@ -35,17 +35,19 @@ struct C {
     u8 pad38[0x138];
     u16 f170, f172, f174, f176, f178, f17a, f17c;
 };
-extern void func_0201DD78(int, int, int);
-extern void func_02045374(void *);
-extern void func_020454E0(void *, u16, u32);
+struct Cfg;
+struct Descriptor;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_020454E0(struct Cfg *cfg, u16 base, u32 pal);
 extern void func_02043B5C(int, int);
-extern u8 func_02045730(void *);
-extern void func_020409B4(u8);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
 extern void func_021EF71C(u32, u32, u32, u32, u32, u32, u32);
 extern void func_0201C7A4(int, int, int, int, int);
-extern void func_02045334(void *);
-extern void func_02040618(int, int, int);
-extern void func_020061E4(int);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_020061E4(u32 a);
 int func_021EE3E8(int *st, struct C *c)
 {
     switch (*st) {

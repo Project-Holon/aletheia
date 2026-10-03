@@ -20,12 +20,12 @@
 
 typedef unsigned int u32;
 
-void func_021A01AC(u32 x, int v);
-void func_021A01CC(u32 x, int v);
-void func_021A01B4(u32 x, int v);
-void func_021A01BC(u32 x, int v);
+int func_021A01AC(u32 a, u32 b);
+int func_021A01CC(u32 a, u32 b);
+int func_021A01B4(u32 a, u32 b);
+int func_021A01BC(u32 a, u32 b);
 void func_021A01D8(u32 x);
-void func_021A01A4(u32 x, int v);
+int func_021A01A4(u32 a, u32 b);
 
 void func_021A22E0(u32 *p, int a, int b, int c)
 {

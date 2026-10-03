@@ -12,9 +12,9 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0A64 0x021E0A64 thumb ov119
  */
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern void func_021D8E84(void *, int);
-extern void func_021E0A64(void *);
+extern void func_021E0A64(char *p);
 void func_021E0958(char *p)
 {
     if (func_021E12AC(p) && *(int *)(p + 0xF2C) > 0xB4) {

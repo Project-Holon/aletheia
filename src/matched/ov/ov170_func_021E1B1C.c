@@ -94,7 +94,9 @@ extern void func_021EF35C(struct WinMgr *mgr);
 extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EC5A0(unsigned char *p, int flag);
 extern void func_021DE66C(unsigned char *p, void *e);
-extern void func_020260E4(void *obj, unsigned char sel);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(unsigned char *p, unsigned idx);
 extern void func_021ED7C4(char *p, int i);
 

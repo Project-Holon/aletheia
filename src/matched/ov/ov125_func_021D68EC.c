@@ -14,8 +14,9 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_021D730C(void *);
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+extern int func_021D730C(char *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, unsigned int);
 extern const char d_021D8D28[];
 extern const u16 d_021D8C80[][2];

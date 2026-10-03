@@ -16,8 +16,9 @@
 typedef unsigned char u8;
 struct Row { int (*call)(u8 *); int result; int other; };
 extern const struct Row d_021C7D7C[];
-extern int func_02031330(void *);
-extern int func_021C714C(u8 *, int);
+typedef unsigned int   u32;
+extern unsigned int func_02031330(void *p);
+extern int func_021C714C(u8 *p, u32 v);
 int func_021C6BF0(u8 *p)
 {
     if (func_02031330(*(void **)(p + 0x30)) == 1) return 7;

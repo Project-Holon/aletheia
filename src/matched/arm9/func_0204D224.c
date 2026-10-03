@@ -57,8 +57,9 @@ struct A {
 };
 
 extern char s_clact_c[];
-extern u32  func_020648B4(u32 a, u32 b);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern int func_020648B4(u32 a, u32 b);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02064754(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32  func_020627D8(u32 a, u32 b);
 extern void func_0206469C(void *a, u32 b);

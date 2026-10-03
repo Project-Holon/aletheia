@@ -18,7 +18,8 @@
  */
 extern int func_0201134C(void *);
 extern void *func_021F86F0(void);
-extern void func_02201CA4(void *, int);
+struct Res;
+extern void func_02201CA4(struct Res *r, int i);
 
 int func_021FB8F4(void *a, char *s)
 {

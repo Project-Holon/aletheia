@@ -56,7 +56,8 @@ struct AreaMan {
 extern struct AreaMan *unk_021469B8;
 extern const char s_FileName[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 void sub_0203499C(u32 heap, int n0, int n1, int n2)

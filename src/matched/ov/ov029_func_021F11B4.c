@@ -26,7 +26,7 @@ typedef struct { u8 key, row, col, v; } Ent;
 
 extern const Ent d_021F348C[];
 extern void func_021F0B00(void *q, void *p, int a, int b, int c, u16 d);
-extern int func_021F0A68(void *p);
+extern int func_021F0A68(char *p);
 extern void func_021F0A38(void *p);
 
 int func_021F11B4(char *p)

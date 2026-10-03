@@ -33,7 +33,7 @@ struct NetState {
     u16 unk_5e;
 };
 
-extern struct NetState *func_0203D798(void);
+extern void *func_0203D798(void);
 
 void func_0203D24C(u16 a, u16 b)
 {

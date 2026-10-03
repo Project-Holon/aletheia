@@ -50,10 +50,10 @@ typedef struct Flags {
 
 extern void func_02082BCC(void *p, int v, u32 n);
 extern int func_0203D1B4(void);
-extern int func_02039414(void);
+extern u32 func_02039414(void);
 extern int func_02085D3C(void);
 extern Flags *func_02087E60(void);
-extern void *func_02012944(void *p);
+extern u8 *func_02012944(void *p);
 extern u32 func_02008530(void *p);
 
 void func_02164EB4(Hdr *p, void *src)

@@ -45,9 +45,10 @@ extern const u8 d_021C36F4[],d_021C36D4[],d_021C3654[],d_021C3634[];
 extern void func_020433E0(const void *);
 extern void func_0203FC28(void *);
 extern void func_0203FCA0(u32,const void *,u32);
-extern void func_020414EC(u8);
+struct GfFont;
+extern void func_020414EC(u32 i);
 extern void func_02040588(u8,u32);
-extern void *func_0201D7EC(int,int,int,int,u32);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C450(u16,u32);
 void func_021BA070(u8 *p) {
     u8 *q=*(u8 **)p;

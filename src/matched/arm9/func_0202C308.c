@@ -12,8 +12,9 @@
 
 typedef unsigned int u32;
 
-extern void func_0202C3C4(void *p);
-extern void func_0202C3A0(void *p);
+struct Obj0202C360;
+extern void func_0202C3C4(struct Obj0202C360 *p);
+extern u32 func_0202C3A0(void *p);
 
 void func_0202C308(void *p)
 {

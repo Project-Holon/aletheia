@@ -13,8 +13,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_02009050(void *,int,int,int);
-extern int func_02008EF8(void *);
+typedef unsigned int   u32;
+struct Sub02008F80Obj;
+extern struct Sub02008F80Obj *func_02009050(struct Sub02008F80Obj *arr, u32 unused, int i, u32 heap);
+extern int func_02008EF8(const struct Sub02008F80Obj *obj);
 void func_021C5B40(u8 *p)
 {
     unsigned i;

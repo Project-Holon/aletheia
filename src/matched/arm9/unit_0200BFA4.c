@@ -39,9 +39,10 @@ typedef unsigned short     u16;
 typedef unsigned int       u32;
 typedef unsigned long long u64;
 
-extern u16 func_0200864C(void *p);
-extern u8  func_02008650(void *p);
-extern u8  func_02008654(void *p);
+struct PlayTime;
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
+extern u8 func_02008654(const struct PlayTime *p);
 extern u64 g_02146170;
 
 u64 func_0200BFA4(u8 *p, void *q, u32 mode)

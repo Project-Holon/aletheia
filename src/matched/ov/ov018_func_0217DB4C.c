@@ -25,7 +25,9 @@ typedef struct { u16 a, b, c, d; } Rect;
 extern int func_0204B294(int, int, int, int, Rect *, int, int);
 extern void func_0204B3DC(int, int);
 extern void func_0204B6F4(int, int, int);
-extern void func_0204B92C(int, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern const Rect d_021836E4;
 
 void func_0217DB4C(int *p)

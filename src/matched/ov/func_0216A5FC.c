@@ -33,7 +33,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_02012EBC(struct Big *p);
 extern struct Sub02008C20Obj *func_02008C58(void *sys);
-extern int func_02008E78();
+extern u8 func_02008E78(struct Sub02008C20Obj *obj);
 
 int func_0216A5FC(int a0, int a1)
 {

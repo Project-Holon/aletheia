@@ -24,7 +24,7 @@ typedef struct {
     int mode;
 } Work;
 
-extern u32 func_02035C38(void);
+extern int func_02035C38(void);
 extern unsigned int func_0203630C(void);
 
 int func_021C5008(Work *p)

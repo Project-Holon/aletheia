@@ -40,16 +40,17 @@ typedef struct {
 } Obj;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_0201BC3C(void);
+typedef signed int     s32;
+extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
-extern u32 func_0201BC40(void);
-extern u32 func_0201BCB4(void);
-extern u32 func_0204AF28(void *h, u32 a1, u32 a2, u32 a3);
-extern int func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, int i);
+extern int func_0201BC40(void);
+extern int func_0201BCB4(void);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_020185F0(void *p);
 extern u32 func_0201BA68(u32 a);
-extern u32 func_0204A6C8(void *h, u32 a1, u32 a2, u32 a3, u32 heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *h);
 
 void func_021CC8DC(Obj *p)

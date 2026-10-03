@@ -16,7 +16,8 @@
  */
 
 extern void func_02085D3C(void);
-extern void func_02085CBC(void);
+typedef unsigned int   u32;
+extern u32 func_02085CBC(void);
 extern int g_02151264;
 
 asm void *OS_GetInitArenaHi(int id)

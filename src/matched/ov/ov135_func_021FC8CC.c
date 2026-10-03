@@ -39,17 +39,22 @@ typedef struct {
 
 extern const u32 tbl_02202EB0[];
 
-extern void *func_020457B0(u32 size, u32 heap);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u32 func_02017E88(void *mon, u32 id, void *v);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02202670(void *words, void *msg, u32 id, u32 heap);
 extern void func_02020F84(void *dst, u32 entry, u32 heap);
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern u16 func_021FC8A8(int mode);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021FC8CC(void *bank, void *names, void *words, void **win, void *mon, Rec *rec, void *g)
 {

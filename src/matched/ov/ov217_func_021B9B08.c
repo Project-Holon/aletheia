@@ -23,9 +23,9 @@
  *   func_021BA158 0x021BA158 thumb ov217
  * A600's complete body uses globals, no entry r0 reader or forwarder.
  */
-extern void func_021B9B98(void *);
-extern void func_021B9C54(void *);
-extern void func_021B9E44(void *);
+extern void func_021B9B98(char *p);
+extern void func_021B9C54(char *p);
+extern void func_021B9E44(char *p);
 extern void func_021BA078(unsigned);
 extern void func_021BA094(unsigned);
 extern unsigned func_021BA0C4(unsigned);

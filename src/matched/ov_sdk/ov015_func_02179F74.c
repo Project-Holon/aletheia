@@ -38,7 +38,7 @@ typedef void (*IRCRecvCallback)(u8 *data, u8 size, u8 command, u8 id);
 typedef void (*IRCShutdownCallback)(int isError);
 
 extern void func_0217A60C(void);
-extern u8 func_0217A7AC(u8 *buf);
+extern int func_0217A7AC(u8 *buf);
 extern void func_02179F48(void);
 extern void func_0217A594(u8 id);
 

@@ -14,8 +14,9 @@
  *   func_021859F0 0x021859F0 thumb ov020
  * interface: 021859F0 forwards incoming r0 to 02012964.
  */
-extern void *func_020120F4(void *p);
-extern unsigned int func_0201210C(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_021859F0(void *p);
 void func_02185B70(void *p)
 {

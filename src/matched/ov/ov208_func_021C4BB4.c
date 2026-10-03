@@ -45,7 +45,8 @@ struct Ov208Menu {
 
 extern void func_0201C6EC(u32 print);
 extern void *func_02045770(struct Descriptor *d);
-extern void func_02043B5C(struct Bmp *b, u8 v);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u16 ov208_func_021BC3C0(int key);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);

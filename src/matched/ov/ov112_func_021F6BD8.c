@@ -21,9 +21,10 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_02030734(u16,u32,int,const char *,u16);
-extern void *func_0204B100(int,u8,u32);
-extern void func_0204B270(void *);
+struct Bank;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0204ABF0(u32,u32,u32,u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);

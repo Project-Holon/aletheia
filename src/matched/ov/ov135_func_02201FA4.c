@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02201F18(u8 *);
+extern u32 func_02201F18(u8 *p);
 extern int func_021C866C(void);
 extern void func_021F4E98(u8 *,u32,u32),func_021F4EC0(u8 *,u32,u32),func_021F4FC4(u8 *);
 int func_02201FA4(u8 *p) { func_02201F18(p); if(func_021C866C()) func_021F4E98(p,41,48); else func_021F4E98(p,41,46); func_021F4EC0(p,0,21); func_021F4FC4(p); return 2; }

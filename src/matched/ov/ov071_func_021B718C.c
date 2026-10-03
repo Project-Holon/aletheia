@@ -15,8 +15,9 @@
  *   func_02027FD8  0x02027FD8  thumb
  */
 
+struct TaskMenuState;
 void func_021B718C(void *p)
 {
-    void func_02027FD8(void *p);
+    void func_02027FD8(struct TaskMenuState *s);
     func_02027FD8(p);
 }

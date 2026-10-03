@@ -59,12 +59,12 @@ typedef struct {
 
 extern u16 func_0217AEFC(unsigned int x);
 extern int func_0217BB04(u8 *a);
-extern void func_021736E0(int a);
+extern void func_021736E0(unsigned int x);
 extern void func_0203D14C(int a, int b, u8 *c);
-extern int func_0217F1EC(u8 *a);
+extern u32 func_0217F1EC(u8 *p);
 extern int func_0203D1B4(void);
 extern void func_0203D7BC(int a);
-extern int func_0217F060(int a);
+extern u8 func_0217F060(int i);
 extern int func_020399A8(void);
 extern int func_0203D1A4(int a);
 extern void func_021734A8(u8 *a, int b, u8 *c);
@@ -74,7 +74,7 @@ extern u32 func_020362DC(void);
 extern u16 func_0217EE40(int i);
 extern u16 func_0217EE1C(int i);
 extern u16 func_0217EDF8(int i);
-extern void func_0217F210(u8 *a, int b, int c);
+extern void func_0217F210(u8 *p, int a, u32 b);
 extern void func_02172D20(u8 *a);
 extern int func_02172D68(u8 *a);
 extern u8 d_021807E4[];

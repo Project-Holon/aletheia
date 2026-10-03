@@ -21,13 +21,16 @@
 
 typedef unsigned int u32;
 
-extern void func_020310C4(void *);
-extern void func_020286C4(void *, void *, void *);
-extern int func_0201CE30(void *);
+struct Ctx;
+struct Rec3;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern u32 func_0201CE30(void *p);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern void func_0201CE38(void *);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 
 int func_021BD188(char *p)
 {

@@ -24,8 +24,10 @@ typedef unsigned int u32;
 
 extern const u32 tbl_02202EB0[];
 
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *p);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern u16 func_021F8078(int mode, u16 color);
 extern u32 func_022028C8(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
 

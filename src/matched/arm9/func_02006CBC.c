@@ -58,10 +58,11 @@ extern char g_020A703C[];
 extern char g_020A7030[];
 extern void *g_02146164;
 
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
-extern void  func_0208BEF0(u32 a);
-extern void  func_0208BF38(u32 a);
+extern unsigned int func_0208BEF0(unsigned int status);
+extern unsigned int func_0208BF38(unsigned int gain);
 extern void  func_0208B24C(void);
 extern int   func_02085D3C(void);
 extern void  func_02006D3C(u32 a, char *b);

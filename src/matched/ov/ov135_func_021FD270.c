@@ -45,10 +45,12 @@ typedef struct {
     void *name1;
 } Work;
 
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_0201F31C(void *words);
-extern void func_0201F048(void *words, u32 i, u32 n);
-extern void func_0201F094(void *words, u32 i, u32 a, u32 n);
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F31C(struct WordSet *p);
+extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern void *func_02202670(void *words, void *msg, u32 id, u32 heap);
 
 void func_021FD270(Work *p)

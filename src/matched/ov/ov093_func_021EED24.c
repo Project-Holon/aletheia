@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef struct {
     u32 f0;
     u32 f4;
-    u32 f8;
+    void *f8;
     u32 fc;
     u32 t[8];
 } D;
@@ -31,7 +31,8 @@ typedef struct {
 extern D d_021F6398;
 extern u8 *func_021B9940(char *p, u8 i);
 extern void *func_021D5844(void *m);
-extern void func_0201EEF4(u32 h, u32 a, void *mon);
+struct WordSet;
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 
 void func_021EED24(u8 a, u32 b)
 {

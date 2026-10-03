@@ -19,7 +19,8 @@ typedef struct {
     unsigned b6 : 1;
 } Flags;
 
-extern Flags *func_02011324(void *);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 
 int func_021F9824(void *a)
 {

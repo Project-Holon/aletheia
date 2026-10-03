@@ -40,10 +40,14 @@ typedef struct Ctx {
 } Ctx;
 
 extern void func_020498F4(int a, int b, int c, int d, int e, int f, int g);
-extern void func_02045374(void *p);
-extern void func_020409B4(u8 id);
-extern void func_02045334(void *p);
-extern void func_0204B22C(void *bank, int mode);
+typedef unsigned int   u32;
+struct Bank;
+struct Cfg;
+struct Descriptor;
+extern void func_02045374(struct Cfg *cfg);
+extern void func_020409B4(u32 index);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_02204960(Main *m, int a1, int a2, int a3, int a4, int a5, int a6, int a7);
 extern void func_0220687C(Main *m, int a);
 

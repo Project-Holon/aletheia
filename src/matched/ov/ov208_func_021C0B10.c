@@ -25,11 +25,11 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32  func_0201BC3C(void);
-extern u32  func_0204ACEC(void *h, u32 id, u32 a2, u32 a3, u32 heap);
-extern u32  func_0201BC78(void);
-extern u32  func_0201BCEC(void);
-extern u32  func_0204AF28(void *h, u32 a, u32 b, u32 heap);
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int func_0201BC78(void);
+extern int func_0201BCEC(void);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 
 void ov208_func_021C0B10(u16 *heap, u8 *p, int key)

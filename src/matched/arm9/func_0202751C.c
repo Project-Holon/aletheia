@@ -23,14 +23,18 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(int heap, int size, int align, const char *file, int line);
-extern void *func_020457B0(u32 n, u32 heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02045EC0(void *a, u32 b);
-extern void  func_02045A38(void *a, void *dst, u32 n);
-extern void  func_02045924(void *dst, const void *src);
-extern void  func_02045808(void *a);
-extern void  func_02045C04(void *a);
+struct MsgBank;
+struct Rec;
+struct Strbuf;
+struct U16Vec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 extern const char sBeaconStatus42[];
 
 typedef struct {

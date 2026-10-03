@@ -16,8 +16,9 @@
  */
 extern int func_021D8AA8(void *);
 extern void func_021E67E0(void *, int, int);
-extern int func_02006254(int);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern int func_02006254(u32 a);
+extern void func_020061E4(u32 a);
 void func_021DF8A0(void *p, int a, int b)
 {
     if (func_021D8AA8(p)) {

@@ -29,7 +29,9 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_0204B3DC(void *o, int v);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021C51E4(Work *p, int flag)
 {

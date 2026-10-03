@@ -18,7 +18,7 @@
 
 extern void *func_021F86B4(void);
 extern void *func_021F8694(void);
-extern int func_02207D78(void *w, int key);
+extern int func_02207D78(char *p, int i);
 extern int func_022005C4(void *w, int key);
 
 void func_0220680C(char *p)

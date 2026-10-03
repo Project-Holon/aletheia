@@ -19,7 +19,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_020089C0(void *sys);
+struct Sub020089A8Obj;
+extern struct Sub020089A8Obj *func_020089C0(void *sys);
 
 void *func_02012F5C(void **h)
 {

@@ -15,7 +15,8 @@
 
 extern void func_020456F8(int);
 extern void func_020452E8(int);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+extern void func_02041B6C(u32 bit);
 
 void func_021DD9DC(unsigned char *p)
 {

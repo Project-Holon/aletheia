@@ -32,17 +32,17 @@ typedef unsigned int   u32;
 
 extern int func_021A66F8(u8 *p, u32 m);
 extern void func_0216D550(u32 o, u32 v);
-extern void func_021A6714(u8 *p);
-extern void func_021A6720(u8 *p);
+extern void func_021A6714(void *a);
+extern void func_021A6720(void *a);
 extern void func_021A3964(u32 o, u32 v);
-extern void func_021A6750(u8 *p);
-extern void func_021A6768(u8 *p);
+extern void func_021A6750(void *a);
+extern void func_021A6768(void *a);
 extern u16 func_0216D608(u32 o);
 extern u16 func_021642A4(int i);
-extern void func_0216D60C(u32 o, u32 v);
-extern void func_021A6780(u8 *p);
-extern void func_021A6798(u8 *p);
-extern void func_021A6BAC(u8 *p);
+extern int func_0216D60C(int a0, int a1);
+extern void func_021A6780(void *a);
+extern void func_021A6798(void *a);
+extern int func_021A6BAC(void *a);
 
 void func_021A6870(u8 *p)
 {

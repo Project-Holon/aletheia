@@ -69,13 +69,13 @@ extern void func_021E1670(void *,void *,int,int,char *,int,int);
 extern void func_021E5DFC(char *,int,void *);
 extern void func_021E5F14(char *,int,int,void *);
 extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
-extern void func_021E0E4C(void *);
+extern void func_021E0E4C(char *p);
 extern void func_021E5EF8(void *);
 extern void func_021E194C(int,int,int,int,char *);
 extern void func_021E198C(int,int,int,int,char *);
 extern void func_021E1A44(int,int,int,int,char *);
 extern void func_021E1AA8(int,int,int,int,char *);
-extern void func_021E40EC(void *,int,int);
+extern void func_021E40EC(char *p, int a1, int a2);
 #define I(k) (*(int *)(p+(k)))
 #define P(k) (*(void **)(p+(k)))
 void func_021E1E00(char *p,int mode,void *mon)

@@ -34,8 +34,8 @@ extern s16 d_020A1B38[];
 extern char *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B8(void *p, int v);
-extern void  func_021BE6B0(void *p, int v);
+extern void func_021BE6B8(unsigned char *p, int v);
+extern void func_021BE6B0(unsigned char *p, int v);
 extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_0207AF1C(void *m, int a, int b);
 

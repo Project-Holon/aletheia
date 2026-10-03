@@ -14,8 +14,8 @@
  *   func_021F4EC0 0x021F4EC0 thumb ov135
  *   func_021FFBC8 0x021FFBC8 thumb ov135
  */
-extern unsigned func_021F4D14(void *);
-extern void func_021F4CE4(void *);
+extern int func_021F4D14(char *p);
+extern void func_021F4CE4(char *p);
 extern void func_021F4EC0(void *, unsigned, unsigned);
 extern void func_021FFBC8(void *);
 int func_021FF024(char *p)

@@ -47,10 +47,14 @@ typedef struct {
 
 extern unsigned short d_02183946[];
 
-void *func_020124E4(void *);
-void *func_02012138(void *);
-int func_02158344(void *);
-void func_0201F02C(void *, int, void *);
+typedef unsigned int   u32;
+struct Ctx;
+struct Obj;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
+u32 func_02012138(const struct Ctx *p);
+int func_02158344(int a0);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);

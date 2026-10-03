@@ -60,15 +60,16 @@ extern int func_021F722C(int);
 extern void *func_021F8694(void);
 extern void func_021FF16C(void *);
 extern int func_021FFCB0(void *, int);
-extern int func_021FFD9C(void *, int);
-extern int func_02200494(void *, int);
+typedef unsigned int   u32;
+extern int func_021FFD9C(char *p, int key);
+extern int func_02200494(char *p, int key);
 extern void *func_021F8700(void);
 extern int func_0220985C(void *);
-extern int func_02051614(void *);
+extern int func_02051614(int **p);
 extern int func_021F8324(unsigned);
 extern int func_02006238(void);
 extern int func_02006224(unsigned);
-extern int func_02006BD0(int);
+extern u32 func_02006BD0(u32 i);
 
 int func_021FC744(int a, State *s)
 {

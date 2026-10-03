@@ -65,7 +65,8 @@ struct Personal {
 
 extern void *func_02049578(void *handle, u32 id);
 extern void *func_0204960C(void *handle, void *x);
-extern void func_020495F4(void *handle, u32 id, void *dest);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 
 extern void *g_0214652C;
 

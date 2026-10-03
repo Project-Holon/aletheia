@@ -25,7 +25,9 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern int func_0203EFC8(const void *a, const void *b, int n);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_0201054C(const u8 *obj)
 {

@@ -29,7 +29,7 @@ extern void func_021DD294(void *,int,int);
 extern void func_021D8980(void *);
 extern void func_021DD09C(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DEA24(void *);
+extern void func_021DEA24(char *p);
 
 void func_021DDB10(unsigned char *p)
 {

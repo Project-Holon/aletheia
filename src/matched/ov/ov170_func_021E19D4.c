@@ -21,7 +21,9 @@ typedef struct {
     unsigned short fE;
 } Blk;
 
-extern unsigned char func_020260E0(void *obj);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EE008(char *p, int a, int b);
 extern void func_021EDF5C(char *p);
 extern void func_021EDD38(char *p, int d);

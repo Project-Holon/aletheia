@@ -19,6 +19,6 @@
  *   func_021D4360 0x021D4360 thumb ov115
  */
 typedef unsigned char u8; typedef unsigned int u32;
-extern int func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
+extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 extern unsigned char func_02156C84(void); extern int func_02012DD0(u8 *); extern void func_02156C98(int); extern void func_021D4360(u8 *);
 void func_021D43CC(u8 *p) { int r; if(func_02156C84()) { r=func_02012DD0(*(u8 **)(p+0x44)); switch(r) { case 0: case 1: return; default: func_02156C98(r); break; } } func_021D4360(p); }

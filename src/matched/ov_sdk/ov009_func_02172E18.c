@@ -18,7 +18,7 @@
  *   func_02176254  0x02176254  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int **func_0216BBDC(int profileID, int flag);
 extern void func_02195DC4(int *connection);
 extern int func_02176254(int profileID);

@@ -21,8 +21,10 @@ typedef unsigned int u32;
 typedef struct {u32 id,value;} Row;
 extern const Row d_021B81FC[],d_021B81EC[];
 extern u32 func_0201C440(void *);
-extern void *func_02027F60(u16,u16,u32,u32,u16);
-extern void *func_02045EC0(void *,u32);
+struct MsgBank;
+struct R;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021B6278(u8 *p)
 {
     int i;

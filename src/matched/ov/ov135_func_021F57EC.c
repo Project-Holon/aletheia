@@ -41,11 +41,14 @@ typedef struct {
 } Work;
 
 extern void *func_020450F0(int a, int b, int c, int d, int e, int f, int g);
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
-extern void func_02045334(void *win);
-extern void func_02045374(void *win);
-extern u32 func_02045730(void *win);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
 extern int func_021F91A0(void *win, void *strs, u32 c, u32 d, u32 e, u16 f, void *g);
 extern void func_02200BAC(Work *p, u32 k);

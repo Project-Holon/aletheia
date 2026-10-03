@@ -32,10 +32,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02189A58(u32 o, u32 v);
-extern void func_0204047C(u32 a, u32 b);
+typedef signed int     s32;
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_02040588(u32 a, u32 b);
 extern void func_0207D63C(int a, int b, int c, int d, int e);
-extern void func_0204E720(u32 a, u32 b, u32 c, u32 d);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_0208068C(u32 a);
 extern void func_02082AC0(u32 a, u32 b, u32 c);
 extern void func_02080B98(void);

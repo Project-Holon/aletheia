@@ -34,19 +34,20 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern u16 **func_02158F58(void *);
-extern u16 func_02011330(void *);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
 extern u32 func_02159B10(void *, u32);
 extern u32 func_0215A5CC(u32);
 extern u32 func_020457B0(u32 n, u32 heap);
 extern u32 func_0215A60C(u32);
 extern u32 func_02158F74(void *);
-extern u32 func_02158F7C(void *);
+extern u32 func_02158F7C(u8 *p);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_0201F250(u32, u32, u32);
 extern void func_02191830(u16 *, u32, u8 *, u8 *);
 extern void func_021918DC(u16 *a, u32 b, u32 c, u8 d, u8 e, u8 f, u8 g);
 extern void func_02045808(u32);
-extern void func_02159144(u32);
+extern void func_02159144(int n);
 
 int func_021B1100(void *a, u32 b)
 {

@@ -17,9 +17,9 @@
 typedef unsigned int u32;
 extern void func_02082BCC(void *,int,int);
 extern void func_02082D44(const void *,void *,int);
-extern void func_021DCB58(void *,void *,int);
+extern void func_021DCB58(char *p, void *q, int mode);
 extern int func_021DCC28(void *,void *);
-extern void func_021E8AA8(u32);
+extern void func_021E8AA8(int a);
 void func_021D61F0(u32 sys,int *state,char *p)
 {
     char *base=*(char **)(*(char **)(p+0x40)+0x14);

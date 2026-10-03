@@ -21,8 +21,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021D4E34(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_021D4E34(u8 *p);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021D4E64(u8 *p)
 {

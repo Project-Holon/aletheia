@@ -17,10 +17,12 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 state, flag; int count; } State;
-extern void func_021DFEA0(void *);
-extern void func_021DFEAC(void *);
-extern void func_021DFEB8(void *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021DFEA0(u8 *p);
+extern void func_021DFEAC(u8 *p);
+extern void func_021DFEB8(u8 *p);
+extern void func_020061E4(u32 a);
 void func_021E1320(void *task, State *p)
 {
     switch (p->state) {

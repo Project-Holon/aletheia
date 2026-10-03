@@ -62,10 +62,13 @@ typedef struct Scene {
 
 extern void func_0203064C(u32 parent, u32 id, u32 size);
 extern u8 ov067_id[];
-extern void func_02034AC4(u32 v);
+typedef signed int     s32;
+struct Anim;
+struct Owner;
+extern int func_02034AC4(s32 handle);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0204047C(u32 a, u32 b);
-extern void func_02040EBC(int a, int b);
+extern void func_0204047C(int idx, unsigned short val);
+extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(int, int, int, int, int);
 extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern void *func_0201C440(u16 heap);
@@ -75,8 +78,8 @@ extern void func_022051FC(App *a, Scene *s);
 extern void func_02205530(App *a, Scene *s);
 extern void func_02205010(App *a, Scene *s);
 extern void func_02205070(App *a, Scene *s);
-extern void *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c);
-extern void *func_0220871C(u16 heap, u32 x);
+extern struct Owner *func_02205C74(u16 heap, u32 f08, void *res0, u16 f0c);
+extern struct Anim *func_0220871C(u16 heap, u32 x);
 
 void func_02204C24(App *a, Scene *s)
 {

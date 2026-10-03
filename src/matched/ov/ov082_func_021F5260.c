@@ -36,21 +36,26 @@ typedef unsigned int u32;
 
 extern const char d_021F5920[];
 
-extern void *func_0201210C(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+struct Big;
+struct Ctx;
+struct Desc;
+struct Sub02008700Obj;
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 **func_02189A60(void *p);
 extern void func_021F58C0(char *p);
-extern void *func_020120F4(void *a);
-extern void *func_02012EBC(void *a);
-extern void *func_0200873C(void *a);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern u32 func_02008374(void *a);
-extern void *func_020122C0(void *a, u32 b, void *fn, u32 size);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_02188D30(void *a);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern int func_021F5338(void *task, int *st);
-extern void func_021F5748(void);
-extern void func_021F57D8(void);
+extern void func_021F5748(int a0, char *p);
+extern void func_021F57D8(int a0, char *p);
 
 void *func_021F5260(int a0, int a1, int a2, void *a3, int a4)
 {

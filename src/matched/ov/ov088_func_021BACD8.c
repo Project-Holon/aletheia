@@ -19,7 +19,7 @@
  *   func_02045C04  0x02045C04  arm
  */
 
-extern void func_02028604(int);
+extern int func_02028604(int a0);
 extern void func_02031140(int);
 extern void func_02045808(int);
 extern void func_0201C4C0(int);

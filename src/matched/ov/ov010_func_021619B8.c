@@ -56,7 +56,8 @@ typedef struct HopWork {
 extern const fx32 d_0217140C[];
 extern fx32 FX_Div(fx32 numer, fx32 denom);
 extern void func_0216D89C(void *obj, const VecFx32 *pos);
-extern void func_0216D88C(void *obj, VecFx32 *out);
+struct Actor;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern u16 func_0216D5F8(void *obj);
 extern void func_0216E014(void *obj, const VecFx32 *pos, u16 dir);
 extern void func_020061E4(u32 se);

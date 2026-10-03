@@ -24,12 +24,14 @@ typedef unsigned int u32;
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 struct Entry { int x,y,n; };
 extern struct Entry d_021DAACC[];
-extern void func_0204B3B4(void *);
+struct Actor;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
-extern void func_0204B8C4(void *, u32);
-extern void func_0204B92C(void *, u32);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B570(void *, u32);
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B570(struct Actor *actor, u32 value);
 void func_021D634C(u8 *p, unsigned int i)
 {
     struct Point pt;

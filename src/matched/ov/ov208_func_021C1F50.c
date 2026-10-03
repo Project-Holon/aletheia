@@ -25,11 +25,14 @@ typedef unsigned int   u32;
 typedef short          s16;
 
 extern void *func_02045EC0(u32 bank, u32 index);
-extern u32  func_0201D304(void *a, u32 b, u32 c);
+struct Bmp;
+struct StrObj;
+struct U16Vec;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void *func_02045770(u32 p);
-extern u32  func_020437DC(void *bmp);
+extern u16 func_020437DC(const struct Bmp *bmp);
 extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
 
 #define W(o) (*(u32 *)(p + (o)))

@@ -29,7 +29,7 @@ extern void func_020286C4(int, int, int);
 extern void func_0201CE48(int);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_0201CE38(int);
 extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);

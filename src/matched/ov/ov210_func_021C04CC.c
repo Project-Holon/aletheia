@@ -23,9 +23,11 @@ extern const Template d_021C0CC0;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_021B7754(void *, unsigned);
 extern void func_021B7A10(void *, void *, unsigned, unsigned, unsigned);
-extern void func_021B7A4C(void *, void *, unsigned, unsigned, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021B7A4C(u8 *p, u8 *a, u32 b, u32 c, u32 d);
 extern void func_02049238(void *);
-extern void func_021B79E4(void *, unsigned, unsigned);
+extern void func_021B79E4(char *ctx, unsigned first, unsigned second);
 void func_021C04CC(char *ctx)
 {
     void *archive = func_020490F4(159, 0x807b);

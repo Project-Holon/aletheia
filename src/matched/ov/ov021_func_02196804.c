@@ -23,13 +23,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_02155A90(u32 a);
 extern void func_02012138();
 extern u32 func_02026454();
 extern void func_02026400();
 extern void func_02196034(void *p, void *fn, u32 n);
-extern void func_021967BC();
+extern void func_021967BC(u8 *p);
 
 void func_02196804(u8 *p)
 {

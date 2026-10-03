@@ -18,7 +18,9 @@
 
 extern int *func_02030734(int, int, int, void *, int);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_0204932C(void *, int, int *);
+typedef unsigned int   u32;
+struct ArcFile;
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern int d_02187EB4;
 
 int *func_021867C4(int a, int id)

@@ -20,7 +20,9 @@
  *   func_02028470 0x02028470 thumb
  */
 typedef unsigned short u16;
-extern void *func_02045B38(unsigned int,unsigned int,unsigned int,u16);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_0201CE48(void *),func_02045808(void *),func_02043B5C(void *,int),func_0201F73C(void *,int,int,int),func_02045C04(void *),func_02028470(void *,int);
 extern void *func_02045770(void *),*func_02045EC0(void *,int),*func_0201CCE4(void *,int,int,void *,void *,int,void *,int,int,int);
 #define P(k) (*(void **)(p+(k)))

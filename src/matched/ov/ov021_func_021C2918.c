@@ -57,21 +57,24 @@ typedef struct Obj {
     u32 args[5];
 } Obj;
 
-extern void *func_02043678(u8 w, u8 h, u32 tileSize, u16 heap);
+typedef signed int     s32;
+struct Bmp;
+struct Layer;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_02048A0C(void *p, int i);
-extern int func_02047388(void *p);
-extern int func_020473B8(void *p);
-extern u32 func_0202D060(void);
-extern u32 func_0202D064(u32 ctx, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
-extern u32 func_0202D0D4(u32 ctx, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
+extern u32 func_02047388(struct Layer *layer);
+extern u32 func_020473B8(struct Layer *layer);
+extern int func_0202D060(void);
+extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern void *func_02049E34(u32 ctx, u32 file, u32 a2, CharData **out, u16 heap);
 extern void *func_02049F34(u32 ctx, u32 file, PlttData **out, u16 heap);
-extern u8 *func_020437D4(void *canvas);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 extern void func_02044F64(void *canvas, u32 v, u16 heap);
 extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
-extern void func_02030830(u16 heap);
+extern void *func_02030830(u32 heapId);
 
 void func_021C2918(Obj *p)
 {

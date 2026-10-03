@@ -23,7 +23,8 @@ typedef struct { E e[16]; u16 n; } B;
 
 extern void func_0218D9B8(E *e);
 extern int func_0218D9E8(void *p, void *q, B *b);
-extern int func_021AB100(int a);
+typedef unsigned int   u32;
+extern int func_021AB100(u32 attr);
 
 int func_0218DAEC(char *p, char *q, E *out)
 {

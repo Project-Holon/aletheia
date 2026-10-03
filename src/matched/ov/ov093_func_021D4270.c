@@ -13,5 +13,6 @@
  *   func_0200FB24 0x0200FB24 thumb
  */
 extern void *d_021F3B88;
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
 int func_021D4270(void) { if(d_021F3B88) { if(func_0200FB24()) return 1; return 0; } return 0; }

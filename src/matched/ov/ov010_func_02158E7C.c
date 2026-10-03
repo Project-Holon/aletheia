@@ -28,7 +28,8 @@ struct O {
     int f20, f28, f2c, f30, f34;
 };
 
-extern void *func_02030734(int, int, int, const char *, int);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02158DB0(int);
 extern int func_0201EC74(int, int, int);
 extern int func_020457B0(int, int);

@@ -21,7 +21,8 @@ typedef unsigned int   u32;
 struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
-extern void func_020129B8();
+struct BigObj;
+extern void func_020129B8(struct BigObj *p, u8 v);
 
 int func_0215FEF4(u32 *a0, u32 *a1)
 {

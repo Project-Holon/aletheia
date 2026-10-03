@@ -30,7 +30,7 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0215B4AC(u32 a, u32 b, u32 *out);
 extern int func_0215B500(u32 a, u32 b);
 extern u32 func_02017E1C(u32 a, u32 b, u32 c);
-extern int func_021B5FB8(u32 a, u32 b);
+extern int func_021B5FB8(u32 a, int sel);
 extern int func_021B5FB4(u32 a);
 extern int func_021B5F24(u32 a, int sel);
 

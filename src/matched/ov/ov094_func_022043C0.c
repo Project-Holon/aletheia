@@ -40,8 +40,9 @@ typedef struct Obj {
 extern const char d_0220AEB0[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020056A0(void *cb, void *ctx, int a);
-extern void func_02204438(int a0, Obj *o);
-extern void func_022044A0(void);
+struct Ctx;
+extern void func_02204438(int a0, struct Ctx *c);
+extern void func_022044A0(void *h);
 extern void func_0220684C(Main *m, void *t, int b);
 
 void func_022043C0(Main *m, int a1, int a2, int a3, int a4)

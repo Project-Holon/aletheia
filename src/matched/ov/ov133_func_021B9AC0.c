@@ -12,7 +12,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B3DC(void *, unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B9AC0(u8 *p, int *a, int *b, u16 duration)
 {
     int x, y;

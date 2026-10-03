@@ -23,7 +23,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_021C21C4(void *p, u32 i);
+extern void func_021C21C4(u8 *p, int index);
 extern void func_021C2250(void *p, u32 i);
 extern u32 func_021C2194(void *p);
 extern void func_021C218C(void *p, u32 v);

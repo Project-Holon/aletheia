@@ -66,7 +66,7 @@ typedef struct {
 extern int func_021FFD9C(Work *w, int key);
 extern int func_022019F4(Work *w, int key);
 extern void func_02016374(void *h);
-extern void func_02014C08(void *obj);
+extern void func_02014C08(char *self);
 extern u32 func_0203F0A8(void);
 extern int func_021F935C(int x);
 extern int func_021FF2D8(Work *w, int key);

@@ -27,8 +27,8 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void func_021BB348(u32);
-extern u32 func_02049030(int);
+extern int func_021BB348(u32 a);
+extern u32 func_02049030(u32 a);
 extern void func_0219EF7C(u32, u32, u32);
 extern u32 func_0219F018(u32);
 extern void func_021B7934(u32, u32);

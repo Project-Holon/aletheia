@@ -36,15 +36,15 @@ extern const Record d_021E3574[];
 extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
 extern void func_021FB964(int,int,int);
 extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
-extern void func_021FC868(void *,int,int,int);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern u16 func_0200DFD8(Row *,int,int);
 extern void *func_02045EC0(struct MsgBank *,u32);
 extern struct U16Vec *func_020457B0(u32,u32);
-extern void func_0201EFA4(struct WordSet *,int,int,int,int,int);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *,void *,void *);
 extern void func_02045808(struct U16Vec *);
 extern void func_021FC7C4(char *,void *,void *,u16);
-extern void *func_02012944(void *);
+extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *,u32,void *);
 void func_021DE404(char *p,char *q)
 {

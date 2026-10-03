@@ -22,9 +22,10 @@ typedef unsigned int  u32;
 
 extern void func_02043B5C(u32, u32);
 extern u32  func_02045770(u32);
-extern void func_021BE44C(void *, int, int, int, int, int, int);
-extern void func_021BE49C(void *);
-extern void func_021BE978(void *);
+typedef unsigned short u16;
+extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
+extern void func_021BE49C(u8 *p);
+extern void func_021BE978(u8 *p);
 
 void func_021BE8F8(u8 *p)
 {

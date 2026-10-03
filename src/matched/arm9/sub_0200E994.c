@@ -34,9 +34,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int  func_0200E918(void *base, u32 flag);
-extern void func_0200E938(void *base, int idx, void *out);
-extern u32  func_0203EFC8(void *a, void *b, u32 len);
+typedef signed int     s32;
+extern u8 func_0200E918(const u8 *base, u32 idx);
+extern void func_0200E938(u8 *obj, u32 id, void *dest);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 u32 sub_0200E994(void *base, void *key)
 {

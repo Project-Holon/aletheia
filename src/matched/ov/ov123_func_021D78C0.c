@@ -16,8 +16,8 @@
  */
 extern int func_021D5D8C(int);
 extern void func_021D77C4(int,int);
-extern void func_021D75D0(void);
-extern void func_021D76F0(void);
+extern void func_021D75D0(int a);
+extern void func_021D76F0(int a);
 extern void func_021D6EE0(int,int,int);
 void func_021D78C0(int a)
 {

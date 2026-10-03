@@ -37,7 +37,8 @@ typedef struct {
 
 extern s16 d_020A1B38[];
 
-extern int   func_02188C84(void *p);
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
 extern void *func_02188D2C(void *p);
 extern char *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);

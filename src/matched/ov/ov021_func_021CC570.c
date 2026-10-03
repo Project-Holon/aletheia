@@ -43,8 +43,9 @@ typedef struct Rec {
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern void *func_0201210C(void *p);
-extern Rec *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
 extern void func_0215897C(void *a, void *b);
 extern const char d_021DE5A8[];

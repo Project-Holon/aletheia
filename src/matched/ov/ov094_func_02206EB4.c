@@ -44,15 +44,16 @@ typedef struct O O;
 extern u32 func_020362DC(void);
 extern int func_021F8710(void);
 extern void func_02208D50(W *, int, int);
-extern int func_02207F6C(int, int, int, int *, int, u16);
-extern void func_022082FC(O *, int, int);
-extern void func_02207E1C(O *, int);
-extern void func_020061E4(int);
-extern void func_02207EF0(O *, int);
+typedef unsigned char  u8;
+extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
+extern void func_022082FC(struct O *o, int idx, int k);
+extern void func_02207E1C(struct O *obj, int idx);
+extern void func_020061E4(u32 a);
+extern void func_02207EF0(struct O *obj, int idx);
 extern void func_02006210(void);
 extern void func_022086F8(O *, int);
 extern void func_022087C4(char *, int);
-extern void func_0204B3DC(Obj *, u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_022089D4(W *);
 void func_02206EB4(W *p)
 {

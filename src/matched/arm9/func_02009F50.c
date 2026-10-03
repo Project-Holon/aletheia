@@ -13,7 +13,8 @@
 
 extern int func_0200A400(void *p);
 extern void *func_0200A43C(void *p, int i);
-extern int func_02009F0C(int v);
+typedef unsigned int   u32;
+extern u32 func_02009F0C(u32 a);
 int func_02009F50(char *p, unsigned int idx)
 {
     unsigned char *e = (unsigned char *)func_0200A43C(p, idx);

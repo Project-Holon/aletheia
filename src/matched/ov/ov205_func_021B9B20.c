@@ -19,13 +19,20 @@
  */
 typedef unsigned char u8;
 extern void func_02088864(void *);
-extern void *func_02012934(void *p);
-extern void *func_02012EBC(void *);
-extern unsigned func_0200725C(void *,unsigned,u8);
-extern void *func_020073D8(void *,unsigned,unsigned);
-extern int func_020071F0(void *);
-extern void func_0200EBD0(void *,void *,void *,unsigned);
-extern void func_02012E4C(void *,void *);
+typedef unsigned int   u32;
+struct Big;
+struct BigObj;
+struct Ctrl;
+struct Obj;
+struct Sub020071E4Ctrl;
+struct Sub020073D8Ctrl;
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_02012EBC(struct Big *p);
+extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
+extern void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap);
+extern void func_02012E4C(u8 *p, void *a);
 void func_021B9B20(char *p)
 {
     unsigned date[4];

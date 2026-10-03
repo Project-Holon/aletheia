@@ -98,8 +98,8 @@ extern void func_0219BE80(qr2_implementation_s *qrec, qr2_buffer_s *buf, int ser
                           int playerkeycount, unsigned char *playerkeys, int teamkeycount, unsigned char *teamkeys);
 extern int func_0217ECA4(int sock, char *buf, int len, int flags, void *addr, int tolen);
 extern unsigned int func_0217F264(void);
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
-extern void func_0217D32C(int cat, int type, int level, char *buffer, int length);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 
 void func_0219CE58(qr2_implementation_s *qrec, int statechanged)
 {

@@ -37,22 +37,23 @@ typedef enum { VALUE_ZERO, VALUE_ONE } Value;
 extern u8 func_021CF448(u8 *);
 extern u32 func_021CEFFC(u8 *);
 extern void func_021E9D04(void *, int, int, int, u32, u32);
-extern u32 func_021CE0BC(u8 *, u32);
-extern void func_021E9E70(void *);
-extern u32 func_021E9E80(void *);
-extern u16 func_021EA01C(void *);
-extern u8 func_021EA044(void *);
-extern u8 func_021EA030(void *);
-extern u8 func_021EA04C(void *);
+struct QV;
+extern int func_021CE0BC(u8 *p, void *q);
+extern void func_021E9E70(u8 *p);
+extern int func_021E9E80(u8 *p);
+extern u16 func_021EA01C(u8 *p);
+extern u8 func_021EA044(struct QV *p);
+extern u8 func_021EA030(u8 *p);
+extern u8 func_021EA04C(u8 *p);
 extern void func_021CF430(u8 *, u32, u32);
 extern void func_021D8358(void *, u32, u8, u8);
-extern void func_021EA058(void *);
+extern void func_021EA058(char *p);
 extern u32 func_021D805C(u32, u32);
 extern void func_021CF37C(u8 *, u32, u32);
 extern void func_021CE150(u8 *, u32);
-extern u32 func_021CF220(u8 *);
+extern u32 func_021CF220(u8 *p, int *st);
 extern u32 func_021CE4D0(u8 *);
-extern u32 func_021CE3C8(u8 *);
+extern int func_021CE3C8(u8 *p, int *state);
 
 static inline u8 same_index(u8 *p)
 {

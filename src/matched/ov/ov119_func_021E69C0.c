@@ -18,7 +18,8 @@
 typedef struct { short x,y; } Pt;
 extern void func_0204B454(void *,Pt *,unsigned int);
 extern void func_0204B404(void *,const Pt *,unsigned int);
-extern void func_02040618(int,int,int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 int func_021E69C0(char *p)
 {
     Pt a,b,c;

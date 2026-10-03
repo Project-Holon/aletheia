@@ -23,7 +23,7 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_0215683C(void *a, int b);
+extern int func_0215683C(char *a, int b);
 
 void func_021BE6E4(char *s)
 {

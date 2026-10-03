@@ -33,13 +33,14 @@ typedef struct Work {
 } Work;
 
 extern Work *d_021B3C80;
-extern int func_0202EB0C(void);
-extern void func_0208B480(void);
-extern void func_0208B528(void);
+typedef unsigned int   u32;
+extern u32 func_0202EB0C(void);
+extern int func_0208B480(void);
+extern int func_0208B528(void);
 extern void func_02073AB4(void *p);
 extern void func_02073898(void *p);
 extern void func_021B3844(void);
-extern void func_0208BEF0(int a);
+extern unsigned int func_0208BEF0(unsigned int status);
 extern void func_02156FDC(int a, void *p, int b);
 
 void func_021AF1A0(void)

@@ -45,11 +45,12 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void  func_02082A90(void *dest, const void *src, u32 size);
-extern void *func_020071CC(void *sys, u32 id);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+struct BattleRec;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0200B37C(void *p);
-extern void  func_0200B448(void *p);
+extern void func_0200B448(struct BattleRec *p);
 extern const char func_0200B3DC_File[];
 
 struct Rec94 {

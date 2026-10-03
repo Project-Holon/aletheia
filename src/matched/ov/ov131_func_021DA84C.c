@@ -15,10 +15,12 @@
  *   func_020452E8 0x020452E8 arm
  */
 typedef unsigned char u8;
-extern void func_020437AC(void *);
-extern void func_021DBC3C(void *);
+struct Descriptor;
+struct Obj020437AC;
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_021DBC3C(u8 *p);
 extern void func_021DB9E8(void *,void *,u8 *);
-extern void func_020452E8(void *);
+extern void func_020452E8(struct Descriptor *d);
 void func_021DA84C(u8 *a,u8 *b) {
     u8 i;
     if(b[43]==5) {

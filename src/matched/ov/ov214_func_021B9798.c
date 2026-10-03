@@ -39,7 +39,8 @@ extern void func_0201C6EC(int p);
 extern void func_0201C4C0(int p);
 extern void func_0201D83C(void *p);
 extern void func_021BB220(char *p);
-extern void func_020315D4(void *p);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *heap);
 extern void func_02034A5C(void *id);
 int func_021B9798(void *owner,int unused,int state,char *p)

@@ -32,7 +32,7 @@ extern char *func_021F63CC(u32,u16);
 extern struct GfFont *func_0201D7EC(int,int,int,int,u32);
 extern u32 func_0201C440(void *);
 extern void *func_020056A0(u32,u32,u32);
-extern void func_021F5C08(int,char *);
+extern void func_021F5C08(void *unused, char *p);
 extern void func_021F5D4C(int,char *);
 extern void func_021F5DAC(int,struct Context *);
 extern void func_021F6060(int,char *);

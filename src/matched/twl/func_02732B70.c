@@ -21,9 +21,9 @@
 
 typedef unsigned int u32;
 
-extern void *func_021657C8(void);
-extern void func_021656D0(u32 a);
-extern u32 func_02165918(u32 a);
+extern int func_021657C8(void);
+extern unsigned long func_021656D0(unsigned long option);
+extern unsigned short func_02165918(unsigned short channel);
 extern u32 func_02702998(u32 a);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void *data_021A1988;

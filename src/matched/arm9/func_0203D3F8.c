@@ -34,10 +34,11 @@ extern char g_020A7CEC[];
 
 extern void *func_0203D798(void);
 extern u32   func_0203D394(u32 entry);
-extern int func_020395EC(void *a);
+struct Entry;
+extern int func_020395EC(struct Entry *a);
 extern u32   func_02039468(u32 a, u32 b);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
-extern u32   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
 u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h)
 {

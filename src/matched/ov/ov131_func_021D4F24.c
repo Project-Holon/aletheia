@@ -18,9 +18,10 @@
  *   func_0204AFD8 0x0204AFD8 arm
  */
 typedef unsigned char u8;
-extern void func_021D8904(void *,void *);
+struct S;
+extern void func_021D8904(void *a, struct S *s);
 extern void func_021D9A04(void *,void *);
-extern void func_021D7BF0(void *,void *);
+extern void func_021D7BF0(void *a, unsigned char *p);
 extern void func_021D6808(void *,void *);
 extern void func_0204ADA4(void *);
 extern void func_0204A8D4(void *);

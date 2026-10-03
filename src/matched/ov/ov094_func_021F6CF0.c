@@ -33,11 +33,13 @@ typedef struct {
     void **f5c;
 } Obj;
 
-extern void func_02047738(void *p);
-extern void func_0204762C(void *p);
-extern void func_02046EFC(void *p);
+struct Rec;
+struct Tagged;
+extern void func_02047738(struct Rec *p);
+extern void func_0204762C(struct Rec *p);
+extern void func_02046EFC(struct Tagged *p);
 extern void func_020307B0(void *p);
-extern void func_02047504(void *p);
+extern void func_02047504(struct Rec *p);
 
 void func_021F6CF0(Obj *o)
 {

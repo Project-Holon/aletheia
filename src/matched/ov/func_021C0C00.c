@@ -15,7 +15,8 @@
  * Calls 0x0204B3B4 on the second argument, then 0x0204A8D4 on the first.
  */
 
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *);
 
 void func_021C0C00(void *a, void *b)

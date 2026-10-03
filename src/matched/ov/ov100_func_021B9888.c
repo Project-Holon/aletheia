@@ -11,7 +11,8 @@
  * symbols:
  *   func_020399A8 0x020399A8 arm
  */
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 void func_021B9888(unsigned a,int b,int *c,unsigned d,void *e)
 {
  if(e==func_020399A8()) *(int *)(d+a*4+0x250)=*c;

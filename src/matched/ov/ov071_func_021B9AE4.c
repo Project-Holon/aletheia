@@ -39,7 +39,9 @@ typedef struct {
     int f5c;
 } Src;
 
-extern void *func_02043678(int, int, int, int);
+typedef unsigned int   u32;
+struct Bmp;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_020255A0(void *, Tmpl *);
 extern const Tmpl d_021BAB10;
 

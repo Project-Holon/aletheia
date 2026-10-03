@@ -84,8 +84,8 @@ struct Rec {
     void (*f2c)(u32 a);
 };
 
-extern struct Obj *func_0203D788(void);
-extern struct Cur *func_0203D798(void);
+extern void *func_0203D788(void);
+extern void *func_0203D798(void);
 extern void func_02037D78(void);
 extern u32  func_0203D650(void);
 extern void func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);

@@ -26,7 +26,7 @@ extern u32 func_02012EBC(void *);
 extern u32 func_0200D418(u32);
 extern u32 func_02159B10(u32, u32);
 extern u32 func_0200D488(u32, u8);
-extern void func_0215E440(void *, u8);
+extern void func_0215E440(void *sys, u32 which);
 
 int func_021B5154(u32 a, u32 b)
 {

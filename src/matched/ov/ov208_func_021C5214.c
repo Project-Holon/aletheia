@@ -31,7 +31,8 @@ struct Ov208Anm {
 
 extern void *func_02015EE8(u32 obj, struct Ov208AnmState *state);
 extern void func_02015E04(u32 obj);
-extern void func_02064CBC(void *p);
+struct Obj;
+extern void func_02064CBC(struct Obj *x);
 
 void ov208_func_021C5214(struct Ov208Anm *p)
 {

@@ -109,16 +109,21 @@ typedef struct {
     u8 d;
 } Rec;
 
-extern void *func_020457B0(int n, int heap);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, int v);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern Rec sub_02008A54(void *obj, int i);
-extern void func_0201EFA4(void *p, int idx, int v, int digits, int a, int b);
-extern void func_02045CAC(void *p, int id, void *str);
-extern void func_0201F250(void *p, void *q, void *str);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C724(void *p, void *q, int a, s16 x, void *str, void *r, int b);
 extern void func_021C7AD4(Work *p, int x, int k, void *str);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021C7B20(Work *p, int mode, int idx)
 {

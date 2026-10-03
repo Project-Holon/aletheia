@@ -21,7 +21,8 @@ typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012984();
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
 
 int func_0215ABD0(int a0, int a1)
 {

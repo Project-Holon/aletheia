@@ -28,8 +28,10 @@ extern int func_02013C80(u16 id);
 extern void func_021AB650(void *p);
 extern void func_021AB868(void *p);
 extern void func_021AB840(void *p, int a, int b, int c);
-extern int func_021AB880(void *p);
-extern int func_021AB884(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021AB880(u8 *p);
+extern u32 func_021AB884(u8 *p);
 extern int func_021AB888(void *p);
 extern void func_021AB634(void *p, int a, int b, int c);
 

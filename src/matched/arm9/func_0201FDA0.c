@@ -89,22 +89,28 @@ typedef struct {
 } BmpMenu;
 
 extern char  sBmpMenuFile[];
-extern void *func_02045B38(u32 a, u32 b, u32 c, u16 heap);
+struct Cfg;
+struct Descriptor;
+struct Font;
+struct GfFont;
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern BmpMenuWork *func_0201F81C(u32 n, u16 heap);
 extern void  func_0201F878(BmpMenuWork *list, void *msg, u32 strId, u32 param, u16 heap);
-extern void  func_02045C04(void *msg);
+extern void func_02045C04(struct Rec *rec);
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
-extern u16   func_0201DC80(void *font);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern u32 func_0201DC80(struct Font *p);
 extern void *func_0201C440(u16 heap);
 extern BmpMenu *func_0201F9D0(const BmpMenuHeader *hdr, u32 px, u32 py, u32 pos, u16 heap, u32 cancel);
-extern void  func_02045374(void *win);
-extern void  func_0201F73C(void *win, u32 kind, u32 base, u32 pal);
-extern u32   func_02045730(void *win);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern u8 func_02045730(struct Descriptor *p);
 extern void  func_020409B4(u32 layer);
-extern void  func_02045334(void *win);
+extern void func_02045334(struct Descriptor *d);
 
 static inline void PrintUtil_Init(PrintUtil *util, void *cell)
 {

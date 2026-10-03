@@ -16,11 +16,11 @@
  *   func_021D8B38 0x021D8B38 thumb ov119
  */
 extern void func_0204B3DC(int,int);
-extern int func_021DD2F4(void *);
+extern int func_021DD2F4(char *p);
 extern void func_021B6558(int,int,int);
 extern void func_021B6548(int,int,int);
-extern void func_021D8980(void *);
-extern void func_021D8B38(void *);
+extern void func_021D8980(char *p);
+extern void func_021D8B38(char *p);
 void func_021DBB6C(char *p)
 {
     func_0204B3DC(*(int *)(p+0xf04),1);

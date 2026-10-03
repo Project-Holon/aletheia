@@ -10,7 +10,8 @@
  * status:   EXACT
  */
 
-extern void func_020061E4(int a);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_02206B90(char *p)
 {

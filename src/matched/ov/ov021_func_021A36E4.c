@@ -67,7 +67,7 @@ typedef struct {
 extern const char d_021DDEB8[];
 extern Tmpl021A36E4 d_021D89A0;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02188C80(u32 a);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *a, u32 b);
@@ -80,7 +80,7 @@ extern void func_0216D85C(void *h, s16 v);
 extern void func_0216D874(void *h, s16 v);
 extern void func_0216D89C(void *h, const Vec021A36E4 *v);
 extern void func_021A3998(Obj021A36E4 *o);
-extern void func_0216DB80(void *o, int v);
+extern void func_0216DB80(unsigned int *p, unsigned int v);
 
 Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap)
 {

@@ -21,10 +21,12 @@ typedef unsigned int u32;
 extern void func_021DB9FC(void *,void *,u8 *);
 extern void func_02041300(u32,int,int,int,u8,u8,u8);
 extern void func_020409B4(u32);
-extern void func_02041570(u32,u32);
+typedef unsigned short u16;
+struct Obj;
+extern void func_02041570(int channel, u16 val);
 extern void func_02041B6C(u32);
-extern void func_0204B3DC(void *,int);
-extern void func_0204B878(void *,int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D9D94(u8 *a,u8 *p)
 {
     u8 i;

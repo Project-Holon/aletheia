@@ -15,8 +15,9 @@
  *   func_0220E27C 0x0220E27C thumb
  */
 
-extern void func_0201F7A8(void *, int);
-extern void func_0220C688(void *);
+typedef unsigned int   u32;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_0220C688(char *p);
 extern void func_0220E27C(void *);
 
 int func_02211378(char *p)

@@ -37,7 +37,8 @@ typedef struct Arg {
 
 extern int d_021D9AF8;
 
-int func_021ABEA0(int a, int b);
+typedef unsigned int   u32;
+int func_021ABEA0(u32 a, u32 b);
 u16 func_0216D5F8(int a);
 u16 func_0216D5FC(int a);
 int func_021BBD84(int a, int n, int x, int y);

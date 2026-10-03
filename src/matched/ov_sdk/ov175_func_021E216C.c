@@ -53,8 +53,8 @@ typedef struct {
 
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_021BF520(char *url);
-extern int func_021DD4B0(void *sake, char *url);
-extern int func_021DD3F8(void *sake, char *url);
+extern int func_021DD4B0(char *a, char *b);
+extern int func_021DD3F8(char *a, char *b);
 extern char g_021E4C88[];
 extern char g_021AE01C[];
 extern char g_021E47DC[];

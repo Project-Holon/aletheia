@@ -18,6 +18,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Pair;struct PrintSys;
 extern void func_021FBDA4(int,unsigned);
-extern void func_021FB494(void *);
-extern void func_021FC734(void *);
+extern void func_021FB494(char *p);
+extern void func_021FC734(u8 *p);
 void func_021F8E60(char *p,char *q) { if(*(void **)(p+0x1c)){func_021FBDA4(*(int *)(q+12),22);func_021FB494(*(void **)(p+0x18));*(void **)(p+0x18)=0;func_021FC734(*(void **)(p+0x1c));*(void **)(p+0x1c)=0;func_021FBDA4(*(int *)(q+12),22);} }

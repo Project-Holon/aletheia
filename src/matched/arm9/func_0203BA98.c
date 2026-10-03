@@ -20,13 +20,13 @@ typedef unsigned long long u64;
 
 extern u8 *g_021469DC;
 
-extern u8  *func_0203D798(void);
-extern u8  *func_0203D788(void);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
 extern void func_0203BC58(u8, u8, const void *);
 extern u32  func_020377B8(u8);
 extern void func_0203AD80(u32, u32, u32, u32);
 extern void func_0203B9D4(u8 *);
-extern void func_0203B950(void);
+extern void func_0203B950(u8 *p);
 extern void func_0203B01C(void);
 extern u32  func_02037928(u32, u16);
 extern void func_02037A6C(u32, u32, u16, u32);

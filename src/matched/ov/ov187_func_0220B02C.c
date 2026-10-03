@@ -14,7 +14,7 @@
 typedef struct Entry { int id; const void *descriptor; void *(*create)(unsigned short, void *, unsigned); void (*destroy)(void *, void *); } Entry;
 typedef struct State { void *handle; unsigned state; void *work; unsigned pad; unsigned short heap, pad2; void *payload; Entry *table; unsigned previous, desired, current; } State;
 extern void func_02031348(void *, int, const void *, void *);
-extern int func_02031330(void *);
+extern unsigned int func_02031330(void *p);
 int func_0220B02C(State *p)
 {
     switch (p->state) {

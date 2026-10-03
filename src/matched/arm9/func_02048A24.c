@@ -39,7 +39,7 @@ typedef struct {
 } Vec3;
 
 extern char  g_020A7EC4[];
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u32 *func_02048A24(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7, u32 a8,
                    Vec3 *a9, Vec3 *a10, Vec3 *a11, u16 heap)

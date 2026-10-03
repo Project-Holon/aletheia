@@ -43,11 +43,12 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
-extern int func_02012138();
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_021767A0();
-extern int func_02012FB0();
-extern int func_02166618();
-extern int func_0216662C();
+extern int func_02012FB0(unsigned char *base);
+extern int func_02166618(int a0);
+extern int func_0216662C(int a0);
 extern void func_0216AEE8();
 
 int func_0216AD70(int a0, int a1)

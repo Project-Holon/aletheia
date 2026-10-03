@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021CAB34(int);
+extern int func_021CAB34(unsigned long l);
 
 char *func_021CAB94(u8 *p)
 {

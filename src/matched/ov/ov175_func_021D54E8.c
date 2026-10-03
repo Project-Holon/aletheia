@@ -19,8 +19,9 @@ extern unsigned func_021D9F04(unsigned,int,int);
 extern void func_021E8AA0(unsigned,void *);
 extern int func_021E8844(unsigned);
 extern void func_021E8AB8(unsigned);
-extern void func_021D5560(void);
-extern void func_021D61A4(void);
+typedef unsigned char  u8;
+extern void func_021D5560(unsigned sys, int *state, int *p);
+extern void func_021D61A4(void *obj, int unused, u8 *p);
 void func_021D54E8(unsigned sys,int *state,int *p)
 {
     switch(state[0]) {

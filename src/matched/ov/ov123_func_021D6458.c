@@ -31,10 +31,11 @@ extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0201BA68(int);
 extern void *func_0204A6C8(void *, u32, u32, u32, u16);
 extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
-extern void func_0204B92C(void *, u32);
-extern void func_0204B3DC(void *, u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_0201BBE8(int);
-extern void func_0204B6F4(void *, u32, u32);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_02049238(void *);
 void func_021D6458(u8 *p, int n, int i)
 {

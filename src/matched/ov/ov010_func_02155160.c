@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201AA18(void *list);
-extern void *func_0201AB28(void *list, int idx);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void func_02019CA0(void *p, u32 v);
 
 void func_02155160(void *list)

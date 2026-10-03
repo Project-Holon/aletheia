@@ -31,9 +31,11 @@ struct D {
     void *f8;
 };
 
-extern void func_02045808(void *x);
-extern void func_020437AC(void *x);
-extern void func_020307B0(struct D *p);
+struct Obj020437AC;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_020307B0(void *p);
 
 void func_02020D3C(struct D *p)
 {

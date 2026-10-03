@@ -17,11 +17,14 @@
  */
 typedef unsigned short u16;
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02159B10(void *, void *);
+typedef unsigned int   u32;
+struct Blk34;
+struct SaveBlock;
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern void * func_020127A4(void *);
-extern void * func_02012F08(void *);
-extern unsigned int func_0200C274(void *);
+extern void *func_020127A4(struct SaveBlock *p);
+extern void *func_02012F08(int *p);
+extern u32 func_0200C274(struct Blk34 *p);
 
 int func_0215C5B0(void *a, void *b)
 {

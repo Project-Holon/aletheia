@@ -18,10 +18,10 @@
 
 typedef unsigned int u32;
 
-extern int func_0201AA18(void *list);
-extern void *func_0201AB28(void *list, int idx);
-extern int func_02017E1C(void *e, int k, int i);
-extern void func_02017988(void *e, int i);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_02017988(void *p, u32 a);
 
 void func_0216A298(void *a, void *list)
 {

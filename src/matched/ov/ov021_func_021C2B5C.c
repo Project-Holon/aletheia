@@ -19,7 +19,8 @@ struct Ctx;
 
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_0204E720(u32, u32, u32, u32);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 
 int func_021C2B5C(void *t, int *st)

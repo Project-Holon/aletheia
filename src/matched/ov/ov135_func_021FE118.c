@@ -27,9 +27,11 @@ typedef unsigned int u32;
 
 extern u8 g_02203E18[];
 
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(u32 value, void *dst, u32 size);
 extern u8 *func_021F84EC(u32 id);
 extern void func_021F8990(u8 *p);

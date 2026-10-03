@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { int f0, f4, f8, fC; } Out;
 typedef struct { int f0; u32 f4; int f8, fC, f10, f14, f18; u8 b1c,b1d,b1e; } In;
-extern int func_021BAC94(void *p);
+extern u32 func_021BAC94(char *p);
 extern void func_021B6208(Out *out, In *in, int unused, unsigned heap);
 void func_021BA6C8(char *p, void *state, short heap)
 {

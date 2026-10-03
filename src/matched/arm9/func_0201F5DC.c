@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern u32  func_0201F53C(u32 i);
+extern u8 func_0201F53C(int i);
 extern void *func_020496E4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6);
 extern void func_0201F57C(void *a0, u32 a1, u32 a2, u32 a3);
 

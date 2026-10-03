@@ -24,7 +24,7 @@
 
 extern void *func_021D6414(unsigned long size, int align);
 extern void func_021BD1D4(char *file, void (*func)(void *, unsigned long, unsigned long));
-extern int func_021C0ED8(void);
+extern unsigned int func_021C0ED8(void);
 extern void GX_LoadBG1Char(void *, unsigned long, unsigned long);
 extern void GX_LoadBG1Scr(void *, unsigned long, unsigned long);
 extern unsigned short *g_021DE554;

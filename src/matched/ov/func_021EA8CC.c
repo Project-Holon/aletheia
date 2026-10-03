@@ -19,12 +19,13 @@
  *   the top, which pushes i from r4 to r6 and widens the push set.
  */
 
+typedef unsigned int u32;
+
 extern int func_021DD694(char *, int);
-extern int func_0201AB28(int, int);
 extern int func_02017E1C(int, int, int);
 extern int func_0202136C(int);
 extern int func_021DD694(char *, int);
-extern int func_0201AB28(int, int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern int func_02017E1C(int, int, int);
 extern int func_0202136C(int);
 int func_021EA8CC(unsigned char *p)
@@ -33,7 +34,7 @@ int func_021EA8CC(unsigned char *p)
     if (func_021DD694((char *)p, i) == 0)
         return 1;
     if (func_0202136C((unsigned short)func_02017E1C(
-            func_0201AB28(*(int *)(*(int *)p + 8), i), 6, 0)) == 1)
+            (int)func_0201AB28(*(void **)(*(int *)p + 8), i), 6, 0)) == 1)
         return 2;
     return 0;
 }

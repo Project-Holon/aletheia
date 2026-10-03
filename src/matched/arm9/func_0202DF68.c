@@ -41,7 +41,8 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   ENV_SetResourceSet(void *h, u32 a1, u32 engine, u16 a3,
                                 u32 s0, u32 s1, u32 s2);
 extern u32   func_0204A6C8(void *h, u32 a1, u32 a2, u32 engine, u32 s0);
-extern u32   func_0204AF28(void *h, u32 a1, u32 a2, u32 a3);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void  func_02049238(void *h);
 
 void func_0202DF68(u32 *o, u32 a1, u32 heap)

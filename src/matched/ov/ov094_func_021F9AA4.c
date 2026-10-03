@@ -14,7 +14,8 @@
  * symbols:
  *   func_02011324 0x02011324 thumb
  */
-extern char *func_02011324(void *);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 
 void func_021F9AA4(void *a)
 {

@@ -45,10 +45,10 @@ extern const int d_0220A3E4[][2];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern void func_022042E4(void *a, void *b);
-extern void func_022043AC(void *a, void *b);
+extern void func_022043AC(void *h);
 extern void func_0220684C(Main *m, void *t, void *cb);
 extern void func_021F8AC0(int a);
-extern void func_021F7998(int a);
+extern void func_021F7998(u32 a);
 
 void func_02204B0C(Main *m, int c)
 {

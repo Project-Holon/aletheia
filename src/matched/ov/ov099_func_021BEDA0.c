@@ -18,13 +18,17 @@
  *   func_0201F73C 0x0201F73C thumb
  */
 typedef unsigned short u16;
-extern void func_020452E8(void *);
-extern void func_02049B40(int, int, int, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_021BA8BC(void *);
 extern void *func_020450F0(int, int, int, int, int, int, int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, int);
-extern void func_02045334(void *);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0201F73C(void *, int, u16, int);
 void func_021BEDA0(char *p)
 {

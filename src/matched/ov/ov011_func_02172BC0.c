@@ -63,19 +63,23 @@ typedef struct Work {
 
 extern char  str_02177000[];
 extern void *func_02026478(void *p);
-extern void *func_02012944(void *p);
+struct BigObj;
+struct Rec44;
+struct Sub24;
+struct U16Vec;
+extern u8 *func_02012944(void *p);
 extern int   func_02158590(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02167518(u32 a, u32 b, u32 c, u32 d);
 extern void  func_0217538C(Work *w, u32 a);
-extern void  func_0217576C(void *p);
+extern void func_0217576C(u8 *p);
 extern void  func_02173590(void *a, void *b, u32 c);
 extern void  func_02161F54(void *p);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void  func_02012B64(void *p, u32 a);
-extern void  func_02012B8C(void *p, u32 a);
-extern void  func_02012B4C(void *p, u32 a);
-extern void *func_02012950(void *p, int i);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02012B64(struct BigObj *p, u8 v);
+extern void func_02012B8C(struct BigObj *p, u8 v);
+extern void func_02012B4C(struct BigObj *p, u8 v);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void  func_02008494(void *a, void *b);
 
 Work *func_02172BC0(void *unused, Param *p)

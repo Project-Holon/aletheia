@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Sound;
 extern int func_02025DE8(struct Sound *);
-extern int func_02210B00(u8 *,u32);
+extern int func_02210B00(u8 *p, int i);
 extern void func_02211970(u8 **,u32);
 int func_02210A4C(u8 *p)
 {

@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct Owner Owner;
 extern void func_022065C8(char *);
-extern void func_0220623C(Owner *);
+extern void func_0220623C(struct Owner *o);
 extern void func_022060BC(char *);
 extern void func_020307B0(void *);
 void func_02205D28(char *p){func_022065C8(p);func_0220623C((Owner *)p);func_022060BC(p);if(*(void **)(p+16))func_020307B0(*(void **)(p+16));func_020307B0(p);}

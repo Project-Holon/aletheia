@@ -31,19 +31,24 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
-extern void *func_020120F4(void *);
-extern void *func_02012EBC(void *);
+struct Big;
+struct BigObj;
+struct Ctx;
+struct Sub02008C20Obj;
+struct T0200A9A4;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern u32 func_02008530(void *);
-extern int func_0200A9A4(void *,u32);
-extern void *func_0201292C(void *);
+extern int func_0200A9A4(struct T0200A9A4 *o, u32 v);
+extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007FB8(u8 *,u16,u16);
 extern u32 func_02007E50(u8 *,u16,u16,u16);
 extern void *func_020084F4(void *);
 extern u8 func_02008550(void *);
 extern u8 func_0200AA68(void *,const void *,u16,u32,u8,u8,u32,u16,u8,u8,u8);
 extern void *func_02012F2C(int *);
-extern u32 func_02008DF0(void *,int);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 #define ARG (*(u8 **)(p+0x1a4))
 int func_021B8860(u8 *p)
 {

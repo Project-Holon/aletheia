@@ -18,11 +18,16 @@
  */
 struct Four { unsigned short a; unsigned char b,c; };
 extern const struct Four d_021BDD8A[];
-extern void func_02043AF4(void *,short,int,unsigned short,unsigned short,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bmp;
+struct Cfg;
+struct Descriptor;
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 extern void func_021BDA54(void *,void *,unsigned char,int,int,unsigned short);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern unsigned char func_02045730(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(unsigned int);
 void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {

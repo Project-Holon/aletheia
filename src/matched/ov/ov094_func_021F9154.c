@@ -14,7 +14,8 @@
  * symbols:
  *   func_0207C768 0x0207C768 arm
  */
-extern int func_0207C768(int, int);
+typedef unsigned int   u32;
+extern u32 func_0207C768(u32 a, u32 b);
 
 void func_021F9154(int a, int b, int *out, int c)
 {

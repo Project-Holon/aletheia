@@ -15,7 +15,8 @@
  *   func_02158A34 0x02158A34 thumb ov010
  */
 typedef unsigned char u8;
-extern void *func_020120F4(void *);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012844(void *);
 extern const u8 *func_02162450(void *);
 extern int func_02158B3C(const u8 *, int);

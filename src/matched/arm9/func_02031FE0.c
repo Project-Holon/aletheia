@@ -81,7 +81,7 @@ extern void  func_02033410(Save *self, u32 a);
 extern void  func_02082A7C(u32 v, void *dst, u32 size);
 extern void  func_020307B0(void *p);
 extern void  func_02082A60(const void *src, void *dst, u32 size);
-extern void  func_02031F9C(u32 *out, Save *self, void *buf, u32 sel);
+extern void func_02031F9C(u32 *out, void *p, void *buf, u32 sel);
 extern u32   func_02033BF0(u8 *tbl);
 extern void  func_0203331C(Save *self, u32 idx, u32 v);
 extern u32   func_02033B68(u8 *tbl, u32 idx);

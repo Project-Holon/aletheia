@@ -11,7 +11,7 @@
  * status:   EXACT
  */
 
-extern int *func_0203D788(void);
+extern void *func_0203D788(void);
 void func_02037A44(int a)
 {
     int *r = func_0203D788();

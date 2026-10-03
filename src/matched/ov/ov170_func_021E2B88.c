@@ -31,7 +31,8 @@
 typedef unsigned char u8;
 typedef struct { u8 lo:4; u8 hi:4; } Nib;
 struct WinMgr;
-extern u8 func_020260E0(void *);
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021DEFEC(u8 *,int);
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(u8 *);

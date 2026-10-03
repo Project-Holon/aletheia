@@ -65,8 +65,8 @@ extern u32 g_020A8144;
 
 extern void func_02061390(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02061460(void);
-extern void func_020614D4(void);
-extern void func_02061644(void);
+extern u32 func_020614D4(u32 size, u32 which);
+extern u32 func_02061644(void);
 
 void func_020613D8(u32 mode, u32 flag)
 {

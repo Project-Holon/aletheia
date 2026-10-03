@@ -19,9 +19,11 @@
  */
 
 void *func_020124F0(int a);
-void *func_020124E8(void *a);
+struct Ctx;
+struct Obj;
+void *func_020124E8(struct Obj *p);
 void *func_020124E4(int a);
-void *func_0201210C(void *p);
+void *func_0201210C(const struct Ctx *p);
 void func_021C2918(int a);
 void func_020437AC(int a);
 void func_020307B0(int a);

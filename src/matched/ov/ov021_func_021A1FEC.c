@@ -29,7 +29,7 @@ typedef struct O {
     u8  f40;
 } O;
 
-extern void func_021A2C2C(void *p, u32 v);
+extern void func_021A2C2C(u8 *p, u32 v);
 
 void func_021A1FEC(O *p, u32 v, u8 b, u32 c, u32 d, u32 e, u32 g)
 {

@@ -14,7 +14,9 @@
  */
 typedef unsigned char u8;
 struct State { char pad[0xb8]; int ids[3][2]; void *objects[2][2]; int selected,mode; };
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BB980(struct State *p)
 {
     u8 i,j;

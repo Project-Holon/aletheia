@@ -43,10 +43,10 @@ extern void *func_02045EC0(struct MsgBank *,u32);
 extern struct U16Vec *func_020457B0(u32,u32);
 extern void func_0201EE0C(struct WordSet *,u32,const void *,u32,u32,u32);
 extern void func_0201F250(struct WordSet *,void *,void *);
-extern void func_021FD19C(void *,char *,void *);
+extern void func_021FD19C(char *p, void *q, void *text);
 extern void func_02045808(struct U16Vec *);
 extern void func_021FB964(int,int,u16);
-extern int func_021FC20C(char *);
+extern unsigned func_021FC20C(char *p);
 extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
 void func_021E23C8(char *p,const Input *q) {

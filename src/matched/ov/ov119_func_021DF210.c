@@ -26,17 +26,19 @@
 extern unsigned func_020399A8(void);
 extern unsigned func_0203D1A4(unsigned);
 extern unsigned func_02039CB4(unsigned, unsigned, unsigned);
-extern void func_02045CAC(void *, unsigned, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021D8A24(void *);
-extern int func_021DD24C(void *);
-extern void func_021DD294(void *, int, int);
+extern int func_021DD24C(char *p);
+extern void func_021DD294(char *p, int a, int b);
 extern void func_021DD90C(void *, int, int, int);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *, int);
 extern void func_021DF1C8(void *);
 extern void func_021DEDBC(void *);
 extern void func_021D9434(void *);
-extern void func_021DAEF0(void *);
+extern void func_021DAEF0(char *p);
 void func_021DF210(char *p)
 {
     unsigned a, b;

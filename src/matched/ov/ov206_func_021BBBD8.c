@@ -18,7 +18,8 @@ typedef struct S {
     void *b[2];
     int sel;
 } S;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *);
 void func_021BBBD8(S *p, int i)
 {

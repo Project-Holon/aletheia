@@ -10,7 +10,8 @@
  * status:   EXACT
  */
 
-extern void func_0204B3B4(void *h);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_02206128(char *p)
 {

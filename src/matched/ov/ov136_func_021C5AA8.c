@@ -12,8 +12,10 @@
  *   func_02027FD8 0x02027FD8 thumb
  */
 typedef unsigned char u8;
-extern void func_02045808(void *);
-extern void func_02027FD8(void *);
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02027FD8(struct TaskMenuState *s);
 void func_021C5AA8(u8 *p)
 {
     int i;

@@ -16,7 +16,7 @@
  *   func_021FC754 0x021FC754 thumb ov186
  */
 extern void func_021FB964(int, int, unsigned short);
-extern int func_021FC20C(char *);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void *func_021FC6A4(unsigned short, unsigned char, unsigned char, unsigned, unsigned char, unsigned char, void *, unsigned short);
 extern void func_021FC868(void *, int, int, int);

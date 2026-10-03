@@ -27,15 +27,18 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D5B68(void *q);
 extern void func_021D8434(u8 *o);
-extern int func_021D5BDC(void *q, u32 n);
+struct QL;
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021D8444(u8 *o);
-extern int func_021D62C4(void *q, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 typedef struct { u32 v; } Word;
 extern Word func_021D6314(void *q, int i);
 extern u16 func_021E8B80(Word v);
-extern u8 func_021D67C4(void *q);
+extern u8 func_021D67C4(u8 *p);
 extern void func_021D82D0(u8 *o, u32 id, u32 sub);
-extern u16 func_021D67A8(void *q);
+extern u16 func_021D67A8(struct QL *p);
 extern u8 func_021D5778(void *q, u32 id);
 
 u32 func_021CF470(u8 *p, void *q, u8 *o)

@@ -17,5 +17,5 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D580C(char *);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D80B8(void);
+extern void func_021D80B8(char *p);
 void func_021D8130(char *p) { if(func_021D580C(*(char **)(p+24))) func_021D6EE0(p,(int)func_021D80B8,0x5b3); }

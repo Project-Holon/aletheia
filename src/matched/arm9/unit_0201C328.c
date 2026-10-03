@@ -56,9 +56,9 @@ struct WazaTool {
     s32   count;
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
-extern void func_020457A0(u32 v);
+extern void func_020457A0(u16 stamp);
 extern void *func_02043678(u32 a, u32 b, u32 c, void *d);
 
 extern struct WazaTool *gWazaTool;

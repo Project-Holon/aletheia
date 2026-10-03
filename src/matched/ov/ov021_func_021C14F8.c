@@ -30,7 +30,7 @@ extern void *func_021A3074(unsigned char *p);
 extern void func_0216D88C(void *a, Vec3 *v);
 extern void func_0216D89C(void *a, Vec3 *v);
 extern int func_0209C0A4(int a, int b);
-extern void func_021C6B18(u32 a, u32 b, u32 c);
+extern void func_021C6B18(u32 a, u16 b, u32 c);
 extern void func_021AC154(u32 a);
 
 int func_021C14F8(u8 *p)

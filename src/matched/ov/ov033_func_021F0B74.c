@@ -23,8 +23,11 @@
  */
 
 extern unsigned func_02030CB0(unsigned);
-extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
-extern void *func_02030CBC(unsigned, void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern unsigned func_02021518(unsigned);
 extern void func_02021EE4(unsigned, unsigned);
 extern void func_0202155C(unsigned, unsigned, unsigned, unsigned);

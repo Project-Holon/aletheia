@@ -27,7 +27,8 @@ extern void *func_021EAC98(void);
 extern void func_021EBA30(unsigned char *p, void *win);
 extern void func_021EAC28(char *w, int i, void *bank, u32 idx, int x, int y, u32 font, u16 color);
 extern void func_021EABA0(void **win);
-extern void func_02045C04(void *bank);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_021EE0FC(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

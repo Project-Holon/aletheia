@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 struct Ctx;
 
-extern void *func_020124E4(void *o);
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C58(void *o);
 extern u32 func_0218F0E8(u8 *a);

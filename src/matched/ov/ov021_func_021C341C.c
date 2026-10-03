@@ -27,7 +27,7 @@ extern u32 func_0200BC2C(u32, u32);
 extern u32 func_02017E1C(u32, u32, u32);
 extern u32 func_0200BCD8(u32, u32);
 extern u32 func_021C3510(u32, u32);
-extern int func_0201850C(u16, u16, u32);
+extern u32 func_0201850C(u16 species, u16 form, u32 exp);
 
 int func_021C341C(u32 *p, u32 b)
 {

@@ -31,7 +31,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 image[0x94]; u32 f94, f98; int f9c; u16 fa0, fa2, fa4, fa6, fa8, faa; } Record;
-extern void *func_02012EBC(void *);
+typedef signed int     s32;
+struct Big;
+struct Reg2;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern int func_0200AE14(void *);
 extern void *func_0200B358(void *);
@@ -44,7 +47,7 @@ extern int func_0200AE54(int, int);
 extern int func_02008554(int);
 extern int func_0200B074(void *);
 extern void func_02082D44(int, void *, u32);
-extern int func_0200B078(void *, int);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern int func_021E6118(Record *, int, int, int, int, int, int, int, int, int, u16);
 void func_0217D028(u8 *p)
 {

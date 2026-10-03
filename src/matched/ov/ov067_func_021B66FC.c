@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void func_0204AFD8(u32);
 extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
-extern void func_0203FB44(u32, u16, u16);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_02082BCC(void *, u32, u32);
 void func_021B66FC(u32 *p)
 {

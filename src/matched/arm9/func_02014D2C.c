@@ -87,7 +87,7 @@ extern void G3i_LookAt_(const VecFx32 *camPos, const VecFx32 *camUp,
 extern void G3_RotX(fx32 s, fx32 c);
 extern void G3_RotZ(fx32 s, fx32 c);
 extern void G3_MultMtx44(const MtxFx44 *m);
-extern fx32 sub_0207C768(fx32 numer, fx32 denom);
+extern u32 sub_0207C768(u32 a, u32 b);
 extern void func_02016FC8(const VecFx32 *v, const MtxFx44 *mtx,
                           VecFx32 *dst, s32 *w);
 extern void sub_020169D4(void);

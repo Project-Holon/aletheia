@@ -19,12 +19,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0201283C(const void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,int);
-extern void func_02045334(void *);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 extern void func_021C8A50(void *,void *);
 extern void func_021C8A80(void *,void *,void *,int,int,void *,int,u16);
-extern void func_021C8B90(void *,void *,int,int,u16);
+extern void func_021C8B90(char *p, char *q, int unused, int i, u16 h);
 void func_021C8904(char *p,char *q,void *r,void *s,int t,char *table,int page,u16 heap) {
  int i;int offset;void *base;int found;char *row;void *v;
  base=func_0201283C(*(void **)(q+4));

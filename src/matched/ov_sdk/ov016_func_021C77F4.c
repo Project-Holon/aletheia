@@ -34,15 +34,15 @@ typedef struct MemSsea {
 } MemSsea;
 
 extern void func_021BD138();
-extern void func_021D6F38();
-extern void func_021D5CA8();
+extern void func_021D6F38(unsigned int *obj);
+extern void func_021D5CA8(int a);
 extern void func_021BD1D4();
-extern void func_021D6090();
+extern void func_021D6090(int lcd, int plane);
 extern void func_021C0EA0();
-extern void func_021C0E50();
-extern void func_021C0E8C();
+extern void func_021C0E50(unsigned int a, unsigned int b);
+extern void func_021C0E8C(unsigned int a, unsigned int b);
 extern void func_021C0E40();
-extern void func_021D6438();
+extern void func_021D6438(void **mem);
 extern void func_0207E51C();
 extern void func_021C82FC();
 extern MemSsea *g_021DE5E4;

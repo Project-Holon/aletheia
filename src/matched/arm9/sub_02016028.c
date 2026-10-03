@@ -45,7 +45,7 @@ typedef unsigned int u32;
 
 extern u32  func_020627D8(u32 a, u32 flag);
 extern void func_020307B0(u32 handle);
-extern void func_02016984(void *a, u32 one);
+extern void func_02016984(char *a0, int a1);
 extern void func_0206469C(void *member, u32 value);
 
 void sub_02016028(void *a, u32 flag)

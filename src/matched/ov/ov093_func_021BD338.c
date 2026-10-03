@@ -12,7 +12,8 @@
  *   func_021B8588 0x021B8588 thumb ov093
  */
 typedef unsigned char u8;
-extern unsigned int func_021B8588(void *);
+typedef unsigned int   u32;
+extern u32 func_021B8588(void **p);
 void func_021BD338(u8 *p, u8 *q)
 {
     if (func_021B8588(*(void **)(q + 4)) == 3) p[3] = 1;

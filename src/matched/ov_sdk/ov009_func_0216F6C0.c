@@ -25,8 +25,9 @@
  */
 
 extern char g_021AAA20[];
-extern char *func_02175F3C(void);
-extern void func_0219ED4C(void *sb);
+struct ServerBrowser;
+extern int func_02175F3C(void);
+extern void func_0219ED4C(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern void func_02175F4C(int state);
 extern void DWC_Free(int kind, void *p, int size);

@@ -33,7 +33,7 @@ typedef struct {
     u32 unk10;
 } Slot02072A44;
 
-extern u32   func_0207292C(u32 bit);
+extern int func_0207292C(int mask);
 extern Slot02072A44 g_0214DECC[];
 
 Slot02072A44 *func_02072A44(u32 idx)

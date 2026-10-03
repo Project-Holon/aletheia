@@ -15,10 +15,13 @@
  *   func_02039338 0x02039338 arm
  */
 extern void *func_021DCF50(void *);
-extern void *func_02184180(void *, int);
-extern void func_0201F02C(void *, int, void *);
-extern unsigned func_021841A4(void *);
-extern int func_02039338(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct WordSet;
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern int func_021841A4(unsigned char *p);
+extern u16 func_02039338(void);
 void func_021DE17C(char *p, int command, int player) {
     void *target;
     if (*(int *)(p+0x118) == 3) {

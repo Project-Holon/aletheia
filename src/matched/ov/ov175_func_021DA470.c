@@ -16,7 +16,7 @@
  */
 extern int func_0203CD98(void);
 extern void func_0200FA84(void);
-extern int func_02167ED8(int *, int *);
+extern int func_02167ED8(void *date, void *time);
 extern void func_02082BCC(void *, int, int);
 void func_021DA470(unsigned char *dest)
 {

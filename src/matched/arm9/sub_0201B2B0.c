@@ -63,9 +63,10 @@ extern u32   func_02017E1C(void *mon, u32 id, u32 v);
 extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
 extern void *func_02030734(u32 heap, u32 size, u32 c, void *file, u32 line);
 extern void  func_020307B0(void *p);
-extern void  sub_0201B764(u32 species, struct EvoRow *table);
+struct Rec;
+extern void sub_0201B764(u32 id, void *dest);
 extern u32   sub_0201B774(void *mon, u32 move);
-extern u32   sub_0201AC44(void *party, u32 species);
+extern u32 sub_0201AC44(struct Rec *p, u32 target);
 extern u32   func_02011410(u32 tz);
 
 extern u8 s_shinka_check_c[];

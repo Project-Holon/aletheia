@@ -13,8 +13,10 @@
  *   func_0204B98C 0x0204B98C arm
  */
 typedef unsigned char u8;
-extern void func_02028178(void *);
-extern unsigned func_0204B98C(void *);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_02028178(u8 *p);
+extern u32 func_0204B98C(struct Actor *a);
 extern void func_021BD348(u8 *);
 void func_021BCA84(u8 *p)
 {

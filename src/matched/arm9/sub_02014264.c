@@ -27,7 +27,8 @@
  *       --func sub_02014264 --addr 0x02014264 --cc 1.1p1 --thumb
  */
 
-extern void func_02014204(void *p, int id);
+struct t;
+extern void func_02014204(struct t *p, int id);
 
 void sub_02014264(void *p)
 {

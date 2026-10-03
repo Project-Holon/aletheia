@@ -81,7 +81,7 @@ extern int func_021C1678(u8 *, u8 *, u8 *, u32, u16 *);
 extern void func_021C36A0(u8 *, u8 *, u16 *, int);
 extern void func_021C36E8(u8 *, u8 *, u16 *, int, int, u16);
 extern void func_021C3690(void *, u32, u16, int);
-extern void func_021C1828(u8 *, u32, u8 *, u8 *, u8 *, u16);
+extern void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w);
 extern void func_021C4218(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
 extern void func_021C1C88(u8 *, u8 *, u32, u8 *, u32);
 extern int func_021C4F64(u8 *, u8 *);

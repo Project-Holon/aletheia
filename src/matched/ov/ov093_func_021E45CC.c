@@ -29,13 +29,13 @@ extern int func_021D775C(int key);
 extern u8 *func_021C7CF4(u8 *s, int k);
 extern int func_021D67B0(u8 *q);
 extern u8 *func_021C8120(u8 *s, int k);
-extern u32 func_021D7A9C(int t, u8 *p);
-extern int func_021D5814(u8 *q, int k);
+extern u8 func_021D7A9C(int a, u8 *out);
+extern int func_021D5814(void *p, int k);
 extern void func_02082D44(u8 *src, u8 *dst, u32 n);
 extern u32 func_021D78AC(u32 n);
 extern u8 *func_021C88A4(u8 *p, int a, int b);
 extern u16 func_021E8CF0(int c);
-extern void func_021C88C8(u8 *a, u8 *b);
+extern void func_021C88C8(void *a, void *b);
 
 void func_021E45CC(int a0, u8 *s, int k)
 {

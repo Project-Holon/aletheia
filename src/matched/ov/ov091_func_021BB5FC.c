@@ -30,7 +30,7 @@ extern void func_0201CE48(u32 v);
 extern void func_02045808(u32 v);
 extern void func_0201C6EC(u32 v);
 extern void func_0201C4C0(u32 v);
-extern void func_02028604(u32 v);
+extern int func_02028604(int a0);
 extern void func_02031140(u32 v);
 extern void func_020307B0(void *p);
 

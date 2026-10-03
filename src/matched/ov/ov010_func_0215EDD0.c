@@ -29,7 +29,8 @@ struct C {
 extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
 extern void func_02159058(void *p, u32 a, u32 b, u32 c, u32 d);
 extern void *func_02184EEC(void *p);
-extern void func_0201235C(void *a, void *b);
+struct S0201235C;
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_0215EDD0(void *a, int *st, struct C *c)
 {

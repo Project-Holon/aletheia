@@ -16,7 +16,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021D6438(void *);
+extern void func_021D6438(void **mem);
 
 void func_021BD660(void)
 {

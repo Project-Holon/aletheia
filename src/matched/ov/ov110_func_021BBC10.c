@@ -16,10 +16,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u16 func_0204B898(void *);
-extern unsigned func_0204B98C(void *);
-extern void func_0204B3DC(void *, unsigned);
-extern void func_0204B878(void *, u16);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_021BF6DC(u8 *);
 int func_021BBC10(u8 *p)
 {

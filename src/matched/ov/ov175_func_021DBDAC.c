@@ -39,7 +39,7 @@ extern void func_021DCE08(char *,u32,int);
 extern void func_021DCE48(char *,u32,int);
 extern void func_021DCE50(char *,u32,int);
 extern void func_021DB6A0(char *);
-extern void func_02034714(const char *,int,const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[],d_021E2F1C[];
 int func_021DBDAC(char *p)
 {

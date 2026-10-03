@@ -85,14 +85,17 @@ extern const struct ModeEntry gModeTable[];
 extern u8   g_020A7494[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const u8 *file, u32 line);
-extern u32   func_020437DC(void *bmp);
-extern u32   func_020437E4(void *bmp);
+struct Actor;
+struct Bmp;
+struct Obj;
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern void *func_0204A7A0(u32 a1, u32 a2, u32 heap);
 extern u32   func_02025A9C(struct Sys *sys, u32 engine, u32 arg);
 extern void *func_0204B294(u32 a, void *res, u32 c, u32 d, struct Point *pt,
                            u16 f, u16 g);
-extern void  func_0204B6F4(void *p, u32 a, u32 b);
-extern void  func_0204BA20(void *p, u32 a);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204BA20(struct Actor *a, u32 v);
 
 struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
 {

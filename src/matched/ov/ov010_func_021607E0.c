@@ -79,14 +79,16 @@ extern int func_02160A4C(Callbacks *c);
 extern int func_02160A7C(Callbacks *c);
 extern void *func_021BE8D4(void *a, void *b, u32 c, u32 d);
 extern void *func_021BE92C(void *a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02012374(void *evt, void *h);
+struct Ctx;
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020144DC(void *a, void *b);
 extern void *func_020145CC(void *a);
-extern void *func_0201210C(void *a);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_02188DA0(void *a);
-extern void func_02188DB0(void *a);
+extern void func_02188DB0(u8 *a);
 extern void func_020120B4(void *a, void *b, void *c, void *d);
-extern int func_020120F0(void *a);
+extern u32 func_020120F0(const struct Ctx *p);
 extern void func_020307B0(void *p);
 
 int func_021607E0(void *evt, u32 *state, Task *t)

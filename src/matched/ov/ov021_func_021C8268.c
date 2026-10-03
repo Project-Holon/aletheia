@@ -27,7 +27,9 @@ extern int func_020120F4(int a);
 extern int func_02012944(int a);
 extern int func_02008550(int a);
 extern void func_02014204(void *p, int v);
-extern void func_021C82C4();
+typedef unsigned int   u32;
+struct Ctx;
+extern int func_021C82C4(u32 a, int *st, struct Ctx *c);
 
 int func_021C8268(int a, int b, int c)
 {

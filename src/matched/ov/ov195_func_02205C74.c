@@ -49,10 +49,11 @@ typedef struct Owner {
 } Owner;
 
 extern char d_02208F68[];
-extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
+struct RecDC;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020173EC(void);
-extern void func_02019CE0(void *res0, void *res1);
-extern void func_020178D8(void *res1, u16 v);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void func_020178D8(void *p, u32 a);
 extern void func_0220609C(Owner *o);
 extern void func_02206108(Owner *o);
 extern void func_022063E0(Owner *o);

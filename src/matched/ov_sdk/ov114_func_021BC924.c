@@ -38,7 +38,8 @@ typedef struct {
 	char *value;
 } DataList;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern ReqInfo **func_021BEF48(void *sysInfo);
 extern DataList *func_021BABF4(void *list);
 extern int func_021BA118(const char *s);

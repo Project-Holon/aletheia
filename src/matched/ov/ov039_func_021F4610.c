@@ -42,21 +42,23 @@ typedef struct {
     s8 slot[4];
 } Work;
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
-extern int func_02188D2C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188D2C(int *p);
 extern Work *func_021897BC(void *p, int idx);
-extern void *func_021BE674(char *base, int i, int j, u16 k);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
 extern void *func_0200B3A4(unsigned int, unsigned int);
-extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
+extern int func_02158780(void *p, int b, int c, int d, u16 e);
 extern void func_021587B0(void *a, u32 id, u32 b, u32 c);
-extern void func_021F3E04(void *a, u8 b, u8 c, int d);
-extern int func_021F3DE4(void *a, u8 b, u8 c);
-extern int func_021BE6B0(void *s, int b);
-extern int func_021BE6BC(void *p);
+extern void func_021F3E04(void *p, u8 delta, u16 i, int frame);
+extern int func_021F3DE4(void *p, u8 delta, u16 i);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
 
 int func_021F4610(void *a0, int *a1)

@@ -37,12 +37,13 @@ typedef unsigned int   u32;
 extern u32 func_020120F4(void *p);
 extern u32 func_0201297C(u32 ctx);
 extern u32 func_0215E6A8(u32 a, u16 b);
-extern u32 func_0202C8B8(void *a, u32 b, u32 c);
-extern u32 func_0202C934(void *a, u32 b, u32 c);
+typedef signed int     s32;
+extern s32 func_0202C8B8(void *a0, u32 a1, u32 a2);
+extern s32 func_0202C934(void *a0, u32 a1, u32 a2);
 extern u32 func_0202C970(void *a, u32 b, u32 c);
 extern u32 func_0202C824(u32 a);
 extern u32 func_021647E8(u32 a, u16 b);
-extern u32 func_02013C10(u16 a);
+extern u32 func_02013C10(u32 id);
 
 u8 func_0202C794(void *a0, u32 a1)
 {

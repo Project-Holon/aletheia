@@ -68,19 +68,22 @@ typedef struct Work {
 } Work;
 
 extern u8 func_02156934(Work *w, u8 idx);
-extern void func_0200A768(void *p);
-extern void func_0200A788(void *p);
-extern void func_0200A7C0(void *p, u8 v);
-extern void func_0200A800(void *p, int v);
+typedef signed int     s32;
+struct Big;
+struct Sub02008C20Obj;
+extern void func_0200A768(struct Big *p);
+extern void func_0200A788(struct Big *p);
+extern void func_0200A7C0(struct Big *p, u8 value);
+extern void func_0200A800(struct Big *p, s32 delta);
 extern void *func_021F4F14(u32 heap);
 extern u32 func_021F5140(void *h, u16 id);
-extern void func_0200A7AC(void *p, u32 i, u8 v);
-extern void func_021F4F40(void *h);
+extern void func_0200A7AC(struct Big *p, u32 index, u8 value);
+extern void func_021F4F40(void **p);
 extern u16 *func_020127A4(void *p);
 extern void func_0201B7A0(void *a0, int a1, int a2, int a3);
-extern void *func_02012F2C(void *p);
-extern u32 func_02008DF0(void *p, int i);
-extern u32 func_02008DAC(void *p, int i, u32 v);
+extern void *func_02012F2C(int *p);
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
+extern u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 
 void func_02156420(Work *w)
 {

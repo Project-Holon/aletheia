@@ -14,7 +14,8 @@
  *   func_021CF520  0x021CF520  thumb  ov021
  */
 
-void func_0207DD24(int a, int b, int c, int d, int e);
+typedef unsigned short u16;
+void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 void func_021CF520(int h);
 
 void func_021899C4(unsigned char *p)

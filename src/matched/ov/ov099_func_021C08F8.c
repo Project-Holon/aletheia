@@ -44,7 +44,7 @@ extern void func_021C2810(struct S *, char *);
 extern void func_021BDE30(void *, int, int);
 extern void func_021C18C8(char *, int, int);
 extern void func_021BA874(struct Work *, int);
-extern void func_021BAADC(void *, int, int);
+extern void func_021BAADC(char *p, int a, int b);
 extern void func_021BC090(void *);
 extern void func_021BAAB8(char *, int, int);
 int func_021C08F8(char *p)

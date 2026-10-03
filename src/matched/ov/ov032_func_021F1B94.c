@@ -33,20 +33,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 d_021F352C[];
-extern void func_021F0A98(char *p, int b);
+struct TcblNode;
+extern void func_021F0A98(char *p, unsigned a);
 extern void func_021F0B80(char *p, u32 a, int *s);
 extern void func_021F178C(char *p, u8 a, int *s);
 extern void func_021F029C(char *p, int a);
 extern void func_021F0C04(char *p, int flag);
 extern void func_021F0B64(char *p);
-extern void func_021F0E04(char *p, int a);
+extern void func_021F0E04(char *p, unsigned a);
 extern int func_021F0C70(char *p, int flag);
 extern void func_021F253C(char *p, u16 v);
 extern void func_021F0D38(char *p);
 extern int func_021F0CF8(char *p, int i);
 extern void func_021F0B10(char *p, int a, int *b);
 extern void func_021F05E8(char *p, int a, int b);
-extern void func_02031194(void *h);
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F1B94(void *h, u8 *t)
 {

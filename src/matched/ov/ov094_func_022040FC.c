@@ -38,7 +38,7 @@ extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022044C0(Main *, int, int, int, int);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern void func_02040588(unsigned int, u8);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0220687C(Main *, void *);
 void func_022040FC(void *h, Ctx *c)
 {

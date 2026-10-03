@@ -12,9 +12,11 @@
  *   func_021BC614 0x021BC614 thumb ov216
  *   func_0204B6F4 0x0204B6F4 arm
  */
-extern void *func_021BCA38(void *);
+typedef unsigned int   u32;
+struct Obj;
+extern void *func_021BCA38(char *p);
 extern void *func_021BC614(void *,void *,void *,short,short,unsigned char,unsigned char,unsigned char,unsigned short);
-extern void func_0204B6F4(void *,int,int);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021BC650(char *p)
 {
     void *q=func_021BCA38(*(void **)(p+0x50));

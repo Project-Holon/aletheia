@@ -39,7 +39,7 @@ extern u32 func_0216D67C(u32);
 extern u32 func_0216D520(u32);
 extern u32 func_0219C9DC(u32);
 extern int func_02197C9C();
-extern int func_0219C648();
+extern int func_0219C648(u32 a);
 extern u32 func_0216D7A8();
 extern int func_020508EC();
 

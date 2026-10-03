@@ -19,7 +19,8 @@
 
 extern int func_021D8AA8(void *p);
 extern void *func_021D8FA4(void *p, int i);
-extern int func_021D95A0(void *p);
+typedef unsigned int   u32;
+extern u32 func_021D95A0(void *mon);
 
 int func_021D95D0(void *p)
 {

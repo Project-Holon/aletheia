@@ -52,11 +52,12 @@ typedef struct {
     int ref;
 } Connection;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
 extern void *func_021BEF58(void *sysInfo);
 extern void *func_021BA820(u32 size, int a);
-extern void func_021BA874(void *bgnEnd, int err);
+extern void func_021BA874(u8 *p, int v);
 extern void func_021BA13C(void *p, u32 size);
 extern Req *func_021BB3CC(void *bgnEnd, char *url_p, int method, char *buf_p, u32 len,
                           void *param_p, void *bufFull, void *freeBuf);

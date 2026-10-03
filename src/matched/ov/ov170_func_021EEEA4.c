@@ -17,10 +17,12 @@
  *   func_021DD238 0x021DD238 thumb ov170
  */
 struct WinMgr;
-extern unsigned char func_020260E0(void *);
-extern unsigned func_02025DE8(void *);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
+extern int func_02025DE8(struct Sound *obj);
 extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_020260E4(void *, unsigned char);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
 extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *);

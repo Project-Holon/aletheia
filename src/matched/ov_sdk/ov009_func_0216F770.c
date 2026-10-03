@@ -93,8 +93,9 @@ typedef struct {
 extern DWCstMatchControl *func_02175F3C(void);
 extern u32 func_021685CC(u32 max);
 extern int func_0216FAD4(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
-extern void func_0219F00C(void *sb);
-extern SBError func_0219EED4(void *sb, SBBool async, SBBool disconnectOnComplete, u8 *basicFields, int numBasicFields, char *serverFilter, int maxServers);
+struct ServerBrowser;
+extern void func_0219F00C(char *p);
+extern int func_0219EED4(struct ServerBrowser *sb, int async, int disconnectOnComplete, unsigned char *basicFields, int numBasicFields, char *serverFilter, int maxServers);
 extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern u64 OS_GetTick(void);
 extern DWCstGameMatchKeyData stGameMatchKeys[154];

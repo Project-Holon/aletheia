@@ -21,8 +21,8 @@
  *   func_020452E8  0x020452E8  arm
  */
 
-extern void func_021E1CA8(void *p);
-extern void func_021E1CC8(void *p);
+extern void func_021E1CA8(char *p);
+extern void func_021E1CC8(char *p);
 extern void func_021E36D8(void *p, int a);
 extern void func_021E3F70(void *p);
 extern void func_021E5BE4(void *p);

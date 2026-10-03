@@ -107,7 +107,8 @@ struct HeapBlock {
 extern struct EnvModule g_EnvModule;
 
 extern void *sub_0202FBAC(u32 idx);
-extern void *sub_02060CA0(void *arena, u32 size, s32 align);
+struct ExpHeap;
+extern void *sub_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 

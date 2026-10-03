@@ -69,20 +69,25 @@ typedef struct Work {
     u8 f8f;             /* 0x8F */
 } Work;
 
-extern void *func_020120F4(void *sys);
-extern void *func_020127A4(void *ctx);
-extern u32 func_02012B28(void *pl);
-extern void *func_02012B38(void *ctx);
-extern int func_02014484(void *p);
-extern int func_02012114(void *sys);
-extern void *func_0201210C(void *sys);
+struct BigObj;
+struct Ctx;
+struct Rec44;
+struct SaveBlock;
+struct Sub02014444Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u32 func_02012B28(const struct Rec44 *p);
+extern void *func_02012B38(const struct BigObj *p);
+extern u8 func_02014484(struct Sub02014444Obj *o);
+extern u32 func_02012114(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188BE8(void *proc);
-extern void *func_02188CB4(void *proc);
-extern void *func_021A3074(void *q);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern int func_021A34EC(void *q);
 extern void func_021A3038(void *q, VecFx32 *v);
 extern void func_02197CCC(void *a, VecFx32 *v);
-extern u16 func_021A3050(void *q);
+extern u16 func_021A3050(u8 *p);
 extern VecFx32 *func_02012AA0(void *pl);
 extern u16 func_02012AE4(void *pl);
 extern int func_0203EFC8(const void *a, const void *b, u32 n);

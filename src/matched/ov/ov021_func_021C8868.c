@@ -23,9 +23,10 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern unsigned int func_02188C80(unsigned char *p);
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int *func_02012ED0(void *a);
 extern int func_02011330(int a);
 extern unsigned short *func_02159AE8(void *a0, void *a1);

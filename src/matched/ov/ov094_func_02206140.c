@@ -61,7 +61,8 @@ typedef struct {
 
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void func_0204B22C(void *h, int v);
+struct Bank;
+extern void func_0204B22C(struct Bank *bank, u32 mode);
 extern void func_02206950(W *p);
 extern void func_022064CC(W *p, u8 (*tab)[4], s8 (*rows)[12]);
 extern int func_02206908(W *p, const Ctx *c, int i);

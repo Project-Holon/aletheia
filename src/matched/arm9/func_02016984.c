@@ -30,7 +30,8 @@
  *       --func func_02016984 --addr 0x02016984 --cc 1.1p1 --thumb
  */
 
-extern int  func_020648B4(int v, int b);
+typedef unsigned int   u32;
+extern int func_020648B4(u32 a, u32 b);
 extern int  func_02030734(int a0, int a1, int a2, int a3, int a4);
 extern void func_02064754(int a0, int a1, int a2, int a3, int a4, int a5);
 

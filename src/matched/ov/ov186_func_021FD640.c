@@ -19,7 +19,8 @@
  *   func_020409B4 0x020409B4 arm
  */
 extern void func_0204B3B4(int),func_0204ADA4(int),func_0204A8D4(int),func_0204AFD8(int);
-extern void func_021FC734(void *);
+typedef unsigned char  u8;
+extern void func_021FC734(u8 *p);
 extern void func_0202DC08(int),func_021FBDA4(int,int),func_020307B0(void *),func_020409B4(int);
 void func_021FD640(int *p)
 {

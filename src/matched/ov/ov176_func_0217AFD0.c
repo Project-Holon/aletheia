@@ -16,8 +16,8 @@
  */
 extern void func_021E8AA0(void *,void *);
 extern void func_021E8AA8(void *);
-extern void func_0217B0C8(void *,int,char *);
-extern void func_0217B1BC(void *,int,char *);
+extern void func_0217B0C8(int *a, int *state, int *p);
+extern void func_0217B1BC(int *a, int *state, int *p);
 void func_0217AFD0(void *a,int b,char *p)
 {
     switch(*(unsigned *)(*(char **)(p+0x28)+4)){

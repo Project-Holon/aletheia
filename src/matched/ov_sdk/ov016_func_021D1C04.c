@@ -35,7 +35,8 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void func_0207D6C0();
+typedef unsigned int   u32;
+extern void func_0207D6C0(u32 addr, int brightness);
 extern void func_021D771C();
 extern void func_021D1C5C(void *task);
 extern MemWinT *g_021DE658;

@@ -27,10 +27,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202ABF8(u8 *p);
+extern u32 func_0202ABF8(void *obj);
 extern void func_0202ACFC(u8 *p);
-extern void func_0202AD10(u8 *p);
-extern void func_0202AD44(u8 *p);
+extern void func_0202AD10(void *obj);
+extern void func_0202AD44(void *obj);
 
 void func_0202ACCC(u8 *p)
 {

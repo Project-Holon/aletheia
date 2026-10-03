@@ -13,8 +13,9 @@
  *   func_02041EE4 0x02041EE4 arm
  */
 typedef unsigned char u8;
-extern int func_021BC3D4(void);
-extern int func_021BC3E0(void);
+typedef unsigned int   u32;
+extern u32 func_021BC3D4(void);
+extern u32 func_021BC3E0(void);
 extern void func_02041EE4(unsigned layer,unsigned mode,unsigned value);
 void func_021BC338(u8 *p)
 {

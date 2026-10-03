@@ -32,10 +32,13 @@ typedef struct Vec3 {
     int z;
 } Vec3;
 
-extern u8 *func_021A3960(u8 *p);
-extern u8 *func_02188C80(u8 *p);
-extern u8 *func_020120F4(u8 *p);
-extern int func_02012844(u8 *p);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+extern void *func_021A3960(u8 *p);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012844(const struct BigObj *p);
 extern void func_0216D88C(u8 *a, Vec3 *out);
 extern void func_02164208(int dir, Vec3 *p, int amt);
 extern int func_02162564(int a, Vec3 *p);

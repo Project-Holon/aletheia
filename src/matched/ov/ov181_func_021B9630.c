@@ -29,11 +29,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_02034AC4(int a);
-extern void func_02043534(int a);
-extern void func_020435F4(int a);
-extern void func_0204363C(int a);
-extern void func_0207D534(void *p, int n);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_02034AC4(s32 handle);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204363C(u32 swap);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02005DAC(int a);
 extern void func_021B98F4(void);
 extern void func_021B9908(void);

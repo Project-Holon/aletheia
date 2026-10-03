@@ -20,8 +20,10 @@
 
 extern int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(int s);
-extern void *func_021B14A8(unsigned int n);
-extern void func_021B14F8(void *p);
+typedef unsigned int   u32;
+struct Node;
+extern struct Node *func_021B14A8(u32 type);
+extern u32 func_021B14F8(struct Node *n);
 extern void func_021B2FE4(void *p);
 
 extern int g_021B4BA0[3];

@@ -24,13 +24,15 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void func_020061E4(u32 a);
-extern void *func_02012934(void *p);
+struct BigObj;
+struct Obj;
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA1C(void *p);
 extern void func_02045CAC(u32 a, u32 b, u32 c);
 extern void func_02196034(u8 *p, void *fn, u32 n);
 extern void func_02197644(u8 *p, u32 b);
-extern void func_021968DC(void);
-extern void func_02196944(void);
+extern void func_021968DC(struct Obj *a);
+extern void func_02196944(u8 *a);
 
 int func_02196974(u32 s, u8 *p)
 {

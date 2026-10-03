@@ -35,9 +35,10 @@ struct Outer {
 
 extern struct Outer *g_02146940;
 
-extern void *func_02012EBC(void *sys);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sv);
-extern u32   func_02045A98(void);
+extern u16 func_02045A98(void);
 extern u16  *func_0200C1F4(u32 a0);
 
 void func_02027198(void)

@@ -17,7 +17,9 @@ typedef struct {
     void *f50;
 } Ov107Ctx;
 
-int func_0201FEBC(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_0201FEBC(u8 *p);
 
 int func_021F1A2C(Ov107Ctx *p)
 {

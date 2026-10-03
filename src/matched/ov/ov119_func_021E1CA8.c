@@ -10,7 +10,7 @@
  * symbols:
  *   func_021E0E4C 0x021E0E4C thumb ov119
  */
-extern void func_021E0E4C(void *);
+extern void func_021E0E4C(char *p);
 void func_021E1CA8(char *p)
 {
     char *q = p + 0x8C4;

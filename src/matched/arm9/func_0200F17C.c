@@ -58,8 +58,9 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02034A5C(u32 v);
-extern void func_02034AC4(u32 v);
+typedef signed int     s32;
+extern void func_02034A5C(s32 handle);
+extern int func_02034AC4(s32 handle);
 extern int  func_0215536C(void);
 extern int  func_02177020(void);
 extern int  func_021798D4(void);

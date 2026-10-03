@@ -19,9 +19,9 @@
  */
 
 extern void func_02157640(void);
-extern void func_02157630(void (*f)(void));
-extern void func_02157280(int (*f)(void));
-extern void func_02166424(void (*f)(unsigned char *, unsigned char *, unsigned char *, long));
+extern void func_02157630(int v);
+extern void func_02157280(int v);
+extern void func_02166424(void (*callback)(unsigned char *, unsigned char *, unsigned char *, long));
 
 void func_0215EC90(void)
 {

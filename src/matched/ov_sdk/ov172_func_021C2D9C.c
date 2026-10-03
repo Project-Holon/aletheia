@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 extern char g_021CAE28[];
 extern u8   g_021CADF0[];
 
-u32 func_0208CB10(char *dst, const char *src, u32 n);
+int func_0208CB10(char *destp, const char *srcp, int siz);
 
 void func_021C2D9C(const char *s)
 {

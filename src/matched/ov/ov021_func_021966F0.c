@@ -36,14 +36,15 @@ extern u8 d_021D4014[];
 extern u8 d_021D4024[];
 extern u8 d_021D404C[];
 extern u8 d_021DDB84[];
-extern void func_021966B0(void *p, u32 a);
-extern void func_0219707C(void *p);
+struct Cb;
+extern void func_021966B0(u8 *p, u32 a);
+extern void func_0219707C(u8 *p);
 extern void func_0219630C(u32 a, void *b, void *c, void *d, void *e, void *f);
 extern u32 func_02051B84(void *a, void *b, void *c, u32 d);
 extern void func_02196034(void *p, void *fn, u32 n);
-extern void func_0219649C();
-extern void func_02196974();
-extern void func_02196A4C();
+extern void func_0219649C(void *a, int b, struct Cb *c);
+extern int func_02196974(u32 s, u8 *p);
+extern void func_02196A4C(u8 *a);
 
 void func_021966F0(u8 *p)
 {

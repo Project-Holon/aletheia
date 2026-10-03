@@ -15,7 +15,9 @@
  */
 
 typedef unsigned int u32;
-extern void *func_020120F8(void *);
+typedef unsigned char  u8;
+struct Ctx;
+extern u8 *func_020120F8(const struct Ctx *p);
 extern unsigned short func_02012AC8(void *);
 extern u32 func_02013CC8(u32);
 extern u32 func_02013CE0(u32);

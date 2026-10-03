@@ -61,10 +61,10 @@ struct TaskMenu
   struct TaskMenuTmpl tmpl;
   void *arg1;
 };
-extern void *func_02030734(u32 heapId, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dst, u32 size);
 extern void func_02027a24(struct TaskMenu *m, void *arg1);
-extern u32 func_020355c4(void);
+extern u8 func_020355c4(void);
 extern void func_02027b30(void *a0, void *arg1, u32 flag);
 extern char sFile_020A74E0[];
 struct TaskMenu *func_02027778(struct TaskMenuTmpl *tmpl, void *arg1)

@@ -20,8 +20,8 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_021BE4B4(void *p, int i, int j, int v);
-extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
+extern void func_021BE4B4(char *p, int i, int j, int v);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
 extern u8 *func_021BE674(void *p, int i, int j, u16 k);
 extern void func_021BE6B8(u8 *p, int v);
 extern void func_021BE6B0(u8 *p, int v);

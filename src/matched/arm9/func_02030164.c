@@ -93,8 +93,9 @@ struct HeapBlock {
 
 extern struct EnvModule g_EnvModule;
 extern void *sub_0202FBAC(u32 idx);
-extern u32 sub_0202FC20(u32 idx);
-extern void func_02060E30(void *arena, void *block);
+struct ExpHeap;
+extern u16 sub_0202FC20(u32 idx);
+extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 state);
 

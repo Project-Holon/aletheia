@@ -27,7 +27,8 @@
 extern void func_0217DC28(int *);
 extern void func_0217DEA4(int *, int);
 extern int func_0217DE8C(int *);
-extern int func_020362DC(void);
+typedef unsigned int   u32;
+extern u32 func_020362DC(void);
 extern void func_0217E000(int *);
 extern int func_0217DFF0(int, int);
 extern void func_0217DFD0(int *, int, int);
@@ -37,7 +38,7 @@ extern int func_0217DFBC(int *);
 extern void func_0217DFA8(int *);
 extern int func_0217DE98(int *);
 extern void func_021E8AA0(int *, int);
-extern void func_0217DC20(void);
+extern void func_0217DC20(int a);
 void func_0217D964(int *a, int *state, int *p)
 {
     int result;

@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-void func_0204B3B4(void *p);
+struct Obj;
+void func_0204B3B4(struct Obj *p);
 
 void func_021B73E8(void *p)
 {

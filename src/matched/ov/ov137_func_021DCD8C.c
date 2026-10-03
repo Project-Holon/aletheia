@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021E1694(void *,void *),func_021E1814(void *,void *);
-extern void func_021E180C(void *,int,int);
+extern void func_021E180C(int *p, int a, int b);
 void func_021DCD8C(int a,int b,void *c,u8 *p) { if(a==0) func_021E1694(*(void **)(*(u8 **)p+28),c); }
 void func_021DCDA0(int a,int b,int *c,u8 *p) { func_021E180C(*(void **)(*(u8 **)p+28),a,*c); }
 void func_021DCDB0(int a,int b,void *c,u8 *p) { func_021E1814(*(void **)(*(u8 **)p+28),c); }

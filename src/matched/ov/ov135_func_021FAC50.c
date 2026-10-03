@@ -23,7 +23,8 @@ typedef unsigned int u32;
 
 struct WinMgr;
 extern u32 func_022028C8(void *win, u32 z, void *str, u32 x, u32 y, u32 z2, u16 color, void *g);
-extern void func_02045334(void *win);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g)

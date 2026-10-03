@@ -14,11 +14,14 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DF37C 0x021DF37C thumb ov119
  */
-extern void func_02045CAC(void *, unsigned, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+extern void func_021E1030(char *p);
 extern void func_021D8E84(void *, int);
-extern void func_021DF37C(void *);
+extern void func_021DF37C(u8 *p);
 void func_021DF404(char *p)
 {
     func_02045CAC(*(void **)(p + 0x720), 0x88, *(void **)(p + 0x738));

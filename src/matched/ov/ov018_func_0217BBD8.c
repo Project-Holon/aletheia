@@ -28,11 +28,12 @@ typedef struct { int x, y, z; } Vec;
 extern int func_02188C98(int);
 extern int func_02188C9C(int);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02013D5C(int);
+typedef unsigned int   u32;
+extern u32 func_02013D5C(u32 id);
 extern void func_021A3038(void *, Vec *);
 extern int func_0217B94C(Vec *);
 extern int func_02159B48(int);
-extern void func_02159B94(int, int, int, int);
+extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
 extern void func_0218CD20(int, int, int);
 

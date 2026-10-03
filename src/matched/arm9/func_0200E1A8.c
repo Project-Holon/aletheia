@@ -68,11 +68,12 @@ struct Entry {
 
 extern struct Rec g_0209DE90[];
 
-extern void func_0200E06C(void *p);
-extern u32  func_0200E0E8(void *p, u32 kind);
-extern void func_0200E124(void *p, u32 cap);
+struct Slot;
+extern void func_0200E06C(char *p);
+extern u32 func_0200E0E8(const struct Slot *obj, int idx);
+extern void func_0200E124(u32 *obj, u32 idx);
 extern void func_0200E024(void *p);
-extern void func_0200E27C(void *p, u16 slot);
+extern void func_0200E27C(u8 *obj, int idx);
 
 void func_0200E1A8(void *p, u16 a1, u16 a2, u8 a3, u8 a4, u8 a5, u32 kind)
 {

@@ -25,7 +25,9 @@ void func_021A21F8(int a, int b, int c, int d, int e, int f, int g, int h, void 
 void func_021A22E0(int a, int b, int c, int d);
 void func_021A2254(int a, void (*b)(int, int, int), int c, int d, int e, int f);
 void func_021A2160(int a, int b, int c);
-unsigned short func_02014A10(int a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+u16 func_02014A10(u32 i);
 int func_021A2114(int a, int b, int c);
 void func_021EEA04(int a, int b, int c);
 

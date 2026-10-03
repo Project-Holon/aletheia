@@ -34,7 +34,7 @@ typedef struct {
     void *f31EC;
 } Work;
 
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049F34(u32 a0, u32 a1, void *a2, u32 a3);
 extern const u32 d_021C8E20[][2];
 

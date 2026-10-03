@@ -43,7 +43,7 @@ typedef struct {
     u32 f170;
 } W;
 
-extern void func_02045088(u32 a);
+extern void func_02045088(u16 heapId);
 extern u32  func_020450F0(u32 a, u32 b, u8 c, u32 d, u32 e, u32 f, u32 g);
 extern u32  func_02045770(u32 a);
 extern void func_02043B5C(u32 a, u32 b);

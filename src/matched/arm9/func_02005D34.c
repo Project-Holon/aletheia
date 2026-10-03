@@ -39,7 +39,7 @@ typedef unsigned int u32;
 extern int   func_02005CE0(void *arg);
 extern void  func_02005D14(void);
 extern int   func_02005924(u32 a);
-extern void *sub_0200590C(void);
+extern u32 *sub_0200590C(void);
 extern void *func_020755A8(void *slot, u32 a, int b, int c, u32 d);
 extern void  func_02005EB4(u32 key);
 

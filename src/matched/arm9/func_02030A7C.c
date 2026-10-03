@@ -86,7 +86,7 @@ extern const char str_system_name[];
 
 extern void *func_020304C0(void *p);
 extern void *func_02060F90(void *p);
-extern s32 func_020308B8(void *buf, void *h);
+extern int func_020308B8(u8 *dst, const char *src);
 extern u32 func_0203F004(const u8 *s);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 n);
 

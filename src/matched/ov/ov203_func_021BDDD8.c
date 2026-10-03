@@ -42,7 +42,9 @@ extern void func_0201DD60(void);
 extern void func_021BDFC0(void *, unsigned);
 extern void func_021BE084(unsigned char *, int, int);
 extern void *func_020056A0(unsigned, unsigned, unsigned);
-extern void func_021BDFA8(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021BDFA8(u32 a, u8 *p);
 extern void func_021BE0F4(unsigned char *, int);
 void *func_021BDDD8(unsigned swap, void *config, unsigned heap)
 {

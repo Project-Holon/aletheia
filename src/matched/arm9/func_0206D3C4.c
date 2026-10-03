@@ -42,7 +42,7 @@ struct Obj {
     u32 fe4;
 };
 
-extern void func_0206DDA4(u32 a, void *b, u32 c);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_0206D3C4(struct Obj *o, u32 which)
 {

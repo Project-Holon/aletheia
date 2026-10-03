@@ -93,7 +93,7 @@ extern void           func_02060764(int *out, struct MBlock *blk);
 extern struct MBlock *func_02060790(struct MBlockList *list, struct MBlock *node);
 extern struct MBlock *func_020607B8(struct MBlockList *list, struct MBlock *node,
                                     struct MBlock *after);
-extern struct MBlock *func_020607E8(int *pair, u16 sig);
+extern void *func_020607E8(int *p, int v);
 extern void           MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 void *func_02060888(struct ExpHeap *heap, struct MBlock *block, void *ptr,

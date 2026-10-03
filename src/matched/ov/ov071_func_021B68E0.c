@@ -20,10 +20,11 @@
 
 typedef unsigned short u16;
 
+typedef unsigned int   u32;
 void func_021B68E0(int *p)
 {
     void *func_020490F4(unsigned int id, u16 heap);
-    int func_02025470(int, int, int, int, int, int, int);
+    u32 func_02025470(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
     int func_0204A6C8(int, int, int, int, int);
     int func_0204AF28(int, int, int, int);
     int func_020254BC(int, int, void *, int, int, int, int);

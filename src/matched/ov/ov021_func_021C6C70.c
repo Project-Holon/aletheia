@@ -29,8 +29,9 @@ typedef struct {
     u8 f20;
 } D;
 extern void func_020307B0(void *p);
-extern void func_02030EAC(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 typedef struct { u32 f0; u32 *f4; u32 f8; } Q;
 extern char d_021DE4D4[];
 Q *func_021C6C70(u32 heap, u32 size, u32 v)

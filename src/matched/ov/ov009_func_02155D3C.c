@@ -27,7 +27,7 @@ extern G *d_021A8264;
 void func_02155D2C(int e);
 void func_02155904(void);
 void func_02155374(int n);
-int func_0216B838(void);
+unsigned char func_0216B838(void);
 
 void func_02155D3C(int a, int b, int c, int d, int e)
 {

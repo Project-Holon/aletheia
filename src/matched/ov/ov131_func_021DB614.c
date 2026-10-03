@@ -15,10 +15,13 @@
  *   func_021DBA78 0x021DBA78 thumb ov131
  */
 typedef unsigned char u8;
-extern void func_0204B878(void *,int);
-extern void func_0204B3DC(void *,int);
-extern void func_021DBCA4(void *,int);
-extern void func_021DBCF4(void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_021DBCA4(u8 *p, int v);
+extern void func_021DBCF4(u8 *p);
 extern void func_021DBA78(u8 *,int);
 void func_021DB614(void *a,u8 *b,int c) {
     u8 *p=b+272;

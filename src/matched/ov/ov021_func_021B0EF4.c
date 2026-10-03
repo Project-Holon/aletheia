@@ -52,12 +52,14 @@ typedef struct S {
 extern void *func_0215A5F4(void *p);
 extern unsigned char **func_02158F58(void *);
 extern int func_02159B10(void *, int);
-extern int func_02158F78(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02158F78(u8 *p);
 extern int func_02159190(int);
 extern int func_0215A5CC(int);
 extern void func_0202A310(int, int, int, int);
 extern void *func_0215A5EC(int);
-extern void *func_0216DE94(void *, int);
+extern void *func_0216DE94(void *map, u32 id);
 extern S *func_0215A63C(int);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02188CB4(unsigned char *p);

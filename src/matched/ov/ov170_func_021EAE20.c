@@ -14,9 +14,14 @@
  *   func_021EAC28 0x021EAC28 thumb ov170
  *   func_021EABA0 0x021EABA0 thumb ov170
  */
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned);
-extern void func_0201EF14(void *, unsigned, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABA0(void **);
 void func_021EAE20(char *p, void **q, int i)

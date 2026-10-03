@@ -19,7 +19,9 @@ typedef struct {
 } Obj;
 
 extern int func_021BD090(Obj *p);
-extern void *func_020457B0(int a, int b);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 void func_021BD008(Obj *p)
 {

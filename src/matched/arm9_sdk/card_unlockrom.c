@@ -24,7 +24,8 @@
  */
 
 extern int func_02084E10(unsigned int id);
-extern void func_02075F4C(unsigned int id, int flag);
+typedef signed int     s32;
+extern void func_02075F4C(s32 owner, int target);
 
 void CARD_UnlockRom(unsigned int id)
 {

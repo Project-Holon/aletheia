@@ -14,7 +14,9 @@
  * The image leaves the message undefined for kinds above six.
  */
 extern void *func_021DD2D0(unsigned char *, int, unsigned);
-extern void func_0201EF14(void *, unsigned, void *);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EF14(struct WordSet *p, u32 i, void *mon);
 extern void func_021EBA84(unsigned char *, int, int);
 void func_021EBBC8(unsigned char *p, unsigned kind, int i)
 {

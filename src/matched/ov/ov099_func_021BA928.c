@@ -20,7 +20,8 @@ typedef unsigned long  u32;
 
 extern void func_020286C4(void *a, void *b, int c);
 extern int  func_02028484(void *a, void *b);
-extern void func_0201CE48(void *a);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *p);
 
 typedef struct {
     char pad00[0x190];

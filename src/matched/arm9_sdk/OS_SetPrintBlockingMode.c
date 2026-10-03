@@ -15,9 +15,10 @@
  *   func_020271F8 0x020271F8 thumb
  */
 
-extern void func_0202708C(void);
-extern void func_02027230(void);
-extern void func_020271F8(void);
+typedef unsigned short u16;
+extern int func_0202708C(u16 v);
+extern void func_02027230(u16 value);
+extern void func_020271F8(u16 value);
 asm void OS_SetPrintBlockingMode(void)
 {
     push {r4, lr}

@@ -34,8 +34,8 @@ extern int func_021945A0(int x);
 extern void func_0216E014(void *o, int d, int n);
 extern void func_0216DB4C(void *o, int v);
 extern void func_0216DC98(void *o, int v);
-extern void func_0216DB80(void *o, int v);
-extern void func_0216DAE0(void *o, int v);
+extern void func_0216DB80(unsigned int *p, unsigned int v);
+extern void func_0216DAE0(unsigned int *p, unsigned int v);
 extern void func_0216DC64(void *o, int v);
 extern void func_0216DCCC(void *o, int v);
 

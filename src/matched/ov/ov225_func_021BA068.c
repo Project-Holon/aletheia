@@ -16,7 +16,7 @@
  *   func_021BA30C 0x021BA30C thumb ov225
  */
 struct Obj;
-extern void func_021B6558(void *,unsigned,unsigned);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_021BA644(char *);
 extern void func_021BA28C(char *);

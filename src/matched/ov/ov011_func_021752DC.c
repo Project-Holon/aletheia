@@ -31,7 +31,8 @@ typedef struct Hd {
 
 int func_02026478(int a);
 void *func_020127A4(int a);
-u16 func_02012AC8(void *p);
+struct Rec44;
+u16 func_02012AC8(const struct Rec44 *p);
 int func_0216786C(int a, Hd *b);
 u8 func_02012FB0(int a);
 

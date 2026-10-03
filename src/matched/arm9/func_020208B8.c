@@ -48,7 +48,7 @@ struct Obj {
 extern u32  func_02045770(void *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0202055C(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
-extern void func_02020CA0(void *h, u32 a, u32 b, u32 c, u32 d);
+extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
 
 void func_020208B8(struct Obj *obj, int n, u32 flag)
 {

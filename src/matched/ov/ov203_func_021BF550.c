@@ -28,7 +28,7 @@ typedef unsigned short u16;
 struct TcblNode;
 struct Config { u16 a0,heap; u32 a4,a8,stop,a10,a14,a18,a1c,a20,a24; void *archive; };
 struct Context { struct Config *cfg; int state,count,wait; u32 first,a14,second; int fadein,fadeout,blend,step; };
-extern void func_021BF758(struct Context *);
+extern void func_021BF758(void *p);
 extern void sub_02031194(struct TcblNode *);
 extern void sub_02049B68(void *,u32,u32,u32,u32,u16);
 extern u32 func_02049990(void *,u32,u32,u32,u32,u32,u32,u16);

@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef void (*Fn)(void *);
 
-extern void func_021E324C(void *, int);
+extern void func_021E324C(char *p, int n);
 extern Fn tbl_021E7AC4[];
 
 void func_021E3208(void *p, int a)

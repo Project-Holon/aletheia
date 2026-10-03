@@ -59,20 +59,23 @@ extern void func_021ED7C8(struct S *, int);
 extern int func_021ED814(struct S *);
 extern u8 func_021B86C0(u8 **);
 extern void func_0201CE20(void *);
-extern int func_0201CED4(void *);
-extern void func_0201CE8C(void *, int);
-extern int func_02013080(int);
-extern void func_0201CEB8(void *);
-extern int func_0201CE30(void *);
+typedef signed int     s32;
+struct Rec;
+struct Rec3;
+extern u32 func_0201CED4(struct Rec *p);
+extern void func_0201CE8C(struct Rec *p, s32 v);
+extern signed char func_02013080(u32 idx);
+extern void func_0201CEB8(struct Rec *p);
+extern u32 func_0201CE30(void *p);
 extern u32 func_0203630C(void);
 extern int func_02035C38(void);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_0201DD68(void);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_0201CE38(void *);
-extern int func_02006254(int);
-extern void func_020061E4(int);
+extern int func_02006254(u32 a);
+extern void func_020061E4(u32 a);
 int func_021ECF68(struct T *p)
 {
     switch (p->b13f) {

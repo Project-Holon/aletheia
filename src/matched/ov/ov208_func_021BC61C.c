@@ -13,7 +13,9 @@
  *   func_02030DA4 0x02030DA4 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_020215A0(void *,unsigned);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 extern void func_02030DA4(void *);
 extern void func_020307B0(unsigned);

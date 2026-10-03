@@ -77,7 +77,7 @@ extern int func_0217EE50(int sock, int isblocking);
 extern int func_0217EF00(int sock, int size);
 extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
-extern void func_021C02C8(GHIConnection *connection, char *buffer, int bufferLen);
+extern void func_021C02C8(struct GHIConnection *connection, char *buffer, int bufferLen);
 extern char g_021CF12C[];
 extern int g_021CE5B0;
 extern char *g_021D3B2C;

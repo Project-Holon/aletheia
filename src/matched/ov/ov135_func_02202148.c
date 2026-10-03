@@ -15,8 +15,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021F4FC4(void *);
-extern int func_0207D55C(u16 *);
+extern void func_021F4FC4(u8 *p);
+extern int func_0207D55C(volatile u16 *reg);
 extern void func_0202208C(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 int func_02202148(u8 *p)
 {

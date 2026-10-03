@@ -20,7 +20,7 @@
 
 extern int func_021D8AA8(void *p);
 extern void func_021E36D8(void *p, int a);
-extern void func_021E2438(void *p, int a);
+extern void func_021E2438(char *p, int i);
 extern void func_021E62D4(void *p, int a, int i);
 
 void func_021D94A0(void *p, int a)

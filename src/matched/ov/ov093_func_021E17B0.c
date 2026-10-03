@@ -21,7 +21,7 @@
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int a, int b);
-extern unsigned char func_021D69AC(void *a, int i);
+extern unsigned char func_021D69AC(unsigned char *base, int idx);
 extern int func_021D76BC(int a, unsigned int b);
 
 static inline void func_021E17B0_set48(int v)

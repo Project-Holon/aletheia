@@ -88,24 +88,29 @@ typedef struct {
 } Work;
 
 extern void func_021C59B0(const u8 *src, u8 *dst);
-extern void *func_02012F5C(void *p);
+struct Node;
+struct Obj;
+struct S020315D4;
+struct Sub0200852CObj;
+struct Sub020089A8Obj;
+extern void *func_02012F5C(void **h);
 extern void *func_020089CC(void *p);
 extern void func_02082D44(const void *src, void *dst, u32 size);
-extern void *func_02012944(void *p);
-extern void func_02008558(void *p, u32 v);
+extern u8 *func_02012944(void *p);
+extern void func_02008558(struct Sub0200852CObj *obj, u8 value);
 extern void func_02008A14(void *p, u32 v);
-extern void func_02008A1C(void *p, u32 v);
-extern void func_0202DC08(void *p);
+extern void func_02008A1C(struct Sub020089A8Obj *obj, u8 value);
+extern void func_0202DC08(struct Obj *p);
 extern void func_021C5874(void);
 extern void func_021C42C0(Work *p);
 extern void func_021C6F4C(Anim *a);
 extern void func_020307B0(void *p);
 extern void func_021C60A0(Work *p);
 extern void func_021C46F0(void);
-extern void func_02030EAC(void *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_02031140(u32 v);
 extern void func_020355D8(u32 v);
-extern void func_020315D4(void *man);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(u32 heap);
 
 int func_021C40DC(void *man, int *state, Args *args, Work *p)

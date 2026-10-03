@@ -56,11 +56,13 @@ typedef struct Slot {
     u8 f04;
 } Slot;
 
-extern int func_0201C4E4(void *p);
-extern void *func_02045770(void *p);
-extern int func_0201C6C4(void *t, void *p);
-extern void func_02045334(void *p);
-extern int func_0201C6B4(void *p);
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern u32 func_0201C6B4(const struct PrintSys *p);
 
 int func_0216A07C(Work *w)
 {

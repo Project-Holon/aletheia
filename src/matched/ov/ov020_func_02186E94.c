@@ -18,10 +18,11 @@
  *   func_021869BC 0x021869BC thumb ov020
  * interface: 020127F0's body loads only r0, forwarding r0 through 0200A864/0200A898.
  */
-extern char *func_0215A5F4(void *p);
+struct Ctx;
+extern void *func_0215A5F4(void *p);
 extern char *func_02158F58(void *p);
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_020127F0(void *p);
 extern void func_021869BC(void *p);
 int func_02186E94(void *unused, void *p)

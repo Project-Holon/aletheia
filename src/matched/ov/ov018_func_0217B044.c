@@ -29,8 +29,10 @@ typedef struct {
     u16 f16;
 } Task;
 
-extern void *func_020122C0(void *a, u32 b, void (*fn)(), u32 size);
-extern Task *func_020124E8(void *task);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *p, int v, int n);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0217B084();

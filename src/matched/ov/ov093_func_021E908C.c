@@ -13,7 +13,8 @@
  *   func_020310C4  0x020310C4  arm
  *   func_021F78E4  0x021F78E4  thumb  ov094
  */
-extern void func_020310C4(void *p);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern void func_021F78E4(void);
 
 void func_021E908C(char *p)

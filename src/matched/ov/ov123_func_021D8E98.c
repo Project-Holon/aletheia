@@ -17,5 +17,5 @@
 extern int func_020185F0(void *);
 extern void func_021D6458(unsigned char *,int,int);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D8E68(void);
+extern void func_021D8E68(char *p);
 void func_021D8E98(char *p) { func_021D6458(*(void **)(p+0x14),func_020185F0(*(void **)(p+0xc)),1); *(int *)(p+0x60)=10; func_021D6EE0(p,(int)func_021D8E68,0x9f6); }

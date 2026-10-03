@@ -21,11 +21,13 @@
  */
 extern int func_021D775C(int key);
 extern int func_021E85F8(int id);
-extern int func_021C8374(void *w, int i);
-extern int func_021C83D4(void *p);
-extern int func_021C830C(void *p);
-extern int func_021C7F24(void *p, int k);
-extern int func_021C7F4C(void *p);
+typedef unsigned char  u8;
+struct Flag;
+extern int func_021C8374(u8 *p, int i);
+extern int func_021C83D4(u8 *p);
+extern unsigned int func_021C830C(u8 *p);
+extern int func_021C7F24(u8 *p, int i);
+extern int func_021C7F4C(struct Flag *p);
 extern void func_021DD044(int a, int b, int c);
 
 void func_021DFE28(int a, void *b, int c)

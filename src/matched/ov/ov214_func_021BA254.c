@@ -18,12 +18,19 @@
  *   func_021BA2B8 0x021BA2B8 thumb ov214
  */
 typedef unsigned char u8;
-extern void*func_02045770(void*);
-extern void func_02043B5C(void*,u8);
-extern void func_0201CE48(void*);
-extern void func_02045808(void*);
-extern void*func_02045EC0(void*,unsigned);
-extern void func_0201C6FC(void*,unsigned,unsigned,unsigned,void*,unsigned);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct PrintSys;
+struct Rec3;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 extern int func_021BA2B8(void*,char*);
 void func_021BA254(void*obj,char*p,unsigned entry)
 {

@@ -40,7 +40,7 @@ extern void func_02164208(u32 a, Vec3 *v, u32 c);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
 extern u32 func_02188D30(u32 a);
 extern void func_02030DA8(u32, void (*)(), u8 *, u32);
-extern void func_021C1988();
+extern void func_021C1988(void *a, u16 *s);
 
 void func_021C1228(u32 a, u16 b, u32 c, u32 d)
 {

@@ -13,7 +13,8 @@
  *   d_021EFC20 0x021EFC20 data a1
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern void func_02045088(unsigned);
+typedef unsigned short u16;
+extern void func_02045088(u16 heapId);
 extern void *func_020450F0(unsigned char,unsigned char,unsigned char,unsigned char,unsigned char,unsigned char,unsigned char);
 extern const unsigned char d_021EFC20[];
 void func_021EAA80(unsigned char *p) {

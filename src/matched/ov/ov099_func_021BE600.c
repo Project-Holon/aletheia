@@ -25,14 +25,15 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 extern void func_021C24D4(char *, int);
 extern int func_02156A3C(void);
-extern void func_02009B80(void *, int);
+struct Sub020097BCObj;
+extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 extern int func_02156D84(void);
 extern void func_021563D0(void);
 extern void func_021BEEBC(char *);
-extern void func_021C18C8(char *, int, u32);
+extern void func_021C18C8(char *p, int kind, int value);
 extern int func_020399A8(void);
 extern void func_02039C68(int, int, int);
-extern int func_02005C4C(void);
+extern u32 func_02005C4C(void);
 extern void func_02005D90(int, int);
 int func_021BE600(char *p, int ret)
 {

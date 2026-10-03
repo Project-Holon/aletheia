@@ -32,10 +32,14 @@ typedef struct {
     u8 f28;
 } Ov018Obj;
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct U16Vec;
+struct WordSet;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C54(unsigned char *p);
-extern void *func_0201EC74(int a, int b, int heap);
-extern void *func_020457B0(int n, int heap);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_021904B0(void *a, int b);
 
 void func_0217F2B4(Ov018Obj *p, void *a)

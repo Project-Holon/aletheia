@@ -17,7 +17,7 @@
 typedef unsigned int u32;
 
 int func_02188CFC(u32 x);
-int func_021C0CA4(u32 x, int a, int b, int c);
+int func_021C0CA4(int a, int b, int c, int d);
 
 int func_021A2F20(u32 *p, int a, int b, int c)
 {

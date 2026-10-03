@@ -25,7 +25,7 @@ typedef struct { u32 f00,f04,f08,f0c,f10,f14; u8 pad18[0x3c]; u32 f54; } G;
 typedef struct { u8 pad00[0x18]; u16 f18; } H;
 extern G d_021F6398;
 extern H d_021F63D8;
-extern int func_021B8DDC(u8);
+extern u8 func_021B8DDC(u32 x);
 extern int func_021B8CE8(int, u8, int);
 extern void *func_021B86B8(void ***);
 extern void func_02045CAC(u32, u16, u32);

@@ -28,7 +28,8 @@ typedef struct Obj {
 } Obj;
 
 extern int func_0200FB24(Obj *o);
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 int func_02167CB4(Obj *o)

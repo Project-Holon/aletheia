@@ -27,8 +27,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void sub_02017550(u8 *p);
-extern int sub_0201AA18(u8 *a1);
-extern void *sub_0201AB28(u8 *a1, u32 i);
+extern u32 sub_0201AA18(void *p);
+extern void *sub_0201AB28(void *p, u32 idx);
 extern void *sub_020185F4(void *p);
 extern void sub_0200BAD4(u8 *a0, u32 i, u32 j, void *v);
 

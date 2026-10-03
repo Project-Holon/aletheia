@@ -21,10 +21,12 @@
 
 typedef unsigned short u16;
 
-extern void func_0201EFA4(void *, int, int, int, int, int);
-extern int func_020212B0(u16);
-extern void func_0201EF34(void *, int, int);
-extern void func_0201F250(void *, void *, void *);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern u16 func_020212B0(u16 id);
+extern void func_0201EF34(struct WordSet *p, u32 i, u32 v);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201F898(void *, void *, int, int);
 extern void func_0201F878(void *, int, int, int, int);
 

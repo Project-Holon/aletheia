@@ -17,7 +17,8 @@ typedef unsigned char u8;
 struct Arr;
 extern char *func_021B9AEC(char *, int);
 extern void func_021B9D10(char *, struct Arr *, int);
-extern void func_021CD4B0(void *, unsigned int, ...);
+typedef unsigned int   u32;
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 void func_021C6158(u8 *p, u8 *a)
 {
     unsigned int i;

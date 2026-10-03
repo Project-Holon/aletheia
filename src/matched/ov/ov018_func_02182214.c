@@ -65,17 +65,21 @@ typedef struct {
 
 extern const u16 d_02183998[];
 
-void *func_020124E4(void *);
-void *func_02012138(void *);
-void *func_020120F4(void *);
-void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+struct S0201235C;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
+u32 func_02012138(const struct Ctx *p);
+void *func_020120F4(const struct Ctx *p);
+void *func_0201210C(const struct Ctx *p);
 u8 *func_02158344(void *);
 int func_0217405C(void *, void *);
 int func_02175CF4(void *, void *);
 int func_021745F8(u8, void *);
-void *func_02012944(void *);
-void func_0201F02C(void *, int, void *);
-void func_0201EF40(void *, int, u32);
+u8 *func_02012944(void *p);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void func_0201EF40(struct WordSet *p, u32 i, u32 v);
 int func_02012B58(void *);
 int func_0217F5F0(void *, u8);
 void func_0217F318(Ov018Obj *p);
@@ -83,7 +87,7 @@ void func_0217F3C4(Ov018Obj *p, u16 a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
 void *func_021804F8(void *, int);
-void func_0201235C(void *, void *);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_02182214(void *a, int *state, Ov018Work *c)
 {

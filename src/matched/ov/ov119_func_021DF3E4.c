@@ -13,10 +13,11 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBBD0 0x021DBBD0 thumb ov119
  */
-extern unsigned func_020399A8(void);
-extern int func_021E12AC(void *);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_021E12AC(char *p);
 extern void func_021D8E84(void *, int);
-extern void func_021DBBD0(void *);
+extern void func_021DBBD0(char *p);
 void func_021DF3E4(void *p)
 {
     func_020399A8();

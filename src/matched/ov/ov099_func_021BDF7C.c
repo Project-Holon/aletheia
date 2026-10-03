@@ -30,7 +30,11 @@
  *   func_0201D83C 0x0201D83C thumb
  *   func_0204A648 0x0204A648 arm
  */
-extern void func_02030EAC(void *p);
+struct Bank;
+struct Node;
+struct Rec;
+struct WordSet;
+extern void func_02030EAC(struct Node *n);
 extern void func_021BB42C(void *p);
 extern void func_021BB4D0(char *p);
 extern void func_021BB4EC(void *p);
@@ -40,14 +44,14 @@ extern int func_021C1A44(char *p);
 extern void func_021C1AC0(char *p);
 extern void func_021BE384(void *p);
 extern void func_0204B084(void *p);
-extern void func_0204B1CC(void *p);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_021BB0B4(char *p);
 extern void func_021BE538(char *p);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_02045C04(void *p);
-extern void func_0201ED04(void *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_0201D83C(void *p);
 extern void func_0204A648(void);
 void func_021BDF7C(char *p)

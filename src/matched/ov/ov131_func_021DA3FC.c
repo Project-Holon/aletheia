@@ -19,11 +19,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_021D60A4(u8 *);
-extern int func_02017E1C(void *,int,int);
-extern int func_0202D034(u16,u16);
-extern int func_0202D01C(u16,u16,int);
-extern void *func_02045770(void *);
-extern void func_02043AF4(void *,int,int,int,int,int);
+typedef unsigned int   u32;
+struct Bmp;
+struct Descriptor;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern int func_0202D034(u32 a, u32 b);
+extern u32 func_0202D01C(u32 a, u32 b, u32 c);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
 void func_021DA3FC(u8 *a,u8 *b) {
     void *p,*bmp;
     u16 x,y;

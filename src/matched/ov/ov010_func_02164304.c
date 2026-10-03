@@ -30,7 +30,7 @@ typedef struct {
     u16 e;
 } Msg;
 
-extern int func_0201441C(int v);
+extern u8 func_0201441C(int i);
 extern int func_0216D67C(int a);
 extern int func_0216D4D4(int a, int b);
 extern void func_0219E2C0(int a, Msg *m);

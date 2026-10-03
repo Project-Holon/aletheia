@@ -21,9 +21,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 
 extern void  func_0207D658(void *reg, u32 a, s16 b);
-extern void  func_02040588(int a, int b);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void  func_02045C04(void *a);
+struct MsgBank;
+struct Rec;
+extern void func_02040588(u32 which, u32 enable);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
 extern void  func_021BA28C(void *a, void *b, u32 c, u32 d, u32 e);
 
 void func_021BAEC4(void *a, u32 b, u32 c)

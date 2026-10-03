@@ -18,7 +18,7 @@ typedef int s32;
 
 extern u32 func_0201296C(u32 a);
 extern s32 func_020142E8(u32 a, u32 b);
-extern s32 func_020111E8(void);
+extern u32 func_020111E8(void);
 
 s32 func_0202C934(void *a0, u32 a1, u32 a2)
 {

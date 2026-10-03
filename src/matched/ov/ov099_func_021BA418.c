@@ -31,7 +31,7 @@ typedef struct {
     void *f0;
 } S;
 
-extern int func_021C49A4(void *p, int i);
+extern int func_021C49A4(u8 *p, unsigned int i);
 extern unsigned int func_0203630C(void);
 extern void func_021BA594(W *w, int a, int b, int c);
 

@@ -20,7 +20,8 @@ typedef struct {
     void *obj;              /* 0x04 */
 } Ctx;
 
-extern void func_02051394(void *obj);
+typedef unsigned int   u32;
+extern void func_02051394(u32 *p);
 extern void func_021F89BC(void *h);
 
 void func_021FE9BC(void *h, Ctx *c)

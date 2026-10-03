@@ -25,9 +25,9 @@ extern u8 *func_0203159C(u32,u32,int);
 extern void func_02082BCC(void *,int,u32);
 extern u32 func_0201D7EC(int,int,int,int,int);
 extern u32 func_0203101C(int,int,int,int);
-extern void func_021B63AC(void *);
+extern void func_021B63AC(u8 *p);
 extern void func_021B7ADC(u8 *,u8,int);
-extern void func_0203D34C(int,int);
+extern void func_0203D34C(u32 a, u32 b);
 int func_021B6100(u32 obj, int unused, u8 *input)
 {
     u8 *p;

@@ -12,5 +12,6 @@
  *   func_020456F8 0x020456F8 arm
  */
 typedef unsigned char u8;
-extern void func_020456F8(void *);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
 void func_021D9A58(u8 *p) { func_020456F8(*(void **)(p+0xc)); }

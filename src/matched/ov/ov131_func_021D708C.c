@@ -33,7 +33,7 @@ typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
 extern const Vec d_021DC1D4;
 extern const short d_020A1B38[];
-extern void func_021D79A8(void *,void *,int);
+extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_02015C48(void *,u32 *);
 extern void func_02015C78(void *,Vec *);
 extern int _ffix(float);

@@ -107,7 +107,7 @@ struct RS {
 };
 
 extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
-extern void func_0206DE88(MtxFx43 *m, MtxFx33 *n);
+extern void func_0206DE88(void *a, void *b);
 
 static inline void *GetResDataByIdx(const Dict *dict, u32 idx)
 {

@@ -22,7 +22,8 @@ typedef struct Struct021D4BB4 {
 } Struct021D4BB4;
 
 int  func_021D42A0(void *p);
-int  func_0200FB24(void);
+typedef unsigned int   u32;
+u32 func_0200FB24(void);
 
 int func_021D4BB4(int a, int b, int c, Struct021D4BB4 *p)
 {

@@ -29,7 +29,7 @@ typedef struct {
     u16 pad1[13];
 } Ent;
 
-extern int func_0216E418(Ent *e);
+extern int func_0216E418(void *a);
 extern int func_0216E42C(u32 a, u32 b);
 extern int func_0216CDC4(u32 a, Ent *e, u32 b, u32 c);
 

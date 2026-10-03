@@ -39,7 +39,8 @@ typedef struct {
 extern void *func_021BC3B4(int key);
 extern void func_0201C6EC(u32 a);
 extern void *func_02045770(u32 p);
-extern void func_02043B5C(void *a, u32 b);
+struct CharBuf;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
 extern void func_0204B878(u32 obj, u32 anim);
 extern void func_0204B92C(u32 obj, int v);

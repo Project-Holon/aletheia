@@ -32,7 +32,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef struct {int x,y,z;} Vec;
 extern const s16 d_020A1B38[];
-extern void func_021D79A8(void *,void *,int);
+extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_02015C78(void *,Vec *);
 extern void func_02015E04(void *);
 int func_021D72E8(u8 *p,u8 *q,int mode)

@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef struct Rect { u32 x0, y0, x1, y1; } Rect;
 extern const Rect d_021E3440[];
 extern void func_021FD860(int, int, int *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 int func_021DDFA0(char *p, int x, int y)
 {
     int skip = *(int *)(p + 0x78);

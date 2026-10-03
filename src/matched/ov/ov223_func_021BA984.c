@@ -30,8 +30,10 @@ extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_021BC520(void *);
 extern void *func_0204B294(void *,int,int,int,void *,u16,u16);
-extern void func_0204B92C(void *,unsigned);
-extern void func_021BAA5C(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_021BAA5C(char *p, int flag);
 void func_021BA984(char *p)
 {
     void *object;

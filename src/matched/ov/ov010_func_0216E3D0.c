@@ -16,7 +16,7 @@
  *   func_0216E3D8  0x0216E3D8  thumb  ov010
  */
 
-int func_0216E3D8(int a, int b);
+unsigned int func_0216E3D8(unsigned int a, unsigned int id);
 
 int func_0216E3D0(int a, int b)
 {

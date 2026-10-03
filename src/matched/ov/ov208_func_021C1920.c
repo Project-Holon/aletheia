@@ -42,8 +42,8 @@ extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBA0(void *s);
 extern void func_021BDC48(void *s, u32 on);
 extern int  func_021BC3A4(int key);
-extern int  func_02012BF8(int a, u32 b);
-extern void func_021BDC14(void *s, int b);
+extern int func_02012BF8(int a0, int a1);
+extern void func_021BDC14(char *p, int b);
 
 #define W(o) (*(u32 *)(p + (o)))
 

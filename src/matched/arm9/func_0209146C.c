@@ -17,7 +17,7 @@
 typedef unsigned int u32;
 
 extern void *func_020913D0(u32 heap);
-extern void func_020923B0(void *dst, u32 val, u32 n);
+extern void *func_020923B0(void *p, int c, u32 n);
 
 void *func_0209146C(u32 a0, u32 a1)
 {

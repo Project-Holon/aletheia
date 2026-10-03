@@ -13,7 +13,9 @@
  */
 
 extern char g_020A7198[];
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02009800(void *p);
 
 void *func_020097C4(int a0)

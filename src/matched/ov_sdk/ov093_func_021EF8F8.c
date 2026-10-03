@@ -19,7 +19,8 @@
  */
 
 extern char HeapMem;
-extern int func_021EFAD8(void *mem, int a, int b);
+typedef unsigned int   u32;
+extern int func_021EFAD8(char *a, u32 b, u32 c);
 
 int DWC_StartUtilityEx(int a, int b)
 {

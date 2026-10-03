@@ -22,8 +22,9 @@
  */
 extern int func_021F7F1C(int i);
 extern int func_021F853C(int i);
-extern int func_021F7E74(int i);
-extern int func_021F7E84(int i);
+typedef unsigned int   u32;
+extern void func_021F7E74(u32 a);
+extern void func_021F7E84(u32 a);
 
 void func_021EA354(void *ctx, int a, int b)
 {

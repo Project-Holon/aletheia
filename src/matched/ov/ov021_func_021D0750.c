@@ -33,8 +33,9 @@ typedef struct S {
     u8 rows[6][0x14];
 } S;
 
-extern void *func_021D07FC(S *s);
-extern void func_021D0824(void *a, int b);
+struct Row;
+extern struct Row *func_021D07FC(struct S *s);
+extern void func_021D0824(int *p, int a);
 extern void func_021D08BC(void *row, int v);
 extern int func_0216D3CC(int p);
 extern void func_02047888(int a, int b, int *out);

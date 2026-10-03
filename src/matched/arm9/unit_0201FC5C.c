@@ -94,8 +94,10 @@ typedef struct {
     u16 pad36;
 } BmpMenu;
 
-extern void *func_02045770(void *cell);
-extern void  func_02043B5C(void *bmp, u32 value);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void  func_0201C6FC(void *que, void *bmp, s32 x, s32 y, const void *str, void *font);
 extern void  func_02020D5C(void *cursor, u32 x, u32 y, PrintUtil *util, void *que, void *font);
 

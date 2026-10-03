@@ -47,12 +47,13 @@ extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(void *);
 extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02012844(void *);
-extern u32 func_0201296C(void *);
+struct BigObj;
+extern u32 func_02012844(const struct BigObj *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(void *, V *);
 extern int func_021627C8(u32, u32, V *, int);
-extern int func_021A3050(void *);
+extern u16 func_021A3050(u8 *p);
 extern void *func_021618A0(void *p, int a1, int a2, void *a3);
 extern void func_0215897C(void *, void *);
 

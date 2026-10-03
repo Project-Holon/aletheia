@@ -43,7 +43,7 @@ extern const u8 g_RunLenTail[256];
 extern const u8 g_RunLenHead[256];
 
 extern s32 func_02034348(u32 byte, u32 bit, u32 len);
-extern u32 func_020343C0(struct AreaMan *p, s32 pos, u32 len);
+extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
 
 s32 sub_02033FB0(struct AreaMan *p, u32 start, u32 limit, u32 len)
 {

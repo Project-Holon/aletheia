@@ -10,7 +10,7 @@
  * symbols:
  *   func_021B9C58 0x021B9C58 thumb ov181
  */
-extern void func_021B9C58(char *, void *, int);
+extern void func_021B9C58(char *p, void *s, unsigned i);
 #define IDX(p) (*(unsigned char *)((p) + 0x2BA))
 void func_021B9C80(char *p)
 {

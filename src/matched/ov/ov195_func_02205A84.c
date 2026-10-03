@@ -14,7 +14,8 @@
  *   d_02208D1C    0x02208D1C data ov195 a4
  */
 
-extern void func_020403F4(int);
+typedef unsigned int   u32;
+extern void func_020403F4(u32 i);
 extern char d_02208D1C[];
 
 void func_02205A84(void)

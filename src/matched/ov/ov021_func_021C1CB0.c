@@ -26,7 +26,8 @@ u32 func_0203038C(int a);
 int func_020122C0(int a, int b, void *c, int d);
 int func_020124E8(int a);
 void func_021C313C(char *a, int b);
-void func_021C1E7C(void);
+typedef unsigned char  u8;
+int func_021C1E7C(int a, int *st, u8 *ctx);
 
 int func_021C1CB0(int a, char *b, int c)
 {

@@ -18,12 +18,15 @@
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_0201CE30(void *);
+typedef signed int     s32;
+struct Rec;
+struct Rec3;
+extern u32 func_0201CE30(void *p);
 extern unsigned int func_0203630C(void);
-extern void func_0201CE5C(void *, int);
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern u32 func_020362DC(void);
 extern void func_0201CE38(void *);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 int func_021DE55C(char *p) {
     int state;
     if (*(void **)(p+0xf0) == 0) return 1;

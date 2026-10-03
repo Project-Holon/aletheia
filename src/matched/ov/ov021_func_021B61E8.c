@@ -30,7 +30,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A0E8(void *t, u16 *o1, u16 *o2, u8 c, u32 v);
 extern void func_0215897C(void *s, void *v);
-extern int func_021B6048(u32 a, u32 b, u32 mode, u8 *out, int z);
+extern int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag);
 
 int func_021B61E8(u32 a, u32 b)
 {

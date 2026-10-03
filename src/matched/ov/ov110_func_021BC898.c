@@ -14,7 +14,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 int func_021BC898(u8 *p)
 {
     if (*(int *)(p + 24) == 0) {

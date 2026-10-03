@@ -10,7 +10,7 @@
  * symbols:
  *   func_021B6548 0x021B6548 thumb ov067
  */
-extern void func_021B6548(void *,int,int);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 struct Object { unsigned char bytes[0x124]; void *menu; };
 void func_021BCD60(unsigned char *p)
 {

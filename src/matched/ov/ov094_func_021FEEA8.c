@@ -51,20 +51,23 @@ typedef struct {
     unsigned int b5 : 1;
 } Flags;
 extern u32 func_02017E1C(void *, u32, u32);
-extern int func_02017EAC(void *);
+struct Obj;
+struct Rec;
+struct Sub150;
+extern u32 func_02017EAC(void *p);
 extern u32 func_02019C90(u16, u16, u32);
 extern int func_0202D034(u32, u32);
-extern void *func_020159C8(void *, u32, u32, u32, void *);
-extern void func_02015FD4(void *, u32);
+extern struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3, const struct Sub150 *src);
+extern void func_02015FD4(char *p, int v);
 extern void func_02015D94(void *, Vec *);
-extern void func_02015D88(void *, u16);
+extern void func_02015D88(char *p, u16 value);
 extern void func_02015F2C(void *, u32, void *, u32);
 extern void func_022003EC(void *, void *, int *, int);
 extern void func_022018A8(void *, Vec *, int);
 extern void func_0220055C(void *, int, int);
 extern int func_02201A20(int, int, Vec *, u16 *, int *);
 extern void func_022006B4(void *, int);
-extern void func_02201718(void);
+extern void func_02201718(int i);
 void func_021FEEA8(char *w, void *src, int key)
 {
     int i;

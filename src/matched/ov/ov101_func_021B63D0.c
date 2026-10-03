@@ -16,8 +16,10 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Obj { unsigned char pad[0x78]; int busy; unsigned char pad7c[6]; u16 counter; } Obj;
-extern u32 func_020399A8(void);
-extern u32 func_0203D1A4(void *);
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D1A4(struct Link *p);
 extern int func_02039468(u32,u32);
 extern int func_021B6424(int);
 int func_021B63D0(Obj *p)

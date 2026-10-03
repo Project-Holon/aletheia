@@ -83,8 +83,9 @@ extern char g_020A7E8C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02049578(void *stream, u32 fileId);
-extern const struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
+struct ArcFile;
+extern u32 func_02049578(struct ArcFile *arc, u32 member);
+extern struct MsgFile *func_02046084(void *stream, u32 origin, u16 heapId);
 extern u8 func_020461B8(const void *file);
 extern void func_02046110(struct MsgBank *bank);
 

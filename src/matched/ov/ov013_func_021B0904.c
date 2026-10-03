@@ -71,7 +71,7 @@ extern Slot d_021B3CBC[3];
 
 extern int func_021B19AC(u32 idx);
 extern u64 func_020870D0(void);
-extern Pkt *func_021B190C(u32 idx);
+extern void *func_021B190C(unsigned int i);
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern void func_021B2FE4(Pkt *p);
 extern int func_021B1A74(Slot *s, Pkt *p);

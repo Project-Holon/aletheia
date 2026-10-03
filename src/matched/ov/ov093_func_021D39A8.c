@@ -24,8 +24,9 @@ typedef unsigned int u32;
 extern void func_021D8090(u32 v, u8 *out);
 extern u32 func_021D3A10(u32 i);
 extern u8 *func_021B9934(u8 *p, u8 i);
-extern int func_021D5B68(u8 *p);
-extern void func_021D6064(u8 *p, u32 a, int b, int c);
+union Slot;
+extern int func_021D5B68(void *p);
+extern int func_021D6064(u8 *p, u32 k, union Slot *out, int *changed);
 
 int func_021D39A8(u8 *a, int b, u32 *s)
 {

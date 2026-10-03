@@ -17,7 +17,8 @@
 struct TaskMenu;
 struct TaskMenuState;
 extern void func_02027858(struct TaskMenu *);
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_02027FD8(struct TaskMenuState *);
 void func_02186694(char *p)
 {

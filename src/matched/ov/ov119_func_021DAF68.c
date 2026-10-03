@@ -18,12 +18,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 extern unsigned func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_021D9C00(void *);
+extern void func_021D9C00(char *p);
 void func_021DAF68(void *p) {
  unsigned id=func_020399A8();
  u8 b;

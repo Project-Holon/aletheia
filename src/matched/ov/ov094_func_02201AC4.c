@@ -14,7 +14,8 @@
 typedef struct Ent { void *h8; void *hc; void *h10; void *h14; } Ent;
 typedef struct Res { void *owner; void *h; Ent e[7]; } Res;
 extern void func_02201CA4(Res *r, int i);
-extern void func_0204B1CC(void *);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *);
 
 void func_02201AC4(Res *r)

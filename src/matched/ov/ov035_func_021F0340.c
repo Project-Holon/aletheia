@@ -11,7 +11,8 @@
  * symbols:
  *   func_02027858 0x02027858 thumb
  */
-extern void func_02027858(void *p);
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 void func_021F0340(char *p)
 {
     if (*(void **)(p + 0x44) != 0) {

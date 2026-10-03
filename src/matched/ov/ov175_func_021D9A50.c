@@ -18,7 +18,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 extern void func_02082BCC(void *, int, int);
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_0200BAF4(void *, int);
 extern void *func_0201A948(void *);

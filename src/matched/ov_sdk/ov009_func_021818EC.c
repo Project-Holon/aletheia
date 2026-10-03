@@ -42,13 +42,13 @@ typedef struct GSUdpEngineObject {
     int (*unrecognizedCB)(unsigned int, unsigned short, unsigned char *, int, void *);
     void *userData;
 } GSUdpEngineObject;
-extern GSUdpEngineObject *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern int func_02184200();
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
-extern int func_02195E50(void *connection);
+extern int func_02195E50(const int *p);
 extern int func_02180448(void *theFirstPeer, void *theSecondPeer);
 extern char g_021A3B9C[];
 

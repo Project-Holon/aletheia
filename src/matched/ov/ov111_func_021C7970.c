@@ -42,10 +42,12 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_0201C4E4(void *p);
-extern int func_02045770(void *p);
-extern int func_0201C6C4(void *p, int v);
-extern void func_02045334(void *p);
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
 
 void func_021C7970(Work *p)
 {

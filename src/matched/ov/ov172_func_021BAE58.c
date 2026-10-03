@@ -26,10 +26,10 @@ extern u32 func_020362DC(void);
 extern u32 func_0204B98C(struct Actor *);
 extern u16 func_0204B898(struct Obj *);
 extern void func_0204B878(struct Obj *, u16);
-extern void func_021BB65C(void *, void *, int);
+extern void func_021BB65C(void *ctx, u8 *p, int k);
 extern void func_021BE0B8(void *);
-extern void func_021BB54C(void *, void *);
-extern void func_020061E4(int);
+extern void func_021BB54C(void *ctx, u8 *p);
+extern void func_020061E4(u32 a);
 void func_021BAE58(void *p, u8 *q)
 {
     if ((func_020362DC() & 1024) && *(u32 *)(q + 56) == 0) {

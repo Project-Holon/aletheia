@@ -51,7 +51,9 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_02030D28(void *heap);
+struct Ctx;
+struct W;
+extern void func_02030D28(struct Ctx *c);
 extern void func_02047964(void);
 extern void func_020479D8(void);
 extern void func_02050BE8(void);
@@ -61,12 +63,12 @@ extern void func_021F903C(void);
 extern void func_021FEBAC(void *);
 extern void func_021F6934(void *);
 extern void func_021F6D5C(void *);
-extern void func_021F6ED4(void *);
-extern void func_02206EB4(void *);
+extern void func_021F6ED4(int *p);
+extern void func_02206EB4(struct W *p);
 extern void func_02201AF0(void *);
 extern void func_021F69B0(void *);
 extern void func_021F6DD4(void *);
-extern void func_021FEE9C(void *);
+extern void func_021FEE9C(int *p);
 
 #define REG_04000604 (*(volatile u16 *)0x04000604)
 

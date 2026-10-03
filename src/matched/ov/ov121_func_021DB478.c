@@ -21,15 +21,20 @@
 typedef unsigned short u16;
 extern void func_021DB54C(char *,int,int,int,u16,u16);
 extern int func_021DBDB8(char *);
-extern void func_021D9B28(void *,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void func_021D9B28(u8 *p, unsigned v);
 extern void func_021D9B2C(void *,int,int,int);
 extern void func_021D9AC8(void *,void *,int);
-extern void *func_020457B0(int,u16);
-extern void *func_02045EC0(void *,int);
-extern void func_02045808(void *);
-extern void func_020409B4(int);
-extern void func_0201EFA4(void *,int,int,int,int,int);
-extern void func_0201F250(void *,void *,void *);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020409B4(u32 index);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021DB478(char *p,int a,int b,int c,u16 heap)
 {
     int i;

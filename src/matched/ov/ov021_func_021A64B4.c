@@ -27,7 +27,7 @@ extern void *func_021A3960(unsigned char *p);
 extern int func_021A652C(void *a, void *x, int c, int d, int e, int f);
 extern int func_021A658C(void *a, void *x, int c, int d, int e, int f);
 extern int func_021A661C(void *a, void *x, int c, int d, int e, int f);
-extern int func_021A666C(void *a, void *x, int c, int d, int e, int f);
+extern u32 func_021A666C(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
 
 int func_021A64B4(int *a, int b, int c, int d, int e)
 {

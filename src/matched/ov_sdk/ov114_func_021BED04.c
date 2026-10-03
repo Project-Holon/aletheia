@@ -39,7 +39,7 @@ typedef struct Conn {
 
 extern Conn *func_021BEC00(void *mutexInfo_p, Conn *connection_p);
 extern Res *func_021BEBC8(void *mutexInfo_p, Conn *connection_p);
-extern int func_021BEE74(void *mutexInfo_p, Conn *handle, void *buf_p, unsigned long length, unsigned long offset);
+extern int func_021BEE74(void *mutexInfo_p, void *handle, void *buf_p, unsigned long length, unsigned long offset);
 
 void func_021BED04(void *mutexInfo_p, Conn *connection_p)
 {

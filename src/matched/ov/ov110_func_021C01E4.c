@@ -17,12 +17,16 @@
  *   ov067_id 0x43 data
  */
 extern void func_021C05B0(void *);
-extern void func_0203133C(void *);
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
-extern void func_02045C04(void *);
+struct PrintSys;
+struct Rec;
+struct S020314B8;
+struct S020315D4;
+extern void func_0203133C(struct S020314B8 *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 extern void func_02034A5C(void *);
 extern char ov067_id[];

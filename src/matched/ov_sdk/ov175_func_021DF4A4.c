@@ -20,8 +20,8 @@
 typedef char *va_list;
 #define va_start(v, l) ((v) = (char *)(((unsigned int)&(l) & ~3u) + 4))
 
-extern int func_02084F80(char *dst, unsigned long len, char *fmt, ...);
-extern int func_02084FA8(char *dst, unsigned long len, char *fmt, va_list args);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
+extern int func_02084FA8(char *s, unsigned int n, const char *format, void *arg);
 extern char g_021E3F68[];
 
 void func_021DF4A4(int line, char *fmt, ...)

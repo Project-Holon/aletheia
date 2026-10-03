@@ -31,8 +31,9 @@ typedef unsigned int   u32;
 typedef int            s32;
 
 extern u32 func_0201296C(u32 a);
-extern u32 func_02012138(void *a);
-extern s32 func_02013D74(u16 a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_02013D74(u32 key);
 extern s32 func_020142E8(u32 a, u16 b);
 extern s32 func_0215843C(u32 a);
 

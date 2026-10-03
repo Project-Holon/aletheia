@@ -16,10 +16,14 @@
  *   func_0201AB28  0x0201AB28  thumb
  */
 
-extern void func_0201A948(void *);
-extern void func_0201AC2C(void *, void *);
-extern int func_0201AA18(void *);
-extern void func_0201AB28(void *, int);
+typedef unsigned int u32;
+
+struct Party;
+struct Rec534;
+extern void func_0201A948(struct Party *p);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 
 struct S {
     char pad[0x298];

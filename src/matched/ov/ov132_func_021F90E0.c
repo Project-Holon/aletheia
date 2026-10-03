@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Bytes { u8 a, b, c, d; };
 extern const struct Bytes d_021FDBD0;
-extern void *func_021FAC74(void *, void *, int);
+extern void *func_021FAC74(char *p, void *arg, int flag);
 void func_021F90E0(u8 *p)
 {
     u8 i;

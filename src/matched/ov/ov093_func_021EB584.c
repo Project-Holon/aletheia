@@ -15,7 +15,9 @@
  */
 typedef unsigned short u16;
 extern int func_0207D55C(volatile u16 *);
-extern void func_0204E720(int, int, int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 void func_021EB584(int a)
 {
     if (func_0207D55C((volatile u16 *)0x0400006c) <= 0)

@@ -33,7 +33,8 @@ typedef struct {
 } Hdr;
 
 extern int func_0203D1B4(void);
-extern int func_02039414(void);
+typedef unsigned int   u32;
+extern u32 func_02039414(void);
 extern int func_02012944(int a);
 extern void func_02008494(int a, void *b);
 

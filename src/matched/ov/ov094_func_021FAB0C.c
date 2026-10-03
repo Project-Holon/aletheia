@@ -34,7 +34,7 @@ extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
 extern int func_020515CC(int *, int, void (*)(void), void *);
 extern void func_02051648(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
-extern int func_02051788(void *);
+extern int func_02051788(char *p);
 extern u32 func_021FE38C(char *, u32);
 extern int func_021FD1A8(char *, int);
 extern void func_021FD1CC(void);

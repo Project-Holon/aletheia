@@ -26,14 +26,21 @@
 
 typedef unsigned short u16;
 
-extern void func_0201C6EC(void *p);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, int a);
-extern void *func_02045EC0(void *p, int idx);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct PrintSys;
+struct U16Vec;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *p, void *q, int a, int b, void *c, int d, int e);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021BBD28(char *p);
-extern void func_021B9E80(void *p, int idx);
+extern void func_021B9E80(char *p, unsigned id);
 
 void func_021BBD74(char *p)
 {

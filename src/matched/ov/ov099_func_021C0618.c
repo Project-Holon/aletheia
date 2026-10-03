@@ -20,8 +20,8 @@ typedef unsigned int u32;
 extern int func_021BA928(char *,int);
 extern u32 func_020362DC(void);
 extern void func_021BA8EC(char *);
-extern void func_0203C554(int);
-extern void func_021C18C8(char *,int,unsigned);
+extern void func_0203C554(u32 a);
+extern void func_021C18C8(char *p, int kind, int value);
 extern void func_021C2408(char *);
 int func_021C0618(char *p,int ret) {
     if (!func_021BA928(p,ret)) return ret;

@@ -18,5 +18,6 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void func_021DE6DC(u8 *);
 extern void func_020307B0(void *);
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 void func_021DD380(u8 *p) {int i;func_021DE6DC(p);func_020307B0(*(void **)(p+36));for(i=0;i<5;i++)func_02045808(*(void **)((u32)p+i*4+68));func_02045808(*(void **)(p+96));func_02045808(*(void **)(p+92));}

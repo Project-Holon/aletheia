@@ -20,14 +20,18 @@
  *   func_0201C4C0  0x0201C4C0  thumb
  */
 
-extern void func_021BB4D0(void *p);
+struct PrintSys;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+extern void func_021BB4D0(char *p);
 extern void func_021BB42C(void *p);
 extern void func_02028604(void *a);
-extern void func_02045808(void *a);
-extern void func_0201CE48(void *a);
-extern void func_02031140(void *a);
-extern void func_0201C6EC(void *a);
-extern void func_0201C4C0(void *a);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02031140(struct S02031140 *p);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 
 void func_021BB224(char *p)
 {

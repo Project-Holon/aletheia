@@ -17,7 +17,8 @@ typedef unsigned int u32;
 typedef struct { int x,y; } Pair;
 extern u32 func_020437DC(int);
 extern u32 func_020437E4(int);
-extern u32 func_0201D304(void *,int,int);
+struct StrObj;
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern u32 func_0201D42C(void *,int);
 void func_021DAA28(char *p,int a,int *out)
 {

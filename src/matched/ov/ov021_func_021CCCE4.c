@@ -53,12 +53,13 @@ typedef struct {
 } Work;
 
 extern const IconPos d_021DB40C;
-extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+struct Obj;
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
-extern int func_0202136C(u16 species);
+extern u32 func_0202136C(u16 v);
 extern void *func_0204B294(void *sys, u16 a, u16 b, u16 c, IconPos *pos, u32 d, u16 heap);
-extern void func_0204B3DC(void *icon, int k);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021CCCE4(Work *w)
 {

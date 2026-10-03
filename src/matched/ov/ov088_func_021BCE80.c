@@ -38,21 +38,27 @@ extern u8 *d_021BDA20;
 extern char ov228_id[];
 
 extern int func_021BD188(u8 *);
-extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, u16 heap);
-extern u8 func_02045730(void *);
+typedef signed int     s32;
+struct Ctrl;
+struct Descriptor;
+struct Sub02007084Ctrl;
+struct Sub020071E4Ctrl;
+struct Sub020072A4Ctrl;
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 index);
 extern void func_02005654(void (*fn)(void), int a);
 extern void func_021BCE70(void);
-extern void *func_020070A4(void);
-extern void func_02034AC4(u32);
-extern void func_021DFF18(int);
-extern void func_02034A5C(u32);
-extern void func_02007230(void *);
-extern int func_0200725C(void *, u32, int);
-extern void func_02007400(void *, u32, int);
-extern void func_020072A4(void *, u32);
+extern struct Sub02007084Ctrl *func_020070A4(void);
+extern int func_02034AC4(s32 handle);
+extern void func_021DFF18(u32 heap);
+extern void func_02034A5C(s32 handle);
+extern void *func_02007230(struct Sub020071E4Ctrl *ctrl);
+extern u32 func_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+extern void func_02007400(char *a0, u32 a1, u32 a2);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200566C(void);
-extern void func_02087BCC(int);
+extern void func_02087BCC(u32 parameter);
 
 void func_021BCE80(u8 *p)
 {

@@ -21,9 +21,11 @@
 typedef long long fx64;
 typedef int fx32;
 
-extern int func_021AA778(void *p);
-extern int func_021938F4(void *p);
-extern int func_020056EC(int n);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021AA778(u8 *p);
+extern int func_021938F4(unsigned char *p);
+extern u32 func_020056EC(u32 range);
 extern fx32 func_0207C7B4(fx32 x);
 extern int func_02010FB0(int v);
 

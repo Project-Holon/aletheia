@@ -25,10 +25,11 @@ typedef unsigned int u32;
 
 extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(void *sys);
-extern int func_0200C32C();
-extern void func_0216BB90();
-extern int func_0216BB80();
-extern u32 func_0216BBB4();
+struct Blk34;
+extern u8 func_0200C32C(struct Blk34 *p);
+extern void func_0216BB90(int index, u8 *out);
+extern int func_0216BB80(int index);
+extern int func_0216BBB4(int index);
 extern u32 func_0216B970();
 
 u16 func_0216BA88(int c)

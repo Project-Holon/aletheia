@@ -44,7 +44,7 @@ struct Rec {
 };
 
 extern struct Rec g_0209DE90[];
-extern int  func_0200E0BC(u32 value);
+extern u32 func_0200E0BC(u32 value);
 extern void func_02082D44(void *dst, const void *src, u32 size);
 
 void func_0200E124(u32 *obj, u32 idx)

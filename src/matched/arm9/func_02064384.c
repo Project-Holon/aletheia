@@ -28,7 +28,7 @@ typedef signed int     s32;
 
 struct CellAnim;
 
-extern s32  func_02062F00(struct CellAnim *anim, u32 i);
+extern int func_02062F00(void *s, u32 i);
 extern void func_0206419C(struct CellAnim *anim);
 
 void func_02064384(struct CellAnim *anim, u32 i)

@@ -22,10 +22,11 @@ union Slot {
     struct { u32 kind : 3; u32 lo : 6; u32 hi : 6; u32 rest : 17; } s;
     struct { u32 kind : 3; u32 pad : 6; u32 v : 16; u32 rest : 7; } w;
 };
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern union Slot func_021D6314(void *, int);
 extern u8 func_021E8AFC(union Slot);
-extern u8 func_021D631C(void *, int);
+extern u8 func_021D631C(u8 *p, int i);
 int func_021CFDCC(void *p, void *q)
 {
     u32 n;

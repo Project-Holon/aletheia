@@ -20,10 +20,13 @@ typedef unsigned char u8;
 extern void func_021DB9FC(void *,void *,u8 *);
 extern void func_02041300(unsigned,int,int,int,u8,u8,u8);
 extern void func_020409B4(unsigned);
-extern void func_02041570(unsigned,int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void func_02041570(int channel, u16 val);
 extern void func_02041B6C(unsigned);
-extern void func_0204B3DC(void *,int);
-extern void func_0204B878(void *,int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021DA8BC(u8 *a,u8 *b) {
     u8 i;
     for(i=0;i<b[43];i++) func_021DB9FC(a,b,b+176+i*24);

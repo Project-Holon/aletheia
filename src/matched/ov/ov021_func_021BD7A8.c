@@ -30,7 +30,8 @@ typedef struct {
 } Ctx;
 
 extern void *func_021BFE00(int a, u32 b, u32 c);
-extern void func_02012374(void *a, void *b);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_021BD7A8(void *task, u32 *state, Ctx *ctx)
 {

@@ -19,7 +19,8 @@ extern void func_020307B0(void *ptr);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_0201D83C(void *ptr);
 extern void func_0201F868(void *p);
-extern void func_020452E8(void *cell);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0201F9E8(u8 *o, u8 *out);
 
 void func_0201FEF4(u8 *o)

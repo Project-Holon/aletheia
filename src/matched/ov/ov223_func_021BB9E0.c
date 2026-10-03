@@ -31,8 +31,8 @@ extern void *func_020056A0(void (*)(void *, char *), void *, int);
 extern void func_021B9740(void *, char *);
 extern void func_021B9830(char *);
 extern void func_021BAAB8(void *);
-extern void func_021BAE00(void *);
-extern void func_021BB38C(void *);
+extern void func_021BAE00(char *p);
+extern void func_021BB38C(char *p);
 int func_021BB9E0(char *p)
 {
     *(void **)(p + 0x14) = func_021BC3F0(1, *(u16 *)p);

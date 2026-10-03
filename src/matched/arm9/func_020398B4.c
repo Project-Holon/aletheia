@@ -50,7 +50,8 @@ extern void *g_021469D4;
 extern const char file_020A7A68[];
 extern const char msg_020A7A88[];
 
-extern struct Entry *sub_0203996C(u32 idx);
+typedef signed int     s32;
+extern struct Entry *sub_0203996C(s32 idx);
 extern void func_02039658(struct Entry *e, u32 idx);
 extern void func_020307B0(void *p);
 extern void func_02034714(const char *file, u32 line, const char *msg);

@@ -85,9 +85,9 @@ struct Sub02013AD0Outer {
 };
 
 extern struct Sub02013AD0Outer *g_sub02013AD0Obj;
-extern u32 sub_02013A94(u32 id);
-extern void sub_0204944C(void *table, u32 zero, u32 offset, u32 size,
-                          void *dest);
+struct ArcFile;
+extern u16 sub_02013A94(u32 key);
+extern void sub_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
 void *sub_02013AD0(u32 id)
 {

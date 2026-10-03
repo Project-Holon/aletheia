@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_02045B38(u32, u32, u32, u32);
-extern int func_020450F0(int, int, int, int, int, int, int);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045EC0(u32 a, u32 b);
 extern u32 func_02045770(u32 p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
@@ -37,7 +37,7 @@ extern void func_02045808(u32 a);
 extern void func_02045C04(u32 a);
 extern void func_02045374(u32 win);
 extern void func_02041B6C(u32);
-extern void func_021BBA64(int, int, int, int, int);
+extern void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u8 bg);
 extern void func_02041EE4(u32, u32, u32);
 extern void func_021BB9DC(char *, int);
 

@@ -33,7 +33,7 @@ typedef struct {
 extern G *d_021A8264;
 void func_02082D44(void *src, void *dst, int n);
 int func_0216B908(void);
-int func_02176FD4(int a, G *g, int n);
+unsigned long func_02176FD4(unsigned long bitmap, void *buffer, int size);
 
 int func_02155A80(void *src, int len, int c)
 {

@@ -51,12 +51,13 @@ struct Desc;
 
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern S *func_020124E8(struct Desc *p);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *map, u32 id);
 extern void func_0216D88C();
-extern void func_0216D568();
-extern void func_0215897C();
+extern void func_0216D568(void *p, u32 v);
+extern void func_0215897C(void *vm, void *task);
 extern int func_0216A838();
 
 int func_0216A7A0(int a0, int a1)

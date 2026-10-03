@@ -77,7 +77,7 @@ struct Sub02013ED8Obj {
 };
 
 extern struct Sub02013ED8Obj *g_sub02013AD0Obj2;
-extern u32   sub_02013A94(u32 id);
+extern u16 sub_02013A94(u32 key);
 extern void *sub_02013AD0(u32 id);
 
 u8 sub_02013ED8(u32 id)

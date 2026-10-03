@@ -28,7 +28,8 @@ typedef struct {
     int f120;
 } S;
 
-extern void func_02040618(int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204B09C(int a, int b, P *c);
 
 void func_021A8DD8(S *s)

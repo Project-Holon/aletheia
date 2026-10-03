@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02188CCC(void *);
-extern int func_021A0F90(void *);
+extern u32 func_021A0F90(u8 *p);
 extern void func_021A0F30(void *,int);
 int func_021646A0(void *a,void *b,void **p){void *v=func_02188CCC(p[1]); if(func_021A0F90(v)==6)func_021A0F30(v,0);else func_021A0F30(v,6);return 1;}

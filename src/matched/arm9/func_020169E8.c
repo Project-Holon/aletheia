@@ -39,12 +39,13 @@ typedef unsigned int   u32;
 typedef signed char    s8;
 typedef signed int     s32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Obj_0201691C;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02021F64(void *a, void *b, u16 c, u8 d, u16 e);
 extern void func_02016C38(void *p);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_0201691C(void *a0, void *a1);
+extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
 
 extern char data_020A72CC[];
 

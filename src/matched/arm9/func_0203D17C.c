@@ -30,7 +30,7 @@ typedef unsigned int  u32;
 
 typedef void (*Fn)(u32);
 
-extern u8 *func_0203D788(void);
+extern void *func_0203D788(void);
 
 void func_0203D17C(u32 a)
 {

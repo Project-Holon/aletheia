@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_021B78D8(u8 *);
 void func_021B7948(u8 *a,int *s) { switch (*s) { case 0: func_0204E720(3,0,16,0); *s=1; break; case 1: if (!func_0204E804()) *s=2; break; case 2: func_021B78D8(a); break; } }

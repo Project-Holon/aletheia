@@ -16,7 +16,8 @@
  *   d_021D75C4     0x021D75C4  data ov021 a2
  */
 
-extern int func_0219C4AC(int, int, int, int);
+typedef unsigned int   u32;
+extern int func_0219C4AC(u32 a, u32 b, u32 c, u32 d);
 extern unsigned short func_020500F0(int, void *, int);
 extern unsigned short d_021D8064[];
 extern unsigned short d_021D75C4[];

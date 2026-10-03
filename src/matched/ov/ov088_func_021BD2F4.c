@@ -30,7 +30,8 @@ typedef struct {
 } St;
 
 extern int func_02031E70(void);
-extern u32 func_02007168(void *);
+struct Sub02007168;
+extern u32 func_02007168(struct Sub02007168 *p);
 extern void func_02007214(void *, u32);
 extern void func_0200721C(void *, u32);
 

@@ -25,15 +25,19 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 heap);
+struct ArcFile;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern u32   func_020490A8(u32 a, u32 b);
 extern void  func_02048F74(void *dst, u32 a, u32 b, u32 c, u32 d);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void  func_0204944C(void *h, u32 b, u32 c, u32 d, void *dst);
-extern void  func_02045CAC(void *bank, u32 id, void *dest);
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void  func_02049238(void *h);
-extern void  func_02045C04(void *bank);
-extern void  func_0204581C(void *dest);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0204581C(struct U16Vec *vec);
 
 void func_0202A310(u16 key, u16 want, void *dest, u32 heap)
 {

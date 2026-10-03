@@ -15,10 +15,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020437D4(const void *);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02040B1C(u8, const void *, u32, u32);
-extern void func_020061E4(int);
-extern int func_02006254(int);
+extern void func_020061E4(u32 a);
+extern int func_02006254(u32 a);
 static inline void G2_BG2Mosaic(int enable)
 {
     if (enable) *(volatile u16 *)0x0400000c |= 0x40;

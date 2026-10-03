@@ -15,6 +15,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02011400(int,int);
+extern u8 func_02011400(int row, int col);
 extern void func_0216A390(int,int);
 int func_0216A358(int a,int b,u32 *p,int c) { u32 hi; u32 lo; int result; hi=func_02011400(c,3); lo=func_02011400(c,0); result=0; if (!(*p < hi && *p >= lo)) { func_0216A390(a,b); result=1; } return result; }

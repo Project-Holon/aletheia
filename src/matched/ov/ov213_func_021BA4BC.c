@@ -10,7 +10,9 @@
  * symbols:
  *   func_02008DF0 0x02008DF0 thumb
  */
-extern unsigned func_02008DF0(void *,int);
+typedef unsigned int   u32;
+struct Sub02008C20Obj;
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 void func_021BA4BC(void *p,int kind,int variant)
 {
     switch(kind) {

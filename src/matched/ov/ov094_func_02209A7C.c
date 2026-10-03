@@ -39,14 +39,16 @@ typedef struct {
     u16 heap;               /* 0x2c */
 } W;
 
-extern W *func_02030734(u16 heap, int size, int clear, char *file, int line);
+typedef signed int     s32;
+struct PalAnmSlot;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_0220AEFC[];
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_0204A6C8(void * a, int b, int c, int d, u16 e);
-extern int func_0204AF28(void * a, int b, int c, u16 d);
-extern int func_0204AC18(void * a, int b, int c, u32 d, int e, int f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern u32 func_0204AEF4(int h, int k);
-extern void func_020216D4(void *slots, u32 bank, u32 off, u32 size);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern int func_0204B100(int a, int b, u16 heap);
 extern void func_02049238(void * h);
 extern void *func_021F86D4(void);

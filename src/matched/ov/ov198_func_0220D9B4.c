@@ -30,7 +30,8 @@ extern int func_02210DA8(char *);
 extern void func_0220C694(char *, int, int);
 extern int func_022110D4(u8 *,int);
 extern void func_02045334(struct Descriptor *);
-extern void func_02045374(struct Config *);
+struct Cfg;
+extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_02041B6C(unsigned);
 void func_0220D9B4(char *p)

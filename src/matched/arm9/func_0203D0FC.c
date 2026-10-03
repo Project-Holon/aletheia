@@ -30,7 +30,7 @@
  *       --func func_0203D0FC --addr 0x0203D0FC --cc 1.1p1 --arm
  */
 
-extern void func_0203D788(void);
+extern void *func_0203D788(void);
 extern void func_0203C010(void);
 
 void func_0203D0FC(void)

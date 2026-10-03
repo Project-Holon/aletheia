@@ -50,7 +50,8 @@ typedef struct {
     u16 f9C;            /* 0x9C */
 } Outer;
 
-void *func_020124E4(void *);
+struct Obj;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
 void func_0217F3C4(Ov018Obj *p, int a);

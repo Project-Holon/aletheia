@@ -13,12 +13,15 @@
  *   func_021D5BAC 0x021D5BAC thumb ov131
  *   func_021D5C4C 0x021D5C4C thumb ov131
  */
-extern int func_021D5BAC(void *,int,unsigned short *);
-extern void func_02017528(void *);
+typedef unsigned int   u32;
+struct Mon;
+struct Sav;
+extern int func_021D5BAC(unsigned char *p, int direction, unsigned short *out);
+extern void func_02017528(struct Sav *p);
 extern void func_020307B0(void *);
-extern void *func_021D6064(void *);
-extern void *func_0201747C(void *,unsigned int);
-extern void func_021D5C4C(void *);
+extern void *func_021D6064(unsigned char *p);
+extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void func_021D5C4C(unsigned char *p);
 int func_021D5B58(unsigned char *p,int a) {
  unsigned short n;
  int r=func_021D5BAC(p,a,&n);

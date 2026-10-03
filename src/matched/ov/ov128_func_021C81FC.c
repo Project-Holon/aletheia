@@ -15,9 +15,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void func_021C85A4(u8 *, void *, u8 *, int, int, int, u16);
+typedef unsigned int   u32;
+extern void func_021C85A4(u8 *p, u8 *a, u8 *b, int x, int y, int n, u16 c);
 extern void func_021CA294(u8 *, int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021C81FC(u8 *p, void *a, u8 *b, u16 c)
 {
     int n = *(u16 *)(p + 0x102) == 2 ? 2 : 1;

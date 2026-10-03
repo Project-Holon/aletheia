@@ -18,7 +18,7 @@
 
 extern void func_021F0FF0(char *p);
 extern void func_021F0E70(char *p);
-extern void func_021F1010(char *p);
+extern void func_021F1010(void *p);
 extern void func_02030D28(int a);
 
 void func_021F24C0(char *p)

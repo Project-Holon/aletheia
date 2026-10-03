@@ -22,9 +22,9 @@ typedef struct {int f0;u32 f4;int f8;u8 sub[0x14];u8 elem[1];} R;
 struct Block {u32 words[16];};
 extern const struct Block d_021BBF4C;
 extern void func_02082BCC(void *,u8,u32);
-extern u8 *func_021B9A08(void *);
+extern u32 func_021B9A08(const u8 *p);
 extern R *func_021B62E0(A *,int);
-extern void func_021B6558(void *,unsigned,unsigned);
+extern void func_021B6558(unsigned char *p, unsigned int id, unsigned int v);
 void func_021BA160(char *p)
 {
     A args;

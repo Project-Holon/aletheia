@@ -70,9 +70,9 @@ typedef unsigned int   u32;
 
 extern void func_02051620(void);
 extern void func_0206168C(void *p);
-extern void func_020621FC(u32 v);
+extern u32 func_020621FC(u32 h);
 extern void func_02061824(void *p);
-extern void func_02062594(u32 v);
+extern int func_02062594(u32 id);
 extern void func_020307B0(void *p);
 extern void func_02048AC4(u32 v);
 extern u32 *g_02146A88;

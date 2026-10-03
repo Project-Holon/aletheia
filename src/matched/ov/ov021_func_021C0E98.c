@@ -35,9 +35,9 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern int func_0216D3CC(u32 o);
+extern int func_0216D3CC(int a0);
 extern int func_021A5408(u32 a);
-extern u32 func_02197E7C(u16 a, u16 b);
+extern int func_02197E7C(int a, int b);
 extern void func_0216D410(u32 o, u32 a);
 extern void func_020061E4(u32 se);
 extern int func_0216D454(u32 o);

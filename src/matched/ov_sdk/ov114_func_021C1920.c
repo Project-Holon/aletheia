@@ -46,7 +46,8 @@ typedef struct GHIEncryptor {
 
 extern void func_0217D254(int, int, unsigned char, const char *, ...);
 extern void *func_0217EAB0(unsigned long);
-extern void *func_021C1804(char *);
+struct CPSSslConnection;
+extern struct CPSSslConnection *func_021C1804(char *url);
 extern char g_021CE7B0[];
 extern char g_021CE696[];
 extern char g_021CEAE8[];

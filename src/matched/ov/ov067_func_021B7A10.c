@@ -18,14 +18,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02049EF4(u32, u32, u32, void **, u16);
+extern void *func_02049EF4(void *, u32, u32, void **, u16);
 extern void func_02082A60(const void *, void *, int);
 extern void func_020307B0(void *);
 void func_021B7A10(u8 *p, u32 a, u32 b, u32 c, u32 index)
 {
     void *out;
     void *handle;
-    handle = func_02049EF4(a, b, c, &out, *(u16 *)(p + 0x98));
+    handle = func_02049EF4((void *)a, b, c, &out, *(u16 *)(p + 0x98));
     func_02082A60((u8 *)out + 0xc, (*(void ***)(p + 0x40))[index], p[4] * p[5] * 2);
     func_020307B0(handle);
 }

@@ -76,8 +76,9 @@ struct Q {
     u32 unk10;
 };
 
-extern void func_020222CC(u32 which, u32 unused);
-extern void func_02030EAC(void *obj);
+struct Node;
+extern void func_020222CC(u32 which, int brightness);
+extern void func_02030EAC(struct Node *n);
 
 void func_0202262C(void *obj, struct Q *q)
 {

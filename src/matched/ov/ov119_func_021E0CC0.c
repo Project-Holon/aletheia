@@ -33,25 +33,27 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020221A4(void);
+typedef unsigned char  u8;
+struct Bank;
+extern u32 func_020221A4(void);
 extern void func_0203FB44(int,u16,u16);
 extern void func_02043534(int),func_020435F4(int);
-extern void func_0204B1CC(void *);
-extern void *func_0204B100(int,int,int);
-extern void func_021E106C(void *);
+extern void func_0204B1CC(struct Bank *bank);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_021E106C(char *p);
 extern void func_021E57A4(int);
 extern void func_021E53CC(void *);
 extern void func_021E57E8(int);
-extern void func_021E5680(void *);
+extern void func_021E5680(char *p);
 extern void func_021E58A0(int);
 extern void func_021E467C(void *),func_021E4420(void *);
 extern void func_021E3E80(char *);
 extern void func_021E3FE4(void *),func_021E3F74(void *);
 extern void func_021E3208(void *,int);
-extern void func_021E3C20(void *);
-extern void func_0203D34C(int,int);
+extern void func_021E3C20(char *p);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_021D8E84(void *,int);
-extern void func_021DACE4(void *);
+extern void func_021DACE4(char *p);
 void func_021E0CC0(char *p)
 {
     if(*(int *)(p+0xf2c)>=6 && func_020221A4()) {

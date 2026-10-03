@@ -31,11 +31,15 @@ typedef struct {
 
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_0204B404(void *a, void *b, int c);
-extern void func_0204B3DC(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Node;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B84C(void *a, int b);
-extern void func_0204B800(void *a, int b);
-extern void func_0204B92C(void *a, int b);
-extern int func_020355C4(void);
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern u8 func_020355C4(void);
 
 void func_021BA04C(S *p, void *a, void *b)
 {

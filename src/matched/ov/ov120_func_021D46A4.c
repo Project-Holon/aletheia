@@ -29,11 +29,12 @@ extern int func_020399A8(void);
 extern int func_02039CB4(int, int, int);
 extern void *func_02008510(void *, int);
 extern void func_02082BCC(void *, u8, u32);
-extern u16 *func_02045A90(void *);
-extern u32 func_020458F8(void *);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern int func_0217BC44(u16 **, int, char *, int, char *, int *, int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021D4244(int, void (*)(u8 *), int);
 extern void func_021D4608(u8 *);
 void func_021D46A4(u8 *p)

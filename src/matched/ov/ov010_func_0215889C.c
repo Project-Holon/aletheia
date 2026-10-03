@@ -13,7 +13,8 @@
  *   func_0201235C 0x0201235C thumb
  */
 typedef unsigned int u32;
-extern void func_0201235C(void *, u32 *);
+struct S0201235C;
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 void func_0215889C(void *p, u32 *out)
 {
     func_0201235C(p, out);

@@ -18,9 +18,10 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern const u8 d_021DC2C2[];
 extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045798(void *,u8);
+struct Descriptor;
+extern void func_02045798(struct Descriptor *p, u8 v);
 extern void func_021D9E30(void *,u8 *);
-extern void func_021DB7D4(void *,void *,u8 *);
+extern void func_021DB7D4(u8 *p, u8 *q, u8 *entry);
 void func_021D9C3C(void *a,u8 *p)
 {
     u8 i;

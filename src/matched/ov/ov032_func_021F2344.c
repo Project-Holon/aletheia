@@ -32,7 +32,7 @@ extern int func_021F26F0(char *);
 extern int func_021F2714(char *);
 extern int func_021F27B4(char *);
 extern int func_021F27CC(char *);
-extern void func_02165888(int);
+extern int func_02165888(int a0);
 
 void func_021F2344(char *p, int a1)
 {

@@ -16,9 +16,12 @@
  *   func_021E8A3C 0x021E8A3C thumb ov177
  */
 typedef struct Data { unsigned words[8]; } Data;
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct MsgBank;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,unsigned);
-extern void *func_02045B38(int,int,int,unsigned);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern const char d_0217E5E4[];
 extern void func_0217B380(int,int,int *);
 extern void *func_021E8A3C(void *,void (*)(int,int,int *),unsigned);

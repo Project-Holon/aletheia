@@ -16,7 +16,7 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_02041090(int, void *, u8, u8, u8, u8);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021C88C0(s16 *p, void *unused, u8 *q)
 {
     int y = p[1];

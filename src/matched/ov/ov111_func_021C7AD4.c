@@ -94,7 +94,8 @@ typedef struct {
 typedef short s16;
 
 extern void func_02045CAC(void *p, int x, int col);
-extern void *func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *p, void *q, int a, s16 x, int col, void *r, int b);
 extern const int d_021C8894[];
 

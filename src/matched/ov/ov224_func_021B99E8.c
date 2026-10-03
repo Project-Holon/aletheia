@@ -20,12 +20,13 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_020307B0(void *);
 extern void func_02082BCC(void *, u32, u32);
 extern void func_0201DD68(void);
 extern void func_021B9BE8(void *);
-extern void func_021B9B50(void *);
+extern void func_021B9B50(char *p);
 extern void func_021B9ACC(void *);
 static inline void G2_BlendNone(void) { *(volatile u16 *)0x04000050 = 0; }
 static inline void G2S_BlendNone(void) { *(volatile u16 *)0x04001050 = 0; }

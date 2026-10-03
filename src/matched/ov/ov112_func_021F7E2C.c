@@ -23,8 +23,11 @@ extern Vec *func_021F5464(char *);
 extern void func_0207C9D0(Vec *, Vec *, Vec *);
 extern void func_021F4E8C(int, int, Vec *);
 extern void func_021F4E6C(int, int, int);
-extern void func_021F4ED4(int, int, int);
-extern void func_021F4EB4(int, int, short, short);
+typedef signed short   s16;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 void func_021F7E2C(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
     char *r = func_021F5450(*(char **)(q + 0x58), *(int *)(q + 0xf4));

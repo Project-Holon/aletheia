@@ -25,17 +25,20 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021C2438(char *);
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+struct Reg;
+struct S020315D4;
+extern u32 func_020221A4(void);
 extern int func_0203CD98(void);
 extern void func_021BA7F8(char *);
-extern void func_0200AE08(void *, void *);
+extern void func_0200AE08(const struct Reg *src, struct Reg *dest);
 extern void func_020307B0(void *);
 extern void func_021BC0C4(char *);
 extern void func_021BDF7C(char *);
 extern int func_02156A3C(void);
 extern void func_021BCBB0(void *);
 extern void func_021BB224(char *);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 int func_021C2724(void *task, int unused, char *output, char *p)
 {

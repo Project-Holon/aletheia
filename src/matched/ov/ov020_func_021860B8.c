@@ -11,5 +11,5 @@
  * symbols:
  *   func_02161E78 0x02161E78 thumb ov010
  */
-extern void func_02161E78(char *);
+extern void func_02161E78(void *a0);
 void func_021860B8(char *p) { int i; p += 0xf8; for (i=0;i<10;i++) func_02161E78(p+i*0x18); }

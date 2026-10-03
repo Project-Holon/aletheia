@@ -23,7 +23,7 @@ extern void func_0217D434(int);
 extern int func_0217D44C(int);
 extern void func_0217D410(int);
 extern void func_021E8AA0(int,int);
-extern void func_0217B4A0(void);
+extern void func_0217B4A0(int p, unsigned *state, int *q);
 void func_0217B594(int p, int *state, char *q)
 {
     Config config;

@@ -24,7 +24,8 @@ typedef struct E {
 } E;
 extern void func_0204B454(void *, s16 *, int);
 extern void func_0204B404(void *, s16 *, int);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_02208B10(void *h, E *e)
 {
     int step;

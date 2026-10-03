@@ -16,7 +16,8 @@
  *   func_021E2B68 0x021E2B68 thumb ov119
  */
 extern void func_02048AC4(void *);
-extern void func_02047E54(void *);
+struct Rec;
+extern void func_02047E54(struct Rec *p);
 extern void func_020307B0(void *);
 extern void func_021E3034(void *, int);
 extern void func_021E2F2C(void *);

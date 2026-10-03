@@ -23,8 +23,9 @@ typedef unsigned short u16;
 
 extern void *func_0215A5DC(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void func_02034AC4(u32);
-extern void func_02034A5C(u32);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
 extern void func_021F36C0(void *, u32, u32);
 extern char ov037_id[];
 

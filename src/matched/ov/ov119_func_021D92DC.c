@@ -12,7 +12,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 void func_021D92DC(u32 a, u32 b, u8 *src, u8 *base, void *e)
 {
     if (e == func_020399A8())

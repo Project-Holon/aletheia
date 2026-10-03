@@ -37,6 +37,10 @@ typedef struct {
     Inner *f4;
 } C;
 
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Strbuf;
+struct U16Vec;
 int func_021B7C3C(int a, int *b, C *c)
 {
     extern void *func_0203159C(int, int, int);
@@ -44,16 +48,16 @@ int func_021B7C3C(int a, int *b, C *c)
     extern void func_021B7D6C(void);
     extern void func_021B7DAC(C *, Inner *);
     extern int func_021B6F2C(C *);
-    extern void *func_020457B0(unsigned, unsigned);
+    extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
     extern void *func_020084F4(int);
-    extern void func_02045994(void *, void *, unsigned);
+    extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
     extern int func_02008550(int);
     extern void func_0201EE0C(int, unsigned, void *, int, unsigned, unsigned);
-    extern void func_02045808(void *);
+    extern void func_02045808(struct U16Vec *vec);
     extern void func_021B6E1C(Inner *, void *, int, int, int, int, int, int, int);
     extern void func_021B7DE0(void *, C *);
-    extern void func_02040588(int, int);
-    extern void func_020434DC(int, int);
+    extern void func_02040588(u32 which, u32 enable);
+    extern void func_020434DC(u32 mask, u32 enable);
     void *m;
     void *s;
     int h;

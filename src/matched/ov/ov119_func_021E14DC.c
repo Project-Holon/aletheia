@@ -17,8 +17,9 @@
  *   func_0201C7A4 0x0201C7A4 thumb
  */
 typedef unsigned short u16;
-extern unsigned func_02017E1C(void *,unsigned,void *);
-extern u16 *func_0201AF80(int,int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u16 *func_0201AF80(u32 heap, u16 *countOut);
 extern void func_020307B0(void *);
 extern void func_02045CAC(int,int,int);
 extern void func_0201EFA4(int,int,int,int,int,int);

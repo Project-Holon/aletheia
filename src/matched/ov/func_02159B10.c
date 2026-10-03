@@ -25,8 +25,9 @@ typedef unsigned int u32;
 
 extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5F4(void *p);
-extern void *func_02011330(void *);
-extern unsigned int func_0215901C(void *, void *, void *);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern unsigned int func_0215901C(void *a, void *b, unsigned int id);
 
 unsigned int func_02159B10(void *a0, void *a1)
 {

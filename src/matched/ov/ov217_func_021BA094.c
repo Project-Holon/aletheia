@@ -33,7 +33,7 @@ extern u32 func_0204E804();
 extern u32 func_021BA150();
 extern u32 func_021BA190();
 extern u32 func_021BA194();
-extern u32 func_021BA364();
+extern void func_021BA364(void);
 void func_021BA094(u32 a0)
 {
     switch (func_021BA190(a0)) {

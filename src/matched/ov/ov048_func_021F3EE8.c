@@ -43,13 +43,15 @@ typedef struct {
 extern void func_021F44D8(int *p, Slots *q);
 extern void *func_0201EC74(int a, int b, int heap);
 extern u32 func_02045B38(u32, u32, u32, u32);
-extern unsigned int func_02013E4C(int);
+struct U16Vec;
+struct WordSet;
+extern u32 func_02013E4C(u32 id);
 extern u32 func_02045EC0(u32, u32);
-extern void *func_020457B0(u32 size, u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0201EE0C(void *, u32, u32, u32, u32, u32);
 extern void func_0201F250(void *ws, void *dst, u32 src);
 extern void func_02045808(u32);
-extern void func_0201ED04(void *);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(u32);
 extern int func_021F4488(Slots *q);
 extern void func_021F3D38(int *p, int unused, int b, int *c);

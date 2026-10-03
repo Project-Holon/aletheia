@@ -38,9 +38,10 @@ typedef struct {
 extern char d_0220AE68[];
 extern char d_02209DCC[];
 
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+struct ScriptVm;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0201121C(u32 heap, void *params);
-extern void func_0201126C(void *vm, void *user);
+extern void func_0201126C(struct ScriptVm *vm, void *user);
 
 void *func_021F93F4(void *a, u32 b)
 {

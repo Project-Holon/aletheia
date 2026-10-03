@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flag, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern void  MIi_CpuCopyFast(const void *src, void *dst, u32 len);
 extern char  sFile_020A77AC[];

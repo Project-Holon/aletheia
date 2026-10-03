@@ -26,7 +26,7 @@ struct Ov208Scene {
     int *keyB;
 };
 
-extern void func_021BD378(u32 mgr, int key, int v);
+extern void func_021BD378(int a, int b, int c);
 
 void ov208_func_021BDBEC(struct Ov208Scene *p, int v)
 {

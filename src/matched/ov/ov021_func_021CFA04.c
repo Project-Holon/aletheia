@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021CFA1C(int v, void *l);
+struct IdList021CFA1C;
+extern int func_021CFA1C(int v, struct IdList021CFA1C *l);
 
 int func_021CFA04(int a, int v, void *l)
 {

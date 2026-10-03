@@ -17,7 +17,8 @@
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F265C(char *,int *,int *);
 extern unsigned func_021F2614(char *,int *,unsigned short *);
-extern void func_020355D8(unsigned);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
 int func_021F3BD4(char *p,int *out) {
     int point[2],u;
     unsigned x,y;

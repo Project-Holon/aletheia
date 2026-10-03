@@ -16,5 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_0204AF28(void *,u32,u32,u16);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 void func_021C42FC(char *p,u32 unused,u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=func_0204AF28(*(void **)(p+0x2f8),(i-16)*2,(i-16)*2+1,(u16)heap); } }

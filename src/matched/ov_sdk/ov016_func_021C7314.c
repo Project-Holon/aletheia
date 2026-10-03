@@ -31,11 +31,11 @@ typedef struct MemSsea {
 
 extern int func_021D5580();
 extern void func_021BF390();
-extern void func_021CFFAC();
-extern void func_021BF6F4();
-extern int func_021C7690();
-extern void func_021BF708();
-extern void func_021BF71C();
+extern void func_021CFFAC(unsigned int v);
+extern void func_021BF6F4(unsigned char v);
+extern int func_021C7690(int val);
+extern void func_021BF708(unsigned char v);
+extern void func_021BF71C(unsigned char v);
 extern void func_021C0E40();
 extern void func_021C73A0();
 extern MemSsea *g_021DE5E4;

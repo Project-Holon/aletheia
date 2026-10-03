@@ -64,7 +64,7 @@ typedef struct {
 
 extern u32 func_021BE17C(Obj *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3050(void *a);
+extern u16 func_021A3050(u8 *p);
 extern int func_021BE1B0(Obj *p);
 extern void func_021A7B08(u32 a, Vec *out);
 extern void func_021A3038(void *a, Vec *out);

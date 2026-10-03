@@ -15,8 +15,9 @@
  */
 struct S { char pad[0x34]; int f34; };
 
-extern int func_021BC40C(struct S *p);
-extern void func_021BC3B8(int v);
+typedef unsigned int   u32;
+extern int func_021BC40C(void *p);
+extern void func_021BC3B8(u32 a0);
 
 void func_021BC380(struct S *p)
 {

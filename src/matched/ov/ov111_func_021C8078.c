@@ -81,9 +81,10 @@ typedef struct {
 } Work;
 
 extern int func_02012BF8(void *p, int id);
-extern void func_02012BE0(void *p, int id, int v);
-extern void func_0204B878(void *o, u16 v);
-extern void func_020061E4(int se);
+struct Obj;
+extern void func_02012BE0(void *p, u32 a, u32 b);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_020061E4(u32 a);
 
 void func_021C8078(Work *p)
 {

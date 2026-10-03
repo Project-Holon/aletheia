@@ -25,9 +25,10 @@ typedef signed int s32;
 
 extern int func_021F6B34(int v);
 extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+struct Sub020079BCEntry;
+extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *a);
-extern void *func_02007A18(void *save, int box, unsigned slot);
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
 void *func_021F6B40(void *party, void *save, int box, int slot)
 {

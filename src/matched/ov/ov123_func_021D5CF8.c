@@ -10,5 +10,5 @@
  * symbols:
  *   func_021C5C38 0x021C5C38 arm ov114
  */
-extern int func_021C5C38(void *,int,int);
+extern int func_021C5C38(void *filelist, unsigned int offset, unsigned int num);
 int func_021D5CF8(char *p){int ok=1;*(int *)(p+0xb0)=0;*(int *)(p+0xcc)=1;*(int *)(p+0xd0)=0;if(!func_021C5C38(p,0,1))ok=0;return ok;}

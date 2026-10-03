@@ -15,7 +15,8 @@
  */
 
 extern void func_02005F90(void);
-extern void func_02005D34(void);
+typedef unsigned int   u32;
+extern void *func_02005D34(u32 a0, u32 a1);
 asm void ArrayDeleteAt(void)
 {
     push {r3, r4, r5, lr}

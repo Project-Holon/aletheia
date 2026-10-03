@@ -27,16 +27,18 @@ typedef unsigned int u32;
 extern void func_021D70F0(void *);
 extern void func_0200F800(void);
 extern u8 func_020355C4(void);
-extern void func_021D69F4(void *, void *, int);
+typedef unsigned short u16;
+struct BigObj;
+extern void func_021D69F4(u8 *p, void *q, u32 n);
 extern void func_021D7D6C(void *, void (*)(void), void *);
 extern void func_021D4C98(void);
 extern void func_021D42D8(void);
-extern void *func_02012934(void *p);
+extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
-extern void func_021D79F4(void *, int);
+extern void func_021D79F4(u8 *p, u16 n);
 extern void func_02040588(u32, u32);
 extern void func_021D4244(int, int, int);
-extern void func_021D5AD4(void);
+extern void func_021D5AD4(u8 *p);
 void func_021D588C(u8 *p)
 {
     func_021D70F0(*(void **)(p + 0x3c));

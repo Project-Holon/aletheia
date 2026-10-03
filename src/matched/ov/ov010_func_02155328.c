@@ -60,8 +60,10 @@ extern const Map2 d_0216FED8;
 extern const Map4 d_0216FEDC;
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
-extern void *func_020120F4(void *p);
-extern void *func_02012950(void *party, int i);
+struct Rec44;
+struct Sub24;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 
 void func_02155328(struct Ctx *ctx, void *party)
 {

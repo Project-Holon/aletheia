@@ -25,9 +25,11 @@ typedef void (*Callback)(u8 *, u8 *, int, int);
 typedef struct { Callback cb[4]; Pair pos; } Config;
 extern Config d_021CA7C0;
 extern Callback cb_021CA7C0[];
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_0204B09C(void *, int, Pair *);
-extern void func_02041EE4(int, int, int);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021C8A50(void *, void *);
 extern void func_021C860C(u8 *, u8 *, u8 *, int, int, u16);
 int func_021C8240(u8 *p, u8 *a, u8 *b, u16 h)

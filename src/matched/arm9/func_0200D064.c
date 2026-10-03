@@ -43,7 +43,7 @@ struct Blk37 {
     u32 unk4D0;
 };
 
-extern u32 func_0200C720(u16 id);
+extern u32 func_0200C720(u32 v);
 
 static inline u32 TestSpecies(const u8 *row, u32 id)
 {

@@ -16,8 +16,10 @@
  *   func_0201058C 0x0201058C thumb
  */
 typedef unsigned int u32;
-extern void *func_020120F4(void *);
-extern u32 func_0201283C(const void *);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_0201058C(u32);
 void func_021F00F8(char *p)
 {

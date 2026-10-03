@@ -33,8 +33,8 @@ typedef int s32;
 typedef unsigned long long u64;
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
 extern void  func_02017E40(void *mon, u32 id, u32 v);
-extern s32   sub_0201AA18(void *party);
-extern void *sub_0201AB28(void *party, s32 i);
+extern u32 sub_0201AA18(void *p);
+extern void *sub_0201AB28(void *p, u32 idx);
 extern u32   sub_0201B220(void *party);
 extern u32   func_0203F0A8(void);
 void sub_0201B038(void *party)

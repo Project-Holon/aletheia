@@ -38,13 +38,13 @@ struct UiCtx;
 
 extern struct UiCtx *sub_02035224(void);
 extern void GXx_SetMasterBrightness_(u32 reg, int brightness);
-extern void func_0203CEAC(u32 a);
+extern int func_0203CEAC(int a0);
 extern u32 func_0203D210(void);
 extern u32 func_02076B8C(void);
 extern void sub_02035428(u32 status);
 extern void OS_ResetSystem(u32 param);
 extern void OS_WaitIrq(u32 clear, u32 irqFlags);
-extern void func_0203CF5C(void);
+extern u32 func_0203CF5C(void);
 extern void func_0204E638(void);
 
 void func_02035544(u32 param)

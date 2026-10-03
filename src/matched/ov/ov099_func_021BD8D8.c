@@ -19,8 +19,10 @@ typedef unsigned short u16;
 typedef struct { u16 a, b; } Request;
 extern u8 func_021BDD54(int, void *);
 extern void func_021C2864(void *, u8);
-extern void *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
+typedef unsigned int   u32;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 int func_021BD8D8(char *p, int ret)
 {
     Request request;

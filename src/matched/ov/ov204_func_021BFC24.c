@@ -23,7 +23,8 @@
 typedef unsigned short u16;
 typedef struct { int a,b,c,d,e,f,g,h; } Config;
 extern void func_02050B80(unsigned);
-extern char *func_02030734(unsigned,unsigned,int,const char *,u16);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02050C04(void *,int,int,unsigned);
 extern void func_02051758(void *);
 extern void func_02051648(void *,void *,u16,int *,int *,int *,unsigned);

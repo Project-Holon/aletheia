@@ -35,19 +35,19 @@ typedef struct {
 } Obj;
 
 extern void *func_02188CB4(unsigned char *p);
-extern void *func_021A3074(void *p);
-extern int func_0217BB20(void *ctx);
+extern void *func_021A3074(u8 *p);
+extern int func_0217BB20(char *p);
 extern void func_0217F074(void *ctx);
-extern void func_021750B0(void *w, u8 v);
+extern void func_021750B0(u8 *p, u8 v);
 extern int func_02174CE4(void *w);
-extern u8 func_021750D0(void *w);
+extern u8 func_021750D0(u8 *p);
 extern int func_0216D3CC(void *h);
-extern int func_0217F060(u8 v);
+extern u8 func_0217F060(int i);
 extern int func_0217FE44(int a, int mode, unsigned *out);
 extern void func_0216D410(void *h, u16 v);
 extern int func_0216D454(void *h);
-extern void func_0216D480(void *h);
-extern int func_0217B8E4(void *ctx, int v);
+extern int func_0216D480(char *p);
+extern int func_0217B8E4(char *p, char v);
 
 int func_0217E0A4(void *ctx, Obj *obj, int a2, u8 *state)
 {

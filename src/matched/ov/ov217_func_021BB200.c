@@ -30,21 +30,22 @@
  */
 struct S { char pad0[0x34]; int f34; char pad38[0x14]; int f4c; };
 extern int func_02035CB8(int *a, int *b);
-extern int func_021BB98C(struct S *p);
+typedef unsigned int   u32;
+extern u32 func_021BB98C(void *p);
 extern void func_021BC280(struct S *p);
-extern void func_021BC2B8(struct S *p);
-extern void func_021BB990(struct S *p);
-extern int func_021BC200(struct S *p, int v);
+extern void func_021BC2B8(void *p);
+extern void func_021BB990(void *p);
+extern int func_021BC200(void *p, int position);
 extern void func_021BC30C(struct S *p, int v);
 extern void func_021BC380(struct S *p);
 extern void func_021BC43C(struct S *p);
 extern void func_021BC168(struct S *p);
 extern void func_021BC014(struct S *p);
-extern void func_021BC274(struct S *p);
-extern void func_021BC250(struct S *p);
-extern int func_021BC264(struct S *p);
+extern void func_021BC274(void *p);
+extern void func_021BC250(void *p);
+extern int func_021BC264(void *p);
 extern void func_021BC06C(struct S *p);
-extern void func_021BB91C(struct S *p);
+extern void func_021BB91C(void *p);
 extern void func_021BBA30(struct S *p);
 
 void func_021BB200(struct S *p)

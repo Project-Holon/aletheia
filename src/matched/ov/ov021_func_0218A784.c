@@ -41,11 +41,12 @@ struct Ctx784 {
     void *f18;
 };
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0201296C(void *p);
 extern void func_021A3038(void *p, u32 *out);
 extern void *func_02188C98(void *p);
-extern u32 func_021AB0D4(void *a, u32 *b);
+extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB188(u16 id);
 extern u32 func_02162928(void *p, void *q, u32 *pos, int a);

@@ -23,7 +23,8 @@ typedef short s16;
 
 extern int func_02159B10();
 extern void *func_0215A5E4(void *a0);
-extern int func_02012844();
+struct BigObj;
+extern u32 func_02012844(const struct BigObj *p);
 extern int func_02162708(int, int, u16, u16, u16);
 int func_0215B26C(int a0, int a1)
 {

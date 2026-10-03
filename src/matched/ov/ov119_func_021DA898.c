@@ -21,7 +21,8 @@ typedef unsigned short u16;
 extern int func_021D8AA8(void *);
 extern void func_021DBA80(void *),func_021DBAF8(void *),func_021DC370(void *);
 extern void func_021D8E84(void *,int);
-extern void func_0202208C(int,int,int,int,int,int,int);
+typedef unsigned int   u32;
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_02043534(int),func_020435F4(int);
 void func_021DA898(char *p) {
  if(func_021D8AA8(p)) {func_021DBA80(p);func_021DBAF8(p);func_021D8E84(p,(int)func_021DC370);}

@@ -35,13 +35,15 @@ typedef struct {
     u8 f2e;
 } Obj;
 
-int func_0217BB04(void *ctx);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+int func_0217BB04(char *p);
 int func_02173A04(int a, ...);
 int func_0217B8E4(void *ctx, int v);
-int func_0217EC40(int a, int b);
-int func_0217EC54(int a, int b);
-void func_0217F210(void *ctx, int a, int msg);
-int func_0217F1EC(void *ctx);
+u16 func_0217EC40(int i, int j);
+u16 func_0217EC54(int i, int j);
+void func_0217F210(u8 *p, int a, u32 b);
+u32 func_0217F1EC(u8 *p);
 
 int func_0217C450(void *ctx, Obj *obj, int a2, u8 *state)
 {

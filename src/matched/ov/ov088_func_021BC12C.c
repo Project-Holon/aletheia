@@ -37,19 +37,21 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_020070A4(void);
+struct Sub02005A98Hdr;
+struct Sub02007084Ctrl;
+struct Sub020071E4Ctrl;
+extern struct Sub02007084Ctrl *func_020070A4(void);
 extern char *func_0203159C(int, int, int);
 extern void *func_021BD25C(int a, int b);
-extern void func_02007220(void *);
+extern void *func_02007220(struct Sub020071E4Ctrl *ctrl);
 extern u32 func_0200846C(int);
 extern u32 func_020082EC(int);
 extern int func_0216BFD4(int a, int b, int c, int d, int e, int f, int g);
 extern u32 func_02031324(int heap);
 extern void func_02034AC4(void *id);
 extern void func_02034A5C(void *id);
-extern void *func_02005A98(const u32 *a0, u32 a1);
-extern u32 func_020069D4(u32 a0, u32 a1, u32 a2, u32 a3,
-                         u32 a4, u32 a5, u32 a6, u32 a7);
+extern struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1);
+extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern u8 ov194_id[];
 extern u8 ov204_id[];
 extern u32 d_021F557C;

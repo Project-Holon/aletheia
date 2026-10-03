@@ -23,15 +23,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void *func_02045770(void *);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u8 func_02045730(void *);
+struct Cfg;
+struct Descriptor;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
 extern u8 func_0201C158(u16,u32);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 static inline void flush(void *win)
 {
     func_02045334(win);

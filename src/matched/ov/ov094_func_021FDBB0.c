@@ -41,14 +41,14 @@ typedef struct {
     int f2a0;
 } State;
 extern void *func_021F8694(void);
-extern int func_021FFF0C(void *, int);
-extern int func_021FFF38(void *, int);
+extern int func_021FFF0C(char *p, int key);
+extern int func_021FFF38(char *p, int key);
 extern int func_021FFF68(void *, int);
 extern int func_021FFFAC(void *, int);
 extern int func_021FF348(void *, int);
 extern int func_021F8730(void);
 extern int func_021F8710(void);
-extern int func_021F8740(int);
+extern unsigned short func_021F8740(int a);
 int func_021FDBB0(State *s, unsigned int key)
 {
     switch (key) {

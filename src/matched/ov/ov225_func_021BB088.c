@@ -26,12 +26,13 @@ typedef unsigned u32;
 struct MsgBank; struct U16Vec;
 struct Entry {void *resource;u16 tag,pad;u32 flags;};
 extern void func_0202843C(u8 *);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u16 func_021BB044(u16 **);
 extern void func_0202815C(u8 *);
 extern void *func_02045EC0(struct MsgBank *,u32);
-extern u32 *func_0202804C(u32,u32,u32,u8,u8,u8,u32,u32,u16);
-extern u32 func_02027FEC(u32,u32,u32,u8,u8,u16);
+extern u32 *func_0202804C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7, u16 a8);
+extern u32 func_02027FEC(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u16 a5);
 extern void func_02028178(u8 *);
 extern void func_02045808(struct U16Vec *);
 void func_021BB088(char *p)

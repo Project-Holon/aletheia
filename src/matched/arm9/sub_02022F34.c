@@ -24,7 +24,8 @@ struct WipeSubElem {
 };
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02022F34(void *p, struct WipeSubElem *elems)
 {

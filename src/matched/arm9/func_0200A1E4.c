@@ -11,9 +11,10 @@
  */
 
 typedef unsigned char u8;
-extern u8 *func_0200A41C(void *p);
-extern void func_0200A49C(void *p);
-extern void func_0200A480(void *p);
+struct Obj;
+extern void *func_0200A41C(struct Obj *obj);
+extern void func_0200A49C(struct Obj *obj);
+extern void func_0200A480(struct Obj *obj);
 void func_0200A1E4(void *p, unsigned int idx)
 {
     u8 *b = func_0200A41C(p);

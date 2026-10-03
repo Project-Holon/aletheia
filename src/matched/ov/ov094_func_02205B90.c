@@ -36,13 +36,16 @@ extern const u16 d_0220A392[];
 extern const char d_0220AEB0[];
 extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B404(void *, s16 *, int);
-extern void func_0204B92C(void *, int);
-extern void func_0204B878(void *, u16);
+struct Ctx;
+struct Node;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B6F4(void *, u8, u32);
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_02030DA8(void *, u32, u32, u32);
+extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void func_0220684C(void *, void *, void *);
-extern void func_02204A88(int, void *);
+extern void func_02204A88(int a0, struct Ctx *c);
 extern void func_02204AEC(void *);
 void func_02205B90(char *p, int n)
 {

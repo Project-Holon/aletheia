@@ -17,7 +17,8 @@
 typedef long fx32;
 
 extern void func_0207C8A0(fx32 denom);
-extern fx32 func_0207C86C(void);
+typedef unsigned int   u32;
+extern u32 func_0207C86C(void);
 
 fx32 func_0207C778(fx32 v)
 {

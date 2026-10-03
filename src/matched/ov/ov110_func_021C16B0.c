@@ -18,7 +18,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021C181C(void *);
 extern void func_021C1798(void *);
 extern void func_0201DD68(void);

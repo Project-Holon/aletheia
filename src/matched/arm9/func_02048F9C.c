@@ -37,8 +37,8 @@ extern const char func_02048F9C_File[];
 extern void func_020788AC(struct ArcFile *f);
 extern void func_02078C18(struct ArcFile *f, const char *path);
 extern u32 func_02048E34(struct ArcFile *f, u32 a, u32 b, u32 c);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02078B70(struct ArcFile *f, void *dst, u32 size);
 extern void func_02078A80(struct ArcFile *f);
 

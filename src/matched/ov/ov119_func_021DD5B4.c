@@ -18,20 +18,22 @@
  *   func_020173EC 0x020173EC thumb
  *   func_021E6334 0x021E6334 thumb ov119
  */
-extern unsigned func_020399A8(void);
-extern int func_021D8D4C(int,int,int,char *);
+typedef unsigned int   u32;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern void *func_021D8D4C(void **a, int b, int c, char *p);
 extern int func_021D8A24(void *);
 extern int func_021DD428(void *,int,int,int,void *);
 extern int func_021DF9E8(char *,void *,int);
 extern void func_021DD4F4(void *,int,int),func_020307B0(void *);
-extern int func_020173EC(void);
+extern u32 func_020173EC(void);
 extern void func_021E6334(void *,int,int,int,int,int);
 int func_021DD5B4(char *p,int a,int b)
 {
     int value,slot;
     unsigned i;
     func_020399A8();
-    value=func_021D8D4C(*(int *)(p+0x828),*(int *)(p+0xf88),*(int *)(p+0xf84),p);
+    value=(int)func_021D8D4C(*(void ***)(p+0x828),*(int *)(p+0xf88),*(int *)(p+0xf84),p);
     if(func_021D8A24(p)) {
         i=0;
         slot=func_021DD428(p,0,a,b,(void *)value);

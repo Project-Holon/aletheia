@@ -31,10 +31,10 @@ typedef unsigned int u32;
 extern void func_06899E68(void);
 extern void func_06899E48(void *, void *, void *);
 extern void func_06899E2C(void);
-extern int func_0689A878(void);
-extern int func_0689A84C(void);
-extern int func_0689B0D4(void);
-extern int func_0689B1E4(void);
+extern int func_0689A878(int unused, u8 *s);
+extern int func_0689A84C(u32 unused, u32 p);
+extern int func_0689B0D4(int unused, u8 *s);
+extern int func_0689B1E4(int *state, u8 *s);
 
 void func_06899FD4(void)
 {

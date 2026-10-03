@@ -38,7 +38,7 @@ extern char d_02172B64[];
 extern void func_0203064C(int a, int b, int c);
 extern W *func_0203159C(void *heap, int size, int id);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_0216F40C(void *a, int b, int c, int d, u16 e);
 
 int func_0216F0AC(void *a, int b, T24 *c)

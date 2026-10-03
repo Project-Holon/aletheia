@@ -19,8 +19,11 @@
 extern const unsigned d_021C3A28[];
 extern void func_02082BCC(void *, int, unsigned);
 extern void func_0204A48C(const void *, unsigned, unsigned);
-extern void *func_0204B100(int, unsigned char, unsigned);
-extern void func_0204B270(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 void func_021C17DC(void **p, unsigned arg, unsigned heap) {

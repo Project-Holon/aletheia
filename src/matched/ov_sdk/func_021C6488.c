@@ -26,7 +26,7 @@ struct G021DE5D8 {
 };
 
 extern struct G021DE5D8 g_021DE5D8;
-extern void  func_021CFFAC(int x);
+extern void func_021CFFAC(unsigned int v);
 extern void *func_021D7680(int a, void *b, int c, int d);
 extern void  func_021C61A4(void);
 

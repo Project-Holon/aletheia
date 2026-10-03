@@ -22,9 +22,11 @@
 
 typedef int BOOL;
 
-extern int func_021795A4(void);
-extern int func_02178E38(void);
-extern BOOL func_02178D20(int a, int b, int c);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern unsigned short func_021795A4(void);
+extern u16 func_02178E38(void);
+extern int func_02178D20(u32 a, u32 b, u32 c);
 
 BOOL func_02179368(int a, int b, int c)
 {

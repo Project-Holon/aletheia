@@ -12,7 +12,9 @@
  *   func_021CDDCC 0x021CDDCC thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021CDDCC(void *);
+typedef unsigned int   u32;
+struct Flags;
+extern u32 func_021CDDCC(struct Flags *p);
 int func_021BA618(char *p)
 {
     int v;

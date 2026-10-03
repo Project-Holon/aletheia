@@ -24,7 +24,7 @@ typedef struct {
 } Sock;
 
 extern int func_0215F3D0(Sock *socket);
-extern int func_0215FD00(Sock *socket, void *con);
+extern int func_0215FD00(void *socket, void *con);
 
 static inline int isReady(Sock *s)
 {

@@ -84,7 +84,7 @@ typedef struct QRSplitQueryProgress {
     qr2_keybuffer_t mKeyBuffer;                              /* 0x14 */
 } QRSplitQueryProgress;
 
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219BED8(qr2_t qrec, qr2_buffer_t buf, QRSplitQueryProgress *progress);
 extern int func_0217ECA4(int sock, char *buf, int len, int flags, SOCSockAddr *addr, int tolen);
 extern void func_0219BE80(qr2_t qrec, qr2_buffer_t buf, int serverkeycount, unsigned char *serverkeys,

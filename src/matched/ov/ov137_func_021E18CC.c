@@ -12,7 +12,8 @@
  *   func_0201AB28 0x0201AB28 thumb
  *   func_02017E1C 0x02017E1C thumb
  */
-extern int func_0201AA18(void *);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *, unsigned);
 extern unsigned func_02017E1C(void *, unsigned, unsigned);
 int func_021E18CC(void *p)

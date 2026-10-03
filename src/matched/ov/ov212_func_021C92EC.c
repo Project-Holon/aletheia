@@ -14,7 +14,9 @@
  */
 typedef unsigned short u16;
 extern unsigned func_0200CA8C(void *),func_0200D064(void *,u16);
-extern void func_0200CA78(void *,u16);
+typedef unsigned int   u32;
+struct Blk37;
+extern void func_0200CA78(struct Blk37 *p, u32 v);
 void func_021C92EC(void *p,u16 *ids,unsigned count)
 {
     unsigned current;

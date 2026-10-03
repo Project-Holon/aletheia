@@ -37,7 +37,7 @@ struct AreaMan {
     u8 bits[1];
 };
 
-extern s32 func_020343C0(struct AreaMan *p, u32 start, u32 len);
+extern s32 func_020343C0(struct AreaMan *p, s32 start, u32 len);
 extern void func_02034508(struct AreaMan *p, u32 start, u32 len, u32 line);
 
 s32 sub_020341F0(struct AreaMan *p, u32 start, u32 len)

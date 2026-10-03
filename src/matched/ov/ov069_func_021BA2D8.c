@@ -16,9 +16,10 @@
  *   func_0204B878  0x0204B878  arm
  */
 
-extern int func_021BA400(void *o, int k);
-extern void func_021BA438(void *o, int v);
-extern void func_020061E4(int v);
+typedef unsigned int   u32;
+extern int func_021BA400(char *p, int k);
+extern void func_021BA438(char *p, int i);
+extern void func_020061E4(u32 a);
 extern void func_0204B878(int a, int b);
 
 void func_021BA2D8(char *o, int k)

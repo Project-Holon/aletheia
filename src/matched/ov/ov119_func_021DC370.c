@@ -20,7 +20,7 @@
  */
 
 typedef unsigned int u32;
-extern int func_021E12AC(void *);extern u32 func_020362DC(void);extern int func_02035C60(void);extern void func_020355D8(int);extern void func_021E1098(void *);extern void func_021E6700(void *);extern void func_021D8E84(void *,int);extern void func_021DBE70(void);extern void func_021E4E64(int,void *,int);
+extern int func_021E12AC(char *p);extern u32 func_020362DC(void);extern int func_02035C60(void);extern void func_020355D8(int);extern void func_021E1098(void *);extern void func_021E6700(void *);extern void func_021D8E84(void *,int);extern void func_021DBE70(void);extern void func_021E4E64(int,void *,int);
 static inline int poll_a(void) {int r=func_020362DC();if(r)func_020355D8(0);return r;}
 static inline int poll_b(void) {int r=func_02035C60();if(r)func_020355D8(1);return r;}
 void func_021DC370(char *p) {int hit=0;if(func_021E12AC(p)) {if(poll_a()) {func_020355D8(0);hit=1;}if(poll_b()){hit=1;func_020355D8(1);}if(hit){func_021E1098(p);func_021E6700(p);func_021D8E84(p,(int)func_021DBE70);*(short *)(p+0x1080)=-1;func_021E4E64(*(int *)(p+0x828),p,1);}}}

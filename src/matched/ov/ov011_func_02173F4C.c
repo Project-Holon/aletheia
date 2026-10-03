@@ -15,8 +15,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-void *func_02175B34(u8 *a);
-int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+u8 *func_02175B34(u8 *p);
+s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 void func_021759B0(u8 *a);
 
 void func_02173F4C(int a, int b, void *c, u8 *d)

@@ -18,11 +18,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 heap; u8 mode; void *data; int flag; u8 a,b,c,d; } Descriptor;
-extern void *func_020457B0(int, u16);
-extern void func_02045CAC(void *, int, void *);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02027778(Descriptor *, void *);
 extern void func_02027CD8(void *, int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021D4DA4(char *p)
 {
     Descriptor desc;

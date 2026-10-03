@@ -57,16 +57,23 @@ typedef struct {
     u8 f168;
 } Work;
 
-extern void *func_020120F4(void *);
+typedef unsigned int   u32;
+struct BigObj;
+struct Bmp;
+struct Ctx;
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0204B294(void *, void *, void *, void *, const void *, int, int);
-extern void func_0204B3DC(void *, int);
-extern void *func_02043678(int, int, int, int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_020255A0(void *, Tmpl *);
-extern void func_02025774(void *, int);
-extern void *func_02045EC0(void *, int);
+extern void func_02025774(u8 *g, u32 a);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *, void *, int, int, void *, void *, int);
-extern void func_02045808(void *);
-extern int func_02012B70(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern u8 func_02012B70(const struct BigObj *p);
 extern const unsigned short d_021836AA[];
 extern const Tmpl d_021836F4;
 

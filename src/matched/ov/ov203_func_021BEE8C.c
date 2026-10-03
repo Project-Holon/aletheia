@@ -20,7 +20,7 @@ extern struct TcblNode *func_020311B8(struct Tcbl *,void (*)(struct TcblNode *,v
 extern void *func_02031290(struct S02030FB4 *);
 extern void func_02082BCC(void *,int,int);
 extern void func_02005E30(unsigned short);
-extern void func_021BEEF8(void *,Task *);
+extern void func_021BEEF8(struct TcblNode *node, struct Task *t);
 void func_021BEE8C(char *p,int channel,int start,int end,unsigned mode)
 {
     Task *t;

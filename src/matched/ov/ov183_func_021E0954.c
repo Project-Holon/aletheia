@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {u16 a,b,c;u8 flag,pad;} Params;
 extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
-extern void func_0204B688(void *,u32);
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern int func_021E0E40(int,int);
 void func_021E0954(char *p)
 {

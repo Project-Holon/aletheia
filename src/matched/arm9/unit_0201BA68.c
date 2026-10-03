@@ -75,10 +75,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern u32  func_02017DBC(void *mon);
-extern void func_02017DE4(void *mon, u32 save);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern u32  func_02017E88(void *mon, u32 id, u32 v);
-extern u32  func_02019C90(u16 species, u32 form, u32 attr);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern u32  func_020490A8(u32 kind, u32 member);
 
 u32 sub_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);

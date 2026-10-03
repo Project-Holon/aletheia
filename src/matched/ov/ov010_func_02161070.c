@@ -53,11 +53,13 @@ typedef struct MenuSel {
     u32 arg;            /* 0x38 */
 } MenuSel;
 
-extern void *func_020120F4(void *sys);
-extern void *func_02012934(void *p);
-extern void *func_0201AB28(void *party, int i);
-extern u32 func_02017E1C(void *mon, u32 id, void *arg);
-extern int func_0202136C(u16 item);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_0202136C(u16 v);
 
 int func_02161070(MenuWork *w, MenuSel *sel)
 {

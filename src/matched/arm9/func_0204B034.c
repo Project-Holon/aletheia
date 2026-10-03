@@ -36,9 +36,9 @@ struct Obj {
 
 extern const char s_clact_c[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
-extern void  func_0204BD94(struct Obj *p, u8 *a0, u32 a1, u32 a2);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0204BD94(struct Obj *obj, u8 *src, int count, u32 heap);
 
 struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap)
 {

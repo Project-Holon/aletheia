@@ -25,7 +25,8 @@ extern char d_0220AE68[];
 
 extern int func_0201134C(int a);
 extern int *func_02030734(u16 heap, unsigned int size, unsigned int clear, const char *file, unsigned int line);
-extern void func_02040588(int a, int b);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern int func_02030DA8(int a, void (*fn)(void), int *p, int d);
 extern void func_021F896C(int a, void (*fn)(void), int b);
 extern void func_021FE79C(void);

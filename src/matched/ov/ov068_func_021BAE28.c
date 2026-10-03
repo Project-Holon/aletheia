@@ -22,12 +22,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   func_021BA31C(void *p);
+struct TaskMenu;
+extern int func_021BA31C(u8 *p);
 extern void *func_02027778(void *tmpl, void *arg1);
 extern void  func_02027974(void *p);
-extern u32   func_020279E8(void *m);
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8    func_02027A04(const u8 *p);
-extern void  func_02027858(void *m);
+extern void func_02027858(struct TaskMenu *m);
 
 void func_021BAE28(u8 *p)
 {

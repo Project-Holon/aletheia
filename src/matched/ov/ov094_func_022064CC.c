@@ -30,7 +30,8 @@ typedef struct {
     char p1b0[0x274 - 0x1b0];
     u8 *f274;
 } W;
-extern void func_0204B3DC(void *, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *, Point *, int);
 
 void func_022064CC(W *p, u8 (* __restrict tab)[4], s8 (*rows)[12])

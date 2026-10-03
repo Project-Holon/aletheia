@@ -17,7 +17,7 @@
 
 extern void func_021BB184(void *, void *);
 extern void func_021BB23C(void *, void *, void *, void *);
-extern void func_021BB2D4(void *);
+extern void func_021BB2D4(char *p);
 
 void func_021BB13C(void *a0, void *a1, void *a2, void *a3)
 {

@@ -23,7 +23,8 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void sub_0204B3B4(void *p);
+struct Obj;
+extern void sub_0204B3B4(struct Obj *p);
 
 typedef struct {
     char pad[0x14];

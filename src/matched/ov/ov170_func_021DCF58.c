@@ -33,10 +33,11 @@ typedef struct {
     u8 h;
 } MenuTmpl;
 
-extern u32 func_020260F0(void *obj);
-extern void func_020355D8(int v);
+struct Sound;
+extern u32 func_020260F0(struct Sound *obj);
+extern void func_020355D8(u8 v);
 extern void *func_02027778(MenuTmpl *tmpl, void *arg1);
-extern void func_02027CFC(void *m, int sel);
+extern void func_02027CFC(u8 *p, int sel);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 

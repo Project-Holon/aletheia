@@ -12,7 +12,8 @@
  *   func_0204B878 0x0204B878 arm
  */
 typedef unsigned short u16;
-extern void func_0204B878(void *p, u16 value);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021852F4(void *p, int flag)
 {
     if (flag == 1)

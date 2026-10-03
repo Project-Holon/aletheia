@@ -16,7 +16,8 @@
  *   d_021F0A40 0x021F0A40 data a4
  */
 extern int func_021D775C(int);
-extern int func_021C8288(void *);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern int func_021D76BC(int, unsigned int);
 extern unsigned int d_021F0A40;
 void func_021D93A8(int a, void *b, int c)

@@ -11,7 +11,8 @@
  * symbols:
  *   func_020452E8 0x020452E8 arm
  */
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021BB0E4(char *p)
 {
     func_020452E8(*(void **)(p + 0x8c));

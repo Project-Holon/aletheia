@@ -9,7 +9,8 @@
  * status: EXACT
  */
 typedef struct { char pad[0x68]; void *obj[5]; } Work;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 void func_021E7CD0(Work *p)
 {
     int i;

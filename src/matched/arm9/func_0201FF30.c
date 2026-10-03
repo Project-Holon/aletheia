@@ -65,11 +65,11 @@ struct Src {
 };
 
 extern char g_020A7390[];
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32  func_02020D18(u32 heap);
 extern u32  func_02045770(void *p);
 extern void func_02043B5C(u32 a, u32 b);
-extern void func_0202055C(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
+extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void func_020206C0(struct Obj *o);
 extern void func_02020A34(struct Obj *o, u32 a);
 

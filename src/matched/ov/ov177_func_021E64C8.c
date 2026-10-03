@@ -23,7 +23,8 @@ extern void func_0204B454(void *, Pt *, unsigned short);
 extern void func_0204B404(void *, const Pt *, unsigned short);
 extern void func_020061E4(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
-extern int func_020407E8(unsigned char);
+typedef unsigned int   u32;
+extern u32 func_020407E8(u32 layer);
 extern void func_02041EE4(unsigned char, int, int);
 int func_021E64C8(Work *w)
 {

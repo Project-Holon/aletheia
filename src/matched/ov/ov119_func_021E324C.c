@@ -19,7 +19,7 @@ typedef struct {int a,b,c; u16 d,e;} Entry;
 extern const Entry d_021E7B3C[];
 extern u16 func_02047E88(void *,const Entry *);
 extern void *func_02048A18(void *,u16);
-extern int func_0204779C(void *);
+extern int func_0204779C(int *p);
 extern void func_020477A4(void *,u16);
 void func_021E324C(char *p,int n) {
     void *q;

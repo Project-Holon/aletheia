@@ -20,7 +20,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0203F1FC(void *obj, u32 off);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 int func_0200A21C(u8 *obj)
 {

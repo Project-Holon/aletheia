@@ -50,22 +50,27 @@ typedef struct Obj {
 } Obj;
 
 extern void *func_02048A0C(void *p, int i);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 heap);
+struct GfFont;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC64(u16 heap);
 extern void *func_020457B0(u32 size, u16 heap);
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201F02C(void *a, u32 b, int c);
-extern void func_0201F250(void *a, void *b, void *c);
-extern void func_02045808(void *p);
-extern void func_0201ED04(void *p);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_0201F4A0(void *dst, void *src);
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern int func_0201D304(void *a, void *b, u32 c);
 extern void func_0201D83C(void *p);
 extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u16 heap);
 extern void func_0216FAB4(void *h, char *a1, u16 *pl, char *a2, void *str, u16 w, u32 c, u32 d, u16 heap, void *out);
 extern void func_020307B0(void *p);
-extern void func_02045C04(void *p);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021C2F84(int s, Obj *p, char *a1, char *a2, u32 c, u32 d)
 {

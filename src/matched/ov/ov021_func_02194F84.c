@@ -30,7 +30,7 @@ extern int func_02045760(u32 w);
 extern int func_02045748(u32 w);
 extern int func_02045750(u32 w);
 extern u32 func_02045730(u32 w);
-extern int func_02040804(u32 a);
+extern u32 func_02040804(u32 layer);
 extern void func_02194F5C(int x, int w, int side, u16 *a, u16 *b);
 extern void func_0206E0C4(int x, int y, void *c, int z);
 

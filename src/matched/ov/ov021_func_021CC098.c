@@ -56,7 +56,8 @@ typedef struct {
 } Spec;
 
 extern u32 func_0201862C(u32 id, u16 species, u16 level, u8 a3, u8 a4, int a5);
-extern void func_02017588(void *mon, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct Mon;
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *mon, u32 field, u32 v);
 extern void func_021CC23C(void *mon);
 extern u32 func_021CC070(u16 a, u32 b);

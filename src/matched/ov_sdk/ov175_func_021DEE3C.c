@@ -33,8 +33,7 @@
 extern void func_0217CA40(void);
 extern void func_021DF734(int ssl_type);
 extern int func_0216AA9C(char **authToken, char **partnerChallenge);
-extern int func_021E2510(int partnerCode, int namespaceId, char *authtoken, char *partnerChallenge,
-                         void (*userCallback)(int, void *, void *), void *userData);
+extern int func_021E2510(int partnerCode, int namespaceId, char *authtoken, char *partnerChallenge, void *userCallback, void *userData);
 extern void func_021DF4A4(int line, char *fmt, ...);
 extern int func_021DF644(int process, int error);
 extern void func_02059F54(int error, int errorCode);

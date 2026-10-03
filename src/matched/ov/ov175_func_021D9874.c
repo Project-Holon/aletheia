@@ -15,7 +15,8 @@
  *   func_0200BAC8 0x0200BAC8 thumb
  */
 extern int func_021E5548(int *);
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern void *func_021E7E3C(void *, int, int, int, int, int, int);
 void func_021D9874(char *ctx)

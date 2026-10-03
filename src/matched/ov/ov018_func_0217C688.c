@@ -45,14 +45,15 @@ typedef struct {
 
 extern const u8 d_021836A0[4];
 
-extern void func_020061E4(int);
+struct Ctx;
+extern void func_020061E4(u32 a);
 extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D3CC(void *);
-extern int func_020120F4(void *);
-extern void func_0217BCDC(void *, void *, int, u8, u8);
-extern void func_0216D410(void *, u8);
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag);
+extern void func_0216D410(void *a0, u16 a1);
 
 int func_0217C688(Rec *r, void *a1)
 {

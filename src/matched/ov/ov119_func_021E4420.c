@@ -26,14 +26,17 @@ typedef unsigned int u32;
 typedef short s16;
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045CAC(void *,u32,void *);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_0200785C(void *,u32,void *);
 extern void func_0201DD78(u32,u32,u32);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045334(void *);
-extern void func_02045788(void *,u8);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045788(struct Descriptor *p, u8 v);
 void func_021E4420(char *p)
 {
     int off1, h, off, off2, off3;

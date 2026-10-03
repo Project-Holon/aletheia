@@ -13,7 +13,8 @@
  *   func_02041EE4 0x02041EE4 arm
  */
 
-extern void func_02041EE4(int, int, int);
+typedef unsigned int   u32;
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 
 void func_021BA864(int unused, char *p)
 {

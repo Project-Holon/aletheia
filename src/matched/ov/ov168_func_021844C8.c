@@ -20,9 +20,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_0218449C(void *);
 extern int func_021845AC(u8);
-extern int func_021845E0(void *);
+struct Obj;
+extern int func_021845E0(char *p);
 extern int func_02184600(char *,int,u16,int,void *);
-extern void func_0204B878(void *,u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern unsigned d_02184A40;
 void func_021844C8(int event, char *p)
 {

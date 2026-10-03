@@ -30,7 +30,7 @@ typedef signed int s32;
 
 extern u8 *func_021F3B88;
 
-int func_021D4394(int a);
+u8 func_021D4394(u32 a);
 
 u16 func_021D4BD4(int a, u8 **q)
 {

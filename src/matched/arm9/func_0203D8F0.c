@@ -73,8 +73,8 @@ extern Wrap *g_021469F0;
 extern void *func_02030734(u32 a, u32 size, u32 b, void *p, u32 c);
 extern void func_02034F84(u32 v);
 extern void func_0203DC4C(void);
-extern void func_0203E420(void);
-extern void func_0203E458(void);
+extern void *func_0203E420(void *arg);
+extern void *func_0203E458(void *arg);
 extern u8 d_020A7D34[];
 
 Base *func_0203D8F0(const Base *src, u32 a1)

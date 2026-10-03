@@ -41,10 +41,11 @@ extern u32 func_0203C304(void);
 extern void func_02156BC4(int v);
 extern void func_0203C554(u32 a);
 extern int func_0203C3EC(void);
-extern char *func_0203CA98(void);
+typedef unsigned short u16;
+extern u32 func_0203CA98(void);
 extern void func_0203D7B0(int a);
 extern void func_0203D7BC(int a);
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern int func_02039ACC(void);
 extern u32 func_020399A8(void);
 extern void func_02039C68(u32 h, int a, int b);
@@ -55,7 +56,7 @@ extern int func_021DA390(char *obj);
 extern void func_0203CA04(void);
 extern void func_0203C968(void);
 extern void func_0200FBA0(void);
-extern void func_0203D378(void);
+extern u32 func_0203D378(void);
 
 int func_021DA1E4(char *obj)
 {

@@ -25,7 +25,8 @@ int func_020399A8(void);
 int func_0203D578(int a, int b);
 void func_02082D44(void *d, void *s, int n);
 int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
-int func_0203D378(void);
+typedef unsigned int   u32;
+u32 func_0203D378(void);
 void func_02175920(void *p);
 void func_0217592C(void *p);
 

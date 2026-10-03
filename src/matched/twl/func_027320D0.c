@@ -25,10 +25,10 @@
 
 typedef unsigned int u32;
 
-extern void *func_021657C8(void);
+extern int func_021657C8(void);
 extern u32 func_02702F38(void *arg);
 extern u32 func_02702A98(void);
-extern void func_02165A4C(u32 phase);
+extern void func_02165A4C(unsigned char phase);
 extern void func_021659B4(u32 a, void *b, u32 c, u32 d);
 extern void OS_GetMacAddress(void *mac);
 extern void func_021665CC(void *mac);

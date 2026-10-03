@@ -40,7 +40,7 @@ extern MEMBTN *g_021DE508;
 
 extern const unsigned char g_021DA008[];
 extern const unsigned char g_021DA018[][2];
-extern void *func_021D4FE0(void *cell, int idx);
+extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4(int lcd, int idx, void *obj);
 extern void func_021D51F0(void *cell, int idx, int priority);
 extern void func_021BCBB4(int y);

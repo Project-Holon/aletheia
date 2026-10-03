@@ -15,7 +15,7 @@
  * Forward with the byte field at +0x14.
  */
 
-extern void func_021DEF98(char *, int, int);
+extern int func_021DEF98(char *p, int a, unsigned b);
 
 void func_021DEFEC(char *p, int b)
 {

@@ -28,10 +28,11 @@ struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
 extern u16 *func_020127A4();
-extern int func_02012A30();
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern int func_02012134();
 extern void func_02029DBC();
-extern int func_02013CC8();
+extern u32 func_02013CC8(u32 id);
 extern int func_02013CE0(u16);
 extern int *func_0216F7BC();
 

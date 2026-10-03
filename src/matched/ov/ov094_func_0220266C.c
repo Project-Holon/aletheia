@@ -30,7 +30,8 @@ typedef struct Obj {
 } Obj;
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern int func_0207D55C(u32);
-extern void func_0204E720(int, int, int, int);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern void func_02202248(Obj *);
 extern void *func_02030DA8(void *, void (*)(void *, Obj **), void *, u32);
 extern void func_0220684C(Obj *, void *, void (*)(void *));

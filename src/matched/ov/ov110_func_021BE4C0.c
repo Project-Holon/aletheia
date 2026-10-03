@@ -21,7 +21,7 @@ typedef int (*Handler)(u8 *,void *);
 extern int func_021B9C90(u8 *,int);
 extern int func_021B9C74(u8 *);
 extern void func_021B9BEC(u8 *,int);
-extern void func_021BEADC(u8 *,unsigned *);
+extern void func_021BEADC(u8 *p, void *q);
 extern void func_021BD7A0(u8 *,Handler);
 extern int func_021BD894(u8 *,void *);
 int func_021BE4C0(u8 *p,unsigned *q) {

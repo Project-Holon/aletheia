@@ -18,5 +18,6 @@
 extern int func_021BADF0(int p);
 extern void func_020061E4(unsigned int id);
 extern void func_021B6100(void *p, void *fn);
-extern void func_021B75A4(void *p);
+struct Obj;
+extern void func_021B75A4(struct Obj *o);
 void func_021B761C(int p) { if (func_021BADF0(p)) { func_020061E4(0x55C); func_021B6100((void *)p,(void *)func_021B75A4); } }

@@ -30,19 +30,24 @@ typedef struct {
     unsigned char d, e;
 } Rect;
 
-extern int func_020275E8(void);
-extern int func_020275EC(int);
-extern int func_020275F8(int);
-extern int func_020275FC(int);
-extern int func_02027600(int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Actor;
+struct Node;
+struct Obj;
+extern u32 func_020275E8(void);
+extern u8 func_020275EC(u8 i);
+extern u32 func_020275F8(u32 a);
+extern u32 func_020275FC(u32 a);
+extern u32 func_02027600(u32 a);
 extern void *func_0204AC18(void *, int, int, int, int, int, unsigned short);
 extern void *func_0204AF28(void *, int, int, unsigned short);
 extern void *func_0204A6C8(void *, int, int, int, unsigned short);
 extern void *func_0204B294(void *, void *, void *, void *, Rect *, unsigned short, unsigned short);
-extern void func_0204B6F4(void *, int, int);
-extern void func_0204B800(void *, int);
-extern void func_0204B688(void *, int);
-extern void func_0204B3DC(void *, int);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 typedef struct {
     unsigned short f0;

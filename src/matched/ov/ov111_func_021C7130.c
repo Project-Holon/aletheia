@@ -89,15 +89,18 @@ typedef struct {
 } Work;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02045B38(int a, int b, int c, int heap);
-extern void *func_02045EC0(void *p, int i);
-extern void func_02045A90(void *p);
-extern void *func_020457B0(int n, int heap);
-extern void *func_0201EC74(int a, int b, int heap);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern void *func_020056A0(void (*cb)(void *, Work *), Work *p, int pri);
 extern void func_021C70EC(void *unused, Work *p);
 extern void func_021C80B4(Work *p);
-extern void *func_02012F5C(void *p);
+extern void *func_02012F5C(void **h);
 extern void func_021C8208(Work *p);
 
 void func_021C7130(Work *p, Parent *parent)

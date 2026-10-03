@@ -15,6 +15,7 @@
  */
 typedef struct { int f[7]; } S7;
 extern unsigned short *func_0201284C(void *);
-extern int func_02013FEC(unsigned short);
+typedef unsigned int   u32;
+extern u32 func_02013FEC(u32 id);
 extern S7 *func_02012894(void *);
 void func_02185F18(void *p,S7 *out) { if (func_02013FEC(func_0201284C(p)[2])) *out=*func_02012894(p); }

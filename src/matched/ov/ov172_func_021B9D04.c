@@ -38,14 +38,15 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_02027858(void *m);
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
 extern void func_02027974(void *p);
-extern int func_020279E8(void *p);
+extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_0201F7A8(void *desc, u32 kind);
 extern void func_020456F8(int a);
 extern void func_02045374(int a);
-extern void func_020409B4(int a);
+extern void func_020409B4(u32 index);
 extern void func_0204B878(int a, int b);
 extern void func_021B7578(int x, char *p);
 extern void func_021B7B80(int x, char *p);

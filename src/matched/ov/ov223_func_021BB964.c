@@ -20,7 +20,7 @@
  */
 
 extern void func_021BB630(void *);
-extern void func_021BB844(void *);
+extern void func_021BB844(char *p);
 
 void func_021BB964(char *p)
 {

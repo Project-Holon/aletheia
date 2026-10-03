@@ -29,10 +29,10 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern u8  *func_0203D788(void);
+extern void *func_0203D788(void);
 extern void func_0203C864(void);
 extern int  func_020392EC(void);
-extern u8  *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_0203516C(u32 a);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 

@@ -43,7 +43,7 @@ typedef struct GPIConnection {
     void *extendedInfoKeys;
 } GPIConnection;
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern void *func_02184208(void *array, int n);
 extern unsigned long func_0209477C(const char *s);
@@ -51,7 +51,7 @@ extern void *func_0217EAB0(unsigned long size);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void func_02193734(void **connection, char *errorString);
 extern char *func_020948B0(char *dst, const char *src);
-extern void func_0217FA90(char *input, char *output, int inlen, int encodingType);
+extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern char g_021A4DB8[];
 extern char g_021A4DC4[];
 extern char g_021A4D80[];

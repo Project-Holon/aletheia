@@ -59,7 +59,7 @@ extern void *func_021D6414(unsigned long size, int align);
 extern void func_02068FC4();
 extern void *func_0207DF94(void);
 extern void *func_0207DF60(void);
-extern void func_02069078();
+extern void func_02069078(void *scnBase, int areaWidth, int areaHeight, int areaLeft, int areaTop, int scnWidth, int charNo, int cplt);
 extern void func_021D5F14(void *c, int col);
 extern void *func_021D7680(int kind, void (*f)(void *), void *w, unsigned char prio);
 extern void func_021D5BC0(void *t);

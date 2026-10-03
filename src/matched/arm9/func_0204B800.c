@@ -27,7 +27,8 @@ struct Node {
     u32  unk_060 : 8;
 };
 
-extern void func_0204CA30(void *p, struct Node *node);
+struct Mgr;
+extern void func_0204CA30(struct Mgr *m, struct Node *l);
 extern void func_0204C98C(void *p, struct Node *node);
 
 void func_0204B800(struct Node *node, u32 val)

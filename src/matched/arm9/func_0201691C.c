@@ -42,10 +42,11 @@ struct Obj_0201691C {
     u32  f28;                     /* +0x28 */
 };
 
-extern void func_020637D4(void *p);
+struct Node;
+extern void func_020637D4(u32 *p);
 extern void func_02063E54(void *a, u32 b, int c, void *d);
 extern void sub_020307B0(void *p);
-extern void sub_02030EAC(void *p);
+extern void sub_02030EAC(struct Node *n);
 
 void func_0201691C(void *a0, struct Obj_0201691C *a1)
 {

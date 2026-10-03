@@ -25,7 +25,11 @@
  *   func_021E8F50 0x021E8F50 thumb ov170
  */
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
-extern int func_02007E50(void *p, unsigned short item, unsigned n, unsigned heap);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+extern u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 extern void *func_021DD2D0(unsigned char *p, int a, unsigned b);
 extern void func_021EBB34(unsigned char *p, unsigned item, int b);
 extern void func_021DD2B4(unsigned char *p, int a, int b, int c, int d);
@@ -35,8 +39,8 @@ extern void func_021EC48C(unsigned char *p, int box, int pos, int win);
 extern void func_021DEFF8(unsigned char *p, int idx);
 extern void func_020061E4(unsigned se);
 extern void func_021EBB58(unsigned char *p, int b);
-extern int func_020355C4(void);
-extern void func_020260F4(void *obj, int state);
+extern u8 func_020355C4(void);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021ED55C(char **p, int flag);
 extern int func_021E8F50(unsigned char *p, int v);
 #define WORK(p) (*(char **)((p) + 0x2C))

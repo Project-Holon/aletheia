@@ -35,8 +35,10 @@ typedef struct {
     void *win;
 } Pane;
 
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021F7FD4(void *win, void *bank, u32 index, u32 y, u16 color, void *g);
 extern void func_021F8104(void *win, void *bank, int mode, int force, u32 x, u32 y, u16 color, void *g);
 extern int func_021F886C(int key, int val, int which);

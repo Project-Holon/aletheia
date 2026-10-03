@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8 *g_02146A44;
-extern u32 func_020416B8(u32 a);
+extern u8 func_020416B8(int channel);
 extern u32 func_02033CC0(u32 arena, u32 a, u32 b, u32 c);
 extern u32 func_02033F64(u32 arena, u32 a, u32 b, u32 c);
 

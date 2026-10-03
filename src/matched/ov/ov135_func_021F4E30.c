@@ -26,8 +26,9 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern void func_02027974(void *m);
-extern u32 func_020279E8(void *m);
-extern u8 func_02027A04(void *m);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021F5060(void);
 
 u32 func_021F4E30(u8 *p)

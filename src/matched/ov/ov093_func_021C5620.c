@@ -24,7 +24,7 @@ extern u8 func_021D5440(u8 *p);
 struct Slot { u32 kind : 3; u32 rest : 29; };
 extern struct Slot func_021D6314(u8 *p, int i);
 extern void func_021D61F0(u8 *p);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C5698(void *p, int v);
 extern void func_021D6238(u8 *p, int k);
 void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out)

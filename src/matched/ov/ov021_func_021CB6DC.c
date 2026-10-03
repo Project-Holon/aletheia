@@ -22,9 +22,12 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012ED8(void *p);
-extern int func_02167CB4(void *p);
+struct Big;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012ED8(struct Big *p);
+extern int func_02167CB4(struct Obj *o);
 
 int func_021CB6DC(void *task, void *p)
 {

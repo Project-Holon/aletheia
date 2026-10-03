@@ -16,13 +16,18 @@
  *   func_02028484 0x02028484 thumb
  *   func_020310C4 0x020310C4 arm
  */
-extern void func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct Ctx;
+struct Descriptor;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern unsigned func_02045770(void *);
 extern int func_0201C6C4(void *, unsigned);
-extern void func_02045334(void *);
-extern void func_020286C4(void *,void *,void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 extern int func_02028484(void *,void *);
-extern void func_020310C4(void *);
+extern void func_020310C4(struct Tcbl *p);
 void func_021E867C(char *p)
 {
  void *q;

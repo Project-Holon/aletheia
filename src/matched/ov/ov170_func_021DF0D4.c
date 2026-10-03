@@ -16,6 +16,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
-extern void func_021EBFA8(char *,int,u16);
+extern void func_021EBFA8(char *p, int i, int v);
 extern void func_021EC000(char *,int,int);
 void func_021DF0D4(char *p,int base,u32 bits) { u16 i,v;for(i=0;i<6;i++){if(bits & (1<<i))v=i*2+1;else v=i*2;func_021EBFA8(*(char **)(p+0x2c),base+i,v);func_021EC000(*(char **)(p+0x2c),base+i,1);} }

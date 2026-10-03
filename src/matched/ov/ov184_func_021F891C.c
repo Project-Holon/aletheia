@@ -32,7 +32,7 @@ typedef struct
 } Config;
 extern void func_021FB964(u32, u32, u16);
 extern void func_021FBE54(char *, u32, u32);
-extern int func_021FC20C(char *);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void func_02082BCC(void *, int, unsigned);
 extern void *func_021FC4DC(void *);

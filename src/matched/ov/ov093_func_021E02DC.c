@@ -22,7 +22,8 @@ struct Handler { u16 key; int (*fn)(u32 *out); };
 extern const struct Handler data_021F3030[0x102];
 extern u8 func_021D5440(u8 *p);
 extern int func_021E0354(int sub, int key, u8 *found);
-extern void *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
+struct Node;
+extern struct Node *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
 int func_021E02DC(u8 *a, u16 key, u32 sub_pri)
 {
     u32 i;

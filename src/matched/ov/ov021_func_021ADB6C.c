@@ -31,7 +31,8 @@ typedef struct Dst {
 
 extern int *func_021AC1AC(int a);
 extern void func_021AC1CC(int a, int *b);
-extern int func_021AC1A0(int a);
+typedef unsigned int   u32;
+extern int func_021AC1A0(u32 a);
 extern void func_021AC178(int a);
 
 void func_021ADB6C(int a, Dst *b)

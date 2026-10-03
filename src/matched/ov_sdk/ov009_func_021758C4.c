@@ -65,7 +65,7 @@ typedef struct DWCstMatchControl {
 
 extern DWCstNodeInfo *func_0217637C(int index);
 extern DWCstMatchControl *func_02175F3C(void);
-extern int func_0216F20C(int matchType);
+extern void func_0216F20C(int status);
 extern int func_02175EB4(void);
 extern u8 func_0216B838(void);
 extern int func_0216CB90(void);

@@ -14,7 +14,8 @@
  *   func_02006238 0x02006238 thumb
  */
 
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern int func_02006238(void);
 
 int func_02205360(int a)

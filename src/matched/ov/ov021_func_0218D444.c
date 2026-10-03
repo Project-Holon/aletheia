@@ -32,7 +32,7 @@ typedef signed int     s32;
 
 typedef struct Elem { int idx; int x; int y; int z; } Elem;
 
-extern int func_0207C768(int a, int b);
+extern u32 func_0207C768(u32 a, u32 b);
 extern int func_0218D980(u32 a, int b, int c);
 extern void func_0218DD80(Elem *e, int idx);
 extern void func_0218DD9C(Elem *e, int x, int y, int z);

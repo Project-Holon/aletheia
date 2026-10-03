@@ -10,9 +10,9 @@
  *   func_021FD73C 0x021FD73C thumb
  *   func_021FA284 0x021FA284 thumb
  */
-extern void func_021FAFC0(void *, int);
+extern void func_021FAFC0(char *p, unsigned value);
 extern void func_021FD73C(void *, void *);
-extern void func_021FA284(void);
+extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FA21C(unsigned char *ctx, int mode)
 {
     int i, selected;

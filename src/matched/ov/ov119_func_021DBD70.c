@@ -12,7 +12,7 @@
  *   func_021DD34C 0x021DD34C thumb ov119
  */
 extern int func_021D8AA8(void *);
-extern int func_021DD34C(void *,int,int);
+extern int func_021DD34C(char *p, int a, int b);
 int func_021DBD70(char *p,int a,int b) {
  if(func_021D8AA8(p)==0) {
   if(*(int *)(p+0xf84)==b && *(int *)(p+0xf88)==a) return 1;

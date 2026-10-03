@@ -17,14 +17,15 @@
  *   func_021D6B84 0x021D6B84 thumb ov120
  *   func_020061E4 0x020061E4 thumb
  */
-extern void func_021D439C(int,void *);
-extern void func_021D435C(int,void *);
-extern void func_021D437C(int,void *);
+typedef unsigned int   u32;
+extern void func_021D439C(int n, char *p);
+extern void func_021D435C(int n, char *p);
+extern void func_021D437C(int n, char *p);
 extern void func_021D7E88(int,int);
 extern void func_021D7E9C(int,int);
 extern void func_021D7EB0(int,int);
 extern void func_021D6B84(int,int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 int func_021D43BC(int n, char *p) {
     int result=0;
     switch(n) {

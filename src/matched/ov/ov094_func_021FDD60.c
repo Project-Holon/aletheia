@@ -43,7 +43,7 @@ extern int func_021F8710(void);
 extern Rec *func_02030734(u16, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern int func_020515CC(int *, int, int, int);
-extern void func_021FD1CC(void);
+extern void func_021FD1CC(void *p);
 
 void func_021FDD60(State *s, Rec *r, int slot, int arg)
 {

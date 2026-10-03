@@ -23,16 +23,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
-extern void *func_020436FC(void *heap, u32 a, u32 b, u32 c, u32 d);
-extern void func_02043B5C(void *a, u32 b);
-extern void *func_02008F84(void *);
+struct Bmp;
+struct CharBuf;
+struct Descriptor;
+struct Obj020437AC;
+struct Sub02008F80Obj;
+extern struct Bmp *func_020436FC(void *pixels, u32 width, u32 height, u32 depth, u16 heap);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u8 *func_02008F84(struct Sub02008F80Obj *obj);
 extern void func_02045924(void *, void *);
-extern void *func_02045770(void *p);
-extern void func_020439A0(void *src, void *dst, unsigned sx, unsigned sy, int dx, int dy, unsigned w, unsigned h, unsigned key);
-extern int func_02008F9C(void *);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern u8 func_02008F9C(const struct Sub02008F80Obj *obj);
 extern void func_021C5F80(void *unused, void *text, u8 *slot, void *owner, int x, int y, u32 mode, u16 color, int align);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
-extern void func_020437AC(void *);
+extern void func_020437AC(struct Obj020437AC *p);
 
 void func_021C6028(u8 *p, u32 a1, int idx, int sel)
 {

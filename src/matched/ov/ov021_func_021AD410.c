@@ -33,10 +33,10 @@ typedef unsigned int   u32;
 extern u32 func_021ABE18(u32 a);
 extern u32 func_021ABE24(u32 a);
 extern void func_021C6AE0(u32 *a);
-extern u32 func_021C6AF0(u32 a, u32 b, u32 c);
+extern int func_021C6AF0(u32 a, u32 b, u32 c);
 extern void func_021C6AF8(u32 a, u32 b);
 extern void func_021C6AFC(u32 a, u32 b);
-extern u32 func_021C6574(u32 a, u32 b, u32 c);
+extern int func_021C6574(u32 a, u32 b, u32 c);
 
 void func_021AD410(u32 *a)
 {

@@ -13,7 +13,9 @@
  *   func_0201EFA4 0x0201EFA4 thumb
  */
 typedef unsigned long long u64;
-extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_021C6B50(void **p,u64 value)
 {
     func_0201EFA4(*p,1,(unsigned)(value/100000000ULL),4,2,1);

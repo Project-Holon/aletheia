@@ -67,12 +67,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *sub_02013AD0(u32 id);
-extern u32   sub_02013A94(u32 id);
+extern u16 sub_02013A94(u32 key);
 extern u32   sub_02013CC8(u32 id);
 extern u32   sub_02013CE0(u32 id);
 extern u32   sub_02013D00(u32 id);
 extern u32   sub_02013D5C(u32 id);
-extern u32   sub_02013D74(u32 id);
+extern int sub_02013D74(u32 key);
 
 struct Sub02013AD0Rec {
     u8 pad00[4];

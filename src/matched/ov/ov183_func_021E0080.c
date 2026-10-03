@@ -13,9 +13,10 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned short u16;
-extern void func_021FFE70(void *);
-extern void func_021FFC6C(void *);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_021FFE70(char *p);
+extern void func_021FFC6C(char *p);
+extern void func_020409B4(u32 index);
 int func_021E0080(char *p)
 {
     func_021FFE70(*(void **)(p + 0x1c));

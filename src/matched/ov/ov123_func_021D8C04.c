@@ -24,8 +24,10 @@
  *   func_021B97F4 0x021B97F4 thumb ov114
  */
 typedef unsigned char u8;
-extern void *func_02009448(void *);
-extern void func_021D6934(void *);
+struct Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
+extern void func_021D6934(struct Obj *p);
 extern int func_021D6EA4(char *);
 extern int func_021D6E70(char *);
 extern int func_021D5950(u8 *,int);
@@ -33,8 +35,8 @@ extern void func_021D59E4(char *);
 extern void func_021D5A60(char *);
 extern void func_021D66D0(u8 *,int);
 extern int func_021D6E08(char *,int);
-extern int func_021B99DC(void *);
-extern int func_021B9790(void *);
+extern int func_021B99DC(u8 *p);
+extern int func_021B9790(u8 *p);
 extern char *func_021B97F4(void *);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D8B7C(char *);

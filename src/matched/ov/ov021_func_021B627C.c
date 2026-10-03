@@ -25,9 +25,10 @@ typedef unsigned int   u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *a);
-extern u32 func_0201AB28(void *a, u32 i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(u32 a, u32 b, u32 c);
 
 int func_021B627C(u32 a, u32 b)
@@ -42,7 +43,7 @@ int func_021B627C(u32 a, u32 b)
     lst = func_02012934(func_0215A5E4((void *)b));
     n = func_0201AA18(lst);
     for (i = 0; i < n; i++) {
-        if (func_02017E1C(func_0201AB28(lst, i), 0x97, 0) != 0) {
+        if (func_02017E1C((u32)func_0201AB28(lst, i), 0x97, 0) != 0) {
             *o = 1;
             break;
         }

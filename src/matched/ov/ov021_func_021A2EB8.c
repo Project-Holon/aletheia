@@ -38,11 +38,11 @@ extern u32 func_021A3994();
 extern void *func_021A3960(unsigned char *p);
 extern void func_0216D88C();
 extern void func_02012A90();
-extern u32 func_0216D5F8();
+extern u16 func_0216D5F8(void *p);
 extern void func_02012AD4();
 extern int func_02188CFC();
 extern void func_02012ABC();
-extern void func_0219E2F4();
+extern void func_0219E2F4(void *o, void *out);
 extern void func_02012AA4();
 
 void func_021A2EB8(u32 *a)

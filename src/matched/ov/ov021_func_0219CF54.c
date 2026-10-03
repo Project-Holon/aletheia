@@ -13,7 +13,8 @@
  *   func_02046EFC  0x02046EFC  arm
  */
 
-extern void func_02046EFC(void *);
+struct Tagged;
+extern void func_02046EFC(struct Tagged *p);
 
 int func_0219CF54(int *t, unsigned int id)
 {

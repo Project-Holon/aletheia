@@ -56,7 +56,7 @@ extern void func_020061E4(u32 se);
 extern void func_0204B3DC(u32, int);
 extern u32 func_021A8E80(Obj *p, u32 dir);
 extern int func_021A8E78(u32 a, u32 b);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 
 void func_021A8EEC(Obj *p)
 {

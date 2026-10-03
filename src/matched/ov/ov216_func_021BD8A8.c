@@ -28,9 +28,9 @@ extern struct TcblNode *sub_020311B8(struct Tcbl *, void (*)(struct TcblNode *, 
 extern void *sub_02031290(struct S02030FB4 *);
 extern void MI_CpuFill8(void *, int, int);
 extern void func_021BD948(struct TcblNode *, void *);
-extern void func_021B6548(void *, int, int);
+extern int func_021B6548(unsigned char *p, unsigned int id, int v);
 extern int func_02165AC4(struct Queue *, struct Rec *, u16 *, int);
-extern void func_021BD174(void *, void *, u16, u8);
+extern void func_021BD174(char *p, void *record, u16 unused, u8 slot);
 void func_021BD8A8(char *owner, int direction, int *counter)
 {
     char *work;

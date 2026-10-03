@@ -19,7 +19,9 @@ typedef struct {
 } Obj;
 
 extern unsigned short func_021BD090(Obj *p);
-extern void *func_02045B38(int a, int b, int c, int d);
+typedef unsigned int   u32;
+struct MsgBank;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 
 void func_021BCFF0(Obj *p)
 {

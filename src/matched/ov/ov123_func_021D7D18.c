@@ -29,7 +29,7 @@ extern void *func_0202A128(int);
 extern int func_02019D30(u16, u8);
 extern int func_02019C90(u16, int, int);
 extern int func_02019D58(u16, int);
-extern int func_020056EC(int);
+extern u32 func_020056EC(u32 range);
 extern int func_0202A19C(u32, void *, u16, u16, int);
 extern void *func_0200E0B0(void *);
 extern void func_0200E1A8(void *, u16, u16, u8, int, u8, u32);

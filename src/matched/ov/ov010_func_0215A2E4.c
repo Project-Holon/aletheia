@@ -22,8 +22,10 @@
 
 extern void *func_02030734(int, int, int, void *, int);
 extern int func_020120F4(int);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *);
+typedef unsigned int   u32;
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
 extern int func_020122C0(int, int, void (*)(void), int);
 extern int *func_020124E8(int);
 extern void func_0215A370(void);

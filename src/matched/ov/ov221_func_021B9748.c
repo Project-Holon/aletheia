@@ -31,7 +31,7 @@ extern void func_021B9AEC(char *);
 extern void func_021B9960(char *);
 extern void func_02030EAC(struct Node *);
 extern void func_0201C6EC(struct PrintSys *);
-extern void func_0201C4C0(void *);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_021B9F20(char *);
 struct S020315D4;

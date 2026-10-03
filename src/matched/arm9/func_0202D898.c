@@ -41,11 +41,12 @@ typedef unsigned int   u32;
 
 struct Args { u32 w0; u32 w1; u32 w2; u32 w3; u16 key; u16 pad; };
 
-extern u32   func_02027710(u32 x);
-extern u32   func_02027714(u32 x);
+typedef signed int     s32;
+extern int func_02027710(int a);
+extern int func_02027714(int a);
 extern u32   func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32   func_0204AF28(void *h, u32 p, u32 q, u16 key);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void  func_02049238(void *h);
 
 u32 func_0202D898(u32 a0, u32 a1, u32 a2, u32 a3, volatile struct Args args)

@@ -32,7 +32,7 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_021D56F0(void *p);
+extern void func_021D56F0(u8 *p);
 extern void func_02016028(u32 obj, u32 flag);
 extern void func_02015EA0(u32);
 extern void func_02015C48(u32, Vec *);

@@ -13,7 +13,8 @@
  *   func_020452E8 0x020452E8 arm
  */
 extern void func_02202940(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_021FC4E4(char *p)
 {
     int i;

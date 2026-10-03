@@ -39,12 +39,12 @@ extern u32 func_0201296C(u32);
 extern void func_0203FCA0(u32, const void *, u32);
 extern void func_02040588(u32, u32);
 extern void func_020414AC(u32);
-extern void func_0204152C(u32, u32);
+extern void func_0204152C(int channel, u16 val);
 extern void func_02043598(u32, u32);
 extern u32 func_021A836C(u32, u32, u32 *, u32, u32);
 extern u32 func_021A8B18(u32, u32, u32);
 extern void func_02024A20(u32, u32, u32, u32);
-extern void func_021A8AFC(u32, u32);
+extern void func_021A8AFC(int a, int b);
 
 void ov021_func_021A11A8(u32 *p, u32 x)
 {

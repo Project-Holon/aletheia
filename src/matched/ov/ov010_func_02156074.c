@@ -57,7 +57,7 @@ typedef struct Work {
 extern u32 func_021FD964(void *p, u32 i, u32 j);
 extern void *func_021F4F14(u32 heap);
 extern u32 func_021F5140(void *h, u16 id);
-extern void func_021F4F40(void *h);
+extern void func_021F4F40(void **p);
 extern u16 func_02157394(void *p, u8 v);
 
 void func_02156074(Work *w)

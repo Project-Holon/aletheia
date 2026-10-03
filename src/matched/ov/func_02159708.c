@@ -24,7 +24,8 @@ struct BigObj;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012B38(const struct BigObj *p);
-extern int func_02014460();
+struct Sub02014444Obj;
+extern u8 func_02014460(struct Sub02014444Obj *o);
 
 int func_02159708(int a0, int a1)
 {

@@ -21,15 +21,18 @@
  */
 typedef unsigned short u16;
 extern const char file[];
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned);
+typedef unsigned int   u32;
+struct Bmp;
+struct Obj020437AC;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern void func_02040E78(unsigned,void *,unsigned,unsigned);
-extern void *func_02043678(unsigned,unsigned,unsigned,unsigned);
-extern void func_02043AF4(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
-extern void *func_020437D4(const void *);
-extern unsigned func_020437EC(const void *);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern void func_02043AF4(struct Bmp *b, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_02040B1C(unsigned char,const void *,unsigned,unsigned);
-extern void func_020437AC(void *);
+extern void func_020437AC(struct Obj020437AC *p);
 void func_021BAAB8(u16 *p)
 {
     u16 *buffer;

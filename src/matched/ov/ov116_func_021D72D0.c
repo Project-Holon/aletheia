@@ -19,8 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void *func_0202E4EC(u32, u32, u32, u32, u32 *);
-extern void func_020120B4(void *, u32, void *, void *);
+struct IcaAnime;
+struct Param;
+extern struct Param *func_0202E4EC(u32 heap, u32 a1, u32 a2, u32 a3, u32 *src);
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 d_021D8574[], d_021DA62C[];
 extern u8 ov129_id[];
 void func_021D72D0(u8 *p, u32 heap)

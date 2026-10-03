@@ -16,9 +16,12 @@
  *   d_021EFA4C 0x021EFA4C data a4
  */
 extern void func_02027974(void *);
-extern int func_020279E8(void *);
-extern unsigned char func_02027A04(void *);
-extern void func_02027858(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void func_02027858(struct TaskMenu *m);
 extern void func_02036270(unsigned, unsigned);
 typedef struct { int (*a)(char *); int (*b)(char *); } Pair;
 extern const Pair d_021EFA4C[];

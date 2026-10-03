@@ -14,12 +14,14 @@
  *    */
 
 extern char g_020AA260[];
-extern void func_020754C4(int v);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u32 func_020754C4(u32 a);
 extern void func_020057DC(void *p);
-extern void func_02074518(int v);
+extern void *func_02074518(int index);
 extern void func_02074A54(int a, int b);
 extern void func_02006118(void);
-extern void func_02005888(int v);
+extern void func_02005888(u16 a);
 extern void func_02005F5C(void);
 void func_02005B74(int a0)
 {

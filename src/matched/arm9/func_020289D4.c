@@ -34,7 +34,7 @@ struct Sys {
     u32 unk20;
 };
 
-extern u32 func_02028DCC(struct Sys *s, u32 kind);
+extern u8 func_02028DCC(struct Sys *s, u32 target);
 
 u32 func_020289D4(struct Sys *s)
 {

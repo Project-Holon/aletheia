@@ -15,13 +15,16 @@
  *   func_0204B6E4 0x0204B6E4 arm
  */
 extern void func_0207D63C(volatile void *, int, int, int, int);
-extern void func_0204B688(void *, unsigned);
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 static inline void change_alpha(int a, int b)
 {
     *(volatile unsigned short *)0x04000052 = (unsigned short)(a | (b << 8));
 }
-extern unsigned func_0204B6E4(void *);
+extern u32 func_0204B6E4(const struct Actor *actor);
 int func_021BEDB8(char *p, unsigned *state, unsigned *q)
 {
     unsigned i;

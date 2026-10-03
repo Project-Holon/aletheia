@@ -33,17 +33,22 @@ typedef unsigned long u32;
 extern u32 func_021BE034(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE044(void *p);
-extern void func_0201C6EC(void *p);
-extern void func_0201F7A8(void *p, int v);
-extern void func_020456F8(void *p);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct PrintSys;
+struct U16Vec;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void func_020456F8(struct Descriptor *d);
 extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, u32 v);
-extern void func_02045334(void *p);
-extern void *func_02045EC0(void *p, u32 i);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *a, void *b, u32 c, u32 d, void *e, u32 f, u16 g);
-extern void func_02045808(void *p);
-extern void func_020452E8(void *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020452E8(struct Descriptor *d);
 
 void func_021BB65C(void *ctx, u8 *p, int k)
 {

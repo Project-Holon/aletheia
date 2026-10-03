@@ -15,8 +15,9 @@
  *   func_02027858  0x02027858  thumb
  */
 
+struct TaskMenu;
 void func_021B71FC(void *p)
 {
-    void func_02027858(void *p);
+    void func_02027858(struct TaskMenu *m);
     func_02027858(p);
 }

@@ -42,7 +42,7 @@ int *func_021B836C(u32 q, u32 k);
 int func_021B82FC(u32 q);
 int func_021B82F8(u32 q);
 int *func_021B830C(u32 q);
-int func_0207C768(int a, int b);
+u32 func_0207C768(u32 a, u32 b);
 void func_021BA7E0(u32 p, u16 ang, int r, V *pos);
 
 static inline int FX_MUL(int a, int b)

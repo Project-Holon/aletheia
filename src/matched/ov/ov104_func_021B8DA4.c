@@ -34,7 +34,8 @@ typedef struct {
 extern float _fflt(int);
 extern int _ffix(float);
 extern float _fadd(float, float), _fsub(float, float);
-extern void func_0204B3DC(void *, u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B6F4(void *, u8, u32);
 static inline int convert(int v)
 {

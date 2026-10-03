@@ -29,7 +29,8 @@ typedef struct {
     unsigned long f250;
 } Req;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void);
 extern Req *func_021BEC10(void *mutexInfo_p, void *handle_p);
 

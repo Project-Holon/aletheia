@@ -21,7 +21,8 @@ typedef struct Obj {
     void *f44;
 } Obj;
 
-void func_02048F4C(void *p, int a, int b);
+typedef unsigned int   u32;
+void func_02048F4C(void *dst, u32 archive_id, u32 member);
 
 void func_0216E29C(Obj *o, int v)
 {

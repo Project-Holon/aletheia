@@ -26,7 +26,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045770(u32 v);
 extern void func_02043B5C(u32 v, u32 k);
 extern void func_021F9218(u32 win, u32 bank, u32 idx, u8 *g);

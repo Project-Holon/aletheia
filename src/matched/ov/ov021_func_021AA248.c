@@ -55,20 +55,21 @@ struct Sel {
     u8 pad0C[0x20];
 };
 
-extern void *func_02188CB4(void *p);
+struct Pos;
+extern void *func_02188CB4(u8 *p);
 extern void *func_02012A38(void *p);
-extern void func_021AA728(void *p, void *q);
-extern u8 func_02193920(void *b);
+extern void func_021AA728(struct Pos *p, void *q);
+extern u8 func_02193920(u8 *p);
 extern int func_021AA42C(void *a, void *b);
 extern int func_021AA35C(void *ctx, int mode, u8 *out);
-extern u32 func_02188C6C(void *p);
+extern u32 func_02188C6C(u8 *p);
 extern u16 func_021A1BF4(u32 v);
 extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_021A9604(void *b, struct Sel *s, struct Slot14 *o);
-extern void *func_02013090(int a);
+extern void *func_02013090(u32 heap);
 extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
-extern void func_021AA6F8(void *p, void *q);
+extern void func_021AA6F8(struct Pos *p, void *q);
 extern int func_0216E7C8(int a0, void *a1, void *a2, int a3, int a4);
 
 int func_021AA248(struct Ctx *ctx, void *b)

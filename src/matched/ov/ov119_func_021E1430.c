@@ -14,9 +14,11 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201C7A4 0x0201C7A4 thumb
  */
+typedef unsigned int u32;
 extern void func_02045CAC(int,int,int);
-extern void func_0201EE84(int,int,void *);
-extern void func_0201EEF4(int,int,void *);
+struct WordSet;
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(int,int,int);
 extern void func_0201C7A4(void *,short,short,int,int);
-void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC(*(int *)(p+0x720),28,*(int *)(p+0x734));func_0201EE84(*(int *)(p+0x724),0,a);}else {func_02045CAC(*(int *)(p+0x720),29,*(int *)(p+0x734));func_0201EEF4(*(int *)(p+0x724),0,a);}func_0201F250(*(int *)(p+0x724),*(int *)(p+0x730),*(int *)(p+0x734));}else {func_02045CAC(*(int *)(p+0x720),105,*(int *)(p+0x730));}func_0201C7A4(b,x,y,*(int *)(p+0x730),*(int *)(p+0x728));}
+void func_021E1430(void *a,void *b,int x,int y,int flag,int mode,char *p) {if(!flag) {if(mode) {func_02045CAC(*(int *)(p+0x720),28,*(int *)(p+0x734));func_0201EE84(*(void **)(p+0x724),0,a);}else {func_02045CAC(*(int *)(p+0x720),29,*(int *)(p+0x734));func_0201EEF4(*(void **)(p+0x724),0,a);}func_0201F250(*(int *)(p+0x724),*(int *)(p+0x730),*(int *)(p+0x734));}else {func_02045CAC(*(int *)(p+0x720),105,*(int *)(p+0x730));}func_0201C7A4(b,x,y,*(int *)(p+0x730),*(int *)(p+0x728));}

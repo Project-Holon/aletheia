@@ -19,7 +19,7 @@
  *   func_020870D0  0x020870D0  arm
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern char *func_021763AC(int profileID);
 extern int func_0216FF2C(int cmd, int profileID, int ip, int port, void *data, int len);
 extern int func_021719A4(int result);

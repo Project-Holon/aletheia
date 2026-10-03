@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  func_0201EFA4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void *func_020457B0(u32 a0, u32 a1);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void  func_02045CAC(u32 a0, u32 a1, u32 a2);
 extern void  func_0201F250(u32 a0, void *a1, u32 a2);
 

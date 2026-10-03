@@ -24,7 +24,7 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u16 func_021F9DFC(void *);
 extern void func_021F9E00(void *, u16);
 extern void *func_021FADA0(char *, u32, u32, u32);
-extern void func_021FB0DC(void *, void *);
+extern void func_021FB0DC(void *unused, char *p);
 int func_021FB050(void *unused, char *ctx)
 {
     char *p;

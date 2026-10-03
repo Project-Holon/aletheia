@@ -18,7 +18,7 @@
 typedef struct BgTemplate {unsigned words[8];} BgTemplate;
 typedef struct Record {unsigned id;BgTemplate template;unsigned type,enable;} Record;
 extern const Record d_0220099C[];
-extern void func_0207D4B0(unsigned,unsigned,unsigned);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0203FCA0(unsigned char,const BgTemplate *,unsigned char);
 extern void func_020414AC(unsigned char);
 extern void func_02040588(unsigned char,unsigned char);

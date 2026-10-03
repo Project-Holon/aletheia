@@ -22,8 +22,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_020452E8(void *);
-extern void func_02045808(void *);
+struct Descriptor;
+struct U16Vec;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_020307B0(void *);
 
 void func_021D9A40(u8 *p)

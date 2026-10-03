@@ -16,7 +16,8 @@
  *   func_021B6248 0x021B6248 thumb ov179
  *   func_021B6220 0x021B6220 thumb ov179
  */
-extern int func_020221A4(void); extern int func_02005E50(void); extern void func_02005D28(void);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void); extern int func_02005E50(void); extern void func_02005D28(void);
 extern void func_021B6268(char *); extern void func_02049238(void *); extern void func_021B6248(char *); extern void func_021B6220(void);
 int func_021B6448(char *p) {
  if(func_020221A4()==0) return 1;

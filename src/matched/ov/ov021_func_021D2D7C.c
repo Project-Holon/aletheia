@@ -55,17 +55,19 @@ typedef struct Work {
     Vec *pos;
 } Work;
 
-extern void *func_020124E4(void *task);
-extern void *func_0201210C(void *p);
-extern Work *func_020124E8(void *task);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02188C58(void *o);
-extern void func_0218F0A8(void *h);
-extern int func_0218F0E8(void *h);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
 extern Vec *func_0218EC5C(void *h);
-extern void func_0218EC54(void *h);
-extern void func_0218ED04(void *h, const Vec *v);
+extern void func_0218EC54(u8 *p);
+extern void func_0218ED04(u8 *p, const struct Vec *v);
 extern void func_0218EC30(void *h, Vec *v);
-extern void func_0218F05C(void *h);
+extern void func_0218F05C(unsigned char *a);
 extern void func_0218EC90(void *h, Vec *v);
 extern const s16 d_020A1B38[];
 

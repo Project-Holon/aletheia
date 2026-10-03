@@ -14,7 +14,8 @@
 
 typedef unsigned int u32;
 extern u32 func_020362DC(void);
-extern void func_020355D8(int);
+typedef unsigned char  u8;
+extern void func_020355D8(u8 v);
 static inline int poll(void)
 {
     int v=func_020362DC();

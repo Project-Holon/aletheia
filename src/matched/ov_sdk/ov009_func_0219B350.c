@@ -76,7 +76,7 @@ typedef struct qr2_implementation_s {
 
 
 extern unsigned int func_0217F264(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0219CE58(qr2_implementation_s *qrec, int statechanged);
 extern void func_0219CDBC(qr2_implementation_s *qrec);
 extern char g_021A7564[];

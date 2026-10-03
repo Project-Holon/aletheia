@@ -85,11 +85,15 @@ typedef struct {
 extern const char g3d_util_file[];
 extern void *func_02030734(u16 heapID, u32 size, int clear, const char *file, int line);
 extern void  func_020307B0(void *p);
-extern int   func_02046F50(void *res, int type);
-extern void  func_02046FF8(void *res);
-extern int   func_02047348(void *res);
-extern void *func_02047400(void *mdl, u16 mdlIdx, void *tex);
-extern void *func_02047564(void *rnd, void *res, u16 datIdx);
+struct G3dOwner;
+struct G3dRec;
+struct Layer;
+struct Tagged;
+extern u32 func_02046F50(struct Tagged *p, u32 sel);
+extern int func_02046FF8(int *self);
+extern int func_02047348(struct Layer *layer);
+extern void *func_02047400(void *a0, u32 n, void *a2);
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(void *rnd, void **anm, u16 anmCount);
 
 static inline void *getRes(Util *util, u16 resIdx, u16 idx)

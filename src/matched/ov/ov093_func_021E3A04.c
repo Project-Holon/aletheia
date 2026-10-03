@@ -23,7 +23,8 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int);
 extern void *func_021C7CF4(void *a, u8 b);
-extern int func_021D5BDC(void *x, int n);
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
 extern void func_021D7704(int a, int b);
 extern int d_021F27FC[];
 

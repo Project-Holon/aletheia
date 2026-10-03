@@ -21,7 +21,7 @@ typedef struct { void *f0; void *f4; u16 count; u8 a,b; } Obj;
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void *func_021C3EE0(void *, void *, u32, u32);
 extern void func_021C3FDC(void *, void *, int, int, u32);
-extern void func_021C40A0(void *, int, int, int);
+extern void func_021C40A0(u8 *p, int a, int b, int c);
 extern const char d_021C6130[];
 Obj *func_021C5590(void *p, void *q, u32 n, void *r, int s, u32 b, u32 heap)
 {

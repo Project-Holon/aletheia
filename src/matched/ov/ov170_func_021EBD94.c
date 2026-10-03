@@ -18,10 +18,10 @@
  *   func_02043598 0x02043598 arm
  */
 extern void func_021EBDF4(void *);
-extern void func_021EBE24(void *);
+extern void func_021EBE24(char *p);
 extern void func_021EBEAC(unsigned char *);
 extern void func_021EE038(char *, int, int, int);
-extern void func_021EE120(void *);
+extern void func_021EE120(char *p);
 extern void func_020434DC(unsigned, unsigned);
 extern void func_02043598(unsigned, unsigned);
 void func_021EBD94(unsigned char *p)

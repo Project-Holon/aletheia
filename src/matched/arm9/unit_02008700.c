@@ -72,10 +72,12 @@ extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 /* The three sub-object constructors, each in a file of its own. */
 extern void sub_02008320(void *p);
 extern void sub_020084A0(void *p);
-extern void sub_020085A0(void *p);
+struct PlayTime;
+struct Sub020071CCCtrl;
+extern void sub_020085A0(struct PlayTime *p);
 
 /* Save-block lookup: returns the block with the given id. */
-extern void *sub_020071CC(void *sys, u32 id);
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x1B
 

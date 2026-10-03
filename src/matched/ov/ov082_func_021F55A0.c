@@ -21,10 +21,14 @@
 
 typedef unsigned int u32;
 
-extern void *func_020124E4(void *a);
-extern void *func_0201210C(void *p);
-extern u32 *func_02189A60(void *a);
-extern void func_0204E720(int a, int b, int c, int d);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern u8 *func_02189A60(u8 *p);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int  func_0204E804(void);
 extern void func_02030EAC(int a);
 extern void func_021F5648(void *a, void *p);

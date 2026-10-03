@@ -15,10 +15,11 @@
  *   func_021FD860 0x021FD860 thumb ov186
  *   func_021E03B0 0x021E03B0 thumb ov183
  */
-extern void func_021FCD0C(void *);
-extern int func_021FCDA8(void *);
-extern int func_02035D20(unsigned int *, unsigned int *);
-extern int func_021FB4B4(int, unsigned int, unsigned int);
+typedef unsigned int   u32;
+extern void func_021FCD0C(char *p);
+extern int func_021FCDA8(char *p);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern int func_021FB4B4(int obj, int x, int y);
 extern void func_021FD860(int, int, int *);
 extern void func_021E03B0(char *, char *, int);
 int func_021DFFB0(char *p, char *q)

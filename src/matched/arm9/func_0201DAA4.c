@@ -42,11 +42,13 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0201DBF4(void);
-extern void func_0201DE40(void);
-extern void func_0201E538(void);
-extern void func_0201E738(void);
-extern void func_0201E928(void);
+typedef unsigned char  u8;
+struct Font;
+extern void func_0201DBF4(const struct Font *f, u32 i, void *d, u8 *out);
+extern void func_0201DE40(const u8 *src, u32 n, u16 *dst);
+extern void func_0201E538(const u8 *src, u32 n, u16 *dst);
+extern void func_0201E738(const u8 *src, u32 n, u16 *dst);
+extern void func_0201E928(const u8 *src, u32 n, u16 *dst);
 
 void func_0201DAA4(char *p, int a, int b)
 {

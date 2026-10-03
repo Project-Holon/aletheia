@@ -20,7 +20,7 @@
 typedef unsigned int u32;
 
 extern u32 g_021E4D08[];
-extern int func_021DFC8C(u32 *, u32, u32, u32, void **);
+extern int func_021DFC8C(u32 *p, int a1, int a2, int a3, void **out);
 extern int func_021DF644(int, int);
 extern void func_02059F54(int, int);
 

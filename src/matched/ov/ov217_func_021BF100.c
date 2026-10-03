@@ -20,7 +20,8 @@
  */
 
 extern unsigned char d_021C3628[];
-extern void func_021C0F5C(int, int);
+typedef unsigned int   u32;
+extern u32 func_021C0F5C(u32 a0, u32 a1);
 
 void func_021BF100(char *p)
 {

@@ -20,11 +20,11 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 struct Fl { u8 f : 1; };
-extern u32 func_021C6190(u8 *p, u8 *a);
-extern void func_021BD0C0(u8 *p, u32 v, u32 k);
+extern int func_021C6190(u8 *p, u8 *a);
+extern int func_021BD0C0(u8 *p, u8 x, u32 y);
 extern u8 func_021D5440(u8 *p);
-extern int func_021D5B68(u8 *p);
-extern void func_021BDD7C(u8 *p, u8 *a, int c);
+extern int func_021D5B68(void *p);
+extern void func_021BDD7C(u8 *p, u8 *a, u32 c);
 
 int func_021BDD00(u8 *p, u8 *a, int c)
 {

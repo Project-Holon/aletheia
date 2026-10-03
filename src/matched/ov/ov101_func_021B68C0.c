@@ -15,7 +15,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u16 func_02039338(void);
 void func_021B68C0(u32 a,int b,int c,u8 *d,void *e) {
  if(e==func_020399A8()) { if(a!=func_02039338()) *(u32 *)(d+32)=1; }

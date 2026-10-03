@@ -52,7 +52,7 @@ struct Mode {
 };
 
 extern void *g_021469D0;
-extern struct Owner *func_0203D788(void);
+extern void *func_0203D788(void);
 extern struct Mode *func_0203D798(void);
 
 u16 sub_02039338(void)

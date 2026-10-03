@@ -25,7 +25,8 @@ extern int func_02012B38(int a);
 extern int func_02012B58(int a);
 extern int func_0215841C(int a);
 extern int func_0201444C(int a);
-extern int func_02013D5C(int a);
+typedef unsigned int   u32;
+extern u32 func_02013D5C(u32 id);
 
 int func_021BCB48(int *p, int b)
 {

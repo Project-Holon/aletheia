@@ -20,7 +20,8 @@ struct Ov208Mgr {
     u32 count;
 };
 
-extern void func_021BD7FC(void *rec, int v);
+struct Obj;
+extern void func_021BD7FC(struct Obj **p, unsigned int v);
 
 void ov208_func_021BD330(struct Ov208Mgr *p, int v)
 {

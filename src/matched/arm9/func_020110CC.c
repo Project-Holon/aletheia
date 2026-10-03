@@ -41,11 +41,12 @@ extern u8 g_02146208[];
 extern u8 g_02146228[];
 extern u32   func_0201AB08(void *box);
 extern void *func_0201AB28(void *box, u32 idx);
-extern u32   func_02017D30(void *p);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
 extern u32   func_02017E1C(void *p, int field, int arg);
 extern u32   func_0201C158(u16 move, u8 ppUps);
 extern void  func_02017E40(void *p, int field, u32 v);
-extern void  func_02017D70(void *p, u32 h);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void  func_02010F50(int idx);
 
 u32 func_020110CC(void *box)

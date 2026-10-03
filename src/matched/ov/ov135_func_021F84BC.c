@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern const int tbl_0220307C[];
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021F84BC(u32 i, int *start, int *end)
 {

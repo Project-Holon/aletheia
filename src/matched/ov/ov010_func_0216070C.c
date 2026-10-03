@@ -27,12 +27,15 @@ typedef struct Work {
     void *f04;
 } Work;
 
-extern void *func_020120F4(void *p);
-extern void *func_02012934(void *p);
+struct BigObj;
+struct Ctx;
+struct Hdr;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *pp, u32 id, u32 v);
-extern u32 func_0201897C(void *pp);
+extern u32 func_0201897C(struct Hdr *p);
 
 int func_0216070C(Work *w)
 {

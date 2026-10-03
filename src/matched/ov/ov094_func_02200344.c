@@ -37,7 +37,7 @@ typedef struct {
 } Obj;
 
 extern const char d_0220AE7C[];
-extern Obj *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_02201408(void *h);

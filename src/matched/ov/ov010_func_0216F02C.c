@@ -14,5 +14,6 @@
  */
 
 extern void func_02082A7C(int,void *,int);
-extern void *func_020120F4(void *);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 void func_0216F02C(void **p,void *a,void *b) { int zero=0; func_02082A7C(0,p,40); p[0]=a; p[1]=func_020120F4(a); p[2]=b; p[5]=(void *)zero; p[6]=(void *)zero; p[7]=(void *)zero; }

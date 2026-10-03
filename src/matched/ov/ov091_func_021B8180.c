@@ -33,18 +33,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020409B4(int a);
+extern void func_020409B4(u32 index);
 extern u32 func_02017E1C(void *obj, u32 key, u32 off);
 extern u32 func_0202136C(u16 v);
 extern int func_021BB468(u8 *p, u32 obj);
 extern void func_021BB714(u8 *p, u32 obj, u32 k);
 extern void func_021BB7E8(u8 *p, u32 obj, u32 x);
 extern void func_021BB97C(u8 *p, u32 obj);
-extern void func_021BB98C(u8 *p, u32 obj);
+extern void func_021BB98C(void *p, u32 s);
 extern void func_021BB99C(u8 *p, u32 obj, u32 a, u32 b);
 extern int func_021BC228(u8 *p, int v);
 extern void func_021BBAF8(u8 *p, u32 obj, int *buf);
-extern u32 func_021F6744(void *mon);
+extern int func_021F6744(void *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 

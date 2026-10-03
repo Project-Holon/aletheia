@@ -60,9 +60,9 @@ typedef struct {
 } Work;
 
 extern char d_0220AE7C[];
-extern void *func_02030734(u32 heap, u32 size, u32 flag, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02014B08(u32 id, u32 heap);
-extern void func_020163B0(void *o, int v);
+extern void func_020163B0(char *p, int v);
 extern void func_020163B4(void *o, int v);
 
 Work *func_021FEAC0(int mode, int a1, u16 a2)

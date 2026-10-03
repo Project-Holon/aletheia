@@ -25,7 +25,7 @@
 
 typedef unsigned int u32;
 
-extern char *func_0203D788(void);
+extern void *func_0203D788(void);
 
 u32 func_0203778C(u32 p)
 {

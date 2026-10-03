@@ -21,13 +21,14 @@
  */
 typedef unsigned char u8;
 extern int func_02157170(int,int);
-extern int func_0200FB24(void);
-extern void func_0203CA98(void);
-extern int func_021D7158(void *);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
+extern u32 func_0203CA98(void);
+extern int func_021D7158(u8 *p);
 extern int func_021D7200(void *);
 extern int func_021D7184(void *);
-extern void func_021D81B4(void *);
-extern void func_021D8010(void *,int);
+extern void func_021D81B4(u8 *p);
+extern void func_021D8010(void *p, u32 a);
 extern int func_021D80CC(void *);
 int func_021D7B00(u8 *p) {
     int yes=1;

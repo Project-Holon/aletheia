@@ -37,7 +37,7 @@ typedef unsigned int  u32;
 
 extern void func_02023B74(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02023BFC(u32 a0, u32 a1, u32 a2);
-extern void func_02023C3C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
+extern void func_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
 extern void func_02023D18(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_02023D40(u32 a0, u32 a1, u32 a2, u32 a3);
 extern void func_02023D60(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,

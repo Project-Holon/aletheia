@@ -39,7 +39,8 @@ typedef struct {
     int state;
 } Work;
 
-extern void func_0204B3DC(void *o, int v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021C80E8(Work *p, int row, int v)
 {

@@ -13,7 +13,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204B6F4(void *, u32, u32);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_0217F0C4(u8 *p)
 {
     int i;

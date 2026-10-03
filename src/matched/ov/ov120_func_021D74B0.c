@@ -25,8 +25,9 @@ extern const Table d_021D8AB0;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049990(void *,u32,u32,u32,u16,u32,u32,u16);
 extern void func_02049238(void *);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B908(void *,u32);
 extern void func_02041B6C(u32);
 void func_021D74B0(u8 *p,int n)

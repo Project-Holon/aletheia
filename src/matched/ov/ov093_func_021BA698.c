@@ -15,7 +15,7 @@
 
 typedef unsigned char u8;
 extern u8 func_021BA710(int, int);
-extern u8 func_021B997C(u8 *, int);
+extern int func_021B997C(u8 *p, unsigned int i);
 void func_021BA698(u8 *p, int k)
 {
  int i;

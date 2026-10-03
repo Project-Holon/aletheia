@@ -30,9 +30,9 @@ extern u32 *func_02158F58(void *);
 extern u32 func_02011330(u32);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A2F48(void *, u32);
-extern int func_021A2F54(void *);
+extern int func_021A2F54(u8 *p);
 extern void func_020113D0(u32, int (*)());
-extern int func_021B1CFC();
+extern int func_021B1CFC(u32 a, u32 b, u32 c, u32 d);
 
 int func_021B1D20(u32 a, u32 b)
 {

@@ -20,7 +20,7 @@ typedef struct {
     u16 h42;
 } Obj;
 
-extern void func_021BCB9C(Obj *p, int b);
+extern void func_021BCB9C(void *p, int keep);
 
 void func_021BCD70(Obj *p)
 {

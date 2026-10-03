@@ -24,9 +24,10 @@
 
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 a, void *b, u32 c);
+typedef signed int     s32;
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
-extern int  func_0207DEA4(void *p);
+extern int func_0207DEA4(s32 *in);
 
 int func_02047C04(void *obj)
 {

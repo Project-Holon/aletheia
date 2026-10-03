@@ -24,7 +24,7 @@ extern void func_021C1D30(u8 *w);
 extern u8 *func_021C1D40(u8 *w);
 extern u8 *func_021C1D50(u8 *w);
 extern int func_021D62A8(u8 *t);
-extern int func_021D6D7C(u8 *t);
+extern u32 func_021D6D7C(u8 *p);
 extern void func_021C557C(u8 *p, u8 *a, int k, int flag);
 
 void func_021C1CE4(u8 *p, u8 *q, u32 unused, u8 *w)

@@ -37,9 +37,11 @@ extern const struct Ent d_021BD5EC[];
 
 extern void func_021BB798(char *p, u32 i, u32 arg);
 extern void func_021BB5E0(char *p, u32 idx, s16 y);
-extern void func_021BB810(char *p, u32 i, int y, int a3);
-extern u8 func_0200C308(void *, unsigned);
-extern void func_0204B3DC(void *, int);
+struct Blk34;
+struct Obj;
+extern void func_021BB810(void *p, int row, int y, int pal);
+extern u8 func_0200C308(struct Blk34 *p, u32 i);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021BB608(char *p)
 {

@@ -15,12 +15,15 @@
  *   func_0204AFD8 0x0204AFD8 arm
  *   func_0204B1CC 0x0204B1CC arm
  */
-extern void func_0204B3B4(void *);
-extern void func_0220AFC4(void *);
+typedef unsigned char  u8;
+struct Bank;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0220AFC4(u8 *p);
 extern void func_0204A8D4(void *);
 extern void func_0204ADA4(void *);
 extern void func_0204AFD8(void *);
-extern void func_0204B1CC(void *);
+extern void func_0204B1CC(struct Bank *bank);
 void func_0220E74C(char *p)
 {
     unsigned i;

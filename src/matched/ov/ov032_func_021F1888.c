@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Rec Rec;
 extern void func_02165FCC(Rec *r, void *win, u32 heap);
-extern int func_021F0DC0(Rec *r);
+extern int func_021F0DC0(void *p);
 extern void func_021F0A98(char *p, u8 b);
 extern void func_021F18E0(char *p, u32 a, int *c);
 void func_021F1888(char *p, Rec *r)

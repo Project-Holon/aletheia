@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021BD0F8(void *,int,int);
+extern void func_021BD0F8(u8 *p, int i, int flag);
 void func_021BCF18(void *p,int mode) { switch(mode) { case 0: func_021BD0F8(p,0,1); break; case 1: func_021BD0F8(p,6,1); break; } }

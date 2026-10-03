@@ -72,10 +72,10 @@ extern u16 func_02188C9C(unsigned char *);
 extern u16 func_0216D598(void *);
 extern int func_0216D83C(void *);
 extern int func_0216D86C(void *);
-extern int func_0216D8AC(void *);
+extern u32 func_0216D8AC(void *p);
 extern void func_0216E618(Tmpl *, u16, u16, int);
 extern void *func_0216CE60(int, Tmpl *, int);
-extern void func_0217BCDC(void *, void *, int, u8, u8);
+extern void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag);
 extern void func_0216DAC8(unsigned int *, unsigned int);
 
 void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,

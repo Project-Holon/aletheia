@@ -21,7 +21,7 @@ typedef struct {
     int length;
 } GTI2Buffer;
 
-extern void func_02092364(void *dst, const void *src, int n);
+extern void *func_02092364(void *dest, const void *src, unsigned int n);
 
 void func_02194E80(GTI2Buffer *buffer, int start, int shortenBy)
 {

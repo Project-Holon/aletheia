@@ -22,7 +22,8 @@ typedef unsigned long  u32;
 
 extern int func_021BA928(char *p, int v);
 extern void func_021BBE7C(char *p);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern void func_021BBD0C(char *p, void *a, int b);
 
 int func_021BD15C(char *p, int v)

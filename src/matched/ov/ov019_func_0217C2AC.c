@@ -62,23 +62,26 @@ typedef struct {
 } Ctx;
 
 int func_0217BB04(Ctx *ctx);
-int func_0217EC1C(int a);
-int func_0217EC88(int a);
-int func_0217EC28(int a);
-int func_0217ECA0(int a);
-int func_0217ECAC(int a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct BigObj;
+u16 func_0217EC1C(int i);
+u16 func_0217EC88(int i);
+u16 func_0217EC28(int i);
+u16 func_0217ECA0(int i);
+u16 func_0217ECAC(int i);
 int func_0217ECB8(Ctx *ctx);
 void func_0217F210(Ctx *ctx, int a, int msg);
 int func_0217F1EC(Ctx *ctx);
 void func_0217F360(Ctx *ctx, int a);
-void func_0217F378(Ctx *ctx);
-int func_0217F380(Ctx *ctx, int a);
+void func_0217F378(void *p);
+int func_0217F380(void *ctx, int a);
 int func_0217B8E4(Ctx *ctx, int v);
-void *func_02012934(void *p);
+void *func_02012934(const struct BigObj *p);
 void func_020120F4(int a);
 int func_0201AA1C(void *a);
 int func_0201AAD4(void *a);
-int func_0201AA88(void *a);
+u32 func_0201AA88(void *p);
 
 int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
 {

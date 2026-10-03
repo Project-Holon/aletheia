@@ -18,7 +18,8 @@
 
 typedef unsigned int u32;
 
-extern void func_02045CAC(void *, int, void *);
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021D56FC(char *, int);
 
 void func_021D57B8(char *p, int a)

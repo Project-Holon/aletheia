@@ -20,15 +20,19 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_02041570(u32,u32);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u32 func_02045730(void *);
+typedef unsigned short u16;
+struct Cfg;
+struct Descriptor;
+struct Obj;
+extern void func_02041570(int channel, u16 val);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
-extern void func_02040AE0(u32,void *,u32);
+extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern void func_02041B6C(u32);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
-extern void func_0204B3DC(void *,int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D9E44(u8 *a,u8 *p)
 {
     u8 i;

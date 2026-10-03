@@ -9,8 +9,9 @@
  * status: EXACT*
  */
 typedef struct { void *pad0; void *res[8]; } Work;
-extern void func_020456F8(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 void func_021E7B44(Work *p)
 {
     int i;

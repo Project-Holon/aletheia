@@ -79,7 +79,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void func_02040618(int a, int b, int v);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204A648(void);
 extern void func_020419E4(void);
 

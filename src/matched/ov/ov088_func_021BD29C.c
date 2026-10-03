@@ -14,7 +14,8 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern void func_020351F8(void *, void *);
+typedef unsigned int   u32;
+extern void func_020351F8(u32 a, u32 b);
 extern void func_020307B0(void *);
 
 void func_021BD29C(void *p)

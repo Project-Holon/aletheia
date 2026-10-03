@@ -42,8 +42,8 @@ typedef struct C {
     T14 t;
 } C;
 
-extern int func_0203D1C0(int a);
-extern void func_02173614(u8 *a, u8 *b);
+extern u32 func_0203D1C0(u32 index);
+extern void func_02173614(u8 *self, const u8 *mac);
 
 void func_02183EE0(S *s, C *c)
 {

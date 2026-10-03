@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef int s32;
 
 extern void func_021D8E84(void *p, int next);
-extern void func_021E3004(void *w);
+extern void func_021E3004(char *p);
 extern void func_021D7118(u8 *p);
 
 void func_021D7100(u8 *p)

@@ -17,12 +17,15 @@
  *   func_021D8AF4 0x021D8AF4 thumb ov129
  */
 
-extern void *func_020457B0(int,int);
-extern unsigned func_021DA158(int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern int func_021DA158(int x, int flag);
 extern void func_0204B878(int,unsigned short);
-extern void func_0201F35C(void *,int,int,int,int);
+extern void func_0201F35C(void *ctx, s32 n, u32 kind, u32 mode, u32 flag);
 extern void func_02045AA8(int,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021D8AF4(char *,int);
 void func_021D9348(char *p)  {
     int i;

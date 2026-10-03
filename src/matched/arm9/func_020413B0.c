@@ -64,8 +64,8 @@ struct Slot {
 
 extern struct Slot *g_02146A44;
 
-extern void func_020422D4(u8 size_code, u8 *width, u8 *height);
-extern u32 func_02040EE0(u8 x, u8 y, u8 size_code);
+extern void func_020422D4(u32 mode, u8 *a, u8 *b);
+extern u16 func_02040EE0(int x, int y, u32 code);
 
 void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal)
 {

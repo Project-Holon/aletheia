@@ -37,7 +37,7 @@ typedef struct O {
 
 extern char d_021DDA50[];
 
-extern O *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_0219319C(Fx *a, O *o);
 extern u32 func_020457B0(u32 n, u32 heap);
 extern void func_02045CAC(u32 a, u32 b, u32 c);

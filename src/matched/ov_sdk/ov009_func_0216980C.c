@@ -49,7 +49,8 @@ typedef struct BuddyStatus {
 
 extern int func_0216AA70(void);
 extern void *func_0216A39C(void);
-extern int func_020598EC(void *userdata, void *friendData);
+struct DWCstAccUserData;
+extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 extern int func_02186108(void **connection, int profile, int *index);
 extern int func_02185FD4(void **connection, int index, BuddyStatus *status);
 

@@ -27,10 +27,11 @@ typedef unsigned int u32;
 
 extern const char sub_020490F4_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
-extern void func_02048DDC(void *rec, u32 id);
-extern void func_0204919C(void *rec);
+typedef unsigned char  u8;
+struct ArcFile;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02048DDC(struct ArcFile *arc, u32 id);
+extern void func_0204919C(u8 *p);
 
 void *sub_020490F4(u32 id, u16 heap)
 {

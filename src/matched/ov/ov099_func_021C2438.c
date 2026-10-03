@@ -11,7 +11,8 @@
  *   func_02005F24 0x02005F24 thumb
  */
 typedef unsigned char u8;
-extern void func_02005F24(int, int);
+typedef unsigned int   u32;
+extern void func_02005F24(u32 a0, u32 a1);
 int func_021C2438(char *p)
 {
     int remaining;

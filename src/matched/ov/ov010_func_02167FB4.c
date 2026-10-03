@@ -53,15 +53,18 @@ typedef struct SeqWork {
 } SeqWork;
 
 extern void *func_021BE8D4(u32 heap, void *arg, u32 a, u32 b);
-extern void func_02012374(void *evt, void *task);
+struct Evt;
+struct Party;
+struct PartyMon;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020144DC(u32 heap, void *arg);
 extern void *func_02014910(u32 heap, void *arg, void *a, void *b);
 extern void *func_020145CC(u32 heap);
 extern void *func_021BE92C(u32 heap, void *arg, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern int func_0201AA14(void *party);
-extern void *func_0201AB28(void *party, int i);
-extern u32 func_0201A98C(void *party, void *mon);
+extern u32 func_0201AA14(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 
 int func_02167FB4(void *evt, u32 *seq, SeqWork *w)
 {

@@ -18,6 +18,6 @@
  */
 extern int func_021D775C(int);
 struct UtilWork;
-extern struct UtilWork *func_021C7CF4(int *,int);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5BB0(struct UtilWork *,unsigned int);
 void func_021DAD58(int a, int *b, int c, int *d) { if (c == func_021D775C(2)) { if (func_021D5BB0(func_021C7CF4(b,c),0)) *d = 1; } }

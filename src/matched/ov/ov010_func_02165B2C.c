@@ -14,6 +14,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 *func_02030734(u32,u32,int,const char *,u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021729D4[];
 u8 *func_02165B2C(u32 heap) { u8 *p=func_02030734(heap,0xb08,1,d_021729D4,0x1c1); p[0xb04]=0; p[0xb05]=0; return p; }

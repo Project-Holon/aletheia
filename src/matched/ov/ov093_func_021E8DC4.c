@@ -22,7 +22,8 @@ extern char ov094_id[], ov095_id[], ov096_id[];
 extern void func_021E8E38(unsigned short heap);
 extern void func_02034AC4(void *id);
 extern void func_0208068C(unsigned int v);
-extern int func_0203D29C(void);
+typedef unsigned int   u32;
+extern u32 func_0203D29C(void);
 
 void func_021E8DC4(unsigned short heap)
 {

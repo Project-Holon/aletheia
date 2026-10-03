@@ -16,7 +16,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef short s16;
 struct Util;
-extern void func_02046440(u32,u32,u32,u32,u16,s16,void (*)(void));
+extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize, u16 fifoSize, s16 heap, void (*setup)(void));
 extern struct Util *func_02047CFC(u16,u16,u16);
 extern void func_021B65FC(void);
 void func_021B66A0(char *p) {func_02046440(0,1,0,1,4096,141,func_021B65FC);*(struct Util **)(p+16)=func_02047CFC(32,32,141);}

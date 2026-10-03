@@ -13,9 +13,13 @@
  */
 struct O;
 extern int func_02167080(void *, int *, struct O *);
-extern void *func_020122C0(void *, void *, void *, unsigned int);
-extern void *func_020124E8(void *);
-extern void func_0216711C(void *, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_0216711C(u8 *p, void *sys);
 void *func_021670F8(void *p) {
     void *task;
     task = func_020122C0(p, 0, func_02167080, 32);

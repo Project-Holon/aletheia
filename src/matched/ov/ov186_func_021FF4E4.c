@@ -18,8 +18,9 @@
  */
 extern void func_02156DE0(int, int);
 extern void func_021FFB50(void *);
-extern void func_0200D5C8(void *);
-extern void func_021D6770(void *);
+struct GdsProfile;
+extern void func_0200D5C8(struct GdsProfile *p);
+extern void func_021D6770(char *p);
 extern void func_020307B0(void *);
 extern void func_02034A5C(int);
 extern char ov125_id[];

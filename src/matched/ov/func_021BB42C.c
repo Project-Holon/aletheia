@@ -25,7 +25,8 @@ typedef unsigned long  u32;
 typedef signed short   s16;
 typedef int BOOL;
 
-extern void sub_0204B3B4(void *p);
+struct Obj;
+extern void sub_0204B3B4(struct Obj *p);
 extern void sub_0204A8D4(void *p);
 extern void sub_0204ADA4(void *p);
 extern void sub_0204AFD8(void *p);

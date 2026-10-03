@@ -19,11 +19,14 @@
 
 typedef unsigned short u16;
 
-void *func_020122C0(void *p, int a, void *cb, int n);
-void *func_020124E8(void *p);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
 void func_0217545C(int x);
-int func_0217FCAC(void);
+int func_0217FCAC(int x, int *st, int *obj);
 
 void *func_0217FC6C(void *p, int a, int b, int c, int d, u16 e)
 {

@@ -67,7 +67,7 @@
 typedef unsigned int u32;
 
 extern char g_021468A4[];
-extern void func_02022478(void);
+extern void func_02022478(int a0, int *p);
 extern void func_020225F0(void);
 extern int func_02005624(int fn, void *ctx, int arg);
 

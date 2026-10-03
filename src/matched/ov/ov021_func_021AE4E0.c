@@ -29,7 +29,8 @@ typedef struct Task {
 
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D454(void *a0);
-extern int func_0216D5A0(void *x);
+typedef unsigned short u16;
+extern u16 func_0216D5A0(void *p);
 
 int func_021AE4E0(Task *p)
 {

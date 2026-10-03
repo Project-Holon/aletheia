@@ -13,7 +13,7 @@
  *   func_0203D788   0x0203D788  arm
  */
 
-extern int func_0203D788(void);
+extern void *func_0203D788(void);
 
 int func_0203CDBC(void)
 {

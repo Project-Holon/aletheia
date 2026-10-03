@@ -36,7 +36,7 @@ struct Singleton {
     struct Table  *unk_340;
 };
 
-extern struct Singleton *func_0203D788(void);
+extern void *func_0203D788(void);
 
 int func_0203CD98(void)
 {

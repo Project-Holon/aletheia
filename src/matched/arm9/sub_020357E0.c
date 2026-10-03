@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 extern const char str_020A798C[];
 extern void *g_021469C4;
 
-extern void *func_02030734(u32 a, u32 b, u32 c, const char *d, u32 e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  TP_Init(void);
 extern int   TP_GetUserInfo(u16 *info);

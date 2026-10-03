@@ -14,7 +14,10 @@
  */
 
 extern void *func_021BE4C4(int a, int b, int c);
-extern void func_0204784C(void *a, int b, int *c);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 
 void func_021BE6CC(int a, int b, int c, int d, int e)
 {

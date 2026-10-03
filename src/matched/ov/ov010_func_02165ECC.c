@@ -31,8 +31,10 @@ typedef unsigned int u32;
 typedef signed char s8;
 typedef short s16;
 
-extern void func_0204581C(void *buf);
-extern void func_02045994(void *buf, const u16 *src, u32 n);
+struct Strbuf;
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
 typedef struct Rec {
     u8 pad00[0x30];

@@ -21,8 +21,10 @@ typedef unsigned int u32;
 
 typedef struct { void *s; u16 h; int z; } Item;
 
-extern void *func_02045EC0(void *, u32);
-extern void func_02045808(void *);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_02027778(void *, void *);
 
 void *func_021B7194(int *p, void *arg1, u32 heap)

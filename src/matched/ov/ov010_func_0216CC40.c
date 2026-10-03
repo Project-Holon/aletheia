@@ -15,8 +15,11 @@
  *   func_02012EC4 0x02012EC4 thumb
  *   func_0200B3A4 0x0200B3A4 thumb
  */
-extern void *func_020120F4(const void *);
-extern void *func_02012EC4(void *);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *, int);
 void func_0216CC40(void *a) {
     *func_0200B3A4(func_02012EC4(func_020120F4(a)),0x34)=1;

@@ -16,10 +16,10 @@
  *   func_021F8F88 0x021F8F88 thumb ov185
  *   func_021FD860 0x021FD860 thumb ov186
  */
-extern int func_021FE784(int,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int *);
 extern void func_021FD73C(int *,int);
-extern void func_021F8790(void);
+extern void func_021F8790(int *task, unsigned *state, char *p);
 extern void func_021F8F58(char *,int *);
 extern void func_021F8F88(char *,int *);
 extern void func_021FD860(void *,int,int *);

@@ -21,8 +21,10 @@ typedef unsigned int u32;
 typedef struct { u8 pad[6]; u8 flag; u8 tail; } Packet;
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
-extern u32 func_020399A8(void);
-extern void func_0203D3A8(u32 a, u32 b, u32 c, u32 d);
+typedef unsigned short u16;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 void func_02173A90(void)
 {
     Packet p;

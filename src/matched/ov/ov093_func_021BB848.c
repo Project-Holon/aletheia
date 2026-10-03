@@ -13,5 +13,6 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021B9B94(void *);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
 void func_021BB848(u8 *p, void *q, int v) { *(void **)(p+4) = q; p[8] = func_021B9B94(q); p[9] = v; }

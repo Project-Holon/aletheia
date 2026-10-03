@@ -12,7 +12,8 @@
  *   func_021C8288 0x021C8288 thumb ov093
  *   func_021DB374 0x021DB374 thumb ov093
  */
-extern int func_021C8288(void *);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern void func_021DB374(void *,int,unsigned int);
 
 void func_021DB298(int a, void *b, int c, int *d)

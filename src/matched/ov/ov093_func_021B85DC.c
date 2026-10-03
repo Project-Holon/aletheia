@@ -10,5 +10,6 @@
  * symbols:
  *   func_02013080 0x02013080 thumb
  */
-extern int func_02013080(unsigned int);
+typedef unsigned int   u32;
+extern signed char func_02013080(u32 idx);
 int func_021B85DC(unsigned char *p) { return func_02013080(*(unsigned int *)(p+0x43c)); }

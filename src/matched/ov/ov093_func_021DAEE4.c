@@ -20,6 +20,6 @@
 extern int func_021D775C(int);
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *,unsigned int);
-extern struct UtilWork *func_021C7CF4(int *,int);
+extern void *func_021C7CF4(int *p, int i);
 extern void func_021D7704(int,int);
 void func_021DAEE4(int a, int *b, int c) { if (c == func_021D775C(3) && func_021D5BDC(func_021C7CF4(b,c),13) && func_021D775C(22) == 9) func_021D7704(53,6144); }

@@ -28,7 +28,7 @@ typedef struct qr2_implementation_s {
     char secret_key[1];
 } qr2_implementation_s;
 
-extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
+extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern int func_0209477C(const char *s);
 extern void func_0219B918(unsigned char *key, int key_len, unsigned char *buffer_ptr, int buffer_len);
 extern void func_0219B858(unsigned char *ins, int size, unsigned char *result);

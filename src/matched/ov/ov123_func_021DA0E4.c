@@ -17,5 +17,5 @@
 extern int func_021D95F0(char *);
 extern int func_02012DAC(int);
 extern void func_021DA034(char *,int,int);
-extern void func_021DA0B8(void);
+extern void func_021DA0B8(char *p);
 void func_021DA0E4(char *p) { if(func_021D95F0(*(char **)(p+0x10))) { *(int *)(p+0x6c)=1; func_02012DAC(*(int *)(p+0x20)); func_021DA034(p,(int)func_021DA0B8,0x109); } }

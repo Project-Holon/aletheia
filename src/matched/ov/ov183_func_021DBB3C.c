@@ -26,11 +26,13 @@ extern void func_021DCE48(char *,char *);
 extern void func_021DD054(char *,char *);
 extern void func_021DD0F4(char *,char *);
 extern void func_021DD1D4(char *,char *);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+struct PrintSys;
+extern void func_020409B4(u32 index);
 extern void func_021FD15C(void *,int);
 extern void func_021FD820(char *);
 extern void func_021FD714(int);
-extern void func_0201C4C0(void *);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02025588(int);
 extern void func_020315D4(int);
 int func_021DBB3C(int task,int b,char *q,char *p)

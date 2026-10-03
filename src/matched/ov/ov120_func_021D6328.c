@@ -27,14 +27,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02021518(u32);
-extern void func_0202155C(void *,u32,u32,u32);
-extern void func_020216D4(void *,u32,u32,u32);
-extern void func_02021FD8(void *,u32,u32,u32,u8,u16);
+struct Chan02021FD8;
+struct PalAnmSlot;
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern int func_02021730(char *,int);
 extern void func_020862F0(void *,unsigned long);
 extern void func_0207E5D0(void *,int,int);
 extern void func_0207E468(void *,int,int);
-extern void func_020215A0(void *,u32);
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 void func_021D6328(u8 *p,int bank,int *offset,int *size,int count)
 {

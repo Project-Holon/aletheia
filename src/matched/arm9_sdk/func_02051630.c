@@ -17,7 +17,7 @@
  *   func_0205250C  0x0205250C  arm
  */
 
-extern void func_0205250C(void *p, void *q);
+extern void func_0205250C(char *p, char *q);
 
 void func_02051630(void **p, void *q)
 {

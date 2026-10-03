@@ -22,15 +22,19 @@
  */
 extern unsigned func_02012EBC(void *);
 extern void *func_0200B358(unsigned);
-extern void *func_0200B1D4(void *, int);
-extern unsigned func_0200B078(void *, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Rec160;
+struct Reg2;
+extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
+extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern void func_021E8AA0(int, int);
-extern void func_0217D4FC(void);
-extern void func_0217D730(void);
-extern void func_0217D964(void);
-extern void func_0217DA38(void);
-extern void func_0217DB0C(void);
-extern void func_0217DBE0(void);
+extern void func_0217D4FC(int *a, int *state, int *p);
+extern void func_0217D730(int *a, int *state, int *p);
+extern void func_0217D964(int *a, int *state, int *p);
+extern void func_0217DA38(int sys, int *state, int *p);
+extern void func_0217DB0C(int sys, int *state, int *p);
+extern void func_0217DBE0(int a, int *state, int *p);
 void func_0217D458(int a, int unused, char *p)
 {
     void *m;

@@ -26,7 +26,8 @@ typedef struct {
 
 extern int  func_02012B58(void *p);
 extern Rec *func_02158344(void *p);
-extern int  func_0200FB24(void);
+typedef unsigned int   u32;
+extern u32 func_0200FB24(void);
 extern int  func_02012B80(void *p);
 
 u8 func_021767A0(void *a, void *b)

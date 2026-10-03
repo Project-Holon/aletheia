@@ -21,7 +21,9 @@
  *   d_02172A60     0x02172A60  data  ov010  a1
  */
 
-extern void *func_02030734(unsigned short, int, int, char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
 extern int func_020457B0(int, unsigned short);
 extern void func_02045838(int, int);

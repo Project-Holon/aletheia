@@ -21,10 +21,14 @@
  * data: callback descriptor belongs to ov194 loaded by func_02031348.
  */
 typedef struct { void *task; void *text; } Request;
-extern void *func_02012EBC(void *p);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Big;
+struct U16Vec;
+extern void *func_02012EBC(struct Big *p);
 extern int func_0200C0F0(void *p);
-extern void *func_02030734(unsigned heap, unsigned size, unsigned clear, const char *file, unsigned line);
-extern void *func_020457B0(unsigned capacity, unsigned heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
 extern void *func_0216BFD4(unsigned heap, int a, int b, int c, int d, void *s, int e);
 extern void func_02031348(void *p, int a, const void *b, void *c);

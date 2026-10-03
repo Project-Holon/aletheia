@@ -14,10 +14,11 @@
  *   func_0220687C  0x0220687C  thumb  ov094
  */
 typedef struct Bits { unsigned lo:15; unsigned mode:2; unsigned hi:15; } Bits;
-extern int func_02021ED8(void *h);
+typedef unsigned int   u32;
+extern u32 func_02021ED8(const char *ptr);
 extern int func_0204E804(void);
-extern void func_022023D0(void *p);
-extern void func_0220687C(void *p, void *a);
+extern void func_022023D0(char *p);
+extern void func_0220687C(char *p, void *q);
 
 void func_02204A3C(void *a, char **s)
 {

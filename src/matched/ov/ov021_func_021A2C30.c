@@ -29,7 +29,7 @@ typedef struct {
 void func_021A2C6C(Snd021A2C30 *p, int a);
 int func_02005C64(void);
 void func_02028A7C(int a, u16 id);
-void func_020061E4(u16 id);
+void func_020061E4(u32 a);
 
 void func_021A2C30(Snd021A2C30 *p, int a, u16 id)
 {

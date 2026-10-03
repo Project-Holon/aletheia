@@ -15,11 +15,12 @@
  *   func_021BBE8C 0x021BBE8C thumb ov110
  */
 typedef unsigned char u8;
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void *func_02005624(void *, void *, unsigned);
 extern void *func_020056A0(void *, void *, unsigned);
 extern void func_021BBE80(void);
-extern void func_021BBE8C(void);
+extern void func_021BBE8C(void *unused, u8 *p);
 void func_021BBEF4(u8 *p, u8 value)
 {
     p[0x19c] = 0;

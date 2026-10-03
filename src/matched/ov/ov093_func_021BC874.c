@@ -17,7 +17,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 typedef struct { u32 a, b, key, d; } E;
 
-extern u32 func_021D78AC(int k);
+extern u32 func_021D78AC(u32 range);
 
 void func_021BC874(E *p, u32 n)
 {

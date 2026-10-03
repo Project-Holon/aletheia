@@ -54,7 +54,7 @@ typedef struct DWCstNodeInfo {
 } DWCstNodeInfo;
 
 extern char *func_02175F3C(void);
-extern void func_0216F5FC(int a0, int a1, void *a2, void *a3);
+extern void func_0216F5FC(unsigned char matchType, unsigned char numEntry, void *callback, void *param);
 extern DWCstNodeInfo *func_02176344(void);
 extern void func_0217653C(void);
 extern void func_0217604C(void *a0);

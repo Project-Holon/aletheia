@@ -19,7 +19,8 @@ typedef struct {
     unsigned short a, b;
 } Pt;
 
-extern int func_02035CB8(unsigned *, unsigned *);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_0204B454(int, Pt *, int);
 extern void func_0204B404(int, Pt *, int);
 

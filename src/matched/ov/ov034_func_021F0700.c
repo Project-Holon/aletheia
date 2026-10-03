@@ -14,6 +14,8 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  */
 extern void func_0201D83C(void *);
-extern void func_020452E8(void *);
-extern void func_0201C4C0(void *);
+struct Descriptor;
+struct PrintSys;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0201C4C0(struct PrintSys *p);
 void func_021F0700(char *p) { unsigned i; func_0201D83C(*(void **)(p+0x4c)); for(i=0;i<8;i++) func_020452E8(*(void **)(p+i*8+0xc)); func_0201C4C0(*(void **)(p+8)); }

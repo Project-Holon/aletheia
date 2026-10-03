@@ -49,15 +49,20 @@ typedef struct Work {
 
 extern u8 func_021568E8(Work *w, u8 j);
 extern u8 func_021568A8(Work *w, u8 n);
-extern u8 func_02157384(void *t, int i);
+struct MsgBank;
+struct Rec;
+struct Table;
+struct U16Vec;
+struct WordSet;
+extern u8 func_02157384(struct Table *t, int i);
 extern void *func_021FCE28(void *sess, u32 i);
-extern void *func_02012944(void *p);
-extern void func_0201F02C(void *ws, u32 i, void *a);
+extern u8 *func_02012944(void *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
-extern void *func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *str);
-extern void func_02045C04(void *bank);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 
 void func_02156A3C(Work *w, u8 j, void *ws, u32 slot)
 {

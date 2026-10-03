@@ -32,7 +32,7 @@ extern int  func_021BCB58(void);
 extern void func_021D5CA8(int x);
 extern void func_021BD138(void);
 extern void func_021D6090(int a, int b);
-extern void func_021C0E50(int a, int b);
+extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40(void *p);
 extern u8   g_021DE5B8[];
 extern void func_021C2A3C(void);

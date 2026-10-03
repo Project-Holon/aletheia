@@ -21,11 +21,13 @@
 
 extern void func_021B7DD0();
 extern void func_0204B92C();
-extern void func_021BB3F4();
-extern int func_020355C4();
+typedef unsigned char  u8;
+struct Obj;
+extern void func_021BB3F4(int p, int mode);
+extern u8 func_020355C4(void);
 extern void func_021B80C4();
 extern void func_021B6100();
-extern void func_021B7CD0();
+extern void func_021B7CD0(struct Obj *o);
 
 void func_021B8E08(int p)
 {

@@ -63,15 +63,18 @@ typedef struct Res {
 } Res;
 
 extern void func_0201DE00(u8 *, u8 *, u8 *);
-extern void *func_020457B0(u32, u16);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int func_0201EC64(int);
 extern void func_0201DD78(u32, u32, u32);
-extern void *func_02045EC0(void *, u32);
-extern void func_0201EEF4(u32, u32, void *);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern void func_0201F250(int, void *, void *);
 extern void func_02204C98(void *a, int b, int *w, int *h);
 extern void func_0201C7A4(int, short, short, void *, int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(int);
 extern void *func_02049F34(u32 arc, u32 file, Res **out, u16 heap);
 extern void func_020215BC(int, u16 *, int, int, u16);
@@ -105,7 +108,7 @@ void func_022050F0(char *s, Out *out, const Info *p)
     for (i = 0; i < n; i++) {
         if (p->e[i].show != 0) {
             w = func_02045EC0(*(void **)(s + 0x5c), p->e[i].kind + 3);
-            func_0201EEF4(h, 0, p->e[i].text);
+            func_0201EEF4((void *)h, 0, p->e[i].text);
             func_0201F250(h, v, w);
             func_02204C98(v, *(int *)(s + 0x224), &ww, &hh);
             func_0201C7A4(*(int *)(s + 0x22c), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, *(int *)(s + 0x224));

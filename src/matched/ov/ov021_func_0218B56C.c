@@ -53,11 +53,12 @@ struct TileMsg {
 
 extern const struct TileMsg data_021D3CE8[13];
 
-extern int func_02012B70(void *p);
-extern u32 func_021A30C8(void *p);
-extern u32 func_021A3128(void *p, u16 dir);
+struct BigObj;
+extern u8 func_02012B70(const struct BigObj *p);
+extern u32 func_021A30C8(void **ctx);
+extern u32 func_021A3128(u32 *a, u32 b);
 extern u16 func_021AB0F0(u32 attr);
-extern int func_02013E04(u16 id);
+extern u32 func_02013E04(u32 id);
 extern int func_021A3504(void *p, u32 a, u32 b);
 extern int func_0218B630(void *sys, u32 move);
 extern int func_021A3524(void *p, u32 a, u32 b);

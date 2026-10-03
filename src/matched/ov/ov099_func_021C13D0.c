@@ -20,7 +20,8 @@ typedef struct { u16 a, b; unsigned c; } Request;
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern unsigned func_021BCBD8(char *, int);
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 int func_021C13D0(char *p, int ret)
 {

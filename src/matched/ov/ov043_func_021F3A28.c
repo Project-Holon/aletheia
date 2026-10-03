@@ -22,16 +22,21 @@
  *   func_021F3D78  0x021F3D78  thumb
  */
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012EC4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(void *p, int n);
-extern int  *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188D2C(void *a);
 extern void  func_021BE700(void *p, int i, int j, int k, int flag);
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-extern void  func_021F3D78(void);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_021F3D78(void *a, int *b);
 
 void func_021F3A28(void *a0, int a1)
 {

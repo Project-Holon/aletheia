@@ -14,7 +14,7 @@
 extern unsigned int func_0200A400(void *p);
 extern void func_0200A49C(void *p);
 extern void func_0200A480(void *p);
-extern int func_02009F50(void *p, int i);
+extern int func_02009F50(char *p, unsigned int idx);
 int func_0200A170(char *p)
 {
     int found = 0;

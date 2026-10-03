@@ -80,7 +80,7 @@ typedef struct {
     u8 sub[0x13c];
 } Menu;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);

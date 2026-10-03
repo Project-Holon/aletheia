@@ -14,7 +14,9 @@
  *   g_021469BC 0x021469BC data
  */
 
-extern void func_0203515C(void);
+typedef unsigned char  u8;
+struct Obj0203515C;
+extern void func_0203515C(struct Obj0203515C *p, u8 mask);
 extern void g_021469BC(void);
 
 asm void func_0203516C(void)

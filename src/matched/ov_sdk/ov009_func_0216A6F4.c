@@ -62,12 +62,12 @@ extern LoginControl *g_021AA874;
 extern int func_020596C8(UserData *userdata);
 extern void func_02059474(void *loginId, u32 gamecode, char *username);
 extern u64 func_02059084(void *loginId);
-extern int func_020596B0(LoginId *loginId);
+extern int func_020596B0(void *loginid);
 extern int func_02059644(LoginId *loginId);
 extern void func_02059588(LoginId *loginId);
 extern u64 OS_GetTick(void);
 extern void func_020590F0(LoginId *loginId, u32 id);
-extern int func_02178D14(u16 *ingamesn, char *gsbrcd, u64 userid, void *(*alloc)(u32, long), void (*dealloc)(u32, void *, long));
+extern int func_02178D14(unsigned short *ingamesn, char *gsbrcd, unsigned long long userid, void *(*allocator)(unsigned long, long), void (*deallocator)(unsigned long, void *, long));
 extern void *func_0205A16C(u32, long);
 extern void func_0205A1B0(u32, void *, long);
 

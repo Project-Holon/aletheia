@@ -43,7 +43,7 @@ extern u32 d_02146998;
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
 extern int  func_02084EB8(u32 a);
 extern void func_02075E9C(u16 a);
-extern void func_020338B8(u16 a, int b, void *c);
+extern void func_020338B8(u16 a, u32 b, void (*cb)(u32));
 extern int  CARDi_RequestStreamCommand(u32 src, u32 dst, u32 len, void *callback,
                                        void *arg, int is_async, int req_type,
                                        int req_retry, int req_mode);

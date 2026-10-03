@@ -13,7 +13,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203FB44(u32 a, u16 b, u16 c);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 void func_021BCA54(u32 a, u32 packed)
 {
     func_0203FB44(a, (u16)packed, (u16)(packed >> 16));

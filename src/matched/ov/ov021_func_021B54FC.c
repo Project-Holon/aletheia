@@ -19,7 +19,9 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020122C0(void *a0, int a1, int (*cb)(void *), int a3);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0215897C(void *vm, void *task);
 extern int func_021B55F0(void *a);
 

@@ -11,8 +11,10 @@
  *   func_0204B3F4 0x0204B3F4 arm
  *   func_02035D20 0x02035D20 arm
  */
-extern unsigned func_0204B3F4(void *);
-extern int func_02035D20(unsigned *,unsigned *);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021C0DE4(char *p) {
     unsigned x,y;
     if(!func_0204B3F4(*(void **)(p+8))) return 0;

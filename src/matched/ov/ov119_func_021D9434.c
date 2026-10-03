@@ -23,9 +23,10 @@
 
 typedef unsigned short u16;
 
-extern void func_0202208C(int, int, int, int, int, int, int);
+typedef unsigned int   u32;
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *, int);
-extern void func_021D941C(void);
+extern void func_021D941C(void *p);
 
 void func_021D9434(void *p)
 {

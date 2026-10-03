@@ -23,10 +23,11 @@
 typedef unsigned int u32;
 
 extern void *func_02012F98(void *p);
-extern u32 sub_02007B50(void *voice);
-extern void sub_02007B54(void *voice);
-extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int idx);
+struct PerapVoice;
+extern void *sub_02007B50(void **p);
+extern void sub_02007B54(struct PerapVoice *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 int func_021E0410(char *p, void *party, int idx)

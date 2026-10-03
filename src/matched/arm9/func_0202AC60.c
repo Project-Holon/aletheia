@@ -28,8 +28,8 @@ extern int  func_0202AD8C(u8 *p);
 extern int  func_0202ADA0(u8 *p, u32 a1);
 extern void func_0202AC4C(u8 *p);
 extern void func_0202ADB4(u8 *p, u32 a1);
-extern void func_0202AE60(u8 *p, int a1);
-extern void func_0202ABFC(u8 *p, int a1);
+extern void func_0202AE60(void *obj, u32 value);
+extern void func_0202ABFC(void *obj, u32 value);
 
 void func_0202AC60(u8 *p, u32 a1)
 {

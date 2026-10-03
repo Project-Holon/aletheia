@@ -39,12 +39,15 @@ typedef struct {
     int f30;
 } R;
 
-extern void *func_020120F4(void *p);
+struct Big;
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern R *func_020124E8(struct Desc *p);
-extern void *func_0201210C(void *p);
-extern void *func_02012934(void *p);
-extern void *func_02012EBC(void *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *p);
 extern void *func_0200BAF4(void *a0, int a1);
 extern void func_02168C74(void);

@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern int func_02011400(u32 a, u32 b);
+extern u8 func_02011400(int row, int col);
 
 typedef struct {
     u16 h;

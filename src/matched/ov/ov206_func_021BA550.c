@@ -22,11 +22,12 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0201ADE4(u32 a, u16 b, u16 c);
-extern u32 func_0201AE1C(void *p, u32 b);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
 extern void func_021BB160(char *p, int i);
 extern void func_021BA4F4(char *p);
-extern void func_021BB0FC(char *p);
+extern void func_021BB0FC(void *obj);
 extern void func_021BBC38(char *p);
 extern void func_021BB13C(char *p, int a, u16 b, int c);
 extern void func_021BBE34(char *p, int v);

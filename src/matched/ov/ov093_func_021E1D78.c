@@ -16,8 +16,10 @@
  */
 
 extern int func_021D775C(int key);
-extern int func_021C830C(void *p);
-extern int func_021D76BC(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern unsigned int func_021C830C(u8 *p);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E1D78(int a, void *b, int c)
 {

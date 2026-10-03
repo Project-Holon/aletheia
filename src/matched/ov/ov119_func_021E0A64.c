@@ -28,8 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
-extern u8 func_02012984(void *);
-extern u32 func_0201B2B0(void *,void *,u32,void *,u8,u32 *,u16);
+struct BigObj;
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void func_021D8E84(void *,int),func_021D9434(void *),func_021DFD64(void *),func_02045CAC(int,int,int),func_021E1024(void *),func_021E1030(void *),func_021E0BA4(void *),func_021E0C78(void *),func_021DFD3C(void *);
 void func_021E0A64(char *p)
 {
@@ -43,7 +44,7 @@ void func_021E0A64(char *p)
     if(*(int *)(p+8)!=0) {
         if(func_021D8AA8(p)) {a=func_021D8FA4(p,0);b=func_021D8FA4(p,1);}
         else {a=func_021D8FA4(p,1);b=func_021D8FA4(p,0);}
-        result=func_0201B2B0(0,a,1,b,func_02012984(*(void **)(p+0x82c)),&out,*(u16 *)(p+0x5f4));
+        result=func_0201B2B0(0,a,1,(u32)b,func_02012984(*(void **)(p+0x82c)),&out,*(u16 *)(p+0x5f4));
         if(result) {
             *(int *)(*(char **)(p+8)+8)=1;
             *(u32 *)(*(char **)(p+8)+12)=result;

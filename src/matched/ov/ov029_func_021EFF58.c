@@ -42,12 +42,14 @@ struct Pt {
 
 extern void func_021F0D14(int a, int b, int *x, int *y);
 extern struct Slot *func_021F0000(u8 *p);
-extern void func_0204B878(void *o, u16 v);
-extern void func_0204B9A0(void *o);
-extern void func_0204B49C(void *o, s16 v, u32 sp, u32 axis);
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
 extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Pt *e, u32 f, u32 g);
-extern void func_0204B92C(void *o, u32 v);
-extern void func_0204B3DC(void *o, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021EFF58(u8 *p, int a, int c)
 {

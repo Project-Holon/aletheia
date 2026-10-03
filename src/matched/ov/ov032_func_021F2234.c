@@ -33,10 +33,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern char d_021F36A0[];
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+struct Ctx;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020120F4(u32 a);
-extern void *func_0201210C(void *p);
-extern u32 func_02188E30(void *a);
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188E30(u8 *p);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021F27D4(char *p);
 extern void func_021F2908(char *p);

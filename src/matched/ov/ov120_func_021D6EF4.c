@@ -24,8 +24,9 @@ typedef struct Triple { u16 a[3]; } Triple;
 typedef struct Record { u16 x,y,z; u8 a,b; } Record;
 extern const Triple d_021D892C,d_021D8924,d_021D893C,d_021D8934;
 extern void *func_0204B294(u32,u32,u32,u32,Record *,u16,u16);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D6EF4(u8 *p,int flag)
 {
     Record r;

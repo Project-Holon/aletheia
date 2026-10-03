@@ -23,7 +23,8 @@ typedef unsigned int u32;
 struct Ctx;
 extern int func_02012138();
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012B70();
+struct BigObj;
+extern u8 func_02012B70(const struct BigObj *p);
 extern int func_0202648C();
 
 int func_02158318(int a0)

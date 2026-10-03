@@ -10,7 +10,8 @@
  * symbols:
  *   func_02045808 0x02045808 arm
  */
-extern void func_02045808(void *);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 void func_021DCE28(char *p)
 {
     unsigned short i, j;

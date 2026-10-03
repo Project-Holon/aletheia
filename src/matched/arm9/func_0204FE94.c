@@ -80,9 +80,10 @@ struct Sys {
     void *f20;
 };
 
-extern void *func_02030734(int heap, int size, int align, const char *file, int line);
+struct AreaMan;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0204EBD4(void *src, int heap);
-extern void *func_02033C00(int n, int heap);
+extern struct AreaMan *func_02033C00(u32 size, u32 heap);
 extern void  func_02050088(void *p);
 extern void  func_020500B8(void *p);
 extern const char sBillboardAct[];

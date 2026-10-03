@@ -22,7 +22,8 @@ extern void func_021CA444(void *);
 extern void func_021CA458(void *,void *);
 extern void func_021C9EFC(void *,int);
 extern void func_021C9EF0(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 extern void func_021C9EB4(u8 *,void *);
 extern void func_021C9E54(u8 *);
 void func_021C9730(u8 *p,void *unused,u8 *q)

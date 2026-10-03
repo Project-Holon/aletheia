@@ -29,15 +29,15 @@ struct BgTemplate {
 extern const struct BgTemplate d_021E7E44;
 extern void *func_0201F5DC(int, u32, u32, u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
 extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
-extern void func_020403F4(int);
+extern void func_020403F4(u32 i);
 extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
-extern void func_02040618(int, int, int);
-extern void func_0204047C(int, int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_0204047C(int idx, unsigned short val);
 extern void func_02049238(void *);
 extern void func_021E6AB0(const char *p);
-extern void func_020435F4(int);
+extern void func_020435F4(u32 planes);
 void func_021E6B90(char *p)
 {
     void *h;

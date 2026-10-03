@@ -27,16 +27,18 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef short s16;
 
-extern int func_020450F0(int, int, int, int, int, int, int);
+typedef signed int     s32;
+typedef unsigned char  u8;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021B9BA0(char *);
 extern void func_020456F8(int);
 extern void func_02045374(int);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int func_0204AF28(void *, int, int, u16);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_021BB6E0(char *p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B9850(char *);
 
 void func_021B9BDC(char *p)

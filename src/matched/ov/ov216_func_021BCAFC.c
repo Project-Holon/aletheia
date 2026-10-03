@@ -24,12 +24,15 @@ extern const unsigned d_021BDBBC[];
 extern const struct Block d_021BDC08;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204A48C(const void *,void *,int);
-extern void *func_0204B100(int,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern void *func_0204B034(const void *a0, unsigned int a1, unsigned int heap);
 extern void func_0204B0F4(void *,int);
-extern void func_0204B258(void *,void *);
-extern void func_020434DC(int,int);
-extern void func_02043598(int,int);
+extern void func_0204B258(struct Bank *bank, void *p);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 void func_021BCAFC(void **p,void *a,int heap)
 {
     struct Block b;

@@ -33,12 +33,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_02034AC4(int a);
-extern void func_02043534(int a);
-extern void func_020435F4(int a);
-extern void func_0204363C(int a);
-extern void func_0207D534(void *p, int n);
-extern void func_0203D34C(int a, int b);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_02034AC4(s32 handle);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204363C(u32 swap);
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_021DCCC8(void *p);
 extern void func_021DC910(void);
 extern void func_021DC92C(void);
@@ -46,11 +48,11 @@ extern void func_021DCA7C(void);
 extern void func_021DCB70(void *p);
 extern void func_021DCC24(void *p);
 extern void func_021DD874(void *p);
-extern void func_021DDFE8(void *p);
-extern void func_021DD0E8(void *p);
+extern void func_021DDFE8(u8 *p);
+extern int func_021DD0E8(u8 *p);
 extern void func_021DCC0C(void);
 extern void func_021DC8B8(void *p);
-extern void func_021DD4A4(void *p, int a);
+extern int func_021DD4A4(u8 *p, int v);
 extern u8 ov067_id[];
 
 void func_021DCEA4(u8 *p)

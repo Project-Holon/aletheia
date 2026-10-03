@@ -24,9 +24,10 @@ void func_021B6524(void)
     func_0203F9B4();
 }
 
+typedef unsigned short u16;
 void func_021B652C(void)
 {
-    void func_02045088(int);
+    void func_02045088(u16 heapId);
     func_02045088(0x61);
 }
 

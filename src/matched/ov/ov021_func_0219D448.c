@@ -22,7 +22,7 @@ extern int func_0216D4F8(int);
 extern int func_0216D4F0(int);
 extern void func_0216D524(int, void *);
 extern void *func_02030734(int, int, int, void *, int);
-extern void func_0219D4AC(void *, int);
+extern void func_0219D4AC(int *obj, int a);
 extern unsigned char d_021DDD80[];
 
 void func_0219D448(int a, int b)

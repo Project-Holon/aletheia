@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 typedef struct Bits { unsigned char low:4; unsigned char mode:3; unsigned char active:1; } Bits;
-extern int func_02210B00(u8 *,unsigned int);
+extern int func_02210B00(u8 *p, int i);
 void func_0220B760(u8 *p,unsigned int state)
 {
     ((Bits *)(p+0x1E9B))->mode=0;

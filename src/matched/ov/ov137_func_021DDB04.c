@@ -20,12 +20,13 @@
 typedef unsigned short u16;
 typedef signed short s16;
 extern void *func_021DCF50(void *);
-extern unsigned func_021841A4(void *);
-extern unsigned func_021DE354(char *);
+typedef unsigned int   u32;
+extern int func_021841A4(unsigned char *p);
+extern int func_021DE354(void *p);
 extern void func_021DD924(char *);
 extern void func_02082BCC(void *, int, unsigned);
-extern int func_02039338(void);
-extern int func_021DCBC4(void *, int, void *, int);
+extern u16 func_02039338(void);
+extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 int func_021DDB04(char *p, int state) {
     unsigned char buf[4];
     if (*(u16 *)(*(char **)(p+0x10)+0x38) != func_021841A4(func_021DCF50(p)) ||

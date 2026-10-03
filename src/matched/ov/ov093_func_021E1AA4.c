@@ -22,10 +22,10 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 typedef struct Ent { u16 a; u16 b; u8 c; u8 d; u8 e; u8 f; } Ent;
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, int b);
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021E1AE4(void *m, int x, Ent *out);
 extern u32 func_021D7B10(u32 a, u32 b);
-extern int func_021D76BC(int key, int val);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E1AA4(void *p, int id, int u, int x, int arg)
 {

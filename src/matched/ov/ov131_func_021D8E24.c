@@ -28,7 +28,7 @@ typedef struct {
 
 extern s16 func_021D9440(u8 *p, u32 target);
 extern u32 func_021D9428(u8 *p, u32 target);
-extern int func_02035C08(void *rects);
+extern void func_02035C08(const void *p);
 
 void func_021D8E24(void *unused, u8 *p)
 {

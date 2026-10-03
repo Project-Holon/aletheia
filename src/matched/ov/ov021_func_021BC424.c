@@ -27,7 +27,8 @@
  *   func_021BCFD8  0x021BCFD8  thumb  ov021
  */
 
-extern void func_021BD0FC(int a);
+typedef unsigned int   u32;
+extern int func_021BD0FC(u32 a);
 extern void func_021BC6B4(int a);
 extern void func_021BC7F8(int a);
 extern void func_021BD068(int a);
@@ -40,7 +41,7 @@ extern void func_021BD054(int a);
 extern void func_021BD07C(int a);
 extern void func_021BC704(int a);
 extern void func_021BC824(int a);
-extern void func_020403F4(int a);
+extern void func_020403F4(u32 i);
 extern void func_021BCFD8(int a);
 
 void func_021BC424(int a)

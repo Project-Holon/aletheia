@@ -20,11 +20,12 @@
 
 typedef unsigned char u8;
 
-extern void func_021F0EA4(void *e, int a);
-extern void func_021F0ED0(void *e, int a);
-extern void func_021F150C(void *this, void *e, void *p);
-extern void func_021F1484(void *this, int a, void *e, void *c, void *p);
-extern void func_02031194(void *h);
+struct TcblNode;
+extern void func_021F0EA4(char *p, unsigned a);
+extern void func_021F0ED0(char *p, int a);
+extern void func_021F150C(u8 *this, u8 *p, void *s);
+extern void func_021F1484(char *this, int a, u8 *b, u8 *c, void *s);
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F1418(void *h, u8 *t)
 {

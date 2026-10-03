@@ -25,7 +25,7 @@ extern void *func_020490F4(u32,u16);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
-extern void *func_02049EF4(void *,u32,u32,u32,u16);
+extern void *func_02049EF4(void *,u32,u32,void **,u16);
 extern void func_02082A60(const void *,void *,u32);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -43,7 +43,7 @@ int func_021BE23C(char *p,void *unused,int *state)
     func_020498F4(arc,3,3,0,0,0,heap);
     if (*state==1) {
         func_02049658(arc,12,2,0,0,0,heap);
-        buf=func_02049EF4(arc,14,0,(u32)&out,heap);
+        buf=func_02049EF4(arc,14,0,(void **)&out,heap);
         func_02082A60((char *)out+12,p+0xA8,4096);
         func_020307B0(buf);
     }

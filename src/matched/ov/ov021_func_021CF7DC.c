@@ -42,11 +42,14 @@ extern void *func_0215A5E4(void *vm);
 extern void *func_0215A5F4(void *vm);
 extern u16 *func_02159AE8(void *c, void *vm);
 extern void  func_0215897C(void *vm, void *task);
-extern void *func_020122C0(void *sys, u32 prio, void (*fn)(void *, void *), u32 size);
-extern void *func_02012944(void *p);
-extern void *func_020124E8(void *task);
-extern u32   func_02008530(void *p);
-extern void  func_021CF844(void *task, void *work);
+struct Desc;
+struct Obj;
+struct Sub0200852CObj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern u8 *func_02012944(void *p);
+extern void *func_020124E8(struct Obj *p);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern int func_021CF844(void *a, int *task, struct Work *w);
 
 int func_021CF7DC(void *c, void *vm)
 {

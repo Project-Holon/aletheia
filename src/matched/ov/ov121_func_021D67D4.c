@@ -23,21 +23,27 @@
  *   ov_id 0x00000072 data
  */
 extern void func_021D9228(void *);
-extern void func_021DE2F0(void *);
-extern void func_021D9E04(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct PrintSys;
+struct Rec;
+struct S020315D4;
+struct WordSet;
+extern void func_021DE2F0(u8 *p);
+extern void func_021D9E04(u8 *p);
 extern void func_021DA890(void *);
-extern void func_0201ED04(void *);
-extern void func_02045C04(void *);
-extern void func_0201C4C0(void *);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_021D6C28(void *);
 extern void func_021D6948(void *);
-extern void func_021D96C4(void *);
+extern void func_021D96C4(u8 *p);
 extern void func_0200A338(void *);
-extern void func_02012704(void *);
-extern void func_020315D4(void *);
+extern void func_02012704(u8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
-extern void func_02087BCC(int);
+extern void func_02087BCC(u32 parameter);
 extern void func_02034A5C(int);
 extern void func_02005D28(void);
 extern char ov_id[];

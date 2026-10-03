@@ -69,7 +69,7 @@ extern unsigned long strlen(const char *s);
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_02084F40(char *dst, const char *fmt, ...);
 extern int func_021C9D9C(u8 *outbuf, u8 *header, u32 headerlen, u8 *srcbuf, u32 srclen);
-extern void *func_02092344();
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 extern Session g_021CF7AC;
 extern char *g_021CF7A8;
 extern char g_021CF8D0[];

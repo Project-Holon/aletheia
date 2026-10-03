@@ -28,9 +28,11 @@ typedef struct {
     void (*callback)(void);
     void *context;
 } Req;
-extern void *func_02030734(u32, u32, u32, const char *, u32);
+typedef unsigned short u16;
+struct Ctx;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_020120F4(void *);
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02031348(void *, u32, void *, void *);
 extern void func_0200F7B8(u32);
 extern void func_021F8F5C(void);

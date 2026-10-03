@@ -19,7 +19,7 @@ extern const Triple d_021E770C;
 extern void func_021E1410(void *,Triple *,int);
 extern void func_021B6558(int,int,int);
 extern void func_021D8E84(void *,int);
-extern void func_021DE5C4(void *);
+extern void func_021DE5C4(char *p);
 void func_021DE66C(char *p)
 {
     Triple t=d_021E770C;

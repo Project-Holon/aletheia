@@ -38,9 +38,9 @@ typedef struct Record {
     u16 f14a;           /* 0x14A */
 } Record;
 
-extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 void func_02168D30(Record *r, Result *s)
 {

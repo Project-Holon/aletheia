@@ -53,16 +53,16 @@ typedef struct GSTask {
     int (*mThinkFunc)(void *);
 } GSTask;
 
-extern GSCoreMgr *func_0217CA20(void);
+extern void *func_0217CA20(void);
 extern unsigned int func_0217F264(void);
 extern void func_0217CECC(GSTask *theTask);
 extern void func_0217CB5C(GSTask *theTask, int theResult);
-extern void func_0217F108();
-extern int func_02184200();
+extern void func_0217F108(void *mutex);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern void func_02184324(void *array, int n);
 extern void func_0217EAE0(void *ptr);
-extern void func_0217F114();
+extern void func_0217F114(void *mutex);
 
 int func_0217CB88(GSTask *theTask)
 {

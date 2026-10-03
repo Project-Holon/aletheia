@@ -17,7 +17,9 @@
 typedef unsigned char u8;
 extern int func_020399A8(void);
 extern unsigned func_0203D378(void);
-extern int func_0203EFC8(const void *,const void *,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 void func_021B9950(int a,int b,void *c,int d,int e)
 {
  u8 *p;

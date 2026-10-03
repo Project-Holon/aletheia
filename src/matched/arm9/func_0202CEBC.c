@@ -47,12 +47,13 @@ struct WinMgr {
     struct Win *wins;
 };
 
-extern u32 func_02045768(void *a);
+struct Descriptor;
+extern u16 func_02045768(struct Descriptor *p);
 extern u32 func_02045778(void *a);
-extern s32 func_02045738(void *a);
-extern s32 func_02045740(void *a);
-extern u32 func_02045758(void *a);
-extern u32 func_02045760(void *a);
+extern u8 func_02045738(struct Descriptor *p);
+extern u8 func_02045740(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
 
 void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a)
 {

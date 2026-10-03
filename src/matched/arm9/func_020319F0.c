@@ -75,8 +75,7 @@ struct Dev {
 extern const char str_020A7848[];
 extern struct Dev *g_02146994;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02034F84(u32 a);
 extern void  func_02033200(struct Job *job, u32 mode);
 extern void  func_02082A7C(u32 v, void *p, u32 n);

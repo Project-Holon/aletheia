@@ -14,8 +14,11 @@
  */
 typedef unsigned char u8;
 extern void *func_0201283C(const void *);
-extern unsigned func_02009864(void *,int,int);
-extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+struct Sub020097BCObj;
+struct WordSet;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 int func_021C6C20(u8 *p,u8 *q,int idx)
 {
     void *base;

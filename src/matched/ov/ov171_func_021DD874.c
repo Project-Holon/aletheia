@@ -13,8 +13,10 @@
  *   func_020450F0 0x020450F0 arm
  */
 typedef unsigned char u8;
-extern void func_02045088(int);
-extern int func_020450F0(int, int, int, int, u8, u8, u8);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02045088(u16 heapId);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 void func_021DD874(char *p)
 {
     func_02045088(0x8c);

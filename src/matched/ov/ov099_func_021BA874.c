@@ -23,7 +23,9 @@ typedef struct {
     int ff0;                /* 0xf0 */
 } Work;
 
-extern int func_02009864(void *h, int id, int n);
+typedef unsigned int   u32;
+struct Sub020097BCObj;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
 extern void func_020099E4(void *h, int id, int v);
 extern void func_0201EE0C(int a, int b, int c, int d, int e, int f);
 

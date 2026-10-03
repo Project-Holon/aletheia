@@ -19,7 +19,8 @@
 extern void func_021B7DD0(void *p);
 extern void func_0204B92C(int object, int flag);
 extern void func_021BB3F4(int p, int mode);
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+extern u8 func_020355C4(void);
 extern void func_021B80C4(void *p, int flag);
 extern void func_021B8AF4(void *p);
 void func_021B8DCC(char *p)

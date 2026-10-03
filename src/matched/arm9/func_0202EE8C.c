@@ -50,7 +50,8 @@ typedef unsigned int   u32;
 
 extern u8   unk_0202F0A5[];
 extern void *func_020311B8(u32 a, u8 *tag, u32 size, u32 flags);
-extern u8   *func_02031290(void *p);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 
 u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)

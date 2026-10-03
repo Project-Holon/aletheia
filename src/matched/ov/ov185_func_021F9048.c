@@ -13,7 +13,8 @@
  * Extent past 021F9088 contains three callback pointers and zero rodata.
  */
 extern void func_021FD860(void *,int,int *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 int func_021F9048(char *p,unsigned x,unsigned y)
 {
     int inside=((unsigned)(x-0xb8)<=0x28)&((unsigned)(y-0x40)<=0x28);

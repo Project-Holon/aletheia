@@ -22,8 +22,10 @@ typedef unsigned short u16;
 void func_02006CAC(char *a);
 int func_02006984(int a, int b, int c, int d, int e, int f, int g, char *h);
 int func_02006650(void);
-int func_02006B20(int a);
-void func_02006A8C(int a, int b);
+typedef signed char    s8;
+typedef unsigned int   u32;
+s8 func_02006B20(u32 i);
+void func_02006A8C(u32 idx, int delta);
 void func_020065D8(void);
 
 int func_021C2854(int a, char *b)

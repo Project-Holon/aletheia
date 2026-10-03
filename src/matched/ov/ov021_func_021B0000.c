@@ -28,12 +28,14 @@ typedef struct { u16 f0; u16 f2; s16 f4; u16 f6; } Q;
 struct Ctx;
 
 extern void *func_0215A5F4(void *p);
-extern struct Ctx *func_02158F54(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_02158F54(void *p);
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02011330();
 extern unsigned int func_02012104(const struct Ctx *p);
 extern int func_02012374(int a, void *b);
-extern int func_02188C5C(void *p);
+extern u32 func_02188C5C(u8 *p);
 extern int func_021BB3E8();
 extern void *func_02184DE8(void *p, void *unused, int a, const Q *q, int s, int t);
 

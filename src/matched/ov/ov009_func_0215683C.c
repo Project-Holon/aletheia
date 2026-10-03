@@ -14,7 +14,8 @@
  *   func_021688FC 0x021688FC arm ov009
  */
 extern char d_021A1C5C[];
-extern void func_02034714(char *, int, char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_021688FC(char *, unsigned long);
 int func_0215683C(char *a, int b)
 {

@@ -21,10 +21,12 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern void *func_02045EC0(void *a, u32 b);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02045770(u32 p);
 extern void func_0201C724(u32 a, u32 bmp, s16 x, s16 y, const void *text, u32 f, u16 color);
-extern void func_02045808(void *a);
+extern void func_02045808(struct U16Vec *vec);
 
 #define W(o) (*(int *)(p + (o)))
 

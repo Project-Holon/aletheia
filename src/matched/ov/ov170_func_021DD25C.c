@@ -21,7 +21,9 @@ extern int func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, unsigned i);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
 extern unsigned func_02017E88(void *p, unsigned id, unsigned v);
-extern void *func_02007A18(void *save, int box, unsigned slot);
+typedef unsigned int   u32;
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 
 unsigned func_021DD25C(void ***p, unsigned short a, int box, unsigned id, unsigned v)
 {

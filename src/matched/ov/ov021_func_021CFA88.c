@@ -27,11 +27,13 @@ struct Big;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020120F4(void *p);
+struct Ctx;
+struct Sub02008828Obj;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
-extern void *func_02008854(void *p);
+extern struct Sub02008828Obj *func_02008854(void *sys);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u16 func_02008990(void *p);
+extern u16 func_02008990(const struct Sub02008828Obj *obj);
 
 int func_021CFA88(void *a, void *b)
 {

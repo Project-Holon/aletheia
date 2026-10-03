@@ -27,19 +27,22 @@
 
 typedef unsigned char u8;
 
-extern void *func_020124E4(void *a);
-extern void *func_0201210C(void *p);
+struct Big;
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D2C(void *a);
-extern int  *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012EC4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int  *func_0200B3A4(void *p, int n);
 extern int   func_021F39A8(int *p, int i);
 extern void  func_021F3938(void *a0, int a1, int a2, int a3);
-extern void *func_021BE674(void *p, int i, int j, int k);
-extern void  func_021BE6B0(void *p, int b);
-extern int   func_021BE6BC(void *p);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern int func_021BE6BC(int *p);
 
 int func_021F39B8(void *a0, int *a1)
 {

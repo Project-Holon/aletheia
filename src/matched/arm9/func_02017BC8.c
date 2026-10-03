@@ -38,8 +38,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 sub_02017E1C(u8 *p, u32 idx, u32 def);
-extern void sub_02017E40(u8 *p, u32 idx, u32 val);
+extern u32 sub_02017E1C(void *p, u32 id, u32 v);
+extern void sub_02017E40(void *p, u32 id, u32 v);
 
 void func_02017BC8(u8 *p, u32 i)
 {

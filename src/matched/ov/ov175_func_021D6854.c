@@ -35,7 +35,7 @@ extern void func_021D65C8(char *obj);
 extern int func_021DA434(u32 h);
 extern void func_021E7E0C(u32 h, int a);
 extern void func_021DA36C(u32 h);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern int func_0203CD98(void);
 extern void DWC_CloseAllConnectionsHard(void);
 

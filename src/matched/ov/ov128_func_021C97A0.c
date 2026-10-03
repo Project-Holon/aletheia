@@ -27,11 +27,11 @@ extern void func_021C6BCC(u8 *,u8 *,int,unsigned);
 extern void func_021C6ADC(u8 *,u8 *,unsigned);
 extern void func_02041090(u32,void *,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
-extern void func_021C991C(u8 *,u8 *,u8 *,unsigned);
+extern void func_021C991C(u8 *p, u8 *q, u8 *ctx, u16 heap);
 extern void func_021C9BEC(u8 *,void *,void *,int,s16,int);
 extern int func_021C9D88(u8 *,int);
-extern void func_021C6E18(void *,int,int);
-extern void func_021C6DD8(void *,int);
+extern void func_021C6E18(u8 *p, int i, u16 a);
+extern void func_021C6DD8(u8 *p, u32 a);
 void func_021C97A0(u8 *p,u8 *q,u8 *r,u16 heap)
 {
     u16 *t;

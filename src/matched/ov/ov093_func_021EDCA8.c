@@ -23,13 +23,14 @@ typedef unsigned int u32;
 struct Flags { u8 shown : 1; u8 close : 1; };
 extern void func_02040B1C(u8, const void *, u32, u32);
 extern void func_02040618(u32, u32, u32);
-extern void *func_020437D4(const void *);
-extern void func_020061E4(int);
-extern int func_02006254(int);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern void func_020061E4(u32 a);
+extern int func_02006254(u32 a);
 extern void *func_021F86E0(void);
 extern void *func_021F86D4(void);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern u32 func_02021ED8(const void *);
+extern u32 func_02021ED8(const char *ptr);
 int func_021EDCA8(u8 *p)
 {
     u32 i;

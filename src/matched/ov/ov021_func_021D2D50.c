@@ -23,9 +23,10 @@ typedef struct Blk021D2D50 {
     u32 w[6];
 } Blk021D2D50;
 
-extern void *func_020122C0(void *a, u32 b, void (*fn)(void *, void *), u32 size);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Blk021D2D50 *func_020124E8(void *task);
-extern void func_021D2D7C(void *task, void *work);
+extern int func_021D2D7C(void *task, int *state);
 
 void *func_021D2D50(void *a, Blk021D2D50 *src)
 {

@@ -32,7 +32,7 @@ extern u32 func_0216D514(u32);
 extern u32 *func_02030734(u16, u32, u32, u8 *, u32);
 extern void func_02030DA8(u32, void (*)(), u32 *, u32);
 extern u8 d_021DDBE0;
-extern void func_02197DCC();
+extern void func_02197DCC(void *a, int *b);
 
 void func_02197D3C(u32 p0, u32 p1)
 {

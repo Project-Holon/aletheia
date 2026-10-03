@@ -28,12 +28,13 @@ typedef struct {
     unsigned short heap, pad;
     unsigned a,b,work;
 } Fields;
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082BCC(void *, int, unsigned);
 extern void *func_02045874(const void *, unsigned);
 extern unsigned func_021FB7B0(unsigned, int);
 extern void func_021FC124(void *, unsigned, void *);
-extern unsigned func_021FC20C(void *);
+extern unsigned func_021FC20C(char *p);
 extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
 extern char d_02200D18[];
 void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *owner, const void *arg, unsigned index, unsigned short heap)

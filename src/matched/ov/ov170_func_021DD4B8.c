@@ -29,11 +29,14 @@ extern void func_021EDAB0(unsigned char *,unsigned);
 extern void func_021EDB34(unsigned char *,unsigned);
 extern void *func_0201AB28(void *,unsigned);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern int func_02017988(void *,unsigned);
+typedef unsigned int   u32;
+struct Blk37;
+struct Sub02007454Entry;
+extern u32 func_02017988(void *p, u32 a);
 extern void *func_0200CA1C(void *);
-extern void func_0200CFA0(void *,void *);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 extern void *func_020185F4(void *);
-extern int func_0200752C(void *,unsigned,void *);
+extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 void func_021DD4B8(unsigned char *p,unsigned a,unsigned b)
 {
     void *m;

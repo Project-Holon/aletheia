@@ -59,20 +59,28 @@ typedef struct {
     short x, y, z, w;
 } Rect4;
 
-extern int func_020275E8(void);
-extern int func_020275EC(int);
-extern int func_020275F8(int);
-extern int func_020275FC(int);
-extern int func_02027600(int);
-extern void *func_0204AC18(void *, int, int, int, int, int, unsigned short);
-extern void *func_0204AF28(void *, int, int, unsigned short);
-extern void *func_0204A6C8(void *, int, int, int, unsigned short);
+typedef signed int     s32;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Actor;
+struct Node;
+struct Obj;
+struct Vec2;
+extern u32 func_020275E8(void);
+extern u8 func_020275EC(u8 i);
+extern u32 func_020275F8(u32 a);
+extern u32 func_020275FC(u32 a);
+extern u32 func_02027600(u32 a);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void *func_0204B294(void *, void *, void *, void *, Rect4 *, unsigned short, unsigned short);
-extern void func_0204B6F4(void *, int, int);
-extern void func_0204B800(void *, int);
-extern void func_0204B688(void *, int);
-extern void func_0204B3DC(void *, int);
-extern void func_0204B404(void *, Pos *, unsigned short);
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
 
 typedef struct {
     unsigned short f0;

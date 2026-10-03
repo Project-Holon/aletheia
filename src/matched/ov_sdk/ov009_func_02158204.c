@@ -26,7 +26,7 @@
 
 extern unsigned short func_0215781C(unsigned char *s, unsigned long len);
 extern void func_02158134(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned short type);
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 extern void MI_CpuCopy(void *srcp, void *destp, unsigned long size);
 extern unsigned long OS_DisableInterrupts(void);
 extern void func_02157A44(unsigned char *srcAddr, unsigned char *dstAddr, unsigned char *buf1, unsigned long size1, unsigned char *buf2, unsigned long size2);

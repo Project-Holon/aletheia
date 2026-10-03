@@ -83,10 +83,12 @@ struct Res {
     u16   n_palettes; /* 0x1e */
 };
 
-extern void *func_02034558(u32 heapId, u32 kind, u32 a, u32 size, u32 b);
+struct Bank;
+struct Entry;
+extern struct Bank *func_02034558(u32 heapId, u32 kind, u32 flags, u32 base, u32 b);
 extern void *func_0204DA5C(u32 heapId, u32 count);
 extern void *func_0204DCA8(u32 heapId, u32 count);
-extern void *func_0204E01C(u32 heapId, u32 count);
+extern struct Entry *func_0204E01C(u32 heap, u32 count);
 
 void func_0204D7E0(struct Res *res, u32 heapId, const struct Cfg *cfg,
                    const struct Caps *caps)

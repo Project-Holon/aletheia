@@ -24,7 +24,8 @@ extern int func_021F2BD4(void *, int, int, int);
 extern void func_021F0D14(int, int, int *, int *);
 extern void func_021F1290(void *, int, int, int);
 extern void func_020091AC(int, int, int, int, int, int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 int func_021F133C(char *p, int v, int *o1, int *o2)
 {

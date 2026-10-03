@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern void func_0207D658(u32 reg, u32 a, u32 b);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 
 void func_021FF570(u32 v)
 {

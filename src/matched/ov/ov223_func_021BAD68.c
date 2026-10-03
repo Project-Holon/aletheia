@@ -15,7 +15,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02041570(int, int);
+typedef unsigned short u16;
+extern void func_02041570(int channel, u16 val);
 
 void func_021BAD68(void)
 {

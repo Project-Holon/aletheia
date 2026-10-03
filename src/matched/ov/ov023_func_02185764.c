@@ -25,11 +25,12 @@ typedef unsigned int u32;
 
 extern int func_02186660(char *p);
 extern int func_02186164(char *p);
-extern void func_02186444(char *p, int v);
+typedef unsigned short u16;
+extern void func_02186444(char *p, u32 v);
 extern void func_02184114(u32 a);
 extern void func_021852F4(u32 a, int b);
 extern void func_0201F7A8(u32 a, int b);
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern void func_02184560(char *p, int a);
 extern void func_02185354(char *p);
 

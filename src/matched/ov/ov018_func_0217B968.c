@@ -35,24 +35,27 @@ typedef unsigned char u8;
 
 typedef struct { int x, y, z; } Vec;
 
-extern int func_0202648C(void *);
-extern int func_02026460(void *);
-extern int func_0200FB24(void);
+typedef unsigned int   u32;
+struct Comm;
+struct Ctx;
+extern u32 func_0202648C(void *obj);
+extern u32 func_02026460(void *obj);
+extern u32 func_0200FB24(void);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern int func_02012204(void *);
-extern int func_020120D8(void *);
+extern u32 func_02012204(const struct Ctx *p);
+extern int func_020120D8(char *p);
 extern int func_020120F4(void *);
 extern int func_020127A4(int);
 extern int func_02012AC8(int);
-extern int func_02013D5C(int);
+extern u32 func_02013D5C(u32 id);
 extern void func_021A3038(void *, Vec *);
-extern int func_02026454(void *);
+extern u32 func_02026454(void *obj);
 extern int func_0217B930(Vec *);
 extern void func_0217BA54(void *);
 extern int func_020392B8(void);
 extern u8 *func_02026474(void *);
-extern void func_02026400(void *);
+extern void func_02026400(struct Comm *p);
 extern void func_0202640C(void *, void (*)(int, int), void *);
 extern void func_0217BA48(int, int);
 

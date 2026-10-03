@@ -17,10 +17,10 @@
 typedef enum { KEY_0 } Key;
 
 extern void *func_021F8694(void);
-extern int func_021FFD9C(void *w, int key);
+extern int func_021FFD9C(char *p, int key);
 typedef unsigned char u8;
 
-extern void func_021FF470(void *w, int key, u8 v);
+extern void func_021FF470(char *p, int key, void *v);
 
 void func_021FE520(void)
 {

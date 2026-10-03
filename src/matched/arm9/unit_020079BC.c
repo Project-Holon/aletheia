@@ -78,10 +78,10 @@ extern const char sub_02007AA4_File[];
 
 extern struct Sub020079BCHeader *sub_020074CC(void *save);
 extern struct Sub020079BCEntry  *sub_02007AF4(void **save, u32 box);
-extern int  sub_02017E88(struct Sub020079BCEntry *entry, int field, int arg);
-extern void func_02034714(const char *file, int line, const char *msg);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 int sub_020079BC(void **save, u32 box, u32 slot, int field, int arg)
 {

@@ -18,7 +18,7 @@
 
 typedef unsigned long u32;
 
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 
 u32 func_021DCE60(int a)

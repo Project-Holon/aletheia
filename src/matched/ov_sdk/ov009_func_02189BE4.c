@@ -29,7 +29,7 @@ typedef struct {
 } GPIBuffer;
 extern char *strchr(const char *, int);
 extern int strncmp(const char *, const char *, unsigned int);
-extern int func_02193418(char *, char *, char *, int);
+extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern int atoi(const char *);
 extern char g_021A45B4[];
 extern char g_021A45BC[];

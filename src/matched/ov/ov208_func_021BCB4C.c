@@ -27,14 +27,18 @@ extern void func_0204E720(unsigned,int,int,int);
 extern void func_021BC26C(void *);
 extern void func_020307B0(unsigned);
 extern void func_021BC39C(void *);
-extern void func_021BE778(void *);
-extern void func_021BD954(void *);
-extern void func_02030EAC(void *);
+struct Node;
+struct Ov208Mgr;
+struct PrintSys;
+struct S020315D4;
+extern void func_021BE778(struct Ov208Mgr *m);
+extern void func_021BD954(struct Ov208Mgr *m);
+extern void func_02030EAC(struct Node *n);
 extern void func_0201C6EC(unsigned);
-extern void func_0201C4C0(void *);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
 extern void func_021BCEC0(char *);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 int func_021BCB4C(void *a,int b,int c,char *p)
 {

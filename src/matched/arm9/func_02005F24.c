@@ -25,7 +25,7 @@
 
 typedef unsigned int u32;
 
-extern void  *sub_0200590C(void);
+extern u32 *sub_0200590C(void);
 extern void   func_02072FE8(void *slot, u32 a, u32 b);
 
 void func_02005F24(u32 a0, u32 a1)

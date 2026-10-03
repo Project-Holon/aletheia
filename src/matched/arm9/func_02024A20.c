@@ -53,13 +53,14 @@ struct InfoWin {
 extern struct InfoWin *gInfoWin;
 extern const char infowin_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct BigObj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  func_020251FC(u32 a, u32 b, u32 heap);
 extern void *func_020056A0(void (*cb)(void *), void *work, u32 pri);
 extern u8    func_0203568C(void);
-extern u32   func_0201283C(void *p);
-extern u32   func_02012BB0(void *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02012BB0(const struct BigObj *p);
 extern void  func_02024ABC(void);
 extern void  func_02024DFC(void *work);
 

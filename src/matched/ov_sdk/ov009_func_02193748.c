@@ -22,8 +22,8 @@
 
 extern int func_0209477C(const char *s);
 extern void func_0217F790(unsigned int v);
-extern int func_0217F7AC(int min, int max);
-extern void func_0217FA90(char *src, char *dst, int len, int mode);
+extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
+extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 
 void func_02193748(const char *plaintext, char *encoded)
 {

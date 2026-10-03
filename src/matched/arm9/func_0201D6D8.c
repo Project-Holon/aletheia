@@ -67,7 +67,8 @@ typedef struct {
 extern u32  func_0201D69C(void *c);
 extern void *func_0201D768(Blk *p, void *src, u32 a, u32 b);
 extern void *func_0201D7C4(Blk *p, void *q);
-extern u32  func_02045A90(void *c);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern void *memcpy(void *dst, const void *src, u32 n);
 
 void func_0201D6D8(Blk *p, void *b, void *c)

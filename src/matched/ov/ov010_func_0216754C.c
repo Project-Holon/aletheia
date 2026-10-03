@@ -26,8 +26,9 @@ struct O {
 extern void func_02167658(struct O *o, int i);
 extern int func_02012114(int a);
 extern void func_021942C8(int a);
-extern void func_02034714(const char *a, int b, const char *c);
-extern void func_020307B0(struct O *o);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_020307B0(void *p);
 extern const char d_02172A28[];
 
 void func_0216754C(int a, struct O *o)

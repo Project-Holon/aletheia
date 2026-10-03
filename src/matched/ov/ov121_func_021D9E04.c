@@ -15,13 +15,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0201CE48(void *);
+struct Descriptor;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_0202F038(u8 *);
 extern void func_02028604(void *);
-extern void func_02031140(void *);
+extern void func_02031140(struct S02031140 *p);
 extern void func_0201F7A8(void *, u32);
-extern void func_020452E8(void *);
-extern void func_02045808(void *);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_020307B0(void *);
 void func_021D9E04(u8 *p)
 {

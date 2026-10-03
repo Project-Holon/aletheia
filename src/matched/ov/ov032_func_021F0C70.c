@@ -25,7 +25,7 @@ extern u32 func_0202846C(u8 *p);
 extern void func_02028178(u32 w);
 extern u32 func_0202824C(u32 *w);
 extern void func_0202822C(char *p, int v);
-extern void func_021F0DD8(int a);
+extern void func_021F0DD8(unsigned int a);
 
 int func_021F0C70(char *p, int flag)
 {

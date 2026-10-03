@@ -30,7 +30,7 @@ extern void func_0216D88C(void *obj, Vec *out);
 extern void func_02164208(u32 dir, Vec *pos, int step);
 extern u8 func_0216D91C(void *obj);
 extern u8 func_0216D924(void *obj);
-extern u32 func_021AB0D4(void *a, Vec *v);
+extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB11C(u32 attr);
 extern int func_021AB2DC(u16 id);

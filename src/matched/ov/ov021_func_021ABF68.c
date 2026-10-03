@@ -31,8 +31,9 @@ typedef struct {
     int f20;
 } T;
 
-extern int func_02030CB0(int n);
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+typedef unsigned int   u32;
+extern u32 func_02030CB0(u32 idx);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030CBC(int n, void *buf);
 extern int func_021ABFFC(int heap, int a, int n);
 extern char d_021DE018[];

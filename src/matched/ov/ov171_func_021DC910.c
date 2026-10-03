@@ -14,7 +14,8 @@
  *   func_020433E0  0x020433E0  arm
  */
 
-extern void func_0204335C(int);
+typedef unsigned int   u32;
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(int);
 
 void func_021DC910(void)

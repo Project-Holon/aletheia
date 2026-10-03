@@ -17,7 +17,7 @@
  *   func_0217603C  0xfunc_0217603C  arm
  */
 
-extern void func_0217603C(void);
+extern int func_0217603C(void);
 
 void func_02176978(void)
 {

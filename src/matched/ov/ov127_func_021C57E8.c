@@ -16,7 +16,8 @@
  *   func_021C42C4  0x021C42C4  thumb  ov127
  */
 
-extern void func_021C42C4(void *p);
+typedef unsigned char  u8;
+extern void func_021C42C4(u8 *p);
 
 void func_021C57E8(char *p)
 {

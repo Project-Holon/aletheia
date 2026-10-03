@@ -29,7 +29,8 @@ extern void func_0220E584(char *);
 extern void func_0220E5FC(char *);
 extern void func_0220E6E0(char *);
 extern void func_0220F1F4(char *);
-extern void func_02043598(int, int);
+typedef unsigned int   u32;
+extern void func_02043598(u32 mask, u32 enable);
 void func_0220E2B4(char *p)
 {
     func_0220E2F8(p);

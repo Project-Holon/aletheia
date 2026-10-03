@@ -41,11 +41,13 @@ typedef struct Entry {
     u8   pad84[8];
 } Entry;
 
-extern void *func_02012EBC(void *p);
+struct Big;
+struct BigObj;
+extern void *func_02012EBC(struct Big *p);
 extern u32   func_0200ED48(void *p);
-extern u32   func_0201283C(void *p);
-extern u32   func_02012964(void *p);
-extern u32   func_02188CE0(void *p);
+extern u32 func_0201283C(const struct BigObj *p);
+extern u32 func_02012964(const struct BigObj *p);
+extern u32 func_02188CE0(u8 *p);
 extern int   memcmp(const void *a, const void *b, u32 n);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void  func_0217B054(u8 *w, Entry *e, void *p);

@@ -14,5 +14,6 @@
  */
 struct Tcbl;
 extern void func_020310C4(struct Tcbl *);
-extern int func_02035630(void);
+typedef unsigned char  u8;
+extern u8 func_02035630(void);
 void func_021BA058(int unused,char *p){func_020310C4(*(struct Tcbl **)(p+0x68));if(func_02035630()==30)func_020310C4(*(struct Tcbl **)(p+0x68));}

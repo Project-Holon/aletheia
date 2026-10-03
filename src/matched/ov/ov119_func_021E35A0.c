@@ -38,13 +38,14 @@ extern const Vec data_021E7B00;
 extern const Table data_021E7B0C;
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void *func_0201ADE4(u16 a, u16 b, u16 heap);
-extern u32 func_0201AE1C(void *h, u32 k);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
 extern void func_0215642C(int);
 extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void func_020173B4(void *o);
 extern void func_02015CAC(void *o, Vec *v);
-extern void func_02015FF0(void *o, int v);
+extern void func_02015FF0(char *p, int v);
 extern void func_021E33FC(void *o, Vec *v, int side, void *mon);
 void func_021E35A0(Work *p, int idx, int side, void *mon, int flag)
 {

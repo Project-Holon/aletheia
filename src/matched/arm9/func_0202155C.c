@@ -41,8 +41,7 @@ struct PalAnmSlot {
 
 extern const char func_0202155C_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *site,
-                           u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02021548(struct PalAnmSlot *slots, u32 idx, void *a, void *b,
                           u32 size);
 

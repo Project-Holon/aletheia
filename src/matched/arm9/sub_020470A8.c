@@ -27,8 +27,9 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02046FF8(void *p);
-extern void func_02046FCC(void *p);
+struct Tagged;
+extern int func_02046FF8(int *self);
+extern void func_02046FCC(struct Tagged *p);
 
 u32 func_020470A8(void *p)
 {

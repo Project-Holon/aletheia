@@ -11,7 +11,7 @@
  *   func_02161E78 0x02161E78 thumb ov010
  */
 typedef unsigned short u16;
-extern void func_02161E78(unsigned char *);
+extern void func_02161E78(void *a0);
 void func_02161D98(char *p)
 {
     int i;

@@ -22,15 +22,22 @@
  *   func_0201F73C 0x0201F73C thumb
  */
 typedef unsigned short u16;
-extern void *func_020457B0(unsigned,unsigned);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned);
-extern void func_02045CAC(void *,unsigned,void *);
-extern void func_0201F02C(void *,unsigned,void *);
-extern void func_0201F250(void *,void *,void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern signed char func_02012FFC(void);
 extern void *func_0201CCE4(void *,unsigned,unsigned,void *,void *,unsigned,void *,unsigned,u16,u16);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F73C(void *,int,int,int);
 void func_021B99E4(char *p,unsigned entry,unsigned index,u16 kind)
 {

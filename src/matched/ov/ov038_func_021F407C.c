@@ -36,18 +36,20 @@ typedef struct {
     int x, y, z;
 } Vec;
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
-extern int func_02188D2C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188D2C(int *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern void *func_02188CB4(void *p);
-extern void *func_021BE674(char *base, int i, int j, u16 k);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);
-extern void func_021BE700(void *p, int i, int j, u16 k, int flag);
-extern int func_021BE6B0(void *s, int b);
+extern void func_021BE700(void *p, int i, int j, int k, int flag);
+extern void func_021BE6B0(unsigned char *p, int v);
 extern void func_021BE6CC(void *p, int i, int j, u16 k, int flag);
-extern int func_021BE6BC(void *p);
+extern int func_021BE6BC(int *p);
 extern void func_020061E4(u32 a);
 
 int func_021F407C(int a0, int *a1)

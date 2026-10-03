@@ -44,10 +44,10 @@ extern int func_02035C08(const void *rect);
 extern u32 func_02035BA4(const void *rect);
 extern u32 func_02035C60(void);
 extern u32 func_02035D20(u32 *x, u32 *y);
-extern u32 func_02035C38(void);
+extern int func_02035C38(void);
 extern u32 func_02035CB8(u32 *x, u32 *y);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern const u8 d_021C8544[];
 
 void func_021C55A4(Work *p)

@@ -22,9 +22,11 @@ int func_021B69B8(void *p)
     return *(int *)((char *)p + 0x18);
 }
 
+typedef unsigned int   u32;
+struct Obj;
 void func_021B69BC(void *p, unsigned int v)
 {
-    void func_0204B3DC(void *, unsigned int);
+    void func_0204B3DC(struct Obj *p, u32 v);
     func_0204B3DC(*(void **)p, v);
 }
 

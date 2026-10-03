@@ -20,7 +20,8 @@
 typedef struct { int x, y, z; } V3;
 
 void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Obj;
+void *func_020124E8(struct Obj *p);
 void func_021BFE2C(void);
 
 static inline void V3_Set(V3 *d, int x, int y, int z)

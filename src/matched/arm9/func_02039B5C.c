@@ -64,8 +64,9 @@ struct Entry;
 
 extern struct Votes *g_021469D4;
 
-extern int func_020395EC(void *a);
-extern struct Entry *sub_0203996C(u32 idx);
+typedef signed int     s32;
+extern int func_020395EC(struct Entry *a);
+extern struct Entry *sub_0203996C(s32 idx);
 extern u32 func_020399B8(struct Entry *e);
 extern u32 func_02039160(u16 mode);
 

@@ -15,8 +15,9 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-extern void func_0201DADC(void *ptr);
-extern void func_0201D9C8(void *ptr);
+struct Font;
+extern void func_0201DADC(struct Font *f);
+extern void func_0201D9C8(struct Font *p);
 extern void func_020307B0(void *ptr);
 
 void func_0201D83C(void *ptr)

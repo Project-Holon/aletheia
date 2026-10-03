@@ -24,7 +24,7 @@ typedef struct {
     int scroll;
 } Work;
 
-extern void func_02040618(u32 bgId, u32 which, int value);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 
 void func_021FD8BC(Work *p)
 {

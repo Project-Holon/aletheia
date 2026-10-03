@@ -60,7 +60,8 @@ typedef struct {
 extern char g_021CE4B4[];
 extern char g_021CE440[];
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void *sysInfo);
 extern ReqInfo *func_021BEF48(void *sysInfo);
 extern ThreadInfo *func_021BEF50(void *sysInfo);

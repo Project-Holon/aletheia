@@ -17,7 +17,9 @@
  */
 extern void *func_021DD2D0(void ***,int,unsigned);
 extern int func_021DD684(unsigned char *,unsigned);
-extern int func_0200752C(void *,unsigned,void *);
+typedef unsigned int   u32;
+struct Sub02007454Entry;
+extern int func_0200752C(void **save, u32 box, const struct Sub02007454Entry *src);
 extern void func_02007664(void *,unsigned,unsigned);
 extern void func_021EDAB0(unsigned char *,unsigned);
 extern void func_021EDB34(unsigned char *,unsigned);

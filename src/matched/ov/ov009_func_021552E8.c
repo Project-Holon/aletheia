@@ -16,7 +16,8 @@
  */
 
 int func_02059E38(int *a, int *b);
-void func_0203C9AC(int a, int b, int c, int d);
+typedef unsigned int   u32;
+void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 int *func_0203CA98(void);
 
 int func_021552E8(void)

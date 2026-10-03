@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Descriptor;
-extern void *func_02045770(void *);
-extern int func_0201C6C4(void *,void *);
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 int func_021B7EE4(u8 *p,u8 *q) { void *v; v=*(void **)(q+8); if(p[8]) { if(!func_0201C6C4(v,func_02045770(*(void **)(p+4)))) { func_02045334(*(struct Descriptor **)(p+4)); p[8]=0; } } if(!p[8]) return 1; return 0; }

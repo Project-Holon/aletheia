@@ -81,26 +81,29 @@ typedef struct {
 
 extern void func_021FDB08(void *);
 extern void *func_021F86F0(void);
-extern void func_02201CA4(void *, int);
+typedef unsigned int   u32;
+struct Res;
+struct ScriptVm;
+extern void func_02201CA4(struct Res *r, int i);
 extern void func_020307B0(void *);
 extern void func_021F8A10(int);
 extern void func_021FE4F8(State *);
 extern void func_021FE520(State *);
 extern void func_021F8934(int);
-extern void func_02011290(void *);
+extern void func_02011290(struct ScriptVm *vm);
 extern void *func_021F8764(void);
-extern void func_021EB2A8(void *);
-extern void func_0204047C(int, int);
-extern void func_02040618(int, int, int);
+extern void func_021EB2A8(const u8 *a);
+extern void func_0204047C(int idx, unsigned short val);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02006210(void);
 extern void *func_021F8694(void);
-extern int func_021FFD9C(void *, int);
-extern int func_021FFF38(void *, int);
-extern void func_02040588(int, int);
+extern int func_021FFD9C(char *p, int key);
+extern int func_021FFF38(char *p, int key);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0201127C(void *, char *);
 extern void func_021FF374(void *, int, int);
-extern char *func_02048F60(int, int, u16);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 
 int func_021FC448(void *a, State *s)
 {

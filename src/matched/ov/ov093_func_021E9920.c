@@ -14,7 +14,7 @@
  *   func_021E9928 0x021E9928 thumb ov093
  */
 typedef unsigned int u32;
-extern void func_021E9928(void *);
+extern void func_021E9928(char *p);
 void func_021E9920(void *p)
 {
     func_021E9928(p);

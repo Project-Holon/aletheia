@@ -32,7 +32,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F38();
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02166834();
+extern int func_02166834(int a0, int a1);
 
 int func_021669C0(int a0, int a1)
 {

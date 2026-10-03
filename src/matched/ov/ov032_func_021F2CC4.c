@@ -20,7 +20,7 @@
 extern void func_02028148(int);
 extern void func_02045808(int);
 extern void func_02027FD8(int);
-extern void func_02028604(unsigned);
+extern int func_02028604(int a0);
 
 void func_021F2CC4(char *p)
 {

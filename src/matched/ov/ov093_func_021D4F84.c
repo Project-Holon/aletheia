@@ -15,8 +15,9 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 struct Ent {u16 h[6]; u8 fC,fD;};
 struct Bits {u8 lo:4,hi:4;};
-extern u32 func_02017D30(void *);
-extern void func_02017D70(void *,u32);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern int func_021D5244(struct Ent *,void *,u8);
 int func_021D4F84(u8 *p, void *h, int reset)
 {

@@ -44,7 +44,7 @@ extern void func_021BED54(char *);
 extern void func_021BE3B4(char *);
 extern u32 func_021BC99C(char *);
 extern void func_021BC578(u32);
-extern void func_0207D534(void *, int);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 extern void func_02034A5C(int);

@@ -17,6 +17,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern const char d_021D663C[];
-extern int func_020279E8(void *);
-extern void func_02034714(const char *,int,const char *);
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021D5E6C(u8 *p) { switch(*(int *)p) { case 0: return func_020279E8(*(void **)(p+32)); case 1: if(*(int *)(p+40)!=-1) return 1; else return 0; default: func_02034714(d_021D663C,0,d_021D663C); return 0; } }

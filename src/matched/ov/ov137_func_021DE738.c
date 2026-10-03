@@ -18,11 +18,11 @@
 typedef unsigned char u8;
 typedef struct { u8 pad[0x4804]; volatile int previous; } Obj;
 extern int func_021DE354(void *);
-extern void *func_021DCF50(void *);
-extern int func_02184114(void *);
+extern void *func_021DCF50(u8 *p);
+extern int func_02184114(unsigned char *p);
 extern unsigned func_021841A4(void *);
-extern unsigned func_021841A0(void *);
-extern void func_0201FEF4(void *);
+extern unsigned char func_021841A0(unsigned char *p);
+extern void func_0201FEF4(u8 *o);
 int func_021DE738(Obj *obj)
 {
     u8 *p = (u8 *)obj;

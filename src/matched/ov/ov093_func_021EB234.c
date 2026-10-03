@@ -36,7 +36,7 @@ typedef struct {
 extern void func_021EDBE8(Obj *p);
 extern void func_021ED988(Obj *p);
 extern void func_020452E8(u32 h);
-extern void func_020403F4(int i);
+extern void func_020403F4(u32 i);
 extern void func_0201C4C0(u32 h);
 extern void func_02045808(u32 h);
 extern void func_020307B0(void *p);

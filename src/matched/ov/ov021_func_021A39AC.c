@@ -23,8 +23,8 @@ typedef unsigned int   u32;
 
 u32 func_021A398C(u8 *p);
 void *func_021A3960(u8 *p);
-int func_021A3190(u32 x, int a);
-int func_0216D598(void *h);
+u16 func_021A3190(int i, int j);
+u16 func_0216D598(void *p);
 void func_021A3AD8(u8 *p, int v);
 
 void func_021A39AC(u8 *p, int a)

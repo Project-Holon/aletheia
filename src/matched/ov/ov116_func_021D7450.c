@@ -26,12 +26,14 @@ extern void func_021D8010(void *,u32);
 extern int func_021D6EC4(u8 *,u8 *,int);
 extern void func_021D6E50(u8 *,u8 *,int,int);
 extern void func_021D7060(u8 *,u8 *);
-extern int func_021D70B0(u8 *,u8 *);
+typedef signed int     s32;
+struct Blk1AC;
+extern int func_021D70B0(void *unused, u8 *p);
 extern int func_021D80CC(void *);
-extern void func_0200DBA0(void *,int,int);
+extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 extern void func_021D81D0(u8 *);
 extern int func_021D81EC(u8 *);
-extern void func_021D81B4(void *);
+extern void func_021D81B4(u8 *p);
 int func_021D7450(u8 *p,int b)
 {
     int v;

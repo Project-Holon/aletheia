@@ -38,7 +38,7 @@ typedef struct qr2_implementation_s {
 extern char g_021A7674[];
 extern qr2_implementation_s *g_021A6600;
 extern qr2_implementation_s g_021A6604;
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0219CE58(qr2_implementation_s *qrec, int statechanged);
 extern int func_0217EB2C(int sock);
 extern void func_0217F260();

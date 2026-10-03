@@ -48,7 +48,8 @@ typedef unsigned int u32;
 #define H(k) (*(u16 *)(p+(k)))
 #define O ((u8 *)W(0x48c))
 #define C (*(void **)(O+4))
-extern int func_021B7250(void *);
+struct L0200ED54;
+extern int func_021B7250(int *p);
 extern void func_021B7264(void *),func_021B72A0(void *,int),func_021B72A8(void *,u32);
 extern void func_021B63BC(void *),func_021B63CC(void *,int);
 extern int func_021B6150(void *),func_021B6254(void *),func_021B62AC(void *),func_021B630C(void *,int);
@@ -62,7 +63,7 @@ extern void func_021B8320(u8 *,u16 *),func_021B82DC(u8 *,u16 *),func_021B83E0(u8
 extern void func_020061E4(int),func_020409B4(u32);
 extern void *func_020120F4(const void *),*func_02012EBC(void *),*func_0200ED48(void *);
 extern u32 func_02008530(const void *);
-extern void func_0200ED54(void *,u32);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021B7F24(u8 *p,u16 *state)
 {
     void *save;

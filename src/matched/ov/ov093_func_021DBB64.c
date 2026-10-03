@@ -14,6 +14,8 @@
  *   func_021D5B40 0x021D5B40 thumb ov093
  */
 extern int func_021D775C(int);
-extern void *func_021C7CF4(void *,int);
-extern unsigned short func_021D5B40(void *);
+typedef unsigned short u16;
+struct QI;
+extern void *func_021C7CF4(int *p, int i);
+extern u16 func_021D5B40(struct QI *p);
 void func_021DBB64(int a,void *b,int c,int *d) { if(c==func_021D775C(2) && func_021D775C(0x2d)==0 && func_021D5B40(func_021C7CF4(b,c))) *d=1; }

@@ -20,12 +20,17 @@ extern void func_0201F02C(void *, int, int);
 extern void func_02045CAC(void *, u16, int);
 extern void func_0201F250(void *, int, int);
 extern void *func_020450F0(int, int, int, int, int, int, int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, int);
-extern void func_0201DD78(int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201C7A4(void *, int, int, int, int);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 void func_021D8784(char *p, int n)
 {
     void *q;

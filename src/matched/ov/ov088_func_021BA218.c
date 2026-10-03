@@ -13,7 +13,8 @@
  *   func_020221A4  0x020221A4  thumb
  */
 
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 
 int func_021BA218(char *p)
 {

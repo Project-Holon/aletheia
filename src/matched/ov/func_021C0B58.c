@@ -15,8 +15,9 @@
  * Calls 0x0204AFD8 on +0x58 and 0x0204ADA4 on +0x54 of the second argument.
  */
 
-extern void func_0204AFD8(int);
-extern void func_0204ADA4(int);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
+extern void func_0204ADA4(u32 i);
 
 void func_021C0B58(void *a, char *q)
 {

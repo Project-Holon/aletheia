@@ -19,7 +19,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02005DF8(u32 v);
-extern void func_02005DE4(u32 v);
+extern void func_02005DE4(void *p);
 
 void func_02029374(u8 *p)
 {

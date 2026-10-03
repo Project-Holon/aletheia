@@ -25,7 +25,7 @@
  *   g_021A57A0     0x021A57A0  data
  */
 
-extern int func_0217ED64(int sock, int a, int *e1, int *e2);
+extern int func_0217ED64(int theSocket, int *theReadFlag, int *theWriteFlag, int *theExceptFlag);
 extern int func_0217D254(int a, int b, int c, int d);
 extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);

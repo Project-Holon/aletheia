@@ -18,7 +18,8 @@
 typedef unsigned int u32;
 
 void func_021A5788(u32 *p, int k, int *out);
-int func_021AB0F0(int x);
+typedef unsigned short u16;
+u16 func_021AB0F0(u32 attr);
 int func_021A55FC(int x);
 
 int func_021A5610(u32 *p)

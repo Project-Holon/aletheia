@@ -48,9 +48,10 @@ typedef struct Owner {
 #define FX_F32_TO_FX32(x) \
     ((fx32)(((x) > 0) ? (x) * 4096 + 0.5f : (x) * 4096 - 0.5f))
 
-extern u32 func_02015F0C(void *obj);
-extern s32 func_02015F1C(void *obj);
-extern s32 func_02015F14(void *obj);
+typedef signed short   s16;
+extern u16 func_02015F0C(void *p);
+extern s16 func_02015F1C(void *p);
+extern s16 func_02015F14(void *p);
 extern void func_02015C78(void *obj, VecFx32 *pos);
 
 void func_02206274(Owner *o)

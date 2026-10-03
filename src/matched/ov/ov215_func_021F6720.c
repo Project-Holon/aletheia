@@ -26,14 +26,15 @@ typedef unsigned short u16;
 extern const char d_021F73F4[];
 extern const unsigned d_021F7340[],d_021F7314[];
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
-extern unsigned func_02017E1C(void *,unsigned,void *);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_020056A0(void (*)(void),void *,unsigned);
 extern void func_021F6AB4(void);
 extern void func_021F6AB8(void *);
-extern void func_021F6AEC(void *);
+extern void func_021F6AEC(char *p);
 extern char *func_021F6DB4(unsigned,unsigned,const void *);
-extern void func_021F6EF8(void *);
-extern void func_021F6F64(void *);
+extern void func_021F6EF8(char *p);
+extern void func_021F6F64(char *p);
 char *func_021F6720(unsigned heap,void *mon)
 {
     char *p;

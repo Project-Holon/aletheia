@@ -24,7 +24,8 @@
  *   python tools/match.py one --src src/matched/func_0201F868.c \
  *       --func func_0201F868 --addr 0x0201F868 --cc 1.1p1 --thumb
  */
-extern void func_0201F8F4(void *p);
+struct Slot;
+extern void func_0201F8F4(struct Slot *s);
 extern void func_020307B0(void *p);
 
 void func_0201F868(void *p)

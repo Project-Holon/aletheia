@@ -46,17 +46,18 @@ extern Pair d_021BA774[];
 
 extern void *func_02012138(void *);
 extern u8 *func_02158344(void *);
-extern void func_0202208C(int, int, int, int, int, int, int);
-extern int func_0200FB24(void);
-extern int func_0217440C(void);
-extern int func_0217446C(void);
-extern int func_020221A4(void);
-extern int func_0202648C(void *);
-extern int func_02026454(void *);
+struct Tcbl;
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_0200FB24(void);
+extern u32 func_0217440C(void);
+extern u32 func_0217446C(void);
+extern u32 func_020221A4(void);
+extern u32 func_0202648C(void *obj);
+extern u32 func_02026454(void *obj);
 extern void func_02031348(int h, int id, int a, void *b);
 extern void func_0201DD78(u32, u32, u32);
 extern int func_02031330(int h);
-extern void func_020310C4(void *);
+extern void func_020310C4(struct Tcbl *p);
 extern void func_0201C4E4(int);
 extern void func_0204A600(void);
 

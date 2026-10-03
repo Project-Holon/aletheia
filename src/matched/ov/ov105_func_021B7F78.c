@@ -30,15 +30,20 @@ extern int func_021B7CA0(void *);
 extern int func_021B7CA4(void *);
 extern int func_021B7CA8(void *);
 extern void *func_021B7CAC(void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u8);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_02045EC0(int,int);
-extern void func_0201F250(void *,void *,void *);
-extern void func_02045808(void *);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201C6FC(int,void *,s16,s16,void *,int);
-extern void func_0201EFA4(void *,u16,int,int,int,int);
-extern void func_0201F02C(void *,int,void *);
-extern void func_0201EF6C(void *,int,int,int,int);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201EF6C(struct WordSet *p, u32 i, u32 v, u32 a, u32 b);
 void func_021B7F78(u8 *p, void *a, int b, u8 *c, u8 *d)
 {
  void *msg; int bank; void *text; int font; int tag;

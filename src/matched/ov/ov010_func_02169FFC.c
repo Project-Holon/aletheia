@@ -62,16 +62,21 @@ typedef struct Slot {
     u8 f04;
 } Slot;
 
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, u32 v);
-extern void func_0201F73C(void *p, u32 a, u32 b, u32 c);
-extern void *func_02045EC0(void *bank, u32 index);
-extern u32 func_021904AC(void *p);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_021904AC(u8 *p);
 extern void func_0201C6FC(void *a0, void *a1, u32 a2, u32 a3, void *a4, u32 a5);
-extern void func_02045808(void *p);
-extern void func_02045334(void *p);
-extern void func_02045374(void *p);
-extern u8 func_02045730(void *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void func_02169FFC(Work *w, u32 msg)

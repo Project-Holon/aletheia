@@ -26,7 +26,7 @@ struct R {
 };
 
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02013EC0(int x);
+extern u32 func_02013EC0(u32 id);
 extern u32 func_020493D4(int a, int b);
 extern void func_0204944C(int a, int b, int c, int d, void *e);
 

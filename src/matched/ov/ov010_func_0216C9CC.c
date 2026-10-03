@@ -13,8 +13,11 @@
  *   func_020124E8 0x020124E8 thumb
  *   func_0216C978 0x0216C978 thumb ov010
  */
-extern void *func_020122C0(void *,void *,void *,unsigned int);
-extern void **func_020124E8(void *);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_0216C978(int, int *, int *);
 void *func_0216C9CC(void *a,void *b,void *c) {
     void *t; void **p;

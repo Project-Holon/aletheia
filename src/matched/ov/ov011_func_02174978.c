@@ -50,7 +50,7 @@ typedef struct {
 } Bits;
 
 extern int func_02026478(int);
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern int func_0203D1B4(void);
 extern void func_02012B4C(int, int);
 extern int func_02173758(u8 *, int);
@@ -71,7 +71,7 @@ extern int func_021752DC(u8 *);
 extern int func_02173984(u8 *, u8 *);
 extern int func_02012E40(int);
 extern void *func_02012EBC(int);
-extern void *func_0200BE48(void *);
+extern u16 *func_0200BE48(void *sys);
 extern int func_021756D0(u16);
 extern void func_0200BE84(void *, u8 *);
 

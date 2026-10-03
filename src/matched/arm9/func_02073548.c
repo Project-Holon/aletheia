@@ -24,8 +24,9 @@ typedef struct Obj_02073548 {
     u8 b3d;
 } Obj_02073548;
 
-extern void *func_02060614(void *list, void *curr);
-extern void  func_02060550(void *list, void *curr, void *obj);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
+extern void func_02060550(volatile struct DList *list, void *before, void *elem);
 
 void func_02073548(void *list, Obj_02073548 *obj)
 {

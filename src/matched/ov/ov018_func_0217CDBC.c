@@ -13,7 +13,9 @@
  *   func_0217CDD0 0x0217CDD0 thumb ov018
  */
 extern int func_0217CDD0(void *, int *);
-extern void *func_020122C0(void *, void *, int (*)(void *, int *), unsigned int);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_0217CDBC(void *p)
 {
     return func_020122C0(p, 0, func_0217CDD0, 0);

@@ -20,9 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u8  *func_020437D4(void *bmp);
-extern u16  func_020437DC(void *bmp);
-extern u16  func_020437E4(void *bmp);
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 
 void func_02020A58(void *bmp, u32 dir, u32 start, u32 color, u16 size)
 {

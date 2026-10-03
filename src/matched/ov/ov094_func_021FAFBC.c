@@ -23,7 +23,7 @@ typedef struct {
 extern int func_0201134C(void *);
 extern int func_021FCA04(State *s, int id, int *out);
 extern void *func_021F8694(void);
-extern void func_021FFBBC(void *w, int a, int b, int c, int d, int e, int f);
+extern void func_021FFBBC(char *w, int key, int kind, int value, int a, int b, int c);
 
 int func_021FAFBC(void *a, State *s)
 {

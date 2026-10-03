@@ -45,8 +45,7 @@ typedef unsigned int   u32;
 
 extern const char func_02021518_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *site,
-                           u16 tag);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u32 data, u32 size);
 
 void *func_02021518(u32 heap)

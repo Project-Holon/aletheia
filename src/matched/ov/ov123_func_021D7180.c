@@ -36,7 +36,7 @@ extern void func_021D56FC(int, int);
 extern void func_02005DE4(int);
 extern void func_02005E64(void);
 extern void func_02005D90(int, int);
-extern void func_021D70BC(void);
+extern void func_021D70BC(char *p);
 extern void func_021D7130(void);
 
 void func_021D7180(int a)

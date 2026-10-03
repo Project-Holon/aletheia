@@ -28,12 +28,12 @@ struct Cmd {
 };
 
 extern u8 *func_021B9934(char *p, int i);
-extern int func_021BC2B0(void *w);
-extern int func_021C8374(void *w, u8 i);
+extern int func_021BC2B0(u8 *p);
+extern int func_021C8374(u8 *p, int i);
 extern int func_021C99A0(void *w, void *c);
-extern int func_021BDD00(void *w, u8 *r, u8 b);
+extern int func_021BDD00(u8 *p, u8 *a, int c);
 extern int func_021B8D8C(void *p, void *a, u32 b);
-extern void func_021BB930(void *p, int x);
+extern void func_021BB930(u8 *p, u32 value);
 
 int func_021CA158(u8 *w, struct Cmd *c)
 {

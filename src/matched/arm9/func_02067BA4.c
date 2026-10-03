@@ -54,8 +54,8 @@ extern struct Ctx *g_02148B48;
 
 extern int func_020637BC(void *p, int i);
 extern int func_020637B4(void *p, int i);
-extern int func_0206380C(void *p, int i);
-extern int func_02063800(void *p, int i);
+extern int func_0206380C(char *p, int i);
+extern int func_02063800(char *p, int i);
 
 void func_02067BA4(struct Ctx *c)
 {

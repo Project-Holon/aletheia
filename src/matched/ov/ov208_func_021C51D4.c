@@ -18,7 +18,8 @@ typedef unsigned int u32;
 struct Ov208Anm { u8 pad0[8]; u8 f8; u8 pad9[3]; u32 fc; };
 struct Ov208Slot { void *obj; struct Ov208Anm *anm; };
 extern void *func_02015EE8(void *p);
-extern void func_02064CBC(void *p);
+struct Obj;
+extern void func_02064CBC(struct Obj *x);
 extern void func_02015E4C(void *p);
 void func_021C51D4(struct Ov208Slot *s)
 {

@@ -18,7 +18,8 @@ typedef unsigned char u8;
 typedef struct {unsigned state;int active,other,timer,speed;} State;
 extern void func_021E0E50(u8 *);
 extern int func_021E0E8C(u8 *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 void func_021E10D8(u8 *p,State *s)
 {
     u8 *b=p+0xe0;

@@ -40,7 +40,7 @@ struct Entry {
     u8    pad04[0x28 - 4];
 };
 
-extern void *func_02046F48(void *p);
+extern void *func_02046F48(struct Tagged *p);
 extern struct Record *func_02047250(void *p);
 extern void func_020307E0(void *p, u32 size);
 

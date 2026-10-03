@@ -13,7 +13,7 @@
  *   func_02059374 0x02059374 arm
  */
 
-extern void func_02059374(void);
+extern int func_02059374(unsigned long long friendkey, unsigned long gamecode, int method);
 
 asm void DWC_CheckFriendKey(void)
 {

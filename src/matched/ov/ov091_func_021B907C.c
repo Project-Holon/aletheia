@@ -23,7 +23,7 @@ typedef int BOOL;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_0204B3DC(int h, int f);
-extern void func_02041B6C(int a);
+extern void func_02041B6C(u32 bit);
 extern void func_020355D8(int a);
 
 #define reg_G2_WIN0H  (*(volatile u16 *)0x04000040)

@@ -23,14 +23,16 @@
  */
 
 extern void *func_020120F4(int);
-extern void *func_02012934(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern unsigned int func_0201AA18(void *);
 extern void func_0204B3B4(int);
-extern void func_0204A8D4(int);
-extern void func_0204ADA4(int);
-extern void func_0204AFD8(int);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204B1CC(int);
-extern void func_02043598(int, int);
+extern void func_02043598(u32 mask, u32 enable);
 
 void func_021F0930(int *p)
 {

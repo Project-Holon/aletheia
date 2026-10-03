@@ -15,7 +15,8 @@
  */
 
 extern void func_02185354(char *p);
-extern void func_02186444(char *p, int v);
+typedef unsigned int   u32;
+extern void func_02186444(char *p, u32 v);
 
 struct bf4210 {
     unsigned char a : 3;

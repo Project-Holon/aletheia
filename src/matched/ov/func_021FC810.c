@@ -32,7 +32,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0201EE84(u32 a, u32 b, void *c);
+struct WordSet;
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern u32 sub_02045EC0(u32 a, u32 b);
 extern void func_0201F250(u32 a, u32 b, u32 c);
 extern u32 sub_02045770(u32 a);
@@ -50,7 +51,7 @@ void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
     u32 v;
     u32 h;
 
-    func_0201EE84(*(u32 *)(p + 0xb68), 0, (void *)sel);
+    func_0201EE84(*(void **)(p + 0xb68), 0, (void *)sel);
     v = sub_02045EC0(*(u32 *)(p + 0xb6c), b);
     func_0201F250(*(u32 *)(p + 0xb68), *(u32 *)(p + 0xb88), v);
     sub_02043B5C(sub_02045770(*(u32 *)(p + 0xd40)), 0xf);

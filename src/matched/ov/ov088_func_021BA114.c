@@ -32,11 +32,14 @@
  */
 
 extern void *func_02009448(int);
-extern unsigned char func_020092EC(const void *obj);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub02009210Obj;
+extern u8 func_020092EC(const struct Sub02009210Obj *obj);
 extern void func_0200C2F0(int, int, int);
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_0204363C(int);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0204363C(u32 swap);
 extern void func_021BA9D4(void);
 extern void func_021BA9E8(void);
 extern void func_021BAB64(void);
@@ -44,12 +47,12 @@ extern void func_021BAC74(void *);
 extern void func_021BB4B4(void *);
 extern void func_021BB544(void *);
 extern void func_021BAD08(void *);
-extern void func_021BB184(void *);
+extern void func_021BB184(int *p);
 extern void func_021BB380(void *);
 extern void func_021BB608(void *);
 extern void func_021BAC24(void *);
 extern void func_021BB484(void);
-extern void func_021BA9B0(void *);
+extern void func_021BA9B0(int *p);
 
 int func_021BA114(int *p)
 {

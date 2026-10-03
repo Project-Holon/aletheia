@@ -123,7 +123,7 @@ extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int 
 extern u32   func_02011510(u32 heap, u32 a1, u32 a2, u32 a3);
 extern u32   func_02048BC4(const void *a, u32 heap);
 extern void  func_02048C58(u32 a);
-extern void  func_0204044C(int a);
+extern void func_0204044C(u32 mode);
 
 void func_021B9C2C(Work *p, u32 heap)
 {

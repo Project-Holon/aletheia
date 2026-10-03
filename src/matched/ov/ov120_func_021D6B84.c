@@ -19,7 +19,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0204B898(void *);
-extern void func_0204B878(void *,u16);
-extern void func_0204B92C(void *,u32);
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021D6B84(u8 *p,u32 n){int got;int mode;got=func_0204B898(*(void **)(p+0xc4+n*4));mode=1;if(got>=2)mode=3;func_0204B878(*(void **)(p+0xc4+n*4),mode);func_0204B92C(*(void **)(p+0xc4+n*4),1);}

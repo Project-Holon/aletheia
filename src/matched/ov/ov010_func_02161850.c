@@ -30,7 +30,7 @@ typedef struct Obj {
     void *f10;          /* 0x10 */
 } Obj;
 
-extern void *func_02188C7C(void *p);
+extern void *func_02188C7C(u8 *p);
 extern void *func_02161938(void *a, u32 b);
 extern void *func_02197D3C(void *a, void *b);
 extern void func_02161964(Obj *o, void *v);

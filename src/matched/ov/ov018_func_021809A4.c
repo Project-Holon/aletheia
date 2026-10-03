@@ -72,22 +72,27 @@ extern u16 d_02183870[];
 extern u16 d_0218387A[];
 extern u16 d_02183884[];
 
-void *func_020124E4(void *);
+typedef signed int     s32;
+struct Ctx;
+struct Obj;
+struct S0201235C;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
 int func_0217405C(u8 *, u8 *);
 int func_02175CF4(u8 *, u8 *);
-void func_0201F02C(void *, int, void *);
-void *func_020120F4(void *);
-void *func_02012944(void *);
-void func_0201F184(void *, int, int);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void *func_020120F4(const struct Ctx *p);
+u8 *func_02012944(void *p);
+void func_0201F184(struct WordSet *p, u32 i, s32 v);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
-void func_020061E4(int);
+void func_020061E4(u32 a);
 void func_0217FE38(u8 *v, Outer *c);
 void *func_021804F8(void *, int);
-void func_0201235C(void *, void *);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_021809A4(void *a, int *state, Outer *c)
 {

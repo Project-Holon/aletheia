@@ -22,8 +22,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void *func_020122C0(void *p, int a, void *cb, int n);
-void *func_020124E8(void *p);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
 void func_0217FDA0(int a, int *b, u8 *c, int d, int e, int f, int g);
 void func_0217538C(u8 *w, int a);

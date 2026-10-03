@@ -18,7 +18,7 @@
  */
 
 extern int func_02159B48(int);
-extern void func_02159B94(int, int, int, int);
+extern int func_02159B94(int a0, int a1, int a2, int a3);
 extern void func_02159BBC(int);
 extern int func_02188C98(int);
 extern void func_0218CD20(int, int, int);

@@ -18,9 +18,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { int a,b,c,d; } Config;
 extern const Config d_021DF598;
-extern void func_02040588(int,int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FC28(Config *);
-extern void func_02050B80(u16);
+extern void func_02050B80(u32 heap);
 extern void func_021D98F4(void *,u16);
 void func_021D9750(u8 *p)
 {

@@ -22,11 +22,12 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204E720(int a, int b, int c, int d);
-extern void func_0204363C(int a);
-extern void func_02040588(int a, int b);
-extern void func_02043598(int a, int b);
-extern void func_020434DC(int a, int b);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void func_0204363C(u32 swap);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
+extern void func_020434DC(u32 mask, u32 enable);
 extern u32  func_0201160C(int a);
 extern void func_021B9E7C(void *a, int b);
 

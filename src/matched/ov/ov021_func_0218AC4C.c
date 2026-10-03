@@ -24,9 +24,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Blk38;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *p);
-extern int func_0200D564(void *p);
+extern u32 func_0200D564(struct Blk38 *p);
 extern u16 func_02188C84(u8 *p);
 extern int func_02158768(int a0, int a1, int a2, int a3);
 

@@ -28,9 +28,11 @@ extern void func_021DCC88(int *);
 extern void func_021DCB8C(int *);
 extern void func_021DCA40(void);
 extern void func_021DCE28(int *);
-extern void func_0207D534(void *, int);
-extern void func_02043534(int);
-extern void func_020435F4(int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
 extern void func_02034A5C(int);
 extern char ov067_id[];
 int func_021DCF38(int *p)

@@ -21,13 +21,15 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned int u32;
 extern void *func_0215A5E4(void *a0);
 extern int func_02012944(void *p);
 extern void *func_021B6EE0(int a, int b);
 extern void func_0201F02C(int a, int b, int c);
 extern void func_0201EEC4(int a, int b, int c);
-extern int func_02017E1C(void *p, int a, int b);
-extern void func_0201EED4(int a, int b, void *c);
+struct WordSet;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_0201EED4(struct WordSet *p, u32 i, void *mon);
 extern void func_020307B0(void *p);
 
 int func_021B6F88(int a, int b, int c)
@@ -46,7 +48,7 @@ int func_021B6F88(int a, int b, int c)
         if (func_02017E1C(m, 0x4c, 0) == 1)
             r = 0xb;
         else
-            func_0201EED4(a, 1, m);
+            func_0201EED4((void *)a, 1, m);
         func_020307B0(m);
     }
     return r;

@@ -61,11 +61,11 @@ extern const BgTemplate d_021BBAC0;
 extern const BgTemplate d_021BBAE0;
 extern const BgTemplate d_021BBB00;
 
-extern void func_0203FCA0(int bg, void *tmpl, int mode);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_020414AC(int bg);
 extern void func_020409B4(u32 layer);
-extern void func_02040588(int a, int b);
-extern void func_02040C14(int, int, int, int);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_020414EC(u32 i);
 
 void func_021B8F98(void)

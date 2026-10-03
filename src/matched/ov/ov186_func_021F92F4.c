@@ -17,7 +17,9 @@
  *   func_021FF52C 0x021FF52C thumb ov186
  *   func_021F9B98 0x021F9B98 thumb ov186
  */
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 typedef struct {int x[3];} S;
 extern void func_021FE768(S *);

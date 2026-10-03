@@ -10,7 +10,7 @@
  * symbols:
  *   func_021E2A1C 0x021E2A1C thumb ov119
  */
-extern void func_021E2A1C(void *, int, int);
+extern void func_021E2A1C(char *p, int a, int b);
 void func_021DD294(char *p, int a, int b)
 {
     if (*(int *)(p + 0x118C) == 3)

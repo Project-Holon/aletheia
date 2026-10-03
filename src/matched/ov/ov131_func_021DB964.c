@@ -27,9 +27,11 @@ extern int func_0201C1C8(u16);
 extern void func_0204AB84(void *,void *);
 extern void func_0204B784(void *,void *);
 extern int func_020275EC(int);
-extern void func_0204B6F4(void *,int,int);
-extern void func_0204B3DC(void *,int);
-extern void func_021DBCF4(void *);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_021DBCF4(u8 *p);
 void func_021DB964(u8 *a,void *b,u8 *p) {
     unsigned v;
     int i;

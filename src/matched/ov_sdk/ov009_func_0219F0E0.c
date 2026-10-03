@@ -44,7 +44,7 @@ typedef struct {
 } SBSortGlobals;
 typedef struct SBServer SBServer;
 
-extern int func_0219E120(SBServer *server, char *key, int idefault);
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern double func_0219E1B8(SBServer *server, char *key, double fdefault);
 extern char *func_0219E0C0(SBServer *server, char *keyname, char *def);
 extern int func_020948E0(const char *a, const char *b);

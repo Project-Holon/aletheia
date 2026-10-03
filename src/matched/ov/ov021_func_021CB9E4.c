@@ -65,9 +65,12 @@ typedef struct {
     u8 b1 : 1;
 } Flags;
 
-extern u16 func_02188C9C(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_020071CC(void *sys, u32 id);
+struct Big;
+struct Blk1AC;
+struct Sub020071CCCtrl;
+extern u16 func_02188C9C(u8 *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u8 *func_0200DF58(void *p, int a);
 extern u32 func_0200DF94(void *b);
 extern u32 func_0200DFB4(void *e);
@@ -75,7 +78,7 @@ extern void *func_0216CE6C(void *o, int x, int y, u16 d, u32 a, u32 b, u32 c, u3
 extern int func_0216D620(void *h, u16 v, int which);
 extern void func_0216D5B4(void *h, u16 v);
 extern void func_020307B0(void *p);
-extern u16 func_0200DB80(void *p, u32 i);
+extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 
 extern const Pt d_021DADD0[];
 extern const u16 d_021DAD48[];

@@ -22,8 +22,9 @@ extern void func_021FF914(Anim *, int);
 extern void func_021FFAEC(u32, int, int);
 extern int func_0204B98C(u32);
 extern void func_020307B0(void *);
-extern void func_02030EAC(void *);
-extern void func_020061E4(int);
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_020061E4(u32 a);
 void func_021FF92C(void *task, Anim *a)
 {
     u8 *p;

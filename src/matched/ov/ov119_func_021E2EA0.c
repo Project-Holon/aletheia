@@ -11,7 +11,8 @@
  * symbols:
  *   func_02011558 0x02011558 thumb
  */
-extern void func_02011558(void *);
+struct IcaAnime;
+extern void func_02011558(struct IcaAnime *p);
 void func_021E2EA0(char *p) {
     if (*(void **)(p+0x90)) {func_02011558(*(void **)(p+0x90)); *(void **)(p+0x90)=0;}
     if (*(void **)(p+0x94)) {func_02011558(*(void **)(p+0x94)); *(void **)(p+0x94)=0;}

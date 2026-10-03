@@ -88,8 +88,7 @@ struct ZoneDataMgr {
 extern struct ZoneDataMgr *g_sub02013AD0Obj;
 extern const char sZonedataFile[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 kind, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_0204A298(u32 archive_id, u32 member, u32 kind, u32 heap,
                            u32 *size_out);

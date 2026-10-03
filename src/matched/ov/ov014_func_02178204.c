@@ -31,8 +31,8 @@ void func_0217807C(void);
 int func_02178304(void);
 u32 func_0203D650(void);
 int func_0208F938(int a, u16 b);
-void func_0203A338(u16 a);
-void func_02039A2C(u16 a);
+void func_0203A338(u32 a0);
+void func_02039A2C(int a);
 
 typedef int (*ConnFn)(void *obj, u32 a);
 typedef void (*SlotFn)(u16 slot);

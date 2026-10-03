@@ -42,7 +42,8 @@
 
 extern int  func_020120F0(int v);
 extern void func_020120C0(int v);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int  func_02188BE8(void *v);
 
 int func_02014584(int a0, int *a1, int *a2)

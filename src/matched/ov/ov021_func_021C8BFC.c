@@ -25,9 +25,10 @@
  */
 
 extern int func_021C8D18(int *p);
-extern int func_021C8BC4(int a);
+typedef unsigned int   u32;
+extern int func_021C8BC4(u32 a);
 extern int func_021A2F98(int a);
-extern void func_021ACBC8(int a, int b);
+extern void func_021ACBC8(u32 a, int v);
 extern void func_021C8E30(int *p);
 extern int func_0216D454(int a);
 extern void func_021C8D74(int *p);

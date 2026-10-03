@@ -14,8 +14,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0220B31C(char *,int,int,int,int,int);
-extern void func_0220B3EC(char *,int,int,int,int,int,int);
+typedef unsigned int   u32;
+extern void func_0220B31C(char *p, u32 i, int id, int w, int unused, int unused2);
+extern void func_0220B3EC(char *p, u32 i, int id, int w, int unused, int y, int unused2);
 void func_0220B4B8(char *p,u16 i)
 {
     int base=*(short *)(*(char **)p+((u8 *)p)[0x533]*2+0x38)*6;

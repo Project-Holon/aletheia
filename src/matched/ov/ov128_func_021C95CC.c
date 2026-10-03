@@ -17,9 +17,10 @@
 typedef unsigned char u8;
 typedef signed short s16;
 extern void func_021C9BEC(u8 *,void *,void *,int,s16,int);
-extern void func_021C6DF8(void *,int);
-extern void func_021C9BF8(void *,void *,int);
-extern void func_02040618(int,int,int);
+typedef unsigned int   u32;
+extern void func_021C6DF8(u8 *p, u32 a);
+extern void func_021C9BF8(u8 *p, u8 *q, int idx);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 int func_021C95CC(u8 *p,void *a,void *b,int c)
 {
     int value=*(int *)(p+4);

@@ -29,12 +29,13 @@ struct Entry { u16 id; u8 gap[14]; u8 *object; };
 struct List { u8 gap[0x70]; struct Entry entries[10]; };
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
-extern void func_02040AE0(u32,void *,u32);
-extern void func_0204B878(void *,u16);
+struct Obj;
+extern void func_02040AE0(u32 index, const void *src, u32 mode);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern s16 func_021D9440(u8 *,u32);
 extern void func_021DBE2C(u8 *,s16,s16);
 extern void func_021DBCA4(u8 *,int);
-extern void func_021DBCF4(void *);
+extern void func_021DBCF4(u8 *p);
 void func_021D8FAC(u8 *a,u8 *p)
 {
     u8 i;

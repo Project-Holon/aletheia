@@ -13,10 +13,11 @@
  *   func_021DA034 0x021DA034 thumb ov123
  *   func_021DA1C8 0x021DA1C8 thumb ov123
  */
-extern void func_021B9774(void *);
-extern void func_021D9730(void *,unsigned);
+typedef unsigned char  u8;
+extern void func_021B9774(u8 *p);
+extern void func_021D9730(char *p, int n);
 extern void func_021DA034(char *,void *,int);
-extern void func_021DA1C8(void);
+extern void func_021DA1C8(char *p);
 void func_021DA1EC(char *p)
 {
     unsigned n;

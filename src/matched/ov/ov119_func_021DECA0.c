@@ -28,22 +28,23 @@
  *   func_021DEC4C 0x021DEC4C thumb ov119
  */
 typedef unsigned short u16;
-extern void func_021E4000(void *);
+typedef unsigned int   u32;
+extern void func_021E4000(char *p);
 extern void func_021DF7D0(void *);
 extern void func_021DF8E0(void *);
 extern void func_021E64B8(void *);
-extern void func_021DD588(void *);
-extern void func_021E4570(void *);
+extern void func_021DD588(char *p);
+extern void func_021E4570(char *p);
 extern void func_021DD9DC(unsigned char *);
-extern void func_021E4888(void *);
+extern void func_021E4888(char *p);
 extern void func_021DD528(char *,int);
-extern void func_02041570(int,int);
+extern void func_02041570(int channel, u16 val);
 extern void func_0204B3DC(int,int);
 extern void func_021B6558(int,int,int);
 extern void func_021B6548(int,int,int);
 extern void func_021E24E8(void *,int);
-extern void func_021E6B90(void *);
-extern void func_0202208C(int,int,int,int,int,int,int);
+extern void func_021E6B90(char *p);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021D8E84(void *,int);
 extern void func_021DEC4C(void *);
 void func_021DECA0(char *p) {

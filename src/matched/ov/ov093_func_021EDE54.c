@@ -17,14 +17,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_020437EC(const void *);
-extern void *func_020437D4(const void *);
+struct Bmp;
+struct StrObj;
+extern u32 func_020437EC(const struct Bmp *bmp);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A90(const void *, void *, u32);
 extern void func_0201DD78(u32, u32, u32);
 extern void func_021EEE24(u32, u16, u32, ...);
-extern u32 func_0201D33C(void *, u32, u32, u32 *, u32);
-extern u32 func_0201D304(void *, u32, u32);
-extern u32 func_0201D37C(void *, void *, u32);
+extern u32 func_0201D33C(struct StrObj *s, u32 a, u32 b, u32 *out, u32 max);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D37C(struct StrObj *src, struct StrObj *dst, u32 n);
 extern void func_0201C7A4(void *, s16, s16, void *, u32);
 void func_021EDE54(u8 *p)
 {

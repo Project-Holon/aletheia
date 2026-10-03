@@ -59,7 +59,7 @@ extern void func_021AC154(u32 a);
 extern void func_02050804(u32, u32, u32, u32);
 extern void func_0205082C(u32, u32, u32);
 extern void func_020507F0(u32, u32, u32);
-extern u8 func_021AC1A0(u32 a);
+extern int func_021AC1A0(u32 a);
 extern void func_021AC178(u32 a);
 extern u32 d_021DE050[];
 

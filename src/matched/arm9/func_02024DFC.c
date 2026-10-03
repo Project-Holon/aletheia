@@ -86,7 +86,7 @@ extern int  func_020251D8(int a0, const void *a1, int a2);
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, void *a5, u8 a6,
                           u8 a7, u8 a8, u8 a9);
 extern void func_020409B4(u32 a0);
-extern int  func_02035630(void);
+extern u8 func_02035630(void);
 extern int  OS_IsRunOnTwl(void);
 
 void func_02024DFC(void)

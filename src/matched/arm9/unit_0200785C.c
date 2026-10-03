@@ -75,8 +75,8 @@ extern const char sub_0200785C_File[];
 
 extern struct Sub0200785CHeader *sub_020074CC(void *save);
 extern struct Sub0200785CEntry  *sub_02007AF4(void *save, u32 box);
-extern int  sub_02017E88(struct Sub0200785CEntry *entry, int field, int arg);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern u32 sub_02017E88(void *p, u32 id, u32 v);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02045924(void *dest, const struct Sub0200785CName *src);
 extern void func_02045A38(const void *src, struct Sub0200785CName *dest,
                           u32 n);

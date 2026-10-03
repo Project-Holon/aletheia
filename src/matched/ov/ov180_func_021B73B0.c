@@ -16,7 +16,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern int func_0204B944(void *);
-extern void func_0204B8D4(void *,int);
+struct Obj;
+extern u32 func_0204B944(struct Obj *p);
+extern void func_0204B8D4(struct Obj *p, u32 arg);
 extern void func_0204A600(void);
 void func_021B73B0(char *p){u32 i;char *q;for(i=0;i<33;i++){q=p+i*4;if(*(void **)(q+36936)&&func_0204B944(*(void **)(q+36936))!=1)func_0204B8D4(*(void **)(q+36936),4096);}func_0204A600();}

@@ -13,6 +13,7 @@
  *   func_021B9AF8 0x021B9AF8 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B8DDC(int);
+typedef unsigned int   u32;
+extern u8 func_021B8DDC(u32 x);
 extern char *func_021B9AF8(char *, int);
 char *func_021C7FCC(u8 *p, int i) { return func_021B9AF8(*(char **)(p + 8), func_021B8DDC(i)); }

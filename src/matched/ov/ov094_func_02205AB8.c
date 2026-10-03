@@ -23,7 +23,8 @@
 typedef unsigned short u16;
 typedef struct { void *entry; int extra; } Entry;
 typedef struct { char pad[0x1c8]; Entry entries[3]; } Work;
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(unsigned int h);
 extern void func_0204AFD8(unsigned int h);
 extern void func_0204ADA4(unsigned int h);

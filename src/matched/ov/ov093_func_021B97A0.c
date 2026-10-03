@@ -31,15 +31,19 @@ extern const u8 data_021EFCF0[4];
 
 extern void *func_021B985C(char *p, int i);
 extern char *func_021B9AEC(char *p, int i);
-extern int func_0201AA18(void *l);
-extern void func_0201A948(void *p);
+struct Party;
+struct PartyMon;
+struct R3;
+struct Rec534;
+extern u32 func_0201AA18(void *p);
+extern void func_0201A948(struct Party *p);
 extern void *func_021B9BF0(void *p, int i);
 extern u8 func_021D5440(u8 *p);
 extern void func_021D6B84(void *m, int k);
 extern void *func_021D5844(void *m);
-extern u32 func_0201A98C(void *l, void *v);
-extern int func_021D67D0(void *m);
-extern void func_0201AC2C(void *l, void *m);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern int func_021D67D0(struct R3 *p);
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 
 void func_021B97A0(char *a, char *b, int k)
 {

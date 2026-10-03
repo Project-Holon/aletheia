@@ -18,8 +18,8 @@
 
 extern void  func_021BE700(void *p, int i, int j, int k, int flag);
 extern void  func_021BE6CC(void *p, int i, int j, int k, int flag);
-extern void *func_021BE674(void *p, int i, int j, int k);
-extern void  func_021BE6B0(void *p, int b);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
 
 void func_021F4174(void *p)
 {

@@ -13,8 +13,10 @@
  *   func_02040DA8 0x02040DA8 arm
  */
 extern void func_02202940(void *);
-extern void func_020452E8(void *);
-extern void func_02040DA8(int, int, int);
+typedef unsigned int   u32;
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 void func_021FE0BC(unsigned char *p)
 {
     int i;

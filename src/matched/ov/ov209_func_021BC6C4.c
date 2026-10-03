@@ -15,7 +15,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02021518(u32);
-extern void func_0202155C(void *, u32, u32, u32);
+struct PalAnmSlot;
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 void func_021BC6C4(char *p)
 {
     *(void **)(p + 12) = func_02021518(0x6B);

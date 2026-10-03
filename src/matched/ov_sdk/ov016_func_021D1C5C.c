@@ -38,8 +38,8 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void func_021D4F60(void *cell);
-extern void func_021D5A2C(void *canvas);
+extern void func_021D4F60(u8 *p);
+extern void func_021D5A2C(char *a);
 extern void func_021D7724();
 extern void func_021D6438();
 extern MemWinT *g_021DE658;

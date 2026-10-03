@@ -25,8 +25,9 @@ extern const Point d_021CA800[];
 extern const Point d_021CA810;
 extern const Point d_021CA818;
 extern void *func_0204B294(u32,u32,u32,u32,const Point *,u16,u32);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021C6CB0(char *p,int heap)
 {
     int a,b,c,d,e,f,i;

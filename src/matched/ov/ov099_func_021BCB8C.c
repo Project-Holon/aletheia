@@ -15,7 +15,8 @@
  *   func_0200BAF4 0x0200BAF4 thumb
  */
 typedef unsigned int u32;
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *);
 extern int func_0200BAF4(void *, u32);

@@ -14,8 +14,10 @@
 typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204B9A0(void *);
-extern void func_0204B92C(void *, u32);
+struct Actor;
+struct Obj;
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021D6FD8(u8 *p, u32 flag)
 {
     if (*(void **)(p + 0x140) != 0) {

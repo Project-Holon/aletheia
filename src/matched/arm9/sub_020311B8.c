@@ -72,8 +72,7 @@ struct Tcbl {
 
 extern const char sub_020311B8_File[];
 
-extern void *sub_02030734(u32 heap, u32 size, u32 clear, const char *site,
-                          u16 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct TcblNode *sub_02030F04(struct Tcbl *p);
 
 struct TcblNode *sub_020311B8(struct Tcbl *p, TcblFunc func, u32 workSize,

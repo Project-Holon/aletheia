@@ -20,13 +20,16 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_021D6EE0(u8 *, int, int);
-extern void func_021D6FF0(void);
-extern int func_020093D0(void *);
-extern void func_021D6A70(void *, int, int, int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Sub02009210Obj;
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
+extern void func_021D6FF0(char *p);
+extern s32 func_020093D0(const struct Sub02009210Obj *obj);
+extern void func_021D6A70(u8 *p, int i, int a, int b, int c);
 extern int func_021D7CEC(void *, u8 *);
 extern void func_021D7E20(u8 *, u8 *);
-extern void func_021D6AB8(void *);
+extern void func_021D6AB8(u8 *p);
 extern void func_021D7BDC(u8 *);
 void func_021D7E58(u8 *p, void *h, u8 *q, int *r)
 {

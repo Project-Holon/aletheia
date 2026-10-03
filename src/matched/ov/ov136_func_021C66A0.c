@@ -16,7 +16,8 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B878(void *, u32);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021C66A0(u8 *p, int i, u32 v)
 {
     func_0204B878(*(void **)(p + i * 4 + 0x1F0), (u16)v);

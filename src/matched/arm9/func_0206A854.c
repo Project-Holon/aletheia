@@ -48,7 +48,7 @@
 typedef unsigned int u32;
 
 extern u32  g_02148B4C[];
-extern void func_0206DDA4(u32 a, void *b, u32 c);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_0206A854(void)
 {

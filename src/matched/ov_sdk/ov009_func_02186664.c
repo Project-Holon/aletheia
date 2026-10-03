@@ -27,13 +27,14 @@
  */
 
 extern void *func_0217EAB0(int size);
-extern void  func_020923B0(void *dst, int val, int len);
+typedef unsigned int   u32;
+extern void *func_020923B0(void *p, int c, u32 n);
 extern int   func_0218FB14(void **pp);
 extern void  func_0217EAE0(void *p);
 extern int   func_021867E8(void **pp);
 extern void  func_02186788(void **pp);
 extern void  func_0217F25C(void);
-extern void  func_0217F264(void);
+extern unsigned int func_0217F264(void);
 extern void  func_020946C8(void);
 
 int func_02186664(void **out, int a1, int a2, int a3)

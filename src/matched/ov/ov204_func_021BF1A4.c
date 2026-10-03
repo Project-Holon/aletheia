@@ -28,9 +28,12 @@ extern void func_0201D83C(void *);
 extern unsigned func_0201CE48(unsigned);
 extern void func_020452E8(struct Descriptor *);
 extern void func_02031140(struct S02031140 *);
-extern void func_0201C4C0(void *);
-extern void func_02045C04(void *);
-extern void func_0201ED04(void *);
+struct PrintSys;
+struct Rec;
+struct WordSet;
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_020307B0(void *);
 void func_021BF1A4(char *p)
 {

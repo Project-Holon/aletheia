@@ -33,7 +33,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_02030EAC(void *a);
+typedef signed int     s32;
+struct Node;
+struct Rec;
+struct S020315D4;
+extern void func_02030EAC(struct Node *n);
 extern void func_021BB5E0(void *a);
 extern void func_021BB204(void *a);
 extern void func_021BAF9C(void *a);
@@ -44,12 +48,12 @@ extern void func_021BB42C(void *a);
 extern void func_021B9F20(void *a);
 extern void func_021B9938(void *a);
 extern void func_021BBB34(void *a);
-extern void func_021BB738(void *a);
-extern void func_02045C04(void *a);
+extern void func_021BB738(u32 *p);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *a);
-extern void func_020315D4(void *a);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int a);
-extern void func_02034A5C(u32 a);
+extern void func_02034A5C(s32 handle);
 extern char ov067_id[];
 
 int func_021B9858(void *a, int b, int c, u8 *o)

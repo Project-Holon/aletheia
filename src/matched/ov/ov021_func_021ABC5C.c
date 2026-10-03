@@ -21,7 +21,8 @@ typedef struct { int x; int y; int z; } V;
 
 extern int func_021AB760(int a);
 extern void func_021ABBA0(char *p, void *q, int *o1, int *o2);
-extern int sub_0207C768(int a, int b);
+typedef unsigned int   u32;
+extern u32 sub_0207C768(u32 a, u32 b);
 extern void func_0218ECD4(int a, V *v);
 
 void func_021ABC5C(int a0, char *p, void *q)

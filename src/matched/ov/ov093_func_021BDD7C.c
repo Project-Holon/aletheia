@@ -26,7 +26,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *p, void *a, u32 b);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021BD1D0(u8 *p, u32 n);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021BDE18(u8 *p, u8 *a);

@@ -29,7 +29,8 @@ struct G {
 };
 
 extern int func_021B9AB0(int k);
-extern u8 *func_021B9C00(void *p, u32 i);
+struct S2;
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D5B68(void *m);
 
 u8 func_021D06C8(struct G *g)

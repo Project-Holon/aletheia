@@ -22,20 +22,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void);
-extern int func_02028230(void *);
+struct Descriptor;
+struct Obj;
+struct PrintSys;
+extern u32 func_02028230(u8 *p);
 extern void func_021D48A4(char *);
 extern u32 func_020362DC(void);
-extern void func_02041B6C(int);
-extern u32 func_0201C4E4(void *);
+extern void func_02041B6C(u32 bit);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_0204A600(void);
-extern void func_02028178(void *);
-extern int func_0201C6B4(void *);
-extern void func_02045334(void *);
+extern void func_02028178(u8 *p);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_02045334(struct Descriptor *d);
 extern void func_021D49C8(char *,u32);
-extern void func_020282A4(void *);
-extern void func_0202843C(void *);
-extern void func_02028454(void *);
-extern void func_02040618(int,int,int);
+extern void func_020282A4(struct Obj *obj);
+extern void func_0202843C(u8 *p);
+extern void func_02028454(u8 *p);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 int func_021D42A0(char *p)
 {
     switch(*(u32 *)(p+16)) {

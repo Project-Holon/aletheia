@@ -50,7 +50,7 @@ extern void sub_02005D14(void);
 extern void sub_02006368(void);
 extern void sub_020746B0(u32 v);
 extern void sub_02006300(u8 *p, u32 v);
-extern u32  sub_02006394(void);
+extern int sub_02006394(void);
 extern void sub_0200597C(void);
 extern void sub_02085A38(u32 v);
 extern void sub_020059A0(u8 *p);

@@ -53,7 +53,9 @@
 */
 typedef int s32;
 
-extern s32  func_02089978(s32 a);
+typedef unsigned int   u32;
+struct SNDCommand;
+extern const struct SNDCommand *func_02089978(u32 flags);
 extern void func_020731E0(void);
 extern void func_02073D7C(void);
 extern void func_02075858(void);

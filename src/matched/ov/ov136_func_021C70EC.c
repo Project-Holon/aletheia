@@ -15,7 +15,8 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_0204B98C(void *);
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 int func_021C70EC(u8 *p)
 {
     if (func_0204B98C(*(void **)(*(u8 **)(p + 8) + 0x20C)) == 0) {

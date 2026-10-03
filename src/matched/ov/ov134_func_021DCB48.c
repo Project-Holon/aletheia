@@ -40,7 +40,8 @@ typedef struct {
     u32 f8C, f90;
     u8 f94;
 } Output;
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void func_0201A2A8(void *, void *);
 extern u32 func_0200873C(void *);
 extern int func_02034AC4(int);

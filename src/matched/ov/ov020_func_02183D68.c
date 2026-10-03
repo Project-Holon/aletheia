@@ -31,7 +31,8 @@ typedef unsigned int u32;
 extern int func_020122C0(int a, int b, void *fn, int c);
 extern int *func_020124E8(int a);
 extern int func_020120F4(int a);
-extern void func_02014264(int *p);
+struct Arg;
+extern void func_02014264(void *p);
 extern void func_02183C58(int a);
 extern int func_02012EBC(int a);
 extern int func_02008B08(int a);
@@ -41,7 +42,7 @@ extern void func_02185F6C(int a);
 extern void func_0208068C(int a);
 extern void func_02082AC0(int v, u32 a, u32 b);
 extern void func_02080B98(void);
-extern void func_02183C9C(void);
+extern int func_02183C9C(void *obj, int *state, struct Arg *arg);
 
 int func_02183D68(int a)
 {

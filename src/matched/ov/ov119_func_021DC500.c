@@ -12,7 +12,8 @@
  *   func_02040618 0x02040618 arm
  */
 extern void func_0204A648(int);
-extern void func_02040618(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 void func_021DC500(int a, char *p)
 {
     func_0204A648(a);

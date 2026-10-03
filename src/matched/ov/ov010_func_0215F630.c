@@ -13,6 +13,8 @@
  */
 
 extern int func_02159F80(void *);
-extern unsigned short func_02012914(const void *);
+typedef unsigned short u16;
+struct BigObj;
+extern u16 func_02012914(const struct BigObj *p);
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;
 BOOL func_0215F630(void *p) { int a = func_02159F80(p); if(a == func_02012914(p)) return FALSE; else return TRUE; }

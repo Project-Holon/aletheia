@@ -55,8 +55,9 @@ extern u32 func_02012EBC(void *a);
 extern void *func_0200A300(u32 a, u32 b, u32 c);
 extern void func_0200A338(void *h);
 extern u8 *func_021B7834(void *h, u32 *x, u8 *buf);
-extern int func_021B7864(void *h);
-extern void func_021B785C(void *h, u32 x);
+struct Ctx;
+extern u8 func_021B7864(void *a);
+extern void func_021B785C(u8 *p, u32 i);
 extern u16 func_021B6D0C(int k, u32 b, void *sv, u8 *p);
 extern u16 func_021B6D30(int k, u8 *p, u32 b);
 extern u16 func_021B6D64(int k, u8 *p, u32 b);
@@ -68,7 +69,7 @@ extern int func_021B6EB0(u8 *p, int k);
 extern u32 func_02012F08(void *sv);
 extern u32 func_02012944(void *sv);
 extern void func_0216BF74(u32 a, u32 b, u32 c);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern Ent d_021D9970[];
 
 int func_021B6BDC(u32 a, u32 b)

@@ -13,7 +13,7 @@
  *   func_0208B528  0x0208B528  arm
  */
 
-extern void func_0208B528(void);
+extern int func_0208B528(void);
 
 void func_0218448C(int *p)
 {

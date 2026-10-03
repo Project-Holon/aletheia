@@ -18,7 +18,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *func_021E9100(u8 *p, int n);
-extern int func_021B8D8C(void *p, void *a, u8 b);
+extern int func_021B8D8C(void *p, void *a, u32 b);
 
 void func_021EA280(char *ctx, u8 n, int b, const u8 *c, u16 e)
 {

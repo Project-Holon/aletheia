@@ -29,7 +29,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 typedef struct {int x,y,z;} Vec;
-extern u16 func_021F9E04(void *);
+extern u16 func_021F9E04(u8 *p);
 extern void *func_021F9DA0(void *),*func_021F9DA4(void *,int),*func_021F9DD4(void *),*func_021F9DDC(void *,u8);
 extern void func_021F8044(void *,void *,Vec *),func_021F6F04(void *,void *,Vec *);
 extern void func_021FA3A8(char *,u8 *,unsigned);

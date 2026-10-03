@@ -19,11 +19,16 @@
  */
 extern void *func_021DD2D0(void ***,int,unsigned);
 extern void func_021EDAB0(void *,int);
-extern void *func_0201747C(void *,unsigned);
+typedef unsigned int   u32;
+struct Mon;
+struct Party;
+struct PartyMon;
+struct Sub020075B0Entry;
+extern void *func_0201747C(struct Mon *p, u32 heap);
 extern void *func_0201AB28(void *,unsigned);
 extern void *func_020185F4(void *);
-extern int func_020075B0(void *,unsigned,unsigned,void *);
-extern void func_0201AB48(void *,unsigned,void *);
+extern int func_020075B0(void *save, u32 box, u32 slot, const struct Sub020075B0Entry *src);
+extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void func_020307B0(void *);
 void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
 {

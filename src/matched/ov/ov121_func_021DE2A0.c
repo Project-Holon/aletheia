@@ -15,7 +15,8 @@
  *   d_021DFBC0 0x021DFBC0 data ov121 a1
  */
 typedef unsigned short u16;
-extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern void func_021DEE68(void *,int,void *);
 extern void func_021DE618(void);

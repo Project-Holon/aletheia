@@ -15,8 +15,9 @@
  *   func_021F7A28 0x021F7A28 thumb ov094
  *   func_021F8AE8 0x021F8AE8 thumb ov094
  */
-extern void func_021F7A28(int, int);
-extern void func_021F8AE8(int, int);
+typedef unsigned int   u32;
+extern void func_021F7A28(int a, u32 b);
+extern void func_021F8AE8(int i, u32 v);
 
 void func_021F7CE4(int a)
 {

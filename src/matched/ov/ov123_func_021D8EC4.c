@@ -17,16 +17,21 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_02009448(void *);
+typedef unsigned int   u32;
+struct Mon;
+struct Sub020079BCEntry;
+struct Sub02009210Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_020307B0(void *);
-extern void *func_02007A18(void *,int,int);
-extern void *func_0201747C(void *,u16);
-extern void func_02009294(void *,void *);
-extern void func_02007664(void *,int,int);
-extern void func_020092F8(void *,u8);
-extern void func_021D62B4(void *,int);
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
+extern void *func_0201747C(struct Mon *p, u32 heap);
+extern void func_02009294(struct Sub02009210Obj *obj, const void *src);
+extern void func_02007664(void *save, u32 box, u32 slot);
+extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
+extern void func_021D62B4(u8 *p, unsigned int i);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D8E98(void);
+extern void func_021D8E98(char *p);
 void func_021D8EC4(char *p)
 {
     void *v;

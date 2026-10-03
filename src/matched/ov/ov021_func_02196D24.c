@@ -30,10 +30,11 @@ typedef struct Obj { u32 x0; u32 x4; u32 x8; u32 xc; u8 pad[0x284]; void *objs[2
 typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
 typedef struct { u8 v[3]; } Tbl3;
 extern const Tbl3 d_021D3F9C;
-extern void func_02196CD8();
-extern void func_0204B92C(void *, int);
+struct Actor;
+extern void func_02196CD8(u8 *p);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204BA00(void *, Req *);
-extern void func_0204B9A0(void *);
+extern void func_0204B9A0(struct Actor *a);
 extern void func_02196034(Obj *, void (*)(), u32);
 extern void func_02196D20();
 

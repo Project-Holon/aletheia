@@ -18,7 +18,9 @@
 
 typedef unsigned short u16;
 
-extern u16 func_02162BCC(void *b, void *q);
+struct Box;
+struct Q;
+extern u16 func_02162BCC(struct Box *b, struct Q *q);
 
 u16 func_021626B0(void *b, void *q)
 {

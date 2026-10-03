@@ -43,18 +43,21 @@ extern void *func_0203159C(void *owner, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern char *func_021BCE10(u32 display, u32 heap, int threeD);
 extern void func_021BCEC0(char *p);
-extern void *func_0201D7EC(int a, int b, int c, int d, u32 heap);
+typedef signed int     s32;
+struct Blk37;
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C440(u16 heap);
 extern int func_020056A0(void (*fn)(void), void *arg, int n);
 extern void func_021BCC80(void);
 extern void *func_0200CA1C(void *a);
-extern u32 func_0200CA54(void *a);
-extern void *func_021BD8C0(u16 heap, u32 arg);
+extern u32 func_0200CA54(struct Blk37 *p);
+extern char *func_021BD8C0(u16 heap, unsigned arg);
 extern void *func_021BE710(u16 heap, void *arg);
 extern void *func_021BC35C(u32 heap, void *a, void *b, void *c, void *d, void *e, void *f, int g, u16 h, void *i);
 extern void func_021BCC84(struct Ov208Args *a, struct Ov208Main *m);
-extern void func_0204E720(int a, int b, int c, int d);
-extern void func_0203D34C(u32 a, u16 heap);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void func_0203D34C(u32 a, u32 b);
 int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
 {
     struct Ov208Main *p;

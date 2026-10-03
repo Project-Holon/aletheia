@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 
 extern u32 func_0200C9EC(void);

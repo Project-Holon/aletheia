@@ -15,7 +15,8 @@
  *   func_021D76BC 0x021D76BC thumb ov093
  */
 extern int func_021D775C(int);
-extern int func_021C8288(void *);
+typedef unsigned char  u8;
+extern int func_021C8288(u8 *p);
 extern int func_021D7D6C(int);
 extern int func_021D76BC(int, unsigned int);
 void func_021D936C(int a, void *b, int c, int *d)

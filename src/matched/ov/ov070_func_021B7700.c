@@ -46,24 +46,28 @@ typedef struct Obj {
     unsigned int f84C;
 } Obj;
 
-extern int func_020279E8(void *p);
-extern int func_02027A04(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+struct WordSet;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021BB1AC(Obj *o);
-extern void func_020414EC(int v);
+extern void func_020414EC(u32 i);
 extern void func_020061E4(unsigned int se);
-extern void func_021B7D20(void *obj, int x);
+extern void func_021B7D20(struct Obj *o, int x);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
-extern void func_0201EFA4(void *obj, unsigned int a, unsigned int b, unsigned int c, unsigned int d, unsigned int e);
-extern void func_0201F250(void *obj, void *a, void *b);
-extern void func_021BADAC(Obj *o);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BADAC(void *p);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B76E4();
-extern void func_0204B92C(void *p, int v);
+extern void func_021B76E4(int p);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BB3F4(Obj *o, int v);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B80C4(Obj *o, int v);
-extern void func_021B8AF4(Obj *o);
+extern void func_021B8AF4(void *p);
 
 void func_021B7700(Obj *o)
 {

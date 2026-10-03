@@ -30,9 +30,9 @@ extern int g_021DE598;
 extern const COORD g_021DA068[7];
 extern void *func_021D5A58(int lcd, int font);
 extern unsigned short *func_021C1030(void *msg, int id);
-extern unsigned long func_021BD3CC(void);
+extern int func_021BD3CC(void);
 extern void func_021D5E5C(void *canvas, int x, int y, int w, int h, int color, unsigned long flag, unsigned short *txt);
-extern int func_021C0EC8(void);
+extern unsigned char func_021C0EC8(void);
 extern void func_021D5CCC(void *canvas, int x, int y, int color, unsigned long flag, unsigned short *txt);
 extern void func_021D5FC4(void *canvas);
 

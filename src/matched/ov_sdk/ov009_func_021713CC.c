@@ -46,7 +46,7 @@ struct DWCstNodeInfo {
 };
 
 extern struct DWCstMatchControl *func_02175F3C(void);
-extern int func_02175FB8(void);
+extern unsigned char func_02175FB8(void);
 extern int DWCi_NodeInfoList_HasNoGT2ConnectionToProfileID(int profileID);
 extern void DWCi_ClearMeshMakingTempInfo(void);
 extern struct DWCstNodeInfo *func_02176344(void);

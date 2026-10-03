@@ -50,8 +50,9 @@ typedef unsigned int   u32;
 
 struct Tail { u32 s0; u32 s1; u32 s2; u32 s3; u32 s4; u16 key; u16 pad; };
 
-extern u32  func_0202D060(void);
-extern u32  func_0202D064(u32 ctx, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
+typedef signed int     s32;
+extern int func_0202D060(void);
+extern s32 func_0202D064(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 extern u32  func_0204A6C8(u32 a0, u32 a1, u32 a2, u32 a3, u32 s0);
 extern u32  func_0202D760(void *out, u32 a1, u32 a2, u32 a3,
                           u32 s0, u32 s1, u32 s2, u32 s3, u32 s4);

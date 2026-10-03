@@ -20,9 +20,9 @@
 typedef unsigned short u16;
 struct Params {u16 a,b,c,d; unsigned x,y,arr[6];};
 extern void func_021BF4FC(void *,char *,void *,u16 *,u16 *,u16 *,u16 *,unsigned *,unsigned *,unsigned *);
-extern void func_021BA6B0(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,int);
+extern void func_021BA6B0(char *p, u16 a1, u16 a2, u16 a3, u16 a4, int a5, int a6, int a7);
 extern void func_021BA814(void *);
-extern void func_021BA64C(void *,int);
+extern void func_021BA64C(char *p, int mode);
 extern void func_021BF63C(void *,char *,void *);
 extern void func_021BF620(void *,char *,void *);
 void func_021BF280(void *first,char *q,void *third,int next)

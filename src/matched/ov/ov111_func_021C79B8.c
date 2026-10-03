@@ -20,7 +20,8 @@ typedef struct {
     int state;
 } Work;
 
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 
 int func_021C79B8(Work *p)
 {

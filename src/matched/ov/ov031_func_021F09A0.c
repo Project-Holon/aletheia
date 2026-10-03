@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021BBC2C(void *r, int i);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F07AC(void *a, void *b, u32 c);
 extern const char d_021F10D0[];
 

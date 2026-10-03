@@ -54,7 +54,7 @@ struct Board {
 
 struct BigElem { u32 f00; u32 f04; u32 f08; u32 f0c; u32 f10; u32 f14; u32 f18; u32 f1c; u32 f20; u32 f24; };  /* 0x28 */
 
-extern void *func_02030734(int a0, int a1, int a2, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char sBillboard[];
 
 void *func_0204EBD4(u8 *src, void *heap)

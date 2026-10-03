@@ -32,7 +32,8 @@ extern int func_021C27E0(void *);
 extern void *func_021BE2A8(char *, int);
 extern int func_021BDDA8(int);
 extern void func_021B9B00(void *, char *, u8);
-extern void func_02009918(void *, u32, u32, u32);
+struct Sub020097BCObj;
+extern void func_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
 int func_021BE7EC(char *p)
 {
     int count = 0;

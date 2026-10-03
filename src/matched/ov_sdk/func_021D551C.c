@@ -16,7 +16,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_021D6414(int, int);
+extern void *func_021D6414(unsigned long size, int alignment);
 extern void func_0207D658(unsigned short *, int, int);
 
 void func_021D551C(void)

@@ -22,11 +22,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_020120F4(void *a);
-extern void *func_02012934(void *a);
+struct BigObj;
+struct Ctx;
+struct WordSet;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
 extern u32   func_0201AB08(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void  func_0201EEF4(void *a, int b, void *c);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern u32   func_0201104C(void *p);
 extern u32   func_020110CC(void *p);
 

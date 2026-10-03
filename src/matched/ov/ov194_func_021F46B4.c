@@ -13,10 +13,12 @@
  *   func_021F462C 0x021F462C thumb ov194
  *   func_021F4A5C 0x021F4A5C thumb ov194
  */
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern void func_021F462C(unsigned char *,unsigned);
-extern void func_021F4A5C(void);
+extern void func_021F4A5C(unsigned char *a, int unused, char *p);
 void func_021F46B4(unsigned char *p,int *state) {
     switch (*state) {
     case 0: func_0204E720(3,0,16,0); *state=1; break;

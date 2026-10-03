@@ -62,10 +62,12 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-extern void func_02045088(int heap);
+struct CharBuf;
+struct Descriptor;
+extern void func_02045088(u16 heapId);
 extern void *func_020450F0(int a, int b, int c, int d, int e, int f, int g);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, int v);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 
 void func_021C78C4(Work *p)
 {

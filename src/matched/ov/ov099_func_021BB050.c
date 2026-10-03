@@ -35,13 +35,15 @@ typedef struct {
     void *f198;
 } W;
 
-extern void *func_021BA8BC(void *p);
+struct Cfg;
+struct Descriptor;
+extern int func_021BA8BC(void *p);
 extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
-extern void  func_02045374(void *win);
+extern void func_02045374(struct Cfg *cfg);
 extern void  func_02045CAC(u32 a0, u32 a1, u32 a2);
-extern void *func_02045770(void *win);
+extern void *func_02045770(struct Descriptor *p);
 extern void  func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
-extern void  func_02045334(void *win);
+extern void func_02045334(struct Descriptor *d);
 
 void func_021BB050(W *w)
 {

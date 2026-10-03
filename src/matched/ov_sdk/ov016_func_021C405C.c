@@ -26,10 +26,10 @@
 
 extern int func_021D5580();
 extern int func_021BCB58();
-extern void func_021D5CA8();
+extern void func_021D5CA8(int a);
 extern void func_021BD138();
-extern void func_021D6090();
-extern void func_021C0E50();
+extern void func_021D6090(int lcd, int plane);
+extern void func_021C0E50(unsigned int a, unsigned int b);
 extern void func_021C0E40();
 extern void func_021C2A3C();
 extern void func_021C450C();

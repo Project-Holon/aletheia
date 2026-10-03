@@ -30,13 +30,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 func_02159B10(void *c, void *vm);
-extern int func_0215B4AC(void *vm, u16 slot, void **out);
-extern u32 func_02017D30(void *p);
+struct Sav;
+extern int func_0215B4AC(void *a0, u32 a1, void **a2);
+extern u32 func_02017D30(struct Sav *p);
 extern void func_020180F4(void *p, u16 move);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern void func_020181F4(void *p, u16 move, u8 slot);
-extern void func_02017D70(void *p, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 
 int func_0215BD2C(void *c, void *vm)
 {

@@ -23,7 +23,8 @@
  */
 
 extern void func_0217F7D0(char *quart, char *trip, int inlen);
-extern void func_020923B0(void *dst, int val, int n);
+typedef unsigned int   u32;
+extern void *func_020923B0(void *p, int c, u32 n);
 extern char g_021A19FC[];
 extern char g_021A19FF[];
 extern char g_021A1A02[];

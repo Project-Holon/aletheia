@@ -56,20 +56,23 @@ typedef struct Obj {
 } Obj;
 
 extern void *func_02048A0C(void *p, int i);
-extern int func_02047388(void *p);
-extern int func_020473B8(void *p);
-extern void *func_02046F48(void *p);
-extern void *func_0206E964(void *p);
+struct Bmp;
+struct Layer;
+struct Tagged;
+extern u32 func_02047388(struct Layer *layer);
+extern u32 func_020473B8(struct Layer *layer);
+extern void *func_02046F48(struct Tagged *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern u32 func_021C2EDC(void *tex, u32 a);
 extern u32 func_021C2F14(void *tex, u32 a);
 extern void *func_02049DB4(u32 arc, u32 file, u32 comp, CharData **out, u16 heap);
 extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u16 heap);
-extern u8 *func_020437D4(void *canvas);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
 extern void func_02082A90(const void *src, void *dst, u32 size);
-extern void func_02044F64(void *canvas, u32 v, u16 heap);
+extern struct Bmp *func_02044F64(struct Bmp *src, u32 keep, u32 heap);
 extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
-extern void func_02030830(u16 heap);
+extern void *func_02030830(u32 heapId);
 
 void func_021C2BE4(Obj *p, u32 a1, u32 a2, u32 chrFile, u32 plttFile)
 {

@@ -12,13 +12,16 @@
  *   func_021D6D18 0x021D6D18 thumb ov131
  *   func_021D6064 0x021D6064 thumb ov131
  */
-extern void *func_021D6064(void *);
-extern int func_0201ACC4(void *,int);
-extern int func_02017E88(void *,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Personal;
+extern void *func_021D6064(unsigned char *p);
+extern int func_0201ACC4(void *p, u32 pos);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(unsigned short,unsigned short,unsigned short);
-extern int func_0201AE1C(void *,int);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
-extern void *func_020450F0(int,int,int,int,unsigned char,unsigned char,unsigned char);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021D6D18(void *,void *,void *);
 void func_021D697C(unsigned char *p,int *q) {
  void *m=func_021D6064(p);

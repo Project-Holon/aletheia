@@ -31,7 +31,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+typedef signed int     s32;
+extern s32 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
 void sub_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g)
 {

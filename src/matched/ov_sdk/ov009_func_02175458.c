@@ -21,10 +21,10 @@
  *   func_02173CFC  0x02173CFC  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
-extern unsigned long func_0216B908(void);
+extern int func_0216B908(void);
 extern int func_0216FF2C(int cmd, int a, int b, int c, void *data, int len);
 extern int func_021719A4(int result);
 extern void func_02173CFC(void);

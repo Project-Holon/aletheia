@@ -20,10 +20,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02012934(void *p);
+typedef unsigned int   u32;
+struct BigObj;
+struct Party;
+struct PartyMon;
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_021B6EE0(int a, int b);
 extern int func_0201AA18(void *p);
-extern unsigned int func_0201A98C(void *l, void *m);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern int func_0200CA1C(int p);
 extern void func_0200CDE0(int a, void *m);
 extern void func_020307B0(void *p);

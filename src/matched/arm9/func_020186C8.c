@@ -33,10 +33,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020056EC(int a0);
+extern u32 func_020056EC(u32 range);
 extern u32 func_02017ED8(u32 a0, u32 a1);
 extern u32 func_020185F8(int a0, int a1, int a2);
-extern int func_0201AF6C(int a0);
+extern u32 func_0201AF6C(u32 v);
 
 u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5)
 {

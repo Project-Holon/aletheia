@@ -50,10 +50,11 @@ typedef struct {
 extern const Handler d_021E7AC8[];
 extern Cfg d_021E8144;
 extern void *func_02048A18(void *, u16);
-extern int func_0204779C(void *);
+struct Light;
+extern int func_0204779C(int *p);
 extern int func_02047910(void *a, int idx, int amount);
 extern void func_02047964(void);
-extern void func_02048AD0(void *);
+extern void func_02048AD0(struct Light *l);
 extern void func_020479D8(void);
 extern int func_02051534(void);
 extern int func_02051574(void);

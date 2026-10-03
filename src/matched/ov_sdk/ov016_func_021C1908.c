@@ -21,7 +21,7 @@
  */
 
 extern int func_021D5580(int lcd);
-extern int func_021C0ED8(void);
+extern unsigned int func_021C0ED8(void);
 extern void func_021C0E50(void *p0, void *p1);
 extern void func_021C0E40(void (*scene)());
 extern void func_021C1984(void);

@@ -21,7 +21,8 @@
 typedef unsigned int u32;
 
 extern void *g_021469BC;
-extern void sub_020351EC(void *p, u32 a, u32 b);
+struct Obj020351EC;
+extern void sub_020351EC(struct Obj020351EC *p, u32 a, u32 b);
 
 void sub_020351F8(u32 a, u32 b)
 {

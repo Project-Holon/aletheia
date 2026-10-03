@@ -22,7 +22,8 @@ typedef struct {
     short h2;
 } P;
 
-extern void func_020061E4(int x);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_021A6B08(P *p, u8 v)
 {

@@ -17,8 +17,9 @@
  *   func_021BACAC  0x021BACAC  thumb  ov093
  */
 
-extern void func_021BABEC(void *, void *);
-extern void func_021BACAC(void);
+typedef unsigned char  u8;
+extern void func_021BABEC(int *p, void *f);
+extern int func_021BACAC(u8 *p, int *s);
 
 void func_021BABF4(void *p)
 {

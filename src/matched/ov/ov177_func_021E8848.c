@@ -27,7 +27,8 @@ typedef struct {
 extern void func_0202F038(int);
 extern void func_02045374(int);
 extern int  func_02045730(int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 void func_021E8848(S *p)
 {

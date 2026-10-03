@@ -28,7 +28,7 @@ extern void func_02034AC4(const void *a);
 extern unsigned char abs_id_3f[];
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern void func_021A305C(void *a, u32 b);
+extern void func_021A305C(char *p, u32 b);
 extern u32 func_021F36C0(u32 a, u32 b, void *c, u32 d);
 extern void func_021C4788(void);
 

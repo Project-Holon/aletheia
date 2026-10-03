@@ -20,8 +20,10 @@
 typedef unsigned short u16;
 
 extern void *func_0201296C(void *);
-extern int func_02013D74(int);
-extern int func_020142E8(void *, u16);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern int func_02013D74(u32 key);
+extern u32 func_020142E8(void *bitmap, s32 id);
 
 struct Entry {
     u16 key;

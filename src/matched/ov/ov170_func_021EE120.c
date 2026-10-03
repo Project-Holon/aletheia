@@ -19,9 +19,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Param {void *bmp; short x,y; u32 f8,fc; u8 f10,f11; u16 f12;u32 f14;};
 extern void *func_02025538(u32,void *);
-extern void *func_02043678(u32,u32,u32,u32);
-extern void *func_020255A0(void *,const struct Param *);
-extern void func_02025774(void *,u32);
+struct Bmp;
+struct Grid;
+struct Sys;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern void func_02025774(u8 *g, u32 a);
 void func_021EE120(char *p)
 {
     struct Param s;

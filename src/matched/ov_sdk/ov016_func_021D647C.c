@@ -20,7 +20,8 @@
 
 extern unsigned long OS_DisableIrqMask(unsigned long intr);
 extern unsigned long OS_EnableIrqMask(unsigned long intr);
-extern void func_02060E30(void *heap, void *mem);
+struct ExpHeap;
+extern void func_02060E30(struct ExpHeap *heap, void *block);
 extern void *g_021DE684;
 
 void func_021D647C(void *mem)

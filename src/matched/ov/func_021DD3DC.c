@@ -18,14 +18,16 @@
  */
 
 
-extern int func_0201AB28(int, int);
-extern int func_020185F4(int);
+typedef unsigned int u32;
+
+extern void *func_0201AB28(void *p, u32 idx);
+extern void *func_020185F4(void *p);
 extern void func_020075B0(int, int, int, int);
 extern void func_021DD314(char *, int, unsigned);
 extern void func_021EDAB0(char *, int);
 void func_021DD3DC(char *p, unsigned char *a)
 {
-    int x = func_020185F4(func_0201AB28(*(int *)(*(int *)p + 8),
+    int x = (int)func_020185F4(func_0201AB28(*(void **)(*(int *)p + 8),
                                         *(unsigned short *)(a + 4) - 0x1e));
     func_020075B0(*(int *)(*(int *)p + 4), *(unsigned char *)(p + 0x14),
                   *(unsigned short *)(a + 2), x);

@@ -83,14 +83,20 @@ typedef struct {
 extern const struct Point d_021BA80C;
 extern const struct Param d_021BA814;
 
-extern void *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+struct Bmp;
+struct Grid;
+struct MsgBank;
+struct Sys;
+struct U16Vec;
+struct WordSet;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_0204B294(u32 a, u32 res, u32 c, u32 d, struct Point *pt, u16 f, u16 g);
-extern void *func_020255A0(void *sys, const struct Param *param);
-extern void *func_02045EC0(void *, u32);
-extern void *func_020457B0(unsigned, unsigned);
-extern void func_0201F250(void *, void *, void *);
+extern struct Grid *func_020255A0(struct Sys *sys, const struct Param *param);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C6FC(void *, void *, u32, u32, void *, void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021B6A0C(Ctx *a, Out *b, int c, int d, int e, int f, int g, void *h)
 {

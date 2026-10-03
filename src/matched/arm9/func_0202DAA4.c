@@ -37,11 +37,14 @@ typedef unsigned int   u32;
 extern u32   func_0202D5D8(u32 id, u32 sel);
 extern u32   func_0202D61C(u32 id, u32 sel);
 extern void  func_020307B0(void *p);
-extern void *func_02049250(void *set, u32 entry, u16 which);
+typedef signed int     s32;
+struct ArcFile;
+struct NitroFileHeader;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void *func_02049E74(void *set, u32 entry, u32 flag, void **out, u16 which);
 extern void  func_0204A9D0(void *dst, void *src);
 extern void  func_0204ADEC(void *dst, void *src, u32 flag);
-extern void  func_02062A98(void *res, void **out);
+extern s32 func_02062A98(struct NitroFileHeader *file, void **out);
 
 void func_0202DAA4(void *set, u32 id, void *dstA, void *dstB, volatile u16 which)
 {

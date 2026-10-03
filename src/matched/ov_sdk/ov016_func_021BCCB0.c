@@ -34,7 +34,7 @@ typedef struct tagMEMBTN {
 extern MEMBTN *g_021DE508;
 
 extern void func_021D771C();
-extern void func_021BCD00(void *task);
+extern void func_021BCD00(void);
 
 void func_021BCCB0(void *task)
 {

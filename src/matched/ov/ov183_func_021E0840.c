@@ -14,7 +14,8 @@
  */
 struct Triple { int a, b, c; };
 extern int func_021FC124(void *, int, struct Triple *);
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern char d_021E3978[];
 void func_021E0840(char *p)
 {

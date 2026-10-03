@@ -54,11 +54,11 @@ extern float _fflt(int);
 extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
-extern void *func_02030734(u16 heap, int size, int kind, char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030DA8(int owner, void *fn, void *arg, int n);
 extern void func_021F9154(int a, int b, int *out, int c);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
-extern void func_021FE768(void *a, void *b);
+extern void func_021FE768(void *h, int *s);
 
 void func_021FE410(Obj *o, int a, int b, int n)
 {

@@ -20,13 +20,18 @@
  *   func_021D4A04 0x021D4A04 thumb ov123
  */
 typedef unsigned char u8;
-extern int func_020279E8(void *);
-extern u8 func_02027A04(const void *);
-extern void *func_02012EBC(void *);
-extern int func_020071F0(void *);
-extern void func_02045CAC(void *,int,void *);
-extern void func_020414EC(int);
-extern void func_02027858(void *);
+typedef unsigned int   u32;
+struct Big;
+struct MsgBank;
+struct Sub020071E4Ctrl;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
+extern void *func_02012EBC(struct Big *p);
+extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_020414EC(u32 i);
+extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4FAC(char *);
 extern void func_021D4244(char *,void *,int);
 extern void func_021D4EF0(char *,int,int);

@@ -13,7 +13,10 @@
  *   func_020456F8 0x020456F8 arm
  *   func_021BAFC4 0x021BAFC4 thumb ov070
  */
-extern void func_0204B3DC(void *, unsigned);
-extern void func_020456F8(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_020456F8(struct Descriptor *d);
 extern void func_021BAFC4(void *);
 void func_021BB08C(char *p) { func_0204B3DC(*(void **)(p + 0x710), 0); func_0204B3DC(*(void **)(p + 0x714), 0); func_020456F8(*(void **)(p + 0x504)); func_021BAFC4(p); }

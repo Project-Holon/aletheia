@@ -37,8 +37,8 @@ typedef struct ProcHandoff {
 
 extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5F4(void *vm);
-extern void **func_02158FB4(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02158FB4(void *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020120B4(void *sys, u32 ovId, const void *proc, void *arg);
 extern void func_020113D0(void *c, int (*fn)(void *));
 extern int func_0215C69C(void *c);

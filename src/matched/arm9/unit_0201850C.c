@@ -48,8 +48,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02019C54(u16 a, u16 b);
-extern u32   func_0201AE1C(void *h, u32 k);
+struct Personal;
+extern void *func_02019C54(u32 a, u32 b);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void  func_02019B94(u32 a, void *b);
 
 extern u32 gWordBuf[];

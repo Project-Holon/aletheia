@@ -88,15 +88,16 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012844(u32 a);
 extern Rec *func_02162740(u32 a);
 extern int func_02162744(u32 a);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
-extern u32 func_02188C9C(void *a);
+extern u16 func_02188C9C(u8 *p);
 extern int func_02013C60(u16 id);
 extern int func_021A3098(void *a);
 extern void func_0216E2E8(void *a, u16 b, Info *c);
 extern void func_021A35FC(void *o, s16 *z, s16 *y, s16 *x);
-extern u32 func_02188CFC(void *a);
+extern u32 func_02188CFC(u8 *p);
 extern void func_021A36BC(void *o, Loc *l);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_0201296C(u32 a);
@@ -106,7 +107,7 @@ extern int func_021867C4(int, int);
 extern u8 *func_02186830(int h, int b, int heap);
 extern u8 *func_02186844(u8 *t, int i);
 extern u8 *func_0218684C(u8 *t, int i);
-extern void func_0218683C(u8 *t);
+extern void func_0218683C(void *p);
 extern void func_02186804(int);
 
 int func_021D2750(u32 a)

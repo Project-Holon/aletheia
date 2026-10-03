@@ -24,7 +24,7 @@ typedef struct {u32 f0; u8 padding[36];} Entry;
 extern Entry d_021B9524[];
 extern void func_020452E8(u32);
 extern void func_0203FB44(int,u16,u16);
-extern void func_02040DA8(int,int,int);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u8);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);

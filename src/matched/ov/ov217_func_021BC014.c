@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed short s16;
 struct Obj;
 struct Vec2 { s16 x,y; };
-extern u32 func_021BBC50(u8 *p);
+extern u8 func_021BBC50(u8 *p);
 extern u32 func_021BC720(void *p,u32 index);
 extern int func_021BBF28(u8 *p,u8 index);
 extern int func_021BBF3C(u8 *p,u8 index);

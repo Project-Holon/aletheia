@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u8 d_021BED38[];
 extern u32 *func_02030734(u16 heap, int size, int align, u8 *file, int line);
 extern u32 func_020275E4(void);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_02049DB4(u32 a, u32 b, u32 c, void **out, u32 d);
 
 u32 *func_021BBA8C(u16 *h)

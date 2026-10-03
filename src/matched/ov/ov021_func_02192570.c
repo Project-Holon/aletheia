@@ -32,8 +32,8 @@ typedef unsigned int   u32;
 
 extern char d_021DDA50[];
 
-extern u32 func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02043678(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02045770(u32 w);
 extern void func_02045374(u32 w);

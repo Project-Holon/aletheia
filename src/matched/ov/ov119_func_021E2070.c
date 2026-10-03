@@ -16,10 +16,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { int a,b,c,d; } Quad;
-extern void func_021E0DA0(void *);
+struct Obj;
+extern void func_021E0DA0(char *p);
 extern void func_021E0DBC(char *,void *,int,int,int,int,int,u16);
 extern u32 func_02017E1C(void *,u32,u32);
-extern void func_0204B3DC(void *,u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021E2070(char *p,void *mon,Quad *t)
 {
     u32 a,b;

@@ -34,7 +34,8 @@ typedef unsigned int u32;
 extern void *sub_0201AFD4(void *a, void *b);
 extern void *func_02049578(void *handle, void *x);
 extern void *func_0204960C(void *handle, void *x);
-extern void  func_020495F4(void *handle, u32 id, void *arg);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern void *g_0214652C;
 
 void sub_0201ADA4(void *a, void *b, void *c)

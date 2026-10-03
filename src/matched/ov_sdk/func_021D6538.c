@@ -17,9 +17,9 @@
  */
 
 extern void func_0208AD14(void);
-extern void func_0208B220(int);
-extern int func_0208B238(int);
-extern void func_021D6438(void *);
+extern void func_0208B220(unsigned int command_flgs);
+extern unsigned int func_0208B238(unsigned int command_flgs);
+extern void func_021D6438(void **mem);
 
 void func_021D6538(void)
 {

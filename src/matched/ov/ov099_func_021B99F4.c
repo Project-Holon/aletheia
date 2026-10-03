@@ -27,9 +27,10 @@ typedef struct {
     int f18;
 } Ent;
 
-extern void func_021C49A4(void *p, int n);
-extern void func_021C57D8(void *p, int v);
-extern void func_021C57DC(void *p);
+typedef unsigned char  u8;
+extern int func_021C49A4(u8 *p, unsigned int i);
+extern void func_021C57D8(u8 *p, int v);
+extern void func_021C57DC(u8 *p);
 extern void func_021BA5B4(void *o, int n, Ent *e);
 
 void func_021B99F4(void *o, Ent *e)

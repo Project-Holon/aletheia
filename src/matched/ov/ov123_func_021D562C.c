@@ -18,8 +18,10 @@
 
 typedef unsigned int u32;
 
-extern void func_020310C4(void *);
-extern void func_0201C4E4(void *);
+struct PrintSys;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 
 void func_021D562C(char *p)
 {

@@ -34,10 +34,10 @@ struct Ov208Fade {
 extern const int d_021C8388[];
 extern const u8 d_021C8384[];
 extern int func_02040804(int a);
-extern void func_02041EE4(int a, int b, int c);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021BDD48(struct Ov208Fade *m, int pos);
-extern void func_021BD358(void *p, int a);
-extern void func_021BD23C(void *p);
+extern void func_021BD358(char *p, int v);
+extern void func_021BD23C(char *p);
 extern void func_021BDFDC(struct Ov208Fade *m);
 extern void func_021BE20C(struct Ov208Fade *m);
 extern void func_021BE6A8(struct Ov208Fade *m);

@@ -31,10 +31,13 @@ extern u32 func_021B8588(void *p);
 extern int func_021B8B78(void *p, int k);
 extern int func_021D59B4(u8 *p, int k);
 extern void *func_021D5844(void *m);
-extern void func_021D5848(void *m, void *v);
-extern void *func_021D5864(void *m);
-extern void func_021D5854(void *m);
-extern int func_021D6C24(void *m);
+struct QH;
+struct R4;
+struct Work;
+extern void func_021D5848(struct QH *p, void *v);
+extern void *func_021D5864(struct Work *p);
+extern void func_021D5854(struct Work *p);
+extern int func_021D6C24(struct R4 *p);
 
 void func_021B9D10(char *a, struct Arr *arr, int k)
 {

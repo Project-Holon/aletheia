@@ -40,7 +40,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 static inline void MI_CpuClear32(void *dest, u32 size)

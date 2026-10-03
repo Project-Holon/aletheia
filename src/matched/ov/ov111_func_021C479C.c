@@ -37,8 +37,8 @@ typedef struct {
 
 extern int func_021C4530(int x);
 extern void func_021C4754(Work *p, int kind);
-extern void func_021C5938(Work *p);
-extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_021C5938(void *p);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020414EC(u32 i);
 
 void func_021C479C(Work *p)

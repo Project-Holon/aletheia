@@ -24,8 +24,8 @@ struct Ov208Scene {
     u32 f34;
 };
 
-extern int  func_021BD35C(void *mgr);
-extern void func_021BD358(void *mgr, int v);
+extern int func_021BD35C(char *p);
+extern void func_021BD358(char *p, int v);
 
 void ov208_func_021BDC48(struct Ov208Scene *p, u32 on)
 {

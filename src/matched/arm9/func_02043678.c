@@ -41,8 +41,7 @@ struct Bmp {
 
 extern const char bmp_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap)
 {

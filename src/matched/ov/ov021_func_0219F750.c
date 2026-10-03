@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u16 *func_0216D6F0(u32);
-extern u32 func_0216D910(u32);
+extern int func_0216D910(int a0);
 extern u32 func_0219C9DC(u32);
 extern void func_0219FFBC(u32, u32 *);
 extern void func_02197CCC(u32, u32 *);

@@ -44,8 +44,9 @@ extern struct s_ab40 d_0217AB40;
 extern struct s_aba0 d_0217ABA0;
 
 extern void func_02082BCC(void *p, int v, u32 n);
-extern u8 func_0208F1B4(void);
-extern void func_02179F74(int a);
+typedef unsigned short u16;
+extern u16 func_0208F1B4(void);
+extern void func_02179F74(u8 unitId);
 extern void func_0217A584(void (*cb)(void));
 extern void func_02179B38(void);
 extern u32 func_020056EC(u32 x);

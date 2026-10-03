@@ -20,7 +20,8 @@ extern u32 func_020120F4(u32);
 extern u32 func_02012EC4(u32);
 extern int *func_021897BC(char *,int);
 extern int func_021F3A68(void *,int *);
-extern void *func_020122C0(void *,void *,int (*)(void *,int *),u32);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 void *func_021F3888(void *a,int b)
 {
     u32 p;

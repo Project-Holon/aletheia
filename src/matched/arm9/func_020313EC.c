@@ -53,7 +53,7 @@ typedef struct {
 
 extern void  func_020313A0(Obj *p, u32 b);
 extern u32   func_020315F0(Node *n);
-extern void  func_02031590(Node *n);
+extern void func_02031590(void *ptr);
 extern Node *func_02031538(u32 a, u32 b, u32 c, u32 d);
 
 u32 func_020313EC(Obj *p)

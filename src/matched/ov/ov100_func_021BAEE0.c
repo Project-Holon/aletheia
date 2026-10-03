@@ -19,7 +19,9 @@
  */
 struct Word { int x; };
 extern const struct Word d_021BB674;
-extern void func_02049B40(int,int,int,int,int,unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA1D0(int),func_0201DD68(void),func_02051C6C(int);
 extern void func_021B95B8(int,void (*)(void));

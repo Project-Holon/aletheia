@@ -31,9 +31,10 @@ typedef struct {
     int c;
 } V;
 
-extern int func_02012B80(void *p);
-extern int func_02012B58(void *p);
-extern int func_02012B40(void *p);
+struct BigObj;
+extern u8 func_02012B80(const struct BigObj *p);
+extern u8 func_02012B58(const struct BigObj *p);
+extern u8 func_02012B40(const struct BigObj *p);
 extern int func_020127B8(void *p);
 extern int func_020127AC(void *p, int i);
 extern u16 func_0200BDF8(int p);

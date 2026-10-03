@@ -15,7 +15,7 @@
  *   func_021609E8  0x021609E8  arm  ov009
  */
 
-extern int func_021609E8(char *s);
+extern int func_021609E8(const char *p);
 
 static int func_02160A10(char *name, char *pat)
 {

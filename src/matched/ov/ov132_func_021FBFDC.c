@@ -23,5 +23,5 @@ extern u32 func_0201134C(struct Cursor *);
 extern void *func_021F9DC0(void *);
 extern void *func_021F9DC4(void *,u8);
 extern void func_021F9F58(u8 *,u8 *);
-extern void func_021F9DCC(void *,void *,u8);
+extern void func_021F9DCC(void *p, void *v, u32 i);
 int func_021FBFDC(int unused,char *p) { char *o; u32 a; void *ctx; o=*(char **)p; a=func_0201134C(*(struct Cursor **)(p+4)); ctx=func_021F9DC0(*(void **)(o+0x34)); func_021F9F58(ctx,func_021F9DC4(*(void **)(o+0x34),a)); func_021F9DCC(*(void **)(o+0x34),0,(u8)a); return 0; }

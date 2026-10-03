@@ -22,9 +22,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 *func_02046F48(void *p);
+struct Tagged;
+extern void *func_02046F48(struct Tagged *p);
 extern u8 *func_0206E954(void *p);
-extern void *func_0206E964(void *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_0206A2CC(void *a, void *b);
 extern void func_0206A4AC(void *a, void *b);
 extern void func_02069D14(void *a, void *b);

@@ -47,7 +47,7 @@ typedef struct {
     u8 f125;
 } Entry;
 
-extern Info *func_0200846C(int heap);
+extern void *func_0200846C(int a0);
 extern void func_020084A0(Info *p);
 extern void func_020084D4(Info *p, void *name);
 extern void func_02008560(Info *p, u32 v);

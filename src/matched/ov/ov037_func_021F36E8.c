@@ -16,10 +16,14 @@
  *   func_0200B3A4 0x0200B3A4 thumb
  *   func_020127A4 0x020127A4 thumb
  */
-extern void *func_020120F4(const void *);
-extern void *func_02012EC4(void *);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *, int);
-extern void *func_020127A4(void *);
+extern void *func_020127A4(struct SaveBlock *p);
 void func_021F36E8(void *a, int v)
 {
     void *save;

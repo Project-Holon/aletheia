@@ -19,9 +19,11 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u16 value; char *object; void (*callback)(char *); } Callback;
-extern void func_0204B92C(void *, int);
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204BA00(void *, Callback *);
-extern void func_0204B9A0(void *);
+extern void func_0204B9A0(struct Actor *a);
 extern void func_021D4244(char *, void *, int);
 extern void func_021D451C(char *);
 extern void func_021D45F0(void);

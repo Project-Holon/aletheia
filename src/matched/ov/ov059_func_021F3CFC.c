@@ -37,17 +37,20 @@ typedef struct {
     u16 *p24;
 } W;
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern W *func_021897BC(void *p, int i);
 extern void *func_02188D2C(void *p);
 extern V *func_021BE480(void *p, int i, u16 j);
-extern void func_021BE4B4(void *p, int i, u16 j, int v);
+extern void func_021BE4B4(char *p, int i, int j, int v);
 extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 extern void func_021F3D9C(void);
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 
 void func_021F3CFC(void *a, V *b, u16 c, u16 d)
 {

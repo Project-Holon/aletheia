@@ -22,7 +22,7 @@ struct Sound;
 extern int func_02025DE8(struct Sound *);
 extern void func_02211970(u8 **,u32);
 extern void func_0220B760(u8 *,u8);
-extern int func_02210F1C(u8 *);
+extern u32 func_02210F1C(u8 *p);
 extern u32 func_02021ED8(const char *);
 int func_0220FED0(u8 *p)
 {

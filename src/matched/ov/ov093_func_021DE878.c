@@ -20,5 +20,7 @@
 extern int func_021D775C(int);
 extern void func_021D7704(int,int);
 extern void *func_021C7CF4(int *,int);
-extern unsigned short func_021D5444(void *);
+typedef unsigned short u16;
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 void func_021DE878(int a,int *b,int c) { if(c==func_021D775C(3)) { if((unsigned int)func_021D5444(func_021C7CF4(b,c))-380<=1) { if(func_021D775C(26)==2) func_021D7704(53,6144); } } }

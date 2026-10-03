@@ -30,7 +30,8 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
-extern int func_0200C224();
+struct Blk34;
+extern u8 func_0200C224(struct Blk34 *p);
 extern int func_0200C22C();
 extern int func_02027138();
 

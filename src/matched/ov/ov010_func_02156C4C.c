@@ -27,7 +27,7 @@ extern int func_021B63BC(int);
 extern void func_021B6294(int);
 extern int func_021FD904(int *);
 typedef struct S S;
-extern void func_021FD52C(S *);
+extern void func_021FD52C(struct S *s);
 
 int func_02156C4C(int a, int *state, int c, int *d)
 {

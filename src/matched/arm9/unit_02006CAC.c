@@ -30,8 +30,10 @@
  * the save block lookup, so what this writes is a pointer to save block 0x24.
  */
 
-extern void *func_020070A4(void);
-extern void *func_02007B44(void *sys);
+struct Sub02007084Ctrl;
+struct Sub02007AC8Entry;
+extern struct Sub02007084Ctrl *func_020070A4(void);
+extern struct Sub02007AC8Entry *func_02007B44(void *sys);
 
 void sub_02006CAC(void **out)
 {

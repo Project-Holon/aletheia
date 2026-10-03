@@ -14,6 +14,9 @@
  *   func_021D70DC 0x021D70DC thumb ov093
  */
 extern void *func_021DCEC4(void *,unsigned int);
-extern void func_021D70BC(void *);
-extern void func_021D70DC(void *,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct QR;
+extern void func_021D70BC(struct QR *p);
+extern void func_021D70DC(u8 *p, int i, u32 v);
 void *func_021DCF78(void *p,unsigned int k) { void *q; if(k) { q=func_021DCEC4(p,k); if(q) { func_021D70BC(q); func_021D70DC(q,6,1); return q; } } return 0; }

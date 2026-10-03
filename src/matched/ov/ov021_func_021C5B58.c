@@ -27,7 +27,7 @@ extern void func_02017E40(int a, int b, int c);
 extern int func_020120F4(int a);
 extern int func_02012F2C(int a);
 extern void func_02008DF0(int a, int b);
-extern void func_0216C0C0(int a);
+extern int func_0216C0C0(int a0);
 
 int func_021C5B58(int a, int *st, int *c)
 {

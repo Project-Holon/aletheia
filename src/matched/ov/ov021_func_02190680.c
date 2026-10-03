@@ -42,8 +42,8 @@ typedef struct Obj {
 extern char d_021DDA50[];
 
 extern void func_02192F74(Fx *a);
-extern Obj *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_021930C0(int a, int b, int c, int d, u16 e, u16 f, u16 g);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f);
 extern u32 func_021904EC(Fx *p, u32 a, u32 b);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);

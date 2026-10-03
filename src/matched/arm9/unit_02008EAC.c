@@ -64,7 +64,7 @@ struct Sub0202428CObj {
     u16 unk06;
 };
 
-extern void func_0202428C(struct Sub0202428CObj *p);
+extern void func_0202428C(void *obj);
 
 struct Sub02008EACObj {
     u32 unk00;

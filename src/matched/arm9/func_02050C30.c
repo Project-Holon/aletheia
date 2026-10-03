@@ -54,8 +54,7 @@ extern Vec3 g_020A1584;
 extern Vec3 g_020A1578;
 extern const u32 g_020A15A8[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02051648(void *this, void *src, u32 a2, void *a3, void *a4,
                            void *a5, u32 a6);
 extern u32   func_02052DC8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);

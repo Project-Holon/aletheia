@@ -15,7 +15,8 @@
 
 typedef int fx32;
 
-extern int func_02017E1C(void *, int, int);
+typedef unsigned int   u32;
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 fx32 func_022060C8(void *p)
 {

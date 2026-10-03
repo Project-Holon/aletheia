@@ -29,7 +29,8 @@ struct GPITransferID {
 extern int func_0218F4BC(void **connection, void *peer, int type, struct GPITransferID *transferID);
 extern int func_02084F40(char *dst, char *fmt, ...);
 extern int func_02189750(void **connection, void *peer, char *string);
-extern int func_0218F51C(void **connection, void *peer, char *message, int len);
+struct GPIPeer;
+extern int func_0218F51C(void **connection, struct GPIPeer *peer, char *message, int len);
 extern char g_021A5698[];
 extern char g_021A569C[];
 

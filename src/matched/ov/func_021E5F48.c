@@ -40,12 +40,13 @@ int func_021C8180(int a);
 int func_021D775C(int a);
 void *func_021C7CF4(int a, int b);
 int func_021D5B68(void *p);
-int func_021D5BB0(void *p, int k);
+struct UtilWork;
+int func_021D5BB0(struct UtilWork *p, u32 n);
 void *func_021C88A4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);
 void func_021C88C8(int a, void *p);
-void func_021D7090(void *a);
+void func_021D7090(u8 *p);
 
 void func_021E5F48(void *a, int b, int c, int *d)
 {

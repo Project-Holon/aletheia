@@ -17,7 +17,8 @@
  *   func_02013CE0  0x02013CE0  thumb
  */
 
-extern int func_02013CE0(int);
+typedef unsigned int   u32;
+extern u32 func_02013CE0(u32 id);
 
 int func_02189AE8(int a)
 {

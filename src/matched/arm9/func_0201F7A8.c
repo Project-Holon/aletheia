@@ -37,13 +37,14 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8   func_02045730(void *d);
-extern u8   func_02045748(void *d);
-extern u8   func_02045750(void *d);
-extern u8   func_02045758(void *d);
-extern u8   func_02045760(void *d);
-extern void func_020409B4(u8 id);
-extern void func_02041B6C(u8 id);
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern void func_020409B4(u32 index);
+extern void func_02041B6C(u32 bit);
 extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5,
                           u8 a6);
 

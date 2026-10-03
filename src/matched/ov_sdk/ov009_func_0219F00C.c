@@ -16,7 +16,7 @@
  *   func_0219F830  0x0219F830  arm  ov009
  */
 
-extern void func_0219EFF0(void *p);
+extern void func_0219EFF0(char *p);
 extern void func_0219F830(void *p);
 
 void func_0219F00C(char *p)

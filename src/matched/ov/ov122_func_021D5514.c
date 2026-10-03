@@ -32,15 +32,20 @@ extern void func_021D5110(char *);
 extern void func_021D5310(char *);
 extern void func_0204A600(void);
 extern int func_0203CD98(void);
-extern u32 func_0201283C(const void *);
+struct BigObj;
+struct Ctx;
+struct IcaAnime;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_0201283C(const struct BigObj *p);
 extern u32 func_0201058C(void *);
 extern u32 func_021D533C(char *);
-extern void func_020310C4(void *);
-extern u32 func_0201C4E4(void *);
+extern void func_020310C4(struct Tcbl *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_02040618(u32, u32, u32);
 extern u32 func_020221A4(void);
-extern u32 func_020121CC(void *);
-extern u32 func_02012204(const void *);
+extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 func_02012204(const struct Ctx *p);
 extern void func_0202223C(u32, u32);
 int func_021D5514(void *a, void *b, void *c, char *p)
 {

@@ -30,8 +30,11 @@ typedef struct {
     void *f2C;
 } Ov018Obj;
 
-void func_02045CAC(void *, int, void *);
-void func_0201F250(void *, void *, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct WordSet;
+void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_0217F3A4(Ov018Obj *p, void *a);
 
 void func_0217F3C4(Ov018Obj *p, int a)

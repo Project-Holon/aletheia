@@ -29,7 +29,8 @@ extern void func_0220BDA0(char *);
 extern void func_0220BEB8(char *,int,int,u8,u8);
 extern void func_0220CDF0(char *,int),func_0220C714(char *,int),func_0220C8F0(char *,int);
 extern void func_0220C2F8(char *,int,int,u16,u8);
-extern void func_02045334(void *);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_0220C9F0(char *,int),func_0220CAF0(char *,int),func_0220CBF0(char *,int),func_0220CCF0(char *,int);
 extern void func_0220C398(char *,int,int),func_0220C42C(char *,int,int),func_0220CFC4(char *,int),func_0220C694(char *,int,int);
 void func_0220DCA8(char *p) {

@@ -27,7 +27,7 @@ extern int func_021867C4(int, int);
 extern u16 *func_0218682C(int h);
 extern void func_02186804(int);
 extern void func_02186520(u16 *, int, u8 *);
-extern void func_02161E78(u8 *);
+extern void func_02161E78(void *a0);
 extern void func_02161E60(char *, int);
 
 void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)

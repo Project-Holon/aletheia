@@ -26,13 +26,17 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern char d_021BABFC[];
-extern void *func_02045770(void *a);
-extern void func_02034714(char *a, u32 b, char *c);
-extern void func_0201CE48(void *a);
-extern void func_02045808(void *a);
+struct CharBuf;
+struct Descriptor;
+struct Rec3;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F7A8(void *desc, u32 kind);
-extern void func_02043B5C(void *a, u32 b);
-extern void func_02045334(void *a);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 extern void func_0201DD78(u32 a, u32 b, u32 c);
 
 void func_021B98C4(char *a)

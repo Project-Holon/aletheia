@@ -15,10 +15,10 @@
  *   func_021FCBF0 0x021FCBF0 thumb ov135
  *   func_0201F7A8 0x0201F7A8 thumb
  */
-extern unsigned func_021F4D14(void *p);
-extern void func_021F4CE4(void *p);
+extern int func_021F4D14(char *p);
+extern void func_021F4CE4(char *p);
 extern void func_021F4EC0(void *p, unsigned a, unsigned b);
-extern void func_021FCBF0(void *p);
+extern void func_021FCBF0(char *p);
 extern void func_0201F7A8(void *p, unsigned kind);
 int func_021FC668(char *p)
 {

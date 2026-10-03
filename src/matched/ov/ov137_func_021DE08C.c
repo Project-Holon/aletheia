@@ -23,10 +23,13 @@ extern void func_021DE5C0(u8 *);
 extern void func_021DE4B4(char *,int,int);
 extern int func_021DE55C(char *);
 extern void *func_021DCF50(void *);
-extern void *func_02184180(void *,int);
-extern void func_0201FEF4(void *);
-extern void func_0201F02C(void *,int,void *);
-extern int func_02039338(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct WordSet;
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0201FEF4(u8 *o);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern u16 func_02039338(void);
 extern void func_0201CE0C(void *);
 void func_021DE08C(char *p,int state,int player) {
     switch(state) {

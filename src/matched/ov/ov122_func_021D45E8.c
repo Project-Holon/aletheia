@@ -16,10 +16,12 @@
  *   func_020452E8 0x020452E8 arm
  */
 extern void func_02051C6C(void *);
-extern void func_020456F8(void *);
-extern void func_02041B6C(unsigned char);
+typedef unsigned int   u32;
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(void *, unsigned);
-extern void func_020452E8(void *);
+extern void func_020452E8(struct Descriptor *d);
 void func_021D45E8(char *p)
 {
     int i;

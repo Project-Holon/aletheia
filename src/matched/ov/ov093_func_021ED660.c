@@ -26,8 +26,9 @@ extern u8 func_021B8ED8(u8 *p, u8 k);
 extern u8 *func_021B98AC(char *const *q, u8 b);
 extern void *func_021D5844(void *m);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
-extern void func_021ED724(void);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
+extern void func_021ED724(u32 x, struct S *t);
 
 void func_021ED660(char *p, u32 k, u32 a, u32 b)
 {

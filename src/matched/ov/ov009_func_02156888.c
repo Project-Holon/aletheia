@@ -60,26 +60,26 @@ typedef struct {
 } G;
 
 extern G *d_021A8264;
-int func_02156C84(void);
+unsigned char func_02156C84(void);
 void func_02156C60(void);
 u32 func_0203D650(void);
 int func_0216B354(int, u8, void *, u32, void *, u32, void *, int *, u32);
 int func_0216B408(int, int, void *, u32, void *, u32, void *, int *, u32);
-void func_02156A58(void);
-void func_02156B18(void);
-void func_02156B3C(void);
-void func_02155678(void);
-void func_0203C9AC(int, int, int, int);
-void func_02156C00(int);
+void func_02156A58(int a, int b, int c, int d, int e);
+void func_02156B18(int a, int b, int c, int d, int e);
+void func_02156B3C(int a);
+u8 func_02155678(void);
+void func_0203C9AC(int a, u32 b, u32 c, u32 d);
+void func_02156C00(u32 a);
 void func_02155374(int);
 int func_02177138(void *, int);
 int func_02177160(void *, int);
 int func_0216B634(void *, int);
 int func_02177188(void *, int);
-void func_02155D80(void);
-void func_02155DCC(void);
-void func_02155E9C(void);
-void func_02155BDC(void);
+void func_02155D80(int a, u32 i);
+void func_02155DCC(u32 a, u8 *p, int c);
+void func_02155E9C(int a, int b, int c, u32 d);
+void func_02155BDC(unsigned int n);
 
 int func_02156888(int a, int b, int c)
 {

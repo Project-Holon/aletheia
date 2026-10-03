@@ -25,12 +25,16 @@
 typedef unsigned char u8;
 extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, int, unsigned);
-extern void func_02034714(const char *, int, const char *);
-extern void *func_02012EBC(void *);
+typedef unsigned int   u32;
+struct Big;
+struct Rec160;
+struct Reg;
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200B358(void *);
-extern void *func_0200B1D4(void *, unsigned);
+extern struct Rec160 *func_0200B1D4(struct Rec160 *arr, u32 index);
 extern void *func_0200AE14(void *);
-extern unsigned func_0200AE54(void *, unsigned);
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 extern unsigned func_0200BA38(unsigned);
 extern const char d_02213D04[], d_02213D00[];
 unsigned *func_02213134(int unused, unsigned heap, u8 *p)

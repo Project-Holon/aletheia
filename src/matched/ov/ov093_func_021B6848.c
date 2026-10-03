@@ -40,11 +40,12 @@ struct T {
 extern u8 func_021B8BEC(u8 *s, u32 k, u8 n);
 extern void func_021B68D8(u8 *s, struct T *t);
 extern int func_021B9114(u8 *s);
-extern void *func_02012EBC(void *sys);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_02007B44(void *sys);
 extern u32 func_02007B20(u16 a);
 extern void func_02007C20(u32 a, u32 b);
-extern u8 func_021B997C(u8 *s, int k);
+extern int func_021B997C(u8 *p, unsigned int i);
 extern int func_021BA710(int, u8);
 
 void func_021B6848(u8 *s, struct T *t)

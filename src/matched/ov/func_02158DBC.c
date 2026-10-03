@@ -25,9 +25,9 @@ typedef unsigned int u32;
 
 extern int func_0203CD98();
 extern int func_0203CF04();
-extern int func_0203CEAC();
+extern int func_0203CEAC(int a0);
 extern int func_0203D0D0();
-extern int func_0203CF5C();
+extern u32 func_0203CF5C(void);
 extern int func_0203CDBC();
 extern int func_020053EC();
 

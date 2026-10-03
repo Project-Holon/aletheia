@@ -13,6 +13,7 @@
  *   func_021BB49C 0x021BB49C thumb ov072
  */
 typedef unsigned int u32;
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021BB49C(void *);
 void func_021BB5B4(u32 *p,u32 v) { func_0204B3DC((void *)p[4],v); if(v==0) { p[7]=0; p[6]=0; func_021BB49C(p); } }

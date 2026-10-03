@@ -14,7 +14,9 @@
  *   func_021E3D04  0x021E3D04  thumb  ov119
  */
 
-extern void *func_02007A18(void *save, int box, unsigned slot);
+typedef unsigned int   u32;
+struct Sub020079BCEntry;
+extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern unsigned char func_021E3D04(void *mon, unsigned int heap);
 
 void func_021E3D88(char *p, int box, unsigned char *out)

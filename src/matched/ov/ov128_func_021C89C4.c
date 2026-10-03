@@ -20,9 +20,10 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern void func_021C8A50(void *,void *);
-extern void func_020456F8(void *);
-extern int func_02045730(void *);
-extern void func_02041B6C(int);
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_02041B6C(u32 bit);
 extern void func_02041300(u32,int,u8,u8,u8,u8,u8);
 static inline int ab(int v) {return v<0?-v:v;}
 void func_021C89C4(char *p,void *q) {

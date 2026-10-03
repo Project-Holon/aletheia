@@ -16,7 +16,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void*func_02045770(void*);
-extern int func_0201C6C4(void*,void*);
-extern void func_02045334(void*);
+struct Descriptor;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
 int func_021FC830(u8*p){void*owner=*(void**)(p+8);if(p[4]){if(!func_0201C6C4(owner,func_02045770(*(void**)p))){func_02045334(*(void**)p);p[4]=0;}}if(!p[4])return 1;return 0;}

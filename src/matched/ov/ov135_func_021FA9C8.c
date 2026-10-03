@@ -32,11 +32,13 @@ extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(void *, u32);
 extern void func_021FBEB8(void *, void *, void *, u32, void *);
 extern void func_02082BCC(void *, u32, u32);
-extern void *func_02045EC0(void *, u32);
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern int func_021FBFB0(void *, int);
 extern int func_021FC014(void *, int);
 extern void func_021FAC50(void *, void *, void *, u32, u16, void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 void func_021FA9C8(u8 *p, int mode, int pos)

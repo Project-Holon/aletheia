@@ -16,8 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02049B90(u32,u32,u32,u32,u32,u32,u32);
-extern u32 func_020450F0(u32,u32,u32,u32,u32,u32,u32);
+extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021C32FC(u16 *,u8 *,int);
 extern void func_02045334(u32);
 void func_021C3218(u16 *heap,u8 *p,int key)

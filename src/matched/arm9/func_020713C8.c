@@ -35,7 +35,7 @@ struct Obj;
 typedef void (*Fn)(int *out, struct Obj *o);
 
 extern Fn   g_dispatch[8];
-extern void func_0206DDA4(u32 hdr, int *body, int n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 struct Obj {
     u32 flags;   /* +0x00 */

@@ -17,7 +17,7 @@
  *   func_0216D758  0x0216D758  thumb  ov010
  */
 
-extern unsigned short func_0219D3F0(int *, unsigned int, unsigned int, unsigned int, int, int);
+extern unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5);
 extern int func_0219CBD4(int *, unsigned int, unsigned short *, unsigned short *);
 extern unsigned short func_0219C7B4(int, unsigned int, unsigned int);
 extern unsigned short func_0219C780(int, int, unsigned int, unsigned int, unsigned int, unsigned int);

@@ -26,7 +26,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void func_021D76BC(int a, int b);
+int func_021D76BC(int key, u32 val);
 
 void func_021D8C0C(void *a, void *b, int c)
 {

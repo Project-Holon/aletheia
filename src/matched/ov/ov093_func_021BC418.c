@@ -32,7 +32,7 @@ struct Slot {
 };
 
 extern u8 *func_021B9AEC(u8 *p, int i);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
 extern int func_021D5B68(void *p);
 extern void func_021C5108(u8 *p, u8 *a, int b);

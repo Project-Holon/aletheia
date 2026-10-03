@@ -54,7 +54,7 @@ typedef struct {
     } flags;                /* 0x440 */
 } W;
 
-extern int func_0202D034(int a, int b);
+extern int func_0202D034(u32 a, u32 b);
 extern int func_0204B898(int h);
 
 int func_02208958(W *w, int i, int *o1, int *o2)

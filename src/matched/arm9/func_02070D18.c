@@ -30,7 +30,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 cmd, void *p, u32 n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_02070D18(u8 *a)
 {

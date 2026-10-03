@@ -42,12 +42,13 @@ struct Ov208Menu {
 extern u32  func_02014B08(int kind, u16 heap);
 extern void func_02016020(u32 cam, u32 v);
 extern void func_02015BF0(u32 cam);
-extern u32  func_0202D060(void);
+struct Ctx;
+extern int func_0202D060(void);
 extern void func_02014CB8(u32 cam, u32 v);
 extern u32  func_02030CB0(u32 n);
-extern void *func_02030CBC(u32 n, void *mem);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_02014CEC(u32 cam, void *v);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021C8E64[];
 
 void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)

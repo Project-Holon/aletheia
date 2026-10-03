@@ -17,11 +17,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02011290(void *);
+struct ScriptVm;
+extern void func_02011290(struct ScriptVm *vm);
 extern void func_02011264(void *);
 extern void func_020307B0(void *);
 extern void *func_02060614(void *, void *);
-extern void func_021FADF8(void *, void *);
+extern void func_021FADF8(char *p, char *q);
 extern void func_02030DA4(void *);
 void func_021FAB58(char *p)
 {

@@ -13,15 +13,15 @@
  *   func_021DBA90 0x021DBA90 thumb ov131
  */
 
-extern void *func_02049EF4(void *, unsigned int, int, void *, unsigned short);
+extern void *func_02049EF4(void *, unsigned int, unsigned int, void **, unsigned short);
 extern void *func_02049E74(void *, unsigned int, int, void *, unsigned short);
 extern void *func_021DBA90(unsigned short, void *);
 void func_021D8884(unsigned char *a, unsigned char *p, void *arc)
 {
-    *(void **)(p+0x2c) = func_02049EF4(arc, 66, 0, p+0x28, *(unsigned short *)a);
-    *(void **)(p+0x34) = func_02049EF4(arc, 67, 0, p+0x30, *(unsigned short *)a);
-    *(void **)(p+0x3c) = func_02049EF4(arc, 68, 0, p+0x38, *(unsigned short *)a);
-    *(void **)(p+0x44) = func_02049EF4(arc, 69, 0, p+0x40, *(unsigned short *)a);
+    *(void **)(p+0x2c) = func_02049EF4(arc, 66, 0, (void **)(p+0x28), *(unsigned short *)a);
+    *(void **)(p+0x34) = func_02049EF4(arc, 67, 0, (void **)(p+0x30), *(unsigned short *)a);
+    *(void **)(p+0x3c) = func_02049EF4(arc, 68, 0, (void **)(p+0x38), *(unsigned short *)a);
+    *(void **)(p+0x44) = func_02049EF4(arc, 69, 0, (void **)(p+0x40), *(unsigned short *)a);
     *(void **)(p+0x4c) = func_02049E74(arc, 12, 0, p+0x48, *(unsigned short *)a);
     *(void **)(p+0x6c) = func_021DBA90(*(unsigned short *)a, *(void **)(a+0x174));
 }

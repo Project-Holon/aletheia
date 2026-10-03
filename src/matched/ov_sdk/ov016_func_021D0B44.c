@@ -95,7 +95,7 @@ extern void OS_GetOwnerInfo(OwnerT *info);
 extern void MI_CpuCopy8(const void *src, void *dst, unsigned long size);
 extern int func_021D0CB8(void);
 extern void *func_021D7680(int kind, void (*func)(void *), void *work, unsigned char prio);
-extern void func_021D6438(void *pp);
+extern void func_021D6438(void **mem);
 extern MemUsbT *g_021DE654;
 extern void func_021D0DE0(void *arg);
 extern ScanParamT g_021DA958;

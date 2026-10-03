@@ -33,10 +33,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0203A2F0(u32 key, int idx);
+extern u32 func_0203A2F0(u32 a0, u32 a1);
 extern u32  func_0203D3F8(void *obj, u32 a, u32 b, u32 c, void *slot,
                           int d, int e, int f);
-extern void func_0203A28C(u32 key, int idx, int v);
+extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 
 struct Obj {
     u8   pad_00[8];

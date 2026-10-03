@@ -18,7 +18,7 @@
 
 typedef struct { unsigned a; unsigned b; } Arg;
 
-extern void *func_0215437C(void *h, unsigned a, unsigned b);
+extern void *func_0215437C(void *p, int a, int b);
 
 void *func_021543BC(void *h, Arg *arg)
 {

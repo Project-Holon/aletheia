@@ -40,7 +40,8 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_02013A94(u32 id);
+typedef unsigned short u16;
+extern u16 sub_02013A94(u32 key);
 
 u32 sub_02013D9C(u32 id)
 {

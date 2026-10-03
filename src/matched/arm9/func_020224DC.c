@@ -61,7 +61,8 @@ struct G021468A4 {
 extern struct G021468A4 g_021468A4;
 
 extern void func_020225F0(void);
-extern void func_02030EAC(void *a);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_020224DC(struct Slots *p, u32 idx)
 {

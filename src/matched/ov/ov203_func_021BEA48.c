@@ -14,7 +14,7 @@
  *   func_02082AC0 0x02082AC0 arm
  *   func_02031194 0x02031194 arm
  */
-extern void func_0207D4B0(unsigned,unsigned,unsigned);
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void func_0208068C(int);
 extern void func_02082AC0(unsigned,void *,unsigned);
 struct TcblNode;

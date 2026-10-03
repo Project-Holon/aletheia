@@ -83,18 +83,18 @@ extern Work *d_021B3C80;
 extern void *func_02156F5C(void *heap, u32 size, int align);
 extern void func_02082BCC(void *p, int v, u32 n);
 extern void func_021AEB20(void);
-extern int func_0202EB0C(void);
-extern void func_02073838(void *ch, int n, u8 *vals);
+extern u32 func_0202EB0C(void);
+extern int func_02073838(u8 *o, int n, u8 *src);
 extern void func_02073AD0(void *ch, int v);
 extern int func_020738C0(void *ch, int fmt, void *buf, u32 len, int rate,
                          int x, void (*cb)(void), void *arg);
 extern void func_021AEB7C(void);
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern u8 func_0216B838(void);
 extern void func_021AED08(void);
 extern void func_021AED30(void);
 extern void func_021B370C(WorkerParam *p);
-extern void func_021B0C64(int x);
+extern int func_021B0C64(int x);
 extern void func_021AF124(void);
 extern void func_021B0D08(int x);
 

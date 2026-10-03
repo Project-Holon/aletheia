@@ -53,7 +53,8 @@ struct Obj02033410 {
 };
 
 extern void func_02082A7C(u32 fill, void *dst, u32 size);
-extern u32  sub_02033BF0(void *p);
+struct Obj02033BF0;
+extern u32 sub_02033BF0(struct Obj02033BF0 *p);
 
 void func_02033410(struct Obj02033410 *p, u32 val)
 {

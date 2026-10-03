@@ -29,7 +29,8 @@ typedef struct Arg { int a; V v; } Arg;
 extern Tb d_021D92E0;
 extern u8 d_021D92E8[];
 
-extern int func_021ABEA0(int a, int b);
+typedef unsigned int   u32;
+extern int func_021ABEA0(u32 a, u32 b);
 extern int func_0209BDBC(int a);
 extern int func_0209C95C(int a, int b);
 extern int func_0209CB8C(int a, int b);

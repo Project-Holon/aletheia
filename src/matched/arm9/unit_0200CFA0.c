@@ -34,12 +34,13 @@ struct Blk37 {
     u32 unk4D0;
 };
 
-extern u32   func_02017D30(void *m);
-extern void  func_02017D70(void *m, u32 saved);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern u32   func_02017E1C(void *m, u32 field, u32 arg);
 extern u8    func_02017F00(void *m);
 extern u32   func_02017EAC(void *m);
-extern u32   func_0200C720(u16 id);
+extern u32 func_0200C720(u32 v);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);
 extern void  func_0200CA98(struct Blk37 *p, u16 id, u32 c, u32 d, u32 e);
 extern void  func_0200C818(struct Blk37 *p, u16 id, u32 c, u32 d);

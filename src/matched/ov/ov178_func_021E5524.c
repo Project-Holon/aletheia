@@ -33,7 +33,7 @@ extern u32 d_02FFFC3C;
 extern u8 ov091_id[],ov131_id[],d_021BED00[],d_021DC800[];
 extern int func_0203CD98(void);
 extern void *func_0203D798(void);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern int func_02157170(void *,void *);
 extern int func_02034AC4(int),func_02034A5C(int);

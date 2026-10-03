@@ -11,7 +11,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 static inline int magnitude(int x) { return x<0 ? -x : x; }
 int func_021B86A0(u8 *p) {
  int diff; int result; int sound; u16 n;

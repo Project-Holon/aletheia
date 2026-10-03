@@ -18,11 +18,12 @@
 
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E7584;
-extern int func_021DB0A0(void *);
+typedef unsigned int   u32;
+extern int func_021DB0A0(char *p);
 extern void func_021E1410(void *,Pair *,int);
-extern void func_0207D658(int,int,int);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 extern void func_021D8E84(void *,int);
-extern void func_021D9D60(void *);
+extern void func_021D9D60(char *p);
 void func_021D9DC4(void *p)
 {
     if (func_021DB0A0(p)) {

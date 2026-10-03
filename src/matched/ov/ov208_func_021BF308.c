@@ -32,7 +32,7 @@ extern const u8 d_021C851C[];
 extern void *func_021BC3B4(int);
 extern char *func_021BC3A8(int);
 extern int func_021BCF4C(char *);
-extern u32 func_021BDC80(void *);
+extern int func_021BDC80(char *p);
 extern void *func_020490F4(u32,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);

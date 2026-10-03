@@ -25,7 +25,8 @@ typedef struct {
 } Work;
 
 extern void *func_020122C0(int a, int b, int (*cb)(void *task, int *state, void **q), int size);
-extern Work *func_020124E8(void *task);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 extern int func_021BF76C(void *task, int *state, void **q);
 
 

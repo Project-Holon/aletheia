@@ -36,9 +36,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u16 d_04001050[];
-extern void func_0207D534(u16 *, int);
-extern void *sub_0203101C(unsigned, u16, unsigned, unsigned);
-extern void *func_0220AF40(unsigned);
+typedef unsigned int   u32;
+struct PalAnmSlot;
+struct Tcbl;
+extern void func_0207D534(volatile u16 *reg, int brightness);
+extern struct Tcbl *sub_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern u8 *func_0220AF40(u16 v);
 extern void func_0220D5C0(char *);
 extern void func_0220D6DC(char *);
 extern void func_0220D798(char *);
@@ -54,7 +57,7 @@ extern void func_0220C4EC(char *, int);
 extern void func_0220AFDC(char *, void *);
 extern void func_0220D8C4(u8 *, unsigned, unsigned);
 extern void func_0203D34C(unsigned, unsigned);
-extern void func_020216D4(void *, unsigned, unsigned, unsigned);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern void *func_021F86D4(void);
 extern int func_0202173C(void *, u16, u16, short, u8, u8, u16, void *);
 int func_0220CAAC(char *p)

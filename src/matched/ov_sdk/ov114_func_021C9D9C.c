@@ -33,7 +33,7 @@ extern void *func_0205A16C(int name, u32 size);
 extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern void func_021C9890(u32 seed);
 extern u8 func_021C98A4(void);
-extern void func_0217FA90(char *input, char *output, int inlen, int type);
+extern void func_0217FA90(const char *input, char *output, int inlen, int encodingType);
 extern u32 func_021C9858(u32 len);
 extern Session g_021CF7AC;
 

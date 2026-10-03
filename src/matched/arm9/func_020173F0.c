@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 typedef unsigned long long u64;
 
 extern u32   func_020173EC(void);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0201756C(void *v, u16 s, u16 l, u64 id);
 extern u8    sPokeToolFile;
 

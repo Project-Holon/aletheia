@@ -26,9 +26,10 @@ struct Entry02008E30 {
 };
 
 extern struct Entry02008E30 g_0209DDA0[5];
-extern int  func_02008DFC(void *p, u16 v);
-extern void func_02008D58(void *p, u16 a, int b);
-extern void func_02008D1C(void *p, u16 v, int z);
+struct Sub02008C20Obj;
+extern u32 func_02008DFC(struct Sub02008C20Obj *obj, int i);
+extern u32 func_02008D58(struct Sub02008C20Obj *obj, int i, u32 limit);
+extern u32 func_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value);
 
 void func_02008E30(void *a0)
 {

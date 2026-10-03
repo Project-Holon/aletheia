@@ -13,7 +13,7 @@
  *   func_021BD314 0x021BD314 thumb
  */
 
-extern void func_021BD314(void *, int);
+extern void func_021BD314(char *p, int i);
 
 int func_021BD340(char *a, int arg)
 {

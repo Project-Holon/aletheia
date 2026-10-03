@@ -27,12 +27,15 @@ struct WinMgr;
 extern int (*const d_021C7DA8[])(u8 *);
 extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021C6594(u8 *);
-extern void func_0201C4E4(void *);
-extern void func_02045334(void *);
-extern u32 func_02045770(void *);
-extern int func_0201C6C4(void *, u32);
-extern void func_020310C4(void *);
-extern void func_0202DBC4(void *);
+struct Descriptor;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_02045334(struct Descriptor *d);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_020310C4(struct Tcbl *p);
+extern void func_0202DBC4(u8 *p);
 int func_021C68A0(u8 *p, int *st)
 {
     int i;

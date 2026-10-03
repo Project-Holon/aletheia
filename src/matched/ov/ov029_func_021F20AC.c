@@ -14,7 +14,7 @@
  *   func_0204B800  0x0204B800  arm
  */
 
-extern int func_021F133C(void *, int, int *, int *);
+extern int func_021F133C(char *p, int v, int *o1, int *o2);
 extern void func_0204B404(int, void *, int);
 extern void func_0204B800(int, int);
 

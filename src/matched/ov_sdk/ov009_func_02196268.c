@@ -32,7 +32,7 @@ typedef struct Conn {
 extern int func_02195F5C(Conn *c);
 extern int func_02194D74(unsigned char *response1, unsigned char *response2);
 extern unsigned char *func_02194C6C(unsigned char *buffer, unsigned char *challenge);
-extern int func_02197700(Conn *c, char *response, void *message, int len);
+extern int func_02197700(struct Conn *c, char *response, char *message, int len);
 extern void func_0217EAE0(void *ptr);
 
 int func_02196268(Conn *connection, unsigned char *message, int len)

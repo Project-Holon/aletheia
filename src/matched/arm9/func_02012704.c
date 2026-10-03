@@ -46,15 +46,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_020307B0(u32 p);
-extern void func_021647D8(u32 p);
+extern int func_021647D8(int a0);
 extern void func_02027584(u32 p);
 extern void func_0202E794(u32 p);
 extern void func_0215E334(u32 p);
 extern void func_02006E64(u32 p);
 extern void func_02007AC8(u32 p);
-extern void func_0216CCB0(u32 p);
+extern int func_0216CCB0(int a0);
 extern void func_02159BBC(u32 p);
-extern void func_021623BC(u32 p);
+extern int func_021623BC(int a0);
 extern void func_02014444(u32 p);
 extern void func_0202889C(u32 p);
 

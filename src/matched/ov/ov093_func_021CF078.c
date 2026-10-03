@@ -30,24 +30,24 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_021B86E4(void *);
+extern int func_021B86E4(unsigned int **p);
 extern u32 func_021CF918(u8 *, u8 *, u16 *);
 extern void func_021EAF18(u8 *, u32, u32);
 extern void func_021EAF50(u8 *, u32);
 extern void func_021EAF78(u8 *, u8);
-extern void func_021CE3B4(u8 *, u8 *);
-extern int func_021EA710(void *);
+extern void func_021CE3B4(u8 *p, void *q);
+extern int func_021EA710(u32 *p);
 extern void func_021CE0F8(u8 *, u8 *, u8 *);
 extern void func_021EA65C(void *, u8 *);
 extern int func_021EA720(void *);
 extern void func_021EABC4(void *, u8 *, u8 *, int);
 extern int func_021EAC54(void *, int *);
 extern int func_021CE08C(u8 *);
-extern void func_021D8414(void *);
+extern void func_021D8414(u32 *p);
 extern void func_021CE150(u8 *, u32);
 extern void func_021CE4D0(void);
-extern void func_021CE3C8(void);
-extern void func_021CF220(void);
+extern int func_021CE3C8(u8 *p, int *state);
+extern u32 func_021CF220(u8 *p, int *st);
 u32 func_021CF078(u8 *p, u32 *st)
 {
     u8 id;

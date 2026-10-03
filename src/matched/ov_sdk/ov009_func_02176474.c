@@ -15,7 +15,7 @@
  *   func_02175F3C  0x02175F3C  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 
 unsigned char func_02176474(void)
 {

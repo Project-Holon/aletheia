@@ -37,7 +37,8 @@ extern void *func_0203D798(void);
 extern u32 func_020399A8(void);
 extern void func_0203D1E8(u32, void *);
 extern u32 func_0203D378(void);
-extern void func_02039C68(void *, u32, u32);
+struct Link;
+extern void func_02039C68(struct Link *p, u32 lo, u32 hi);
 int func_021BDB30(char *p, int v)
 {
     u16 state;

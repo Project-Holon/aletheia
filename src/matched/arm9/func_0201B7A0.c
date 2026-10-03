@@ -32,7 +32,8 @@
 typedef signed char s8;
 
 extern const s8 g_0209E45C[];
-extern void func_0201B850(void *a0, const s8 *tbl, int a2, int a3);
+typedef unsigned int   u32;
+extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
 
 void func_0201B7A0(void *a0, int a1, int a2, int a3)
 {

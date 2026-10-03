@@ -22,7 +22,9 @@
 typedef unsigned char u8;
 typedef enum { SLOT_0 } Slot;
 
-extern int func_0216FE2C(void *tbl, int idx, void *pos, u8 *flags);
+struct Pos;
+struct Rec;
+extern int func_0216FE2C(struct Rec *tbl, int idx, struct Pos *pos, u8 *flags);
 
 int func_0216FEAC(void *tbl, void *pos, u8 *flags)
 {

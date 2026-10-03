@@ -21,11 +21,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_020437D4(void *);
-extern int func_020437EC(void *);
+typedef unsigned short u16;
+struct Bmp;
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_020437EC(const struct Bmp *bmp);
 extern void func_020862F0(void *,int);
-extern int func_020437DC(void *);
-extern int func_020437E4(void *);
+extern u16 func_020437DC(const struct Bmp *bmp);
+extern u16 func_020437E4(const struct Bmp *bmp);
 extern u8 *func_0204ABBC(void *,u32);
 extern void func_0207E780(void *,void *,u32);
 extern void func_0207E804(void *,void *,u32);

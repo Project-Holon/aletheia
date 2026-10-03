@@ -14,7 +14,8 @@
  *   func_0215E440 0x0215E440 thumb ov010
  */
 typedef unsigned char u8;
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *);
 extern u8 func_0200D468(void *,u8);
 extern void func_0215E440(void *,u8);

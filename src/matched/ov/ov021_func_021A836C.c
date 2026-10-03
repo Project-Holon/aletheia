@@ -87,30 +87,31 @@ typedef struct Obj {
 
 extern char d_021DDF94[];
 
-extern void *func_02030734(int, int, int, void *, int);
+struct W;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02188C80(void *p);
 extern u32 func_020120F4(u32);
 extern u32 func_020120F8(u32);
 extern u32 func_02012AC8(u32);
 extern u32 func_0201296C(u32);
 extern u32 func_02012944(u32);
-extern u32 func_02188C54(void *p);
-extern int func_020355C4(void);
+extern u32 func_02188C54(u8 *p);
+extern u8 func_020355C4(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_021A8D40(void *unused, Obj *w);
+extern void func_021A8D40(void *unused, struct W *w);
 extern void *func_0201C440(u16 heap);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_021A8B18(u32 a, u32 b, u32 c);
-extern void func_021A8874(Obj *p, void *q, u32 r, u32 s);
-extern void func_021A8BB8(Obj *p, void *q, u32 r);
+extern void func_021A8874(struct Obj *p, void *q, int r, u32 unused);
+extern void func_021A8BB8(struct Obj *p, void *q, int r);
 extern void func_02049238(void *q);
-extern u32 func_02040588(u32, u32);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021A90E0(Obj *p);
 extern void func_021A8DD8(Obj *p);
 extern u32 func_020129C4(u32);
 extern void func_021A8E20(Obj *p, u32 v);
 extern void func_0204B3DC(u32, int);
-extern void func_0203D34C(int, int);
+extern void func_0203D34C(u32 a, u32 b);
 
 Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
 {

@@ -29,9 +29,9 @@ typedef signed int     s32;
 
 extern u8 data_021D3640[];
 extern u8 data_021D35E4[];
-extern void func_0207DC44(u32 a, u32 b, u32 c, u32 d);
+extern void func_0207DC44(int enable, int fogMode, int fogSlope, int fogOffset);
 extern void func_0207DD10(void *a);
-extern void func_0207DD24(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void func_0207DCF8(void *a);
 extern void func_02046BE0(u32 a, u32 b);
 

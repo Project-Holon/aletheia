@@ -45,9 +45,9 @@ struct Oth {
     u16 f56;           /* 0x56 */
 };
 
-extern struct Ctx *func_0203D798(void);
-extern struct Ctx *func_0203D788(void);
-extern void func_02037288(u32 a0, u32 a1, u32 a2);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
+extern int func_02037288(u32 a0, u32 heap, u32 c);
 extern u8   g_020387A0[];
 
 int func_02037700(u32 a0, u32 a1)

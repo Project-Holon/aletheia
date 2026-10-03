@@ -43,7 +43,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern u32 func_02011400(u32, u32);
+extern u8 func_02011400(int row, int col);
 extern u32 _u32_div_f(u32, u32);
 
 void func_02014A80(u8 *a0, u32 a1, s32 a2, u32 a3, u16 *out)

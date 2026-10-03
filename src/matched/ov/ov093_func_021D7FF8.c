@@ -23,8 +23,10 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-u8 func_021B9B94(void *p);
-extern u8 *func_021B9C00(void *p, u32 i);
+struct Q1;
+struct S2;
+u8 func_021B9B94(struct Q1 *p);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern int func_021D59B4(u8 *p, int k);
 extern u8 d_021F042D[];
 

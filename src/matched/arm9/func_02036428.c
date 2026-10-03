@@ -40,8 +40,8 @@ typedef struct {
 
 extern int  func_02036640(NetRingBuff *r);
 extern void func_02039548(void);
-extern void func_02034714(const char *file, int line, const char *expr);
-extern int  func_02036624(NetRingBuff *r, int idx);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern int func_02036624(void *p, int v);
 extern const char file_020A79A4[];
 extern const char str_020A79B4[];
 

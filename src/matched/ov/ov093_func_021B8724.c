@@ -12,6 +12,8 @@
  *   func_021D5444 0x021D5444 thumb ov093
  *   func_0200CED4 0x0200CED4 thumb
  */
-extern unsigned short func_021D5444(void *);
+typedef unsigned short u16;
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 extern int func_0200CED4(void *,unsigned int);
 int func_021B8724(char *p,void *m) { unsigned int s=func_021D5444(m); return func_0200CED4(*(void **)(*(char **)p+0x68),s); }

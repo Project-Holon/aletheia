@@ -24,8 +24,9 @@ typedef signed short s16;
 typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
-void *func_021D732C(int id, int sub);
-void func_021D7040(void *n);
+struct Node;
+struct Node *func_021D732C(int id, int sub);
+void func_021D7040(struct Node *n);
 int func_021D8484(int m);
 
 void func_021D8564(int a, int b)

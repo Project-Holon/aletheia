@@ -13,7 +13,10 @@
  *   func_020142E8 0x020142E8 thumb
  */
 typedef unsigned short u16;
-extern int func_0200DBA0(void *, int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Blk1AC;
+extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
 extern void *func_0201296C(void *);
 extern unsigned func_020142E8(void *, int);
 int func_021DE02C(void *p, void *q)

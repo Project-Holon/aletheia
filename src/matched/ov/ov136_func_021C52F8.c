@@ -18,13 +18,17 @@
  *   func_020450C8 0x020450C8 arm
  */
 typedef unsigned char u8;
-extern void func_02028148(void *);
-extern void func_02045808(void *);
-extern void func_0201C4C0(void *);
-extern void func_020456F8(void *);
-extern void *func_02045730(void *);
-extern void func_020409B4(void *);
-extern void func_020452E8(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct PrintSys;
+struct U16Vec;
+extern void func_02028148(u8 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020450C8(void);
 void func_021C52F8(u8 *p)
 {

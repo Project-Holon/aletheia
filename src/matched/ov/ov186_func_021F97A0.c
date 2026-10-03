@@ -13,7 +13,8 @@
  *   d_02200D00 0x02200D00 data
  */
 extern int func_021FC4DC(int);
-extern void func_02034714(const char *,int,const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D00[];
 void func_021F97A0(int *out,int *source,int *ctx,int type)
 {

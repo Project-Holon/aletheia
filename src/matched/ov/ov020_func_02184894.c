@@ -40,7 +40,9 @@ typedef struct Obj {
     u16 f4a;
 } Obj;
 
-int func_02012A30(const void *p);
+typedef unsigned int   u32;
+struct BigObj;
+u32 func_02012A30(const struct BigObj *p);
 void func_02012374(void *a, int b);
 void func_02029D44(int a, int b, u16 c, u8 d);
 void func_02029D7C(int a, int b);

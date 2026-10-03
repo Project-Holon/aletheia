@@ -27,14 +27,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012EBC(void *p);
-extern void *func_0200BE48(void *p);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
+extern u16 *func_0200BE48(void *sys);
 extern int   func_0200BF10(void *p);
 extern void  func_02045CAC(u32 bank, u32 index, u32 buf);
 extern void  func_02190844(u32 a, u32 b, u32 c, u32 d);
 extern void  func_021F556C(char *p, u32 a1, u32 a2, int a3, u8 a4);
 extern int   func_02010EB4(u8 i);
-extern u16   func_02010EC0(u8 i);
+extern u32 func_02010EC0(u32 i);
 
 void func_021F55D4(char *p)
 {

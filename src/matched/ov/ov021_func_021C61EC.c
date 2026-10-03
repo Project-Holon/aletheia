@@ -19,10 +19,14 @@
 
 typedef unsigned char u8;
 
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern u8 *func_020124E8(void *task);
-extern int func_02188E30(void *p);
-extern void func_02012374(void *a, void *t);
+typedef unsigned int   u32;
+struct Desc;
+struct Evt;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern u32 func_02188E30(u8 *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void func_021C622C(void);
 
 void func_021C61EC(void *a, void *b, void *c)

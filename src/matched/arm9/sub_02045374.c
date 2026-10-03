@@ -59,8 +59,8 @@ struct Cfg {
 extern u16 *g_02146A50;
 extern const char str_020A7E70[];
 
-extern u32 func_02041680(u32 layer);
-extern void *func_02030734(u16 heap, u32 size, u32 flags, const char *file, u32 line);
+extern u8 func_02041680(int channel);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020410D0(u32 a, u32 b, u32 c, u32 d, u32 e, void *cells,
                           u32 f, u32 g, u32 w, u32 h);
 extern void func_020307B0(void *p);

@@ -65,15 +65,15 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern GSUdpEngineObject *func_02180404(void);
+extern void *func_02180404(void);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
-extern int func_02195AB4(void **socket, char *localAddress, int outgoingBufferSize, int incomingBufferSize, void (*socketErrorCallback)(void));
+extern int func_02195AB4(void **sock, char *addr, int outSize, int inSize, void *callback);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_02195E68(void *socket, int (*callback)(unsigned int, unsigned short, unsigned char *, int));
 extern void func_02195B20(void *socket, void (*callback)());
-extern unsigned int func_02195E38(void *socket);
-extern unsigned short func_02195E40(void *socket);
+extern int func_02195E38(const int *p);
+extern unsigned short func_02195E40(const unsigned short *p);
 extern void func_0218048C(void);
 extern void func_02180410(void *theMsgHandler);
 extern int func_02180BFC(unsigned int theIp, unsigned short thePort, unsigned char *theMessage, int theMsgLen);

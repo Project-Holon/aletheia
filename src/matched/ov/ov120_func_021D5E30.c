@@ -25,11 +25,13 @@ extern void func_0200F7F4(void);
 extern unsigned int func_020221A4(void);
 extern int func_0203CD98(void);
 extern void func_0203A5E4(unsigned int);
-extern void func_02028148(void *);
-extern void func_02027858(void *);
+struct S020315D4;
+struct TaskMenu;
+extern void func_02028148(u8 *p);
+extern void func_02027858(struct TaskMenu *m);
 extern void func_021D7898(void *);
-extern void func_021D5FC4(void *);
-extern void func_020315D4(void *);
+extern void func_021D5FC4(u8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 int func_021D5E30(void *p, int a, int b, u8 *q)
 {

@@ -16,11 +16,15 @@
  *   d_02200D6C 0x02200D6C data a1
  */
 extern const char d_02200D6C[];
-extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj02021EE4;
+struct PalAnmSlot;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void *func_02021518(unsigned);
-extern void func_0202155C(void *, unsigned, unsigned, unsigned);
-extern void func_02021EE4(void *, int);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
 int *func_021FE6C0(unsigned heap)
 {
     int *p = func_02030734(heap, 0x40, 0, d_02200D6C, 0x62);

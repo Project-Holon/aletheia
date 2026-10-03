@@ -22,7 +22,7 @@ typedef unsigned short u16;
 extern void func_0203064C(unsigned, unsigned, unsigned);
 extern void *func_0203159C(void *, unsigned, unsigned);
 extern void func_02082AC0(unsigned, void *, unsigned);
-extern int func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern void func_021C4184(void *, u8 *);
 extern void *func_0201D7EC(unsigned, unsigned, unsigned, unsigned, u16);
 extern void *func_0203101C(u16, u16, unsigned, unsigned);

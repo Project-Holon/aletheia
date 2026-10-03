@@ -36,14 +36,15 @@ extern void func_02207960(char *p, int i);
 extern void func_0220778C(char *p, int i);
 extern void func_02005E9C(void);
 extern void func_02208D24(int a);
-extern void func_0204ADA4(int h);
-extern void func_0204A8D4(int h);
-extern void func_0204AFD8(int h);
+struct Node;
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204B1CC(int h);
 extern void func_020307B0(void *p);
 extern void func_02049238(u32 h);
 extern void *func_02030EE8(void *h);
-extern void func_02030EAC(void *p);
+extern void func_02030EAC(struct Node *n);
 
 void func_02206E28(char *p)
 {

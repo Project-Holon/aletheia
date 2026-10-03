@@ -13,7 +13,8 @@
  */
 struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *, unsigned, unsigned, unsigned);
-extern void func_021BC730(char *, int, int);
+typedef unsigned char  u8;
+extern void func_021BC730(char *p, u8 a, u8 b);
 void func_021BD280(char *p)
 {
     func_020216D4(*(struct PalAnmSlot **)(p + 12), 0, 0, 512);

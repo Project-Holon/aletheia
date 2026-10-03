@@ -15,7 +15,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0204A380(u32, u32, u32, u16);
-extern void *func_021FAD0C(void *, void *, int, u8);
+extern char *func_021FAD0C(char *p, char *base, unsigned index, unsigned char flag);
 void func_021F9140(u8 *p, u32 n, int i)
 {
     void *table;

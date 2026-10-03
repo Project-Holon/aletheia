@@ -28,8 +28,10 @@ typedef unsigned int   u32;
 typedef short          s16;
 
 extern int func_0209C0A4(int a, u16 b);
-extern void *func_02045770(void *p);
-extern void *func_020437D4(const void *bmp);
+struct Bmp;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02045334(int a);
 extern void func_021B9AB8(int a0, char *obj, void *dev, int a3, u8 s0, u8 s1, u8 s2, int s3);
 extern u8 d_021C6F6E[];

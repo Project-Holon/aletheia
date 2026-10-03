@@ -17,7 +17,7 @@
  *   func_0217653C  0x0217653C  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0216FF2C(int cmd, int a, int b, int c, void *data, int len);
 extern void func_0217653C(void);
 

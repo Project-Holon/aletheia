@@ -111,7 +111,7 @@ extern void func_021B9EB0(void);
 #define S (*(u8 **)(p+0x280))
 #define H(k) (*(u16 *)(S+(k)))
 #define T(k) (*(u32 *)(S+(k)))
-extern u32 func_0201AB28(u32,int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021BBDEC(u8 *,u32,int,int,u8,int);
 extern void func_021B7B98(u8 *);
 extern int func_021BC1B4(u8 *,u16);
@@ -145,7 +145,7 @@ void func_021B7698(u8 *p)
         if (func_021BC1B4(p,H(0x44))==1) {
             r=func_021BC1D0(p);
             if (r != -1) {
-                W(0x2c)=r; W(0x38)=func_0201AB28(T(0),r);
+                W(0x2c)=r; W(0x38)=(u32)func_0201AB28((void *)T(0),r);
                 func_021BC350(p,0);
                 func_021BE2B4(W(0x38),H(0x44),0,H(0x30),*(u16 *)p);
                 func_021BB2C0(p,*(u32 *)((p+W(0x2c)*4)+0x160));
@@ -163,7 +163,7 @@ void func_021B7698(u8 *p)
         func_021B9788(p,0xb3,1,(int)func_021B9E3C);
         func_021BB98C(p,W(0x150)); p[0xd]=p[0xc]; p[0xc]=0; return;
     case 7: case 8:
-        W(0x2c)=T(0x3c); W(0x38)=func_0201AB28(T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
         if (S[0x48] < 4) {
             old=func_02017E1C((void *)W(0x38),S[0x48]+0x36,0);
             off=0x150;
@@ -179,7 +179,7 @@ void func_021B7698(u8 *p)
         p[0xd]=7; p[0xc]=0; W(0x14)=0;
         func_021BAFA0(p,*(u32 *)((p+W(0x2c)*4)+0x160),1); return;
     case 10:
-        W(0x2c)=T(0x3c); W(0x38)=func_0201AB28(T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
         if (H(0x44) == 0) {
             T(0x34)=0; func_021B7B98(p); p[0xd]=2;
         } else {
@@ -204,7 +204,7 @@ void func_021B7698(u8 *p)
         p[0xd]=7; p[0xc]=0; W(0x14)=1;
         func_021BAFA0(p,*(u32 *)((p+W(0x2c)*4)+0x160),1); return;
     case 11: case 12:
-        W(0x2c)=T(0x3c); W(0x38)=func_0201AB28(T(0),T(0x3c));
+        W(0x2c)=T(0x3c); W(0x38)=(u32)func_0201AB28((void *)T(0),T(0x3c));
         old=func_02017E1C((void *)W(0x38),6,0);
         func_021BB97C(p,W(0x150));
         if (old == 0) {

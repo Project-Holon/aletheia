@@ -36,13 +36,16 @@ typedef struct St {
 
 extern void *func_02012EBC(int a);
 extern u32 func_0200725C(void *s, u32 id, u32 heap);
-extern void *func_020073D8(void *s, u32 id, u32 v);
-extern u32 func_0200ECB4(void *t);
+struct Sub020072A4Ctrl;
+struct Sub020073D8Ctrl;
+struct U16Vec;
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern u32 func_0200ECB4(char *o);
 extern int func_0200ECD0(void *t, int i);
 extern void func_0200ECF0(void *t, u32 a, int i, St *st);
-extern void func_020072A4(void *s, u32 id);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045808(void *p);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021F3AD4(const u16 *p, u32 *out, int *cnt)
 {

@@ -41,9 +41,9 @@ typedef struct {
     u8 fb;
 } S;
 
-extern void func_021C57F4(void *p);
-extern void func_021C57D8(void *p, int v);
-extern int func_021C49A4(void *p, int i);
+extern void func_021C57F4(u8 *p);
+extern void func_021C57D8(u8 *p, int v);
+extern int func_021C49A4(u8 *p, unsigned int i);
 extern void func_021BA228(W *w, S *s);
 extern void func_021BA5F0(W *w, S *s, u8 c);
 

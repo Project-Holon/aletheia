@@ -17,7 +17,8 @@ typedef struct {
     unsigned char *f10;
 } Ov107Ctx;
 
-int func_020173E8(void);
+typedef unsigned int   u32;
+u32 func_020173E8(void);
 
 void *func_021F11CC(Ov107Ctx *p, int i)
 {

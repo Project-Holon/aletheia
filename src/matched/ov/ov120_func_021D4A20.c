@@ -18,7 +18,9 @@
 typedef unsigned char u8;
 extern int func_0216CB30(int, int, int);
 extern void *func_02009EC8(void *);
-extern int func_02009E74(void *, int);
+typedef unsigned int   u32;
+struct Sub02009D9CObj;
+extern u32 func_02009E74(struct Sub02009D9CObj *obj, u32 id);
 extern int func_02012944(int);
 extern int func_02008530(int);
 #define I(k) (*(int *)(p + (k)))

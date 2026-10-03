@@ -22,12 +22,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0204779C(void *h);
+struct Rec;
+extern int func_0204779C(int *p);
 extern void *func_02047790(void *h, u16 i);
-extern void func_0204762C(void *p);
+extern void func_0204762C(struct Rec *p);
 extern void *func_02047788(void *h);
-extern void func_02047738(void *h);
-extern void func_02047504(void *p);
+extern void func_02047738(struct Rec *p);
+extern void func_02047504(struct Rec *p);
 
 void func_0218C0D8(void **s)
 {

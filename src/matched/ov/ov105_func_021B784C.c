@@ -22,9 +22,10 @@
  */
 typedef unsigned char u8;
 extern void func_02082BCC(void *,int,int);
-extern void func_0204335C(int);
+typedef unsigned int   u32;
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(const void *);
-extern void func_0204363C(int);
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_020434CC(void);
 extern void func_021B7A88(void *,const void *,int);

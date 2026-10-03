@@ -32,7 +32,8 @@ struct S0203DC04 {
 };
 
 extern struct S0203DC04 *g_021469F0;
-extern u32 func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 
 void func_0203DC04(void)
 {

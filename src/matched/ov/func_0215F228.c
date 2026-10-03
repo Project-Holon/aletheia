@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern int func_020121CC();
+struct IcaAnime;
+extern u32 func_020121CC(struct IcaAnime *p);
 
 int func_0215F228(int a0, int a1)
 {

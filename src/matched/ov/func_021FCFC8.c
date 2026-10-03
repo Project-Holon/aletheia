@@ -16,7 +16,8 @@
  * Poke channel 1 then channel 2.
  */
 
-extern void sub_020403F4(int ch);
+typedef unsigned int   u32;
+extern void sub_020403F4(u32 i);
 
 void func_021FCFC8(void)
 {

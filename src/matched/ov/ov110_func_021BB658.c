@@ -15,8 +15,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B3DC(void *, unsigned);
-extern void func_0204B878(void *, u16);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern u8 func_021BF6DC(u8 *);
 void func_021BB658(u8 *p, int enable)
 {

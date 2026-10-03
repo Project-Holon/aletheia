@@ -17,7 +17,8 @@
 typedef unsigned int u32;
 
 extern void *sub_020056A0(void *cb, void *param, u32 flag);
-extern void sub_02023D94(void);
+struct Args2;
+extern u32 sub_02023D94(void *obj, struct Args2 *args);
 
 struct Struct_02023CFC {
     void *val;

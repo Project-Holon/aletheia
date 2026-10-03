@@ -24,7 +24,7 @@
 extern void func_021C4F04();
 extern void func_021BD6D4();
 extern void func_021BD29C();
-extern void func_021CFFAC();
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40();
 extern void func_021C4F70();
 extern unsigned char g_021DE5D4;

@@ -59,7 +59,8 @@ typedef struct {
     u8 f17C[8];
 } Work;
 
-extern void func_0204B3DC(void *o, int v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021C832C(Work *p, int row, int n)
 {

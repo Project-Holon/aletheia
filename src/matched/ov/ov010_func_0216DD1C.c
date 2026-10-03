@@ -30,7 +30,7 @@ typedef struct Ctx {
     Rec *recs;
 } Ctx;
 
-extern u16 func_0216D4F0(Ctx *c);
+extern u16 func_0216D4F0(void *p);
 extern int func_0216D55C(Rec *r, int kind);
 
 int func_0216DD1C(Ctx *c, Rec **out, u32 *iter)

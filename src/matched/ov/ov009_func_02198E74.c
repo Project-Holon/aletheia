@@ -17,7 +17,8 @@
  *   func_02198A0C  0xfunc_02198A0C  arm
  */
 
-extern int func_02198A0C(int sock, void *nat);
+struct _NAT;
+extern int func_02198A0C(int sock, struct _NAT *nat);
 
 int func_02198E74(int sock, void *nat)
 {

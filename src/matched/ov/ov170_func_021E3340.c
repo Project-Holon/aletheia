@@ -35,8 +35,10 @@
 
 struct WinMgr;
 extern void func_021DD530(unsigned char *p);
-extern unsigned char func_020260E0(void *obj);
-extern void func_020260E4(void *obj, unsigned char sel);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(unsigned char *p, unsigned idx);
 extern void func_021ED55C(unsigned char *p, int flag);
 extern void func_021EA1E8(unsigned char *p);

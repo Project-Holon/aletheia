@@ -95,11 +95,13 @@ extern struct Console unk_021469AC;
 
 extern void  func_020808F4(void);
 extern void  func_0207FDCC(u32 a);
-extern void  func_0207D4B0(u32 a, u32 b, u32 c);
+struct Bmp;
+struct CharBuf;
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
 extern void  func_0207D534(u32 reg, u32 value);
 extern void  func_0204E130(u32 a);
-extern void *func_02043678(u32 width, u32 height, u32 tileSize, void *arg);
-extern void  sub_02043B5C(void *buf, u8 value);
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern void sub_02043B5C(struct CharBuf *buf, u8 value);
 
 void sub_02034768(void)
 {

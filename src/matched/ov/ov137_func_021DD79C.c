@@ -16,7 +16,7 @@
  *   func_021DD93C 0x021DD93C thumb ov137
  */
 typedef unsigned short u16;
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern void func_0203D7B0(int);
 extern void *func_021DCF50(void *);
 extern unsigned func_021841A4(void *);

@@ -16,7 +16,7 @@
  *       --func func_0203D8AC --addr 0x0203D8AC --arm --cc 1.1p1
  */
 
-extern void func_020371AC(unsigned int a, unsigned int b);
+extern void func_020371AC(unsigned short a, unsigned int b);
 extern void func_0203D2CC(void);
 
 void func_0203D8AC(void)

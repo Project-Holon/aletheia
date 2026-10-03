@@ -31,10 +31,10 @@ typedef signed int     s32;
 
 extern void *func_0216D67C(void *o);
 extern void *func_0216D530(void *p);
-extern void func_021BB480(void *p);
-extern void **func_0216D69C(void *o);
-extern int func_021B8040(void *p);
-extern u32 func_021B8038(void *p);
+extern void *func_021BB480(void *p);
+extern void *func_0216D69C(void *p);
+extern u8 func_021B8040(u8 *p);
+extern u8 func_021B8038(u8 *p);
 extern void func_021B7E60(void *p, u32 a, void *out, u32 b);
 extern void func_021B7DC0(void *p, void *out);
 

@@ -24,11 +24,11 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_02082BCC(void *dst, int val, u32 n);
-extern void func_021C0AF8(u8 *p);
-extern void func_021C0B8C(u8 *p);
-extern void func_021C0BB4(u8 *p);
-extern void func_021C0C38(u8 *p);
-extern void func_021C0CF0(u8 *p);
+extern void func_021C0AF8(void *p);
+extern void func_021C0B8C(void *p);
+extern void func_021C0BB4(void *p);
+extern void func_021C0C38(void *p);
+extern void func_021C0CF0(void *p);
 
 void func_021C0A04(u8 *p)
 {

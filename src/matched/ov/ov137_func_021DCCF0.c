@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef signed short s16;
-extern int func_02039338(void);
-extern void func_021DE08C(char *,int,u8);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
+extern void func_021DE08C(char *p, int state, int player);
 void func_021DCCF0(int a,int b,int c,u8 *p) {if(func_02039338()!=0) func_021DE08C(*(char **)(*(u8 **)p+32),13,0);}
 int func_021DCD0C(void) {return func_02039338();}

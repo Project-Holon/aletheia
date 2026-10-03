@@ -19,7 +19,8 @@
 
 typedef unsigned short u16;
 
-extern u16 func_02162970(void *set, void *flags, const void *where, u16 type);
+struct TriggerSet;
+extern u16 func_02162970(struct TriggerSet *set, void *flags, const void *where, u16 type);
 
 u16 func_02162A5C(void *set, void *flags, const void *where, u16 type)
 {

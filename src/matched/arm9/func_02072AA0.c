@@ -78,9 +78,8 @@ typedef struct {
     u32 f10;
 } Obj;
 
-extern void func_02089660(u32 chan, int fmt, void *data, int loopmode,
-                          int a, int b, int vol, int pan, u32 period, int e);
-extern void func_020894B4(u32 chan, int a, int b, int c);
+extern void func_02089660(int chNo, int format, const void *dataaddr, int loop, int loopStart, int loopLen, int volume, int shift, int timer, int pan);
+extern void func_020894B4(u32 chBitMask, u32 capBitMask, u32 alarmBitMask, u32 flags);
 extern u32  func_02089D40(void);
 
 int func_02072AA0(Obj *s, int fmt, void *data, int loop,

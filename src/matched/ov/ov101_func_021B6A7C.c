@@ -19,9 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021B6C20(u8 *,int,int,u8 *);
 extern void func_021B6A3C(u8 *,u32);
-extern void func_021B6AD8(void);
-extern void func_021B6BA8(void);
-extern void func_021B6A60(void);
+extern void func_021B6AD8(u8 *p, u16 *state);
+extern void func_021B6BA8(u8 *p, u16 *state);
+extern void func_021B6A60(u8 *p, u16 *state);
 void func_021B6A7C(u8 *p,u16 *state)
 {
     switch(*state) {

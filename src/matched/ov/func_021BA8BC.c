@@ -23,8 +23,9 @@ typedef unsigned long  u32;
 typedef signed short   s16;
 typedef int BOOL;
 
-extern void func_0201F7A8(void *p, int v);
-extern void sub_020452E8(void *p);
+struct Descriptor;
+extern void func_0201F7A8(void *desc, u32 kind);
+extern void sub_020452E8(struct Descriptor *d);
 
 int func_021BA8BC(void *p)
 {

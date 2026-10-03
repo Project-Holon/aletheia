@@ -35,18 +35,19 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern int func_02159B10();
-extern int func_02012FB0();
-extern int func_0216662C();
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern int func_02012FB0(unsigned char *base);
+extern int func_0216662C(int a0);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02012138();
+extern u32 func_02012138(const struct Ctx *p);
 extern void func_021A3038();
 extern void func_021767F0();
 extern void *func_02184D38();
 extern int func_021665F0();
 struct Desc;
 extern struct Desc *func_0216B3A8(void *a0, int a1, int a2);
-extern void func_0215897C();
+extern void func_0215897C(void *vm, void *task);
 
 int func_0216AE10(int a0, int a1)
 {

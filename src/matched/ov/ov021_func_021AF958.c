@@ -33,9 +33,11 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(Script *, u32);
-extern void *func_02012934(void *p);
+struct BigObj;
+struct WordSet;
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *, u32);
-extern void func_0201EE84(u32, u32, void *);
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 
 int func_021AF958(Script *a, u32 b)
 {
@@ -47,6 +49,6 @@ int func_021AF958(Script *a, u32 b)
     u32 e;
     a->cur = p + 1;
     e = func_02159B10(a, b);
-    func_0201EE84(x, v, func_0201AB28(func_02012934((void *)d), e));
+    func_0201EE84((void *)x, v, func_0201AB28(func_02012934((void *)d), e));
     return 0;
 }

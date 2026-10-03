@@ -47,7 +47,8 @@ typedef unsigned char u8; typedef unsigned int u32; typedef signed int s32;
 struct Node { u8 p00[8]; u32 f08; u32 f0c; u32 f10; u8 f14; };
 struct Slot { u8 p00[0xc]; u8 f0c; u8 p0d[0x24 - 0x0d]; };
 
-extern void func_02073710(void *p);
+struct A;
+extern void func_02073710(struct A *a);
 extern struct Slot g_0214E464[];
 
 extern struct Node *func_0207482C(u32 a, void *b, void *fn, u32 c, u32 d);

@@ -16,9 +16,11 @@
  */
 extern unsigned func_0201AA18(void *);
 extern void *func_0201AB28(void *,unsigned);
-extern unsigned func_02017D30(void *);
-extern unsigned func_02017E1C(void *,unsigned,void *);
-extern void func_02017D70(void *,unsigned);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 void func_021B64DC(unsigned char *p) {
  unsigned i; void *mon; unsigned saved;
  p[0x915E]=0;

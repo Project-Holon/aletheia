@@ -20,7 +20,8 @@ extern int func_02028604(int);
 extern void func_0201CE48(int);
 extern void func_02031140(int);
 extern void func_02045808(int);
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_0203FB44(unsigned, unsigned short, unsigned short);
 extern void func_020452E8(int);
 void func_022052E8(int task, char *p)

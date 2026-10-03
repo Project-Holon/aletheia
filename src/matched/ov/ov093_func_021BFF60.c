@@ -36,10 +36,10 @@ extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
 extern void func_021C6110(u8 *p, u8 *a, unsigned int n);
 extern int func_021C000C(u8 *p, int k);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021C5D88(u8 *p, u8 *a, int b);
 extern void func_021C0780(u8 *p, u8 *a, int i, u8 v);
-extern int func_021D5B68(u8 *p);
+extern int func_021D5B68(void *p);
 extern u8 func_021D5440(u8 *p);
 
 void func_021BFF60(u8 *p, u8 *a, int z)

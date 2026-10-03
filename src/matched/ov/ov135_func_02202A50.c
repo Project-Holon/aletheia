@@ -42,14 +42,18 @@ typedef struct {
     u16 heap;
 } Ctx;
 
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045CAC(void *bank, u32 id, void *dest);
-extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201F250(void *a, void *b, void *c);
-extern void *func_02045770(void *win);
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *print, void *bmp, s16 x, s16 y, void *str, void *font, u16 color);
-extern void func_02045808(void *p);
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_02202A50(Ctx *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y)
 {

@@ -34,7 +34,8 @@ typedef struct {
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_02173518(u8 *p);
 extern void func_02087C6C(void *p);
-extern u8 func_02008554(void *s);
+struct Sub0200852CObj;
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
 extern u32 func_02008550(void *s);
 
 void func_02173524(Work *w, u8 *p)

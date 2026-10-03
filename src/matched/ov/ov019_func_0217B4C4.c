@@ -59,10 +59,10 @@ extern int  func_0217AE38(Msg *m, int v);
 extern int  func_0217AED4(Entry *e, Msg *m);
 extern void *func_0217AFB0(u8 *w, Entry *e, Msg *m);
 extern int  func_0217F060(u8 v);
-extern int  func_0217F858(u8 v);
+extern int func_0217F858(int a);
 extern int  func_0216D3CC(void *p);
-extern void func_0216D410(void *p, int v);
-extern int  func_0216D5A0(void *p);
+extern void func_0216D410(void *a0, u16 a1);
+extern u16 func_0216D5A0(void *p);
 extern void func_0216E0E8(void *p, int v);
 
 int func_0217B4C4(u8 *w, Msg *m)

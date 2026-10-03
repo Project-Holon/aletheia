@@ -41,11 +41,12 @@ extern Obj *d_021A8268;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
-extern int func_02060F98(void *p);
+typedef unsigned char  u8;
+extern u8 func_02060F98(char *p);
 extern u32 func_02087988(void);
 extern void func_0208799C(u32 h);
 extern void func_02060E30(u32 heap, void *p);
-extern void func_0203C9AC(int a, int b, int c, int d);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 
 void func_02156FDC(u32 a, void *p)
 {

@@ -28,8 +28,8 @@ extern u32 func_021BF3D8(u8 *);
 extern u32 func_021BF4AC(u8 *);
 extern u32 func_021BF594(u8 *,u32);
 extern u32 func_021BEBA4(u32);
-extern u32 func_020061E4(u32);
-extern u32 func_021BEFF8(u8 *);
+extern void func_020061E4(u32 a);
+extern void func_021BEFF8(u8 *p);
 void func_021BE580(u8 *p)
 {
     int repeat=1;

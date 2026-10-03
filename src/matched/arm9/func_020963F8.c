@@ -58,7 +58,7 @@ typedef long long s64;
 
 extern u64 func_02096004(u32 a, u32 b, u32 cb, u32 *buf, u32 *p4, u32 *p3,
                          u32 *p2);
-extern u32 func_020946D8(u32 a, u32 b, u32 c);
+extern int func_020946D8(u32 *p, u32 a1, u32 a2);
 extern u32 g_02153FAC;
 
 s64 func_020963F8(u32 a0, u32 *a1, u32 a2)

@@ -23,7 +23,7 @@ typedef struct {
     char f18[0xC];
 } Sub;
 
-extern void func_020409E0(u32 index, void *src, u32 mode, u32 offset);
+extern void func_020409E0(u32 index, const void *src, u32 mode, u32 offset);
 
 void func_021F57D8(int a0, char *p)
 {

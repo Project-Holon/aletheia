@@ -11,8 +11,10 @@
  * symbols:
  *   func_0220687C  0x0220687C  thumb  ov094
  */
-extern int func_0204B98C(void *h);
-extern void func_0220687C(void *p, void *a);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0220687C(char *p, void *q);
 
 void func_022047CC(void *a, void **s)
 {

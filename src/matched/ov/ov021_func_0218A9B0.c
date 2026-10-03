@@ -50,12 +50,13 @@ struct Ctx9B0 {
 };
 
 extern u16 func_02188C84(u8 *p);
-extern void *func_02188C80(u8 *p);
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_0218AC84(u8 *pos, void *msg, void *sys);
 extern void func_0218AB9C(void *sys, u8 *pos);
 extern int func_0218AC08(void *msg, u8 *pos, u16 id);
-extern int func_0218AB50(struct Ctx9B0 *p, u8 *pos, void *msg, void *sys);
+extern int func_0218AB50(void *p, u8 *pos, void *msg, void *sys);
 extern int func_0218AC4C(u8 *pos, void *msg, void *sys);
 
 int func_0218A9B0(struct Ctx9B0 *p, u8 *pos)

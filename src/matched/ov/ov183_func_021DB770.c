@@ -42,9 +42,10 @@ extern void func_021FC230(char *,int),func_021FE7F4(int *,int);
 extern void func_021FD854(char *);
 extern void func_021DB924(void);
 extern u32 func_02035D20(u32 *,u32 *);
-extern void func_020061E4(int);
+struct Node;
+extern void func_020061E4(u32 a);
 extern void *func_020056A0(void (*)(void),void *,int);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 extern int d_021E3280[];
 int func_021DB770(int *task,int *state,char *p,char *q)
 {

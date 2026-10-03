@@ -24,12 +24,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-int func_02012138(void *p);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+u32 func_02012138(const struct Ctx *p);
 int func_02026454(int x);
 void func_02026400(int x);
-void *func_020124E8(void *p);
-void func_021542C0(void);
+void *func_020124E8(struct Obj *p);
+u32 func_021542C0(void *obj, u32 *mode, u32 *args);
 
 void *func_021543E8(void *p, int a1, int a2, int a3, int a4)
 {

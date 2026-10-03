@@ -24,8 +24,8 @@
 
 extern void func_021CFC20(void);
 extern void func_021D0014(void);
-extern void func_021CFFAC(int no);
-extern void func_021C11D4(void (*callback)(int));
+extern void func_021CFFAC(unsigned int v);
+extern void func_021C11D4(unsigned int v);
 extern void func_021C115C(void);
 extern void func_021C0E40(void (*scene)());
 extern void func_021C3298(void);

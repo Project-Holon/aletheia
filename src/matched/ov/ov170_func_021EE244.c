@@ -13,7 +13,9 @@
  *   func_0202590C 0x0202590C thumb
  */
 
-extern void func_0202590C(void *g, short x, short y);
+typedef signed short   s16;
+struct Grid;
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 
 void func_021EE244(char *p, int i, int flag)
 {

@@ -16,11 +16,15 @@
  *   func_021EABA0 0x021EABA0 thumb ov170
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,unsigned);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct Rec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void *func_021EAC98(void);
 extern void func_021EABD0(unsigned char *,int,void *,unsigned,int,int,unsigned,unsigned short);
-extern void func_02045C04(void *);
+extern void func_02045C04(struct Rec *rec);
 extern void func_021EABA0(void **);
 void func_021EACA8(unsigned char *p) {
  unsigned char *w; void *bank;

@@ -25,7 +25,7 @@ typedef unsigned long long u64;
 
 extern u32 func_020084E4(u32 value, void *dst);
 extern void func_0200854C(int, int);
-extern u32 func_02005728(int);
+extern u32 func_02005728(u32 range);
 extern void func_0200852C(int, u32);
 extern u32 func_0203F0A8(void);
 extern u32 func_02008550(int);

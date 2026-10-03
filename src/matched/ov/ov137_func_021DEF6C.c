@@ -14,11 +14,16 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 pad[0x90]; void *slots[5]; } Obj;
-extern void *func_02012EBC(void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Big;
+struct L0200ED54;
+struct Sub0200852CObj;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200ED48(void *);
-extern int func_02039338(void);
-extern int func_02008530(void *);
-extern void func_0200ED54(void *, int);
+extern u16 func_02039338(void);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 void func_021DEF6C(Obj *obj)
 {
     u8 *p = (u8 *)obj;

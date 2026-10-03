@@ -13,7 +13,8 @@
  *   func_02085CBC 0x02085CBC arm
  */
 
-extern void func_02085CBC(void);
+typedef unsigned int   u32;
+extern u32 func_02085CBC(void);
 
 asm void OS_IsRunOnEmulator(void)
 {

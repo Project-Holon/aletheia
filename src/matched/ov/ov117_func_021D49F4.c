@@ -31,12 +31,13 @@ typedef struct {
     s32 x, y, z;
 } Vec;
 
-extern void func_02015FBC(void *, u32);
+struct McssFade;
+extern void func_02015FBC(char *p, int v);
 extern void func_02015EB0(void *);
 extern void func_02015C48(void *, Vec *);
 extern void func_02015E04(void *);
 extern void func_02015CAC(void *, void *);
-extern void func_02015F50(void *, u32, u32, s32, u32);
+extern void func_02015F50(struct McssFade *w, u8 cur, u8 target, s32 step, u32 e);
 
 void func_021D49F4(void *obj, void *p)
 {

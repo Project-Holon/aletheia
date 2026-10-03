@@ -17,11 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Config { u32 size; u8 flag; u8 pad[3]; void *target; u32 mode; u8 x,y,z,w; } Config;
-extern void *func_020457B0(int,u16);
-extern void func_02045CAC(void *,int,void *);
-extern void func_02045808(void *);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045808(struct U16Vec *vec);
 extern int func_02027778(Config *,void *);
-extern void func_0207D658(int,int,int);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 int func_021D5890(char *p,int mode)
 {
     Config c;

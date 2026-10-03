@@ -43,11 +43,14 @@ struct Ctx {
 
 extern u32 func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
-extern void *func_02012950(void *party, int i);
+struct Rec44;
+struct Sub020097BCObj;
+struct Sub24;
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void *func_0201283C(void *party);
 extern int func_02009D1C(void *obj, void *mon, int *out);
-extern void func_02009BB8(void *obj, int i, int a, int b, int c);
-extern void func_02009B80(void *obj, int i);
+extern void func_02009BB8(struct Sub020097BCObj *obj, int i, int a, int b, int c);
+extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 
 void func_02155244(struct Ctx *ctx, void *party)
 {

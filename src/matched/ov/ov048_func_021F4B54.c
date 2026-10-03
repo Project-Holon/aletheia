@@ -12,6 +12,8 @@
  *   func_020477A4 0x020477A4 arm
  *   func_02047804 0x02047804 arm
  */
-extern unsigned int func_020477A4(void *h,unsigned int i);
+typedef unsigned int   u32;
+struct G3dSys;
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern void func_02047804(unsigned int h,unsigned short i);
 void func_021F4B54(int *p) { if(p[1]!=1) { p[1]=1; p[2]=0; p[6]=0; func_020477A4((void *)p[4],*(unsigned short *)(p+5)); func_02047804(p[4],*(unsigned short *)(p+5)); } }

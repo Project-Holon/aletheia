@@ -64,25 +64,30 @@ typedef struct Ctx {
     u16 id;             /* 0x14 */
 } Ctx;
 
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
+struct Big;
+struct BigObj;
+struct Evt;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C404(void *p);
-extern u8 func_0200C464(void *p, u32 i);
+extern u8 func_0200C464(const u8 *a, u32 i);
 extern int func_0216040C(Req *r, u32 code);
 extern int func_02160564(u32 state, u32 *out, u32 *err);
-extern int func_02012B70(void *p);
+extern u8 func_02012B70(const struct BigObj *p);
 extern void func_02164480(Flags *f, void *a, void *b);
 extern u32 func_02028754(Flags *f, u32 n);
 extern int func_0216070C(Ctx *c);
 extern void func_020307B0(void *p);
-extern void *func_02188C7C(void *p);
+extern void *func_02188C7C(u8 *p);
 extern void func_0216D9E4(void *p);
 extern int func_0216060C(Ctx *c);
 extern void *func_0216075C(Req *r, u16 id);
-extern void func_02012374(void *evt, void *h);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_021644F4(u32 i, void *a, void *b);
-extern void *func_020127A4(void *p);
-extern int func_02012B28(void *p);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u32 func_02012B28(const struct Rec44 *p);
 extern void *func_021606DC(void *p, u32 a);
 
 int func_0216025C(void *evt, u32 *state, Ctx *c)

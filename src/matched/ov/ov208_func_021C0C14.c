@@ -25,7 +25,7 @@ extern int  ov208_func_021BC3A4(int key);
 extern u32  func_020127A4(int a);
 extern u32  func_02012AC8(u32 a);
 extern u32  func_02166C7C(int a, u32 b);
-extern int  func_021BBB48(u32 a, u32 b);
+extern int func_021BBB48(int a0, int a1);
 
 u8 ov208_func_021C0C14(u16 *heap, u8 *p, int key)
 {

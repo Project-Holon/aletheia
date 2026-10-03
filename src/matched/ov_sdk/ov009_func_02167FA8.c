@@ -30,7 +30,8 @@ typedef struct AuthId {
 extern void func_02058FB4(AuthId *id);
 extern int func_0217C070(void *alloc, void *free);
 extern int func_0209477C(char *s);
-extern int func_0217C144(char *svl, void *result);
+struct DWCSvlResult;
+extern int func_0217C144(char *svc, struct DWCSvlResult *result);
 extern void func_0217C104(void);
 extern void DWC_Alloc(void);
 extern void DWC_Free(void);

@@ -37,7 +37,7 @@ struct Prompt {
     u32 flags;
 };
 
-extern u16 func_021BE00C(void *p);
+extern u16 func_021BE00C(u16 *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE04C(void *p);
 extern void func_020456F8(u32 win);

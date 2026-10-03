@@ -14,8 +14,10 @@
  *   func_02046EFC  0x02046EFC  arm
  */
 
-void func_020470D0(void *h);
-void func_02046EFC(void *h);
+typedef unsigned int   u32;
+struct Tagged;
+int func_020470D0(u32 *p);
+void func_02046EFC(struct Tagged *p);
 
 void func_0218BC6C(unsigned char *p)
 {

@@ -32,7 +32,7 @@ typedef struct S {
     u8 *f14;
 } S;
 
-extern int func_0219320C(u8 *p);
+extern u8 func_0219320C(u8 *p);
 extern u32 func_02194990(u32 a, u8 b);
 extern u32 func_02045770(u32 a);
 extern void func_021928C0(u32 *sub, u32 a, u32 b);

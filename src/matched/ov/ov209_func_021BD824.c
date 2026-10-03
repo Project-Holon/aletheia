@@ -15,8 +15,8 @@
  *   func_0204A5AC 0x0204A5AC arm
  */
 
-extern void func_021BDD5C(void *);
-extern void func_021BDBA8(void *);
+extern void func_021BDD5C(char *p);
+extern void func_021BDBA8(char *p);
 extern void func_0204A5AC(void);
 
 void func_021BD824(char *a)

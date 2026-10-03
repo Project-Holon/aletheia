@@ -49,10 +49,10 @@ extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned 
 extern int func_02182AC0(void *stream, char *namespaceName, char *tag, char *value);
 extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
 extern int func_02181DE8(void *stream);
-extern void func_02181D84(void *stream);
+extern void func_02181D84(void **p);
 extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, void *theCallbackFunc, void *theUserData);
 extern void func_0217EAE0(void *ptr);
-extern void func_021E2354(int theResult, void *theResponseXml, void *theRequestData);
+extern void func_021E2354(int theResult, void *theRequestXml, void *theResponseXml, void *theRequestData);
 extern char *g_021E49A4[];
 extern char g_021E4A58[];
 extern char g_021E4AAC[];

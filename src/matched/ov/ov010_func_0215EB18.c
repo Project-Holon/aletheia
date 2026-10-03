@@ -18,8 +18,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020120F4(void *);
-extern void *func_0201296C(void *);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
 extern int func_021587B0(void *, u32, u32, u32);
 extern void func_02159058(int, int, int, int, u16);
 int func_0215EB18(void *a, int *state, void *b)

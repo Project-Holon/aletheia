@@ -16,7 +16,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202570C(void *);
-extern void func_020437AC(void *);
+struct Grid;
+struct Obj020437AC;
+extern void func_0202570C(struct Grid *g);
+extern void func_020437AC(struct Obj020437AC *p);
 extern void func_02025588(void *);
 void func_021DE884(char *p) { func_0202570C(*(void **)(p+0xc54)); func_020437AC(*(void **)(p+0xc58)); func_02025588(*(void **)(p+0xc50)); }

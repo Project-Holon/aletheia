@@ -16,7 +16,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02040588();
+extern void func_02040588(u32 which, u32 enable);
 
 void func_021C5348(u8 *p)
 {

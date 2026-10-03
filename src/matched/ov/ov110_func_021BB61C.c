@@ -21,6 +21,7 @@ typedef unsigned int u32;
 typedef struct { int a,b,c; } Triple;
 extern void func_021BAC64(void *,Triple *,int,int);
 extern void *func_021BAC78(void *,Triple *,int,int,int,int);
-extern void func_0204B878(void *,u16);
-extern void func_0204B3DC(void *,unsigned);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BB61C(u8 *p) { Triple t; func_021BAC64(*(void **)p,&t,0,0); *(void **)(p+84)=func_021BAC78(*(void **)p,&t,48,64,3,1); func_0204B878(*(void **)(p+84),4); func_0204B3DC(*(void **)(p+84),0); }

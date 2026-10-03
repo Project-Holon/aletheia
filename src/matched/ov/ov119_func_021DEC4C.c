@@ -16,13 +16,15 @@
  *   func_020355C4 0x020355C4 arm
  *   func_020221A4 0x020221A4 thumb
  */
-extern int func_021E69C0(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021E69C0(char *p);
 extern void func_021E68F4(void *,int);
 extern void func_021DEBD4(void *);
-extern void func_021DEBA0(void *);
+extern void func_021DEBA0(char *p);
 extern void func_021D8E84(void *,int);
-extern int func_020355C4(void);
-extern int func_020221A4(void);
+extern u8 func_020355C4(void);
+extern u32 func_020221A4(void);
 void func_021DEC4C(void *p) {
  if(func_021E69C0(p)) {
   if(func_020355C4()) {func_021E68F4(p,-1);*(int *)((char *)p+0x10a0)=0;}

@@ -21,9 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D50(void *a0);
-extern int func_021C335C(int a0);
+extern void func_021C335C(void **p);
 
 int func_0215CEE8(int a0, int a1)
 {
@@ -35,9 +36,8 @@ a0 = a1 + 0;
 loc_0215CEF0:
     v1 = func_0201210C(v0);
 loc_0215CEF4:
-    a0 = (int)func_02188D50(v1);
+    func_021C335C((void **)func_02188D50(v1));
 loc_0215CEF8:
-    a0 = func_021C335C(a0);
 loc_0215CEFC:
 a0 = 0;
     return a0;}

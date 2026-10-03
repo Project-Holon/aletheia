@@ -22,7 +22,8 @@ extern void func_02082BCC(void *,unsigned,unsigned);
 extern void *func_021F4D94(void *,int);
 extern int func_021F299C(int *,int *);extern void func_021F2BC8(int *,int *,void *);
 extern int func_021F2F8C(int *,int *);extern int func_021F28FC(int *,int *);
-extern void func_021F2A88(int *,int *,void *);extern int func_021F2F68(int *,int *);
+typedef unsigned char  u8;
+extern void func_021F2A88(int *p, int *delta, u8 *saved);extern int func_021F2F68(int *,int *);
 extern const unsigned char d_021F555C[];
 void func_021F256C(char *p,unsigned mode,int index,void *table) {
  int i;

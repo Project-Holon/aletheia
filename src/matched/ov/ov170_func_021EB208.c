@@ -17,15 +17,21 @@
  *   func_02045B38 0x02045B38 arm
  *   func_02045C04 0x02045C04 arm
  */
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAC28(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABD0(char *, int, void *, unsigned, int, int, unsigned, unsigned short);
 extern void func_021EABA0(void **);
-extern void func_021EAAE4(char *, unsigned);
+extern void func_021EAAE4(unsigned char *p, unsigned i);
 typedef struct { unsigned char pad[18]; unsigned char low : 7; unsigned char flag : 1; unsigned char kind : 4; unsigned char enabled : 1; unsigned char rest : 3; } Entry;
-extern void *func_02045B38(unsigned, unsigned, unsigned, unsigned);
-extern void func_02045C04(void *);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045C04(struct Rec *rec);
 void func_021EB208(char *p, Entry *e, int i)
 {
     void **windows;

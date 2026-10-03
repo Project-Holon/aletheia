@@ -29,8 +29,8 @@ typedef struct { u32 a; u32 b; u32 c; } Blk;
 extern void func_02082BCC(void *p, u32 a, u32 b);
 extern u32  func_021B9944(u32 a, u32 b);
 extern void func_021BABE0(u8 *p, int a, int b, int c);
-extern int  func_020355C4(void);
-extern void func_021BAA0C(u8 *p, u32 a);
+extern u8 func_020355C4(void);
+extern void func_021BAA0C(u8 *p, int flag);
 
 void func_021BA734(u8 *p, u16 a1, u16 a2, u32 a3, Blk *src)
 {

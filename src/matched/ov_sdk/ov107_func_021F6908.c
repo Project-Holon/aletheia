@@ -37,7 +37,7 @@ struct hdr {
 
 extern struct piece g_021F7008;
 
-extern int func_021F6AA4(u16 child);
+extern int func_021F6AA4(int a);
 extern void func_02082D44(void *src, void *dst, unsigned long size);
 extern u8 *func_021F6A24(struct hdr *hdr, u16 child);
 

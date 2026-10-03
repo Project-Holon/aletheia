@@ -30,8 +30,10 @@ typedef struct {
 extern int sub_0201A920(void *p);
 extern int sub_0200846C(void *p);
 extern int sub_02013234(void *p);
-extern void *sub_02012EBC(void *p);
-extern void *sub_0200873C(void *sys);
+struct Big;
+struct Sub02008700Obj;
+extern void *sub_02012EBC(struct Big *p);
+extern struct Sub02008700Obj *sub_0200873C(void *sys);
 extern int sub_020082EC(void *p);
 extern void sub_02008314(int a, int b);
 extern int sub_0200CA1C(int x);

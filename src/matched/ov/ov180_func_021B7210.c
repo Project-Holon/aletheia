@@ -14,5 +14,5 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 
-extern void func_0202208C(int,int,int,int,int,int,int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 int func_021B7210(char *p,int n){func_0202208C(0,1,1,0,6,1,141);*(int *)(p+37268)=n;return 2;}

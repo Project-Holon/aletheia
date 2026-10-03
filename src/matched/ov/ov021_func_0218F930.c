@@ -25,7 +25,7 @@ typedef struct { u32 w[6]; } B24;
 
 extern void func_0218E13C(u8 *p, u32 v);
 extern void func_0218F780(u8 *p, u8 *q);
-extern void func_0218FC80(void);
+extern void func_0218FC80(u8 *p);
 
 void func_0218F930(u8 *p, u8 *a, u8 *b, u32 *c, u16 v)
 {

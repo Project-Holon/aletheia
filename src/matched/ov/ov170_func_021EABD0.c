@@ -14,10 +14,14 @@
  *   func_02045808 0x02045808 arm
  */
 #define WORK(p) (*(char **)((p)+0x2C))
-extern void *func_02045EC0(void *,unsigned);
-extern void *func_02045770(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(unsigned,void *,short,short,void *,unsigned,unsigned short);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021EABD0(unsigned char *w,int i,void *bank,unsigned idx,int x,int y,unsigned font,unsigned short color) {
  void *s; unsigned print;
  s=func_02045EC0(bank,idx);

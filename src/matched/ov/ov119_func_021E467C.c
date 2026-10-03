@@ -31,8 +31,10 @@ extern void *func_0204ACEC(void *, int, int, int, int);
 extern void *func_0204AF28(void *, int, int, int);
 extern void *func_0204A6C8(void *, int, int, int, int);
 extern void *func_0204B294(void *, void *, void *, void *, ObjTmpl *, int, int);
-extern void func_0204B92C(void *, int);
-extern void func_0204B3DC(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02049238(void *);
 void func_021E467C(char *p)
 {

@@ -33,12 +33,15 @@ typedef struct Out {
     u8 slot[5];   /* 0x08 */
 } Out;
 
-extern u32  func_02009634(void *a, int i, int n);
-extern void *func_0200973C(void *a, int i);
-extern u32  func_0200856C(void *p);
-extern u32  func_02008554(void *p);
-extern u32  func_02008550(void *p);
-extern u8   func_02025C74(u32 v);
+struct Sub0200852CObj;
+struct Sub02009470Ent;
+struct Sub02009470Obj;
+extern u32 func_02009634(const struct Sub02009470Obj *obj, u32 i, u32 field);
+extern struct Sub02009470Ent *func_0200973C(struct Sub02009470Obj *obj, int i);
+extern u8 func_0200856C(const struct Sub0200852CObj *obj);
+extern u8 func_02008554(const struct Sub0200852CObj *obj);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
+extern u32 func_02025C74(u32 x);
 
 void func_021CFC80(void *a, Out *out, u32 key, u32 b)
 {

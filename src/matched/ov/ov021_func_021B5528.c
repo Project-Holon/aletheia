@@ -39,7 +39,7 @@ extern int func_02159B10();
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_021D2D50(void *a, Rec *src);
-extern void func_0215897C();
+extern void func_0215897C(void *vm, void *task);
 
 int func_021B5528(int a0, int a1)
 {

@@ -30,7 +30,7 @@
 typedef unsigned int u32;
 
 extern u32 sub_0202EB0C(void);
-extern u32 func_02087DE0(void);
+extern int func_02087DE0(void);
 
 u32 sub_0202EB4C(void)
 {

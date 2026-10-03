@@ -15,7 +15,7 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021D9B84 0x021D9B84 thumb ov119
  */
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern int func_021D8A24(void *);
 extern int func_020399A8(void);
 extern int func_02039C68(int,int,int);

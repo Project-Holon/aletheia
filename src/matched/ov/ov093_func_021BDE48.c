@@ -24,10 +24,12 @@ union Unk021E8B80 {
     struct { u32 kind : 3; u32 pad : 6; u32 id : 16; u32 rest : 7; } a;
     struct { u32 kind : 3; u32 pad : 12; u32 id : 16; u32 rest : 1; } b;
 };
-extern int func_021D62C4(void *p, int i);
+struct Unk021D62A8;
+struct UtilWork;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern union Unk021E8B80 func_021D6314(void *p, int i);
 extern u16 func_021E8B80(union Unk021E8B80 v);
-extern u8 func_021D55A0(void *p, u16 id);
+extern u8 func_021D55A0(struct UtilWork *p, u16 id);
 
 u16 func_021BDE48(void *p, struct Unk021BDE48 *m)
 {

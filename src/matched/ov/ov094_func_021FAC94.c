@@ -14,7 +14,7 @@
  * symbols:
  *   func_021FDFA0 0x021FDFA0 thumb ov094
  */
-extern void func_021FDFA0(void *, void *, int);
+extern int func_021FDFA0(void *a, char *s, int mode);
 
 void func_021FAC94(void *a, void *b)
 {

@@ -35,9 +35,9 @@ typedef struct {
 extern int func_021BB85C(int p, u8 i);
 extern u8 func_021BB8A8(u8 *p, u8 i);
 extern Bf func_021BB8B0(u8 *p, u8 i, u8 j);
-extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, u8 c);
-extern void func_021BDA00(u8 *p);
-extern void func_021C5200(u8 *p);
+extern void func_021BD9D4(u8 *p, u8 i, u8 a, u8 b, int c);
+extern int func_021BDA00(u8 *p);
+extern int func_021C5200(u8 *p);
 
 void func_021BC220(u8 *p, u8 *o)
 {

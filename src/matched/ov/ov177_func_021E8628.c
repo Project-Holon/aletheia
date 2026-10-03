@@ -18,14 +18,19 @@
  *   func_0201C4C0 0x0201C4C0 thumb
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_0201CE48(void *p);
+struct Descriptor;
+struct PrintSys;
+struct Rec3;
+struct S02031140;
+struct U16Vec;
+extern void func_0201CE48(struct Rec3 *p);
 extern void func_0202F038(unsigned char *p);
 extern int func_02028604(int p);
-extern void func_02031140(void *p);
+extern void func_02031140(struct S02031140 *p);
 extern void func_0201F7A8(void *p, unsigned kind);
-extern void func_020452E8(void *p);
-extern void func_02045808(void *p);
-extern void func_0201C4C0(void *p);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_020307B0(void *p);
 void func_021E8628(char *p)
 {

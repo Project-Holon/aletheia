@@ -15,5 +15,5 @@
 struct Big;
 extern void *func_02012EBC(struct Big *);
 extern void *func_0200ED48(void *);
-extern void func_0200EE14(void *,int);
+extern void func_0200EE14(char *obj, int i);
 void func_021B9CB0(void *unused,int code,struct Big *save) {func_0200EE14(func_0200ED48(func_02012EBC(save)),code);}

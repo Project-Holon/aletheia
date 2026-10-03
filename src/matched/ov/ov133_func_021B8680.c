@@ -49,9 +49,10 @@ extern int func_021BA258(u8 *);
 extern u8 *func_021F5450(u8 *,int);
 extern int func_021F4B24(u8 *);
 extern void func_021F4EE8(int,Flags *,int);
-extern void func_021F4ED4(int,int,int);
+typedef unsigned int   u32;
+extern void func_021F4ED4(u32 unused, u32 p, u16 v);
 extern void func_021B8444(u8 *);
-extern unsigned int *func_021BA238(u8 *);
+extern u8 *func_021BA238(u8 *p);
 extern void func_021B82E8(u8 *,int);
 void func_021B8680(u8 *p)
 {

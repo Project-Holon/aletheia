@@ -15,6 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0200949C(void *,int,int);
-extern void func_020094D8(void *,int,int,int);
+struct Sub02009470Obj;
+extern u32 func_0200949C(const struct Sub02009470Obj *obj, int row, int col);
+extern void func_020094D8(struct Sub02009470Obj *obj, int row, int col, int value);
 void func_022024B0(void *obj,u8 *p) { int b=p[0x121],a=p[0x120]; if(func_0200949C(obj,a,b)==0) func_020094D8(obj,a,b,1); }

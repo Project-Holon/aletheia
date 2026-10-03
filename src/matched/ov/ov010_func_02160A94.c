@@ -99,16 +99,19 @@ typedef struct Req {
 extern u8 ov136_id[];
 extern const char d_02172978[];
 
-extern void *func_020120F4(void *p);
-extern Req *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *func_02012934(void *sv);
-extern void *func_0201292C(void *sv);
-extern void *func_02008FEC(void *sv);
+typedef signed int     s32;
+struct BigObj;
+struct Sub02008F80Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201292C(const struct BigObj *p);
+extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_0200CA1C(void *sv);
 extern u16 *func_020127A4(void *sv);
-extern u8 func_02012984(void *sv);
-extern void func_02034AC4(u32 id);
-extern void func_02034A5C(u32 id);
+extern u8 func_02012984(const struct BigObj *p);
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
 extern int func_021C3E00(Src *src);
 
 Req *func_02160A94(Ctx *c, int kind, int mode, Src *src)

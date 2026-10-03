@@ -18,7 +18,8 @@
  *   func_021F89BC  0x021F89BC  thumb  ov094
  */
 extern int *func_02030EE8(void *h);
-extern void func_02040618(int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_021F89BC(void *h);
 
 void func_02209A54(void *h)

@@ -42,9 +42,9 @@ typedef struct Obj {
     void *f3C;
 } Obj;
 
-extern u32 func_021A7A8C(void *t);
+extern u32 func_021A7A8C(u8 *p);
 extern Pair func_021A7A40(void *t, u32 idx, u32 key);
-extern void *func_021A79E4(void *a, u32 idx);
+extern u8 *func_021A79E4(void *a, u32 idx);
 extern void func_02061CA4(int type, u32 addr, void *data, u32 size);
 
 void func_021A7818(Obj *a, s32 dt)

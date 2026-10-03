@@ -48,7 +48,8 @@ typedef struct DWCWFCUtil
     int state;
 } DWCWFCUtil;
 
-extern int func_0217A484(void *http, int noparsebody);
+struct DWCHttp;
+extern int func_0217A484(struct DWCHttp *http, int noparsebody);
 extern int func_02178814(void);
 extern int func_02058DD0(void *wifiinfo, void *work);
 extern int func_02058E20(void *wifiinfo);

@@ -13,7 +13,8 @@
  *   func_0216D570 0x0216D570 thumb ov010
  */
 
-extern int func_0216D57C(char *p, unsigned int v);
+typedef unsigned int   u32;
+extern u32 func_0216D57C(void *p, u32 v);
 extern void func_0216D570(char *p, unsigned int v);
 int func_0216D480(char *p)
 {

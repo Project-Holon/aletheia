@@ -62,8 +62,8 @@ typedef struct GPConnectResponseArg {
 
 extern DWCstLoginControl *g_021AA874;
 
-extern char *func_02167E94(void);
-extern u64 func_02167E88(void);
+extern void *func_02167E94(void);
+extern long long func_02167E88(void);
 extern int func_02084F80(char *dst, u32 len, const char *fmt, ...);
 extern int func_02185CB4(void **connection, int info, char *value);
 extern int func_0216A460(int result);

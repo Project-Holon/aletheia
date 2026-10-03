@@ -14,11 +14,15 @@
  *   func_0204B92C 0x0204B92C arm
  *   func_0204B878 0x0204B878 arm
  */
-extern void *func_02012138(void *);
-extern int func_02158630(void *);
-extern int func_0204B898(void *);
-extern void func_0204B92C(void *, int);
-extern void func_0204B878(void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Ctx;
+struct Obj;
+extern u32 func_02012138(const struct Ctx *p);
+extern int func_02158630(int a);
+extern u16 func_0204B898(struct Obj *p);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D503C(char *p)
 {
     switch (func_02158630(func_02012138(*(void **)(p + 0x354)))) {

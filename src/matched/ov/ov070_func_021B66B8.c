@@ -11,7 +11,8 @@
  * symbols:
  *   func_02035D20 0x02035D20 arm
  */
-extern int func_02035D20(unsigned int *, unsigned int *);
+typedef unsigned int   u32;
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021B66B8(void)
 {
     unsigned int x;

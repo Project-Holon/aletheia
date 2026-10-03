@@ -83,7 +83,7 @@ extern void func_02193710(void **connection, int errorCode, char *errorString);
 extern void func_02189D78(void **connection, int result, int fatal);
 extern int func_020964E0(const char *s);
 extern unsigned long func_0209477C(const char *s);
-extern void func_0217F8B4(char *input, char *output, int inlen, int *outlen, int encodingType);
+extern void func_0217F8B4(const char *input, char *output, int inlen, int *outlen, int encodingType);
 extern char *func_0217F1E0(char *src);
 extern int func_0218D9A8(void **connection, void *keys, char *keyName, char **keyValue);
 extern int func_0218D878(void **connection, void *keys, char *theKeyName, char *theKeyValue);

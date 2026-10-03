@@ -41,7 +41,7 @@ extern void *func_0217EAC8(void *ptr, unsigned long size);
 extern int func_0217EC4C(int sock, char *buf, int len, int flags);
 extern void func_02193D00(void);
 extern int func_02194494(char *buff, int len);
-extern void func_02092364(void *dst, const void *src, int n);
+extern void *func_02092364(void *dest, const void *src, unsigned int n);
 extern StatsSocket g_021A57C8;
 extern StatsConn g_021ADFE0;
 

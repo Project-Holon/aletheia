@@ -55,7 +55,8 @@ struct Cmd {
 
 extern void *func_0204D410(struct Ctl *c);
 extern void  func_02063000(void *h, u32 mode, u32 a, u32 b);
-extern void  func_02063018(void *h, u32 a, u32 b, u32 c);
+struct CellAnim;
+extern void func_02063018(struct CellAnim *anim, u32 a, u32 b, u16 tag);
 
 void func_0204D768(struct Ctl *c, const struct Cmd *cmd)
 {

@@ -11,7 +11,8 @@
  *   func_020173EC 0x020173EC thumb
  *   func_02082BCC 0x02082BCC arm
  */
-extern int func_020173EC(void);
+typedef unsigned int   u32;
+extern u32 func_020173EC(void);
 extern void func_02082BCC(void *, int, int);
 void func_021DD1B8(char *p)
 {

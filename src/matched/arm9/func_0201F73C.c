@@ -26,10 +26,12 @@
 typedef unsigned int u32;
 
 extern void *func_02045730(void *a0);
-extern u32   func_02045758(void *a0);
-extern u32   func_02045760(void *a0);
-extern u32   func_02045748(void *a0);
-extern u32   func_02045750(void *a0);
+typedef unsigned char  u8;
+struct Descriptor;
+extern u8 func_02045758(struct Descriptor *p);
+extern u8 func_02045760(struct Descriptor *p);
+extern u8 func_02045748(struct Descriptor *p);
+extern u8 func_02045750(struct Descriptor *p);
 extern void  func_0201F628(void *ctx, u32 v10, u32 v14, u32 v18, u32 v0, int a3, int a2);
 extern void  func_020409B4(void *ctx);
 extern void  func_02041B6C(void *ctx);

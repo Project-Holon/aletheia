@@ -60,7 +60,7 @@ struct Arena {
 };
 
 extern struct EnvModule g_EnvModule;
-extern struct Arena *sub_0202FBAC(u32 idx);
+extern void *sub_0202FBAC(u32 idx);
 
 u32 sub_020303D8(u32 heapId)
 {

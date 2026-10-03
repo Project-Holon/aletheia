@@ -11,7 +11,8 @@
  * symbols:
  *   func_021F08BC 0x021F08BC thumb ov029
  */
-extern void func_021F08BC(void *p, int i, int j, int k);
+struct W;
+extern void func_021F08BC(struct W *p, int i, int j, int k);
 void func_021F0370(void *p)
 {
     int i;

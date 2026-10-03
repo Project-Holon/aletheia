@@ -14,8 +14,11 @@
  *   func_021F3BD8  0x021F3BD8  thumb  ov064
  */
 
-extern void *func_0201210C(const void *p);
-extern void *func_020122C0(void *owner, void *a, int (*callback)(void *), unsigned int size);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3BD8(void *p);
 
 void *func_021F3ADC(void *p)

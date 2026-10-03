@@ -33,8 +33,8 @@ typedef struct {
 } SB;
 
 extern long FX_DivS32(long a, long b);
-extern void func_021CFFD0(int volume);
-extern void func_021CFFF0(unsigned short mask, int pitch);
+extern void func_021CFFD0(unsigned int v);
+extern void func_021CFFF0(unsigned int a, unsigned int b);
 extern SB *g_021DE63C;
 
 void func_021CEC24(int pos)

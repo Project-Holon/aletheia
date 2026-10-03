@@ -30,14 +30,14 @@ typedef unsigned int u32;
 extern u8 *func_0203159C(void *ctx, int size, int heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021B7880(void);
-extern void func_021B78F4(void *a, void *b);
+extern void func_021B78F4(void *p, void **q);
 extern void func_021B7924(void *a, void *b);
 extern void func_021B7A68(void *a, void *b);
 extern void func_021B7B10(void *a, void *b);
 extern void func_021B7BD8(void *p, int a);
 extern int func_021B7014(int *, const int *, int);
-extern void func_02040588(int a, int b);
-extern void func_02043598(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 extern const char d_021BA8A0[];
 
 int func_021B730C(void *ctx, int *st, int *w)

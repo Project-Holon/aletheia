@@ -24,7 +24,7 @@ typedef struct Arg { u32 a; u32 b; u32 c; u32 d; u32 e; } Arg;
 
 extern u32 func_0216D520(u32);
 extern u32 func_0219C9DC(u32);
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern u8 d_021D9B64[];
 

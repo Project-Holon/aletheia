@@ -30,8 +30,9 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void func_02186764(u8 *);
-extern void func_02193EB4(void *);
-extern void func_02193EE8(void *);
+struct V;
+extern void func_02193EB4(struct V *v);
+extern void func_02193EE8(struct V *v);
 extern u8 *func_02193EFC(void *, u32);
 
 void func_02193BC4(void *a, u32 b)

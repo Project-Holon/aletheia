@@ -28,10 +28,10 @@ extern char d_02187E28[];
 extern char d_02187E38[];
 
 void func_020433E0(void *p);
-void func_0203F8F4(int x);
+void func_0203F8F4(u16 heapId);
 void func_0203FC28(void *p);
 void func_0203FCA0(int a, void *p, int c);
-void func_0204047C(int a, int b);
+void func_0204047C(int idx, unsigned short val);
 void func_020414AC(int a);
 
 void func_021878C0(char *o)

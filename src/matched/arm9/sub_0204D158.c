@@ -53,7 +53,9 @@ struct Obj {
     struct Rec unk_0c;
 };
 
-extern void *sub_020627D8(void *handle, u32 index);
+struct AnimBank;
+struct AnimSequence;
+extern struct AnimSequence *sub_020627D8(struct AnimBank *bank, u32 idx);
 extern void  sub_0206428C(struct Rec *r, void *v, void *owner);
 
 void sub_0204D158(struct Obj *o, const struct Src *s)

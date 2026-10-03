@@ -32,17 +32,21 @@ typedef struct { int w[9]; } Struct36;
 typedef struct { void *f0; char p4[0x40]; int f44; } E;
 extern void *func_020457B0(u32, u16);
 extern void *func_02043678(u32, u32, u32, u16);
-extern void func_02043B5C(void *, u8);
+struct Bmp;
+struct CharBuf;
+struct Obj020437AC;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
-extern void func_0201DD78(int, int, int);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern int func_0201D304(void *, void *, int);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void *func_020437D4(const void *);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_0204B7C8(void *, Struct36 *);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02045808(void *);
-extern void func_020437AC(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020437AC(struct Obj020437AC *p);
 void func_022080F4(char *o, E *e, void *data)
 {
     void *v, *bmp;

@@ -24,8 +24,11 @@
 struct WinMgr;
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(unsigned char *);
-extern int func_020355C4(void);
-extern void func_020260F4(void *,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Struct_02025CD0;
+extern u8 func_020355C4(void);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 extern void func_021ED508(unsigned char *,int,int);
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED888(char *,int);

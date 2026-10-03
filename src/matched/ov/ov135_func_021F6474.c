@@ -52,7 +52,7 @@ typedef struct {
 } Work;
 
 extern int func_021F6DE8(void *e);
-extern int func_0201AA18(void *party);
+extern u32 func_0201AA18(void *p);
 extern void func_021F663C(Work *p, u32 b, u32 c, u32 d, u32 e, u32 sel);
 extern void func_021F4E98(Work *p, u32 a, u32 b);
 extern void *func_021F6B40(void *party, void *save, int box, int slot);

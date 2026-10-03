@@ -26,7 +26,8 @@ typedef struct Owner {
     u32 f5c;
 } Owner;
 
-extern void func_02014D2C(void *mcss);
+struct McssSys;
+extern void func_02014D2C(struct McssSys *sys);
 extern void func_02206664(Owner *o);
 
 void func_0220602C(Owner *o)

@@ -16,8 +16,9 @@ typedef unsigned int u32;
 typedef struct { u32 heap; u8 count; u8 pad[3]; void *items; u32 zero; u8 x,y,w,h; } Template;
 extern u32 func_02045EC0(void *, int);
 extern void *func_02027778(Template *, void *);
-extern void func_02021FD8(void *, u32, u32, u32, u8, u16);
-extern void func_0202843C(void *);
+struct Chan02021FD8;
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
+extern void func_0202843C(u8 *p);
 void func_021C48FC(u8 *p)
 {
     Template t;

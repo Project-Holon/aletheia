@@ -41,7 +41,7 @@ typedef signed int   s32;
 typedef unsigned int u32;
 
 extern void *sub_0202C510(void *p, s32 idx);
-extern void sub_0202C588(void *w, u32 v);
+extern u32 sub_0202C588(void *p, u32 v);
 
 void sub_0202C518(void *p)
 {

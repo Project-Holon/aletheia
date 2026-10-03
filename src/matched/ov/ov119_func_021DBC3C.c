@@ -16,11 +16,11 @@
  *   func_021DBE70 0x021DBE70 thumb ov119
  */
 extern int func_021D8AA8(void *);
-extern int func_021DD5B4(void *,int,int);
-extern int func_021DB0A0(void *);
-extern void func_021D8B38(void *);
+extern int func_021DD5B4(char *p, int a, int b);
+extern int func_021DB0A0(char *p);
+extern void func_021D8B38(char *p);
 extern void func_021D8E84(void *,int);
-extern void func_021DBE70(void);
+extern void func_021DBE70(char *p);
 void func_021DBC3C(char *p) {
  if(func_021D8AA8(p)) { if(func_021DD5B4(p,*(int *)(p+0xf84),*(int *)(p+0xf88))==0) return; }
  else { if(func_021DB0A0(p)==0) return; }

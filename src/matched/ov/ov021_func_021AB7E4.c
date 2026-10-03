@@ -21,7 +21,9 @@ typedef struct {
     int f8[2];
 } S;
 
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern char d_021DE000[];
 extern const int d_021D8EEC[];

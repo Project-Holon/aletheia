@@ -19,7 +19,7 @@ extern void func_021B6558(int,int,int);
 extern void func_0204B3DC(int,int);
 extern void func_021D8C6C(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021D9E0C(void *);
+extern void func_021D9E0C(char *p);
 void func_021D9E54(char *p) {
     func_021B6558(*(int *)(p+0x9C0),7,0);
     func_021B6558(*(int *)(p+0x9C0),8,0);

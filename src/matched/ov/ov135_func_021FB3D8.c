@@ -77,7 +77,7 @@ extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
 extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B878(u32 v, int k);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32 obj, int on);
 extern void func_0204B92C(u32 obj, int v);
 

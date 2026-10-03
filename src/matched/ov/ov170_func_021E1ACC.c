@@ -14,7 +14,9 @@
  *   func_021EDD38 0x021EDD38 thumb ov170
  */
 typedef struct { unsigned char pad[0xE]; unsigned short fE; } Blk;
-extern unsigned char func_020260E0(void *);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021EE008(char *, int, int);
 extern void func_021EDF5C(char *);
 extern void func_021EDD38(char *, int);

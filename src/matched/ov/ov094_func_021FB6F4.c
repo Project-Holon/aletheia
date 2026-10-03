@@ -24,7 +24,7 @@ typedef short s16;
 extern int func_0201134C(int a);
 extern int func_021FCF2C(int a, int b);
 extern void *func_021F8694(void);
-extern void func_021FF3F4(void *obj, int *out, int idx);
+extern void func_021FF3F4(void *obj, void *out, int idx);
 extern int func_021F86F0(void);
 extern int func_02201AF8(int a, int b, int c, s16 d, s16 e, int f, int g);
 extern void func_0206DF3C(int *p, int *q, int *r);

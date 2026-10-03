@@ -27,9 +27,9 @@ extern int func_021FD73C(int,void *);
 extern int func_021F8FC8(int,int,int);
 extern int func_021F9008(int,int,int);
 extern int func_021F9048(int,int,int);
-extern void func_021F8950(void);
-extern void func_021F8C30(void);
-extern void func_021F8B5C(void);
+extern void func_021F8950(int *sys, int *state, char *p);
+extern void func_021F8C30(int *task, int *state, char *p);
+extern void func_021F8B5C(int *task, int *state, char *p);
 void func_021F86E4(int a,int b,char *p)
 {
     int x,y;

@@ -35,10 +35,10 @@ typedef unsigned int  u32;
 extern int  func_02031AE0(int v, int mode);
 extern int  func_0200A5F8(char *self);
 extern void func_0200A7EC(int h, int v);
-extern int  func_02008784(char *self, u32 a);
+extern int func_02008784(void *sys, u32 index);
 extern u32  func_0200725C(char *self, u32 a, u8 heap);
 extern void func_020072A4(char *self, u32 a);
-extern void func_020087C0(char *self, int i);
+extern void func_020087C0(void *sys, u32 index);
 
 typedef enum { BIT_0, BIT_MAX = 9 } Bit;
 

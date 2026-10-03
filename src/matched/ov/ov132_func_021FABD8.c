@@ -16,10 +16,12 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021F9E44(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_021F9E44(u8 *p);
 extern int func_021FAD2C(void *, char *);
 extern void func_020307B0(void *);
-extern void func_02030D28(void *);
+extern void func_02030D28(struct Ctx *c);
 void func_021FABD8(char *p)
 {
     char **slot;

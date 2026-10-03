@@ -12,7 +12,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02089754(u32 v);
+extern void func_02089754(int pan);
 extern void func_02089774(void);
 
 void func_02072794(u32 flag)

@@ -15,8 +15,9 @@
  *   func_020452E8  0x020452E8  arm
  */
 
+struct Descriptor;
 void func_021B7994(void *p)
 {
-    void func_020452E8(void *);
+    void func_020452E8(struct Descriptor *d);
     func_020452E8(*(void **)p);
 }

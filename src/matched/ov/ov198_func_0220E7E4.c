@@ -16,7 +16,9 @@ typedef unsigned short u16;
 typedef struct {u8 half:3; u8 middle:4; u8 egg:1;} Flags;
 typedef struct {char pad0[8];u16 species;char padA[34];unsigned form;char rest[28];} Record;
 extern unsigned func_0201BB5C(unsigned,unsigned,unsigned,unsigned);
-extern void func_0204B6F4(void *,unsigned,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_0220E7E4(Record *records)
 {
     char *p=(char *)records;

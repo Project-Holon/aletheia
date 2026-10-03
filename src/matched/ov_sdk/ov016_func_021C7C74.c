@@ -19,8 +19,8 @@
  *   func_021C7CA0  0x021C7CA0  arm  ov016
  */
 
-extern int func_021D1568();
-extern void func_021CFFAC();
+extern signed char func_021D1568(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021D1524();
 extern void func_021C0E40();
 extern void func_021C7CA0();

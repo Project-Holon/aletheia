@@ -19,6 +19,7 @@ typedef unsigned int u32;
 struct Actor;
 typedef struct {short x,y;} Pos;
 extern void func_0204B9A0(struct Actor*);
-extern void func_0204B3DC(void*,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void*,const Pos*,unsigned);
 void func_021BA098(u8*p){Pos pos;pos.x=*(int*)(p+28);pos.y=*(int*)(p+32);func_0204B9A0(*(struct Actor**)(p+0x18b4));func_0204B3DC(*(void**)(p+0x18b4),1);func_0204B404(*(void**)(p+0x18b4),&pos,0);}

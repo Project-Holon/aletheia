@@ -16,8 +16,11 @@
  */
 
 void *func_020124E4(int a);
-void *func_0201210C(void *p);
-void func_0204E720(int a, int b, int c, int d);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Ctx;
+void *func_0201210C(const struct Ctx *p);
+void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 int func_0204E804(void);
 
 int func_021C2B1C(int a, int *b)

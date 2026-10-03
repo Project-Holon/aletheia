@@ -12,7 +12,9 @@
  * symbols:
  *   func_021EA730  0x021EA730  thumb  ov093
  */
-extern void func_021EA730(char *p, int a, int b, int c);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA600(char *p)
 {

@@ -13,7 +13,7 @@
  *   func_0218C934  0x0218C934  thumb  ov021
  */
 
-void func_0218C934(void *p);
+void func_0218C934(unsigned char *p);
 
 void func_0218B88C(unsigned char *p)
 {

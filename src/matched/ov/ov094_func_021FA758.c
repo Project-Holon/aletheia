@@ -19,7 +19,7 @@
  */
 extern int func_0201134C(void *);
 extern unsigned int func_021FE38C(char *, unsigned int);
-extern int func_021FD1A8(char *, unsigned int);
+extern int func_021FD1A8(char *p, int v);
 extern void func_021FDB08(void *);
 
 int func_021FA758(void *a, char *s)

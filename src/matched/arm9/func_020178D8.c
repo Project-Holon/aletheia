@@ -19,10 +19,11 @@ typedef unsigned int u32;
 typedef signed short s16;
 typedef signed char s8;
 
-extern u32  func_02017D30(void *p);
-extern void func_02017900(void *p, u32 a);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017900(void *a0, u32 a1);
 extern void func_020185C4(void *p);
-extern void func_02017D70(void *p, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 
 void func_020178D8(void *p, u32 a)
 {

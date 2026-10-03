@@ -13,8 +13,9 @@
  *   func_02030EAC 0x02030EAC arm
  */
 extern void func_0208068C(int);
-extern void func_0207D4B0(unsigned,unsigned,unsigned);
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_0207D4B0(int dispMode, int bgMode, int bg0_2d3d);
+extern void func_02030EAC(struct Node *n);
 void func_021BEAF8(void *node,int *s)
 {
     int bank;

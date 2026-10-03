@@ -26,21 +26,24 @@
  *   func_020306F0 0x020306F0 arm
  */
 typedef unsigned char u8;
-extern void func_021B9360(void *);
+struct PrintSys;
+struct Rec;
+struct S020315D4;
+extern void func_021B9360(u8 *p);
 extern void func_021B71C0(void *);
-extern void func_021B8304(void *);
+extern void func_021B8304(u8 *p);
 extern void func_021B8FC4(void *);
 extern void func_021B8D9C(void *);
 extern void func_021B78AC(void *);
-extern void func_021B807C(void *);
-extern void func_021B8D5C(void *);
+extern void func_021B807C(u8 *p);
+extern void func_021B8D5C(u8 *p);
 extern void func_0204ADA4(void *);
 extern void func_02025588(void *);
-extern void func_02045C04(void *);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-extern void func_0201C4C0(void *);
-extern void func_02012704(void *);
-extern void func_020315D4(void *);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_02012704(u8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 int func_021B7798(void *a,int b,int *state,u8 *p)
 {

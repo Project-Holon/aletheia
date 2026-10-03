@@ -23,7 +23,8 @@ struct Big;
 
 extern void *func_02012EC0(struct Big *p);
 extern void *func_0200C0E8(void *sys);
-extern int func_0200C224();
+struct Blk34;
+extern u8 func_0200C224(struct Blk34 *p);
 
 int func_021672D0(int a0)
 {

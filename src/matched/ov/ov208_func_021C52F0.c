@@ -35,11 +35,12 @@ struct Ov208Menu {
 };
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32  func_0201BC3C(void);
-extern u32  func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32  func_0201BC78(void);
-extern u32  func_0201BCEC(void);
-extern u32  func_0204AF28(void *a0, u32 a1, u32 a2, u32 a3);
+typedef signed int     s32;
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4);
+extern int func_0201BC78(void);
+extern int func_0201BCEC(void);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void ov208_func_021C52F0(u16 *heap, struct Ov208Menu *p)
 {

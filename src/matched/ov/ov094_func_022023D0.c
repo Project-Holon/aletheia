@@ -33,10 +33,12 @@ extern void func_0204A8D4(u32);
 extern void func_0204ADA4(u32);
 extern void func_0204AFD8(u32);
 extern void func_0204B1CC(int);
-extern void func_020452E8(void *);
+struct Descriptor;
+struct Node;
+extern void func_020452E8(struct Descriptor *d);
 extern int func_02024DCC(void);
 extern void func_022025B4(void);
-extern void func_02030EAC(void *);
+extern void func_02030EAC(struct Node *n);
 extern void func_02049238(u32);
 #define DROP_ID(k, f) if (*(int *)(p + (k)) != -1) { f(*(int *)(p + (k))); *(int *)(p + (k)) = -1; }
 #define DROP_ZERO_ID(k, f) if (*(int *)(p + (k)) != 0) { f(*(int *)(p + (k))); *(int *)(p + (k)) = 0; }

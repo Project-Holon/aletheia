@@ -58,11 +58,13 @@ extern void  func_021857C0(u32 a, void *b);
 extern u32   func_02012984(u32 a);
 extern int   func_02029DF4(u32 a, int b, u32 c);
 extern void *func_020298A0(u32 a, int b, int c, int d);
-extern void  func_02012374(void *obj, void *out);
+struct Ctx;
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020145FC(u32 a);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_021BE92C(u32 a0, void *a1, int a2, int a3, int a4, int a5, int a6);
-extern u32   func_02188D20(void *p);
+extern u32 func_02188D20(u8 *p);
 extern void  func_021BC578(u32 a, int b);
 
 int func_02183C9C(void *obj, int *state, Arg *arg)

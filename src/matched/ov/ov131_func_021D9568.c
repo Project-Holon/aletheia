@@ -31,17 +31,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 x,y,z;u8 priority,flags;} ObjPos;
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u8 func_02045730(void *);
+struct Cfg;
+struct Descriptor;
+struct Obj;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 extern void func_0204B6F4(void *,u8,u32);
-extern void func_0204B3DC(void *,u32);
-extern void func_02040AE0(u32,void *,u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern u32 func_021DBF2C(u32,u32);
 void func_021D9568(u8 *a,u8 *p)
 {

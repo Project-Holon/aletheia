@@ -23,13 +23,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { char pad0[8]; u16 h8; };
-extern int func_021BC6DC(struct S *p);
-extern void *func_020490F4(int a, u16 b);
-extern void *func_02049250(void *h, int a, int b);
+struct ArcFile;
+extern u32 func_021BC6DC(void *p);
+extern void *func_020490F4(u32 id, u16 heap);
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern int func_02062B30(void *ptr, char **out);
 extern void func_02041090(int a, void *b, int c, int d, int e, int f);
 extern void func_02041B6C(u32 bg);
-extern int func_020307B0(void *p);
+extern void func_020307B0(void *p);
 extern void func_02049238(void *h);
 
 void func_021BCBD0(struct S *p)

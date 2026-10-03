@@ -14,8 +14,8 @@
  *   func_0218C89C  0x0218C89C  thumb  ov021
  */
 
-int func_0218C910(void *p);
-void func_0218C89C(void *p, int v);
+int func_0218C910(unsigned char *p);
+void func_0218C89C(unsigned char *p, int v);
 
 int func_0218C8D8(void *p)
 {

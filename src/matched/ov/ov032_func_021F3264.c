@@ -33,7 +33,9 @@ typedef struct {
 
 extern Pt d_021F35F0[];
 extern void *func_021F3214(void *, unsigned, unsigned, unsigned, short, short, unsigned char, unsigned char, unsigned char);
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021F3264(S *p)
 {

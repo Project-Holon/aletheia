@@ -38,17 +38,21 @@ typedef struct {
 extern const Pair d_021E7704;
 extern u32 func_020275E4(void);
 extern void func_02049B40(u32, u32, u32, u32, u32, u16);
-extern void func_020452E8(void *);
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct WordSet;
+extern void func_020452E8(struct Descriptor *d);
 extern void *func_020450F0(u32, u8, u8, u8, u8, u32, u32);
 extern void func_0201DD78(u32, u32, u32);
-extern void func_02045CAC(void *arc, int entry, void *dst);
-extern void *func_02045770(void *h);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
 extern void func_0201F02C(void *a, int b, int c);
-extern void func_0201F250(void *a, void *b, void *c);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void func_02041B6C(int);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32 bit);
 
 void func_021DD68C(char *p)
 {

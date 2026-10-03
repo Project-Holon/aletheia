@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 typedef struct { u16 x; u16 y; } Pt;
 
-extern int  func_02040804(u32 a);
-extern void func_02041EE4(u32 a, u32 b, int c);
+extern u32 func_02040804(u32 layer);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0204B404(u32 a, Pt *b, u32 c);
 extern u32  d_021BB704[][6];
 

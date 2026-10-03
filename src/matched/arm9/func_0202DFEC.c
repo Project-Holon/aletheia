@@ -61,10 +61,12 @@ struct Res {
 
 extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d,
                            struct Zero4 *e, u32 f, u32 g);
-extern void  func_0204B3DC(void *o, u32 a);
-extern void  func_0204B92C(void *o, u32 a);
-extern u32   func_02035630(void);
-extern void  func_0204B954(void *o, u32 a);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern u8 func_02035630(void);
+extern void func_0204B954(struct Actor *a, u32 v);
 
 void *func_0202DFEC(struct Res *r, u32 a)
 {

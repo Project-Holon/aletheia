@@ -40,16 +40,19 @@ struct BattleRec {
     struct RecC4 unkC4;
 };
 
-extern u32  func_020072CC(void *save, u32 id, u32 heap, void *buf, u32 size);
-extern void func_020072A4(void *save, u32 id);
+struct Ctrl;
+struct Sub020072A4Ctrl;
+struct Sub020073D8Ctrl;
+extern u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size);
+extern void func_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
 extern void func_0200B900(void *a, u32 b, u32 c);
 extern u32  func_0200725C(void *save, u32 id, u32 heap);
-extern struct BattleRec *func_020073D8(void *save, u32 id, u32 c);
-extern u32  func_0200B888(void *a, void *b);
-extern u32  func_0200B8AC(void *a, void *b);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
+extern u32 func_0200B888(void *a, struct BattleRec *b);
+extern u32 func_0200B8AC(void *a, struct BattleRec *b);
 extern void func_0200B448(struct BattleRec *p);
 extern void func_0200B400(u32 heap);
-extern struct BattleRec *func_0200B3DC(u32 heap);
+extern void *func_0200B3DC(u32 heap);
 extern struct BattleRec *gObj_0214616C;
 
 u32 func_0200B5CC(void *a, u32 heap, u32 *dp, u32 id)

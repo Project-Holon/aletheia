@@ -31,7 +31,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_0203D788(void);
+extern void *func_0203D788(void);
 extern void func_02034714(const char *file, u32 line, const char *msg);
 extern const char file_020A7CA0[];
 extern const char file_020A7D2C[];

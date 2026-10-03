@@ -21,7 +21,8 @@ struct Obj { u8 pad[0x40f4]; struct Record records[30]; };
 extern void func_021D6830(struct Record *);
 extern void func_021D67B4(u8 *, int);
 extern void func_021D6720(u8 *, int);
-extern int func_020056EC(int);
+typedef unsigned int   u32;
+extern u32 func_020056EC(u32 range);
 void func_021D6934(struct Obj *p)
 {
     int active = 0;

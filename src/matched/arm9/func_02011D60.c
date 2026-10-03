@@ -16,7 +16,8 @@
  */
 
 extern void func_0203064C(int a, int b, int c);
-extern void func_02011F24(void);
+typedef unsigned int   u32;
+extern u32 func_02011F24(void);
 extern void func_020306F0(int a);
 
 void func_02011D60(void)

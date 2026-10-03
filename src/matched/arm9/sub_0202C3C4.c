@@ -25,7 +25,7 @@ struct Obj0202C360 {
     void *words[9];
 };
 
-extern void sub_0202C548(void *p);
+extern u32 sub_0202C548(void *p);
 
 void func_0202C3C4(struct Obj0202C360 *p)
 {

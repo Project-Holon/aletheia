@@ -15,8 +15,10 @@
  *   func_021799CC  0x021799CC  thumb  ov015
  */
 
-extern char *func_0203D798(void);
-extern void  func_0217993C(int a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_0203D798(void);
+extern void func_0217993C(u32 a, u8 b);
 extern void  func_021799CC(void);
 
 struct s67 { char pad[0x67]; unsigned char f67; };

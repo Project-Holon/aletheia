@@ -67,9 +67,10 @@ extern void func_02185ACC(void **connection);
 extern int func_0216A6F4(void);
 extern int strcmp(const char *a, const char *b);
 extern void func_020597F0(UserData *userdata, LoginId *loginId, int profile);
-extern void func_0216A68C(void (*callback)(void **, void *, void *), int nextState);
+struct GPConnectResponseArg;
+extern void func_0216A68C(void *callback, int next_state);
 extern void func_0216A8F4(void **pconnection, GPGetInfoResponseArg *arg);
-extern void func_0216A4D4(void **pconnection, void *arg, void *param);
+extern void func_0216A4D4(void **pconnection, struct GPConnectResponseArg *arg);
 
 void func_0216A8F4(void **pconnection, GPGetInfoResponseArg *arg)
 {

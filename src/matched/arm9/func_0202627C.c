@@ -70,7 +70,7 @@ struct Rec
 /* the finish arm clears its fields through an enum-typed zero */
 typedef enum { Z0 } E;
 extern struct Rec g_0209FB5C[];
-extern void func_02026490(struct Sub *s, u32 state);
+extern void func_02026490(void *obj, u32 value);
 void func_0202627C(struct Comm *p)
 {
   struct Sub *sub;

@@ -47,8 +47,11 @@ typedef struct Work {
     int (*f28)(void *sys);
 } Work;
 
-extern void *func_020124E4(void *task);
-extern void *func_0201210C(void *p);
+typedef signed int     s32;
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_021F54A0(Work *w);
 extern void func_0204047C(int idx, u16 val);
 extern u32 func_021899F0(u8 *p);
@@ -61,7 +64,7 @@ extern void func_021899F8(u8 *p, u32 v);
 extern int func_02189A08(int a);
 extern u32 func_021CF560(u32 *p);
 extern void func_02012374(void *a, int b);
-extern void func_0204E720(int a, int b, int c, int d);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 
 int func_021F536C(void *task, int *st, Work *w)

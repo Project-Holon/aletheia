@@ -18,7 +18,7 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern int func_02035C08(const void *);
 extern const u8 d_021CA576[];
-extern int func_021C93C0(void *,void *,void *,int);
+extern int func_021C93C0(char *p, void *q, void *r, int n);
 int func_021C94DC(void *p,void *q,void *r,int *flag) {
  int v=func_02035C08(d_021CA576);
  if(v==-1)return 2;

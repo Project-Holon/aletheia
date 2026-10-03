@@ -26,7 +26,7 @@ typedef struct {
     u32 active;
 } Sub;
 
-extern void func_0218E13C(void *a, u32 s);
+extern void func_0218E13C(u8 *a, u32 s);
 
 void func_0218F878(u8 *a)
 {

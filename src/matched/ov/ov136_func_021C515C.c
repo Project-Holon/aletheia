@@ -39,11 +39,14 @@ typedef struct {
 extern void func_02045088(u16);
 extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void *func_0201C440(u16);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *a, u32 b);
-extern void func_02045334(void *p);
-extern void func_02045374(void *p);
-extern u8 func_02045730(void *p);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32 layer);
 
 void func_021C515C(Obj *p)

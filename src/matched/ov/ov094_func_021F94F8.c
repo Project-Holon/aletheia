@@ -60,19 +60,20 @@ typedef struct {
     u32 f2a8;           /* 0x2A8 */
 } T;
 
-extern void func_0201127C(void *vm, u8 *pc);
-extern T *func_02011324(void *vm);
+struct ScriptVm;
+extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
+extern void *func_02011324(struct ScriptVm *vm);
 extern void func_02040588(u32 which, u32 enable);
-extern u8 *func_02048F60(u32 a, u32 b, u32 c);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern void func_02082A48(u16 data, void *destp, u32 size);
-extern void func_021F8198(u32 a, u32 b);
+extern void func_021F8198(int a, int b);
 extern void *func_021F8694(void);
 extern void func_021F8934(int a);
 extern void func_021F8A10(int a);
 extern void func_021FE410(T *t, int a, int b, int c);
 extern int func_021FEAA0(int v);
-extern int func_021FFD9C(void *w, u32 key);
-extern int func_021FFF38(void *w, u32 key);
+extern int func_021FFD9C(char *p, int key);
+extern int func_021FFF38(char *p, int key);
 
 void func_021F94F8(void *vm, u32 a1, u32 a2, u16 id, Quad *q)
 {

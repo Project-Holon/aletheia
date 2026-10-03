@@ -18,7 +18,7 @@
  */
 
 extern unsigned char *func_0202616C(int, int);
-extern void func_021EEFA4(char *, int, int, int, int);
+extern void func_021EEFA4(char *p, unsigned char x, unsigned char y, unsigned char tx, unsigned char ty);
 void func_021EEF74(char *q, int a, int b)
 {
     unsigned char *x = func_0202616C(*(int *)(q + 0x70), a);

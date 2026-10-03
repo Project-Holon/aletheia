@@ -17,10 +17,12 @@
  */
 
 typedef unsigned short u16;
-extern void *func_021D732C(int a, int b);
-extern u16 func_021D70A8(void *p);
-extern void func_021D7040(void *n);
-extern void *func_021D7360(void *n);
+struct Node;
+struct QQ;
+extern struct Node *func_021D732C(int id, int sub);
+extern u16 func_021D70A8(struct QQ *p);
+extern void func_021D7040(struct Node *n);
+extern struct Node *func_021D7360(struct Node *n);
 
 void func_021E03F8(int a, int b)
 {

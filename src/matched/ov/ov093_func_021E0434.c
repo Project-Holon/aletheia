@@ -18,8 +18,9 @@
 typedef unsigned char u8;
 
 extern u8 func_021D5440(u8 *p);
-extern void *func_021D732C(int a, int b);
-extern void func_021D7040(void *n);
+struct Node;
+extern struct Node *func_021D732C(int id, int sub);
+extern void func_021D7040(struct Node *n);
 
 void func_021E0434(u8 *p)
 {

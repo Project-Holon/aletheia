@@ -20,7 +20,9 @@ typedef struct {
     int f14;
 } Obj;
 
-extern void func_021AB75C(void *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021AB75C(u8 *p, u32 v);
 
 void func_021BB260(Obj *p, int b)
 {

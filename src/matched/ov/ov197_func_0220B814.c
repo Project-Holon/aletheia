@@ -15,11 +15,13 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
-extern void *func_020457B0(unsigned,unsigned);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02020FB4(void *,unsigned,unsigned);
 extern unsigned func_02045770(void *);
 extern void func_0201C724(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned short);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 typedef struct { unsigned short entry[36][2]; } Row;
 void func_0220B814(char *p,int n)
 {

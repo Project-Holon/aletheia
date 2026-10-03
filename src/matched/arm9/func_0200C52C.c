@@ -51,10 +51,12 @@ struct MusicalDist {
 };
 
 extern const char g_020A71D4[];
-extern void *func_02012EBC(void *sys);
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
+struct Big;
+struct Sub020073D8Ctrl;
+extern void *func_02012EBC(struct Big *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_020072CC(void *sv, u32 id, u32 heap, void *buf, u32 size);
-extern u8   *func_020073D8(void *sv, u32 id, u32 c);
+extern void *func_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v);
 
 struct MusicalDist *func_0200C52C(void *sys, u32 heap)
 {

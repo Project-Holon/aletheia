@@ -27,9 +27,11 @@ typedef struct {
     u32 arm7Size;
 } RomHeader;
 
-extern u32 func_02078AEC(void *file);
-extern long func_02078B70(void *file, void *buffer, long length);
-extern int func_02078B44(void *file, long offset, int origin);
+typedef signed int     s32;
+struct FSFile;
+extern u32 func_02078AEC(struct FSFile *file);
+extern s32 func_02078B70(struct FSFile *file, void *buffer, s32 length);
+extern int func_02078B44(struct FSFile *file, long offset, int origin);
 
 u32 func_021F2F1C(void *file)
 {

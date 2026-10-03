@@ -22,10 +22,14 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct WinMgr;
-extern u32  func_02045770(void *p);
-extern void func_02043B5C(u32 a, u32 b);
-extern void func_02045334(void *a);
-extern void func_0201C7D0(void *x, int y, int z, void *s, void *w, u32 v);
+typedef signed short   s16;
+typedef unsigned short u16;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
 extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 

@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021F20E4(void *task, char *q);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
+struct S02030FB4;
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 void func_021F20A8(char *p, char *q, int *r)
 {

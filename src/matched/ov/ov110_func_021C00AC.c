@@ -18,10 +18,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef struct { s16 x,y; } Vec2;
-extern unsigned func_0204B3F4(void *);
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *, const Vec2 *, unsigned);
-extern void func_0204B878(void *, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021C00AC(u8 *p, unsigned i) {
     Vec2 pos;
     *(unsigned *)(p+0x18)=func_0204B3F4(*(void **)(p+0x14));

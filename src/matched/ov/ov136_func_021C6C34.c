@@ -21,14 +21,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201C6B4(void *);
+struct PrintSys;
+struct Sound;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern int func_021C7648(u8 *p);
 extern void func_020061E4(u32);
 extern int func_021C7250(u8 *p, int v, int w);
 extern int func_021C71D0(u8 *p, int v, int w);
-extern void func_021C66A0(void *p, int a, int b);
-extern unsigned func_02025DE8(void *obj);
-extern u8 func_020260E0(void *);
+extern void func_021C66A0(u8 *p, int i, u32 v);
+extern int func_02025DE8(struct Sound *obj);
+extern u8 func_020260E0(struct Sound *obj);
 extern int func_021C7738(void);
 
 int func_021C6C34(u8 *p)

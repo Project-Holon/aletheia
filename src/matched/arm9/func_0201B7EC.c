@@ -36,7 +36,7 @@ typedef unsigned int       u32;
 typedef unsigned long long u64;
 
 extern u32  func_0203F0A8(void);
-extern void func_0201B850(void *a0, const s8 *tbl, int a2, int a3);
+extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
 extern const s8 g_0209E465[];
 
 void func_0201B7EC(void *a0, int a1, int a2)

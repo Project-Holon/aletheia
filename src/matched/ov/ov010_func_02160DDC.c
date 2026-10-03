@@ -15,7 +15,8 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02012A30(void *);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02012134(u32 *);
 extern int func_02029DD8(int,int);
 typedef enum { FALSE = 0, TRUE = 1 } BOOL;

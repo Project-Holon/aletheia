@@ -29,20 +29,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_021E106C(void *);
-extern void func_02049B40(int,int,int,int,int,int);
+struct Cfg;
+struct CharBuf;
+extern void func_021E106C(char *p);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_020450F0(u32,u8,u8,u8,u8,u32,u32);
 extern void *func_02045770(int);
-extern void func_02043B5C(void *,int);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32,u32,u32);
-extern int func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_02028470(u8 *,u32);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_0201F73C(void *,int,u16,int);
 extern void func_02045334(int);
-extern void func_02045374(void *);
-extern void func_02041B6C(int);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32 bit);
 void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
 {
     void *v;

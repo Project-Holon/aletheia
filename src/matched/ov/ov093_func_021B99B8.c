@@ -13,7 +13,9 @@
  *   func_021B6994  0x021B6994  thumb  ov093
  */
 
-int func_021B6994(void *pp, unsigned int b);
+typedef unsigned int   u32;
+struct S;
+int func_021B6994(struct S **pp, u32 b);
 
 int func_021B99B8(void *pp, unsigned int b)
 {

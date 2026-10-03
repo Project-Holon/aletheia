@@ -51,7 +51,7 @@ extern u32 func_02197EDC(int a);
 extern u16 func_0216D5A8(int a);
 extern int func_0219B8A8(void);
 extern int func_02164168(int a);
-extern void func_0216D5E0(int a, u32 b);
+extern void func_0216D5E0(int a0, int a1);
 
 int func_0219B75C(int a)
 {

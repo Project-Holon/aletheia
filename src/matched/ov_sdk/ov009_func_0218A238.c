@@ -91,17 +91,12 @@ typedef struct GPIConnection {
 
 extern char *func_02094860(char *dst, const char *src, unsigned long n);
 extern int func_02180E48(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize,
-                         void *theAppNetworkError, void *theAppConnected, void *theAppClosed,
-                         void *theAppPing, void *theAppReceive, void *theAppUnownMsg,
-                         void *theAppConnectAttempt, void *theAppUserData);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int func_02180E58(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, void (*theAppNetworkError)(int, void *), void (*theAppConnected)(unsigned int, unsigned short, int, int, void *), void (*theAppClosed)(unsigned int, unsigned short, int, void *), void (*theAppPing)(unsigned int, unsigned short, unsigned int, void *), void (*theAppReceive)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), int (*theAppUnownMsg)(unsigned int, unsigned short, unsigned char *, unsigned int, void *), void (*theAppConnectAttempt)(unsigned int, unsigned short, int, unsigned char *, unsigned int, void *), void *theAppUserData);
 extern void func_02193710(void **connection, int errorCode, char *errorString);
 extern void func_02189D78(void **connection, int result, int fatal);
 extern unsigned short func_0218158C(void);
-extern int func_021815C8(char *theInitMsg, char *theHeader, void *theMsgHandlerError,
-                         void *theMsgHandlerConnected, void *theMsgHandlerClosed,
-                         void *theMsgHandlerPing, void *theMsgHandlerRecv, void *theUserData);
+extern int func_021815C8(char *theInitMsg, char *theHeader, void (*theMsgHandlerError)(int, void *), void (*theMsgHandlerConnected)(unsigned int, unsigned short, int, int, void *), void (*theMsgHandlerClosed)(unsigned int, unsigned short, int, void *), void (*theMsgHandlerPing)(unsigned int, unsigned short, unsigned int, void *), void (*theMsgHandlerRecv)(unsigned int, unsigned short, unsigned char *, unsigned int, int, void *), void *theUserData);
 extern int func_0217EB18(int pf, int type, int protocol);
 extern int func_0217EE50(int sock, int isblocking);
 extern unsigned long func_0217ED38(char *name);
@@ -110,8 +105,8 @@ extern int func_0217EC08(int sock, void *addr, int len);
 extern int func_0217ED54(int sock);
 extern void func_0218F5F4(void);
 extern void func_0218F880(void);
-extern void func_0218F65C(void);
-extern void func_0218F7B8(void);
+extern void func_0218F65C(unsigned int ip, unsigned short port, unsigned char *message, int messageLength, int unused, void *userData);
+extern void func_0218F7B8(unsigned int ip, unsigned short port, int unused, int rejected, void *userData);
 extern char g_021A4658[];
 extern char g_021A4664[];
 extern char g_021A467C[];

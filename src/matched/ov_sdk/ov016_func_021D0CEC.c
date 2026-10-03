@@ -85,7 +85,7 @@ typedef struct {
 extern enum WMErrCode func_0208EBE4(unsigned short *);
 extern enum WMErrCode func_0208F400(void (*)(void *));
 extern enum WMErrCode func_0208F43C(void (*)(void *));
-extern void func_021D7744();
+extern void func_021D7744(unsigned int idx, void *r4);
 extern void func_021D6438();
 extern M *g_021DE654;
 extern M *g_021DE654_b;

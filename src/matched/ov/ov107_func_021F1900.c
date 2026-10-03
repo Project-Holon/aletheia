@@ -17,7 +17,9 @@ typedef struct {
     void *f24;
 } Ov107Ctx;
 
-void func_0201EFA4(void *obj, int a, int b, int c, int d, int e);
+typedef unsigned int   u32;
+struct WordSet;
+void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 void func_021F1900(Ov107Ctx *p, int a, int b, int c)
 {

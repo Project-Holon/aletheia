@@ -42,7 +42,9 @@ struct Desc {
     u8  b;
 };
 
-extern u16  func_021BE00C(void *c);
+struct MsgBank;
+struct U16Vec;
+extern u16 func_021BE00C(u16 *p);
 extern u32  func_021BE010(void *c);
 extern u32  func_021BE018(void *c, int i);
 extern u32  func_021BE024(void *c);
@@ -60,19 +62,19 @@ extern u32  func_020275E4(void);
 extern u32  func_0202762C(void);
 extern void *func_020490F4(u32 id, u16 heap);
 extern void func_020414EC(u32 a);
-extern void func_02049990(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_020413B0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02040618(u32 a, u32 b, u32 c);
 extern void func_02049238(void *a);
 extern u32  func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Desc *e, u32 f, u32 heap);
 extern void func_0204B92C(u32 o, u32 k);
 extern void func_0204B3DC(u32 o, u32 k);
-extern void *func_020450F0(int a, u8 b, int c, int d, u8 e, u8 f, u8 g);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32  func_02045770(void *w);
 extern void func_02043B5C(u32 a, u32 b);
-extern void *func_02045EC0(void *bank, u32 index);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02045808(void *s);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0203D34C(u32 a, u32 b);
 
 void func_021BA2C4(void *a0, u8 *p)

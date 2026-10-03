@@ -89,7 +89,7 @@ typedef struct {
 extern Disp *g_02148DB0;
 
 extern void func_0206EBB8(Out *o);
-extern void func_0206EC50(Out *o);
+extern void func_0206EC50(void *arg);
 extern void func_0206ECE0(Out *o);
 extern void func_0206F214(u32 *out, u32 t, u32 *rec, Root *base);
 extern void func_0206F36C(u32 *out, u32 t, u32 *rec, Root *base);

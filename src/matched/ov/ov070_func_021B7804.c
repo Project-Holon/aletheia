@@ -34,10 +34,11 @@ typedef struct Obj {
 extern void func_021B7D9C(Obj *o, int v);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 extern void func_021B6204(Obj *o, int a, unsigned int b, int c, int d);
-extern void func_0201F250(void *obj, void *a, void *b);
-extern void func_021BADAC(Obj *o);
+struct WordSet;
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_021BADAC(void *p);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_021B7868();
+extern void func_021B7868(struct Obj *o);
 
 void func_021B7804(Obj *o)
 {

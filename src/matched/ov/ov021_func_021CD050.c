@@ -43,16 +43,17 @@ typedef struct {
 
 extern void func_021CD004(Obj *p);
 extern void func_02190788(u32 a);
-extern void *func_020457B0(u32 n, u32 heap);
-extern int func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, int i);
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_02045CAC(u32 bank, u32 index, void *buf);
 extern void func_0201EFA4(u32 win, u32 slot, u32 v, u32 digits, u32 a, u32 b);
 extern void func_0201F250(u32 a, void *b, void *c);
 extern void func_02190764(u32 a, u16 b, u32 c, void *d, u16 e, u32 f);
 extern int func_02190740(u32 a, u16 b, u32 c, u32 d);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_021CD050(Obj *p, void *party)
 {

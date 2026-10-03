@@ -36,8 +36,9 @@ extern int func_02159B10();
 extern Entry *func_0215911C();
 extern void func_02162774();
 extern void func_02162788();
-extern int func_0215A480();
-extern int func_02012844();
+struct BigObj;
+extern u16 func_0215A480(unsigned a);
+extern u32 func_02012844(const struct BigObj *p);
 
 int func_0215F424(int a0, int a1)
 {

@@ -15,7 +15,7 @@
  */
 
 int func_0203D1C0(unsigned char a);
-void func_021737A8(void);
+int func_021737A8(void);
 
 void func_02174B2C(unsigned char *p)
 {

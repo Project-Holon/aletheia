@@ -16,9 +16,9 @@
  *   func_021B7300 0x021B7300 thumb ov180
  */
 extern int (*d_021B814C[])(char *);
-extern void func_021B7D5C(char *);
+extern void func_021B7D5C(void *p);
 extern void func_021B6704(char *);
-extern void func_021B7F30(char *);
+extern void func_021B7F30(void *p);
 extern void func_021B66E4(char *);
 extern void func_021B7300(char *);
 int func_021B6A10(char *p) {

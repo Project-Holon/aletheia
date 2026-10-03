@@ -16,7 +16,8 @@
  */
 
 extern void *func_02048BC4(void *, int);
-extern void func_02048C58(void *);
+struct LightSlot;
+extern void func_02048C58(struct LightSlot *slots);
 extern char d_02185DD4[];
 
 void func_02185824(char *p)

@@ -46,7 +46,8 @@ typedef struct {
 } GPISearchData;
 
 extern void *func_0217EAB0(int size);
-extern void func_020923B0(void *dst, int val, int n);
+typedef unsigned int   u32;
+extern void *func_020923B0(void *p, int c, u32 n);
 extern void func_02193734(int connection, int string);
 extern char g_021A5280[];
 

@@ -17,9 +17,10 @@
  */
 extern int func_021BA928(char *, int);
 extern void func_021BAAB8(char *, int, int);
-extern void func_0203CEAC(int);
+struct Sub020097BCObj;
+extern int func_0203CEAC(int a0);
 extern int func_0203CD98(void);
-extern void func_02009B3C(void *);
+extern void func_02009B3C(struct Sub020097BCObj *obj);
 int func_021C169C(char *p, int ret)
 {
     if (func_021BA928(p, ret) == 0) return ret;

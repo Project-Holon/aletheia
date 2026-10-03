@@ -22,9 +22,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02188C84(void *a);
+extern u16 func_02188C84(u8 *p);
 extern void *func_0218FF30(u32 heap);
-extern void func_0218FF50(void *o, void *a);
+extern void func_0218FF50(u32 *o, void *a);
 
 void *func_0218FE80(void *a)
 {

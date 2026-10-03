@@ -21,13 +21,14 @@
 
 extern int func_020279E8(int);
 extern int func_02027A04(int);
-extern void func_021E12F8(void *);
+typedef unsigned char  u8;
+extern void func_021E12F8(char *p);
 extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+extern void func_021E1030(char *p);
 extern void func_021D8E84(void *,int);
-extern void func_021D9CFC(void *);
-extern void func_021DBA80(void *);
+extern void func_021D9CFC(u8 *p);
+extern void func_021DBA80(char *p);
 void func_021D9D60(char *p) {
     int v;
     if (func_020279E8(*(int *)(p+0x64C))) {

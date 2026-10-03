@@ -41,7 +41,7 @@ extern void func_021FE784(void *,int,int,int);
 extern void func_021FFFCC(char *),func_022000D0(char *),func_021FFF28(char *),func_021FFFF8(char *);
 extern u16 *func_02200188(void *,u32,u16 *,u32 *,u16);
 extern void func_02034714(const char *,int,const char *),func_020307B0(void *);
-extern int func_021FFE34(char *);
+extern unsigned func_021FFE34(char *p);
 extern char d_02200DAC[];
 int func_021FFC9C(char *p)
 {

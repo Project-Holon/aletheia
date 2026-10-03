@@ -20,8 +20,10 @@
 extern int *d_021A8260;
 extern char d_021A1C4C[];
 int func_0203D798(void);
-void func_02157048(int a, int b);
-int *func_02030734(int a, int b, int c, char *file, int line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+void func_02157048(u32 a, u32 b);
+void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 int func_02155168(int a, int b)
 {

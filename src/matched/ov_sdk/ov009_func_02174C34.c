@@ -22,7 +22,7 @@ struct gamekey_s {
 };
 
 extern struct gamekey_s g_021AAA40[];
-extern void func_0219B5EC(void *keybuffer, int keyid);
+extern int func_0219B5EC(char *p, int v);
 
 void func_02174C34(int keytype, void *keybuffer)
 {

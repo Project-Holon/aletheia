@@ -21,7 +21,7 @@
 typedef int s32;
 typedef unsigned int u32;
 
-extern void func_021DF8D4(void *);
+extern void func_021DF8D4(char *p);
 extern void func_0217EAE0(void *);
 
 s32 func_021DFA3C(void *p)

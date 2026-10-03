@@ -52,7 +52,7 @@ struct Obj0202C710 {
 };
 
 extern s32 sub_0202C6C4(struct Obj0202C710 *p);
-extern void func_02005F24(u32 a, s32 b);
+extern void func_02005F24(u32 a0, u32 a1);
 
 void sub_0202C710(struct Obj0202C710 *p, s32 n)
 {

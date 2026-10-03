@@ -44,11 +44,12 @@ typedef struct Spec {
 extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5E4(void *vm);
 extern u16 func_0215A5CC(void *vm);
-extern void *func_02012934(void *a);
-extern void func_02012944(void *a);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u8 *func_02012944(void *p);
 extern u16 *func_02159AE8(void *c, void *vm);
 extern u32 func_02159B10(void *c, void *vm);
-extern u16 func_0215C4C8(void *a, Spec *s);
+extern int func_0215C4C8(void *a, void *b);
 
 int func_0215C180(void *c, void *vm)
 {

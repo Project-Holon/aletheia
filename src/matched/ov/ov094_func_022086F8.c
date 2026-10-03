@@ -24,8 +24,9 @@ typedef struct E {
     char p74[12];
 } E;
 typedef struct { char p0[0x40]; E e[8]; } O;
-extern void func_020061E4(int);
-extern int func_02207F6C(int, int, int, int *, int, u16);
+typedef unsigned char  u8;
+extern void func_020061E4(u32 a);
+extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
 extern void func_022082FC(O *, int, int);
 extern void func_02208420(O *, E *, int);
 extern void func_02208550(O *, E *);

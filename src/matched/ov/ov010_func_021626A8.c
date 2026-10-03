@@ -24,7 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u16 func_02162B68(void *b, void *pos);
+struct Box;
+u16 func_02162B68(struct Box *b, int *pos);
 
 u16 func_021626A8(void *b, void *pos)
 {

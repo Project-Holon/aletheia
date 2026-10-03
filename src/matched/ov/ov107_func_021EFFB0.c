@@ -72,10 +72,14 @@ typedef struct {
 } Ov107Main;
 
 int func_021F1060(void *);
-int func_02012FFC(void);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct BigObj;
+signed char func_02012FFC(void);
 void func_021F1704(void *, int, int);
 void func_021F1B24(void *, int);
-void func_021F1028(void *);
+void func_021F1028(int *p);
 int func_021F1110(void *);
 int func_021F1118(void *);
 int func_021F1120(void *);
@@ -95,18 +99,18 @@ void func_021F19E4(void *, int);
 int func_021F1A2C(void *);
 void *func_0201293C(void *);
 int func_02007774(void *);
-void func_021F1A24(void *);
-int func_021F11F0(void *, int, int);
+void func_021F1A24(u8 *p);
+int func_021F11F0(void *p, unsigned char kind, unsigned int val);
 void func_021F17E0(void *, int);
-void func_021F1B38(void *, int);
+void func_021F1B38(u8 *p, u32 v);
 void func_021EFD98(Ov107Main *);
 void func_021F1184(void *);
-void *func_0201292C(void *);
-void *func_02012944(void *);
-void *func_02012F08(void *);
+void *func_0201292C(const struct BigObj *p);
+u8 *func_02012944(void *p);
+void *func_02012F08(int *p);
 int func_0216BF9C(void *, int, void *);
 void func_0216BF74(void *, int, void *);
-void func_02007E50(void *, int, int, int);
+u32 func_02007E50(u8 *base, u16 id, u16 qty, u16 d);
 
 void func_021EFFB0(Ov107Main *p)
 {

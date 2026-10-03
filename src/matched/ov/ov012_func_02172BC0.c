@@ -35,9 +35,10 @@ typedef struct {
 
 extern char str_02175600[];
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern Work *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021734E0(Work *w);
-extern void func_0217365C(void *p);
+extern void func_0217365C(u8 *p);
 extern u32 func_0200ADF0(u32 a);
 
 Work *func_02172BC0(u32 a)

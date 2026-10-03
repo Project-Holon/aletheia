@@ -21,15 +21,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,int);
-extern void func_02045CAC(void *,u16,void *);
-extern void func_0201DD78(int,int,int);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021D8684(char *p,int unused,u32 n)
 {
     void *q;

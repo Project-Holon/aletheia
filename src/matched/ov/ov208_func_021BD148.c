@@ -75,7 +75,7 @@ struct Ov208ActSet {
     struct Ov208ActObj objs[1];
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                                 u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap);

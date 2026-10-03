@@ -44,7 +44,7 @@ int func_021B82FC(u32 q);
 int func_021B82F8(u32 q);
 void func_0218ECF4(u32 o, V *v);
 void func_0218EC90(u32 o, V *v);
-int func_0207C768(int a, int b);
+u32 func_0207C768(u32 a, u32 b);
 
 static inline int FX_MUL(int a, int b)
 {

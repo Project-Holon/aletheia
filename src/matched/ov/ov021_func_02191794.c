@@ -43,7 +43,7 @@ typedef struct R {
     u16 f28;
 } R;
 
-extern int func_0219320C(u8 *p);
+extern u8 func_0219320C(u8 *p);
 extern u32 func_02045770(u32 a);
 extern void func_021928C0(R *sub, u32 a, u32 b);
 extern void func_02045334(u32 a);

@@ -50,7 +50,7 @@ typedef struct {
 
 extern const char d_021B954C[];
 
-extern R *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021B6608(void *a, u8 b, int c, int d, int e, u8 f, u8 g, int h, int i);
 extern void func_021B67F8(void *a, int b, void *c, void *d, int e, int f);

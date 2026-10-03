@@ -22,10 +22,13 @@ typedef unsigned short u16;
 typedef unsigned u32;
 typedef struct { u32 id,index; } Pair;
 typedef struct { u32 str,count; void *bank[1]; } Obj;
-extern u16 func_020458F8(void *);
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+extern u16 func_020458F8(struct U16Vec *vec);
 extern void func_02082A7C(u32,void *,u32);
-extern u16 func_02045F50(const void *);
-extern void func_02045CAC(void *,u32,void *);
+extern u16 func_02045F50(const struct Obj *o);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern int func_021B6D70(u32,u32,u32);
 u32 func_021B6CE0(Obj *p,u32 id,u32 unused,u32 str,Pair *out,u32 max)
 {

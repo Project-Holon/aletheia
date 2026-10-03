@@ -21,7 +21,7 @@
 extern int func_021D775C(int);
 struct UtilWork;
 extern int func_021D5BDC(struct UtilWork *,unsigned int);
-extern struct UtilWork *func_021C7CF4(int *,int);
+extern void *func_021C7CF4(int *p, int i);
 extern void *func_021C88A4(char *,int,int);
 extern void func_021C88C8(void *,void *);
 void func_021DAF1C(int a, int *b, int c) { char *p; if (c == func_021D775C(2) && func_021D5BDC(func_021C7CF4(b,c),13)) { p = func_021C88A4((char *)b,24,c); p[8] = c; *(int *)(p+4) = 13; func_021C88C8((char *)b,p); } }

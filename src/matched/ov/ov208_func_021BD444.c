@@ -60,7 +60,8 @@ extern u32  func_02027618(void);
 extern u32  func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u32 flags);
 extern u32  func_0202761C(u32 a);
 extern u32  func_02027620(u32 a);
-extern u32  func_0204AF28(void *a, u32 b, u32 c, u32 d);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 
 void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,

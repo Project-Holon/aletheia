@@ -27,7 +27,7 @@ typedef struct { int m[3]; } MsgTable;
 extern MsgTable g_021DA8AC;
 extern int func_021D5580(int lcd);
 extern void func_021C0EA0(void **param2, void **param3);
-extern void func_021D1208(int msg, int type, int dark, int n, int num);
+extern void func_021D1208(int msg, int type, unsigned char dark, int n, int num);
 extern void func_021C0E40(void (*scene)(void));
 extern void func_021CD9CC(void);
 

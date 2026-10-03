@@ -47,8 +47,8 @@ typedef struct Work {
     Entry entries[10];
 } Work;
 
-extern void *func_02188CB4(void *q);
-extern void *func_02188C7C(void *q);
+extern void *func_02188CB4(u8 *p);
+extern void *func_02188C7C(u8 *p);
 extern void  func_021A3460(void *a, s16 *x, s16 *y, s16 *z);
 extern void  func_02172D20(u8 *w);
 extern int   func_02172D68(u8 *w);

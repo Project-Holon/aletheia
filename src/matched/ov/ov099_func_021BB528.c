@@ -36,28 +36,35 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0201DD68(void);
-extern int func_02009864(void *,int,int);
-extern void func_0201DD78(int,int,int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+struct Cfg;
+struct Descriptor;
+struct MsgBank;
+struct Sub020097BCObj;
+struct WordSet;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_021C2370(char *,int);
-extern void func_02045CAC(void *,unsigned,void *);
-extern void func_0201F250(void *,void *,void *);
-extern void * func_02045770(void *);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,short,short,void *,void *);
 extern void * func_021C23B8(int);
 extern unsigned func_021BDD48(char *,void *);
 extern unsigned func_021BDD54(char *,void *);
 extern int func_021BB918(unsigned,unsigned,int *);
-extern void func_0201C7D0(void *,short,short,void *,void *,unsigned);
-extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
-extern void func_02045374(void *);
-extern void func_02045334(void *);
+extern void func_0201C7D0(void *x, s16 y, s16 z, void *s, void *w, u16 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
 extern void func_02041B6C(unsigned);
-extern void func_021BE4BC(char *,int,int,int,unsigned,unsigned,int);
+extern void func_021BE4BC(char *p, int a, int b, int c, int d, unsigned int e, int f);
 extern int func_021C285C(void *);
 extern void func_021BE3CC(char *,int,int,int,int,int);
 extern void func_021BB374(char *,int,int);
 extern void func_021BB460(char *,int);
-extern void func_02043598(int,int);
+extern void func_02043598(u32 mask, u32 enable);
 #define PTR(off) (*(void **)(p+(off)))
 void func_021BB528(char *p,int v)
 {

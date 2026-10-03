@@ -21,8 +21,9 @@ typedef unsigned int u32;
 extern char d_021FDCEC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_0201121C(u32, void *);
-extern void func_0201126C(void *, void *);
-extern void func_0201127C(void *, void *);
+struct ScriptVm;
+extern void func_0201126C(struct ScriptVm *vm, void *user);
+extern void func_0201127C(struct ScriptVm *vm, u8 *pc);
 extern char d_021FDC2C[];
 void *func_021FAC74(char *p, void *arg, int flag)
 {

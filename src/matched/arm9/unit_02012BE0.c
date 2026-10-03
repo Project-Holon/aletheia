@@ -44,7 +44,8 @@ typedef unsigned int u32;
 
 extern void *func_0200C40C(void *p);
 extern void  func_0200C418(void *p, u32 a, u32 b);
-extern void *func_02012EBC(void *p);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 
 void func_02012BE0(void *p, u32 a, u32 b)
 {

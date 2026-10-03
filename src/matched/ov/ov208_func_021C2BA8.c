@@ -21,8 +21,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void func_02040618(int a, int b, int c);
-extern void func_020409B4(int a);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern void func_020409B4(u32 index);
 extern void func_021BC6BC(char *p);
 
 void func_021C2BA8(void *unused, u8 *p)

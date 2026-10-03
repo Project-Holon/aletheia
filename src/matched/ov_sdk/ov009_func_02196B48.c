@@ -32,7 +32,7 @@ typedef struct Conn {
 
 extern unsigned short func_02195E80(unsigned char *buffer, int pos);
 extern int func_02195F5C(Conn *c);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_02195EB4(unsigned short SN1, unsigned short SN2);
 extern int func_02197C5C(Conn *c, Msg *message);

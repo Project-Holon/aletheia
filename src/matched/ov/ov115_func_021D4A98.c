@@ -15,5 +15,5 @@
  *   func_021D5D5C 0x021D5D5C thumb ov115
  */
 typedef unsigned char u8; typedef unsigned int u32;
-extern int func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
+extern u32 func_020221A4(void); extern int func_021D5C70(int); extern void func_021D426C(u8 *,u32); extern void *func_021D5D5C(u8 *,int,int,int);
 void func_021D4A98(u8 *p) { if(func_020221A4()) func_021D426C(p,0); }

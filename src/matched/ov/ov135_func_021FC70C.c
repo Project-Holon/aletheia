@@ -24,11 +24,12 @@ extern void func_021F4E64(void *);
 extern void func_0201F868(void *);
 extern void *func_0200ADB4(void *);
 extern int func_021F6DE8(void *);
-extern int func_0201AA18(void *);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
 extern void func_021FC810(void *, unsigned, unsigned, unsigned, unsigned, void *);
 extern void func_021F4E98(void *, unsigned, unsigned);
 extern void func_021F4EC0(void *, unsigned, unsigned);
-extern void func_021FCBF0(void *);
+extern void func_021FCBF0(char *p);
 int func_021FC70C(char *p)
 {
     int r;

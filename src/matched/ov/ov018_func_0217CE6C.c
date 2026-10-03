@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 typedef struct { int x, y, z; } V12;
 
-extern int func_02012138();
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 *func_02158344();
 extern u32 *func_0217BEA8(u16);
 extern void *func_02184D38(void *, void *, u16, V12 *, int, int);

@@ -23,7 +23,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D5444(void *p);
+struct QF;
+u16 func_021D5444(struct QF *p);
 extern int func_021D59B4(u8 *p, int k);
 u32 func_02019C90(u16 a, u16 b, u32 k);
 

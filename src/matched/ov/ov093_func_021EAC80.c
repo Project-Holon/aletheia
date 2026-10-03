@@ -34,7 +34,7 @@ extern void func_021EAD84(void *);
 extern int func_021EAD94(void *);
 extern void func_02034AC4(void *);
 extern void func_02034A5C(void *);
-extern void func_0220F3E8(void *);
+extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov198_id[];
 
 int func_021EAC80(u8 *p, u8 *out)

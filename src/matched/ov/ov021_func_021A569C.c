@@ -16,7 +16,9 @@
  */
 
 int func_021A5264(int a, int b, int c, int *d);
-int func_021AB0F0(int x);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+u16 func_021AB0F0(u32 attr);
 int func_021A55DC(int x);
 
 int func_021A569C(int a, int b, int c, int *d)

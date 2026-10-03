@@ -22,7 +22,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern char d_021DDE1C[];
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021A01D8(u8 *p);
 
 u8 *func_021A0104(u16 heap)

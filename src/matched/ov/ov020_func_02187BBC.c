@@ -16,8 +16,9 @@
 
 typedef unsigned char u8;
 
-int func_02187D30(void *o);
-int func_02187D24(void *o);
+typedef unsigned int   u32;
+int func_02187D30(char *p);
+u32 func_02187D24(char *p);
 
 int func_02187BBC(char *o, int st)
 {

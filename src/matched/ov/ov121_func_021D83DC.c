@@ -22,11 +22,13 @@
 typedef unsigned char u8;
 typedef struct { int w[12]; } Config;
 extern const Config d_021DF544;
-extern void *func_020457B0(int,int);
+typedef unsigned int   u32;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045994(void *,void *,int);
-extern void func_02045808(void *);
-extern void func_020409B4(int);
-extern void func_02040588(int,int);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020409B4(u32 index);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void *func_021DA1BC(int,Config *,int,int,int,void *,void *,void *,int);
 extern void func_021D694C(void *,int);

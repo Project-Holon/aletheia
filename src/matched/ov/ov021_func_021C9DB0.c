@@ -30,10 +30,12 @@ typedef signed int     s32;
 
 typedef struct { u16 b0 : 1; u16 b1 : 2; } Bits;
 
-extern u32 func_0200D884(void *p, u32 id, void *out);
-extern u8 func_0200DC08(void *p);
-extern u16 func_0200DB80(void *p, u32 i);
-extern void func_0200DA80(void *p, s32 v);
+struct Blk1AC;
+struct Blk3C;
+extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
+extern u8 func_0200DC08(struct Blk1AC *p);
+extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
+extern void func_0200DA80(struct Blk1AC *p, s32 v);
 extern const u8 d_021DACDC[7][10];
 
 int func_021C9DB0(u8 *p)

@@ -70,8 +70,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
-extern void *sub_020071CC(void *sys, u32 id);
-extern void *sub_02012EBC(void *sys);
+struct Big;
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *sub_02012EBC(struct Big *p);
 extern void sub_02024570(void *entry, void *arg);
 
 struct Sub02008F80Entry {

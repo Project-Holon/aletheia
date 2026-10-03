@@ -17,12 +17,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204E720(int,int,int,int);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 extern int func_021B84D0(u8 *);
 extern void func_021B78D0(u8 *,u32);
-extern void func_021B7BC4(void);
-extern void func_021B7984(void);
+extern void func_021B7BC4(u8 *a, u32 unused, u8 *p);
+extern void func_021B7984(u8 *a, u32 unused, u8 *p);
 void func_021B78E0(u8 *a, int *state, u8 *p)
 {
     switch (*state) {

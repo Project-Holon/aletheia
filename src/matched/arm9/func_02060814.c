@@ -75,7 +75,7 @@ struct ExpHeap {
 
 extern void           func_020606D0(struct ExpHeap *h, void *sig, void *self,
                                     void *lo, u32 attr);
-extern struct MBlock *func_020607E8(int *pair, u16 sig);
+extern void *func_020607E8(int *p, int v);
 
 void *func_02060814(struct ExpHeap *heap, void *lo, u32 attr)
 {

@@ -31,14 +31,14 @@ typedef unsigned int u32;
 extern void func_021B6B5C(int a);
 extern int func_021B6B68(int a);
 extern void func_021F7EE8(void *m, int key);
-extern void func_021F7998(int a);
+extern void func_021F7998(u32 a);
 extern void func_021B67A4(int a);
 extern int func_021F7EB4(void);
 extern void func_021B6910(int a, int b);
 extern int func_021B6A3C(int a);
 extern int func_021B6154(void *p);
 extern int func_021B6140(void *p);
-extern void func_021F8090(int a, int b, int c);
+extern void func_021F8090(u32 a, u32 b, u32 c);
 extern void func_021B6364(u8 *p, u32 v);
 extern int func_021B6504(char *p);
 

@@ -14,6 +14,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02045770(void *);
-extern void func_02043814(void *,void *);
+struct Bmp;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 void func_021DA4A8(u8 *p) { u32 i; for(i=0;i<*(u32 *)(*(u8 **)(p+4)+4);i++) { void *out=*(void **)(p+8+i*4); func_02043814(out,func_02045770(*(void **)(*(u8 **)(*(u8 **)(p+4)+16+i*4)+12))); } }

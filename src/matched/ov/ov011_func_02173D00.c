@@ -17,7 +17,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-int func_0203D378(void);
+u32 func_0203D378(void);
 typedef unsigned short u16;
 typedef struct Ent {
     u16 h[8];

@@ -28,7 +28,7 @@ extern char g_021A25CC[];
 extern char g_021A25D4[];
 extern char g_021A25DC[];
 extern char g_021A25E0[];
-extern int func_02179E60(char *http, const char *label, const char *data);
+extern int func_02179E60(char *http, char *label, char *data);
 extern char *func_02094B20(const char *s, const char *sub);
 extern int func_0209477C(const char *s);
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);

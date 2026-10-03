@@ -17,9 +17,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02030734(u16,u32,u32,const char *,u32);
+struct U16Vec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021C3C84[];
-extern void *func_020457B0(u32,u32);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern u8 *func_021BF6D4(u8 *);
 u8 *func_021BF844(void *a,void *b,void *c) {

@@ -35,10 +35,11 @@ typedef struct {
 
 extern char d_021F36A0[];
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef signed int     s32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 
 void func_021F30D4(char *this, ResList *out, const ResSpec *spec, void *arc)
 {

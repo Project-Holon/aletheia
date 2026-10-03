@@ -50,8 +50,10 @@ extern u32 func_021BC0E4(u32 a, u32 b);
 extern int func_021BC0B0(int v);
 extern u32 func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Point *pt, u16 f, u16 g);
-extern void func_0204B800(void *p, u32 a);
-extern void func_0204B688(void *p, u32 a);
+struct Actor;
+struct Node;
+extern void func_0204B800(struct Node *node, u32 val);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_021BBC04(S *p);
 void func_021BBAB0(S *p, u32 a, u32 b, u32 idx)
 {

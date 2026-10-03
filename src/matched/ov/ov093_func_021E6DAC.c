@@ -31,9 +31,10 @@ extern int func_021C815C(int p);
 extern u8 func_021B8C20(int kind, u32 flags, u32 v);
 extern int func_021C7F68(int p, u16 b, u8 *out);
 extern void *func_021C7CF4(int a, int b);
-extern u16 func_021D67A8(void *m);
-extern int func_0201BEB8(int bag, int item);
-extern int func_021D76BC(int a, int b);
+struct QL;
+extern u16 func_021D67A8(struct QL *p);
+extern u32 func_0201BEB8(u16 id, u32 bit);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E6DAC(int x, int a, int c, u8 *d)
 {

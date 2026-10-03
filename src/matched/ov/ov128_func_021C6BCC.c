@@ -21,12 +21,17 @@
 typedef unsigned char u8;
 extern void *func_0201283C(const void *);
 extern void *func_0200846C(int);
-extern void *func_020457B0(unsigned,unsigned);
-extern void *func_020099D4(void *,int);
+typedef unsigned int   u32;
+struct Sub020097BCEnt;
+struct Sub020097BCObj;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void func_02045924(void *,const void *);
 extern void func_020084E4(void *,void *);
-extern void func_02045808(void *);
-extern void func_0201F02C(void *,unsigned,void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_020307B0(void *);
 void func_021C6BCC(u8 *p,u8 *q,int idx,unsigned heap)
 {

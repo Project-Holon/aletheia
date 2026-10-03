@@ -17,14 +17,19 @@
  */
 extern void func_02027974(void *);
 extern int func_0203CD98(void);
-extern int func_0201058C(void *);
-extern void func_020310C4(void *);
-extern int func_0201C4E4(void *);
-extern void func_02040618(int,int,int);
+typedef unsigned int   u32;
+struct Ctx;
+struct IcaAnime;
+struct PrintSys;
+struct Tcbl;
+extern u32 func_0201058C(void *key);
+extern void func_020310C4(struct Tcbl *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0204A600(void);
-extern int func_020121CC(void *);
-extern int func_020221A4(void);
-extern int func_02012204(const void *);
+extern u32 func_020121CC(struct IcaAnime *p);
+extern u32 func_020221A4(void);
+extern u32 func_02012204(const struct Ctx *p);
 extern void func_0202223C(unsigned int,unsigned int);
 int func_021D5320(int a,int b,int c,char *p)
 {

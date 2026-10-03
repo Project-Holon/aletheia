@@ -32,14 +32,18 @@ extern char d_021B7550[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
 extern void func_021B732C(void *,u32,int,u32,u32,u8,u32);
-extern void *func_02027F60(u16,u16,u32,u32,u16);
+struct MsgBank;
+struct R;
+struct Rec;
+struct U16Vec;
+extern struct R *func_02027F60(u16 a0, u16 a1, u32 a2, u32 a3, u16 heap);
 extern u8 func_020416D4(u32);
 extern void func_021B739C(void *,u32,int,u32,u8,u16);
-extern void *func_02045B38(u32,u32,u32,u32);
-extern void *func_02045EC0(void *,u32);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern u32 func_02027FEC(void *,void *,u32,u32,u8,u16);
-extern void func_02045808(void *);
-extern void func_02045C04(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 void *func_021B70DC(u32 a,u32 b,u16 layer,u16 x,u8 y,u32 extra,u32 c,u32 d,u16 heap)
 {
     Side side=SIDE_ZERO;

@@ -44,7 +44,7 @@ typedef struct WCMWork {
 } WCMWork;
 
 extern WCMWork *func_021657C8(void);
-extern void func_02167CB4(void *bssid, void *essid, unsigned long option);
+extern void func_02167CB4(unsigned char *bssid, unsigned char *essid, unsigned long option);
 extern void DC_InvalidateRange(void *startAddr, unsigned long nBytes);
 extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern void func_02165A4C(unsigned char phase);

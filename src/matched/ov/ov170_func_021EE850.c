@@ -18,7 +18,8 @@
 
 typedef unsigned int u32;
 
-extern unsigned func_02025DE8(void *obj);
+struct Sound;
+extern int func_02025DE8(struct Sound *obj);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *p);

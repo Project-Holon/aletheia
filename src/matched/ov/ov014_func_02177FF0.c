@@ -26,8 +26,8 @@ int func_02178E4C(void);
 int func_021785B4(void *fn, u32 b, u32 c);
 u32 func_020056EC(u32 n);
 void func_0217727C(u8 *p, void *fn);
-void func_021773E0(void);
-void func_02177FC4(void);
+int func_021773E0(u8 *p);
+void func_02177FC4(unsigned char *p);
 
 void func_02177FF0(u8 *a)
 {

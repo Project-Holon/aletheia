@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-extern void func_0216D38C(u32 a);
+extern void func_0216D38C(int a0);
 
 void func_0216D3A8(u32 a, u32 b)
 {

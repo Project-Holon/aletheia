@@ -29,16 +29,18 @@ typedef unsigned int u32;
 
 extern int func_021BC080(char *p, int v);
 extern void func_021BBBAC(char *p);
-extern int func_0201C6B4(void *p);
+struct Descriptor;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern void func_021BBD10(char *p, int mode);
-extern int func_021BB840(void *, int);
+extern int func_021BB840(char *p, int y);
 extern void func_021BB810(void *, int, int, int);
-extern int func_0201C4E4(void *p);
-extern void *func_02045770(void *p);
-extern int func_0201C6C4(void *t, void *p);
-extern void func_02045334(void *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
 
 int func_021BA6B0(char *p)
 {

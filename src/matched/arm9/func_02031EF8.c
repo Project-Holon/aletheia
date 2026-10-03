@@ -41,7 +41,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8  *func_02031EE8(void *p, void *buf);
-extern u16  func_02031E7C(void *p, void *buf);
+struct SaveBackup;
+extern u16 func_02031E7C(struct SaveBackup *p, u8 *buf);
 
 u32 func_02031EF8(void *p, void *buf, u32 sel)
 {

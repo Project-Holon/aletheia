@@ -40,7 +40,8 @@ extern u8 d_021F3A82[];
 extern u8 d_021F3A90[];
 extern P8 d_021F3AD4[];
 
-extern int func_020056EC(int);
+typedef unsigned int   u32;
+extern u32 func_020056EC(u32 range);
 extern int func_021F3934(u8 *p, int v);
 extern int func_021F394C(u8 *p, int idx);
 extern int func_021F395C(u8 *p, int idx);

@@ -19,7 +19,9 @@ typedef unsigned short u16;
 typedef struct { u16 x,y; } Point;
 extern void func_020414EC(unsigned);
 extern void func_020409B4(unsigned);
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *,const Point *,u16);
 extern void func_02040588(unsigned,unsigned);
 void func_021DE0DC(char *p)

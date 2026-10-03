@@ -51,8 +51,10 @@ typedef struct {
 
 extern Root g_021AA878;
 
-extern void func_0219B540(void *qr2);
-extern void func_0219ED4C(void *sb);
+struct ServerBrowser;
+struct qr2_implementation_s;
+extern void func_0219B540(struct qr2_implementation_s *qrec);
+extern void func_0219ED4C(struct ServerBrowser *sb);
 extern void func_02176B34(void);
 extern void func_02169FF8(void);
 extern void func_02193D00(void);

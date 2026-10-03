@@ -17,7 +17,8 @@
  *   func_021E8FD0 0x021E8FD0 thumb ov170
  */
 typedef unsigned char u8;
-extern unsigned func_02025DE8(void *);
+struct Sound;
+extern int func_02025DE8(struct Sound *obj);
 extern void func_020061E4(unsigned);
 extern int func_021E8F50(u8 *, int);
 extern int func_021E949C(u8 *, int, int);

@@ -49,7 +49,7 @@ extern u32  GX_HBlankIntr(BOOL on);
 extern u32  GX_VBlankIntr(BOOL on);
 extern void func_020101D4(u32 a, u32 b);
 extern void func_0201034C(void);
-extern void sub_0200FEBC(u32 a);
+extern void sub_0200FEBC(int keepDark);
 extern void sub_0200FBA0(void);
 extern u8   g_0214617C[];
 

@@ -34,8 +34,8 @@ struct ZoneData {
     u8 *f94;            /* +0x94 */
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 sZonedataFile;
 
 void func_02013980(struct ZoneData *o, u32 heap)

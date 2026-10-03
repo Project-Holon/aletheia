@@ -19,7 +19,8 @@
 
 extern unsigned char func_02168724(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusString);
 extern unsigned int func_0209477C(char *s);
-extern int func_02059CBC(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
+typedef unsigned int   u32;
+extern int func_02059CBC(const char *src, u32 srclen, char *dst, u32 dstlen);
 unsigned char func_02168864(void *friendData, unsigned char *maxEntry, unsigned char *numEntry, char *statusData, int *size)
 {
 	char statusString[256];

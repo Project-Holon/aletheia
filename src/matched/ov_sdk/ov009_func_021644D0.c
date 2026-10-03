@@ -31,7 +31,7 @@ typedef unsigned long u32;
 typedef unsigned long long u64;
 
 extern void func_02082BCC(void *dstp, unsigned char data, u32 size);
-extern int func_02163F24(u16 *a, int digits);
+extern int func_02163F24(const unsigned short *p, int n);
 extern void func_02082D44(const void *srcp, void *dstp, u32 size);
 extern u64 func_021644A0(u16 *s);
 extern u64 func_02164490(u16 *s);

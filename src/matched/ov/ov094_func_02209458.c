@@ -27,7 +27,8 @@ typedef struct {
 } W;
 
 extern void func_0204B3B4(int h);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02209458(W *w)
 {

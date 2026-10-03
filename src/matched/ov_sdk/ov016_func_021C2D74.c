@@ -41,10 +41,10 @@ typedef struct {
 } FocusPosT;
 
 extern int func_021D696C(RectT *r);
-extern void func_021BCB28(int idx);
+extern void func_021BCB28(signed char v);
 extern void func_021BD4C8(int x0, int x1, int y0, int y1);
-extern int func_021D6824(unsigned short input);
-extern int func_021D6864(unsigned short input);
+extern int func_021D6824(unsigned int f);
+extern int func_021D6864(unsigned int f);
 extern void func_021C30AC(int dir);
 extern RectT g_021DA4B8[3];
 extern RectT g_021DA4D0[3];

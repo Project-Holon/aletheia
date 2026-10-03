@@ -25,7 +25,8 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_0201283C(void *h);
+struct BigObj;
+extern u32 func_0201283C(const struct BigObj *p);
 extern void func_02009C24(int a, int b, int c);
 
 void func_021BDCF4(int a, int b, char *p)

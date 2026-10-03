@@ -13,7 +13,8 @@
  *   func_020061E4  0x020061E4  thumb
  */
 
-void func_020061E4(int id);
+typedef unsigned int   u32;
+void func_020061E4(u32 a);
 
 void func_021BB778(int n)
 {

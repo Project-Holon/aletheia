@@ -72,7 +72,7 @@ typedef struct {
     MBGameRegistry game_registry;
 } Wk;
 
-extern int func_021D3250(void);
+extern unsigned int func_021D3250(void);
 extern int func_021D376C(int mode, u16 tgid, u16 channel);
 extern void func_021D4624(u16 kind, u16 counter, u8 *data);
 extern void func_021D4770(void);

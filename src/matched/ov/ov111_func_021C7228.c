@@ -102,7 +102,7 @@ typedef struct { u32 w[4]; } BankCfg;
 typedef struct { u32 w[8]; } BgTemplate;
 typedef struct { BgTemplate t[6]; } BgTemplates;
 
-extern void func_0203F8F4(int heap);
+extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(const BankCfg *c);
 extern void func_0203FCA0(u8 frame, const BgTemplate *t, int mode);
 extern void func_020414EC(u8 frame);

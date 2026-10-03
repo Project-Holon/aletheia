@@ -14,7 +14,8 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9F80 0x021B9F80 thumb ov100
  */
-extern int func_0203D378(void);
+typedef unsigned int   u32;
+extern u32 func_0203D378(void);
 extern void func_0203D0B8(void *,int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9F80(void);

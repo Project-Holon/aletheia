@@ -30,7 +30,8 @@ typedef struct Ent {
 
 int func_02175144(u16 v, u8 *out);
 int func_02175184(u8 *a, u8 *b);
-int func_02013D5C(u16 v);
+typedef unsigned int   u32;
+u32 func_02013D5C(u32 id);
 int func_021751A8(u8 *p, int a);
 
 void func_021751D4(u8 *p, u16 a, int b, Ent *c)

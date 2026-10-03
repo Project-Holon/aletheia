@@ -59,19 +59,24 @@ typedef struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, Work *work);
 
-extern void *func_020120F4(void *p);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Party;
+struct PartyMon;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02013090(u32 heap);
 extern void *func_0201A920(u16 heap);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_0201756C(void *mon, u16 species, u16 level, u64 id);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern u32 func_0201A98C(void *party, void *mon);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_021AA304(Loc *loc, void *ctx, u32 a);
 extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
 extern void func_020307B0(void *p);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern Work *func_020124E8(void *task);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_0216F02C(Work *w, void *a, void *bs);
 extern void func_021CF5D8(u16 species, u32 a, u32 b, u32 c, u32 *d, void *e);
 extern u32 func_0216EB98(void *task, u32 *state, Work *work);

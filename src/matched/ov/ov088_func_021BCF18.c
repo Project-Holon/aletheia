@@ -19,10 +19,11 @@
  *   func_021BCFD4  0x021BCFD4  thumb  ov088
  */
 
-extern int func_020221A4(void);
-extern void func_021BD10C(void *);
-extern void func_021BD0C8(void *);
-extern void func_021BD04C(void *);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
+extern void func_021BD10C(int *p);
+extern void func_021BD0C8(unsigned char *p);
+extern void func_021BD04C(unsigned char *p);
 extern void func_021BCFD4(void);
 
 void func_021BCF18(void *p, int *st)

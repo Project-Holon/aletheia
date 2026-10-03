@@ -16,9 +16,11 @@
  * tail: two zero alignment bytes after the function (listing extent is 2 bytes longer).
  */
 struct Ov208Mgr { char pad[0x28]; void *f28; void *f2c; };
-extern void func_02030EAC(void *p);
+struct Bank;
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021BDD24(struct Ov208Mgr *m);
-extern void func_0204B1CC(void *p);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_020307B0(void *p);
 void func_021BD954(struct Ov208Mgr *m)
 {

@@ -47,7 +47,8 @@ struct Entry {
     u32 f30;       /* +0x30 */
 };
 
-extern u32  func_02023768(void *p);
+struct Wipe;
+extern u32 func_02023768(struct Wipe *w);
 extern void func_02022DCC(u32 a0, void *a1, u32 a2);
 extern void func_02022D70(void *a0);
 extern void func_020307B0(void *p);

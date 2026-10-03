@@ -19,7 +19,7 @@
 typedef enum { SLOT_ZERO } Slot;
 
 extern char *d_0220AF20;
-extern int func_021FFD9C(void *, int);
+extern int func_021FFD9C(char *p, int key);
 extern void func_0220055C(void *, int, int);
 
 void func_021F8934(int a)

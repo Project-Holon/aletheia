@@ -27,14 +27,16 @@
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+typedef unsigned short u16;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern u32 func_0216D5F8(void *a);
+extern u16 func_0216D5F8(void *p);
 extern void *func_02188C98(void *a);
 extern u32 func_0215A5CC(u32 a);
 extern void func_021A3364(void *a, u32 b, u32 *c);
-extern u32 func_021AB0D4(void *a, u32 *b);
+extern int func_021AB0D4(void *a, void *b);
 extern u32 func_021C1024(void *a, u32 b, u32 c, u32 d);
 extern void func_0215A644(u32 a, u32 b);
 extern void func_020113D0(u32 a, int (*f)(int, int));

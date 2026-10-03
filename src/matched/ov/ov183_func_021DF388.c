@@ -20,11 +20,13 @@
  */
 typedef unsigned short u16;
 extern void func_021DF5B8(char *);
-extern unsigned int func_021FCE0C(void *, unsigned int);
+struct Obj020437AC;
+struct WordSet;
+extern int func_021FCE0C(char *p, unsigned field);
 extern void *func_021FCDE8(void *, u16);
-extern void func_020437AC(void *);
-extern void func_0201ED04(void *);
-extern void func_021FCC80(void *);
+extern void func_020437AC(struct Obj020437AC *p);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_021FCC80(char *p);
 extern void func_0201F868(void *);
 extern void func_02082BCC(void *, int, unsigned int);
 void func_021DF388(char *p)

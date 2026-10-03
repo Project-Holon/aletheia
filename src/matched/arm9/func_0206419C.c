@@ -18,7 +18,7 @@ extern void func_02064140(char *p, int v);
 extern void func_020640DC(char *p, int a, int b);
 extern void func_02064120(char *p, int a, int b);
 extern void func_02064100(char *p, int a);
-extern void func_02066ABC(int a, int b, int c);
+extern int func_02066ABC(int a0, int a1, int a2);
 
 void func_0206419C(char *self)
 {

@@ -18,9 +18,10 @@
  */
 
 
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_021DE898(char *);
-extern void func_021E8F90(char *, int);
+extern int func_021E8F90(void *p, int a);
 void func_021E9284(char *p)
 {
     func_020061E4(0x55D);

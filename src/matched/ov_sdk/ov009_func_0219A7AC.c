@@ -63,7 +63,7 @@ typedef struct _NatNegPacket {
 #define NN_NTOHS(x) ((unsigned short)((((x) >> 8) & 0xFF) | (((x) << 8) & 0xFF00)))
 
 extern char *func_0215FA9C(unsigned int in);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_02199A90(NATNegotiator *neg);
 extern void func_021994F0(NATNegotiator *neg, int result, int socket, SOCSockAddrIn *remoteaddr);
 

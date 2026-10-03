@@ -19,7 +19,8 @@
 extern int func_020399A8(void);
 extern int func_02039CB4(int,int,int);
 extern int func_0201A918(void);
-extern int func_0203D3F8(int,int,int,int,int,int,int,int);
+typedef unsigned int   u32;
+extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern int func_02039C68(int,int,int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9AD8(void);

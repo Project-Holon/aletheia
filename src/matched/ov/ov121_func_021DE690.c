@@ -14,11 +14,13 @@
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE618 0x021DE618 thumb ov121
  */
-extern void func_020103E4(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_020103E4(u8 *p);
 extern int func_0203CEAC(int);
-extern void func_021DEED0(void);
+extern void func_021DEED0(char *p);
 extern void func_021DE618(void);
-extern void func_021DEEA4(void *, void *);
+extern void func_021DEEA4(u32 *p, void *f);
 void func_021DE690(void *a, int *state, char *p)
 {
     switch (*state) {

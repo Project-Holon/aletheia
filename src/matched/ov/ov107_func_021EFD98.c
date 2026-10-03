@@ -42,14 +42,20 @@ extern unsigned char d_021F6E08[];
 
 void *func_0201293C(void *);
 void *func_0200CA1C(void *);
-unsigned int func_021F11C4(void *);
-void *func_02012F2C(void *);
-void func_02008DAC(void *, int, unsigned int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Blk37;
+struct Mon;
+struct Sub02007454Entry;
+struct Sub02008C20Obj;
+u8 func_021F11C4(u8 *p);
+void *func_02012F2C(int *p);
+u32 func_02008DAC(struct Sub02008C20Obj *obj, int i, u32 delta);
 void *func_021F11CC(void *, int);
 void func_0202F27C(void *);
-int func_020074D8(void *, void *);
-void *func_0201747C(void *, int);
-void func_0200CDE0(void *, void *);
+int func_020074D8(void **save, const struct Sub02007454Entry *src);
+void *func_0201747C(struct Mon *p, u32 heap);
+void func_0200CDE0(struct Blk37 *p, void *m);
 void func_020307B0(void *);
 void func_02034714(void *, int, void *);
 

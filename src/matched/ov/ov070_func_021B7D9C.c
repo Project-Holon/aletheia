@@ -17,5 +17,7 @@
 typedef unsigned char u8;
 extern void func_021BB1C4(void *p);
 extern void func_021BB260(u8 *p, int val);
-extern void func_0204B3DC(void *p, unsigned int v);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B7D9C(u8 *p, int v) { *(int *)(p+0x7EC)=v; func_021BB1C4(p); func_021BB260(p,*(int *)(p+0x7F4)); func_0204B3DC(*(void **)(p+0x724),1); func_0204B3DC(*(void **)(p+0x728),1); }

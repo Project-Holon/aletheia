@@ -16,8 +16,8 @@
  */
 extern unsigned d_021D9E40[];
 extern char d_021DA258[];
-extern void func_0215F638(unsigned, int);
-extern void func_0215F644(unsigned);
+extern int func_0215F638(int s, int how);
+extern int func_0215F644(int s);
 extern void func_021D8C5C(void *);
 void func_021D7F60(void) {
  if (d_021D9E40[0x26c/4] == -1u) return;

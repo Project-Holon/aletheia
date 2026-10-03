@@ -16,7 +16,8 @@
  */
 
 void func_0207D534(int a, int b);
-void func_020403F4(int a);
+typedef unsigned int   u32;
+void func_020403F4(u32 i);
 void func_0203F9B4(void);
 
 void func_02184B34(void)

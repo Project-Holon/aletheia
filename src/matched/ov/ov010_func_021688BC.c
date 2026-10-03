@@ -25,7 +25,7 @@ typedef unsigned char u8;
 
 extern int func_02045B38(int, int, int, int);
 extern void func_02082BCC(void *, int, int);
-extern u16 *func_0216880C(int, int);
+extern void *func_0216880C(u32 group, u32 heap);
 extern int func_02045EC0(int, int);
 extern void func_02045A38(int, void *, int);
 extern void func_02045808(int);

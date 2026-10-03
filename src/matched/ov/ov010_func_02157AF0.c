@@ -26,7 +26,7 @@ extern struct Entry *func_020399A8(void);
 extern int func_02039CB4();
 extern int func_0203D3F8();
 extern void func_02157960();
-extern void func_02157AC8();
+extern void func_02157AC8(int *p);
 
 void func_02157AF0(int *p)
 {

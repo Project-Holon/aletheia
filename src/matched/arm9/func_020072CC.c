@@ -71,9 +71,10 @@ extern struct Desc func_020072CC_Table[];
 
 extern void *func_02031948(struct Desc *desc, u32 heap, void *buf, u32 size,
                            u32 c);
-extern u32   func_02008784(struct Ctrl *ctrl, u32 id);
-extern u32  *func_020087D4(struct Ctrl *ctrl, u32 id);
-extern void  func_02031DC0(void *stream, u32 heap, u32 buf);
+struct Obj02031DC0;
+extern int func_02008784(void *sys, u32 index);
+extern u32 *func_020087D4(void *sys, u32 index);
+extern int func_02031DC0(struct Obj02031DC0 *a0, u32 a1, u32 a2);
 
 u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
 {

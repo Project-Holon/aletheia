@@ -48,7 +48,7 @@ extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Obj *func_020124E8();
 extern void func_02082BCC(void *, int, int);
 extern void func_0217F2B4();
-extern void func_02174E14();
+extern void func_02174E14(u8 *p, int a);
 extern void func_0217C4D0();
 
 struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3)

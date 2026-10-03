@@ -19,7 +19,7 @@
 
 extern char g_021AA860[];
 extern int func_0216AA70(void);
-extern int func_0218627C(void *conn, int status, const char *statusString, const char *locString);
+extern int func_0218627C(void **connection, int status, const char *statusString, const char *locationString);
 
 int func_021690D0(int status, const char *statusString, const char *locString)
 {

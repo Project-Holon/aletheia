@@ -34,7 +34,7 @@ typedef struct Conn {
 	unsigned short expectedId;
 } Conn;
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_02196558(Conn *c, int type, unsigned char *msg, int len);
 extern void func_0219681C(Conn *c, Hold *m, int index);

@@ -46,7 +46,7 @@ extern int func_0201C6C4(int a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
 extern u8 func_02045730(u32 a);
-extern void func_02041B6C(u8 id);
+extern void func_02041B6C(u32 bit);
 extern int func_02017F90(int a);
 extern void func_021BB56C(S *s, int a, int b, s16 *out);
 extern int func_0204B8F4(int a);

@@ -19,10 +19,10 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u8 *func_021C58C8(void *);
-extern int func_021C49A4(void *, unsigned int);
+extern int func_021C49A4(u8 *p, unsigned int i);
 extern int func_021C5878(int, int);
 extern void *func_021C40BC(void *, s16 *, int, u32);
-extern void func_021C574C(void *);
+extern void func_021C574C(u8 *p);
 u8 *func_021C5680(u8 *p, void *q, int n, u32 heap)
 {
     u8 *o = func_021C58C8(p);

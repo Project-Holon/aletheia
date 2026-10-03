@@ -25,23 +25,25 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void *func_0201EC64(u32);
+struct U16Vec;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_0216C0E4(int *);
 extern void func_0216C0D4(int *,int);
-extern void func_0201EEF4(void *,u32,void *);
+extern void func_0201EEF4(struct WordSet *p, u32 i, void *mon);
 extern int func_02045874(u32,u32);
 extern void func_0201EE0C(void *,u32,const void *,u32,u32,u32);
 extern void func_02045808(int);
-extern void func_0201F164(void *,u32,u32,u32);
+extern void func_0201F164(struct WordSet *p, u32 i, u32 a, u32 b);
 extern void func_0201CE48(int);
 extern int func_02045770(int);
 extern void func_02043B5C(int,unsigned char);
-extern void func_0204581C(void *);
-extern void func_0201F250(void *,void *,void *);
-extern int func_02012FFC(void);
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern signed char func_02012FFC(void);
 /* The caller consumes R0 returned by the legacy void forwarding wrapper. */
 extern int func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u32,u16);
-extern void func_0201ED04(void *);
+extern void func_0201ED04(struct WordSet *p);
 extern void func_021F46B4(void);
 void func_021F3EF0(char *p,char *q,int *w,u32 heap)
 {

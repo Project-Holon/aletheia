@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0201441C(u32);
+extern u8 func_0201441C(int i);
 extern u32 func_0216D530(u32);
 extern u32 func_0216D5F8(u32);
 extern u32 func_0216D67C(u32, u32, u32, u32);

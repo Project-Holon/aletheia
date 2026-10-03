@@ -27,7 +27,9 @@ extern void *(*d_020A8140)(int, int, int);
 extern void *(*d_020A8148)(int, int, int);
 
 extern void *func_02030734(int a, int b, int c, void *d, int e);
-extern void *func_0203101C(int a, int b, int c, int d);
+typedef unsigned int   u32;
+struct Tcbl;
+extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern void func_02194A58(void *p);
 extern unsigned func_021954CC(void *a, void *b);
 

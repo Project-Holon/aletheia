@@ -11,7 +11,7 @@
  *   func_02035CB8 0x02035CB8 arm
  */
 typedef unsigned int u32;
-extern int func_02035CB8(u32 *,u32 *);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 int func_021B8D9C(u32 *p,u32 *out) {
  u32 x,y;
  if(func_02035CB8(&x,&y)) {

@@ -20,9 +20,13 @@
 
 extern void *func_0215A5DC(void *p);
 extern void *func_02012138(void *p);
-extern int func_02026454(void *p);
-extern void func_02026400(void *p);
-extern void func_0201213C(void *p, int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Comm;
+struct Ctx;
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
+extern void func_0201213C(struct Ctx *p, u8 v);
 extern void func_02159144(int v);
 
 int func_0215F238(void *a, void *b)

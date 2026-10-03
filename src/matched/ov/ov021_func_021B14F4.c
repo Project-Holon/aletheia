@@ -19,11 +19,12 @@
  */
 
 int func_02159190(int a);
-void func_021B0480(int a);
+typedef unsigned int   u32;
+void func_021B0480(u32 a);
 void func_021B10A4(int a);
 void func_021B1268(int a);
-void func_021B13F8(int a);
-void func_021B0A88(int a, int b);
+void func_021B13F8(u32 a);
+void func_021B0A88(u32 a, u32 b);
 
 int func_021B14F4(int a, int b)
 {

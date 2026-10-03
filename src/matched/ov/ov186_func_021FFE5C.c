@@ -14,7 +14,7 @@
  *   func_021FFF28  0x021FFF28  thumb  ov186
  */
 
-extern void func_021FFEA8(void *);
+extern void func_021FFEA8(char *p);
 extern void func_021FFF28(void *);
 
 void func_021FFE5C(char *p)

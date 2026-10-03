@@ -19,9 +19,11 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 extern void *func_02009860(void *p);
 extern u32 func_02009CC0(void *p);
-extern void func_02008540(void *p, u32 value);
-extern u32 func_0200853C(const void *p);
-extern u64 func_0205994C(void *p);
+struct DWCstAccUserData;
+struct Sub0200852CObj;
+extern void func_02008540(struct Sub0200852CObj *obj, u32 value);
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
+extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
 extern void func_021C7BA0(u32 a, u32 b, u32 c, int d);
 int func_021F8AB0(u8 **p)
 {

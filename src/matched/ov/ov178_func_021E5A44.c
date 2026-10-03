@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_021D9EA0(u32);
-extern void func_02034A5C(u32 v);
+typedef signed int     s32;
+extern void func_02034A5C(s32 handle);
 extern u8 ov175_id[];
 extern u8 ov114_id[];
 extern u8 ov067_id[];

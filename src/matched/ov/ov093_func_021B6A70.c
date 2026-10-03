@@ -16,5 +16,6 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Scene;
 extern struct Scene *func_021E8F20(void *,void *,u32,int,u16);
-extern void func_021CD95C(void *,u32);
+struct QA;
+extern void func_021CD95C(struct QA *p, u32 v);
 void func_021B6A70(unsigned char *p,unsigned char *q,int r) { void *v; struct Scene *s; if(q[0x23]) v=*(void **)(p+0x10+q[0x21]*4); else v=*(void **)(p+0x10); s=func_021E8F20(p,v,(u32)(p+0xc8),r,0x13); *(struct Scene **)(p+4)=s; func_021CD95C(v,(u32)s); }

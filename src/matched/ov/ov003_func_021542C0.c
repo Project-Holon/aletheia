@@ -40,15 +40,17 @@ typedef unsigned int u32;
 
 extern int   func_02012138(u32 a0);
 extern int   func_02026454(int x);
-extern u32   func_02005C44(void);
-extern void  func_02005E30(int x);
+typedef unsigned short u16;
+struct Evt;
+extern u16 func_02005C44(void);
+extern void func_02005E30(u32 a);
 extern void *func_020144DC(u32 a0, u32 a1);
-extern void  func_02012374(void *obj, void *out);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern u32   func_020120F4(u32 a0);
 extern void  func_020120B4(u32 a0, u32 a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
 extern void  func_02005D90(u32 a0, u32 a1);
-extern void  func_02005DF8(int x);
+extern void func_02005DF8(u32 a);
 extern void *func_020145CC(u32 a0);
 
 u32 func_021542C0(void *obj, u32 *mode, u32 *args)

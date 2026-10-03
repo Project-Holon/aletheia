@@ -23,7 +23,8 @@ typedef struct {
 } Config;
 extern void func_02082BCC(void *, int, unsigned);
 extern unsigned char d_0209DF0C;
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E64C[];
 extern void *func_02157DD8(Config *);
 void func_0217E318(char *p, unsigned value)

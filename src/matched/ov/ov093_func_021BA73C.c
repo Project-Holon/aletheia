@@ -34,14 +34,16 @@ typedef unsigned char u8;
 extern int func_021B6818(int *);
 extern void func_021D787C(void *);
 extern void func_021B68D8(void *, void *);
-extern void func_021B9424(void *);
+typedef unsigned int   u32;
+struct QA;
+extern void func_021B9424(char *p);
 extern int func_021B8B9C(void *, u8);
 extern void func_021B9460(void *, void *, u8);
 extern void func_021CD984(void *, int);
 extern void func_021E9034(int);
 extern void func_021E8E28(int);
 extern int func_021E8F20(void *, void *, void *, int, int);
-extern void func_021CD95C(void *, int);
+extern void func_021CD95C(struct QA *p, u32 v);
 extern void func_021BAB40(int);
 
 void func_021BA73C(char *p, int x)

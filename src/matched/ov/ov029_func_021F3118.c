@@ -17,9 +17,10 @@
  *   func_021EFEF8 0x021EFEF8 thumb ov029
  *   func_021F2180 0x021F2180 thumb ov029
  */
-extern void func_021F2130(void *);
-extern int func_021F30EC(void *);
-extern void func_021F30C8(void *);
+struct Obj;
+extern void func_021F2130(char *p);
+extern int func_021F30EC(struct Obj *p);
+extern void func_021F30C8(struct Obj *p);
 extern void func_021EFEF8(void *, void (*)(void *), int);
 extern void func_021F2180(void *);
 void func_021F3118(void *p)

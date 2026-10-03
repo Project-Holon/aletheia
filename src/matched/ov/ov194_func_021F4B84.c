@@ -19,7 +19,7 @@
 struct Node;
 extern void func_02030EAC(struct Node *);
 extern void func_021F4CF0(unsigned char *);
-extern void func_021F4C6C(unsigned char *);
+extern void func_021F4C6C(void *p);
 extern void func_0201DD68(void);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void func_020307B0(void *);

@@ -28,10 +28,11 @@ typedef struct {int x,y;} TablePair;
 extern const TablePair d_021DF76C[];
 extern u32 func_020362DC(void);
 extern u32 func_0203633C(void);
-extern void func_020061E4(int);
+struct Obj;
+extern void func_020061E4(u32 a);
 extern u64 _u32_div_f(u32,u32);
 extern void func_0204B404(void *,Position *,int);
-extern void func_0204B878(void *,u32);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021DAAA4(void *,u16 *,int,u8,u8,u16,u16);
 int func_021DA6D0(u8 *p)
 {

@@ -35,7 +35,8 @@ struct P {
     int unk60[5];
 };
 
-extern int  func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern int  func_02184180(int a, int b);
 extern void func_0204B3DC(int obj, int on);
 extern void func_0218506C(int obj, int a, int b);

@@ -39,15 +39,18 @@ typedef struct {
     u16 f9C;
 } Dst;
 
-extern void *func_020124E4(void *);
+typedef unsigned int   u32;
+struct Obj;
+struct WordSet;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_02012138(void *);
 extern u8 *func_02158344(void *);
 extern void func_0201232C(void *, void (*)(), int);
 extern void func_02182920();
-extern Dst *func_020124E8(void *);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(void *, void *, int);
-extern void func_0201F02C(void *, int, void *);
-extern void func_02034714(const char *, int, const char *);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B4C[];
 
 void func_021828B8(void *a, Src *b, u16 *c)

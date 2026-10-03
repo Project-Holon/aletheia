@@ -10,10 +10,11 @@
  * status:   EXACT
  */
 
-extern void func_0200A49C(void *p);
-extern void func_0200A480(void *p);
-extern int func_02009F50(void *p, unsigned int i);
-extern void *func_02009FD4(void *p, unsigned int i);
+struct Obj;
+extern void func_0200A49C(struct Obj *obj);
+extern void func_0200A480(struct Obj *obj);
+extern int func_02009F50(char *p, unsigned int idx);
+extern void *func_02009FD4(char *p, unsigned int idx);
 extern void func_02082D44(void *src, void *dst, int n);
 void func_0200A254(void *p, unsigned int a, unsigned int b)
 {

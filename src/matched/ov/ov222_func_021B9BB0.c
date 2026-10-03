@@ -19,11 +19,15 @@
  *   func_0201C6C4 0x0201C6C4 thumb
  */
 typedef unsigned char u8;
-extern void*func_02045770(void*);
-extern unsigned func_0201C6C4(void*,void*);
-extern void func_02045334(void*);
-extern void func_02045374(void*);
-extern u8 func_02045730(void*);
+typedef unsigned int   u32;
+struct Cfg;
+struct Descriptor;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 void func_021B9BB0(char*p)
 {

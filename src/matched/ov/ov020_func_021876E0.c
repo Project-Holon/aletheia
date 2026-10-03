@@ -24,7 +24,7 @@ extern void func_02187CEC(char *o);
 extern void func_02187A10(char *o, int k);
 extern void func_02187CFC(char *o);
 extern u32 func_020362DC(void);
-extern int func_02187D20(char *o);
+extern u32 func_02187D20(char *p);
 extern void func_02187D28(char *o);
 extern void func_02187CCC(char *o, int *s);
 

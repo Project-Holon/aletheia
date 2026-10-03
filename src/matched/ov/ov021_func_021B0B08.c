@@ -40,14 +40,17 @@ typedef struct S {
 
 extern void *func_0215A5EC(void *);
 extern S *func_0215A63C(void *);
-extern void *func_0216DE94(void *, int);
-extern void func_0216D5F8(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+extern void *func_0216DE94(void *map, u32 id);
+extern u16 func_0216D5F8(void *p);
 extern void func_0216D88C(void *, V3 *);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188C58(void *);
-extern int func_0218EC2C(void *);
-extern int func_0215A66C(void *);
+extern u32 func_0218EC2C(u8 *p);
+extern u8 func_0215A66C(u8 *p);
 extern void func_021B0960(V3 *, V3 *, int, int, int);
 
 void func_021B0B08(void *a, int b)

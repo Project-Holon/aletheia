@@ -31,7 +31,7 @@ typedef enum { Z0 } E;
 
 extern u8 *func_0201134C(u8 *);
 extern u32 func_0203F0A8(void);
-extern void func_0218A0F4(u8 *, int, u32, int, int);
+extern int func_0218A0F4(u8 *a, int op, int x, int y, int z);
 
 void func_0218875C(u8 *a, int unused, int c) {
     u8 *p;

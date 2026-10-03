@@ -35,10 +35,11 @@ extern void func_02040588(u32,u32);
 extern void func_0207D63C(void *,int,int,int,int);
 extern void func_021D694C(u16 *,int);
 extern void func_021DAB50(int,void *,u16,int,void *,void *);
-extern void func_021D9254(void *,int);
+struct Obj;
+extern void func_021D9254(char *p, int n);
 extern void func_0204B404(void *,Position *,int);
-extern void func_0204B3DC(void *,int);
-extern void func_020061E4(int);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_020061E4(u32 a);
 void func_021D8EA4(u8 *p)
 {
     Position pos;

@@ -54,15 +54,16 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(void *, void *);
 extern void func_0216CDB8(u8 *p, u32 v);
-extern void *func_0201210C(void *p);
-extern u32 func_02188D30(void *);
-extern u32 func_02188C84(void *);
-extern u8 *func_02188C58(void *);
-extern u8 *func_02188C7C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188D30(u8 *p);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02188C58(void *p);
+extern void *func_02188C7C(u8 *p);
 extern u8 *func_0218ED50(u8 *p);
 extern u8 *func_0218FE70(u8 *p);
 extern void func_021B5B0C(int a0, Ramp *p);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02030DA8(u32, void (*)(), void *, u32);
 
 int func_021B5A18(void *a, void *b)

@@ -35,17 +35,22 @@ typedef struct {
     } *f4;
 } B;
 
+typedef unsigned int   u32;
+struct PrintSys;
+struct Rec3;
+struct S020315D4;
+struct U16Vec;
 int func_021B8150(void *a, int unused, B *b, W *w)
 {
-    extern int func_0201C6B4(void *);
-    extern void func_020435F4(int);
-    extern void func_0201CE48(void *);
-    extern void func_02045808(void *);
+    extern u32 func_0201C6B4(const struct PrintSys *p);
+    extern void func_020435F4(u32 planes);
+    extern void func_0201CE48(struct Rec3 *p);
+    extern void func_02045808(struct U16Vec *vec);
     extern void func_021B8270(W *);
-    extern void func_021B82F0(W *);
-    extern void func_021B83C0(W *);
+    extern void func_021B82F0(void *p);
+    extern void func_021B83C0(void *p);
     extern void func_021B833C(void);
-    extern void func_020315D4(void *);
+    extern void func_020315D4(struct S020315D4 *p);
 
     if (func_0201C6B4(b->f4->f8) == 0) {
         return 0;

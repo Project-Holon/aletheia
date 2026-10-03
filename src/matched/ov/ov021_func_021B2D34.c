@@ -24,8 +24,11 @@
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(int a, int b);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern int func_02188C98(void *a);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188C98(u8 *p);
 extern int func_0218DC6C(int a);
 extern int func_0218C7D8(int a, int b, int *c);
 extern int func_0218BACC(int a, int b);

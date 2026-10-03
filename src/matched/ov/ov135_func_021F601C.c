@@ -66,7 +66,7 @@ extern void func_021F4E98(Work *p, u32 a, u32 b);
 extern int func_021F6BFC(void *mon);
 extern int func_021F6C28(void *mon);
 extern int func_021F6B34(int v);
-extern void *func_0201AB28(void *party, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 
 int func_021F601C(Work *p)
 {

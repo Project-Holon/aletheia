@@ -23,7 +23,8 @@ struct Ov208PalFade {
     u16 mask;
 };
 
-extern void func_020216D4(void *slots, u32 bank, u32 off, u32 size);
+struct PalAnmSlot;
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 
 void ov208_func_021BC758(struct Ov208PalFade *p)
 {

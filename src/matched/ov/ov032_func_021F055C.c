@@ -27,11 +27,11 @@ typedef struct { u32 x, y; } Pair;
 
 extern int func_02012204(u32 a);
 extern void func_021F253C(u8 *p, int v);
-extern int func_02035D20(u32 *a, u32 *b);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern int func_021F0A18(u8 *p, Pair *v);
-extern int func_021F08E4(u8 *p, Pair *v);
+extern int func_021F08E4(u8 *p, void *pt);
 extern void func_021F1F00(u8 *p, u8 i);
-extern int func_021F096C(u8 *p, Pair *v);
+extern int func_021F096C(u8 *p, void *pt);
 extern void func_021F1340(u8 *p, int a, int b);
 
 int func_021F055C(u8 *p)

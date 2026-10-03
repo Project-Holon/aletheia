@@ -23,7 +23,8 @@ extern float _fadd(float, float);
 extern float _fsub(float, float);
 extern int _ffix(float);
 extern char *func_02006138(int);
-extern void func_02006268(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_02006268(int i, u32 a, u32 b, u32 c);
 extern void func_02072F34(char *, unsigned int);
 extern void func_021F89BC(void *);
 void func_021FE594(void *h, int *s)

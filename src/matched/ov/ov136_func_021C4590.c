@@ -16,9 +16,10 @@
  *   func_020061E4 0x020061E4 thumb
  */
 typedef unsigned char u8;
-extern int func_020362DC(void);
+typedef unsigned int   u32;
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
-extern void func_020061E4(int v);
+extern void func_020061E4(u32 a);
 int func_021C4590(u8 *p)
 {
     if (func_020362DC()) {

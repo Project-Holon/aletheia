@@ -69,14 +69,14 @@ extern struct Sub02006238Entry sub_02006238_Table[];
 extern u32 sub_02006300_Thread[];
 extern u32 sub_02006300_Stack[];
 
-extern int  sub_02006224(int i);
+extern int sub_02006224(u32 a0);
 extern void sub_02006368(void);
 extern int  func_02072EE0(u32 a);
 extern void func_02072F34(u32 *req, u32 level);
 extern void func_02073018(u32 *req, u32 a, u32 b);
 extern void func_02073038(u32 *req, u32 a, u32 b);
 extern void func_02073098(u32 *req, u32 a);
-extern int  func_02074AC4(u32 a, int b, u32 c);
+extern u32 func_02074AC4(u32 a, u32 b, u32 c);
 extern void func_020853C0(u32 *thread, void (*entry)(void *), void *arg,
                           u32 *stack, u32 size, u32 prio);
 extern void func_02085868(u32 *thread);

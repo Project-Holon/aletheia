@@ -22,7 +22,8 @@ struct Notifier {
 };
 
 extern struct Notifier g_021469C8;
-extern u32 func_02036D64(void *);
+typedef unsigned char  u8;
+extern u32 func_02036D64(u8 *p);
 
 u32 func_02037200(void)
 {

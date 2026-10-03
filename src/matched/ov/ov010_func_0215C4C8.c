@@ -30,7 +30,8 @@ extern void *func_0215C40C(void *a, void *b);
 extern u32 func_020185F4(void);
 extern void func_020074D8(void *a, u32 b);
 extern void *func_0200CA1C(void *a);
-extern void func_0200CDE0(void *a, void *b);
+struct Blk37;
+extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern void func_020307B0(void *a);
 
 int func_0215C4C8(void *a, void *b)

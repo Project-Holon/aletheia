@@ -39,7 +39,8 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {u32 a,b;} Pair;
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern u32 func_0200B570(void *,u32,u32 *,u32);
 extern void func_021FD73C(int,int),func_021E1DF0(void);
 extern void func_021FF54C(void *,int,Pair *);
@@ -51,7 +52,7 @@ extern void func_021FD19C(int,int,void *),func_02045808(void *),func_021F9C6C(vo
 extern int func_021FD744(int);
 extern void func_021FD170(int,int,int),func_021FD860(int,int,Pair *);
 extern u32 func_02035C60(void),func_02035D20(u32 *,u32 *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021E1E3C(int task,int *state,char *p) {
     u32 out;
     u64 total;

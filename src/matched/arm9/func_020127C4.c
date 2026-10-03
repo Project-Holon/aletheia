@@ -25,7 +25,9 @@
  *       --func func_020127C4 --addr 0x020127C4 --cc 1.1p1 --thumb
  */
 
-extern void sub_020127D0(void *p, int idx);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u8 *sub_020127D0(u8 *o, u32 idx);
 
 void func_020127C4(void *p)
 {

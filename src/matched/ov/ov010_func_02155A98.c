@@ -81,27 +81,34 @@ typedef struct Seq {
 typedef u32 (*TaskFn)(void *task, u32 *state, Seq *work);
 
 extern void func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern Seq *func_020124E8(void *task);
-extern void *func_02012EBC(void *sys);
+struct Big;
+struct BigObj;
+struct Deal;
+struct Desc;
+struct Obj;
+struct Src;
+struct U16Vec;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02012138(void *p);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_02012934(void *p);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
 extern u32 func_02017E1C(void *p, u32 id, void *v);
 extern void func_0216576C(void *p);
-extern void func_02045808(void *p);
+extern void func_02045808(struct U16Vec *vec);
 extern void *func_02012F44(void *h);
 extern void *func_021F685C(u32 heap);
-extern int func_021FD904(void *sess);
-extern u16 func_0200A7C8(void *sv);
+extern int func_021FD904(int *p);
+extern u8 func_0200A7C8(struct Big *p);
 extern void func_021F68BC(void *p, void *a, void *b, u16 c, u32 d);
-extern void *func_02012944(void *p);
+extern u8 *func_02012944(void *p);
 extern void *func_020185F0(void *p);
 extern void func_021FC848(void *sess, void *a, void *b, void *c, void *d, u32 heap);
-extern u16 func_0200A81C(void *p);
+extern u16 func_0200A81C(struct Big *p);
 extern u32 func_02005728(u32 n);
-extern void *func_02157028(u32 heap, void *src, u16 lim);
+extern struct Deal *func_02157028(u32 heap, struct Src *src, u16 lim);
 extern u32 func_02155C0C(void *task, u32 *state, Seq *work);
 
 void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)

@@ -30,7 +30,8 @@
 typedef unsigned int u32;
 
 extern u32  func_0203D29C(void);
-extern u32  func_02156B70(void);
+typedef signed short   s16;
+extern s16 func_02156B70(void);
 extern void func_02005F24(void *a, void *b);
 
 void sub_0200F698(void *a, void *b)

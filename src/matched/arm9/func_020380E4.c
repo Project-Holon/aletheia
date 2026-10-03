@@ -38,9 +38,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 *g_021469D0;
-extern void func_0203D798(void);
-extern void func_0203D6BC(void);
-extern u16 func_0203F1FC(u8 *p, u32 n);
+extern void *func_0203D798(void);
+extern u32 func_0203D6BC(void);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02036428(u8 *p, u8 *q, u32 v);
 
 u32 func_020380E4(u32 a0, u8 *rec, u32 len)

@@ -20,10 +20,14 @@ typedef unsigned short u16;
 extern void func_0203064C(void *,unsigned,unsigned);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082A7C(unsigned,void *,unsigned);
-extern void *func_020120F4(const void *);
-extern void *func_02012944(void *);
-extern void *func_02012EBC(void *);
-extern int func_020071F0(void *);
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+struct Sub020071E4Ctrl;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02012EBC(struct Big *p);
+extern int func_020071F0(struct Sub020071E4Ctrl *ctrl);
 int func_021B95A0(void *owner,int unused,void **args)
 {
     void *context;

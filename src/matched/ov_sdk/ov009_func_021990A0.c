@@ -48,7 +48,7 @@ typedef enum { NAT_MAPPING_UNKNOWN } NatMappingScheme;
 
 extern unsigned int func_0217F264(void);
 extern void func_0217F790(unsigned long seed);
-extern int func_0217F7AC(int low, int high);
+extern unsigned int func_0217F7AC(unsigned int min, unsigned int max);
 
 unsigned int matchup2ip = 0;
 unsigned int matchup3ip = 0;

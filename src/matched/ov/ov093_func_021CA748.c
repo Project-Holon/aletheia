@@ -35,11 +35,12 @@ struct Q {
 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
-extern int func_021D6D54(void *p);
+struct R5;
+extern int func_021D6D54(struct R5 *p);
 extern int func_021D59B4(u8 *p, int k);
 extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021D66D8(void *m, int v);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021C99A0(u8 *p, u8 *q);
 extern void func_021C5A34(u8 *p, u8 *a);
 

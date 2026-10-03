@@ -15,7 +15,8 @@
 typedef unsigned int u32;
 struct Ov208Buf { int f0; int f4; int f8; int fc; void *buf; };
 extern const char d_021C8D80[];
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void *func_021BC32C(struct Ov208Buf *p, u32 size, u32 heap)
 {
     p->buf = func_02030734(heap, size, 0, d_021C8D80, 0xc8);

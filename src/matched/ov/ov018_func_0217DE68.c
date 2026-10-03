@@ -46,11 +46,15 @@ typedef struct {
     u16 f130[4];
 } Work;
 
-extern void *func_020120F4(void *);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_0217F284(Work *);
-extern int func_02012B58(void *);
-extern int func_02012B70(void *);
-extern void func_0204B3DC(void *, int);
+extern u8 func_02012B58(const struct BigObj *p);
+extern u8 func_02012B70(const struct BigObj *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B6F4(void *, u8, int);
 extern void func_02082A60(const void *, void *, int);
 extern void func_02021F64(u16 *, u16 *, int, u8, u16);

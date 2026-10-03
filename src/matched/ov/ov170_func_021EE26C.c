@@ -15,8 +15,11 @@
  *   func_021EE224 0x021EE224 thumb
  */
 
-extern void func_020258E8(void *o, short *x, short *y);
-extern void func_0202590C(void *o, short x, short y);
+typedef signed short   s16;
+struct Grid;
+struct Obj02025774;
+extern void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 extern void func_021EE224(char *p, int i, int v);
 
 void func_021EE26C(char *p, int d)

@@ -65,8 +65,8 @@ struct PerapVoice {
 extern void MI_CpuCopy8(const void *src, void *dest, u32 size);
 
 extern u32 sub_02007B50(const struct PerapVoice *p);
-extern int func_0201AA18(void *a);
-extern void *func_0201AB28(void *a, int i);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *a, u32 b, u32 c);
 
 void sub_02007B54(struct PerapVoice *p);

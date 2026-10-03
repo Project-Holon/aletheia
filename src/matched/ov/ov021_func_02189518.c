@@ -21,11 +21,15 @@
 
 typedef unsigned short u16;
 
-extern void *func_020120F4(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012134(void *p);
 extern void *func_02012A30(void *p);
-extern void *func_020127A4(void *p);
-extern int func_02012B28(void *p);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u32 func_02012B28(const struct Rec44 *p);
 extern void func_0202B544(void *a, u16 b);
 extern void func_02029CF0(void *a, void *b, u16 c);
 

@@ -33,7 +33,7 @@ extern u8 func_020260E0(struct Sound *);
 extern int func_02025DE8(struct Sound *);
 extern int func_02035C60(void);
 extern void func_020061E4(unsigned);
-extern int func_021B817C(void *);
+extern int func_021B817C(char *p);
 extern int func_021B7F50(char *);
 extern int func_021B80EC(char *,u16);
 extern int func_021B80A4(char *,u16);

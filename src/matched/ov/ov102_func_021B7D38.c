@@ -22,14 +22,15 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02082BCC(void *, int, int);
-extern int func_020450F0(int, int, u8, u8, u8, u8, u8);
+typedef unsigned int   u32;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern int func_020457B0(int, u16);
 extern int func_02045770(int);
 extern void func_02043B5C(int, u8);
 extern void func_02045334(int);
 extern void func_02045374(int);
 extern int func_02045730(int);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 void func_021B7D38(u8 *p, int a, int b, u8 c, u8 d, u8 e, u8 f, u16 g, u8 h, u16 heap)
 {
     int win;

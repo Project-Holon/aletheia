@@ -20,8 +20,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02013A94(u32 key);
-extern int func_02013D9C(u32 v);
+typedef unsigned short u16;
+extern u16 func_02013A94(u32 key);
+extern u32 func_02013D9C(u32 id);
 
 int func_02013D74(u32 key)
 {

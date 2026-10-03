@@ -21,7 +21,8 @@ typedef struct Ent { unsigned short a; unsigned short b; unsigned char c, d, e, 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int a, int b);
 extern int func_021E1AE4(void *m, int x, Ent *out);
-extern int func_021D76BC(int a, int b);
+typedef unsigned int   u32;
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E19F8(int a, int b, int c, int d)
 {

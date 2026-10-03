@@ -18,8 +18,10 @@ typedef unsigned short u16;
 typedef struct { void *root; u8 pad[0x8c]; void *items[2]; } Object;
 extern const u8 d_021C38D9[];
 extern void *func_021BAC78(void *,void *,int,int,int,int);
-extern void func_0204B878(void *,u16);
-extern void func_0204B3DC(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BD114(Object *p) {
     u8 i;
     for(i=0;i<2;i++) {

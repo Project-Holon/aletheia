@@ -38,7 +38,7 @@ typedef unsigned int u32;
 extern const s8 g_0209E462[];
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern void func_0201B850(void *a0, const s8 *tbl, int a2, int a3);
+extern void func_0201B850(void *mon, const s8 *tbl, int a2, u32 a3);
 
 void func_0201B818(void *a0, int a1, int a2)
 {

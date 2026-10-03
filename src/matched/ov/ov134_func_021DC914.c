@@ -20,7 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B6108(void *);
 extern void func_02034A5C(int);
-extern void func_0203133C(void *);
-extern void func_020315D4(void *);
+struct S020314B8;
+struct S020315D4;
+extern void func_0203133C(struct S020314B8 *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern const char ov90_id[];
 int func_021DC914(void *p,u32 a,u32 b,char *ctx) { func_021B6108(ctx+4); func_02034A5C((int)ov90_id); func_0203133C(*(void **)(ctx+0xcc)); func_020315D4(p); return 1; }

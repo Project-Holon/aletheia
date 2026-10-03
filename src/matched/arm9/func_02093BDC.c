@@ -58,15 +58,18 @@ typedef struct {
 } print_format;
 
 extern uchar *func_02094A28(const uchar *s, int c);                 /* strchr */
-extern size_t func_0209477C(const uchar *s);                       /* strlen */
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_0209477C(const u8 *s);                       /* strlen */
 extern const uchar *func_020924DC(const uchar *s, va_list *arg, print_format *f); /* parse_format */
 extern uchar *func_020929E8(long num, uchar *buff, print_format format);           /* long2str */
 extern uchar *func_02092C38(long long num, uchar *buff, print_format format);      /* longlong2str */
 extern uchar *func_020934CC(double num, uchar *buff, print_format format);         /* float2str */
 extern uchar *func_02092F0C(double num, uchar *buff, print_format format);         /* double2hex */
-extern void func_02094750(const uchar *msg, void *ptr, int error);               /* constraint violation */
-extern int func_020922CC(uchar *dst, const wchar_t *src, size_t n);               /* wcstombs */
-extern void *func_020923C4(const void *s, int c, size_t n);                       /* memchr */
+extern void func_02094750(u32 a, u32 b, u32 c);               /* constraint violation */
+extern u32 func_020922CC(u8 *dst, const u16 *src, u32 max);               /* wcstombs */
+extern u8 *func_020923C4(u8 *s, u32 c, u32 n);                       /* memchr */
 extern wchar_t s_020A8A70[];  /* L"" */
 extern uchar s_020A8A74[];     /* ""  */
 

@@ -26,12 +26,17 @@ typedef unsigned int   u32;
 
 typedef struct { int f[7]; } S7;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
-void *func_020120F4(void *p);
-void *func_020127A4(void *p);
-void func_02012B2C(void *p, int a);
-void func_02184504(void);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Rec44;
+struct SaveBlock;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+void *func_020120F4(const struct Ctx *p);
+void *func_020127A4(struct SaveBlock *p);
+void func_02012B2C(struct Rec44 *p, u32 v);
+int func_02184504(int a, int *state, u8 *p);
 void func_02184CEC(void *obj, void *p);
 void func_02185EB0(void *a, void *b);
 

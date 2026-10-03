@@ -40,10 +40,11 @@ struct Handle {
 };
 
 extern void  func_0201C6FC(void *dst, void *src, s32 x, s32 y, void *pal, u32 f);
-extern void  func_020439A0(void *dst, void *src, u32 sx, u32 sy,
-                           s32 x, s32 y, u32 w, u32 h, u32 pal);
-extern void  func_02045334(void *cell);
-extern void *func_02045770(void *cell);
+struct Bmp;
+struct Descriptor;
+extern void func_020439A0(struct Bmp *dst, struct Bmp *src, u32 x, u32 y, int sx, int sy, u32 w, u32 h, u32 key);
+extern void func_02045334(struct Descriptor *d);
+extern void *func_02045770(struct Descriptor *p);
 
 void func_02020D5C(struct Desc *d, u32 x, u32 y, struct Handle *h,
                    void *dst, u32 f)

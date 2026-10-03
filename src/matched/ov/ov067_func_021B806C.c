@@ -64,7 +64,7 @@ extern void func_021B8434(struct S *s, s8 a, u8 b, u16 c, u32 d);
 extern void func_021B7BE0(struct S *s, int a1);
 extern void func_021B8990(struct S *s, int idx);
 extern void func_021B8C14(struct S *s, int a);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 
 int func_021B806C(struct S *s)
 {

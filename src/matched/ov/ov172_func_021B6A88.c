@@ -12,7 +12,7 @@
  */
 typedef unsigned char u8;
 typedef signed short s16;
-extern s16 func_021B6B68(u8, char *);
+extern s16 func_021B6B68(u8 code, const char *p);
 void func_021B6A88(char *input, s16 *output, int size, char *state)
 {
     int i, count;

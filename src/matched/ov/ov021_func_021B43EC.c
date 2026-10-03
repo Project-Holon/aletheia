@@ -54,9 +54,10 @@ typedef struct {
 } Tmpl;
 
 extern void func_021B468C(u32 a, u32 idx);
-extern void func_021B4510(u32 unused, int a, u8 b);
+struct Slot;
+extern void func_021B4510(u8 *p, int a, u8 b);
 extern void func_021B45A0(u32 unused, int a, u8 b);
-extern u32 func_0201F91C(void *p);
+extern u32 func_0201F91C(struct Slot *s);
 extern u32 func_0201FF30(Tmpl *t, u16 a, u16 b, u32 heap);
 
 void func_021B43EC(char *w)

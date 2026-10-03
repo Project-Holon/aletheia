@@ -45,7 +45,7 @@ extern void func_0201F73C(void *, int, u16, int);
 extern struct Obj *func_0201FF30(Desc *, u16, u16, u32);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern u32 func_0201C4E4(struct PrintSys *);
-extern void func_02020CF8(struct Obj *, u32);
+extern void func_02020CF8(struct Obj *p, int heap);
 extern void func_02041B6C(u32);
 void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 width)
 {

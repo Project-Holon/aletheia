@@ -68,7 +68,7 @@ struct Sub020073D8Ctrl {
 extern const char sub_020073D8_File[];
 
 extern void *func_020319A4(void *stream, u32 v);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void *sub_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v)
 {

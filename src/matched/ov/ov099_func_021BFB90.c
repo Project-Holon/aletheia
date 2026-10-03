@@ -15,10 +15,12 @@
  *   func_02156A3C 0x02156A3C thumb ov009
  *   func_02009B80 0x02009B80 thumb
  */
-extern void *func_020399A8(void);
+struct Entry;
+struct Sub020097BCObj;
+extern struct Entry *func_020399A8(void);
 extern void func_02039C68(void *, unsigned int, unsigned int);
 extern int func_02156A3C(void);
-extern void func_02009B80(void *,int);
+extern void func_02009B80(struct Sub020097BCObj *obj, int i);
 int func_021BFB90(char *p, int ret) {
  func_02039C68(func_020399A8(),19,10);
  func_02009B80(*(void **)(p+4),func_02156A3C());

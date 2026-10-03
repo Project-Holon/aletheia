@@ -15,10 +15,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct TextConfig {int heap; u8 count; u8 pad[3]; void *entries; int mode; u8 x,y,a,b;} TextConfig;
-extern void *func_020457B0(int,u16);
-extern void func_02045CAC(void *,u16,void *);
+typedef unsigned int   u32;
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02027778(TextConfig *,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void *func_021D7B60(char *p,int n)
 {
     TextConfig config;

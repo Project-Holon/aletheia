@@ -25,7 +25,7 @@
 
 extern unsigned char g_021DE620;
 extern void func_021C0EA0(void **param2, void **param3);
-extern int func_021C0ED8(void);
+extern unsigned int func_021C0ED8(void);
 extern void func_021C0E40(void (*scene)(void));
 extern void func_021C1630(void);
 extern void func_021CD690(void);

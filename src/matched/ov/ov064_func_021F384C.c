@@ -26,16 +26,20 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void *func_020124E4(void *task);
-extern void *func_0201210C(void *p);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
 extern int func_021BE6E8(int a, int b, int c, int d);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
 extern int func_021BE748(u8 *e);
 extern void func_02006210(void);
-extern void func_020061E4(int a);
-extern void func_0204E720(int a, int b, int c, int d);
+extern void func_020061E4(u32 a);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 
 int func_021F384C(void *task, int *st)

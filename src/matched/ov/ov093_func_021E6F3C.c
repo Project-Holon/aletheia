@@ -25,7 +25,7 @@ extern int func_021D775C(int key);
 extern u16 func_021C8114(u8 *p);
 extern int func_021E6F7C(int id);
 extern int func_021C8030(int a, int b, int c);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E6F3C(int x, int a, int c)
 {

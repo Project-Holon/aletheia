@@ -15,5 +15,5 @@
  */
 
 typedef unsigned short u16;
-extern u16 *func_0216D69C(void *);
+extern void *func_0216D69C(void *p);
 int func_02164380(void *a, u16 *b) { u16 *p=func_0216D69C(a); if (*(unsigned *)p==0xEFEFEFEF) { b[0]=p[2]; b[1]=p[3]; b[2]=p[4]; b[3]=p[5]; return 1; } return 0; }

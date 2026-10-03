@@ -45,7 +45,7 @@ typedef struct W {
     u16  h9288;
 } W;
 
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern u32 func_021841A4(u32 x);
 extern u32 func_021841A0(u32 x);
 extern u32 func_02080D24(u32 x);

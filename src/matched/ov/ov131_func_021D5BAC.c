@@ -11,8 +11,9 @@
  *   func_021D6064 0x021D6064 thumb ov131
  *   func_021D62F4 0x021D62F4 thumb ov131
  */
-extern void *func_021D6064(void *);
-extern int func_02017E88(void *,int,int);
+typedef unsigned int   u32;
+extern void *func_021D6064(unsigned char *p);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern int func_021D62F4(void *,void *);
 int func_021D5BAC(unsigned char *p,int direction,unsigned short *out) {
  int result=0;

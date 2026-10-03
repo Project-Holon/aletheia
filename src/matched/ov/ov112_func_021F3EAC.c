@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203FCA0(u32,const void *,u32);
+struct BgTemplate;
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
 extern void func_02040588(u32,u32);
 extern void func_020414AC(u32);
 extern void func_020409B4(u32);

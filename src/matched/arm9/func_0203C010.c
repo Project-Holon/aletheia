@@ -41,7 +41,7 @@
 
 typedef unsigned int u32;
 
-extern void func_020379C8(u32 size);
+extern int func_020379C8(u32 p);
 extern void func_0203AD80(u32 obj, void (*cb)(void), u32 c, u32 d);
 extern void func_0203C00C(void);
 extern u32  unk_021469DC;

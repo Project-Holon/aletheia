@@ -28,9 +28,11 @@ struct T {
     u16 f1e;
 };
 
-extern void func_02045798(void *p, u32 n);
-extern void func_02045374(void *p);
-extern u8   func_02045730(void *p);
+struct Cfg;
+struct Descriptor;
+extern void func_02045798(struct Descriptor *p, u8 v);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void func_020282AC(struct T *p, u16 *a1, u32 a2, u32 a3, u16 a4)

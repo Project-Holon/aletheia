@@ -13,7 +13,8 @@
  *   func_02005DF8 0x02005DF8 thumb
  */
 
-extern void func_02005DF8(int);
+typedef unsigned int   u32;
+extern void func_02005DF8(u32 a);
 
 int func_021BE3DC(int a, int b, int *p)
 {

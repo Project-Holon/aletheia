@@ -28,16 +28,17 @@ typedef unsigned int u32;
 typedef struct Obj Obj;
 
 extern int func_021BADF0(Obj *o);
-extern int func_021B7DF4(Obj *o);
+typedef unsigned char  u8;
+extern int func_021B7DF4(struct Obj *o);
 extern int func_021B8DAC(void);
 extern u32 func_020362DC(void);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(unsigned int id);
 extern void func_021B7DD0(Obj *o);
 extern void func_021B6100(Obj *o, void *fn);
 extern void func_021B8C1C(Obj *o, int a, void *fn);
-extern void func_021B7B08();
-extern void func_021B8E08();
+extern void func_021B7B08(struct Obj *o);
+extern void func_021B8E08(int p);
 
 void func_021B7A7C(Obj *o)
 {

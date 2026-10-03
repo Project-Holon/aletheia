@@ -29,7 +29,8 @@
  *       --func func_02035A60 --addr 0x02035A60 --cc 1.1p1 --arm
  */
 
-extern void *func_02035224(void);
+struct UiCtx;
+extern struct UiCtx *func_02035224(void);
 extern void func_020358A0(void *ctx);
 
 void func_02035A60(void)

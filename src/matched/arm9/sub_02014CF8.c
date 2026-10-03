@@ -37,7 +37,7 @@ struct Sub02014CF8Ctx {
     struct Sub02014CF8Rec  f150;
 };
 
-extern void func_02016BA0(struct Sub02014CF8Ctx *b);
+extern void func_02016BA0(void *obj);
 extern void func_020163C4(void *a, void *hook, struct Sub02014CF8Rec *rec);
 
 void sub_02014CF8(void *a, struct Sub02014CF8Ctx *b, const struct Sub02014CF8Rec *c)

@@ -53,7 +53,7 @@ typedef unsigned int u32;
 
 extern u32  func_0207E24C(void);
 extern void func_02082A7C(u32 a, u32 b, u32 c);
-extern u32  func_0204A1BC(u32 a, u32 b, u32 c, u32 d);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern int  func_02062A4C(u32 h, u32 **out);
 extern void func_020862F0(u32 a, u32 b);
 extern void func_02082A60(u32 a, u32 b, u32 c);

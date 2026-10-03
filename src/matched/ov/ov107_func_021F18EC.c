@@ -17,7 +17,8 @@ typedef struct {
     void *f24;
 } Ov107Ctx;
 
-void func_0201ED04(void *);
+struct WordSet;
+void func_0201ED04(struct WordSet *p);
 
 void func_021F18EC(Ov107Ctx *p)
 {

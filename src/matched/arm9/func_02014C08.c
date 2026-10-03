@@ -47,7 +47,7 @@
  *       --func func_02014C08 --addr 0x02014C08 --cc 1.1p1 --thumb
  */
 extern void func_020649D4(char *member, int value);
-extern void func_02016374(char *w);
+extern void func_02016374(void *obj);
 extern void func_020169E8(char *self, char *entry);
 
 typedef struct B1 { unsigned int b0 : 1; } B1;

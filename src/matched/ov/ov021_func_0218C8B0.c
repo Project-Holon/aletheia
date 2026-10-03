@@ -14,8 +14,8 @@
  *   func_0218C88C  0x0218C88C  thumb  ov021
  */
 
-extern int func_0218C8FC(void *p, int i);
-extern void func_0218C88C(void *p, int a, int b);
+extern int func_0218C8FC(unsigned char *p, int i);
+extern void func_0218C88C(unsigned char *p, int v, int c);
 
 int func_0218C8B0(void *p, int v)
 {

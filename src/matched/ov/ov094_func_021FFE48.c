@@ -42,7 +42,7 @@ typedef struct {
 
 extern int func_022019F4(Work *w, int key);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern int func_02017EAC(void *p);
+extern u32 func_02017EAC(void *p);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_0202D034(u32 a, u32 b);
 

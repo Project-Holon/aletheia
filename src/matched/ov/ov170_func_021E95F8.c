@@ -49,7 +49,10 @@ extern void func_021DD2B4(unsigned char *,int,int,int,int);
 extern int func_021DD718(unsigned char *,void *);
 extern void func_021DD8A8(unsigned char *,unsigned);
 extern void func_021EC48C(unsigned char *,int,int,int);
-extern void func_02007F1C(void *,unsigned short,unsigned,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_02007F1C(u8 *base, u16 id, u16 qty, u16 d);
 extern void func_021ED55C(unsigned char *,int);
 #define WORK (*(char **)(p+0x2c))
 #define ITEM (*(unsigned short *)(p+0x10))

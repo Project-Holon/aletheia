@@ -18,7 +18,7 @@
  */
 struct Cursor;
 extern unsigned int func_0201134C(struct Cursor *);
-extern char *func_021F9DC0(void *);
+extern void *func_021F9DC0(void *p);
 extern char *func_021F9EDC(char *,unsigned int);
 extern void func_021F9DCC(void *,char *,unsigned char);
 int func_021FBFA8(int unused,char *p) { char *obj; unsigned int a,b; char *entry;obj=*(char **)p;a=func_0201134C(*(struct Cursor **)(p+4));b=func_0201134C(*(struct Cursor **)(p+4));entry=func_021F9EDC(func_021F9DC0(*(void **)(obj+0x34)),b+0x33);func_021F9DCC(*(void **)(obj+0x34),entry,a);return 0; }

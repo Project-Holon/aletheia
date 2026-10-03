@@ -43,11 +43,14 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_02064648(void *bank);
-extern u16 func_020648E0(void *bank);
-extern void *func_020627D8(void *set, u32 idx);
+struct AnimBank;
+struct AnimSequence;
+struct MultiCellBank;
+extern u16 func_02064648(struct MultiCellBank *bank);
+extern u16 func_020648E0(struct MultiCellBank *bank);
+extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx);
 extern void func_0206428C(char *cell, void *row, int a2);
-extern void func_02064178(char *hdr, int v);
+extern void func_02064178(char *o, u32 a);
 extern void func_02062F38(char *self);
 extern void func_02064140(char *p, int v);
 void func_02064754(char *o, char *buf, void *set, int a3, void *bank, int kind)

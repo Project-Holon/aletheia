@@ -41,7 +41,8 @@ static inline void Position0(int x1,int y1,int x2,int y2) {
     *(volatile u16 *)0x04001044=(u16)(((y1<<8)&0xff00)|(y2&0xff));
 }
 static inline void Visible(int window) {DISPCNT=(DISPCNT&~0xe000)|(window<<13);}
-extern void func_02030EAC(void *);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 void func_021E2A98(void *a,char *p) {
     W1Inside(0x10,0);
     Position1(0x30,0,0xd0,0x20);

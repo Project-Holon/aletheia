@@ -40,7 +40,8 @@ typedef struct {
 } S;
 
 extern void func_0204B878(int a, int b);
-extern int func_021A8E78(u8 a, u8 b);
+typedef unsigned int   u32;
+extern int func_021A8E78(u32 a, u32 b);
 
 void func_021A90A4(S *s, int m)
 {

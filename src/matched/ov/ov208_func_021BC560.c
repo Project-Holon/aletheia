@@ -22,10 +22,13 @@ typedef struct {void *task,*memory,*slots;u16 mask,pad;u32 mode;} PalFade;
 extern const char d_021C8D98[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern u32 func_02030CB0(u32);
-extern void *func_02030CBC(u32,void *);
+struct Ctx;
+struct Obj02021EE4;
+struct PalAnmSlot;
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02021518(u32);
-extern void func_02021EE4(void *,u32);
-extern void func_0202155C(void *,u32,u32,u32);
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
 PalFade *func_021BC560(u32 heap,u16 mask)
 {
     PalFade *p=func_02030734(heap,20,1,d_021C8D98,0x1e5);

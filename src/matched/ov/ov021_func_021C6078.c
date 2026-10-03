@@ -20,11 +20,15 @@
 
 typedef unsigned char u8;
 
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern u8 *func_020124E8(void *task);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_02188CB4(void *p);
-extern void *func_020120F4(void *p);
+extern void *func_02188CB4(u8 *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_021C60B8(void);
 
 void *func_021C6078(void *a, void *b, int c)

@@ -33,7 +33,7 @@ typedef struct Rec20 {
 extern u8 d_021841C0[];
 
 extern u8 *func_02030734(int heap, int size, int clear, u8 *file, int line);
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
 extern int func_020399A8(void);

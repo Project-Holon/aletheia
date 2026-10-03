@@ -17,7 +17,8 @@
  *   func_021D47D4 0x021D47D4 thumb ov120
  */
 extern int func_0203CD98(void);
-extern unsigned char *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned int func_02039CB4(void *, unsigned int, unsigned int);
 typedef unsigned short u16;
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);

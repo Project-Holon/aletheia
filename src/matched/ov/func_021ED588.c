@@ -15,7 +15,7 @@
  * Forward with the byte field at +0x16.
  */
 
-extern void func_021ED594(char *, int);
+extern void func_021ED594(char *p, unsigned i);
 
 void func_021ED588(char *p)
 {

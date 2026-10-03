@@ -46,19 +46,20 @@ typedef struct Obj {
     s16  s6C;
 } Obj;
 
-extern int  func_0217BB04(void *w);
-extern int  func_0217B8E4(void *w, int v);
-extern int  func_0217EC04(void *w);
-extern int  func_0217F1EC(void *w);
-extern void func_0217F210(void *w, int a, int msg);
-extern void func_02172D20(void *w);
-extern int  func_02172D68(void *w);
+typedef unsigned short u16;
+extern int func_0217BB04(char *p);
+extern int func_0217B8E4(char *p, char v);
+extern u16 func_0217EC04(void ***ctx);
+extern u32 func_0217F1EC(u8 *p);
+extern void func_0217F210(u8 *p, int a, u32 b);
+extern void func_02172D20(u8 *p);
+extern int func_02172D68(u8 *p);
 extern void func_021734A8(void *w, int a, void *b);
 extern int  func_02173AFC(int v);
 extern void func_0203D14C(int a, int b, void *c);
 extern int  func_0203D1B4(void);
 extern int  func_0203D1C0(u8 v);
-extern void func_0203D1E8(u32 a, int b);
+extern void func_0203D1E8(u32 unused, void *arg);
 extern void func_0203D7BC(int a);
 extern int  func_020392B8(void);
 extern u32  func_020399A8(void);

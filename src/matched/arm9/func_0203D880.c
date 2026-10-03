@@ -16,7 +16,8 @@
  *       --func func_0203D880 --addr 0x0203D880 --arm --cc 1.1p1
  */
 
-extern void func_02039414(void);
+typedef unsigned int   u32;
+extern u32 func_02039414(void);
 
 void func_0203D880(void)
 {

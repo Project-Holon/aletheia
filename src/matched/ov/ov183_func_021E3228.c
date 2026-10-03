@@ -14,7 +14,8 @@
  */
 
 extern void func_021FD860(int obj, int one, int *args);
-extern void func_020061E4(int code);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 int func_021E3228(char *p, int a, int b)
 {

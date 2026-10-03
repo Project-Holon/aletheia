@@ -65,7 +65,7 @@ typedef struct {
     u32 xF84;
 } Work;
 
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_021F4EC0(Work *p, u32 a, u32 b);
 extern const char str_02203B08[];
 

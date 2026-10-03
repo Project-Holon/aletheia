@@ -27,17 +27,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[0x1B2]; unsigned char f0:5; unsigned char flag:1; unsigned char f6:2; } Flags;
 extern u32 func_021D13A4(void *);
-extern void func_021B916C(void *, int);
-extern u16 func_021B86DC(void *);
-extern void func_021F878C(int);
-extern u8 func_021B904C(void *, int);
-extern u16 func_021BA020(void *, int);
+extern void func_021B916C(u8 *p, u32 x);
+extern u16 func_021B86DC(void **p);
+extern void func_021F878C(u32 a);
+extern u8 func_021B904C(u8 *p, int k);
+extern unsigned short func_021BA020(char *p, int i);
 extern void func_021F7F58(int, u32, u32, u32, u32);
-extern void func_021F7998(u16);
+extern void func_021F7998(u32 a);
 extern void func_021D185C(void *, int, int);
 extern int func_021F7EB4(void);
-extern void func_021EA600(void *);
-extern int func_021EA710(void *);
+extern void func_021EA600(char *p);
+extern int func_021EA710(u32 *p);
 int func_021D171C(u8 *p, int *state)
 {
     u32 mode;

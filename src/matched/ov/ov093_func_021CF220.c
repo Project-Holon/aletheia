@@ -26,7 +26,8 @@ extern u32 func_021CF470(u8 *, void *, u8 *);
 extern void func_021D8434(u8 *);
 extern void func_021CE150(u8 *, u32);
 extern void func_021CE4D0(void);
-extern void func_021CF2F0(void);
+typedef signed int     s32;
+extern u32 func_021CF2F0(u8 *p, s32 *st);
 u32 func_021CF220(u8 *p, int *st)
 {
     u8 n;

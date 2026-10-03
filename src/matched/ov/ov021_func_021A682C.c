@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 typedef u32 (*Fn)(u8 *p, u32 a, u32 b);
 
-extern int func_0216D3CC(u32 o);
+extern int func_0216D3CC(int a0);
 extern u32 func_021A67A4(u8 *p);
 extern void func_021A6870(u8 *p);
 extern const Fn data_021D8AB8[];

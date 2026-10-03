@@ -47,10 +47,10 @@ typedef struct Step {
     void *f4;
 } Step;
 
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 extern int func_02186558(char *p);
 extern void func_0218644C(char *p, int state);
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 extern void func_021840FC(u32 obj, void (*a)(void), void (*b)(void), char *arg);
 extern void func_021848A8(void);
 extern void func_021848CC(void);
@@ -58,14 +58,14 @@ extern void func_02184560(char *p, int a);
 extern void func_02185F74(void *win, int color, char *p);
 extern int func_02186324(char *p);
 extern void func_02185F10(void *p);
-extern void func_0203A5E4(int a);
+extern void func_0203A5E4(u32 key);
 extern void func_02184174(u32 obj);
 extern int func_0218417C(u32 obj);
 extern void func_021867C4(char *p);
 extern void func_0204A600(void);
 extern void func_020310C4(u32 x);
 extern void func_02186708(char *p);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern Step d_02186E80[];
 
 int func_02184674(void *task, int *state, int a2, char *p)

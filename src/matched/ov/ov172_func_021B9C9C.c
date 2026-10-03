@@ -23,7 +23,7 @@ extern u32 func_021BDFE4(void *);
 extern u32 func_021B80E4(int, char *);
 extern u8 func_021BE0A4(void *);
 extern u8 func_021BE054(void *);
-extern void func_021B9C1C(void *, void *, int);
+extern void func_021B9C1C(void *p, char *q, int id);
 extern void *func_021BE11C(void *);
 struct Actor;
 struct Obj;

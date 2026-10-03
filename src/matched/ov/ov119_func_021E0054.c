@@ -33,23 +33,26 @@ struct Packet {
     u8 :5;
 };
 typedef char PacketMustBe40[sizeof(struct Packet)==40?1:-1];
-extern void *func_02012EBC(void *);
-extern void *func_02009470(void *);
-extern void *func_02012944(void *);
+struct Big;
+struct Entry;
+struct Sub02009470Obj;
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02009470Obj *func_02009470(void *sys);
+extern u8 *func_02012944(void *p);
 extern void func_02008494(void *,void *);
 extern u32 func_02017E1C(void *,u32,u32);
-extern u8 func_02009628(void *);
-extern u8 func_02009584(void *);
-extern u8 func_0200960C(void *);
+extern u8 func_02009628(const struct Sub02009470Obj *obj);
+extern u8 func_02009584(const struct Sub02009470Obj *obj);
+extern u8 func_0200960C(const struct Sub02009470Obj *obj);
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
 extern int func_021D8A24(void *);
-extern void *func_020399A8(void);
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_02039C68(void *,u32,u32);
 extern void func_021D8E84(void *,int);
 extern void func_021E0030(void *);
-extern void func_021E0C78(void *);
+extern void func_021E0C78(char *p);
 void func_021E0054(char *p)
 {
     struct Packet packet;

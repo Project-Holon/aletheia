@@ -13,7 +13,8 @@
  *   func_0204AFD8  0x0204AFD8  arm
  */
 
-extern void func_0204AFD8(int);
+typedef unsigned int   u32;
+extern void func_0204AFD8(u32 i);
 
 void func_021B7550(char *p, int i)
 {

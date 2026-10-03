@@ -12,9 +12,11 @@
  *   func_02017E1C 0x02017E1C thumb
  *   func_02017D70 0x02017D70 thumb
  */
-extern unsigned func_02017D30(void *);
-extern unsigned func_02017E1C(void *,unsigned,void *);
-extern void func_02017D70(void *,unsigned);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 void func_021B654C(char *p) {
  void *mon; unsigned saved;
  mon=*(void **)(p+(unsigned char)p[0x915D]*4+0x9140);

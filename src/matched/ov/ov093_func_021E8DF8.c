@@ -20,7 +20,8 @@
 extern char ov094_id[], ov095_id[], ov096_id[];
 extern void func_021E8F08(void);
 extern void func_02034A5C(void *id);
-extern int func_0203D29C(void);
+typedef unsigned int   u32;
+extern u32 func_0203D29C(void);
 
 void func_021E8DF8(void)
 {

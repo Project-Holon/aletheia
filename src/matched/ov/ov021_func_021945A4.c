@@ -25,10 +25,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern void func_02188CCC(u32 a);
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern u32 *func_020124E8(void *task);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_021945E0(void);
+extern int func_021945E0(void *a, int b, u8 *c);
 
 void *func_021945A4(void *a, u32 b, u32 c)
 {

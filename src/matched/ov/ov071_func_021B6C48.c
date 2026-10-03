@@ -18,6 +18,6 @@
 
 void func_021B6C48(void *p, int a)
 {
-    void func_021B6DB4(void *, int, int);
+    void func_021B6DB4(int *p, int a, int idx);
     func_021B6DB4(p, 2, a);
 }

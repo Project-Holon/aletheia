@@ -17,9 +17,12 @@
 
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(unsigned int);
-extern void func_02041570(unsigned int, int);
-extern void func_0204B3DC(void *, int);
-extern void func_0204B878(void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Obj;
+extern void func_02041570(int channel, u16 val);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D7EAC(unsigned char *p)
 {
     func_02041300(1, 0, 0, 0, 19, 21, 16);

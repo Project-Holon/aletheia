@@ -34,17 +34,17 @@ typedef unsigned int   u32;
 #define W(o) (*(u32 *)(p + (o)))
 
 extern void  func_021BB7A4(u8 *p, u32 obj);
-extern void *func_0201AB28(void *list, int idx);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 extern void  func_02017E40(void *obj, u32 key, u32 v);
 extern void  func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
-extern void  func_021B9E20();
+extern void func_021B9E20(u8 *p);
 extern void  func_021B8F68(u8 *p, int v);
 extern void  func_021BAFA0(u8 *p, int v, int z);
 extern void  func_0204B3DC(int h, int f);
 extern void  func_021BB2C0(u8 *p, u32 obj);
 extern u16   func_021BB464(u8 *p, u32 obj);
-extern void  func_021BA288();
+extern void func_021BA288(u8 *p);
 extern void  func_020061E4(u32 id);
 extern void  func_021B7B98(u8 *p);
 

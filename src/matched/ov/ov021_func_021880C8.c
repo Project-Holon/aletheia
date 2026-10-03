@@ -55,7 +55,8 @@ extern void func_02188D5C(u16 *p);
 extern void func_0204A48C(void *a, void *b, u32 heap);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
-extern void func_02045088(u32 a);
+struct Ctx;
+extern void func_02045088(u16 heapId);
 extern void func_0201DD60(void);
 extern void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
                           u32 fifoSize, u32 heap, void (*setup)(void));
@@ -65,13 +66,13 @@ extern int func_02012984(int a);
 extern char *func_0218C9E8(int heap, int b);
 extern void *func_020056A0(void (*cb)(int, u8 *), void *arg, int pri);
 extern void func_02189108(int unused, u8 *p);
-extern int func_02030CB0(int n);
-extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
-extern void *func_02030CBC(int n, void *mem);
+extern u32 func_02030CB0(u32 idx);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern u8 *func_021C6D10(int n, int heap);
 extern void *func_021D317C(u32 heap);
-extern int func_02013CC8(u16 a);
-extern int func_02013CE0(u16 a);
+extern u32 func_02013CC8(u32 id);
+extern u32 func_02013CE0(u32 id);
 extern void func_02034AC4(const void *id);
 extern void func_02035660(u32 a);
 

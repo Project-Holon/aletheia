@@ -15,10 +15,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern u8 *func_021BA20C(u8 *);
+typedef unsigned int   u32;
+extern u32 func_021BA20C(u8 *p);
 extern u8 *func_021BA218(u8 *);
-extern void func_021F4E6C(void *, void *, int);
-extern void func_021F4E2C(void *, void *, void *);
+extern void func_021F4E6C(u8 *p, u8 *e, u32 value);
+extern void func_021F4E2C(void *unused, u8 *s, u8 *d);
 void func_021B8FA8(u8 *p)
 {
     if (*(u8 **)(p + 0x38) == 0) {

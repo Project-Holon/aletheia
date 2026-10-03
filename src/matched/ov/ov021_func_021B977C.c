@@ -26,7 +26,7 @@ extern u8 d_021DE2B4[];
 extern u8 d_021DE2BC[];
 
 void func_021B976C(void *a, void *b, void *c);
-void *func_021B87D8(void *a, u32 b);
+u8 *func_021B87D8(u8 *p, u32 idx);
 
 void func_021B977C(u8 *p)
 {

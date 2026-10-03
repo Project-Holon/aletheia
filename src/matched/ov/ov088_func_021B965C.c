@@ -27,12 +27,13 @@ typedef unsigned int   u32;
 
 extern u32   func_020362DC(void);
 extern unsigned int func_0203630C(void);
-extern void  func_0204E720(int a, int b, int c, int d);
-extern void  func_0204363C(int a);
-extern void  func_02040588(int a, int b);
-extern void  func_02043598(int a, int b);
+typedef signed int     s32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void func_0204363C(u32 swap);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
 extern void *func_02006984(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, void *h);
-extern void  func_02005E30(int x);
+extern void func_02005E30(u32 a);
 extern void  func_021B9E7C(void *a, int b);
 extern void  func_021B9A14(u16 *p, u16 a, u16 b);
 

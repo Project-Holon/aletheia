@@ -21,10 +21,10 @@
  *   func_020307B0 0x020307B0 arm
  */
 struct Rec;struct PrintSys;
-extern void func_021B9F8C(void *);
+extern void func_021B9F8C(char *p);
 extern void func_021B9E80(char *,unsigned);
 extern void func_021B9F20(void *);
-extern void func_021B9BA4(void *);
+extern void func_021B9BA4(char *p);
 extern void func_02049238(void *);
 extern void func_02045C04(struct Rec *);
 extern void func_0201C6EC(struct PrintSys *);

@@ -19,7 +19,8 @@
  */
 extern void *func_02014B08(unsigned,unsigned); extern void func_02016020(void *,unsigned); extern void func_02015BF0(void *);
 extern void *func_02048A24(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,void *,void *,void *,unsigned short);
-extern void func_02048AD0(void *);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 extern unsigned d_021B8034[]; extern unsigned d_021B801C[]; extern unsigned d_021B8028[];
 void func_021B68A8(char *p) {
  *(void **)(p+0x18)=func_02014B08(1,141); func_02016020(*(void **)(p+0x18),0); func_02015BF0(*(void **)(p+0x18));

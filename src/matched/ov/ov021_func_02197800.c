@@ -39,13 +39,13 @@ extern u32 func_020071F0(void);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_02197644(u8 *, u32);
 extern void func_02196290(u8 *);
-extern void func_02196228(u8 *, u32);
+extern void func_02196228(u8 *p, int flag);
 extern void func_020414EC(u32);
 extern void func_021962F4(u8 *);
 extern void func_02196034(u8 *, void (*)(), u32);
-extern void func_021977C0();
-extern void func_02197798();
-extern void func_02196A4C();
+extern void func_021977C0(u8 *a);
+extern void func_02197798(u8 *a);
+extern void func_02196A4C(u8 *a);
 extern void func_02027858(u32);
 
 void func_02197800(u8 *a)

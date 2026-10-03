@@ -17,10 +17,14 @@
  *   func_020127AC 0x020127AC thumb
  */
 typedef unsigned char u8;
-extern void *func_020120F4(const void *);
-extern u8 func_02012B58(const void *);
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void *func_020127B8(void *);
-extern void *func_020127AC(void *, unsigned int);
+extern void *func_020127AC(struct SaveBlock *p, u32 idx);
 void *func_0217EBD8(u8 *p)
 {
     void *h;

@@ -14,8 +14,9 @@
  *   func_0203FB44 0x0203FB44 arm
  */
 
-extern int func_0203FA08(int, int, int);
-extern void func_0203FB44(int, int, int);
+typedef unsigned int   u32;
+extern u32 func_0203FA08(u32 layer, u32 size, u32 top);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 
 void func_021F6280(int unused, unsigned char *q)
 {

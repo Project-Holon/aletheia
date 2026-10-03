@@ -11,7 +11,8 @@
  * symbols:
  *   func_02177B2C 0x02177B2C thumb ov014
  */
-extern void *func_02177B2C(int index);
+typedef unsigned char  u8;
+extern u8 *func_02177B2C(int i);
 void *func_02177104(int index)
 {
     if (index >= 16) return 0;

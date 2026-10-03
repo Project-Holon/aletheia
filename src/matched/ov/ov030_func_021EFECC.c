@@ -29,15 +29,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_020120F4(void *p);
-extern void *func_02012944(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
 extern int func_02008550(void *p);
-extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_02049990(void *h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
-    u32 heap);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
 extern void func_02049238(void *h);
-extern void func_0203D34C(u32 a, u16 heap);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_02043598(u32 mask, u32 enable);
 extern const u32 d_021F0134[];
 extern const u32 d_021F0140[];

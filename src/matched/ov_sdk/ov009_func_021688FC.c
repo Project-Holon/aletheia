@@ -32,8 +32,9 @@ typedef struct FriendGlobal {
 extern FriendGlobal g_021AA860;
 
 extern int func_0216AA70(void);
-extern int func_02059B40(char *src, unsigned long srclen, char *dst, unsigned long dstlen);
-extern int func_021690D0(int status, char *statusString, char *locationString);
+typedef unsigned int   u32;
+extern int func_02059B40(const char *src, u32 srclen, char *dst, u32 dstlen);
+extern int func_021690D0(int status, const char *statusString, const char *locString);
 
 int func_021688FC(char *statusData, unsigned long size)
 {

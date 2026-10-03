@@ -54,7 +54,8 @@ struct WCMWork {
 };
 extern struct WCMWork *func_021657C8(void);
 extern int func_02085D3C(void);
-extern void *func_021661F0(struct WCMBssDesc *bssDesc);
+struct WMGameInfo;
+extern struct WMGameInfo *func_021661F0(struct WCMBssDesc *bssDesc);
 extern struct WCMApList *func_02165EC8(unsigned char *bssid);
 extern struct WCMApList *func_02165DCC(void);
 extern struct WCMApList *func_02165E98(void);

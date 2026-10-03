@@ -56,14 +56,19 @@ typedef struct {
     u32 f10;
 } Ctx;
 
-extern void *func_020120F4(void *);
-extern void *func_02012934(void *p);
+typedef unsigned short u16;
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0200CA1C(void *);
 extern u32 func_0200CA38(u32);
-extern void *func_02030734(int, int, int, const char *, int);
-extern u8 func_0201AA18(void *);
-extern void *func_020122C0(void *, int, void *, int);
-extern Ctx *func_020124E8(void *);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u32 func_0201AA18(void *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_0215D1E4(void *, u32 *, Ctx *);
 extern const char d_02172900[];
 

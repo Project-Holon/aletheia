@@ -13,7 +13,8 @@
  *   func_0204B3B4 0x0204B3B4 arm
  */
 
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_021BA4B4(char *p)
 {

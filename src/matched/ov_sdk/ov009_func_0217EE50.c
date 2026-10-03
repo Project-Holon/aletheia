@@ -27,7 +27,7 @@
  */
 
 extern int func_0215F854(int sock, int cmd, int arg);
-extern void func_0217D254(int index, int table, int mask, char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A3740[];
 extern char g_021A374C[];
 extern char g_021A375C[];

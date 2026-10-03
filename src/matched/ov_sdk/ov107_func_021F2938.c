@@ -60,7 +60,8 @@ typedef struct {
 
 extern char g_021F6E4C[];
 
-extern void *func_02077EB8(char *name, int name_len);
+struct FSArchive;
+extern struct FSArchive *func_02077EB8(const char *name, int name_len);
 extern int func_02085D3C(void);
 extern RomHeader *func_02075E04(void);
 extern void func_020788AC(void *file);

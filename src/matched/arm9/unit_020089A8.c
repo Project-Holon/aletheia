@@ -85,7 +85,8 @@ typedef unsigned int   u32;
 typedef unsigned long long u64;
 
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x21
 

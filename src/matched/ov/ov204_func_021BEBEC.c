@@ -25,14 +25,17 @@ typedef unsigned int u32;
 typedef struct {u16 v[12];} Init;
 extern const Init init;
 extern void *func_020490F4(u32,u16);
-extern int func_02008550(void *);
+typedef unsigned char  u8;
+struct Obj;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void *func_0204A6C8(void *,u32,u32,u32,u32);
 extern void *func_0204ABF0(void *,u32,u32,u32,u32);
 extern void *func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
 extern void *func_021BDD78(void *);
 extern void *func_0204B294(void *,void *,void *,void *,void *,u32,u32);
-extern void func_0204B3DC(void *,u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 int func_021BEBEC(char *p)
 {
     Init local;

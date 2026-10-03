@@ -13,8 +13,10 @@
  *   func_02021014 0x02021014 thumb
  *   func_020307B0 0x020307B0 arm
  */
-extern void *func_02020F34(int,int,int);
-extern int func_02021014(void *,unsigned);
+typedef unsigned int   u32;
+struct Rec;
+extern void *func_02020F34(u32 item, u32 which, u32 heap);
+extern u32 func_02021014(struct Rec *p, u32 sel);
 extern void func_020307B0(void *);
 #define GET(k) func_02021014(p,(k))
 #define DONE(k) {func_020307B0(p);return(k);}

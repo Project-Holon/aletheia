@@ -24,7 +24,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021CF564(void *r, u32 id);
+struct Res021CF;
+extern void func_021CF564(struct Res021CF *r, u32 id);
 extern char abs_id_4b[];
 extern char abs_id_4d[];
 

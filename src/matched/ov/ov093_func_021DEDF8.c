@@ -20,8 +20,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021D76BC(int a, int b);
-extern u32 func_021DCFF8(int a, int k);
+extern int func_021D76BC(int key, u32 val);
+extern int func_021DCFF8(int a, int b);
 extern void func_021E8C50(int *p, u8 v);
 
 void func_021DEDF8(int a, int b, int c)

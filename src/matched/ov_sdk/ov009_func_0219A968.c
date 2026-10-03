@@ -37,7 +37,7 @@ typedef struct _NatNegPacket {
 } NatNegPacket;
 
 extern char g_021A6450[];
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern unsigned int func_0217F264(void);
 extern void func_0219972C(NATNegotiator *neg);
 

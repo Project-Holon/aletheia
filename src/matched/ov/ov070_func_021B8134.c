@@ -31,9 +31,10 @@ typedef struct Obj {
 
 extern int func_021B61C8(Obj *o);
 extern u16 *func_021B616C(Obj *o, int k);
-extern int func_0202E448(u16 v);
+typedef unsigned int   u32;
+extern u32 func_0202E448(u32 id);
 extern int func_021B83A0(Obj *o, u16 v);
-extern void func_02012BE0(void *p, int a, int b);
+extern void func_02012BE0(void *p, u32 a, u32 b);
 extern void func_020061E4(unsigned int id);
 
 int func_021B8134(Obj *o, int k)

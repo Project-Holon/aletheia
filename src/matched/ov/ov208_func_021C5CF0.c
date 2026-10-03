@@ -47,7 +47,7 @@ struct Ov208Menu {
 };
 
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_021C53E0(u32 res, u32 obj);
+extern void func_021C53E0(int a, int b);
 extern void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
 
 void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)

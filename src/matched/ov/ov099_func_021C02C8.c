@@ -40,7 +40,7 @@ extern int func_020200CC(struct Obj *);
 extern void func_021C0290(char *);
 extern void func_021C2408(char *);
 extern void func_021BB954(char *, int);
-extern int func_021C23C8(void *, void *);
+extern void func_021C23C8(void *a, void *b);
 extern int func_021BDDD0(char *);
 extern int func_021BA8BC(void *);
 extern void func_0202020C(struct Obj *, u16 *, u16 *);

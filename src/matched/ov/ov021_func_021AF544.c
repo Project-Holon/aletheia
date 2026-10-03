@@ -24,7 +24,8 @@ typedef unsigned int u32;
 
 extern u32 func_0215A5CC(u32 a);
 extern void *func_0215A5E4(void *a0);
-extern void *func_0201292C(void *a);
+struct BigObj;
+extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_02007E50(void *a, u32 b, u32 c, u32 d);

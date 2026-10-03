@@ -66,9 +66,10 @@ extern void func_021C4E54(void *a0, u8 *p, void *ctx);
 extern void func_021C4EAC(void *a0, u8 *p, void *ctx);
 extern void ov208_func_021C6A10(void *a0, u8 *p, void *ctx);
 extern u16  func_021BC3C0(void *ctx);
-extern int  func_021BC3A4(void *ctx);
+struct Blk37;
+extern int func_021BC3A4(int *p);
 extern void *func_0200CA1C(int a);
-extern void func_0200CA98(void *p, u16 id, u32 sel, u32 alt, u32 form);
+extern void func_0200CA98(struct Blk37 *p, u16 id, u32 sel, u32 alt, u32 form);
 extern void ov208_func_021C7448(void *a0, u8 *p, void *ctx);
 
 #define W(o) (*(u32 *)(p + (o)))

@@ -16,7 +16,8 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern unsigned func_0204B3F4(void *);
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 int func_021BD028(u8 *p)
 {
     if(func_0204B3F4(*(void **)(p+0x28)) && *(int *)(p+0x2c)!=3) return 0;

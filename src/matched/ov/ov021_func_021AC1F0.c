@@ -22,7 +22,8 @@ typedef signed char    s8;
 typedef struct Res { u8 pad[0x30]; u16 h30; u16 pad32; u32 f34; u32 f38; } Res;
 typedef struct X { u8 pad[0x24]; u32 f24; } X;
 
-extern void *func_02046F48(void *p);
+struct Tagged;
+extern void *func_02046F48(struct Tagged *p);
 extern Res *func_0206E964(void *p);
 extern void func_02022040(u16 *pal, int n, const u8 *table);
 

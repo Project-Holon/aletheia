@@ -16,8 +16,11 @@
 
 typedef unsigned char u8;
 
-extern void func_0202590C(void *o, short x, short y);
-extern void func_02043814(void *a, void *b);
+typedef signed short   s16;
+struct Bmp;
+struct Grid;
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
+extern void func_02043814(struct Bmp *dst, const struct Bmp *src);
 
 void func_021BA140(u8 *p)
 {

@@ -16,7 +16,9 @@ typedef unsigned char u8;
 typedef short s16;
 struct Coordinates { u8 pad[0x298]; u8 rect[32][4]; };
 extern void func_0204B404(void *, s16 *, int);
-extern void func_0204B8C4(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B8C4(struct Obj *p, u32 value);
 void func_021E0D38(struct Coordinates *p, int index)
 {
     int width = p->rect[index + 12][1] - p->rect[index + 12][0];

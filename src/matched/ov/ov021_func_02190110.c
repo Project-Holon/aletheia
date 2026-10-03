@@ -35,10 +35,10 @@ typedef struct {
     Vec3 v14;
 } Params;
 
-extern u8 *func_021901E8(void *a);
-extern void func_0218ED34(void *a, u16 v);
-extern void func_0218ED48(void *a, u16 v);
-extern void func_0218ED58(void *a, u32 v);
+extern u32 func_021901E8(u8 *p);
+extern void func_0218ED34(u8 *p, u16 v);
+extern void func_0218ED48(u8 *p, u16 v);
+extern void func_0218ED58(u8 *p, u32 v);
 extern void func_0218EC90(void *a, const Vec3 *p);
 extern void func_0218ECD4(void *a, const Vec3 *p);
 

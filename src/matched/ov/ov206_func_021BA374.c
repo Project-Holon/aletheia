@@ -27,10 +27,12 @@ struct Pt { s16 x; s16 y; };
 extern void func_021BBC9C(char *p);
 extern void func_0207D658(volatile u16 *reg, int plane, int brightness);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_0204B53C(void *actor, struct Pt *out);
-extern void func_0204B528(void *actor, const struct Pt *in);
+struct Actor;
+struct PrintSys;
+extern void func_0204B53C(const struct Actor *actor, struct Pt *out);
+extern void func_0204B528(struct Actor *actor, const struct Pt *src);
 extern void func_021BAF7C(char *p);
-extern u32 func_0201C4E4(void *ps);
+extern u32 func_0201C4E4(struct PrintSys *ps);
 void func_021BA374(char *p)
 {
     if (*(int *)(p+0x18) == 0) func_021BBC9C(p);

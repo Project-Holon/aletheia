@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
-extern void func_021AC2AC(void *p);
+extern void func_021AC2AC(u8 *p);
 extern void ENV_SetResourceSet(void *p);
 
 void func_021AC260(u32 a, u8 *p)

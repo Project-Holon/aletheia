@@ -30,7 +30,7 @@ struct Node {
 };
 extern struct { u32 tick; Node *head; } g_021F3CB0;
 extern int func_021D7240(void *, Node *, int);
-extern void func_021D7040(Node *);
+extern void func_021D7040(struct Node *n);
 void func_021D713C(void *a, int id, int kind, int check)
 {
     Node *n;

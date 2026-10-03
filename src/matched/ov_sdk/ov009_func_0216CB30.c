@@ -18,7 +18,7 @@
  *   func_0219E120  0x0219E120  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_02059F38(void);
 extern int func_0219F058(int a, int b);
 extern int func_0219E120(int a, int b, int c);

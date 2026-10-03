@@ -8,11 +8,14 @@
  * isa: thumb
  * status: EXACT
  */
-extern int func_02017DBC(void *);
-extern void func_02017DE4(void *, int);
-extern int func_02017E88(void *, int, int);
+typedef unsigned int   u32;
+struct Personal;
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern void *func_0201ADE4(unsigned short, unsigned short, unsigned int);
-extern unsigned int func_0201AE1C(void *, int);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 unsigned char func_021E3D04(void *mon, unsigned int heap)
 {

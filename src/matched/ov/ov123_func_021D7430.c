@@ -18,8 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021D66D0(u8 *,int);
-extern int func_02012DD0(void *);
-extern int func_020056EC(int);
+extern int func_02012DD0(u8 *p);
+extern u32 func_020056EC(u32 range);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D73D8(void);
+extern void func_021D73D8(char *p);
 void func_021D7430(u8 *p) { if(*(int *)(p+112)<100) ++*(int *)(p+112); func_021D66D0(*(u8 **)(p+20),*(int *)(p+112)); if(func_02012DD0(*(void **)(p+44))==1) { *(int *)(p+120)=func_020056EC(190); func_021D6EE0((char *)p,(int)func_021D73D8,0x2e6); } }

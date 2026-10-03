@@ -22,14 +22,18 @@
 
 typedef unsigned int u32;
 
-extern void func_020286C4(void *, void *, void *);
-extern int func_0201CE30(void *);
+typedef signed int     s32;
+struct Ctx;
+struct Rec;
+struct Rec3;
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
+extern u32 func_0201CE30(void *p);
 extern unsigned int func_0203630C(void);
-extern void func_0201CE5C(void *, int);
+extern void func_0201CE5C(struct Rec *p, s32 v);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32);
 extern void func_0201CE38(void *);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 
 int func_021BBFA8(char *p)
 {

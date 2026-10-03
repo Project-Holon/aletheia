@@ -23,7 +23,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 extern u32 func_021D805C(u32 v, int k);
 
 /* 021DCFF8  pass-through: second callee takes the first one's result */

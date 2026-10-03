@@ -18,8 +18,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern int func_021B6480(void *);
-extern int func_021B630C(void *,int);
+extern int func_021B6480(int *p);
+extern int func_021B630C(int *p, int value);
 extern void func_021B818C(u8 *);
 extern void func_021B7F1C(u8 *,void *,int,int,s16);
 #define CTX(p) (*(u8 **)((p)+0x8b0))

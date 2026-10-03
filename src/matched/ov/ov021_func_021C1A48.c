@@ -23,7 +23,7 @@ typedef struct {
     u32 fC;
 } S;
 
-extern u32 func_02050C04(u32 a, u32 b, u32 c, u32 d);
+extern int func_02050C04(int a, int b, int c, int d);
 extern u32 func_02051788(u32 a);
 extern void func_02048B60(u32 a, u32 *args);
 extern void func_02048B6C(u32 a, u32 *args);

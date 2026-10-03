@@ -19,7 +19,7 @@ typedef signed short s16;
 typedef unsigned long long u64;
 extern u64 func_021C8388(u8 *, u8 *);
 extern int func_021C87A0(s16 *);
-extern void func_021C6BCC(u8 *, u8 *, int, int);
+extern void func_021C6BCC(u8 *p, u8 *q, int idx, unsigned heap);
 extern void func_021C6B50(u8 *, u64);
 extern void func_021C867C(u8 *, u8 *, int, int);
 int func_021C84E8(u8 *p, u8 *a, u8 *b, int c)

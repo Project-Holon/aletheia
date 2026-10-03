@@ -12,7 +12,8 @@
  *   func_022020A0  0x022020A0  thumb  ov094
  */
 typedef unsigned short u16;
-extern void func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 k);
+struct Obj;
+extern struct Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 heap);
 
 void func_02202058(int a, int b, int c, int d, int e, u16 k)
 {

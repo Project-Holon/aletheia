@@ -34,11 +34,11 @@ typedef unsigned int u32;
 extern u8 *d_021B3C80;
 
 extern void func_02082BCC(void *p, int v, u32 n);
-extern int func_0202EB0C(void);
+extern u32 func_0202EB0C(void);
 extern int func_0208B2BC(void *param, void (*cb)(void), void *arg);
 extern int func_0208B4C8(void *param, void (*cb)(void), void *arg);
 extern u32 func_0208B4B8(void);
-extern void func_021B0B48(void *buf, u32 size, int x);
+extern int func_021B0B48(void *a, u32 b, int *out);
 extern void func_021B07F8(u8 *addr, u32 size);
 extern void func_021AEB78(void);
 

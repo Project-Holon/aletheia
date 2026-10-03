@@ -55,9 +55,10 @@ typedef struct Anim {
 extern char d_02208EC0[];
 extern Node *func_022086C8(u16 heap, u16 n);
 extern u16 func_02047E88(void *res, void *name);
-extern u16 func_020489F4(void *res, u16 idx);
+struct G3dSys;
+extern u32 func_020489F4(u8 *a0, int i);
 extern void *func_02048A18(void *res, u16 id);
-extern u32 func_020477A4(void *obj, u32 idx);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
 extern u32 func_0204784C(void *obj, u32 idx, u32 *out);
 
 void func_02208AB0(Anim *p)

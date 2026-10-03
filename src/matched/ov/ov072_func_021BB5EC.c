@@ -27,8 +27,8 @@ struct Obj {
     struct V c;
 };
 
-extern int func_02035D20(u32 *a, u32 *b);
-extern int func_02035CB8(u32 *a, u32 *b);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_0207CA00(struct V *a, struct V *b, struct V *c);
 extern int func_0207CBD0(struct V *a);
 

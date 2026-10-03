@@ -78,10 +78,11 @@ typedef struct Src {
 } Src;
 
 extern u8 d_02172A28[];
-extern int func_02012114(void *sys);
-extern void *func_0201210C(void *sys);
-extern void *func_02188C7C(void *p);
-extern void *func_02194284(u8 a, void *b, u16 c, u8 d);
+struct Ctx;
+extern u32 func_02012114(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C7C(u8 *p);
+extern void *func_02194284(int a, void *b, int heap, int c);
 extern void func_02034714(void *a, int b, void *c);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021675D0(Work *w, int i, u16 a2, Src *src);

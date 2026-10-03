@@ -26,15 +26,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const char d_021DFBA0[];
-extern void *func_02030734(u16, u32, int, const char *, u32);
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, u32);
 extern void *func_020457B0(u32, u16);
 extern void *func_020450F0(u8, u16, u16, u8, u8, u8, u8);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, u8);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern u32 func_02045730(void *);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_020409B4(u32);
 void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
 {

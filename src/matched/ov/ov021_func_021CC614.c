@@ -36,8 +36,9 @@ typedef unsigned int   u32;
 
 extern u32 func_02159B10(u32 a, u32 b);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(void *a);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5F4(void *p);
 extern void func_0216530C(u32 a);
 extern void func_02165534(u32 a);

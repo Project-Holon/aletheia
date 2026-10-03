@@ -97,12 +97,13 @@ extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
 extern void *func_0217EAB0(unsigned long size);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);
-extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
+struct SOCHostEnt;
+extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern int func_02094694(void);
 extern void *func_020923B0(void *dst, int c, unsigned int n);
 extern void func_0219B6CC(void);
 extern int func_02084F40(char *dst, const char *fmt, ...);
-extern int func_0219B73C(char *hostname, int port, SOCSockAddrIn *saddr, void *unused);
+extern int func_0219B73C(char *host, int port, struct SOCSockAddrIn *saddr, struct SOCHostEnt **savehent);
 extern char *func_0215FA9C(SOCInAddr in);
 
 int func_0219AEB4(qr2_implementation_s **qrec, int s, int boundport, char *gamename, char *secret_key,

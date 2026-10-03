@@ -13,7 +13,8 @@
  *   func_0204ADA4  0x0204ADA4  arm
  */
 
-extern void func_0204ADA4(int);
+typedef unsigned int   u32;
+extern void func_0204ADA4(u32 i);
 
 void func_021FC1F8(int *p, int i)
 {

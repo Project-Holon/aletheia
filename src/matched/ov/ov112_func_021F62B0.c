@@ -15,5 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020627D8(void *,u32); extern void func_021F659C(char *,int); extern void func_0206469C(void *,void *);
+struct AnimBank;
+struct AnimSequence;
+extern struct AnimSequence *func_020627D8(struct AnimBank *bank, u32 idx); extern void func_021F659C(char *,int); extern void func_0206469C(void *,void *);
 void func_021F62B0(char *p,u32 n) {void *a; a=func_020627D8(*(void **)(p+28),n);func_021F659C(p,1);func_0206469C(p+40,a);}

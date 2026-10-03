@@ -16,7 +16,8 @@ typedef struct Record { unsigned short fields[12]; } Record;
 typedef struct Descriptor { unsigned short count, unused; const Record *records; int unknown; } Descriptor;
 extern const Descriptor d_022007F0[];
 extern char d_02200D38[];
-extern void func_02034714(void *, int, void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 void func_021FB644(char *ctx)
 {
     int i;

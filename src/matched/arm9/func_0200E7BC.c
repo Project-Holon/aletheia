@@ -52,7 +52,8 @@ struct Rec0200E7BC {
 };
 
 extern u32  func_02017E1C(void *mon, u32 id, void *buf);
-extern void func_02045F5C(void *bank, u32 id, u16 *dest, u32 n);
+struct MsgData;
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
 extern void *g_020A7370;
 

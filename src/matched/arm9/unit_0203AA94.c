@@ -41,10 +41,11 @@ typedef unsigned int   u32;
 extern u8   *g_021469D8;
 extern char  g_020A7AF8[];
 extern char  g_020A7B78[];
-extern u8   *func_0203D798(void);
-extern void  func_02034714(char *f, u32 line, char *e);
-extern int func_020395EC(void *a);
-extern u32   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct Entry;
+extern void *func_0203D798(void);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern int func_020395EC(struct Entry *a);
+extern int func_02038C18(u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u32 a7);
 
 typedef struct {
     u8 lo : 4;

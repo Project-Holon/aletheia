@@ -35,7 +35,7 @@ extern LoginCnt *g_021AA874;
 
 
 extern unsigned long long func_020870D0(void);
-extern int func_021859C0(void **connection, char *authtoken, char *partnerchallenge, int firewall, int blocking, void *callback, void *param);
+extern int func_021859C0(void **connection, char *authtoken, char *partnerchallenge, int firewall, int blocking, void (*callback)(void **, void *, void *), void *param);
 extern int func_0216A460(int result);
 
 void func_0216A68C(void *callback, int next_state)

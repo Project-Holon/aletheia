@@ -67,7 +67,8 @@
  */
 
 extern int   sub_02005924(void *arg);
-extern void *sub_0200590C(void);
+typedef unsigned int   u32;
+extern u32 *sub_0200590C(void);
 extern int   sub_02005CE0(void *arg);
 extern void  sub_02005D14(void);
 extern void  sub_02005F90(void);

@@ -39,8 +39,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8    func_02045730(void *win);
-extern void *func_02045770(void *win);
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p);
+extern void *func_02045770(struct Descriptor *p);
 extern u8    func_0204169C(int channel);
 extern void  func_02020A58(void *bmp, u32 a, u32 b, u32 c, u32 off);
 extern void  func_02020B5C(void *bmp, u32 a, u32 b, u32 c, u32 off);

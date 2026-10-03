@@ -20,7 +20,8 @@
 
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02030EAC(void*);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern int func_021BA130(int*);
 extern void func_021BA094(char*);
 extern void func_021BA010(void*);

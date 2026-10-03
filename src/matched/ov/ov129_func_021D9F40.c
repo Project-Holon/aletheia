@@ -15,9 +15,12 @@
  *   func_021D9E48 0x021D9E48 thumb ov129
  */
 typedef unsigned short u16;
-extern u16 func_0204B898(void *);
-extern unsigned int func_0204B98C(void *);
-extern void func_0204B878(void *,u16);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern u16 func_0204B898(struct Obj *p);
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021D9E48(char *,int,int);
 void func_021D9F40(char *p)
 {

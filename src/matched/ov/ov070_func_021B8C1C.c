@@ -18,12 +18,13 @@
  *   func_021B8CB4  0x021B8CB4  thumb  ov070
  */
 
-extern void func_020061E4();
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_0204B8C4();
 extern void func_0204B878();
 extern void func_0204B92C();
 extern void func_021B6100();
-extern void func_021B8CB4();
+extern void func_021B8CB4(char *p);
 
 void func_021B8C1C(int p, int a, int b)
 {

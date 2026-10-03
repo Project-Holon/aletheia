@@ -33,7 +33,7 @@ typedef struct Arg { u32 a; Vec3 v; } Arg;
 extern u32 func_0216D67C(u32 a);
 extern int func_0216D538(u32 p);
 extern void func_0216D88C(u32 a, Vec3 *v);
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, u8 *b, u32 c, u32 d, Arg *e, u32 f);
 extern s16 tbl_020A1B38[];
 extern u8 d_021D90AC[];

@@ -28,12 +28,15 @@
 
 extern void *func_02188C58(void *o);
 extern void *func_02188D38(void *o);
-extern void func_0218F0A8(void *h);
-extern int func_0218F0E8(void *h);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Evt;
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
 extern void func_021BF9F4(void **q);
 extern void func_021BF978(void **q);
 extern void *func_021BFA18(void **q);
-extern void func_02012374(void *a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021C6E48(void *p);
 extern void func_021BF9E0(void **q);
 

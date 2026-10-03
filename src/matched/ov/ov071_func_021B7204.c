@@ -15,6 +15,8 @@
  */
 typedef unsigned char u8;
 extern void func_02027974(void *);
-extern unsigned func_020279E8(void *);
-extern u8 func_02027A04(void *);
+typedef unsigned int   u32;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 int func_021B7204(int a, int b, void *p, int *q) { func_02027974(p); if(func_020279E8(p)==1) { *q=func_02027A04(p)==0 ? 1 : 0;return 1;} return 0; }

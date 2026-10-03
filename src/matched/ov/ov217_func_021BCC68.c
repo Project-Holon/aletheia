@@ -56,7 +56,7 @@ extern const struct Ent d_021C33C8[];
 extern const struct Ent d_021C3520[];
 extern int func_021BC6DC(struct S *p);
 extern u32 func_021C0EF4(struct Loc *l, u32 a, u32 b, u32 c);
-extern void func_021C0F5C(u32 a, u32 b);
+extern u32 func_021C0F5C(u32 a0, u32 a1);
 
 void func_021BCC68(struct S *p)
 {

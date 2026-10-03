@@ -19,13 +19,19 @@
  *   func_020257D0 0x020257D0 thumb
  */
 
-extern void *func_020457B0(unsigned capacity, unsigned heapId);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct CharBuf;
+struct Obj;
+struct StrObj;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_0200785C(void *save, unsigned box, void *dest);
-extern void func_02043B5C(void *buf, unsigned char value);
-extern unsigned func_0201D304(void *s, unsigned a, unsigned b);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_0201C7D0(void *x, short y, short z, void *s, void *w, unsigned short v);
-extern void func_02045808(void *vec);
-extern void func_020257D0(void *o);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020257D0(struct Obj *o);
 
 void func_021EB7E8(char **p, unsigned box, int i)
 {

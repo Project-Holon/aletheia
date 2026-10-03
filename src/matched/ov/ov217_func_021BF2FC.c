@@ -26,11 +26,14 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
 extern void func_021C0F78(u32 a, void *b);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void func_02045808(void *p);
-extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_0201F250(void *a, void *b, void *c);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 void func_021BF2FC(char *p)
 {
     u32 k;

@@ -15,11 +15,12 @@
  *   func_021FCAA0 0x021FCAA0 thumb ov132
  */
 typedef unsigned short u16;
-extern void *func_02012944(void *);
+typedef unsigned char  u8;
+extern u8 *func_02012944(void *p);
 extern void func_0203CBAC(void *, void *, void *);
 extern void func_02008494(void *, void *);
 extern void func_02087C6C(void *);
-extern void func_021FCAA0(void *);
+extern void func_021FCAA0(char *p);
 extern char d_021FDE4C[];
 extern char d_021FDDEC[];
 void *func_021FC694(int a,char *p)

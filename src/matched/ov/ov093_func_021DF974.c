@@ -21,7 +21,9 @@ typedef unsigned char u8;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int a, int b);
-extern int func_021D5444(void *p);
+typedef unsigned short u16;
+struct QF;
+extern u16 func_021D5444(struct QF *p);
 extern void func_021D7704(int key, int m);
 extern int func_021DD008(int a);
 

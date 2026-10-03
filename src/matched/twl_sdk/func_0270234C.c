@@ -15,7 +15,8 @@
 
 typedef unsigned int u32;
 
-extern u32 func_027022E0(void);
+typedef signed int     s32;
+extern s32 func_027022E0(void);
 
 asm void func_0270234C(u32 a0) {
     stmdb sp!, {r4, lr}

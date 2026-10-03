@@ -17,9 +17,11 @@
  *   func_0204B84C  0x0204B84C  arm
  */
 
+typedef unsigned int   u32;
+struct Node;
 void func_021B6A10(void *p, unsigned int v)
 {
-    void func_0204B800(void *, unsigned int);
+    void func_0204B800(struct Node *node, u32 val);
     func_0204B800(*(void **)p, v);
 }
 

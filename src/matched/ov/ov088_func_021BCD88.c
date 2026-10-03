@@ -22,9 +22,10 @@
 
 extern void func_021BCF44(void);
 extern void func_021BCF6C(void);
-extern void func_021BCFEC(void *);
-extern void func_021BD078(void *);
-extern void func_021BD0F4(void *);
+typedef unsigned char  u8;
+extern void func_021BCFEC(u8 *p);
+extern void func_021BD078(int *p);
+extern void func_021BD0F4(void **p);
 extern void func_021BD21C(void);
 
 void func_021BCD88(void *p, int *st)

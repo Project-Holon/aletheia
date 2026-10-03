@@ -22,13 +22,13 @@
 typedef struct Placement { short x, y; unsigned short animation; unsigned char priority, attr; } Placement;
 typedef struct Config { int words[3]; } Config;
 extern void *memset(void *, int, unsigned);
-extern void func_021FB548(void *, short *, short *);
-extern int func_021FB594(void *);
-extern int func_021FB5B8(void *);
-extern void func_021FB494(void *);
+extern void func_021FB548(char *p, short *x, short *y);
+extern int func_021FB594(char *p);
+extern unsigned func_021FB5B8(char *p);
+extern void func_021FB494(char *p);
 extern int func_021FB7B0(void *, int);
 extern void func_021FC124(void *, unsigned, void *);
-extern unsigned func_021FC20C(void *);
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern void *func_021FB3BC(void *, void *, int, int, int, int, int, void *, unsigned short);
 void func_021FADB8(char *ctx, int mode)

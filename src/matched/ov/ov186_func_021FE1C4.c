@@ -28,10 +28,12 @@ extern const u32 d_02200AD8[];
 extern void func_021FD940(char *,u16);
 extern void func_021FE2BC(void *,void *,u16,u16,u16,u16,int);
 extern int func_021FE2F8(char *,int *,int);
-extern void func_0204B688(void *,u32);
+typedef unsigned char  u8;
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(void *,const ShortPair *,u16);
 extern void func_021FD73C(int *,int);
-extern void func_021FD964(void);
+extern void func_021FD964(void *unused, int *state, u8 *p);
 void func_021FE1C4(int *task,int *state,char *p)
 {
     Pair full;

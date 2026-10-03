@@ -19,7 +19,8 @@
 
 typedef unsigned short u16;
 
-extern u16 func_02008534(void *p);
+struct Sub0200852CObj;
+extern u16 func_02008534(const struct Sub0200852CObj *obj);
 
 u16 func_0202E938(void *p)
 {

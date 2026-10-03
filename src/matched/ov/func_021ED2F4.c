@@ -16,7 +16,7 @@
  */
 
 
-extern void func_021EC000(char *, unsigned, int);
+extern void func_021EC000(char *p, int i, int v);
 void func_021ED2F4(char *p)
 {
     unsigned i;

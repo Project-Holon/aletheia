@@ -37,7 +37,8 @@ typedef struct {
 extern char g_021CE424[];
 extern char g_021CE440[];
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern ReqInfo *func_021BEF48();
 extern int func_021BC384(void *threadData_p, char *src_p, int srclen);
 

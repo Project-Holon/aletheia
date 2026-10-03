@@ -23,7 +23,7 @@ struct Mtx22 { int m[4]; };
 extern void func_021B9A80(void *, int);
 extern void func_0207D63C(unsigned, int, int, int, int);
 extern void func_020434DC(unsigned, unsigned);
-extern void func_0207D534(void *, int);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_02051E74(struct Mtx22 *, unsigned, const void *, const void *, u8);
 extern void func_02040860(unsigned, unsigned, unsigned, unsigned);
 int func_021BA83C(char *p)

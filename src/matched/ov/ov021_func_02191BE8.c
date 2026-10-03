@@ -34,17 +34,17 @@ typedef unsigned int   u32;
 extern u32 func_020458F8(u32 a);
 extern u32 func_020457B0(u32 a, u32 heap);
 extern u32 func_02045770(u32 w);
-extern void func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *e, u8 f);
+extern int func_0219214C(u32 a, u32 b, u32 c, u32 d, u32 *cnt, u8 col);
 extern void func_02045334(u32 w);
 extern void func_020409B4(u32 layer);
-extern void func_02040618(u32 layer, u32 a, int b);
-extern u32 func_02192138(u32 a, u32 b, u32 c);
+extern void func_02040618(u32 layer, u32 a, u32 b);
+extern int func_02192138(u32 a, u32 b, u32 c);
 extern u32 func_020362DC(void);
 extern void func_021928C0(u32 *p, u32 a, u32 b);
 extern void func_021927FC(u32 *p, u32 a, u32 b);
 extern void func_02043814(u32 a, u32 b);
 extern void func_020061E4(u32 a);
-extern u32 func_021921C8(u32 a, u32 b, u32 c, u32 d, u8 e);
+extern int func_021921C8(u32 a, u32 b, u32 c, int n, u16 col);
 
 u32 func_02191BE8(u32 *p, u32 b)
 {

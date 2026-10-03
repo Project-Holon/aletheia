@@ -28,7 +28,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_0216BB18();
+extern int func_0216BB18(void *sys);
 
 int func_0216B60C(int a0, int a1)
 {

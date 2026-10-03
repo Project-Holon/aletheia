@@ -31,23 +31,29 @@
 
 typedef unsigned int u32;
 
-extern int func_0201C6B4(void *a);
+struct Node;
+struct PrintSys;
+struct Rec;
+struct Rec3;
+struct S020315D4;
+struct U16Vec;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_020435F4(u32 a);
-extern void func_02030EAC(void *a);
-extern void func_0201CE48(void *a);
-extern void func_02045808(void *a);
-extern void func_021B9A18(void *a);
+extern void func_02030EAC(struct Node *n);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_021B9A18(char *p);
 extern void func_021B71FC(void *a);
 extern void func_021B718C(void *a);
 extern void func_021B9BA0(void *a);
-extern void func_021B9B3C(void *a);
-extern void func_021B9BC8(void *a);
-extern void func_021B9C1C(void *a);
+extern void func_021B9B3C(char *p);
+extern void func_021B9BC8(char *p);
+extern void func_021B9C1C(char *p);
 extern void func_021B9694(void *a);
-extern void func_021B9734(void *a);
+extern void func_021B9734(char *p);
 extern void func_021B95CC(void);
-extern void func_02045C04(void *a);
-extern void func_020315D4(void *a);
+extern void func_02045C04(struct Rec *rec);
+extern void func_020315D4(struct S020315D4 *p);
 
 int func_021B94CC(void *a, void *b, char *c, char *d)
 {

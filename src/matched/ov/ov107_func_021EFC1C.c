@@ -14,8 +14,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_0200C1A4(void *);
-extern void func_0200C1B0(void *,int);
+typedef unsigned int   u32;
+struct Blk34;
+extern u8 func_0200C1A4(struct Blk34 *p);
+extern void func_0200C1B0(struct Blk34 *p, u32 v);
 void func_021EFC1C(u8 *p,int mode) {
  unsigned cur; int change;
  if(p[40]==0) {

@@ -15,8 +15,11 @@
  *   d_02172508 0x02172508 data a4
  */
 typedef unsigned int u32;
-extern u32 func_02008530(void *);
-extern u32 func_0200C39C(void *, int);
+typedef signed int     s32;
+struct Blk34;
+struct Sub0200852CObj;
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u32 func_0200C39C(struct Blk34 *p, s32 i);
 extern const u32 d_02172508[];
 int func_0216BF9C(void *a, int i, void *b) {
     u32 v; u32 x;

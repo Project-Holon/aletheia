@@ -16,7 +16,7 @@
  *   func_0219B490  0x0219B490  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_0219B490(int status);
 
 void func_021768EC(int result)

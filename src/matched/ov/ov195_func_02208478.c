@@ -36,7 +36,7 @@ typedef struct Quad {
 } Quad;
 
 extern char d_02208F68[];
-extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 Quad *func_02208478(u32 tex, u32 pltt, u16 heap)
 {

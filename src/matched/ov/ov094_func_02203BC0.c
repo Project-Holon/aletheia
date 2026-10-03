@@ -27,7 +27,8 @@ typedef struct Ctx {
 } Ctx;
 
 extern void func_022043C0(Main *m, int a1, int a2, int a3, int a4);
-extern void func_02040588(unsigned int a, unsigned char b);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0220687C(Main *m, int a);
 
 void func_02203BC0(int a0, Ctx *c)

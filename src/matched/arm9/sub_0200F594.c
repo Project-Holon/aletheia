@@ -20,9 +20,14 @@
  *   func_02082D44  0x02082D44  arm
  */
 
-extern int   sub_02008554(void *a);
-extern void  sub_02009918(void *obj, int i, int field, int value);
-extern void *sub_020099C8(void *obj, int i);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern u8 sub_02008554(const struct Sub0200852CObj *obj);
+extern void sub_02009918(struct Sub020097BCObj *obj, u32 i, u32 field, u32 value);
+extern struct Sub020097BCFriend *sub_020099C8(struct Sub020097BCObj *obj, int i);
 extern void  sub_0200F520(void *obj, void *src, int i, void *sel, int flag);
 extern void *sub_0201283C(void *a);
 extern void  func_02082D44(void *dst, const void *src, unsigned n);

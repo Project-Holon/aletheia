@@ -36,7 +36,8 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *p);
 extern void func_0204ADA4(void *p);
 extern void func_0204AFD8(void *p);

@@ -25,11 +25,16 @@ typedef struct Obj {
     int done[4];
 } Obj;
 
-extern void *func_02045770(void *p);
-extern int func_0201C6C4(void *a, void *b);
-extern void func_02045334(void *p);
-extern void func_02045374(void *p);
-extern unsigned char func_02045730(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+struct PrintSys;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int bit);
 
 void func_021BA01C(Obj *o)

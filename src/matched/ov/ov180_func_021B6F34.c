@@ -21,7 +21,8 @@
  *   func_021B6170 0x021B6170 thumb ov180
  *   func_021B7210 0x021B7210 thumb ov180
  */
-extern void func_0204363C(int);
+typedef unsigned int   u32;
+extern void func_0204363C(u32 swap);
 extern void func_021B61D4(int);
 extern void func_021B6224(void);
 extern void func_021B6254(void);

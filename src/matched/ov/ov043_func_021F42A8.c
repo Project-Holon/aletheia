@@ -24,7 +24,8 @@
 
 typedef unsigned char u8;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D2C(void *a);
 extern void *func_021897BC(void *a, int b);
 extern void *func_02188C58(void *a);

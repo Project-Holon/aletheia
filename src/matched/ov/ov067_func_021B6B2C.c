@@ -32,18 +32,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u16 d);
+struct MsgBank;
+struct Rec;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201EC64(u16 heap);
 extern void *func_020457B0(u32 size, u16 heap);
-extern void *func_02045EC0(void *h, u32 idx);
-extern u32 func_0201D304(void *a, u32 b, u32 c);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
 extern void func_021B6AE4(u32 p, u32 a, u16 b, u16 c, void *s0, u32 s1, u16 s2, u32 s3);
-extern u32 func_021B6C4C(void *a, u32 b, u32 c);
-extern void func_02045808(void *v);
-extern void func_0201EFA4(void *obj, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_0201F250(void *obj, void *a, void *b);
-extern void func_0201ED04(void *p);
-extern void func_02045C04(void *p);
+extern u16 func_021B6C4C(struct StrObj *s, u32 a, u32 mode);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021B6B2C(u32 a0, u32 a1, u32 a2, u16 a3, u16 a4, u16 a5, u32 a6, u32 a7, u16 heap)
 {

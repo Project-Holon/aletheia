@@ -16,7 +16,9 @@
  *   func_0204B454 0x0204B454 arm
  */
 
-extern void func_0204B688(void *, int);
+typedef unsigned int   u32;
+struct Actor;
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(void *, void *, unsigned short);
 extern void func_0204B454(void *, void *, unsigned short);
 

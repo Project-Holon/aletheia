@@ -16,9 +16,12 @@
  *   func_02045C04 0x02045C04 arm
  */
 typedef unsigned char u8;
-extern void func_02045808(void *p);
-extern void func_0201ED04(void *p);
-extern void func_02045C04(void *p);
+struct Rec;
+struct U16Vec;
+struct WordSet;
+extern void func_02045808(struct U16Vec *vec);
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02045C04(struct Rec *rec);
 void func_021C5954(u8 *p)
 {
     func_02045808(*(void **)(p + 0x1D8));

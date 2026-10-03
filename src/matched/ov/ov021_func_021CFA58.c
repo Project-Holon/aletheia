@@ -29,7 +29,8 @@ typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188D24(u32 a);
 extern void func_021BB990(void *a, u32 b, void *c);
 extern char abs_id_39[];

@@ -65,11 +65,14 @@ typedef struct BattleMon {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_02168800(void *dst, u32 member);
-extern u32 func_020186C8(u32 otId, u16 species, u16 form, u32 a, u32 b, u32 c);
-extern u32 func_02019C90(u16 species, u32 form, u32 attr);
-extern void *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void func_02045F5C(void *bank, u32 id, void *dest, u32 n);
-extern void func_02045C04(void *bank);
+struct MsgBank;
+struct MsgData;
+struct Rec;
+extern u32 func_020186C8(u32 a0, int a1, int a2, int a3, int a4, int a5);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
+extern void func_02045C04(struct Rec *rec);
 extern const u16 d_02172084[];
 
 u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemIdx, int useItem, u16 heap)

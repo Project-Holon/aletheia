@@ -23,9 +23,11 @@
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned long u32;
-extern void func_0204B3DC(void *,u32);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B49C(void *,s16,u16,u32);
-extern void func_0204B5D4(void *,u32,u32);
+extern void func_0204B5D4(struct Actor *actor, u32 value, u32 which);
 extern s16 func_0203F684(u16);
 void func_021FF248(char *p)
 {

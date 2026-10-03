@@ -21,5 +21,5 @@ extern int func_021D580C(char *);
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021D6EE0(char *,int,int);
-extern void func_021D706C(void);
+extern void func_021D706C(char *p);
 void func_021D7088(char *p) { if(func_021D580C(*(char **)(p+24)) && (func_020362DC() || func_02035C60())) func_021D6EE0(p,(int)func_021D706C,0x1d9); }

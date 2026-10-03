@@ -14,7 +14,8 @@
  *   func_02046788 0x02046788 arm
  */
 extern void func_021E36D8(void *, int);
-extern void func_02014BA8(void *);
+typedef unsigned char  u8;
+extern void func_02014BA8(u8 *a0);
 extern void func_02048AC4(void *);
 extern void func_02046788(void);
 void func_021DC428(char *p)

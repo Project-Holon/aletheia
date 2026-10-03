@@ -20,13 +20,16 @@
  *   func_021DD93C 0x021DD93C thumb ov137
  */
 extern unsigned func_021DE7F4(void);
-extern int func_02039338(void);
-extern unsigned func_021DE354(char *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_02039338(void);
+extern int func_021DE354(void *p);
 extern void *func_021DCF50(void *);
-extern int func_02184114(void *);
-extern unsigned func_021841A4(void *);
-extern void func_02184134(void *);
-extern void func_020061E4(int);
+extern int func_02184114(unsigned char *p);
+extern int func_021841A4(unsigned char *p);
+extern void func_02184134(u8 *p);
+extern void func_020061E4(u32 a);
 extern void func_021DE4B4(char *,int,int);
 extern void func_021DD93C(char *,int);
 void func_021DD80C(char *p) {

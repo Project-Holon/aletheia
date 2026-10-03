@@ -35,7 +35,8 @@ extern void func_02082BCC();
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0200CA1C(void *a);
 extern u8 *func_02012944(void *p);
-extern int func_02012A30();
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern int func_02012134();
 extern void func_02029DBC();
 

@@ -46,12 +46,12 @@ typedef struct Obj2 {
 extern char d_021DDA50[];
 
 extern void func_02192F74(Fx *a);
-extern Obj2 *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020457B0(u32 n, u32 heap);
 extern void func_021927C0(u32 *sub, Fx *a);
 extern void func_02193144(u32 heap);
 extern void func_02193044(u32 v);
-extern u32 func_021930C0(int a, int b, int c, int d, u16 e, u16 f, u16 g);
+extern int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f);
 
 Obj2 *func_02190DCC(Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f)
 {

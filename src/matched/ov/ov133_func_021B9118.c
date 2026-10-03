@@ -13,8 +13,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021F4B10(void *, int, int);
-extern int func_021F4AFC(void *, int, int);
+extern int func_021F4B10(u8 *p, int index, int mode);
+extern int func_021F4AFC(u8 *p, int index, int mode);
 u16 func_021B9118(u8 *p, u8 *q, int v)
 {
     int a = func_021F4B10(*(void **)(p + 0x1884), *(u16 *)q, v);

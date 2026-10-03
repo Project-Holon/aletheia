@@ -47,7 +47,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed char    s8;
 
-extern int func_02013E4C(int a0);
+extern u32 func_02013E4C(u32 id);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02020FE4(u32 species, u32 a1, u32 a2);

@@ -23,13 +23,13 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021DDA50[];
 extern u32 func_0201D7EC(int a, int b, int c, int d, u16 heap);
 extern u32 func_0201C440(u16 heap);
 extern u32 func_0203101C(u16 a, u16 b, int c, int d);
 extern void func_021931F4(void *p);
-extern u32 func_0204A1BC(int a, int b, int c, u16 heap);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 extern void func_02062A4C(u32 a, void *b);
 
 u8 *func_021901EC(u16 heap, u32 b)

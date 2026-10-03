@@ -21,7 +21,7 @@ extern State d_021D9E40;
 extern char d_021DA040[];
 extern void func_021D8588(void);
 extern int func_021D7CF4(void);
-extern void func_021D7CD4(void);
+extern int func_021D7CD4(void);
 extern char *func_02094798(char *, const char *);
 extern void func_021D7808(void);
 static inline Record *copy(Record *dst, const Record *src) { *dst = *src; return dst; }

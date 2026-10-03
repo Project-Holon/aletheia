@@ -32,24 +32,27 @@
  *   func_021BB94C  0x021BB94C  thumb  ov217
  */
 
-extern int func_021BB974(void *);
-extern void func_021BACA0(void *);
-extern void func_021BAE00(void *);
-extern void func_021BAF70(void *);
-extern void func_021BB190(void *);
-extern void func_021BB200(void *);
-extern void func_021BB710(void *);
-extern void func_021BB69C(void *);
-extern void func_021BB484(void *);
-extern void func_021BB2B4(void *);
-extern void func_021BB534(void *);
-extern void func_021BB37C(void *);
-extern void func_021BB784(void *);
-extern void func_021BB5F4(void *);
-extern void func_021BB84C(void *);
-extern int func_021BAC90(void *);
-extern void func_021BC5F0(void *);
-extern void func_021BC5D4(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct S;
+extern u32 func_021BB974(void *p);
+extern void func_021BACA0(u8 *p);
+extern void func_021BAE00(u8 *p);
+extern void func_021BAF70(char *p);
+extern void func_021BB190(u8 *p);
+extern void func_021BB200(struct S *p);
+extern void func_021BB710(u8 *p);
+extern void func_021BB69C(u8 *p);
+extern void func_021BB484(u8 *p);
+extern void func_021BB2B4(char *p);
+extern void func_021BB534(u8 *p);
+extern void func_021BB37C(char *p);
+extern void func_021BB784(struct S *p);
+extern void func_021BB5F4(u8 *p);
+extern void func_021BB84C(u8 *p);
+extern u32 func_021BAC90(void *p);
+extern void func_021BC5F0(u8 *a0);
+extern void func_021BC5D4(int *p);
 extern void func_0204A600(void);
 extern void func_021BB908(void *);
 extern void func_021BB94C(void *);

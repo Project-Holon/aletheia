@@ -82,16 +82,17 @@ struct PrintSys {
 
 extern struct PrintCtx g_0214655C;
 
-extern u32   func_0203D1B4(struct PrintSys *p);
-extern struct PrintCtx *func_0201D7C4(struct PrintSys *p,
-                                     struct PrintCtx *q);
+struct Rec2;
+struct Ring;
+extern void func_0203D1B4(void);
+extern void *func_0201D7C4(struct PrintSys *p, void *q);
 extern u32   func_0201D6B8(void *s);
-extern u32   func_0201D6C4(const struct PrintSys *p);
+extern u32 func_0201D6C4(const struct Ring *p);
 extern void  func_0201D6D8(struct PrintSys *p, void *a, void *b);
 
-extern void sub_0201C808(struct PrintCtx *c, u32 a, u32 b, u32 d, u32 e);
-extern void sub_0201C8A4(struct PrintCtx *c, u16 v);
-extern void sub_0201C8BC(struct PrintCtx *c, void *s);
+extern void sub_0201C808(struct PrintCtx *p, void *w, void *x, s16 y, s16 z);
+extern void sub_0201C8A4(struct Rec2 *p, u16 v);
+extern void sub_0201C8BC(u8 *a0, int a1);
 
 void sub_0201C758(struct PrintSys *p, struct PrintCtx *c, void *s);
 

@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 
 extern u32  func_02017E1C(void *p, u32 id, u32 v);
 extern void func_020181F4(void *p, u16 move, u8 slot);
-extern void func_02017BC8(void *p, u32 slot);
+extern void func_02017BC8(u8 *p, u32 i);
 extern void func_02017988(void *p, u16 idx);
 
 struct MoveTbl { u16 v[6]; };

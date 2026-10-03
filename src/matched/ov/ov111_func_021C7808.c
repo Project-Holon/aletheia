@@ -42,8 +42,10 @@ typedef struct {
 } Work;
 
 extern void func_02048AC4(void *p);
-extern void func_020480E4(void *p, u16 v);
-extern void func_02047E54(void *p);
+struct Ctx;
+struct Rec;
+extern void func_020480E4(struct Ctx *c, u32 i);
+extern void func_02047E54(struct Rec *p);
 
 void func_021C7808(Work *p)
 {

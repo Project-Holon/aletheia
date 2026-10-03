@@ -50,7 +50,7 @@ void sub_0201ADD0(void *a, void *b, void *c)
 }
 
 extern void *func_02030734(void *obj, u32 size, u32 zero, const char *file, u32 line);
-extern void *sub_0201ADA4(void *a, void *b, void *c);
+extern void sub_0201ADA4(void *a, void *b, void *c);
 extern const char sub_0201ADE4_File[];
 
 void *sub_0201ADE4(void *a, void *b, void *c)

@@ -23,8 +23,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_02011330(void *);
-extern u8 func_0215932C(u16, void *);
+struct Stream;
+extern u16 func_02011330(struct Stream *s);
+extern int func_0215932C(unsigned int a, unsigned int b);
 
 int func_02159398(void *a0, void *a1)
 {

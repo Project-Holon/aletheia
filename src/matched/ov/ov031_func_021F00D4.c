@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 extern void *func_02012138(void *p);
 extern u8 *func_02026474(void *p);
-extern int func_02026454(void *p);
+extern u32 func_02026454(void *obj);
 extern void func_021BBA70(u8 *q, int a, u8 *b, int c);
 extern void func_021F0680(char *p, u8 *b);
 extern void func_0204B3DC(int, int);

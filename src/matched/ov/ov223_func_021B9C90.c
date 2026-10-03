@@ -17,10 +17,15 @@
  */
 typedef unsigned short u16;
 extern void *func_02048A18(void *,int);
-extern int func_0204779C(void *);
-extern int func_020477D4(void *,unsigned);
-extern unsigned func_020477A4(void *,unsigned);
-extern unsigned func_0204784C(void *,unsigned,int *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct AnmCtl;
+struct G3dSys;
+struct Owner;
+extern int func_0204779C(int *p);
+extern int func_020477D4(struct Owner *owner, u32 index);
+extern u32 func_020477A4(struct G3dSys *sys, u32 idx);
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 /* B908 reads only r0, forwarding its live r1 to D478; legacy r2/r3 unused. */
 extern void func_0204B908(void *,int);
 void func_021B9C90(char *p,unsigned next)

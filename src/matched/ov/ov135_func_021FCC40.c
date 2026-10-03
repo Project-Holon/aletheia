@@ -94,7 +94,7 @@ extern void func_021FD790(void *bank, void *pane, u32 index, void *g);
 extern void func_021FD5F0(Work *p);
 extern void func_021FFD1C(Work *p, int i, int dy);
 extern void func_021FD8BC(void *p);
-extern void func_0203D34C(u32 a, u16 heap);
+extern void func_0203D34C(u32 a, u32 b);
 extern void func_0202208C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
 int func_021FCC40(Work *p)

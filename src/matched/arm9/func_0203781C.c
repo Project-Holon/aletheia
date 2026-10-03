@@ -25,9 +25,9 @@
 
 typedef unsigned int u32;
 
-extern char *func_0203D798(void);
-extern char *func_0203D788(void);
-extern void  func_02037680(u32 i);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
+extern void func_02037680(int i);
 
 void func_0203781C(u32 arg)
 {

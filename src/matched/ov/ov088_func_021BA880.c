@@ -37,10 +37,10 @@ typedef struct {
 
 extern const MsgEnt d_021BD784[8];
 
-extern void func_020434DC(int, int);
-extern void func_02043598(int, int);
-extern void func_02040EBC(int, int);
-extern int func_021BC054(void *p, int k);
+extern void func_020434DC(u32 mask, u32 enable);
+extern void func_02043598(u32 mask, u32 enable);
+extern void func_02040EBC(u32 a0, u32 a1);
+extern int func_021BC054(char *p, int v);
 extern void func_021BBF98(char *p);
 extern int func_021BC080(char *p, int v);
 extern void func_021BBF1C(char *p, u32 a1);

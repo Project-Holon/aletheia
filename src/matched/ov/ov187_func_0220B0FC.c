@@ -13,7 +13,9 @@
  *   d_0220B2E4 0x0220B2E4 data a1
  */
 typedef struct { int state, mode; void *data, *owner; } Work;
-extern void *func_02030734(unsigned short, unsigned, int, const char *, unsigned short);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern const char d_0220B2E4[];
 Work *func_0220B0FC(unsigned short heap, char *p, int mode)

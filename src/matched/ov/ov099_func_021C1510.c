@@ -25,14 +25,16 @@ extern int func_020399A8(void);
 extern int func_02039CB4(unsigned, unsigned, unsigned);
 extern int func_021C14EC(char *);
 extern void *func_0201283C(void *);
-extern void *func_020099C8(void *, int);
-extern void func_0200F4E4(void *);
+struct Sub020097BCFriend;
+struct Sub020097BCObj;
+extern struct Sub020097BCFriend *func_020099C8(struct Sub020097BCObj *obj, int i);
+extern int func_0200F4E4(void *o);
 extern void func_021BA8EC(char *);
 extern int func_02156A3C(void);
 extern void *func_021C23B8(int);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
-extern void func_021C18C8(char *, int, unsigned);
+extern void func_021C18C8(char *p, int kind, int value);
 int func_021C1510(char *p, int ret)
 {
     void *s;

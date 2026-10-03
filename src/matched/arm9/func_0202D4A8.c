@@ -34,7 +34,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 func_02019C90(u16 species, u32 form, u32 attr);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_020490A8(void *narc, u32 index);
 
 typedef enum { PAL_0 } Pal;

@@ -30,8 +30,10 @@ typedef struct {
 
 extern const T4 d_021C37D4;
 extern void func_021BB42C(void *p);
-extern int func_02009864(void *h, int id, int n);
-extern int func_02025C88(int x);
+typedef unsigned int   u32;
+struct Sub020097BCObj;
+extern u32 func_02009864(const struct Sub020097BCObj *obj, u32 i, u32 field);
+extern u32 func_02025C88(u32 x);
 extern void *func_0202DA04(u16 a);
 extern void *func_0202DA48(void *a, int b, int c, u16 d);
 extern void *func_0202DA18(void *a, int b, int c, int d, u16 e);

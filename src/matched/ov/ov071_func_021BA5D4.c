@@ -38,15 +38,20 @@ typedef struct {
     u8 pad2c[8];
     Record *f34;
 } Q;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, u32);
-extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
-extern void *func_02045EC0(void *, u32);
-extern void *func_020457B0(u32, u32);
-extern void func_0201F250(void *, void *, void *);
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void func_0201C6FC(void *, void *, u32, u32, void *, u32);
-extern void func_02045808(void *);
-extern void func_02045334(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045334(struct Descriptor *d);
 extern Counts *func_021B6F40(u8 *);
 
 static inline void Draw(Q *q, void *h, u32 x, u32 y, void *s)

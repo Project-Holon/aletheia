@@ -37,7 +37,11 @@ struct Work {
 
 typedef u32 (*TaskFn)(void *task, u32 *state, struct Work *work);
 
-extern u32 func_02028988(void *sys);
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sys;
+extern u32 func_02028988(struct Sys *s);
 
 u32 func_02029C38(void *task, u32 *state, struct Work *work)
 {
@@ -55,9 +59,9 @@ u32 func_02029C38(void *task, u32 *state, struct Work *work)
     return 0;
 }
 
-extern void *func_020120F4(void *a);
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern struct Work *func_020124E8(void *task);
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void *func_02012A30(void *a);
 
 void *func_02029C64(void *a)

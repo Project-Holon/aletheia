@@ -14,11 +14,12 @@
  *   func_021E5430 0x021E5430 thumb ov119
  *   func_021E5680 0x021E5680 thumb ov119
  */
-extern void func_0203F8F4(int);
+typedef unsigned short u16;
+extern void func_0203F8F4(u16 heapId);
 extern void func_02045088(unsigned short);
-extern void func_021E53F8(void *);
+extern void func_021E53F8(char *p);
 extern void func_021E5430(void *);
-extern void func_021E5680(void *);
+extern void func_021E5680(char *p);
 void func_021DC458(char *p)
 {
     func_0203F8F4(0x91);

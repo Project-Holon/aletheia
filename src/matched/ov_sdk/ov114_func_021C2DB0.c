@@ -69,7 +69,7 @@ typedef struct GHIConnection {
 extern int func_02181E20(void *);
 extern char *func_02181E18(void *);
 extern int func_021BFCEC(GHIBuffer *, char *, int);
-extern int func_021BFDEC(GHIBuffer *, char *, int);
+extern int func_021BFDEC(struct GHIBuffer *buffer, const char *data, int dataLen);
 extern void func_021C00FC(GHIBuffer *);
 extern int func_021C011C(GHIConnection *);
 extern GRes func_021C07B8(GHIConnection *, char *, int);

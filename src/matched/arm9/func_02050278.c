@@ -37,10 +37,12 @@ struct BbActSys {
     void *f14;
 };
 
-extern void func_0204F150(void *board, u32 idx);
+typedef signed int     s32;
+struct AreaMan;
+extern void func_0204F150(u8 *a0, int i);
 extern void func_02046EFC(u32 v);
 extern void func_02050088(struct BbActSlot *s);
-extern void func_0203422C(void *pool, u32 first, u32 count);
+extern void func_0203422C(struct AreaMan *p, u32 start, s32 len);
 
 void func_02050278(struct BbActSys *o, u32 first, u32 count)
 {

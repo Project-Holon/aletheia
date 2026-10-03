@@ -28,10 +28,10 @@ typedef int            s32;
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 typedef struct Arg { u32 a; u32 b; u16 c, d, e; } Arg;
 
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern u16 func_0216D588(u32 a);
 extern u16 func_0216D590(u32 a);
-extern int func_0216D55C(u32 a, u32 b);
+extern int func_0216D55C(int a0, int a1);
 extern void func_021ABFA8(u32 a, u8 *b, Vec3 *c, u32 d, Arg *e, u32 f);
 extern u8 d_021D915C[];
 extern u8 d_021D9184[];

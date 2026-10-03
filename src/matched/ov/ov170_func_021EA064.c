@@ -24,7 +24,7 @@ extern void func_021ECB84(char *w, unsigned i);
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021ED594(unsigned char *p, unsigned i);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);
-extern void func_021EA1C0(unsigned char *p);
+extern void func_021EA1C0(void *p);
 extern void func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021DFA30(unsigned char *p);
 

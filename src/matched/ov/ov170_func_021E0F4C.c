@@ -20,7 +20,7 @@ extern int func_021EBFEC(char *, int);
 extern void func_021ED108(char *, int);
 extern void func_021EBFA8(char *, int, int);
 extern void func_021EC000(char *, int, int);
-extern int func_021E0190(unsigned char *);
+extern int func_021E0190(char *p);
 #define W(p) (*(char **)((p) + 0x2C))
 int func_021E0F4C(unsigned char *p)
 {

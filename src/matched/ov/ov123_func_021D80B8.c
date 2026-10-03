@@ -21,12 +21,13 @@
 extern int func_021D6E70(char *);
 extern int func_021D6EBC(char *);
 extern int func_021D6EA4(char *);
-extern int func_021B95D4(int, void *);
-extern int func_021B9748(void *);
+typedef unsigned char  u8;
+extern int func_021B95D4(int index, u8 *p);
+extern int func_021B9748(u8 *p);
 extern void func_021D5950(char *, int);
 extern void func_021D59E4(char *);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D7F9C(void);
+extern void func_021D7F9C(char *p);
 void func_021D80B8(char *p)
 {
     if (func_021D6E70(p) && !func_021D6EBC(p)) {

@@ -20,7 +20,8 @@
 
 extern int d_021D9A90;
 
-int func_021ABEA0(int a, int b);
+typedef unsigned int   u32;
+int func_021ABEA0(u32 a, u32 b);
 void func_0216E1A4(int a, void *out);
 int func_021ABE14(int a);
 void func_021BB778(int n);

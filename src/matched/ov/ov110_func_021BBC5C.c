@@ -23,8 +23,10 @@ struct WinMgr;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern const char d_021C3C58[];
 extern u8 *func_021BF6D4(u8 *);
-extern void *func_020457B0(unsigned, unsigned);
-extern void *func_02045B38(unsigned, unsigned, unsigned, unsigned);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02020D18(unsigned);
 extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 u8 *func_021BBC5C(void *a, u8 *b, void *c)

@@ -31,10 +31,12 @@ typedef struct {
     int c;
 } V;
 
-extern void *func_0201210C(void *p);
-extern void *func_021897BC(void *p, int i);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern int *func_021897BC(char *p, int idx);
 extern void *func_02188D2C(void *p);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern V *func_021BE480(void *p, int i, u16 j);
 extern void func_021BE4B4(void *p, int i, u16 j, int v);
 extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);

@@ -23,7 +23,8 @@ typedef struct {
     u32 f4;
 } Holder;
 
-extern void func_0204932C(void *arc, u32 a, u32 *out);
+struct ArcFile;
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 
 void func_021CD204(Holder *h, u32 a)
 {

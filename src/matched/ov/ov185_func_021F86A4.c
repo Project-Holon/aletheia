@@ -24,8 +24,8 @@
  */
 
 
-extern void func_021F8AA8(void);
-extern void func_021F8658(void);
+extern void func_021F8AA8(int *sys, int *state, char *p);
+extern void func_021F8658(int a, int *state, char *p);
 extern void func_021FFC9C(int);
 extern int func_021FFE90(int, unsigned short *);
 extern void func_021FD73C(int, void *);

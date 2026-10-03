@@ -16,7 +16,7 @@
  *   func_02197FDC  0x02197FDC  arm  ov009
  */
 
-extern void func_02195DE4(void *p);
+extern void func_02195DE4(int *p);
 extern void func_02197FDC(void *p);
 
 void func_02195AD8(void *p)

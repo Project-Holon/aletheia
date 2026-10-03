@@ -25,10 +25,11 @@ typedef struct {
     u8 f1b_lo : 5;
     u8 f1b_b5 : 1;
 } Obj;
-extern u32 func_02017D30(void *h);
-extern void func_02017988(void *h, u32 v);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017988(void *p, u32 a);
 extern u32 func_02017E1C(void *h, u32 k, u32 z);
-extern void func_02017D70(void *h, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void func_021D52B4(void *p, void *w, u32 k);
 
 void func_021D66D8(Obj *p, u32 v)

@@ -23,7 +23,7 @@ extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
 extern void func_021E1030(void *);
 extern void func_021D8E84(void *,int);
-extern void func_021DDD60(void *);
+extern void func_021DDD60(unsigned char *p);
 
 void func_021DDE4C(unsigned char *p)
 {

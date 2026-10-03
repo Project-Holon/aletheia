@@ -21,7 +21,7 @@
  *   func_02082C60  0x02082C60  arm
  */
 
-extern char *func_021F3D6C(int a);
+extern void *func_021F3D6C(int a);
 extern int func_021F3C98(char *a, char *b);
 extern int func_021F3C84(char *a, char *b, int c);
 extern int func_021F39F8(int a, int *s, int *t);

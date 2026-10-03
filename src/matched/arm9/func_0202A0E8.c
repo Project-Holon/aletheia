@@ -16,7 +16,7 @@
 typedef unsigned int u32;
 
 extern int func_02029F8C(void *p);
-extern void func_0202A084(void *p, int a);
+extern void func_0202A084(u32 *p, int event);
 
 void func_0202A0E8(u32 *p)
 {

@@ -32,7 +32,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_02045A90(void *s);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
 extern u32  func_0201D5CC(const u16 *p);
 extern u16 *func_0201D688(u16 *p);
 

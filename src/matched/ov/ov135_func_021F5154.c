@@ -30,7 +30,7 @@ extern void func_021F5374(u8 *);
 extern void func_021F57EC(u8 *);
 extern void func_021F5420(u8 *);
 extern void func_021FFD44(u8 *);
-extern int func_0207D55C(u16 *);
+extern int func_0207D55C(volatile u16 *reg);
 extern void func_0202208C(void *, u32, u32, u32, u32, u32, u32);
 extern void func_021F68A4(u8 *, int);
 extern void func_021F9254(u8 *);

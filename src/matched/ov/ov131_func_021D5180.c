@@ -14,10 +14,11 @@
  *   func_0204B3B4 0x0204B3B4 arm
  */
 typedef unsigned char u8;
-extern void func_021D89FC(void *,void *);
-extern void func_021D9BD4(void *,void *);
-extern void func_021D694C(void *,void *);
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_021D89FC(void *unused, unsigned char *s);
+extern void func_021D9BD4(void *a, u8 *p);
+extern void func_021D694C(void *a, unsigned char *p);
+extern void func_0204B3B4(struct Obj *p);
 void func_021D5180(char *p)
 {
     u8 i;

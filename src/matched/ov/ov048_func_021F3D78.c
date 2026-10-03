@@ -17,11 +17,12 @@
  *   func_021F3DA8  0x021F3DA8  thumb
  */
 
-extern int  func_021F3A70(void *p);
-extern void func_021F3DF0(void *p);
+typedef unsigned char  u8;
+extern int func_021F3A70(u8 *p);
+extern void func_021F3DF0(u8 *p);
 extern int  func_021F3D24(void *p);
-extern void func_021F3E2C(void *p);
-extern void func_021F3DA8(void *p);
+extern void func_021F3E2C(u8 *p);
+extern void func_021F3DA8(u8 *p);
 
 void func_021F3D78(void *p)
 {

@@ -32,7 +32,7 @@ extern int func_02035C60(void);
 extern void func_021F7BEC(void);
 extern void func_021F7998(u32);
 extern int func_021F7EB4(void);
-extern int func_021BA1A8(void *, int);
+extern int func_021BA1A8(char **p, int m);
 extern u32 func_0203F0A8(void);
 #define WORD(k) (*(int *)(d_0220AF20 + (k)))
 

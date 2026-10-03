@@ -17,9 +17,10 @@
 
 typedef unsigned int u32;
 
-extern void *func_02030734(int heap, int size, int align, const char *file, int line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int   func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
-extern void *func_02048F60(int a0, int a1, int a2);
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern const char sTpokeData82[];
 
 typedef struct {

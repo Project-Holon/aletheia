@@ -23,11 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef unsigned long long u64;
-extern void *func_020457B0(u32, u32);
-extern void func_02045808(void *);
-extern void func_02045AA8(void *, void *);
+struct Obj;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045AA8(struct U16Vec *dst, struct U16Vec *src);
 extern void func_0201F35C(void *, int, u32, u32, u32);
-extern void func_0204B878(void *, u16);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern int func_021E0E40(int, int);
 extern void func_021E1374(char *, int);
 void func_021E1708(char *p)

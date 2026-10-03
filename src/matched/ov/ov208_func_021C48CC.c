@@ -46,13 +46,13 @@ struct Ov208WinTbl {
     u8 d[5][7];
 };
 
-extern void func_02049B90(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heap);
-extern u32  func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32  func_02045770(u32 win);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 win);
 extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32  func_0204A298(u32 archive_id, u32 member, u32 kind, u32 heap, u32 *size);
+extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 extern u32  func_02045EC0(u32 msg, u32 id);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(u32 s);

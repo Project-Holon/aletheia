@@ -17,7 +17,8 @@
 
 
 extern void func_02045C04(int);
-extern void func_0203FB44(int, int, int);
+typedef unsigned int   u32;
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
 extern void func_020437AC(int);
 extern void func_020452E8(int);
 

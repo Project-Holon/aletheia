@@ -58,8 +58,10 @@ struct MsgBank {
 
 extern void  sub_02046180(struct MsgBank *bank);
 extern void  sub_0204960C(void *stream, u32 offset);
-extern void  sub_020495F4(void *stream, u32 size, void *dst);
-extern void *sub_020457B0(u32 len, u32 heapId);
+struct ArcFile;
+struct U16Vec;
+extern void sub_020495F4(struct ArcFile *arc, u32 size, void *dst);
+extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
 extern void  sub_02045CAC(struct MsgBank *bank, u32 index, void *buf);
 
 void *sub_02045EC0(struct MsgBank *bank, u32 index)

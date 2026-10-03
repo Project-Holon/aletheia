@@ -26,9 +26,10 @@ typedef struct {
     u16 f58;
 } Ov018Src;
 
-void *func_020124E4(void *);
+struct Obj;
+void *func_020124E4(struct Obj *p);
 void func_0201232C(void *, void (*)(void), int);
-u8 *func_020124E8(void *);
+void *func_020124E8(struct Obj *p);
 void func_02082D44(void *, void *, int);
 void func_02181584(void);
 

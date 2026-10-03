@@ -19,11 +19,11 @@
  *   func_0216B838  0x0216B838  arm  ov009
  */
 
-extern char *func_02175F3C(void);
-extern int func_02175FB8(void);
-extern unsigned int func_0216B908(void);
+extern int func_02175F3C(void);
+extern unsigned char func_02175FB8(void);
+extern int func_0216B908(void);
 extern int func_02175EB4(void);
-extern int func_0216B838(void);
+extern unsigned char func_0216B838(void);
 
 int func_0216CB90(void)
 {

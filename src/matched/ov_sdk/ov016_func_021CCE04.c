@@ -23,8 +23,8 @@
  *   func_021CCE58  0x021CCE58  arm  ov016
  */
 
-extern int func_021BCB14(void);
-extern void func_021CFFAC(int no);
+extern signed char func_021BCB14(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021CD108(void);
 extern void func_021C0E40(void (*scene)(void));
 typedef struct { signed char last; signed char cur; unsigned char flag; void *screen; } FocusState;

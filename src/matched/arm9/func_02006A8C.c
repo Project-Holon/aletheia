@@ -51,7 +51,7 @@ struct Sub02006A8CVoice {
 };
 
 extern struct Sub02006A8CVoice g_02140488[];
-extern u32  func_0200674C(u32 v);
+extern u8 func_0200674C(u8 volume);
 extern void func_02072C18(u32 a, u32 b);
 
 void func_02006A8C(u32 idx, int delta)

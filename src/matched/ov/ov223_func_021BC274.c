@@ -17,12 +17,14 @@
  *   func_0204E804 0x0204E804 arm
  */
 extern void func_021B9C58(char *);
-extern void func_021B9A8C(char *,unsigned);
-extern void func_020061E4(int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_021B9A8C(char *p);
+extern void func_020061E4(u32 a);
 extern void func_021B9D4C(char *);
 extern void func_021BA2B4(char *);
 extern void func_021BB964(char *);
-extern void func_0204E720(int,int,int,int);
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
 int func_021BC274(char *p,unsigned *state)
 {

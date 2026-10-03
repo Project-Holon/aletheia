@@ -29,10 +29,12 @@ struct C {
     u16 fc;
 };
 
-extern void *func_020120F4(void *p);
-extern void *func_0201296C(void *p);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C84(void *p);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_0201296C(const struct BigObj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern u16 func_02188C84(u8 *p);
 extern void *func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
 extern void func_02159058(void *p, u32 a, u32 b, u32 c, u32 d);
 extern void func_021587B0(void *a, u32 id, u32 b, u32 c);

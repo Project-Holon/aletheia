@@ -23,8 +23,11 @@ struct S021F5E68
 };
 
 extern void func_0204B908(void *, int);
-extern void func_0204B92C(void *, int);
-extern int func_0204B98C(void *);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern u32 func_0204B98C(struct Actor *a);
 
 void func_021F5E68(int unused, struct S021F5E68 *p)
 {

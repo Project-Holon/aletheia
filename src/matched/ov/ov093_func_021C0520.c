@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *, u8, ...);
-extern void func_021CD4B0(void *, u32, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern int func_021D62C4(u8 *, int);
-extern u32 func_021D78AC(int);
-extern void func_021C5604(u8 *, u8 *, u16);
+extern u32 func_021D78AC(u32 range);
+extern void func_021C5604(u8 *p, u8 *a, int b);
 void func_021C0520(u8 *p, u8 *a, u16 b, u32 c)
 {
     u32 id = func_021D5440(a);

@@ -13,7 +13,9 @@
  *   func_021EBF74 0x021EBF74 thumb ov170
  *   d_021EFA7C 0x021EFA7C data a4
  */
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021EAB50(char *);
 extern void func_021EBF74(char *);
 extern int (*const d_021EFA7C[])(char *);

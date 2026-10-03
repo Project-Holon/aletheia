@@ -87,8 +87,8 @@ typedef struct Hdr {
 } Hdr;
 
 extern void *func_02188C54(void *p);
-extern u32 func_021904AC(void *p);
-extern int func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+extern u32 func_021904AC(u8 *p);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045374(int a);
 extern int func_02045770(int);
 extern void func_02043B5C(int, int);

@@ -18,10 +18,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0202020C(void *,u16 *,u16 *);
+struct Descriptor;
+struct Obj;
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
 extern void func_0201F868(void *);
 extern void func_0201F7A8(void *,u32);
-extern void func_020456F8(void *);
-extern void func_020452E8(void *);
+extern void func_020456F8(struct Descriptor *d);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 void func_021DA148(u8 *p) { func_0202020C(*(void **)(p+16),0,0); func_0201F868(*(void **)(p+20)); func_0201F7A8(*(void **)p,0); func_020456F8(*(void **)p); func_020452E8(*(void **)p); func_020307B0(p); }

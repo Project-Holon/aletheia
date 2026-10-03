@@ -44,7 +44,7 @@ typedef struct {
 
 extern void func_021D600C(Coord *coord, Coord *size, Rect *rect);
 extern int func_021D696C(Rect *r);
-extern void *func_021D4FE0(void *cell, int idx);
+extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4(int lcd, int idx, void *obj);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int priority);

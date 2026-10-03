@@ -23,7 +23,7 @@ struct S {
 };
 
 extern u16 func_02045A98(void);
-extern void func_02161E78(char *);
+extern void func_02161E78(void *a0);
 
 void func_021866F8(char *p)
 {

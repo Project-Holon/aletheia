@@ -61,7 +61,7 @@ struct BgSys
 };
 extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
-extern u16 func_02040EE0(u8 x, u8 y, u8 size_code);
+extern u16 func_02040EE0(int x, int y, u32 code);
 extern u8 *func_020415B4(u32 layer);
 extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void func_020307B0(void *p);

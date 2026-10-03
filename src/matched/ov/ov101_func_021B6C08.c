@@ -15,6 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203133C(void *);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
 extern void func_02082BCC(void *,int,u32);
 void func_021B6C08(u8 *p) { func_0203133C(*(void **)p); func_02082BCC(p,0,12); }

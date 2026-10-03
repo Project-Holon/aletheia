@@ -21,8 +21,8 @@
  */
 
 extern void func_021D0014();
-extern void func_021CFFAC();
-extern void func_021C11D4();
+extern void func_021CFFAC(unsigned int v);
+extern void func_021C11D4(unsigned int v);
 extern void func_021C0E40();
 extern void func_021C46DC();
 extern unsigned char g_021DE5C8;

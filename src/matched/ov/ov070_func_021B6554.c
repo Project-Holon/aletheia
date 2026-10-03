@@ -18,10 +18,12 @@
 
 typedef unsigned int u32;
 
-extern int func_021B61C8(void *o);
+typedef unsigned char  u8;
+struct Obj;
+extern int func_021B61C8(u8 *p);
 extern unsigned int func_0203633C(void);
-extern int func_021B6300(void *o, int n, int k);
-extern int func_021B6374(void *o, int n, int k);
+extern int func_021B6300(struct Obj *o, int n, int k);
+extern int func_021B6374(struct Obj *o, int n, int k);
 
 int func_021B6554(void *o)
 {

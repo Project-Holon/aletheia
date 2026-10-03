@@ -15,10 +15,13 @@
  *   func_0215E358 0x0215E358 thumb ov010
  */
 typedef unsigned char u8;
-extern void *func_02012EBC(void *);
+typedef unsigned int   u32;
+struct Big;
+struct Blk38;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *);
 extern void *func_02012984(void *);
-extern u8 func_0200D488(void *, unsigned int);
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
 extern void func_0215E358(void *, void *, int);
 void func_0215E364(void *a)
 {

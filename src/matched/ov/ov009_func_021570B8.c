@@ -38,7 +38,7 @@ extern Obj *d_021A8268;
 extern char d_021A1C78[];
 extern char d_021A1C7C[];
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02156F14(void);
 extern void func_02060C94(u32 a);
 extern void func_020307B0(void *p);

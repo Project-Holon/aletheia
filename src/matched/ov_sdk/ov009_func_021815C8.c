@@ -58,7 +58,7 @@ typedef struct GSUdpEngineObject {
 
 typedef struct { char c[16]; } GSChar16;
 
-extern GSUdpEngineObject *func_02180404(void);
+extern void *func_02180404(void);
 extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_02184234(void *array, void *newElem);

@@ -11,7 +11,7 @@
  *   func_021EB708 0x021EB708 thumb ov170
  */
 struct WinMgr;
-extern void func_021EB708(struct WinMgr *mgr, unsigned, void *);
+extern void func_021EB708(void *m, unsigned i, void *d);
 void func_021EB744(char *p)
 {
     func_021EB708(*(struct WinMgr **)(p + 0x74), 0, *(void **)(p + 0x104));

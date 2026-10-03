@@ -17,7 +17,8 @@
 typedef unsigned char u8;
 typedef struct {unsigned a,b,c;} Row;
 typedef struct {char pad0[24];u8 count;char pad19[3];Row rows[4];void *objects[4];} Context;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(unsigned),func_0204A8D4(unsigned),func_0204ADA4(unsigned);
 void func_021B9B20(Context *p)
 {

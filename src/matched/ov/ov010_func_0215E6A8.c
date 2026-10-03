@@ -18,10 +18,13 @@
 
 typedef unsigned char u8;
 
-extern void *func_02012EBC(void *p);
+typedef unsigned int   u32;
+struct Big;
+struct Blk38;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *p);
-extern int func_0200D488(void *a, int i);
-extern int func_0215E3E4(void *a, int i);
+extern u8 func_0200D488(struct Blk38 *p, u32 i);
+extern u32 func_0215E3E4(void *p, u32 slot);
 
 int func_0215E6A8(void *a, int x)
 {

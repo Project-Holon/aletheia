@@ -23,9 +23,11 @@
  */
 
 typedef unsigned short u16;
-extern void *func_02012EBC(void *);
+typedef unsigned char  u8;
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *);
-extern u16 func_02188C9C(void *);
+extern u16 func_02188C9C(u8 *p);
 extern void func_0215E428(void *, u16);
 extern void func_0215E3A0(void *);
 extern char *func_0201296C(void *);

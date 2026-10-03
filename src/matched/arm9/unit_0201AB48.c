@@ -71,10 +71,11 @@ struct Party {
 };
 
 extern u32  func_02017E1C(const void *entry, u32 id, u32 v);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
-extern u32  sub_0201ACC4(struct Party *p, u32 idx);
-extern void sub_0201ACDC(struct Party *p, u32 idx, u32 v);
+extern int sub_0201ACC4(void *p, u32 pos);
+extern void sub_0201ACDC(void *p, u32 pos, u32 mode);
 
 extern const char sub_0201AB8C_File[];
 

@@ -32,7 +32,7 @@ typedef struct {
     int v2;
 } S3;
 
-extern int  func_020355C4(void);
+extern u8 func_020355C4(void);
 extern int  func_02045B38(int a, int b, int c, int d);
 extern int  func_02045EC0(int a, int b);
 extern void func_02045808(int a);

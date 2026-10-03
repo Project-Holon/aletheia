@@ -16,9 +16,9 @@
  */
 extern void func_02045CAC(int, int, int);
 extern void func_021E1024(void *);
-extern void func_021E1030(void *);
+extern void func_021E1030(char *p);
 extern void func_021D8E84(void *, int);
-extern void func_021D9670(void *);
+extern void func_021D9670(char *p);
 void func_021D9750(char *p)
 {
     func_02045CAC(*(int *)(p + 0x720), 6, *(int *)(p + 0x738));

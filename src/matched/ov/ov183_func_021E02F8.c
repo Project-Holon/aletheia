@@ -23,8 +23,9 @@ extern const struct Record d_021E37D8[];
 extern int func_021FC20C(int);
 extern int func_021FC214(char *);
 extern void func_021FB964(int, int, u16);
-extern void *func_021FC6A4(int, u8, u8, u8, u8, u8, void *, u16);
-extern void func_021FC868(void *, int, int, int);
+typedef unsigned int   u32;
+extern void *func_021FC6A4(unsigned short plane, unsigned a, unsigned short b, unsigned short c, unsigned char d, unsigned char e, void *owner, unsigned short heap);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021FC754(void *, int, int, int, u16);
 void func_021E02F8(char *p, int *q)
 {

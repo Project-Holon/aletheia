@@ -19,7 +19,8 @@
  *   func_021B63B0 0x021B63B0 arm ov172
  *   func_021B6868 0x021B6868 thumb ov172
  */
-extern void func_02085A38(int);
+typedef unsigned int   u32;
+extern void func_02085A38(u32 msec);
 extern int func_02085D3C(void);
 extern int func_021B6390(void);
 extern void func_021B6398(void);

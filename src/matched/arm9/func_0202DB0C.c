@@ -50,7 +50,7 @@ struct PmsDraw {
     u8    unk31;
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void  func_0202DF68(u32 *res, u32 a, u32 heap);
 extern void  func_0202E09C(struct PmsElem *e, u32 *res, u32 heap);

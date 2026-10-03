@@ -33,10 +33,12 @@ extern int func_02009864(void *, int, int);
 extern void func_021C8B90(void *, void *, int, int, u16);
 extern void *func_021C40BC(void *, s16 *, int, u32);
 extern void func_021C42A8(void *, int, int);
-extern void *func_020457B0(u32, u16);
+struct Strbuf;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u16 *func_020099D4(void *, int);
-extern void func_02045924(void *, const u16 *);
-extern void func_02045808(void *);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_021B6AE4(u8 *, u32, u16, u16, u32, u32, u16, u32);
 void func_021C8A80(u8 *p, void *a, u8 *b, int unused, int i, void *base, int idx, u16 heap)
 {

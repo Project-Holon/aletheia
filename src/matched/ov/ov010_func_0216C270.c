@@ -21,7 +21,9 @@ typedef struct Work {
     void *anim;         /* 0x10 */
 } Work;
 
-extern int func_02011590(void *anim, u32 v);
+typedef signed int     s32;
+struct IcaAnime;
+extern u32 func_02011590(struct IcaAnime *p, s32 v);
 
 int func_0216C270(Work *w)
 {

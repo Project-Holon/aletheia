@@ -55,15 +55,15 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32  func_0203CD98(void);
+extern int func_0203CD98(void);
 extern u32  func_0203D880(void);
-extern u32  func_020393D0(void);
+extern int func_020393D0(void);
 extern u32  func_0203C990(void);
 extern void func_0203D864(void);
 extern void func_0200FAAC(void);
-extern u8  *func_0203D798(void);
+extern void *func_0203D798(void);
 extern u32 *func_0203CA98(void);
-extern u32  func_02156460(u32 a, u32 b);
+extern int func_02156460(int err, int kind);
 
 void sub_0200F734(void)
 {

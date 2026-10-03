@@ -17,7 +17,7 @@
  *   func_021FC744 0x021FC744 thumb ov094
  */
 extern int func_0201134C(void *);
-extern void func_020113D0(void *, int);
+extern void func_020113D0(char *p, int val);
 extern int func_021FC744(void *, void *);
 
 int func_021FBCEC(void *a, char *s)

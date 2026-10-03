@@ -14,7 +14,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern void func_0201DD78(u8 a0, u8 a1, u8 a2);
+typedef unsigned int   u32;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 
 u16 *func_0201CC34(u16 *a0, u16 *a1)
 {

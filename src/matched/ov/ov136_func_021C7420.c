@@ -14,7 +14,9 @@
  */
 
 typedef unsigned char u8;
-extern void func_0200902C(void *, int, u8);
+typedef unsigned int   u32;
+struct Sub02008F80Obj;
+extern void func_0200902C(struct Sub02008F80Obj *arr, u32 unused, int i);
 void func_021C7420(u8 *p)
 {
     func_0200902C(*(void **)p, 0, p[0x1F]);

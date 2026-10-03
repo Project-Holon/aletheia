@@ -17,7 +17,7 @@
 
 typedef unsigned short u16;
 
-void func_02168AEC(u16 x);
+u16 func_02168AEC(u16 a0);
 
 void func_021D0BCC(char *p)
 {

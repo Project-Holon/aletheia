@@ -26,14 +26,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_020434CC(void);
 extern void func_02043588(void);
-extern void func_0202223C(int,int);
+typedef unsigned int   u32;
+extern void func_0202223C(u32 a, u32 color);
 extern void func_02022224(int);
 extern void func_020433E0(void *);
 extern void func_0203F8F4(u16);
 extern void func_02045088(u16);
 extern void func_0203FC28(void *);
 extern void func_0204A48C(void *,void *,u16);
-extern void func_020434DC(int,int);
+extern void func_020434DC(u32 mask, u32 enable);
 extern char d_021F816C[],d_021F815C[],d_020A1448[];
 void func_021F3A54(u8 *p)
 {

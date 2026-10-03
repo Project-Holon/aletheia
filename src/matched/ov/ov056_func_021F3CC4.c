@@ -26,10 +26,11 @@ typedef signed int     s32;
 
 typedef struct VecFx32 { s32 x; s32 y; s32 z; } VecFx32;
 
-extern void func_0216DAC8(void *m, int v);
+struct Actor;
+extern void func_0216DAC8(unsigned int *p, unsigned int v);
 extern void func_0216E084(void *m, s16 x, s16 y, s16 z, u16 e);
 extern void func_02164010(void *m);
-extern void func_0216D88C(void *m, VecFx32 *v);
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_021A3044(void *p, const VecFx32 *v);
 extern void func_0216DC18(void *m, u32 v);
 

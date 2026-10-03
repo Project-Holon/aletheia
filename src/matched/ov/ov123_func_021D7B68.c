@@ -17,13 +17,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_0200C6E4(void);
-extern int func_0200E8B0(void);
-extern void *func_021D5B10(u16, int);
-extern int func_021D5BD4(void *);
+typedef unsigned int   u32;
+extern u32 func_0200C6E4(void);
+extern u32 func_0200E8B0(void);
+extern char *func_021D5B10(int heap, int size);
+extern int func_021D5BD4(char *p);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D7A5C(void);
-extern void func_021D6FF0(void);
+extern void func_021D7A5C(u8 *p);
+extern void func_021D6FF0(char *p);
 void func_021D7B68(char *p)
 {
     switch (*(u8 *)(p + 0xa7)) {

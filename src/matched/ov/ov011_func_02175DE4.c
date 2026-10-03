@@ -24,7 +24,7 @@ typedef struct {
     u8  f37;
 } Blk;
 
-extern int func_02026478(void *p);
+extern u32 func_02026478(void *obj);
 extern u8  func_02012B58(int a);
 
 int func_02175DE4(void *p)

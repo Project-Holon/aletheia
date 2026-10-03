@@ -36,7 +36,7 @@ struct Handler {
 };
 
 extern u32  func_02036D64(struct Handler *p, u32 a);
-extern void func_02036F24(u32 a, u32 b, u32 c);
+extern void func_02036F24(int a0, int b, int c);
 
 void func_02036EC8(struct Handler *p, u32 a, u32 b)
 {

@@ -14,7 +14,8 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 typedef unsigned short u16;
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+extern u32 func_020221A4(void);
 extern void func_021F4EC0(void *, unsigned, unsigned);
 extern void func_0204B3DC(unsigned, int);
 int func_021FF118(char *p)

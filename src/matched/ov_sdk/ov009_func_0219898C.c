@@ -26,7 +26,7 @@ typedef struct _AddressMapping {
     unsigned short publicPort;
 } AddressMapping;
 
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern char g_021A5970[];
 extern char g_021A5994[];
 extern char *func_02198850(unsigned int ip, unsigned short port, char *string);

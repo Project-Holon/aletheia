@@ -10,5 +10,6 @@
  * status:   EXACT
  */
 
-extern void func_020808BC(void *);
+typedef unsigned short u16;
+extern int func_020808BC(u16 *g3bit);
 void func_02080964(void){ func_020808BC((void *)0x02150E54); }

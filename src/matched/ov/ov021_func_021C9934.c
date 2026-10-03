@@ -65,27 +65,32 @@ typedef struct {
 
 extern const char d_021DE58C[];
 
-extern void *func_020120F4(void *p);
-extern void *func_02012944(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Big;
+struct Blk1AC;
+struct Blk3C;
+struct Ctx;
+struct Sub020071CCCtrl;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02008550(void *p);
-extern void *func_020071CC(void *sys, unsigned int id);
-extern void func_0200D868(void *p, u32 v);
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void func_0200D868(struct Blk3C *p, u32 v);
 extern void func_02012EE4(void *base, void *v);
 extern int func_021CA270(int kind);
-extern void func_0200D85C(void *p);
-extern void func_0200DA14(void *p);
-extern u32 func_0200DB44(void *p, u32 i);
-extern u16 func_0200DAC4(void *p, u32 i);
+extern void func_0200D85C(struct Blk3C *p);
+extern void func_0200DA14(struct Blk3C *p);
+extern u32 func_0200DB44(struct Blk1AC *p, u32 i);
+extern u16 func_0200DAC4(struct Blk1AC *p, u32 i);
 extern void func_021CA238(Obj *p, u16 v);
-extern void func_0200D914(void *p, u32 id, const void *src);
-extern u32 func_0200D884(void *p, u32 id, void *out);
+extern void func_0200D914(struct Blk3C *p, u32 id, const void *src);
+extern u32 func_0200D884(struct Blk3C *p, u32 id, void *out);
 extern void func_021CA1E4(Obj *p);
 extern u8 *func_020127A4(void *p);
 extern void func_021CBF38(Obj *p, void *a, u16 b, u32 c, void *d, u16 e);
-extern u16 func_0200DA54(void *p);
-extern u16 func_0200DB80(void *p, u32 i);
+extern u16 func_0200DA54(struct Blk3C *p);
+extern u16 func_0200DB80(struct Blk1AC *p, u32 i);
 extern void func_021CA258(Obj *p, u16 a, u16 b);
 
 Obj *func_021C9934(void *arg, int mode, u8 kind)

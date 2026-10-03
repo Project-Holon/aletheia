@@ -16,7 +16,7 @@
  */
 
 
-extern void func_0204047C(int, int);
+extern void func_0204047C(int idx, unsigned short val);
 
 void func_021BDCDC(int unused, char *p)
 {

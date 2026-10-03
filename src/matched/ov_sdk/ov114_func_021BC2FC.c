@@ -28,7 +28,8 @@ typedef struct {
 
 extern int func_021BB2FC(Res *res_p, int pos);
 extern void *func_021BEBF0(void *mutexInfo_p, Res *res_p);
-extern void func_021BED04(void *mutexInfo_p, void *connection_p);
+struct Conn;
+extern void func_021BED04(void *mutexInfo_p, struct Conn *connection_p);
 
 int func_021BC2FC(void *mutexInfo_p, Res *res_p)
 {

@@ -50,8 +50,10 @@ struct obj {
 extern int memcmp(const void *a, const void *b, int n);
 extern void memset(void *p, int v, int n);
 extern int func_02012114(int);
-extern void *func_0201210C(void *p);
-extern int func_02188CE0(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188CE0(u8 *p);
 extern int func_0217AED4(struct ent *e, int v);
 extern int func_02012964(int);
 extern int func_0216DE94(int, int);

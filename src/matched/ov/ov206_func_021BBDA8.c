@@ -15,7 +15,9 @@ struct State {
     char pad[0xb8]; int ids[3][2]; void *objects[2][2]; int selected,mode;
     char padE8[0x44]; void *other[17]; u8 a,b; char pad172[0x16]; void *last[2]; int index;
 };
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BBDA8(struct State *p,unsigned v)
 {
     u8 i;

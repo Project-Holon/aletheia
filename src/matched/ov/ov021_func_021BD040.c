@@ -15,7 +15,8 @@ typedef struct {
     void *f8;
 } Obj;
 
-extern void func_0201ED04(void *a);
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
 
 void func_021BD040(Obj *p)
 {

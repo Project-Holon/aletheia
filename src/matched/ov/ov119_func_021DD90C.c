@@ -35,7 +35,7 @@ extern void *func_02045770(int);
 extern void func_0201C7A4(void *,int,int,int,int);
 extern void func_02045334(int);
 extern void func_02045374(int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021DD90C(u8 *p,int i,int msg,int force)
 {
     Pair t=d_021E76FC;

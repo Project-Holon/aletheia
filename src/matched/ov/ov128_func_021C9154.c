@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021CA444(char *);
-extern void func_021CA458(void *,void *);
+extern void func_021CA458(char *p, void *q);
 extern void func_020452E8(void *),func_020307B0(void *);
 void func_021C9154(char *p,int unused,char *q) { func_021CA444(q);func_021CA458(q,q+12);func_020452E8(*(void **)p);func_020452E8(*(void **)(p+8));func_020307B0(*(void **)(p+16));}

@@ -63,7 +63,7 @@ extern struct ArcHdr d_0214EA54;
 extern struct ArcHdr d_0214EA54_hdr;
 
 extern u32   func_0207466C(u32 idx);
-extern u32   func_020745A4(u32 idx, void *dst, u32 len, u32 offset);
+extern int func_020745A4(u32 idx, void *dst_buf, int total_len, u32 offset);
 extern void *func_0207482C(u32 *heap, u32 size, void (*cb)(void), u32 cookie, u32 arg);
 extern u32   func_020742FC(void);
 extern void  func_020752D4(void);

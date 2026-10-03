@@ -27,7 +27,7 @@ typedef struct {
 } Slot;
 
 extern u32 func_021DFAA8(u32 a, u32 b);
-extern u32 func_021DF644(u32 a, u32 b);
+extern int func_021DF644(int a, int b);
 extern void func_02059F54(u32 a, u32 b);
 extern u32 g_021E4D08[];
 

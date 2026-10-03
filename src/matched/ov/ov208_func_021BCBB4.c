@@ -34,16 +34,20 @@ struct Ov208Main {
 };
 extern int func_021BC274(void *obj, void *fsm);
 extern void func_021BCC84(struct Ov208Args *a, struct Ov208Main *m);
-extern u32 func_021BDB08(void *p);
-extern u32 func_021BDB54(void *p);
+struct Ov208Fade;
+struct Ov208Icon;
+struct PrintSys;
+struct State;
+extern unsigned func_021BDB08(const struct State *p);
+extern unsigned func_021BDB54(const struct State *p);
 extern void func_021BC2F0(void *obj, void *fsm, u32 v);
-extern void func_021BD974(void *p);
-extern void func_021BE7A4(void *p);
-extern void func_0201C4E4(void *p);
-extern void func_021BCF18(void *p);
-extern void func_021BCF2C(void *p);
+extern void func_021BD974(struct Ov208Fade *m);
+extern void func_021BE7A4(struct Ov208Icon *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_021BCF18(char *p);
+extern void func_021BCF2C(char *p);
 extern void func_021BC310(void *obj, void *fsm);
-extern void func_021BCF3C(void *p);
+extern void func_021BCF3C(char *p);
 int func_021BCBB4(void *unused, int *cnt, struct Ov208Args *a, struct Ov208Main *m)
 {
     int done = 0;

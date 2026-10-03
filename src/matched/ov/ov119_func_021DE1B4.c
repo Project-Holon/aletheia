@@ -12,7 +12,8 @@
  *   func_021E219C 0x021E219C thumb ov119
  *   func_021E6440 0x021E6440 thumb ov119
  */
-extern int func_021D89EC(void *);
+typedef unsigned char  u8;
+extern int func_021D89EC(const u8 *p);
 extern void func_021E219C(void *,void *,int,int);
 extern void func_021E6440(void *,int,int);
 typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;

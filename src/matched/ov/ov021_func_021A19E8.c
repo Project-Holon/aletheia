@@ -56,11 +56,13 @@ extern char d_021DDE74[];
 extern Desc021A19E8 d_021D8850[];
 extern u8 d_021D8840[];
 
-extern void *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+struct Bank;
+struct Obj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u8 *func_021A15A4(u8 *p, u32 heap);
-extern void *func_0204B100(u32 a, u32 b, u32 heap);
-extern void *func_0204B034(void *a, unsigned int a1, unsigned int heap);
-extern void func_0204B258(void *a, void *b);
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap);
+extern void func_0204B258(struct Bank *bank, void *p);
 extern u32 *func_021A1DB4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 h, u16 i);
 extern void func_021A1C1C(void *);
 extern int func_020056A0(void (*cb)(void *), void *arg, int pri);

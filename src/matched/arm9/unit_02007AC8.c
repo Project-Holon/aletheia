@@ -50,10 +50,11 @@ struct Sub02007AC8Entry {
 
 extern const char sub_02007B20_File[];
 
-extern struct Sub02007AC8Entry *sub_020071CC(void *sys, u32 id);
+typedef unsigned short u16;
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void sub_02017550(struct Sub02007AC8Entry *entry);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
 

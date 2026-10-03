@@ -26,7 +26,7 @@ typedef struct { u32 v[8]; } Tbl8;
 extern int func_021C282C(u8 *p);
 extern void func_021BC104(char *p);
 extern void func_021BA8EC(char *p);
-extern void func_021C18C8(char *p, int a, u32 b);
+extern void func_021C18C8(char *p, int kind, int value);
 extern const Tbl8 d_021C38EC;
 
 int func_021BD444(char *p)

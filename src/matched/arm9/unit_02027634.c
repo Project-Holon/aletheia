@@ -44,7 +44,7 @@ struct BeaconGfx {
 };
 
 extern struct BeaconGfx *func_0204162C(int id);
-extern void *func_02049EF4(void *arc, int id, int comp, void **out, u32 heap);
+extern void *func_02049EF4(void *arc, u32 id, u32 comp, void **out, u32 heap);
 extern void  func_02082D44(void *dst, const void *src, u32 size);
 extern void  func_020307B0(void *p);
 

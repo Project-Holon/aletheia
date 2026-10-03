@@ -15,7 +15,7 @@
  */
 typedef struct { unsigned long magic; unsigned long size; unsigned char pad[24]; } _tagDWCiAllocHeader;
 
-extern _tagDWCiAllocHeader *func_0205A12C(void *ptr);
+extern void *func_0205A12C(char *p);
 
 typedef void *(*DWCiMemAlloc)(int, unsigned long);
 typedef void (*DWCiMemFree)(int, void *, unsigned long);

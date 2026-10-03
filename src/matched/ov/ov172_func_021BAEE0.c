@@ -46,19 +46,21 @@ struct SpritePos {
 };
 
 extern int func_02035C08(const void *p);
-extern int func_0204B3F4(void *spr);
-extern void func_0204B3DC(void *spr, int v);
-extern void func_0204B92C(void *spr, int v);
+struct Actor;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_020061E4(u32 id);
 extern void func_021BB54C(void *ctx, u8 *p);
 extern void func_021BE0B8(void *ctx);
-extern void func_0204B9A0(void *spr);
-extern void func_0204B878(void *spr, int anim);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B404(void *spr, struct SpritePos *pos, int n);
 extern u32 func_020362DC(void);
 extern void func_021BB65C(void *ctx, u8 *p, int v);
 extern void func_021BB9E4(void *ctx, u8 *p);
-extern u32 func_0204B98C(void *spr);
+extern u32 func_0204B98C(struct Actor *a);
 extern const u8 d_021C6FF8[];
 extern const u8 d_021C7014[];
 extern const u32 d_021C6FBC[];

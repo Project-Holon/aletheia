@@ -38,7 +38,8 @@ typedef struct E {
     void *f7c;
 } E;
 typedef struct O { char pad[0x40]; E e[8]; } O;
-extern int func_02207F6C(int, int, int, int *, int, u16);
+typedef unsigned char  u8;
+extern int func_02207F6C(int n, int target, int delta, int *cur, u8 x, int speed);
 extern void func_022082FC(O *, int, int);
 extern void func_022080F4(O *, E *, void *);
 extern void func_02208268(O *, E *);

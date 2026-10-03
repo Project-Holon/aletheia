@@ -64,7 +64,8 @@ struct Wipe {
 extern void  func_0202384C(struct Wipe *w);
 extern void *sub_020056A0(void *fn, void *arg, u32 prio);
 extern void  func_02022568(u32 a0, u32 a1, u32 a2);
-extern void  func_02022D98(void);
+struct Container;
+extern void func_02022D98(void *p, struct Container *c);
 
 u32 func_02023768(struct Wipe *w)
 {

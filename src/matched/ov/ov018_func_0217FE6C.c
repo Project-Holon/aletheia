@@ -83,16 +83,17 @@ typedef struct {
 
 extern char str_02183B30[];
 
-void *func_020124E4(void *);
+struct Obj;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F3C4(Ov018Obj *p, int a);
-int func_02175DCC(u8 *);
-void *func_02030734(int, int, int, char *, int);
+int func_02175DCC(void *p);
+void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 void func_02082D44(void *, void *, int);
 void func_020307B0(void *);
-int func_02175BCC(u8 *);
+u8 *func_02175BCC(u8 *p);
 int func_02175B14(u8 *);
 int func_02175B8C(u8 *);
 int func_0217620C(u8 *, int);
@@ -101,7 +102,7 @@ void func_02182998(void *, void *);
 void func_02181BE8(void *, void *);
 void func_02182988(void *, void *);
 int func_02174258(u8 *);
-int func_02175C40(u8 *);
+int func_02175C40(void *p);
 int func_0217C914(u8 *, Outer *, u8 *);
 void func_0217553C(u8 *);
 int func_02173C04(int, int);

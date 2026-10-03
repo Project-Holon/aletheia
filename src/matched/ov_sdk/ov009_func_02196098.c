@@ -24,7 +24,7 @@ typedef struct Conn {
 	void *filters;
 } Conn;
 
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern int func_02195340(Conn *c, int filterID, unsigned char *msg, int len, int reliable);
 extern int func_021950B4(Conn *c, unsigned char *msg, int len, int reliable);
 

@@ -23,10 +23,13 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void *func_0201EC64(u32 heap);
-extern void *func_0201C450(u32 size, u32 heap);
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern void *func_0201C450(u16 n, u32 heap);
 
 void func_021F6970(u8 *p)
 {

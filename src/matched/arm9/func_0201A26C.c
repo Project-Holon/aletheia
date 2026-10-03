@@ -24,7 +24,8 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0200AE54(void *a0, u32 a1);
+struct Reg;
+extern u32 func_0200AE54(struct Reg *p, u32 id);
 
 u32 func_0201A26C(void *a0, u32 a1)
 {

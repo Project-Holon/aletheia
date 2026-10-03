@@ -19,8 +19,10 @@
 
 typedef struct Vec { int x, y, z; } Vec;
 
-extern void *func_020120F4(void *p);
-extern void *func_020127A4(void *p);
+struct Ctx;
+struct SaveBlock;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_020127A4(struct SaveBlock *p);
 extern Vec *func_02012AA0(void *p);
 extern void func_020141E0(void *a, Vec *v);
 extern void func_020141F0(void *a, Vec *v);

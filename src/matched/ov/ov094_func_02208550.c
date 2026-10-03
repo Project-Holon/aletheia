@@ -32,16 +32,20 @@ typedef struct { void *f0; char p4[0x40]; int f44; char p48[0x24]; u8 f6c; } E;
 typedef struct { char p0[8]; void *f8; char pc[0x43c]; u16 heap; } O;
 extern void *func_020457B0(u32, u16);
 extern void *func_02043678(u32, u32, u32, u16);
-extern void func_02043B5C(void *, u8);
+struct Bmp;
+struct CharBuf;
+struct Obj020437AC;
+struct U16Vec;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F35C(void *, int, u32, u32, u32);
 extern void func_0201DE00(u8 *, u8 *, u8 *);
-extern void func_0201DD78(int, int, int);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void *func_020437D4(const void *);
+extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_0204B7C8(void *, Struct36 *);
 extern void func_02082A60(const void *, void *, int);
-extern void func_02045808(void *);
-extern void func_020437AC(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020437AC(struct Obj020437AC *p);
 void func_02208550(O *o, E *e)
 {
     void *v, *bmp;

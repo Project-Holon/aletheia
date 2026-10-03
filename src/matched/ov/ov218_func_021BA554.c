@@ -20,10 +20,12 @@
 typedef struct Pair {short x,y;} Pair;
 struct Row0 {char pad[0x294];void *item;};
 struct Row1 {char pad[0x2b0];void *item;};
-extern unsigned func_0204B3F4(void *);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
 extern void func_0204B454(void *,Pair *,unsigned);
 extern void func_0204B404(void *,const Pair *,unsigned);
-extern void func_0204B3DC(void *,unsigned);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 static inline void scroll(const char *p,short delta,int space,Pair *pos)
 {
     void *item;

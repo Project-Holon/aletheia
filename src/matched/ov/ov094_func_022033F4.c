@@ -57,7 +57,8 @@ typedef struct Main {
 } Main;
 extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern void func_020216B4(void *, void *, u32, u32, u32, u32, u16);
+struct PalAnmSlot;
+extern void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern void *func_021F86E0(void);
 extern char *func_02021728(void *, u32);
 extern void func_02082A60(const void *, void *, u32);
@@ -65,7 +66,7 @@ extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);
 extern int func_0204ABF0(void *, u32, u32, u32, u16);
 extern u32 func_0204AEF4(int, int);
-extern void func_020216D4(void *, u32, u32, u32);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_020275E4(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_020275FC(u32);

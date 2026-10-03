@@ -16,9 +16,10 @@
  *   func_02040588 0x02040588 arm
  */
 
-extern void func_0203FB44(int, int, int);
-extern void sub_020403F4(int ch);
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void sub_020403F4(u32 i);
+extern void func_02040588(u32 which, u32 enable);
 
 void func_021F0100(char *p)
 {

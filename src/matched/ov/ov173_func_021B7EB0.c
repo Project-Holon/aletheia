@@ -19,9 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_02027FEC(u32, u32, u32, u32, u8, u16);
-extern void func_02028148(void *);
-extern void func_02026124(void *, u32);
-extern void func_0202614C(void *, u32);
+struct Sound;
+extern void func_02028148(u8 *p);
+extern void func_02026124(struct Sound *obj, u32 idx);
+extern void func_0202614C(struct Sound *obj, u32 idx);
 extern void func_020409B4(u32);
 void func_021B7EB0(char *p, int flag)
 {

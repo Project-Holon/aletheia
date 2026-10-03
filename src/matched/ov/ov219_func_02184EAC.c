@@ -15,7 +15,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 
 void func_02184EAC(int a, int b, int c)
 {

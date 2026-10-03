@@ -29,7 +29,8 @@ extern u8 d_021D9290[];
 extern void func_0216D88C(int a, Vec3 *v);
 extern int func_021ABE8C(int a, int b);
 extern void func_021ABE30(int a, int *b, int c);
-extern unsigned func_021ABEA0(int a, int b);
+typedef unsigned int   u32;
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(int a, u8 *b, int c, int d, Arg *e, int f);
 
 void func_021ADD7C(int a, int b)

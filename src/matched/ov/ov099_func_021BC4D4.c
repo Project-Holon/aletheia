@@ -21,9 +21,9 @@ typedef unsigned long  u32;
 
 typedef enum { K274 = 0x274 } Off;
 
-extern int func_021BA858(void *p);
-extern void func_021B9B64(void *p);
-extern void func_021BA8EC(void *p);
+extern u32 func_021BA858(char *p);
+extern void func_021B9B64(char *p);
+extern void func_021BA8EC(char *p);
 
 int func_021BC4D4(char *p, int v)
 {

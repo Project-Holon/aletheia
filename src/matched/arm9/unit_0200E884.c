@@ -54,7 +54,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void  func_02082A90(void *dest, const void *src, u32 size);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  func_02087C6C(void *obj);

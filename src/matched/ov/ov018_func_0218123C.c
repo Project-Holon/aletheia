@@ -89,18 +89,22 @@ extern const u16 d_0218390A[];
 extern const u16 d_02183914[];
 extern const u16 d_0218391E[];
 
-void *func_020124E4(void *);
+struct Evt;
+struct Obj;
+struct S0201235C;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 u8 *func_02158344(void *);
 int func_0215839C(void *, int, int);
-void func_0201F02C(void *, int, void *);
-void func_0201EFA4(void *, int, int, int, int, int);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
+void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 void func_0217F2B4(Ov018Obj *p, void *);
 void func_0217F318(Ov018Obj *p);
 void func_0217F3C4(Ov018Obj *p, u16 a);
 int func_0217F40C(Ov018Obj *p);
 int func_0217F420(void);
-int func_02175514(void *);
+int func_02175514(u8 *p);
 u32 func_020362DC(void);
 int func_02173B9C(int, int);
 void func_021753B8(void *);
@@ -109,13 +113,13 @@ int func_02175CF4(void *, void *);
 void func_021756F0(void *, int);
 int func_021744D0(void *, int, int);
 void *func_021766CC(void *, int *);
-void func_02012374(void *, void *);
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(void *v, Ov018Outer *c);
-int func_02026454(void *);
+u32 func_02026454(void *obj);
 void *func_02026474(void *);
 void *func_021804F8(void *, int);
 void *func_0217CA84(void *, int);
-void func_0201235C(void *, void *);
+void func_0201235C(struct S0201235C *o, u32 *out);
 
 int func_0218123C(void *a, int *state, Ov018Outer *c)
 {

@@ -26,13 +26,14 @@
 
 typedef unsigned short u16;
 
-extern void *func_02188CB4(void *x);
-extern void *func_021A3074(void *a);
-extern void func_0219E2F4(void *a, int *b);
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
+extern void func_0219E2F4(void *o, void *out);
 extern int func_02162598(void *a, int *b);
 extern void *func_021625CC(void *a, u16 b);
-extern int func_021626EC(void *p);
-extern int func_0218AEAC(void *a);
+extern int func_021626EC(u16 *p);
+extern int func_0218AEAC(u8 *p);
 extern void func_0218B2A8(char *p, int a, int *b);
 extern int func_0218B2E8(char *p, void *x, int a, int *b);
 

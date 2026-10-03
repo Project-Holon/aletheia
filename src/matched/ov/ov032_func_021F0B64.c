@@ -12,6 +12,9 @@
  *   func_02043B5C 0x02043B5C arm
  *   func_02045334 0x02045334 arm
  */
-extern void func_02043B5C(void *, unsigned char);
-extern void func_02045334(void *);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 void func_021F0B64(char *p) { func_02043B5C(*(void **)(p+0x194),0x40); func_02045334(*(void **)(p+0x190)); }

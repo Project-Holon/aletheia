@@ -12,7 +12,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B878(void *,unsigned);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021B8040(u8 *p)
 {
     if(*(u8 *)(p+440)<=4) {

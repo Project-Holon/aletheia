@@ -18,10 +18,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0200CC40(u8 *,unsigned,unsigned *,unsigned *,unsigned *,u16);
+typedef unsigned int   u32;
+extern void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5);
 extern int func_021BE25C(int,int);
 extern void func_021BE1B8(char *,int,unsigned,u16,u16,int);
-extern void func_021BD8D8(char *,int,unsigned);
+extern void func_021BD8D8(char *p, u32 idx, u32 value);
 extern void func_021BD890(char *,int,int);
 extern void func_021BD934(char *,int,short,short,u16);
 enum Position { POSITION_ZERO=0 };

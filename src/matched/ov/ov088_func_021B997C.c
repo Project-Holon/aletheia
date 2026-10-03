@@ -27,8 +27,9 @@ extern void func_02046440(int, int, int, int, int, int, int);
 extern void func_0201DD60(void);
 extern void *func_0203101C(int, int, int, int);
 extern void *func_020056A0(void *, void *, int);
-extern void func_021B9954(void);
-extern void func_0204363C(int);
+typedef unsigned int   u32;
+extern void func_021B9954(void *task, short *p);
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 
 void func_021B997C(int *p, int heap)

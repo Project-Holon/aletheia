@@ -14,8 +14,8 @@
  *   func_0204BE28 0x0204BE28 arm
  */
 
-extern void func_020307B0(void);
-extern void func_0204BE28(void);
+extern void func_020307B0(void *p);
+extern void func_0204BE28(int *p);
 
 asm void func_0204B084(void)
 {

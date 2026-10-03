@@ -45,7 +45,7 @@ struct Obj {
 };
 
 extern struct Rec *sub_0204D410(struct Obj *o);
-extern void        sub_0204D3C4(struct Obj *o, u32 arg);
+extern void *sub_0204D3C4(struct Obj *o, u32 arg);
 
 void sub_0204D3A0(struct Obj *o, u32 value)
 {

@@ -32,7 +32,7 @@ typedef unsigned long u32;
 extern void func_021E8738(u32,u32,u32,u32);
 extern void func_021E8AB4(u32,u32),func_021E8AA0(u32,void *),func_021E8AB8(u32);
 extern int func_021E8844(u32);
-extern int func_02012DAC(int),func_02012DD0(void *);
+extern int func_02012DAC(int a0);
 extern int func_021D9D50(char *,u32 *);
 extern int func_021D9F04(char *,void *,void *);
 extern void func_021D9A1C(char *,void *);

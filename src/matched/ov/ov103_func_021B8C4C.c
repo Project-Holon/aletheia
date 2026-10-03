@@ -17,7 +17,8 @@ typedef unsigned char u8;
 extern void func_021B7F04(u8 *);
 extern unsigned int func_021B7F78(u8 *);
 extern unsigned int func_021B7F4C(u8 *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 void func_021B8C4C(u8 **p) {
  int i;
  for(i=0;i<2;i++)func_021B7F04(p[i]);

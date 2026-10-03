@@ -23,7 +23,8 @@ typedef struct {
 } S;
 
 extern u16 func_0216D608(int a);
-extern void func_020061E4(int x);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern int func_021A6908(S *a, int b, int c);
 
 int func_021A6A64(S *a, int b, int c)

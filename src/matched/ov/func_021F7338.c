@@ -33,7 +33,7 @@ typedef struct {
     Entry arr[1];
 } Obj;
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 Entry *func_021F7338(Obj *p, int kind)
 {

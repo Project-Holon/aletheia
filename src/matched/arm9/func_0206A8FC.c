@@ -67,7 +67,7 @@ extern u32  g_02148B98[];
 extern u32  g_02148BC8[];
 extern u32  g_02148C08[];
 extern u32  g_02148C44[];
-extern void func_0206DDA4(u32 a, void *b, u32 c);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0207B0A4(void *a, void *b);
 
 void func_0206A8FC(void)

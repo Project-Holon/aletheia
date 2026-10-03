@@ -46,13 +46,14 @@ extern u32   func_02017EB4(void *p);
 extern void *func_020185F4(void *p);
 
 extern u32 func_0202D060(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0202D09C(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D0D4(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D110(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D144(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D178(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D1AC(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_0202D1E0(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+typedef signed int     s32;
+extern s32 func_0202D09C(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D0D4(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D110(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D144(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D178(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D1AC(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
+extern s32 func_0202D1E0(u32 a0, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u32 s7);
 
 
 struct Stats {

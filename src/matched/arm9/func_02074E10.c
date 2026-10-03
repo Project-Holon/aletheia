@@ -62,7 +62,7 @@ union Hdr {
     struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
 };
 
-extern union Hdr *func_02074450(u32 a);
+extern void *func_02074450(int index);
 extern u32 func_0207466C(u32 a);
 extern u32 func_02075080(u32 a, u32 b, u32 c);
 extern u32 func_020750EC(u32 a, u32 b, u32 c);

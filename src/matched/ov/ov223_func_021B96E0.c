@@ -18,12 +18,14 @@
  *   func_021BC514 0x021BC514 thumb ov223
  */
 extern int (*callbacks[])(char *,int *);
-extern void func_0201C4E4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C4E4(struct PrintSys *ps);
 extern void func_021BAF30(int *);
 extern void func_021BC4F4(char *);
-extern void func_021BC508(void *);
-extern void func_021B97F8(void *);
-extern void func_021BC514(void *);
+extern void func_021BC508(unsigned char *p);
+extern void func_021B97F8(char *p);
+extern void func_021BC514(unsigned char *p);
 int func_021B96E0(void *a,int *state,void *b,char *p)
 {
     int old=*state;

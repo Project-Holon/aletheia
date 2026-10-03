@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 u8 *func_021BEBE0(int, int);
 void func_021BB8F0(u32);
-void func_021BA850(u32);
+void func_021BA850(int a);
 
 int func_021BB934(int a, u8 *b)
 {

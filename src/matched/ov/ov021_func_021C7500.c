@@ -32,7 +32,7 @@ typedef struct {
 
 extern u16 func_021C73B4(float a, float b, float c);
 extern void func_0216D410(u32 a, int b);
-extern void func_0216D5E0(u32 a, int b);
+extern void func_0216D5E0(int a0, int a1);
 
 int func_021C7500(Ctl *o)
 {

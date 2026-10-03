@@ -13,7 +13,7 @@
  *   func_0204A1BC 0x0204A1BC arm
  */
 
-extern void func_0204A1BC(int, int, int, int);
+extern int func_0204A1BC(int a0, int a1, int a2, int a3);
 
 void func_021F4F50(int a)
 {

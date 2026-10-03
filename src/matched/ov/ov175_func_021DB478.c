@@ -44,8 +44,9 @@ extern void func_021DCE40(char *ctx, u32 v, int line);
 extern void func_021DCE48(char *ctx, u32 v, int line);
 extern void func_021DCE50(char *ctx, u32 v, int line);
 extern void func_021DB6A0(char *obj);
-extern void func_021DB72C(int count, void *recs, char *obj);
-extern void func_02034714(const char *file, int line, const char *msg);
+struct Field;
+extern void func_021DB72C(int count, struct Field **recs, char *obj);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 extern const char d_021E2F1C[];
 

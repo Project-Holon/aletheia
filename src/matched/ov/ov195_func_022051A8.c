@@ -12,8 +12,10 @@
  *   func_02040588 0x02040588 arm
  *   func_02021D50 0x02021D50 thumb
  */
-extern void func_02040588(int, int);
-extern void func_02021D50(void *);
+typedef unsigned int   u32;
+struct S02021D50;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02021D50(struct S02021D50 *p);
 void func_022051A8(int task, char *p)
 {
     switch (*(int *)(p + 0x88)) {

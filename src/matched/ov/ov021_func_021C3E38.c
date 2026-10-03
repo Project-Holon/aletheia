@@ -16,7 +16,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0201ADE4(u16 a, u16 b, u32 heap);
-extern u32 func_0201AE1C(void *h, u32 id);
+struct Personal;
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *h);
 
 void func_021C3E38(u32 *p, u32 heap)

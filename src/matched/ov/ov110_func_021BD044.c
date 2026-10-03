@@ -28,7 +28,9 @@ extern void *func_0204AF28(void *,int,int,u16);
 extern void func_02049238(void *);
 extern void *func_021BAC78(void *,void *,int,int,int,int);
 extern void func_021BD0F8(void *,int,int);
-extern void func_0204B3DC(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BD044(Object *p) {
     void *h;
     int i;

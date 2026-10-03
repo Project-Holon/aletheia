@@ -49,9 +49,11 @@ typedef struct Src {
 extern u8 ov136_id[];
 
 extern void *func_020120F4(void *p);
-extern void func_02034AC4(u32 id);
-extern void *func_02012934(void *sv);
-extern u32 func_0202138C(u32 v);
+typedef signed int     s32;
+struct BigObj;
+extern int func_02034AC4(s32 handle);
+extern void *func_02012934(const struct BigObj *p);
+extern u8 func_0202138C(u16 v);
 extern void *func_0201AB28(void *a, u32 b);
 extern int func_021C3CC0(void *sv, u32 a, u8 b, u32 c, u32 d);
 extern int func_021C3D44(void *sv, void *a, u32 b);

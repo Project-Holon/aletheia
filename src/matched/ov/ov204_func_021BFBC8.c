@@ -17,7 +17,10 @@
  */
 typedef unsigned short u16;
 extern void *func_02048A18(void *,int);
-extern unsigned func_0204784C(void *,unsigned,int *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct AnmCtl;
+extern u32 func_0204784C(struct AnmCtl *c, u32 idx, s32 *frame);
 void func_021BFBC8(char *p,unsigned value)
 {
     void *ctl;

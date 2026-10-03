@@ -25,7 +25,7 @@
  */
 struct S021BC6B4; struct S020315D4;
 extern unsigned char ov072_id[],ov067_id[];
-extern void func_021BC3D4(void *);
+extern void func_021BC3D4(unsigned char *p);
 extern void func_021BC8A8(char *);
 extern void func_021BC6B4(struct S021BC6B4 *);
 extern void func_021BC56C(char *);

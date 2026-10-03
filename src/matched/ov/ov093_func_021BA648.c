@@ -14,7 +14,8 @@
 
 typedef unsigned char u8;
 extern u8 func_021BA710(int, int);
-extern void func_0201AC2C(void *, void *);
+struct Rec534;
+extern void func_0201AC2C(const struct Rec534 *src, struct Rec534 *dst);
 void func_021BA648(char *p, int k, void *dst)
 {
  int i;

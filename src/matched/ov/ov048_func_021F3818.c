@@ -14,7 +14,9 @@
  *   func_0200C3B8 0x0200C3B8 thumb
  */
 typedef unsigned short u16;
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Blk34;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *p);
-extern void func_0200C3B8(void *p, u16 v);
+extern void func_0200C3B8(struct Blk34 *p, u16 v);
 void func_021F3818(char *p) { func_0200C3B8(func_0200C0F0(func_02012EBC(*(void **)(p+8))), *(u16 *)(p+0x64)); }

@@ -17,7 +17,9 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern void *func_021BA750(void *,int,u8),*func_021BA71C(void *,int,int,u16);
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 typedef struct {int pad0;const void *owner;void *other;u16 a,b;void *one,*two,*objects[3];char pad24[2];u8 kind;} Context;
 void func_021BA5A0(Context *p,const void *owner,void *other,u16 a,u16 b,u8 kind)
 {

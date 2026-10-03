@@ -15,9 +15,10 @@
  *   func_021DE3E8  0x021DE3E8  thumb  ov119
  */
 
-extern int func_0203D29C(void);
+typedef unsigned int   u32;
+extern u32 func_0203D29C(void);
 extern void func_021D8E84(void *p, int next);
-extern void func_021DE3E8(void *p);
+extern void func_021DE3E8(char *p);
 
 void func_021DE3BC(char *p)
 {

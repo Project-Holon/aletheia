@@ -15,7 +15,8 @@
  *   func_0204ADA4 0x0204ADA4 arm
  */
 typedef unsigned char u8;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204AFD8(unsigned);
 extern void func_0204A8D4(unsigned);
 extern void func_0204ADA4(unsigned);

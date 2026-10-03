@@ -35,9 +35,10 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_020493D4(void *narc, int fileId);
-extern void *func_02030734(u32 heapId, u32 size, u32 align, const char *file, u32 line);
-extern void func_0204932C(void *narc, int fileId, void *dest);
+struct ArcFile;
+extern u32 func_020493D4(struct ArcFile *arc, u32 member);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0204932C(struct ArcFile *arc, u32 member, void *dst);
 extern void MI_UncompressLZ8(const void *src, void *dest);
 extern void func_020307B0(void *ptr);
 extern const char lbl_020A7F30[];

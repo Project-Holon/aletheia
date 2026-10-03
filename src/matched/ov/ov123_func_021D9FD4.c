@@ -12,7 +12,7 @@
  * symbols:
  *   func_021DA1EC 0x021DA1EC thumb ov123
  */
-extern void func_021DA1EC(void);
+extern void func_021DA1EC(char *p);
 void func_021DA030(char *, int, int);
 void func_021DA034(char *, int, int);
 int func_021D9FD4(char *p, int n)

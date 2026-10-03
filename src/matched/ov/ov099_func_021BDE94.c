@@ -32,17 +32,21 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02030EAC(void *);
+struct GfFont;
+struct MsgBank;
+struct Node;
+struct WordSet;
+extern void func_02030EAC(struct Node *n);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *);
-extern void *func_0201EC64(u32);
-extern void *func_02045B38(u32, u32, u32, u32);
-extern void *func_0201D7EC(int, int, int, int, u32);
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void func_0204363C(u32);
 extern void func_021BE030(void);
-extern void func_021BE040(int);
+extern void func_021BE040(u16 heap);
 extern void func_02045088(u16);
 extern void func_021BE53C(char *, void *);
 extern void func_021BE028(void);

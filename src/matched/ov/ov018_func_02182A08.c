@@ -49,15 +49,18 @@ typedef struct {
     u16 tab[1];
 } Ctx;
 
-extern void *func_020124E4(void *);
+typedef unsigned int   u32;
+struct Obj;
+struct WordSet;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_02012138(void *);
 extern Ctx *func_02158344(void *);
 extern void func_0201232C(void *, void (*)(), int);
 extern void func_02182AA4();
-extern Dst *func_020124E8(void *);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082D44(void *, void *, int);
-extern void func_0201F02C(void *, int, void *);
-extern void func_02034714(const char *, int, const char *);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02183B50[];
 extern u16 d_02183ABC[];
 

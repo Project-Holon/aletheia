@@ -9,9 +9,11 @@
  * status: EXACT*
  * extent: two bytes zero alignment padding follow the return.
  */
-extern void func_020286C4(void *, void *, void *);
+struct Ctx;
+struct Rec3;
+extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
 extern int func_02028484(void *, void *);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 int func_021D580C(char *p)
 {
     if (*(void **)(p+0x80)) {

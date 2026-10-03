@@ -11,7 +11,7 @@
  *   func_021D8AF4 0x021D8AF4 thumb ov119
  *   func_021D8B0C 0x021D8B0C thumb ov119
  */
-extern int func_021D8AF4(int, void *);
+extern int func_021D8AF4(int a, char *p);
 extern int func_021D8B0C(int, int);
 int func_021DF6B4(char *p, int a, int b)
 {

@@ -28,8 +28,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern void func_0204581C(void *ctx);
-extern void func_02045AFC(void *ctx, u16 ch);
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02045AFC(struct U16Vec *vec, u16 value);
 extern u32  _u32_div_f(u32 a, u32 b);
 extern u16  g_0209E784[];
 extern u16  g_0209E758[];

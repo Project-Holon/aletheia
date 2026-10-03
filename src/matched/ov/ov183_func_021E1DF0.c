@@ -13,7 +13,7 @@
  *   func_021FD744 0x021FD744 thumb ov186
  *   func_021F9BA0 0x021F9BA0 thumb ov186
  */
-extern int func_021FE784(int,int,int,int);
+extern void func_021FE784(int a, int b, int c, int d);
 extern int func_021FE7B0(int);
 extern int func_021FD744(int);
 extern void func_021F9BA0(int);

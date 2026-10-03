@@ -17,9 +17,12 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, int);
-extern void func_02045334(void *);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02045334(struct Descriptor *d);
 
 void func_021C8784(char *p)
 {

@@ -13,7 +13,8 @@
  *   func_02194A34  0x02194A34  thumb  ov021
  */
 
-extern void func_02194A34(int a, int b);
+typedef unsigned int   u32;
+extern int func_02194A34(u32 a, u32 b);
 
 void func_0219160C(int *p)
 {

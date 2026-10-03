@@ -33,15 +33,16 @@ typedef struct { s16 x, y; } Vec;
 extern const u32 d_021D4CF4[], d_021D4CA4[], d_021D4C04[];
 extern const char d_021D4D4C[];
 extern const Vec d_021D4BE0;
-extern void func_0204B878(void *, u16);
-extern void func_0204B3DC(void *, u32);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern int func_02061CA4(void *, u32, u32, int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);
 extern void func_020307B0(void *);
 extern void func_020409B4(u32);
 extern void func_0204B404(void *, const Vec *, u32);
-extern void func_0204B92C(void *, u32);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B908(void *, int);
 void func_021D49C8(char *p, u32 n)
 {

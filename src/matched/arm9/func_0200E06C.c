@@ -10,7 +10,7 @@
  * status:   EXACT
  */
 
-extern void func_0203F37C(void *p, int off, int v);
+extern void func_0203F37C(void *p, unsigned int size, unsigned int seed);
 void func_0200E06C(char *p)
 {
     func_0203F37C(p, 0x84c,

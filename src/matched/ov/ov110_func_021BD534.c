@@ -21,8 +21,10 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern unsigned int func_0203633C(void);
-extern int func_02051C88(void *);
-extern void func_02030D28(void *);
+typedef signed int     s32;
+struct Ctx;
+extern s32 func_02051C88(struct Ctx *c);
+extern void func_02030D28(struct Ctx *c);
 int func_021BD534(void *a,int b,int c,u8 *p) {
     int result;
     int x;

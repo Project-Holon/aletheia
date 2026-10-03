@@ -15,7 +15,8 @@
  * symbols:
  *   func_02017214  0x02017214  thumb
  */
-extern void func_02017214(void *p, void *out, void *q);
+struct Stats;
+extern void func_02017214(void *p, struct Stats *out, void *q);
 
 void func_022006A0(void *p, void *out, int flags)
 {

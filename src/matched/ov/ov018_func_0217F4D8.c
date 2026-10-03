@@ -17,7 +17,9 @@
 extern unsigned char d_02183B2C[];
 extern void func_0201210C(int);
 extern void func_02034714(void *, int, void *);
-extern void *func_02190BE4(void *, unsigned int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern u32 *func_02190BE4(u16 *a, u32 b);
 void func_0217F4D8(void **p, int a)
 {
     func_0201210C(a);

@@ -48,7 +48,7 @@ extern Vec12 d_021D35C0;
 extern Vec12 d_021D35CC;
 extern u8 d_021D35AC[];
 
-extern void func_02189140(void);
+extern void func_02189140(int x, int b, void *c, int d);
 extern u32 func_0204FE94(int a, int b, void *f, u16 heap);
 extern u8 *func_02050080(u32 a);
 extern void func_0204EDBC(u8 *dst, u8 val);

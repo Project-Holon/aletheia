@@ -76,12 +76,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02017DBC(void *a0);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *a0, u32 a1, u32 a2);
 extern void func_02017E64(void *a0, u32 a1, u32 a2);
 extern void func_02045F5C(void *a0, u32 a1, void *a2, u32 a3);
 extern void func_0202F1B4(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32  func_02017DE4(void *a0, u32 a1);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 
 extern void *g_020A7370;
 extern u8    g_021462F0[];

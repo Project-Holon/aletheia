@@ -36,7 +36,7 @@ typedef struct G {
 
 extern char d_021DDA50[];
 
-extern G *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021927C0(G *g, Fx *a);
 
 G *func_02192788(Fx *a)

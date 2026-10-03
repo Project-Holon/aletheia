@@ -23,7 +23,8 @@
 typedef unsigned int u32;
 
 extern char ov188_id[];
-extern void *sub_02034AC4(u32 id);
+typedef signed int     s32;
+extern int sub_02034AC4(s32 handle);
 
 void func_0200BA58(void)
 {

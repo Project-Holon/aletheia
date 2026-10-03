@@ -15,8 +15,10 @@
  *   func_0217BF84 0x0217BF84 thumb ov018
  */
 extern void *func_0215A5DC(void *);
-extern void *func_0201210C(void *);
-extern void *func_02012138(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02012138(const struct Ctx *p);
 extern void func_0217BF84(void *);
 int func_0217CF68(void *unused, void *p)
 {

@@ -13,11 +13,12 @@
  *   func_021D8118 0x021D8118 thumb ov120
  *   func_02041B6C 0x02041B6C arm
  */
-extern void func_0201DD78(int,int,int);
+typedef unsigned int   u32;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern int func_021D7C48(char *,int,int,int,int,int);
-extern void *func_021D4F70(void *,int);
+extern void *func_021D4F70(void **p, int i);
 extern void func_021D8118(char *,void *,int);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 void func_021D81E0(char *p,void *q)
 {
     int i;

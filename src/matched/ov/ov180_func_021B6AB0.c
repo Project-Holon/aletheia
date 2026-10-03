@@ -16,9 +16,11 @@
  *   func_021B6474 0x021B6474 thumb ov180
  *   func_021B64D0 0x021B64D0 thumb ov180
  */
-extern void func_02043534(int);
-extern void func_020435F4(int);
-extern void func_0207D534(void *,int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
+extern void func_0207D534(volatile u16 *reg, int brightness);
 extern void func_021B621C(void);
 extern void func_021B6474(char *);
 extern void func_021B64D0(char *);

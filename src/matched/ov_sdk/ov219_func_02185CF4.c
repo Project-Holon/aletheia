@@ -15,7 +15,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02184790(int);
+typedef unsigned int   u32;
+extern u32 func_02184790(u32 key);
 
 int func_02185CF4(int a)
 {

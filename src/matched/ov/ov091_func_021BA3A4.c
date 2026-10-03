@@ -34,16 +34,17 @@ typedef unsigned int   u32;
 
 extern void  func_021BB7A4(u8 *p, u32 obj);
 extern int   func_02009020(void *obj, int v);
-extern void *func_02008F08(u32 heap);
+struct Sub02008F80Obj;
+extern void *func_02008F08(int a0);
 extern u32   func_02017E1C(void *obj, u32 key, void *off);
-extern void  func_0200903C(void *obj, u32 unused, int i, void *buf);
+extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void  func_020307B0(void *p);
 extern void  func_02017E40(void *obj, u32 key, u32 v);
 extern void  func_021BB2C0(u8 *p, u32 obj);
 extern void  func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
-extern void  func_021B9E20();
+extern void func_021B9E20(u8 *p);
 extern void  func_021B9804(u8 *p, void (*cb)());
-extern void  func_021BA454();
+extern void func_021BA454(u8 *a, int k);
 extern void  func_021BA444();
 
 void func_021BA3A4(u8 *p, u32 state)

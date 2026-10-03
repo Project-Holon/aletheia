@@ -12,8 +12,9 @@
 
  */
 extern void *func_020185F0(void *);
-extern void *func_0201AB28(void *, int);
-extern int func_020173E8(void);
+typedef unsigned int   u32;
+extern void *func_0201AB28(void *p, u32 idx);
+extern u32 func_020173E8(void);
 void *func_021D6064(unsigned char *p) {
  switch((*(unsigned char **)(p+8))[12]) {
  case 0: return func_020185F0(**(void ***)(p+8));

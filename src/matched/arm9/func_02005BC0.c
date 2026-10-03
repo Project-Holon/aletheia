@@ -53,7 +53,7 @@ extern u8 g020AA414[];
 extern void  func_02005FF4(void);
 extern u8   *func_02005C3C(void);
 extern void  func_02072758(void);
-extern void  func_020727B4(void);
+extern u32 func_020727B4(void);
 extern int   func_02073108(u8 *a, int b, u8 *c);
 
 void func_02005BC0(void)

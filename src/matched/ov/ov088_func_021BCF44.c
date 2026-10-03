@@ -23,7 +23,7 @@ typedef struct Banks {
 
 extern Banks d_021BD9B0;
 
-extern void func_0204335C(int);
+extern void func_0204335C(u32 keep);
 extern void func_020433E0(Banks *);
 
 void func_021BCF44(void)

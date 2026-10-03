@@ -29,15 +29,18 @@
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void *func_020124E4(void *);
-extern void *func_0201210C(void *p);
+struct Big;
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *);
 extern int *func_021897BC(char *, int);
-extern u32 func_02188C80(unsigned char *);
-extern void *func_020120F4(const void *);
-extern void *func_02012EC4(void *);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *, int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(void *, int *);
 extern void func_021A3044(void *, int *);

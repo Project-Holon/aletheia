@@ -19,12 +19,15 @@
 
 typedef unsigned int u32;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
-extern void func_02034AC4(u32);
+typedef signed int     s32;
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+extern int func_02034AC4(s32 handle);
 extern void *func_021F36C0(void *a, u32 b, u32 c, u32 d);
 extern char ov063_id[];
-void func_021C4788(void);
+int func_021C4788(void *t);
 
 void *func_021C474C(void *a, u32 b, u32 c)
 {

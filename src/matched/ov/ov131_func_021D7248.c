@@ -17,7 +17,7 @@
  */
 typedef struct {int x,y,z;} Vec;
 extern const short d_020A1B38[];
-extern void func_021D79A8(void *,void *,int);
+extern void func_021D79A8(void *p, unsigned char *q, int radius);
 extern void func_02015C78(void *,Vec *);
 int func_021D7248(unsigned char *p,unsigned char *q) {
  Vec v={0,0,0};

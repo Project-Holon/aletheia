@@ -26,13 +26,15 @@ typedef unsigned int u32;
 
 
 struct WinMgr;
-extern unsigned char func_020260E0(void *obj);
-extern unsigned func_02025DE8(void *obj);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
+extern int func_02025DE8(struct Sound *obj);
 extern int func_021EF5E8(struct WinMgr *mgr);
-extern void func_020260E4(void *obj, unsigned char sel);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *p, int v);
 extern u32 func_020362DC(void);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *p);
 

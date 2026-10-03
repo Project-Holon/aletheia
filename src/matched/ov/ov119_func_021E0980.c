@@ -28,14 +28,19 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
-extern void func_0201A954(void *,int);
-extern unsigned int func_0201A98C(void *,void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Blk37;
+struct Party;
+struct PartyMon;
+extern void func_0201A954(struct Party *p, s32 capacity);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void *func_0200CA1C(void *);
-extern void func_0200CDE0(void *,void *);
+extern void func_0200CDE0(struct Blk37 *p, void *m);
 extern u8 func_020076A4(void *);
-extern void *func_0201AB28(void *,int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern unsigned func_02017E1C(void *,unsigned,unsigned);
-extern int func_0202136C(u16);
+extern u32 func_0202136C(u16 v);
 extern void func_02045CAC(int,int,int),func_021E1024(void *),func_021D8E84(void *,int),func_021E0958(void *),func_021E0A64(void *);
 void func_021E0980(char *p)
 {

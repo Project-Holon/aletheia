@@ -28,7 +28,8 @@
 extern void func_0217DC28(int *);
 extern void func_0217DEA4(int *, int);
 extern int func_0217DE8C(int *);
-extern int func_020362DC(void);
+typedef unsigned int   u32;
+extern u32 func_020362DC(void);
 extern void func_0217E000(int *);
 extern int func_0217DFF0(int, int);
 extern void func_0217DFD0(int *, int, int);

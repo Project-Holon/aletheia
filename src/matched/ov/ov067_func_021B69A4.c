@@ -11,7 +11,9 @@
  * symbols:
  *   func_0204B98C 0x0204B98C arm
  */
-extern unsigned int func_0204B98C(void *a);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 int func_021B69A4(void **p)
 {
     if (func_0204B98C(*p) == 0) return 1;

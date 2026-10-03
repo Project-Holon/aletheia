@@ -26,7 +26,8 @@ typedef struct {
 
 extern void func_021F7108(Obj *, int, int, int *, int *);
 extern void func_02048AFC(void *, int *);
-extern void func_02048AD0(void *);
+struct Light;
+extern void func_02048AD0(struct Light *l);
 
 void func_021F6F20(Obj *p, int a, int b)
 {

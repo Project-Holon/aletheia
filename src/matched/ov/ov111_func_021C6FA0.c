@@ -19,9 +19,13 @@
 
 typedef unsigned char u8;
 
-extern void func_0204B878(void *, int);
-extern void func_0204B9A0(void *);
-extern void func_0204B3DC(void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 typedef struct {
     u8 pad0[0x98];

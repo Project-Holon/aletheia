@@ -17,7 +17,7 @@
  */
 
 extern int func_0201134C(int);
-extern void func_021F96B0(void *, int);
+extern void func_021F96B0(char *p, int a);
 
 int func_021FC61C(int a, char **pp)
 {

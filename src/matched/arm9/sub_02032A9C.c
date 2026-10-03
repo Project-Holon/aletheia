@@ -50,7 +50,8 @@ extern struct { u8 pad000[0x204]; u32 unk204; } *unk_02146994;
 extern u8 *func_020319A4(struct SaveBackup *p, u32 id);
 extern u32 func_02031EAC(struct SaveBackup *p, u32 mode);
 extern u32 func_020335E8(u32 off, u8 *buf, u32 len, u32 handle);
-extern u32 func_0203EFC8(u8 *buf, u8 *src, u32 len);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern u32 func_02033B68(u32 table, u32 id);
 extern u32 func_02033BAC(u32 table, u32 id);
 

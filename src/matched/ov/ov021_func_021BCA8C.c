@@ -18,7 +18,8 @@ typedef struct {
     u16 h46;
 } Obj;
 
-extern int func_02013E4C(int a);
+typedef unsigned int   u32;
+extern u32 func_02013E4C(u32 id);
 
 int func_021BCA8C(Obj *p)
 {

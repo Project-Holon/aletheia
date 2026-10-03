@@ -21,9 +21,9 @@
 
 
 extern void func_021EC768(int, int, int);
-extern void func_021ED594(char *, int);
+extern void func_021ED594(char *p, unsigned i);
 extern void func_021EE038(char *, int, int, int);
-extern void func_021E8FC0(char *, int, int);
+extern int func_021E8FC0(char *p, int a, int b);
 void func_021EA114(char *p, int a)
 {
     *(unsigned char *)(p + 0x18) = 1;

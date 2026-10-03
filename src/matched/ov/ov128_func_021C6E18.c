@@ -17,7 +17,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern void func_0204B92C(void *,u32);
-extern void func_0204B878(void *,u16);
-extern void func_0204B9A0(void *);
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
 void func_021C6E18(u8 *p,int i,u16 a) {func_0204B92C(*(void **)((u32)p+0x15c+i*4),1);func_0204B878(*(void **)((u32)p+0x15c+i*4),a);func_0204B9A0(*(void **)((u32)p+0x15c+i*4));}

@@ -64,12 +64,12 @@ typedef struct GSUdpEngineObject {
     unsigned short mLocalPort;
 } GSUdpEngineObject;
 
-extern GSUdpEngineObject *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_021843E8(void *array, void *key, int (*comparator)(void *, void *), int fromIndex, int isSorted);
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);
 extern void *func_02184208(void *array, int n);
-extern int func_02195E48(void *connection);
+extern int func_02195E48(const int *p);
 extern void *func_0217EAB0(unsigned long size);
 extern void *memcpy(void *dst, const void *src, unsigned int n);
 extern int func_02195CC0(void *connection, unsigned char *message, int len, int reliable);

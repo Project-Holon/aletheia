@@ -80,7 +80,7 @@ typedef struct qr2_implementation_s {
 
 extern int func_0217EF50(int sock);
 extern int func_0217EC60(int sock, char *buf, int len, int flags, SOCSockAddrIn *addr, int *fromlen);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, const char *theTokenStr, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern void func_0217D32C(int theCat, int theType, unsigned char theLevel, char *theBuffer, int theLength);
 extern void func_0219C7C0(qr2_implementation_s *qrec, char *query, int len, SOCSockAddrIn *sender);
 extern int func_0217ED54(int sock);

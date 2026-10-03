@@ -39,8 +39,8 @@ extern void func_02043588(void);
 extern void func_0201DD60(void);
 extern void func_021BCF98(void *,unsigned);
 extern void func_021BD03C(unsigned char *,int,int);
-extern void func_021BCF58(void *,int);
-extern void func_021BCF84(void *,void *);
+extern void func_021BCF58(char *p, int x);
+extern void func_021BCF84(int unused, char *p);
 extern void *func_020056A0(unsigned,unsigned,unsigned);
 char *func_021BCE10(unsigned display,unsigned heap,int threeD)
 {

@@ -27,18 +27,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int d_020A7370;
-extern int func_021FC20C(char *);
+struct MsgBank;
+struct U16Vec;
+struct WordSet;
+extern unsigned func_021FC20C(char *p);
 extern int func_021FC214(char *);
 extern int func_021FC21C(char *);
 extern void func_021FC754(char *,void *,void *,void *,u16);
 extern void func_021FC7C4(char *,void *,void *,u16);
-extern void *func_02045EC0(void *,u32);
-extern void *func_020457B0(u32,u32);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u8 func_02025B64(u32);
-extern void func_0201F048(void *,u32,u32);
-extern void func_0201F094(void *,u32,u32,u32);
-extern void func_0201F250(void *,void *,void *);
-extern void func_02045808(void *);
+extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
+extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
 void func_021E03B0(char *p,char *q,int mode)
 {
     int first,second,ws;

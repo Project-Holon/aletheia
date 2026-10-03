@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020056BC(void);
-extern u8 *func_0202EE30(void *,void *,u8,u8,u16);
+extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, volatile u16 heap);
 void func_021D8190(u8 *p) { *(u8 **)(p+0x98c)=func_0202EE30((void *)func_020056BC(),*(void **)(p+0x97c),15,16,*(u16 *)(p+4)); }

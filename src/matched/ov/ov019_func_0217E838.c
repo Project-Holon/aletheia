@@ -29,19 +29,21 @@
 typedef unsigned char u8;
 
 int func_0217BB20(u8 *w);
-void func_0217F074(u8 *w);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+void func_0217F074(void *p);
 void func_0217F210(u8 *w, void *a, int msg);
-int func_0217F1EC(u8 *w);
+u32 func_0217F1EC(u8 *p);
 void func_0217F22C(u8 *w, void *a);
 int func_0217F268(u8 *w, int *flag);
 void func_0217F24C(u8 *w);
 int func_0217B8E4(u8 *w, int v);
-void *func_02188CB4(void *q);
-void *func_021A3074(void *a);
+void *func_02188CB4(u8 *p);
+void *func_021A3074(u8 *p);
 int func_0216D3CC(void *h);
-void func_0216D410(void *h, int v);
+void func_0216D410(void *a0, u16 a1);
 int func_0216D454(void *h);
-void func_0216D480(void *h);
+int func_0216D480(char *p);
 
 int func_0217E838(u8 *w, void *obj, void *a2, u8 *state)
 {

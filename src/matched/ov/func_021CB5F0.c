@@ -49,10 +49,11 @@ extern void *func_021D5844(void *m);
 extern u32 func_021D805C(u32 v, u32 n);
 
 extern u32 func_02019C90(void *p, u32 a, u32 b);
-extern u32 func_02017D30(void *p);
-extern u32 func_02017D70(void *p, u32 f);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017E40(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
 
 void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
 {

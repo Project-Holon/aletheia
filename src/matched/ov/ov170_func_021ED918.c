@@ -16,8 +16,11 @@
  */
 extern void func_021EC0B0(char *, int, short *, short *, unsigned short);
 extern void func_021EC08C(char *, int, short, short, short);
-extern void func_020258E8(void *, short *, short *);
-extern void func_0202590C(void *, short, short);
+typedef signed short   s16;
+struct Grid;
+struct Obj02025774;
+extern void func_020258E8(struct Obj02025774 *p, s16 *out_x, s16 *out_y);
+extern void func_0202590C(struct Grid *g, s16 x, s16 y);
 void func_021ED918(char *p, int d)
 {
     short t[2];

@@ -21,13 +21,16 @@
  *   func_021C4EC4 0x021C4EC4 thumb
  */
 typedef unsigned char u8;
-extern void func_021C4DA8(void *p);
-extern void func_021C5470(void *p);
-extern void func_02045C04(void *p);
-extern void func_02045808(void *p);
-extern void func_02027FD8(void *p);
-extern void func_021C52F8(void *p);
-extern void func_021C5114(void *p);
+struct Rec;
+struct TaskMenuState;
+struct U16Vec;
+extern void func_021C4DA8(u8 *p);
+extern void func_021C5470(u8 *p);
+extern void func_02045C04(struct Rec *rec);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_021C52F8(u8 *p);
+extern void func_021C5114(u8 *p);
 extern void func_021C4EC4(void *p);
 int func_021C4D14(u8 *p)
 {

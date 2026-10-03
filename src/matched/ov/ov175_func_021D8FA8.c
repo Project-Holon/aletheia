@@ -28,7 +28,7 @@ extern u32 func_021D9A30(char *);
 extern void func_021E8AA0(u32, void *);
 extern int func_021E8844(u32);
 extern void func_021E8AB8(u32);
-extern void func_021E8AA8(u32);
+extern void func_021E8AA8(int a);
 extern void func_021D9064(void), func_021D9090(void), func_021D8EC8(void);
 void func_021D8FA8(u32 sys, int *state, char *ctx)
 {

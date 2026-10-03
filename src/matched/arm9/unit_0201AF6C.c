@@ -78,7 +78,7 @@ u32 sub_0201AF6C(u32 v)
     return 0;
 }
 
-extern void *func_0204A39C(void *handle, u32 id, u32 x, u32 heap, u32 *sizeOut);
+extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern void *g_0214652C;
 
 u16 *sub_0201AF80(u32 heap, u16 *countOut)

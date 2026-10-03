@@ -28,7 +28,7 @@ extern void func_021B80C4();
 extern void func_021B6138();
 extern void func_021BA9AC();
 extern void func_0204B92C();
-extern void func_021BB3F4();
+extern void func_021BB3F4(int p, int mode);
 extern void func_021B8AF4();
 
 void func_021B8F0C(int p)

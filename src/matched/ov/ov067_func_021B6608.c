@@ -58,7 +58,8 @@ extern u32 func_02027618(void);
 extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+typedef signed int     s32;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 
 void func_021B6608(S *p, u32 a1, u32 a2, u32 a3, u32 a4, u8 a5, u8 a6, u32 a7, u32 heap)

@@ -17,12 +17,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020120F4(void *);
-extern int func_02012DD0(void *);
-extern void func_021F4EC0(void *, unsigned, unsigned);
-extern void func_021F4FC4(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern int func_02012DD0(u8 *p);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+extern void func_021F4FC4(u8 *p);
 extern void func_021F90A0(void *, void *, unsigned, unsigned, u16);
-extern void func_021F4E98(void *, unsigned, unsigned);
+extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_022020F8(u8 *p)
 {
     if (func_02012DD0(func_020120F4(*(void **)(*(u8 **)p + 0x40))) == 2) {

@@ -40,26 +40,27 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201210C(void *a);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D2C(void *a);
-extern int *func_021897BC(void *a, int b);
+extern int *func_021897BC(char *p, int idx);
 extern u32 func_02188C58(void *a);
 extern u32 func_02188C80(void *a);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EC4(u32 a);
 extern int *func_0200B3A4(u32 a, u32 b);
-extern void *func_021BE674(void *p, int i, int j, int k);
-extern void func_021BE6B0(void *p, int v);
-extern int func_021BE6BC(void *p);
-extern void func_020061E4(int id);
-extern u32 func_02006148(u32 id);
-extern void func_020061F8(u32 v);
+extern void *func_021BE674(char *base, int i, unsigned int j, int k);
+extern void func_021BE6B0(unsigned char *p, int v);
+extern int func_021BE6BC(int *p);
+extern void func_020061E4(u32 a);
+extern int func_02006148(u32 a0);
+extern void func_020061F8(int i);
 extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
 extern int func_021F4210(void *s);
-extern u32 func_02188C68(void *a);
+extern u32 func_02188C68(u8 *p);
 extern int func_021A03A4(u32 a);
 extern int func_021A03B8(u32 a);
-extern u32 func_02188C64(void *a);
+extern u32 func_02188C64(u8 *p);
 extern void func_021A01FC(u32 a, int b, int c, int d);
 
 void func_021F3FE8(void *a)

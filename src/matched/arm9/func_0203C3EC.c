@@ -38,7 +38,7 @@ typedef struct Hdr021469DC {
 } Hdr021469DC;
 
 extern unsigned int g_021469DC;
-extern void func_0203C0F4(void);
+extern void func_0203C0F4(void *p);
 extern void func_0203C0B4(void);
 extern void func_0203C068(void);
 extern void func_0203C060(void);

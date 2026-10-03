@@ -27,15 +27,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
 extern int func_021E6908(u16);
-extern void *func_021C7CF4(void *, int);
+struct Node;
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
 extern int func_021D5B68(void *);
-extern u8 func_021D5778(void *, u16);
+extern u8 func_021D5778(struct UtilWork *p, u16 id);
 extern void *func_021C88A4(void *, int, int);
-extern u8 func_021D5584(void *, u32);
+extern u8 func_021D5584(struct UtilWork *p, u32 i);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, u32);
 extern void func_021C88C8(void *, void *);
-extern void func_021D7040(void *);
+extern void func_021D7040(struct Node *n);
 void func_021E6840(void *x, void *a, int c)
 {
     u8 k;

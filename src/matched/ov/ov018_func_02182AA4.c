@@ -47,7 +47,10 @@ typedef struct {
     unsigned short f9C;
 } Ov018Outer;
 
-void *func_020124E4(void *);
+typedef unsigned short u16;
+struct Evt;
+struct Obj;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
 int func_02158344(void *);
 void func_0217F3C4(Ov018Obj *p, int a);
@@ -55,8 +58,8 @@ int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
 void *func_02158768(void *, int, int, int);
 int func_021589D0(void *);
-void func_02159058(int, int, int, int, int);
-void *func_02012374(void *, void *);
+void func_02159058(int a, int b, int c, int d, u16 e);
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_0217FE38(int v, Ov018Outer *c);
 int func_0217CA84(void *a, int b);
 void func_0201235C(void *, int);

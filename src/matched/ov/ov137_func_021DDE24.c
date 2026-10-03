@@ -17,10 +17,12 @@
  *   func_021DD924 0x021DD924 thumb ov137
  */
 typedef unsigned short u16;
-extern int func_02039338(void);
+typedef unsigned int   u32;
+struct WordSet;
+extern u16 func_02039338(void);
 extern void *func_021DCF50(void *);
-extern void *func_02184180(void *, int);
-extern void func_0201F02C(void *, int, void *);
+extern char *func_02184180(unsigned char *p, int i);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_021DE4B4(char *, int, int);
 extern void func_021DD93C(char *, int);
 extern void func_021DD924(char *);

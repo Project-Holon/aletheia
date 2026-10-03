@@ -25,7 +25,12 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
-extern void func_02030EAC(void *);
+typedef unsigned int   u32;
+struct Node;
+struct PalAnmSlot;
+struct S020315D4;
+struct U16Vec;
+extern void func_02030EAC(struct Node *n);
 extern void func_0201D83C(void *);
 extern void func_021D99F0(char *);
 extern void func_020450C8(void);
@@ -33,12 +38,12 @@ extern void func_020434DC(unsigned,unsigned);
 extern void func_02043598(unsigned,unsigned);
 extern void func_020403F4(unsigned);
 extern void func_0203F9B4(void);
-extern void func_020215A0(void *,unsigned);
+extern void func_020215A0(struct PalAnmSlot *slots, u32 idx);
 extern void func_02021540(void *);
 extern void func_02049238(void *);
 extern void func_02051C6C(void *);
-extern void func_02045808(void *);
-extern void func_020315D4(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);
 int func_021D872C(void *a,int b,int c,char *p)
 {

@@ -75,7 +75,7 @@ enum { __no_io_error, __io_error, __io_EOF };
 extern int  func_02096508(FILE *file, int mode);                 /* fwide */
 extern int  func_0209149C(void);                                 /* __flush_line_buffered_output_files */
 extern int  func_020915C4(FILE *file, size_t *count, int align); /* __load_buffer */
-extern void func_02092344(void *dst, const void *src, size_t n); /* memcpy */
+extern void *func_02092344(void *dest, const void *src, unsigned int n); /* memcpy */
 extern void func_0209159C(FILE *file);                           /* __prep_buffer */
 extern u32  func_0209C2B0(u32 a, u32 b);                         /* udiv */
 

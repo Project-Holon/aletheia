@@ -11,12 +11,14 @@
  */
 
 typedef unsigned char u8;
-extern int func_0200A400(void *p);
-extern void func_0200A49C(void *p);
+typedef unsigned int   u32;
+struct Obj;
+extern u32 func_0200A400(struct Obj *obj);
+extern void func_0200A49C(struct Obj *obj);
 extern int func_02009F1C(void *p);
-extern void *func_0200A43C(void *p, unsigned int i);
-extern int func_02009F0C(unsigned int v);
-extern void func_0200A480(void *p);
+extern void *func_0200A43C(struct Obj *obj, u32 index);
+extern u32 func_02009F0C(u32 a);
+extern void func_0200A480(struct Obj *obj);
 extern void func_02082D44(void *dst, void *src, int n);
 int func_0200A034(void *p, void *arg)
 {

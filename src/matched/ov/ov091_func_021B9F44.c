@@ -32,10 +32,10 @@ extern void func_021BB97C(u8 *p, u32 obj);
 extern void func_021BB99C(u8 *p, u32 obj, u32 a, u32 b);
 extern void func_021BB9CC(u8 *p, u32 obj, u32 a, u32 b);
 extern void func_021B9788(u8 *p, u32 id, u32 flag, void (*cb)());
-extern void func_021BB98C(u8 *p, u32 obj);
-extern void func_021BC6C0();
+extern void func_021BB98C(void *p, u32 s);
+extern void func_021BC6C0(char *p);
 extern void func_021B9E3C();
-extern void func_021B9EB0();
+extern void func_021B9EB0(u8 *p);
 
 void func_021B9F44(u8 *p, u32 state)
 {

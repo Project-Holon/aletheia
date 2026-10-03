@@ -34,8 +34,8 @@ typedef struct {
 	int c[3];
 } WiFiInfoT;
 
-extern int func_021BCB14(void);
-extern void func_021CFFAC(int no);
+extern signed char func_021BCB14(void);
+extern void func_021CFFAC(unsigned int v);
 extern void func_02058518(WiFiInfoT *buf);
 extern void func_021BCB44(int idx);
 extern void func_021C3130(void);

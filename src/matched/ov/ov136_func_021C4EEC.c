@@ -32,24 +32,24 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(int, int);
-extern void func_0201F5BC(u32, u32, u32, u32, u32);
-extern void func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020498F4(void *, u32, u32, u32, u32, u32, u32);
-extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void *func_020490F4(u32 id, u16 heap);
+extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_02021518(u32 heap);
 extern void func_0202155C(u32 h, u32 a, u32 b, u32 heap);
 extern void func_020216B4(u32 a, void *h, u32 b, u32 heap, u32 c, u32 d, u32 e);
 extern void func_02021640(u32 a, u32 b, u32 c, u32 heap, u32 d, u32 e, u32 f);
-extern u32 func_0201F548(u32 a);
+extern u8 func_0201F548(int i);
 extern void func_0201DD68(void);
 extern void func_02049238(void *h);
 extern void func_02041300(unsigned int, int, int, int, unsigned char, unsigned char, unsigned char);
 extern void func_02041B6C(u32 layer);
 extern void func_020434DC(u32, u32);
 extern int func_021C4534(void);
-extern int func_021C4528(void);
+extern int func_021C4528(void *a);
 
 void func_021C4EEC(u8 *p)
 {

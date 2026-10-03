@@ -23,10 +23,12 @@
 
 typedef unsigned int u32;
 
-extern void func_0204B9A0(void *p);
-extern void func_0204B8C4(void *p, int a);
-extern void func_0204B92C(void *p, int a);
-extern void func_0204B3DC(void *p, int a);
+struct Actor;
+struct Obj;
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B8C4(struct Obj *p, u32 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_021BB9E4(void *a0, char *a1)
 {

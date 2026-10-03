@@ -24,16 +24,17 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B9F70(void *battle, int idx);
+struct WordSet;
+extern int func_021B9F70(u8 *p, int i);
 extern void *func_021B86B8(void ***p);
-extern int func_021BA004(void *battle, int v);
-extern int func_021B9FAC(void *battle, int idx, u32 *out);
-extern int func_021BA064(void *battle, int idx);
+extern u16 func_021BA004(char *p, int i);
+extern u32 func_021B9FAC(u8 *p, int i, u32 *out);
+extern int func_021BA064(char *p, int i);
 extern int func_021BA080(void *battle);
 extern u8 func_0202A3CC(u32 cls);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
 extern void func_0201F02C(void *win, u32 slot, int v);
-extern void func_0201F134(void *win, u32 slot, u32 v);
+extern void func_0201F134(struct WordSet *p, u32 i, u32 v);
 extern void *d_021F6398;
 
 void func_021EED90(void *win, u32 slot, int k)

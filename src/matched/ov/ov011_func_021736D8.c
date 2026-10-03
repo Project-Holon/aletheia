@@ -12,7 +12,7 @@
  *   func_02175628  0x02175628  thumb
  */
 
-void func_02175628(void);
+int func_02175628(void);
 
 void func_021736D8(void)
 {

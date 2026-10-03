@@ -41,7 +41,7 @@ typedef struct Rect4 {
 
 #define W(o) (*(int *)(p + (o)))
 
-extern int  func_021BB3C4(u8 *p, int v);
+extern int func_021BB3C4(void *unused, u32 p);
 extern void func_021BB3FC(u8 *p, int v, Rect *out);
 extern int  func_02035C08(void *rects);
 extern int  func_021BB468(u8 *p, int v);

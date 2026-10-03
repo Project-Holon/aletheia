@@ -15,11 +15,12 @@
  *   func_021D8288 0x021D8288 thumb ov131
  */
 
-extern void *func_021D6064(void *);
+typedef unsigned char  u8;
+extern void *func_021D6064(unsigned char *p);
 extern void *func_020450F0(unsigned int,unsigned int,unsigned int,unsigned int,unsigned char,unsigned char,unsigned char);
 extern const unsigned char d_021DC288[];
-extern void func_021D7F04(void *,unsigned char *,void *);
-extern void func_021D8288(void *,unsigned char *,void *);
+extern void func_021D7F04(u8 *p, u8 *q, void *mon);
+extern void func_021D8288(u8 *a, u8 *p, void *mon);
 void func_021D7C38(void *a, unsigned char *p)
 {
     void *arc=func_021D6064(a);

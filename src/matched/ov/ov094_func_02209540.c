@@ -30,8 +30,9 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 typedef struct Pair { int v[2]; } Pair;
 extern const Pair d_0220ABB8;
 extern u64 func_020870D0(void);
-extern void func_0204B878(void *a, u16 v);
-extern void func_0204B3DC(void *a, u32 v);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 
 void func_02209540(Timer *p, int idx)
 {

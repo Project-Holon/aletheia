@@ -84,10 +84,13 @@ extern int func_021C84E8(u8 *,u8 *,u8 *,int),func_021CA084(u8 *);
 extern void func_0202EA40(void *),func_0202EB04(void *);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern u32 func_020221A4(void),func_0201283C(const void *);
-extern void *func_020099D4(void *,int);
+struct Actor;
+struct Sub020097BCEnt;
+struct Sub020097BCObj;
+extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void func_02009A00(void *,int,void *),func_02009A74(void *,u32);
 extern u8 func_020355C4(void);
-extern u32 func_0204B98C(void *);
+extern u32 func_0204B98C(struct Actor *a);
 int func_021C76F8(u8 *p,u8 *q,u8 *ctx,u16 heap)
 {
     int idx;

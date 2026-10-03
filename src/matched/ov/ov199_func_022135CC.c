@@ -10,7 +10,8 @@
  * symbols:
  *   func_0201AA18 0x0201AA18 thumb
  */
-extern int func_0201AA18(void *);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
 void func_022135CC(unsigned char *p, unsigned char *a, unsigned char *b)
 {
     int i, index, j, count;

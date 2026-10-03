@@ -159,7 +159,7 @@ struct Obj0206BA18 {
     Rec0206BA18 ff4;
 };
 
-extern void func_0206DDA4(u32 a, void *b, u32 c);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern u32  g_02148DB4[];
 extern u32  g_02148B4C[];
 extern u32  g_020A1954[];

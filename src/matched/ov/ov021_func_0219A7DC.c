@@ -27,7 +27,7 @@ extern const Arr d_021D5060;
 extern int func_0216D5F8(u32);
 extern void func_0216D5E0(u32, u16);
 extern int func_0216D5D4(u32);
-extern s8 func_021642A4(int);
+extern u16 func_021642A4(int i);
 
 int func_0219A7DC(u32 a, s8 *b)
 {

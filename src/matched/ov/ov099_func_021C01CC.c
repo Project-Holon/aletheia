@@ -18,13 +18,14 @@
  *   func_021C2408 0x021C2408 thumb ov099
  *   func_021BAADC 0x021BAADC thumb ov099
  */
-extern int func_021BA858(char *);
+typedef unsigned int   u32;
+extern u32 func_021BA858(char *p);
 extern void func_021B9B64(char *);
 extern int func_02156B8C(void);
 extern void func_0201FEF4(int);
-extern void func_021C18C8(char *,int,unsigned);
-extern void func_0203C554(int);
-extern void func_021BDD0C(char *,int);
+extern void func_021C18C8(char *p, int kind, int value);
+extern void func_0203C554(u32 a);
+extern void func_021BDD0C(void *p, int on);
 extern void func_021C2408(char *);
 extern void func_021BAADC(char *,int,int);
 int func_021C01CC(char *p,int ret) {

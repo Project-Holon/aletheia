@@ -15,8 +15,11 @@
  *   func_021F55A0 0x021F55A0 thumb ov082
  */
 typedef unsigned char u8;
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+extern void *func_0201210C(const struct Ctx *p);
 extern u8 *func_02189A60(u8 *p);
-extern void *func_020122C0(void *owner,void *a,void *b,unsigned int size);
-extern void func_021F55A0(void);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int func_021F55A0(void *a0, int *st);
 void *func_021F5550(void *p) { u8 *obj = func_0201210C(p); switch ((unsigned int)*(void **)func_02189A60(obj)) { case 0: return 0; default: return func_020122C0(p,0,(void *)func_021F55A0,0); } }

@@ -67,7 +67,7 @@ extern void *func_021A3074(unsigned char *p);
 extern void func_0207ADC4(Mtx33 *m);
 extern u32 func_02008550(int a);
 extern void *func_02046E24(void *a0, u32 a1);
-extern int func_02047180(void *p);
+extern int func_02047180(u32 *p);
 extern void func_02049238(void *);
 
 extern const Vec d_021F4308[];

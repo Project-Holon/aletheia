@@ -38,6 +38,8 @@ typedef struct {
     Q *f4;
 } C;
 
+typedef unsigned int   u32;
+struct Descriptor;
 int func_021B889C(int a, int *b, C *c, u8 *d)
 {
     extern u8 *func_0203159C(int, int, int);
@@ -49,9 +51,9 @@ int func_021B889C(int a, int *b, C *c, u8 *d)
     extern void func_021B8C0C(C *, Q *, u8 *);
     extern unsigned func_02045770(void *);
     extern int func_0201C6C4(void *, unsigned);
-    extern void func_02045334(void *);
-    extern void func_02040588(int, int);
-    extern void func_02043598(int, int);
+    extern void func_02045334(struct Descriptor *d);
+    extern void func_02040588(u32 which, u32 enable);
+    extern void func_02043598(u32 mask, u32 enable);
     u8 *m;
     int busy;
     int i;

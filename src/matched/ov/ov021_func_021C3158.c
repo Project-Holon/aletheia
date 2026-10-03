@@ -26,7 +26,7 @@ typedef struct {
 } Ent;
 
 extern Ent *d_021DA720[];
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 
 void func_021C3158(u8 *p)
 {

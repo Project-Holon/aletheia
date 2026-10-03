@@ -22,8 +22,9 @@ typedef struct { void *h; int x; } Slot;
 extern const u16 d_0220A392[];
 extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B404(void *, Point *, int);
-extern void func_0204B92C(void *, int);
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
 
 void func_02205D58(char *p, int mode)
 {

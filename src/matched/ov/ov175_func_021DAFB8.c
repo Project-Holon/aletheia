@@ -16,7 +16,7 @@
 typedef unsigned int u32;
 extern int func_021DF420(int,int,int);
 extern int func_021DF3E8(int,int,int);
-extern void func_02034714(const char *,int,const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_021E2EF8[];
 void func_021DAFB8(int *ctx,const u32 *record,int invert) {
     int first,second,flip=0,skip=0,present;

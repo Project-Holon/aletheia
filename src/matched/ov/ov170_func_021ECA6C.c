@@ -14,7 +14,7 @@
  */
 extern int func_021DD908(unsigned char *, unsigned);
 extern unsigned func_021DD25C(void ***, unsigned short, int, unsigned, unsigned);
-extern void func_021EC060(char *, int, int);
+extern void func_021EC060(char *p, unsigned i, int b);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define WIN(p, i) (*(unsigned char *)(WORK(p) + (i) + 0x3DD2))
 void func_021ECA6C(unsigned char *p, int flag, unsigned i, unsigned end, int mode)

@@ -79,7 +79,8 @@ typedef unsigned int   u32;
 
 struct Sub0200852CObj;
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 extern int  DWC_CheckValidConsole(void *account);
 extern int  DWC_CheckHasProfile(void *account);

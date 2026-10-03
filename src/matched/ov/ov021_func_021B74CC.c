@@ -44,15 +44,17 @@ typedef struct {
     Entry *f24;
 } Obj;
 
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
 extern void func_02190758(int a0, int a1, u16 a2, int a3);
 extern void func_0201EFA4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void func_0201F250(u32 a0, u32 a1, u32 a2);
-extern void func_02045C04(void *a);
+extern void func_02045C04(struct Rec *rec);
 extern int func_021907C0(int a);
 extern int func_02045730(int a);
-extern void func_020409B4(int a);
+extern void func_020409B4(u32 index);
 
 void func_021B74CC(Obj *p)
 {

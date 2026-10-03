@@ -20,8 +20,10 @@
 
 extern int func_02159190(int);
 extern int func_0215A61C(void *);
-extern int func_021915B4(int a);
-extern void func_0215A614(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021915B4(u32 a);
+extern void func_0215A614(u8 *p, u32 v);
 extern void func_02159168(int);
 
 void func_021B10A4(void *p)

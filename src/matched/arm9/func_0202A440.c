@@ -52,12 +52,14 @@ struct Out {
 
 extern char  g_020A76DC[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+struct MsgBank;
+struct Rec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0202A3AC(u32 a, struct Tmp *t);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 heap);
-extern void  func_02045CAC(void *bank, u32 id, void *dest);
-extern void  func_02045C04(void *bank);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_02045C04(struct Rec *rec);
 extern void  func_02082A60(const void *src, void *dest, u32 size);
 extern void  func_0202428C(void *p);
 extern void  func_020307B0(void *p);

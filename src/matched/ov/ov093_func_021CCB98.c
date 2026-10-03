@@ -23,7 +23,7 @@ typedef struct {
 } Buf;
 
 extern char data_021F3A84[];
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021CCB98(Buf *w, u32 v)
 {

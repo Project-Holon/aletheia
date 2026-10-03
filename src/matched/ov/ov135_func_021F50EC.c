@@ -25,7 +25,8 @@ typedef unsigned int u32;
 typedef volatile unsigned short vu16;
 typedef volatile unsigned int vu32;
 
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 extern void func_021F4EFC(u8 *p);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);

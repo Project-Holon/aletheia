@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct WinMgr;
 extern void func_021C73C8(void *),func_021C7420(void *),func_021C5BE0(void *),func_021C5B40(void *),func_021C5C00(void *);
-extern void func_021C66B8(void *,int,int);
+extern void func_021C66B8(u8 *p, int i, u32 v);
 extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
-extern void func_021C630C(void *,int);
+extern void func_021C630C(u8 *p, unsigned int i);
 extern int func_021C71A8(void *,int,int);
 void func_021C758C(u8 *p)
 {

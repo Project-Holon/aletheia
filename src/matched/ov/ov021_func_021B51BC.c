@@ -52,12 +52,13 @@ extern const u16 d_021D98D0[];
 extern void *func_0215A5E4(void *vm);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0215E2B8(Rec *r, void *h, u32 k, u32 x);
-extern u16 func_021B5190(u16 *list, int n, u16 v);
-extern u32 func_02012984(void *);
+struct BigObj;
+extern u16 func_021B5190(u16 *arr, u16 n, u16 v);
+extern u8 func_02012984(const struct BigObj *p);
 extern u32 func_02005728(u32 range);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *h);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 
 int func_021B51BC(void *a, void *b)

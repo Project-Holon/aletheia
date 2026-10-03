@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021B9CF0(char *, int);
+extern unsigned short func_021B9CF0(char *p, unsigned i);
 
 int func_021B9CE0(char *p, int idx)
 {

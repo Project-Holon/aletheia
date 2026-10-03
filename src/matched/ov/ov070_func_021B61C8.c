@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 extern int func_02007F7C(void *, unsigned int);
-extern int func_02007FA0(void *, int);
+typedef unsigned int   u32;
+extern u32 func_02007FA0(u8 *base, u32 id);
 int func_021B61C8(u8 *p)
 {
     if (*(int *)(p + 0x81C)) return func_02007F7C(p + 0x20, 0x136);

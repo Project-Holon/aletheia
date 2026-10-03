@@ -26,12 +26,13 @@
 
 extern int func_02183D3C(int);
 extern void func_02183D34(int, void *);
-extern void func_02183E18(void);
+typedef unsigned int   u32;
+extern void func_02183E18(int a, int *state);
 extern void func_02184470(int);
 extern void func_0218448C(int);
 extern int func_0218484C(void);
-extern int func_02006D94(void);
-extern void func_020061E4(int);
+extern u32 func_02006D94(void);
+extern void func_020061E4(u32 a);
 
 void func_02183DAC(int a, int *state)
 {

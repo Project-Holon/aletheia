@@ -28,7 +28,8 @@ typedef struct {
     u32 f28;
     u16 f2c,f2e;
 } Menu;
-extern unsigned func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200B358(void *);
 extern void *func_0200B1D4(void *,int);
 extern void func_02082BCC(void *,int,u32);

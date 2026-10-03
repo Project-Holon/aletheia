@@ -42,7 +42,7 @@ typedef struct V {
     Tbl *f08;
 } V;
 
-extern u32 func_021867B0(u8 *p);
+extern int func_021867B0(u8 *p);
 
 E50 *func_02193EFC(V *v, u32 key)
 {

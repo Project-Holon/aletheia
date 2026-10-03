@@ -57,7 +57,7 @@ typedef struct {
 extern Ani *g_021DE504;
 extern const u8 g_021D9FF8[];
 
-extern void *func_021D6414(int size, int align);
+extern void *func_021D6414(unsigned long size, int alignment);
 extern void *func_021D5368(int a, int b);
 extern void *func_021D7680(int a, void (*fn)(void), int b, int c);
 extern void func_021BC924(void);

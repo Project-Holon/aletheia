@@ -31,8 +31,9 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02039338(void);
-extern u32 func_0203CEAC(u32 a);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
+extern int func_0203CEAC(int a0);
 
 u32 func_0203BEAC(void)
 {

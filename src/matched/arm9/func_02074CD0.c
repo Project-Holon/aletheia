@@ -48,10 +48,10 @@ union Hdr {
     struct { unsigned v : 24; unsigned flag : 1; unsigned rest : 7; } b;
 };
 
-extern Grp  *func_020743EC(u32 a);
+extern void *func_020743EC(int index);
 extern u32   func_0207466C(u32 a);
 extern u32   func_02075014(u32 a, u32 b, u32 c);
-extern union Hdr *func_02074450(u32 a);
+extern void *func_02074450(int index);
 extern u32   func_02074E10(u32 a, u32 b, u32 c, u32 d, u32 *out);
 extern u32   func_02075404(u32 a, u32 b, u32 c, u32 d, u32 *heap);
 extern void  func_0208A2BC(u32 bank, u32 i, u32 waveArc);

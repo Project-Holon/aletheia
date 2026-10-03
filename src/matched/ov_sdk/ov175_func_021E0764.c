@@ -16,7 +16,7 @@
  *  *  "release and clear" entry of the ov009 object pair.
  */
 
-extern void func_0217CCCC(void *p);
+extern void func_0217CCCC(unsigned int theMS);
 
 void func_021E0764(void)
 {

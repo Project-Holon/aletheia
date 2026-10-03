@@ -14,7 +14,7 @@
  *   func_021DDE30 0x021DDE30 thumb ov093
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  */
-extern void *func_021C7CF4(void *, int);
+extern void *func_021C7CF4(int *p, int i);
 struct Unk021D62A8;
 extern int func_021D62C4(struct Unk021D62A8 *, int);
 extern void func_021DDE30(int, int, int, int, int);

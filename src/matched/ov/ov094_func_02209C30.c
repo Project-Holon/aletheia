@@ -38,8 +38,9 @@ typedef struct {
     void *cb;
 } Msg;
 
-extern void func_0204B878(void *h, int v);
-extern void func_0204B3DC(void *h, int v);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204BA00(void *h, Msg *m);
 
 void func_02209C30(P *p)

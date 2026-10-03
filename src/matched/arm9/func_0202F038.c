@@ -30,7 +30,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_020437AC(u32 a);
-extern void func_020307B0(u8 *p);
+extern void func_020307B0(void *p);
 extern u32  func_02045770(u32 a);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 a);

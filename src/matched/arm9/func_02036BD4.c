@@ -59,10 +59,9 @@ struct Notifier {
 extern struct Notifier g_021469C8;
 extern const char wm_icon_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32  func_02036D64(struct Handler *h, u32 a);
-extern void func_02036F24(u32 a, u32 b, u32 c);
+extern void func_02036F24(int a0, int b, int c);
 
 struct Handler *func_02036BD4(u32 unused, u32 b, u32 c, u32 d, u32 e,
                               struct Handler *h, u32 kind, u32 busy,

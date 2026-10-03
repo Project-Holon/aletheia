@@ -15,10 +15,12 @@
  *   func_021DD9CC 0x021DD9CC thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
  */
-extern int func_021DA2C8(void *);
-extern int func_021D9B34(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern int func_021DA2C8(u8 *p);
+extern int func_021D9B34(u8 *p);
 extern void func_021DD9CC(void *);
-extern int func_021DA8AC(void *);
+extern int func_021DA8AC(u32 *p);
 static inline void update(void *p)
 {
     if(p) func_021DD9CC(p);

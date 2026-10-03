@@ -13,7 +13,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 
-extern int func_0207292C(u32);
+extern int func_0207292C(int mask);
 int func_02073838(u8 *o, int n, u8 *src) {
 
     u32 m = 0;

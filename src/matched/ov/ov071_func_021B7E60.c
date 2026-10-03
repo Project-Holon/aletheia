@@ -37,18 +37,21 @@ typedef struct {
     int *f4;
 } C;
 
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Ctx;
 int func_021B7E60(int a, int unused, C *c)
 {
-    extern void *func_020120F4(void *);
+    extern void *func_020120F4(const struct Ctx *p);
     extern void *func_0203159C(int, int, int);
     extern void func_02082BCC(void *, int, int);
     extern void *func_0201296C(void *);
-    extern int func_020142E8(void *, unsigned);
+    extern u32 func_020142E8(void *bitmap, s32 id);
     extern void func_021B8308(void);
     extern void func_021B8350(W *, int *);
     extern void func_021B81A0(C *, W *);
     extern void func_021B82E4(void *, int);
-    extern void func_02043598(int, int);
+    extern void func_02043598(u32 mask, u32 enable);
     void *h = func_020120F4(*(void **)c->q);
     W *w = func_0203159C(a, 0x48, 0x61);
 

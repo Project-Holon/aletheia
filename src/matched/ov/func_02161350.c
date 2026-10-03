@@ -26,7 +26,8 @@ typedef unsigned int u32;
 
 extern void *func_021616A4(void *, void *, u16, void *, void *);
 extern void *func_02188C54(void *);
-extern void func_02012374(void *, void *);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_02161350(void *a0)
 {

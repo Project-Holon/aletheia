@@ -29,7 +29,7 @@ typedef struct {
     u32 f4;
 } H;
 
-extern void func_021BCC58(void *p, u32 v);
+extern void func_021BCC58(char *p, u32 x);
 
 void func_021C1350(int a, int b, H *h, char *d)
 {

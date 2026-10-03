@@ -34,7 +34,8 @@ typedef struct {
 
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021DDEFC(unsigned char *p, Obj *o);
-extern int func_0201AA18(void *party);
+typedef unsigned int   u32;
+extern u32 func_0201AA18(void *p);
 extern void func_021DE120(unsigned char *p, int a, int b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

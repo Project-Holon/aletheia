@@ -21,8 +21,8 @@ extern int func_021D8A24(void *);
 extern void func_021D8E84(void *, int);
 extern unsigned func_020399A8(void);
 extern void func_02039C68(unsigned,unsigned,unsigned);
-extern void func_021DABE8(void *);
-extern void func_021DAB34(void *);
+extern void func_021DABE8(char *p);
+extern void func_021DAB34(char *p);
 void func_021DAC20(void *p) {
  if(func_020221A4(p)) {
   if(func_021D8A24(p)) {

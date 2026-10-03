@@ -40,7 +40,7 @@ extern void sub_0202BE24(u8 *o);
 extern void func_0202BB68(u8 *o, int i);
 extern void func_0202BBB0(u8 *o, int i);
 extern void func_0202BC78(u8 *o, int i);
-extern void func_0202BE00(u8 *o, int i);
+extern void func_0202BE00(u8 *p, u32 i);
 
 void func_0202BAF4(u8 *o)
 {

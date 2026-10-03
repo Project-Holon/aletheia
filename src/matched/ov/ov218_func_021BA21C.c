@@ -16,7 +16,8 @@
  *   func_021B61F8 0x021B61F8 thumb ov067
  */
 extern void func_021B9944(void);
-extern void func_021B9C74(void *);
+typedef unsigned char  u8;
+extern void func_021B9C74(u8 *p);
 extern void func_021B61F8(unsigned char *, unsigned short);
 int func_021BA21C(unsigned char *task, char *ctx)
 {

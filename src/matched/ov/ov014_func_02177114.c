@@ -13,7 +13,8 @@
  *   func_02177B58 0x02177B58 thumb ov014
  *   func_02177C08 0x02177C08 thumb ov014
  */
-extern void *func_02177B58(int);
+typedef unsigned char  u8;
+extern u8 *func_02177B58(int i);
 void *func_02177114(int index) { if (index >= 16) return 0; return func_02177B58(index); }
 extern int func_02177C08(void);
 int func_02177124(void) { return 1; }

@@ -95,8 +95,7 @@ typedef struct ScriptVm {
     void *data;
 } ScriptVm;
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
-                          int line);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MI_CpuFill8(void *dest, u8 data, u32 size);
 
 extern const char unit_020111EC_File[];

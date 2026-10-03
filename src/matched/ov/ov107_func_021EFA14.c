@@ -49,12 +49,13 @@ extern int func_02035C08(const void *),func_021F0A28(void),func_021F1B14(void *)
 extern u32 func_020362DC(void);
 extern void func_0204B878(void *,u16),func_0204B92C(void *,u32),func_020061E4(u32);
 extern void func_021F0A64(void),func_021F0AE4(void),func_021F1898(void *),func_021F1628(void *,int);
-extern int func_02012FFC(void);
+struct Sub0200852CObj;
+extern signed char func_02012FFC(void);
 extern void func_021F1704(void *,int,int),func_021F1930(void *,int),func_021F19E4(void *,int);
 extern void func_02034714(void *,int,void *),func_021EFC1C(u8 *,int);
-extern void *func_02012944(void *);
+extern u8 *func_02012944(void *p);
 extern void func_021F19B8(void *),func_021F1A24(void *),func_021F18D8(void *);
-extern u16 func_02008534(void *);
+extern u16 func_02008534(const struct Sub0200852CObj *obj);
 extern void func_021F1918(void *,int,u16,int),func_021F18EC(void *);
 extern u8 d_021F6AF8[],d_021F6E08[];
 void func_021EFA14(u8 *p)

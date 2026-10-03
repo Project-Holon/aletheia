@@ -15,10 +15,11 @@
  */
 typedef unsigned short u16;
 
-extern unsigned char *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B68(unsigned char *, int, int, int, int, int);
+typedef unsigned int   u32;
+extern void *func_020490F4(u32 id, u16 heap);
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02049238(unsigned char *);
-extern void func_02040EBC(int, int);
+extern void func_02040EBC(u32 a0, u32 a1);
 void func_021B9A80(void *unused, int mode)
 {
     unsigned char *h;

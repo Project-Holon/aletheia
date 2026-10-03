@@ -40,7 +40,7 @@ extern void func_021B7F1C(u8 *,void *,int,int,s16);
 extern int func_021B8768(u8 *,const Block *);
 extern int func_021B8880(u8 *);
 extern void func_021B87F4(u8 *,Block *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021B817C(u8 *,void (*)(u8 *,u16 *));
 extern void func_021B8528(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))

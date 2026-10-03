@@ -20,10 +20,12 @@ typedef signed short s16;
 typedef struct Entry { u8 code, x, y, other; } Entry;
 typedef struct Vec { s16 x, y; } Vec;
 extern const Entry d_021D8B70[];
-extern void func_0204B3DC(void *, u32);
+typedef unsigned short u16;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *, const Vec *, u32);
-extern void func_0204B878(void *, u32);
-extern void func_02028218(void *, u32);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_02028218(struct Obj *obj, u32 a);
 void func_021D69F4(u8 *p, void *q, u32 n)
 {
     Vec v;

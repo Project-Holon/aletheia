@@ -71,7 +71,7 @@ typedef struct
 } OSThreadInfo;
 
 extern int func_020948E0(const char *, const char *);
-extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
+extern int func_0217956C(struct DWCHttp *http, struct DWCHttpParam *param);
 extern void func_02058518(void *buf);
 extern int func_02178A94(DWCHttp *http, char *gsbrcd, unsigned short *ingamesn);
 extern int func_0217967C(DWCHttp *http);

@@ -14,7 +14,8 @@
 
 typedef unsigned char u8;
 
-extern u8 func_020416D4(u8 a);
+typedef unsigned int   u32;
+extern u8 func_020416D4(u32 layer);
 
 void func_021C27A4(u8 *p)
 {

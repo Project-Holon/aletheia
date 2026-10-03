@@ -42,7 +42,8 @@ typedef unsigned char u8;
 extern char g_02140504[];
 extern char g_02140488[];
 
-extern int func_02006768(void);
+typedef unsigned short u16;
+extern u16 func_02006768(void);
 extern void func_02006948(char *e);
 extern void func_020067E0(char *e, int v);
 extern void func_02006BE0(int a, int b);

@@ -36,10 +36,7 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern int func_0217D750(const unsigned int *data1, unsigned int length1,
-                         const unsigned int *data2, unsigned int length2,
-                         unsigned int *dest, unsigned int *lenout,
-                         unsigned int maxlen);
+extern int func_0217D750(unsigned int *data1, unsigned int length1, unsigned int *data2, unsigned int length2, unsigned int *dest, unsigned int *lenout, unsigned int maxlen);
 extern int func_0217D448(const unsigned int *a, unsigned int n,
                          const unsigned int *b, unsigned int m);
 extern int func_0217D640(const unsigned int *src1, unsigned int length1,

@@ -91,22 +91,28 @@ typedef struct {
     u32 f10;
 } Req;
 
-extern void *func_0201210C(void *sys);
-extern void *func_0201AB28(void *party, int i);
+struct BigObj;
+struct Blk37;
+struct Ctx;
+struct Evt;
+struct Party;
+struct PartyMon;
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern Obj *func_021CBFB0(u32 a, u32 b);
 extern void func_021CC098(void *a, u16 b, void *mon, void *d, u32 e);
 extern void func_021CC23C(void *mon);
 extern void func_021CC38C(void *p);
-extern void *func_02012944(void *p);
+extern u8 *func_02012944(void *p);
 extern void *func_020146F8(void *sys, void *h, const void *id, const void *tbl, void *arg);
-extern void func_02012374(void *a, void *b);
-extern void func_0201AB48(void *party, int idx, void *mon);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
+extern void func_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src);
 extern void *func_0200CA1C(void *p);
-extern void func_0200CFA0(void *box, void *mon);
-extern void func_0200CDE0(void *box, void *mon);
-extern void *func_02012984(void *p);
-extern u16 func_0201B2B0(void *a, void *b, u32 c, u32 d, void *e, u32 *f, u32 g);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
+extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_021CC040(Obj *o);
 
@@ -127,7 +133,7 @@ int func_021CC390(void *a, u32 *state, Work *w)
     void *t;
     void *box;
     u32 sel;
-    u16 r;
+    u32 r;
     Req *q;
 
     switch (*state) {

@@ -36,7 +36,7 @@ struct bucketset_s;
 
 extern struct bucket_s *func_02193CD0(struct bucketset_s *set, char *name);
 extern void *func_02193CB0(struct bucket_s *pbucket);
-extern void *func_02193BD8(int i);
+extern char *func_02193BD8(int v);
 extern void *func_02193C3C(struct bucket_s *pbucket, void *value);
 extern void *func_02193BF0(double f);
 

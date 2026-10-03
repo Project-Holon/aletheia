@@ -33,10 +33,11 @@ typedef struct {
 
 void func_02007150(void *);
 void func_02008764(void *);
-u32 func_02007210(void *);
-u32 func_02007218(void *);
-void func_02007214(void *, u32);
-void func_0200721C(void *, u32);
+struct Sub020071E4Ctrl;
+u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
+u8 func_02007218(const struct Sub020071E4Ctrl *ctrl);
+void func_02007214(struct Sub020071E4Ctrl *ctrl, u8 v);
+void func_0200721C(struct Sub020071E4Ctrl *ctrl, u8 v);
 
 void func_021BD2B0(St *p)
 {

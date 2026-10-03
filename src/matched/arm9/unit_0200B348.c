@@ -48,10 +48,12 @@ typedef signed int     s32;
 
 extern void  MI_CpuFill8(void *dest, u8 value, u32 size);
 extern void  func_02082A90(void *dest, const void *src, u32 size);
-extern void *func_020071CC(void *sys, u32 id);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
-extern void  func_0200B448(void *p);
+struct BattleRec;
+struct Struct_0200B37C;
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0200B448(struct BattleRec *p);
 extern const char func_0200B3DC_File[];
 
 struct Rec2FC {
@@ -64,7 +66,7 @@ struct Rec94 {
     u8  unk84[0x10];
 };
 
-void func_0200B37C(struct Rec94 *p);
+void func_0200B37C(struct Struct_0200B37C *p);
 
 void func_0200B348(struct Rec2FC *p)
 {

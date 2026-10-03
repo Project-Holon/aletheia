@@ -19,7 +19,8 @@
  *   func_021BBDFC 0x021BBDFC arm ov114
  */
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
 extern void *func_021BEF58(void *sysInfo_p);
 extern void *func_021BEC2C(void *mutexInfo_p, void *handle_p);

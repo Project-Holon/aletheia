@@ -17,8 +17,8 @@
  *   func_021768EC  0x021768EC  arm  ov009
  */
 
-extern char *func_02175F3C(void);
-extern unsigned int func_0216B908(void);
+extern int func_02175F3C(void);
+extern int func_0216B908(void);
 extern void func_021768EC(int result);
 
 void func_0217689C(void)

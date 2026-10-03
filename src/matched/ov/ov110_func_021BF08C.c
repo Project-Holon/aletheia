@@ -13,7 +13,8 @@
  *   func_021BAD14 0x021BAD14 thumb ov110
  */
 typedef unsigned char u8;
-extern int func_02035CB8(unsigned *,unsigned *);
+typedef unsigned int   u32;
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_021BAD14(u8 *,unsigned);
 int func_021BF08C(u8 *p) {
  unsigned x,y;

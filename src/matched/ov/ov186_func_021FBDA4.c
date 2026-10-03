@@ -11,8 +11,9 @@
  *   func_020414EC 0x020414EC arm
  *   func_020409B4 0x020409B4 arm
  */
-extern void func_020414EC(unsigned char);
-extern void func_020409B4(unsigned char);
+typedef unsigned int   u32;
+extern void func_020414EC(u32 i);
+extern void func_020409B4(u32 index);
 void func_021FBDA4(int a,unsigned mode)
 {
     switch(mode){

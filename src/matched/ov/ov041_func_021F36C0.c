@@ -51,13 +51,13 @@ extern u8 d_021F4660[];
 extern s16 d_020A1B38[];
 
 extern void *func_02188D2C(void *p);
-extern int   func_02188C84(void *p);
-extern void  func_02189764(void *p, int a, int b, int c);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void  func_021BE760(void *p, void *a, int b);
 extern char *func_021BE480(void *p, int i, u16 j);
 extern void  func_021BE4A4(void *p, int i, u16 j, int v);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B8(void *p, int v);
+extern void func_021BE6B8(unsigned char *p, int v);
 extern void  func_0207AF1C(void *m, int a, int b);
 
 void func_021F36C0(void *a0)

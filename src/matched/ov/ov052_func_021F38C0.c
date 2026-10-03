@@ -15,7 +15,9 @@
  *   func_020307B0 0x020307B0 arm
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021F3AC0[];
 extern void func_020307B0(void *);
 

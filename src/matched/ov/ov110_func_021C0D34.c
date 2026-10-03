@@ -13,8 +13,12 @@
  *   func_0204B560 0x0204B560 arm
  *   func_0204B550 0x0204B550 arm
  */
-extern unsigned func_0204B3F4(void *);
-extern int func_0204B560(void *,int);
+typedef signed short   s16;
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern u32 func_0204B3F4(struct Obj *p);
+extern s16 func_0204B560(const struct Actor *actor, u32 axis);
 extern void func_0204B550(void *,short,int);
 void func_021C0D34(char *p,int force) {
     int n,index,y,a,b,t;

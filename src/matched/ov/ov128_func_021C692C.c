@@ -17,9 +17,13 @@
  */
 typedef unsigned char u8;
 extern void func_0201DD68(void);
-extern void *func_0201EC64(unsigned);
-extern void *func_02045B38(unsigned,unsigned,unsigned,unsigned);
-extern void *func_0201D7EC(int,int,int,int,unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0203101C(unsigned,unsigned,unsigned,unsigned);
 extern void *func_0201C440(unsigned);
 void func_021C692C(u8 *p,unsigned heap)

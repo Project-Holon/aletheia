@@ -32,10 +32,13 @@ typedef struct Seq {
     u8 f4C;             /* 0x4C */
 } Seq;
 
-extern void *func_020120F4(void *p);
-extern u32 func_02012A30(void *p);
-extern void *func_0201210C(void *p);
-extern void *func_02012374(void *evt, void *sub);
+struct BigObj;
+struct Ctx;
+struct Evt;
+extern void *func_020120F4(const struct Ctx *p);
+extern u32 func_02012A30(const struct BigObj *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_02029690(void *a, u16 b, u16 c);
 extern void *func_020145CC(void *a);
 extern void *func_02029CC0(void *a);

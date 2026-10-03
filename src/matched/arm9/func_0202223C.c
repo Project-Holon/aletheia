@@ -41,7 +41,7 @@ typedef unsigned int   u32;
 typedef unsigned short u16;
 typedef unsigned char  u8;
 
-extern void func_020222CC(u32 a, u32 color);
+extern void func_020222CC(u32 which, int brightness);
 
 struct G {
     u8  pad[0x10];

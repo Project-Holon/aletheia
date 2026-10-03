@@ -13,8 +13,9 @@
  *   func_02005DF8 0x02005DF8 thumb
  */
 extern void func_02005E9C(void);
-extern void func_02005DE4(int);
-extern void func_02005DF8(int);
+typedef unsigned int   u32;
+extern void func_02005DE4(void *p);
+extern void func_02005DF8(u32 a);
 void func_021DC818(char *p)
 {
     switch (*(unsigned char *)(p + 0x11F8)) {

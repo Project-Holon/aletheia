@@ -102,7 +102,7 @@ extern int func_02035C08(const void *rects);
 extern int func_02035BA4(const void *rects);
 extern void func_02035CB8(int *x, int *y);
 extern u32 func_020362DC(void);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern void func_021C7F2C(Work *p, int sel, int flag);
 extern void func_021C7CD0(Work *p, int a, int b, int x);
 extern void func_021C842C(Work *p, int idx);

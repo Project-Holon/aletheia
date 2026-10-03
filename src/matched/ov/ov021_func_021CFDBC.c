@@ -36,17 +36,18 @@ extern u32 func_02012EBC(u32 a);
 extern u32 func_02009470(u32 a);
 extern u8 *func_02012F38(u32 a);
 extern u32 func_0200973C(u32 a, u32 b);
-extern void func_0201F048(void *p, u32 i, u32 n);
+struct WordSet;
+extern void func_0201F048(struct WordSet *p, u32 i, u32 n);
 extern u8 func_02025B64(u32 v);
 extern u8 func_02008570(u32 a);
-extern void func_0201F094(void *p, u32 i, u32 a, u32 n);
+extern void func_0201F094(struct WordSet *p, u32 i, u32 a, u32 n);
 extern u32 func_02012944(u32 a);
 extern void func_0201F02C(void *p, u32 i, u32 a);
 extern u32 func_02009634(u32 a, u32 b, u32 c);
-extern void func_0201EE60(void *p, u32 i, u16 v);
+extern void func_0201EE60(struct WordSet *p, u32 i, u16 v);
 extern u8 func_02009628(u32 a);
-extern void func_0201F198(void *p, u32 i, u8 v);
-extern void func_0201EFA4(void *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F198(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 
 void func_021CFDBC(void *ws, u32 h, u32 x)
 {

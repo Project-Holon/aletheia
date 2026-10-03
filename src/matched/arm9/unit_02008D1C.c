@@ -33,10 +33,10 @@ typedef unsigned int u32;
 
 struct Sub02008C20Obj;
 
-extern u32  sub_02008CF8(int i);
+extern int sub_02008CF8(int idx);
 extern void sub_02008C64(struct Sub02008C20Obj *obj, int i);
 extern void sub_02008C94(struct Sub02008C20Obj *obj, int i);
-extern u32  sub_02008CB4(struct Sub02008C20Obj *obj, int i);
+extern u32 sub_02008CB4(const struct Sub02008C20Obj *obj, int i);
 extern u32  sub_02008CD4(struct Sub02008C20Obj *obj, int i, u32 value);
 
 u32 sub_02008D1C(struct Sub02008C20Obj *obj, int i, u32 value)

@@ -39,11 +39,13 @@ typedef struct {
     int f24;        /* 0x24 */
 } Work02187808;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
-void *func_020124EC(void *p);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
+u32 *func_020124EC(struct Obj *p);
 u8 func_0202E8B8(int x);
-void func_021876E0(void);
+int func_021876E0(void *unused, int *s, char *o);
 void func_02187C20(Work02187808 *w, void *h, int state);
 
 void *func_02187808(void *p, u8 a1, u8 a2)

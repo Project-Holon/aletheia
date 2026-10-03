@@ -76,7 +76,8 @@ struct Obj {
 };
 
 extern void *func_02030734(u32 heap, u32 sz, u32 c, void *file, u32 line);
-extern void *func_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02024988(void *sys);
 extern u32   func_02012FE4(void *sys);
 extern u32   func_020142E8(u32 a, u32 b);

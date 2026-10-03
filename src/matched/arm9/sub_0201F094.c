@@ -37,13 +37,16 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern void *func_02045B38(u32 a, u32 b, u16 c, u16 d);
-extern void  func_02045C04(void *s);
-extern void  func_02045CAC(void *s, u32 v, void *buf);
-extern u32   func_02045F50(void *s);
+struct MsgBank;
+struct Obj;
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern u16 func_02045F50(const struct Obj *o);
 extern void  sub_02008500(void *a, void *b);
 extern u32   func_02025B94(u32 a);
-extern u32   func_0202A230(u32 a, u32 b);
-extern void  func_0200785C(u32 a, u32 b, void *buf);
+extern u32 func_0202A230(void *a, u32 idx);
+extern void func_0200785C(void *save, u32 box, void *dest);
 
 struct Tag;
 

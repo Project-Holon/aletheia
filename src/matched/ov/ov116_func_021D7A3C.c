@@ -25,10 +25,11 @@ extern void *func_02009860(void *);
 extern void *func_02009CC0(void *);
 extern void func_02008540(void *,void *);
 extern void *func_0200853C(void *);
-extern u64 func_0205994C(void *);
+struct DWCstAccUserData;
+extern unsigned long long func_0205994C(struct DWCstAccUserData *userdata);
 extern void func_021C8F2C(void *,u32,u32,int);
 extern void func_021C96CC(void);
-extern void func_021D70E4(void *);
+extern void func_021D70E4(u8 *p);
 void func_021D7A3C(u8 *p) {
     void *a=func_02009860(*(void **)(p+0x184c));
     void *b;

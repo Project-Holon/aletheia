@@ -15,7 +15,7 @@
  */
 
 extern void func_021FC734(void *, int);
-extern void func_021FBDA4(int, int);
+extern void func_021FBDA4(int a, unsigned mode);
 
 void func_021FD15C(void *p, int a1)
 {

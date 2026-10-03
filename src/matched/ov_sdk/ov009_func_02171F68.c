@@ -18,7 +18,7 @@
  */
 
 extern int func_02176554(void);
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_0216FF2C(unsigned char command, int pid, unsigned int ip, unsigned short port, const unsigned int *data, int len);
 
 int func_02171F68(void)

@@ -29,13 +29,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *p);
-extern void *func_02008854(void *p);
-extern int func_02013FFC(u16 id);
+struct Big;
+struct Ctx;
+struct Sub02008828Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008828Obj *func_02008854(void *sys);
+extern u32 func_02013FFC(u32 id);
 extern int func_021D220C(void *msg, u8 *pos);
-extern u16 func_02008990(void *p);
-extern void func_02008988(void *p, u16 v);
+extern u16 func_02008990(const struct Sub02008828Obj *obj);
+extern void func_02008988(struct Sub02008828Obj *obj, u16 value);
 
 int func_0218AC08(void *msg, u8 *pos, u16 id)
 {

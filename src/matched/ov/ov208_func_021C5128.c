@@ -35,7 +35,8 @@ struct Ov208Mdl {
 
 extern u32  ov208_func_021C5000(void *sys, u32 species, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6,
                                 u32 a7);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02015EE8(u32 obj);
 extern void func_02063000(void *anm, u32 one, void *work, void (*cb)(void *));
 extern void ov208_func_021C5248(void *work);

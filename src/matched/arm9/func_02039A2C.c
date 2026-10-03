@@ -11,8 +11,11 @@
  * status:   EXACT
  */
 
-extern int func_02039338(void);
-extern void *func_0203996C(int v);
+typedef signed int     s32;
+typedef unsigned short u16;
+struct Entry;
+extern u16 func_02039338(void);
+extern struct Entry *func_0203996C(s32 idx);
 void func_02039A2C(int a)
 {
     char *q;

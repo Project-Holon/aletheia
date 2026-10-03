@@ -41,8 +41,9 @@ typedef struct Anim {
 
 extern char d_02208F7C[];
 extern char d_02208ED0[];
-extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
-extern void *func_0220887C(u16 heap, u16 a, void *b);
+struct Ptc;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct Ptc *func_0220887C(u16 heap, u16 a, void *b);
 extern void func_02208A54(Anim *p);
 extern void func_02208AB0(Anim *p);
 

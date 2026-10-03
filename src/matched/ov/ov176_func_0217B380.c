@@ -17,9 +17,9 @@
  */
 
 extern int func_021E8AA0(int, int);
-extern int func_0217B3C0(void);
-extern int func_0217B4A0(void);
-extern int func_0217B6AC(void);
+extern void func_0217B3C0(int p, unsigned *state, int *q);
+extern void func_0217B4A0(int p, unsigned *state, int *q);
+extern void func_0217B6AC(int p, unsigned *state, int *q);
 
 void func_0217B380(int a, int b, int *p)
 {

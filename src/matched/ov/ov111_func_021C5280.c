@@ -70,10 +70,10 @@ typedef struct {
 } Work;
 
 extern void func_021C6FA0(Anim *a, int idx, u8 x, u8 y);
-extern void func_020061E4(int se);
+extern void func_020061E4(u32 a);
 extern int func_021C5264(Work *p, int hit);
-extern void func_020355D8(u32 v);
-extern void func_02035CB8(u32 *x, u32 *y);
+extern void func_020355D8(u8 v);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern void func_021C51E4(Work *p, int flag);
 extern void func_021C4754(Work *p, int kind);
 extern void func_021C523C(Work *p, int flag);

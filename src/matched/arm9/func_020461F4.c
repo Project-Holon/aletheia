@@ -81,8 +81,8 @@ extern const u8 g_020A08D0[];
 
 extern struct Record020461F4 *g_02146A58;
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020463E0(u32 a, u32 b);
 extern void  func_020788AC(struct File020461F4 *f);
 extern u32   func_02078C18(struct File020461F4 *f, u32 id);

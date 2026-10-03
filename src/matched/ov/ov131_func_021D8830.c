@@ -16,7 +16,9 @@
  */
 
 extern void func_021D8A2C(unsigned char *, unsigned char *);
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021D9670(unsigned char *, unsigned char *);
 extern void func_021D9568(unsigned char *, unsigned char *);
 extern void func_021D92B0(unsigned char *, unsigned char *);

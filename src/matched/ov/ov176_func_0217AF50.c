@@ -14,8 +14,11 @@
  *   func_0201C440 0x0201C440 thumb
  *   func_021E8568 0x021E8568 thumb ov177
  */
-extern void *func_0201D7EC(unsigned,unsigned,unsigned,unsigned,unsigned);
-extern void *func_02045B38(unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int   u32;
+struct GfFont;
+struct MsgBank;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201C440(unsigned);
 extern void *func_021E8568(unsigned,unsigned,unsigned,unsigned,void *,void *,unsigned);
 void func_0217AF50(char *p)

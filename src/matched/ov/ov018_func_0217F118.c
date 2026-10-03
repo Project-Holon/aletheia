@@ -26,7 +26,9 @@ typedef struct {
     u8 f11B;
 } Ov018Sel;
 
-void func_0204B6F4(void *obj, int a, int b);
+typedef unsigned int   u32;
+struct Obj;
+void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 
 void func_0217F118(Ov018Sel *p, int n)
 {

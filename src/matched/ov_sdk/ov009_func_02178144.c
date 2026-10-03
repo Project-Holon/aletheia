@@ -38,7 +38,7 @@ struct DWCAuthGlobal {
 
 extern struct DWCAuthGlobal g_021AB184;
 
-extern void func_02179CF4(void *http);
+extern void func_02179CF4(char *http);
 
 void func_02178144(void)
 {

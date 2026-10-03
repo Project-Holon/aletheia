@@ -16,7 +16,8 @@
 
 typedef unsigned int u32;
 typedef struct { u32 words[13]; } Rec;
-extern void *func_020122C0(void *, void *, void *, u32);
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Rec *func_020124E8(void *);
-extern void func_02182150(void);
+extern int func_02182150(void *a, int *state, int c);
 void *func_02182124(void *a, void *unused, Rec *b) { void *r; r = func_020122C0(a,0,(void *)func_02182150,0x34); *func_020124E8(r) = *b; return r; }

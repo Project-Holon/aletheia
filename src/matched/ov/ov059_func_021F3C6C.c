@@ -19,10 +19,12 @@
 
 typedef unsigned short u16;
 
-extern void *func_020124E4(void *p);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D2C(void *p);
-extern int *func_021897BC(void *p, int i);
+extern int *func_021897BC(char *p, int idx);
 extern int func_021BE6E8(void *p, int i, u16 j, int k);
 
 int func_021F3C6C(void *a)

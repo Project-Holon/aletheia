@@ -16,11 +16,13 @@
  *   func_021DA280 0x021DA280 thumb ov121
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_0204B3B4(void *);
+typedef unsigned char  u8;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
 extern void func_0204ADA4(void *);
-extern void func_021DA280(void *);
+extern void func_021DA280(u8 *p);
 extern void func_020307B0(void *);
 void func_021DD1FC(void **p)
 {

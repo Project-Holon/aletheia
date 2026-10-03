@@ -62,8 +62,8 @@ struct Sys
     struct Vt *f340;
 };
 
-extern struct Glob *func_0203D798(void);
-extern struct Sys *func_0203D788(void);
+extern void *func_0203D798(void);
+extern void *func_0203D788(void);
 extern void MI_CpuFill8(void *, u8, u32);
 extern s32 func_020366A8(struct Conn *);
 struct Buf
@@ -73,7 +73,7 @@ struct Buf
 };
 
 extern s32 func_02036A50(struct Conn *, struct Buf *);
-extern u16 func_0203F1FC(u8 *, s32);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 
 s32 func_02038AE0(struct Hdr *h, struct Conn *c, s32 len, u8 a3)
 {

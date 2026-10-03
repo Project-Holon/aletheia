@@ -20,10 +20,13 @@
  */
 
 typedef struct { unsigned a; unsigned b; } Pair;
-extern int func_020260F0(void *);
+typedef unsigned int   u32;
+struct Sound;
+struct Struct_02025D1C;
+extern u32 func_020260F0(struct Sound *obj);
 extern void func_021EE3CC(char **p);
 extern void *func_02025CD0(unsigned a0, unsigned a1, void *a2, int a3, unsigned char a4, unsigned short heapId);
-extern void func_02025D1C(void *obj);
+extern void func_02025D1C(struct Struct_02025D1C *obj);
 extern void func_021EE408(char **p, int v);
 extern void func_021ED55C(char **p, int flag);
 extern const Pair d_021F02F0[];

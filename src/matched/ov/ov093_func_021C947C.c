@@ -19,7 +19,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021D5F08(void *p);
 
 typedef struct { int pad0; int pad1; char *f8; void *fc; } P;

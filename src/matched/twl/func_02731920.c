@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 extern void func_02731774(void *ctx, const void *key, u32 key_len);
-extern void func_0273184C(void *ctx, const void *data, u32 data_len);
+extern void func_0273184C(void *a, void *b, void *c);
 extern void func_02731868(void *ctx, void *digest);
 
 asm void func_02731920(void *digest, const void *data, u32 data_len, const void *key, u32 key_len)

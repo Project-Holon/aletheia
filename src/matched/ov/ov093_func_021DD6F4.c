@@ -12,7 +12,8 @@
  *   func_021DD7B8 0x021DD7B8 thumb ov093
  * Interface: C7CF4 returns the live r0 payload and receives observed r1.
  */
-extern void func_021DD7B8(int, void *, int, int *, int);
+typedef unsigned char  u8;
+extern void func_021DD7B8(int a, u8 *b, int c, int *d, int e);
 
 void func_021DD6F4(int a, void *b, int c, int *d)
 {

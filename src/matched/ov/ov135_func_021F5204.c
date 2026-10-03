@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0207D55C(u16 *);
+extern int func_0207D55C(volatile u16 *reg);
 extern void func_021FFD74(u8 *);
 extern void func_021F577C(u8 *);
 extern void func_021F59E8(u8 *);

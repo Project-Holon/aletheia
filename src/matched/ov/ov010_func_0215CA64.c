@@ -29,7 +29,7 @@ extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
 extern u32 func_02159B10(void *c, void *vm);
 extern void *func_02158F50(void *p);
-extern void *func_02161B90(void *sys, void *cell, u32 a, u32 b, u32 c);
+extern void *func_02161B90(void *p, void *a1, int kind, int sub, int flag);
 extern void func_0215897C(void *p, void *v);
 
 int func_0215CA64(void *c, void *vm)

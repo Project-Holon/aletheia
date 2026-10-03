@@ -23,9 +23,11 @@ struct Ctx;
 
 extern int func_02012138();
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012B58();
-extern void func_02012B8C();
-extern int func_02158344();
+typedef unsigned char  u8;
+struct BigObj;
+extern u8 func_02012B58(const struct BigObj *p);
+extern void func_02012B8C(struct BigObj *p, u8 v);
+extern int func_02158344(int a0);
 extern void func_02175710();
 extern void func_0217CA1C();
 

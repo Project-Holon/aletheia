@@ -59,13 +59,15 @@ typedef struct Task {
     u8 pad6C[8];
 } Task;
 
-extern void *func_020122C0(void *a, void *b, void (*fn)(void *), u32 size);
-extern Task *func_020124E8(void *h);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void func_02160A28(void *r, u32 tag, u32 x, u32 y, u32 w, u32 h);
 extern void func_02164480(void *f, void *a, void *b);
 extern void func_0215E840(void *p, void *out);
-extern void func_021607E0(void *t);
+extern int func_021607E0(void *evt, u32 *state, struct Task *t);
 
 void *func_0216075C(Owner *o, u16 id)
 {

@@ -31,9 +31,9 @@ typedef unsigned int   u32;
 
 extern int func_0216D3CC(void *);
 extern int func_021A4544(u8 *, void *, u8 *);
-extern u32 func_021A5264(u8 *, void *, u32, int *);
-extern u16 func_021AB0F0(int);
-extern u32 func_021AB0F8(int);
+extern int func_021A5264(u8 *a, void *b, u32 c, int *d);
+extern u16 func_021AB0F0(u32 attr);
+extern u16 func_021AB0F8(u32 attr);
 extern int func_021AB158(u16);
 extern int func_021AB164(u16);
 extern int func_021AB170(u16);

@@ -17,11 +17,11 @@
  */
 typedef struct { int a,b; } Pair;
 extern const Pair d_021E758C;
-extern int func_021E12AC(void *);
+extern int func_021E12AC(char *p);
 extern void func_021E131C(void *,Pair *,int,int,int);
-extern void func_021E4E64(int,void *,int);
+extern void func_021E4E64(int a, char *p, int b);
 extern void func_021D8E84(void *,int);
-extern void func_021DB030(void *);
+extern void func_021DB030(char *p);
 void func_021DB10C(char *p)
 {
     if(func_021E12AC(p)) {

@@ -18,8 +18,10 @@
 
 typedef unsigned int u32;
 
-extern int func_0201AA18(void *list);
-extern u32 func_0201A9C8(void *list, int idx);
+typedef signed int     s32;
+struct Party;
+extern u32 func_0201AA18(void *p);
+extern u32 func_0201A9C8(struct Party *p, s32 idx);
 
 void func_02155200(void *list)
 {

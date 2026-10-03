@@ -24,7 +24,7 @@ typedef struct {
 
 extern int func_02159B10();
 extern void *func_0215A5F4(void *p);
-extern int func_02158F74();
+extern void *func_02158F74(void *p);
 
 int func_021AFBEC(Ctx *a0, int a1, int (*fn)())
 {

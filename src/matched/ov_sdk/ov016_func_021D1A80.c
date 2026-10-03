@@ -40,10 +40,10 @@ typedef struct {
     u8 dark;
 } MemWinT;
 
-extern void *func_021D4FE0();
+extern char *func_021D4FE0(char *p, unsigned int i);
 extern void func_021D52D4();
-extern void func_021D5118();
-extern void func_021D51F0();
+extern void func_021D5118(void *cell, int idx, int x, int y);
+extern void func_021D51F0(void *cell, int idx, int priority);
 extern MemWinT *g_021DE658;
 extern u8 g_021DA9C8[][2];
 extern u8 g_021DA9B4[][2];

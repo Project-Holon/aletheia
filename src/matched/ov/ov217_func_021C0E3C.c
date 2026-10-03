@@ -16,7 +16,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_021C0E98(void *);
+typedef unsigned char  u8;
+extern void func_021C0E98(u8 *a0);
 extern void func_020307B0(void *);
 
 void func_021C0E3C(void *p)

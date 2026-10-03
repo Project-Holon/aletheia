@@ -16,7 +16,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern void sub_02046C9C(void *rec, unsigned int mode, unsigned int value);
+typedef unsigned int   u32;
+struct Rec;
+extern void sub_02046C9C(struct Rec *rec, u32 mode, u32 value);
 
 void func_02169540(unsigned char *a, unsigned int v)
 {

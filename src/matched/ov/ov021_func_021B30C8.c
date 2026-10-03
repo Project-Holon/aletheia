@@ -38,14 +38,14 @@ typedef struct {
     s32 f;
 } Param;
 
-extern u32 func_0218F1B4(void *h);
-extern void func_0218F1AC(void *h, u32 v);
-extern void func_0218F848(void *h);
+extern u8 func_0218F1B4(u8 *p);
+extern void func_0218F1AC(u8 *p, u8 v);
+extern void func_0218F848(u8 *a);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3050(void *a);
+extern u16 func_021A3050(u8 *p);
 extern void func_0218ECE4(void *h, Vec3 *out);
 extern void func_0218ECB4(void *h, Vec3 *out);
-extern void func_0218EC54(void *h);
+extern void func_0218EC54(u8 *p);
 extern void func_0218F918(void *h, Param *p, int n);
 
 extern Vec3 d_021D9708[];

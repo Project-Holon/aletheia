@@ -55,7 +55,7 @@ extern char s_020A7E28[];
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
 extern u32  func_020399A8(void);
 extern u32  func_0203D1A4(u32);
-extern struct Obj7 *func_0203D798(void);
+extern void *func_0203D798(void);
 
 void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
 {

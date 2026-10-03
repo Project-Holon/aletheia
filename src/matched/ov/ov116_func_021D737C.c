@@ -14,7 +14,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_020120B4(void *, u32, void *, void *);
+struct IcaAnime;
+extern void func_020120B4(struct IcaAnime *p, u32 id, void *a, void *b);
 extern u32 d_021D6338[];
 extern u8 ov115_id[];
 void func_021D737C(u8 *p) {

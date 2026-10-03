@@ -41,7 +41,8 @@ extern u32 g_02148C08[];
 
 extern void *func_02047788(void *p);
 extern void *func_0204755C(void *p);
-extern void  func_02047C8C(void *p);
+struct P02047C8C;
+extern void func_02047C8C(struct P02047C8C *p);
 extern void  func_0206A9DC(void *p);
 extern void  func_0206AA0C(VecFx32 *p);
 extern void  MI_Copy36B(const void *src, void *dst);

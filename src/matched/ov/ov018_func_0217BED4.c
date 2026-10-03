@@ -17,7 +17,8 @@
 
 typedef struct { int x, y, z; } V12;
 
-extern int func_02013D5C(int);
+typedef unsigned int   u32;
+extern u32 func_02013D5C(u32 id);
 extern short *func_0217BEA8(int);
 extern const V12 d_02182B60;
 

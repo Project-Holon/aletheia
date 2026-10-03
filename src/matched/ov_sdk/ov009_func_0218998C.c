@@ -33,7 +33,7 @@ typedef struct {
 
 extern int func_021894D8(int *connection, int sock, char *buffer, int bufferLen,
                          int *closed, int *sent, char *id);
-extern void func_02092364(void *dst, const void *src, int n);
+extern void *func_02092364(void *dest, const void *src, unsigned int n);
 
 int func_0218998C(int *connection, int sock, GPIBuffer *outputBuffer,
                   int *connClosed, int clipSentData, char *id)

@@ -26,16 +26,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Ov208Gfx { u16 heap; u16 pad; int f4; int f8; int fc; int f10; u32 f14; void *f18; int f1c; int f20; int f24; };
-extern u32 func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+struct Bmp;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02045770(u32 a);
 extern void func_02043B5C(int a, int b);
 extern void func_02045334(u32 a);
-extern void *func_0204384C(int a, int b, int c, u32 heap);
-extern int func_020437EC(const void *bmp);
-extern void *func_020437D4(const void *bmp);
-extern int func_02040B58(int a, void *b, int c);
-extern void func_0204994C(int a, int b, int c, int d, int e, int f, int g, u32 heap);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
+extern u32 func_020437EC(const struct Bmp *bmp);
+extern void *func_020437D4(const struct Bmp *bmp);
+extern u32 func_02040B58(u32 index, const void *src, u32 size);
+extern u32 func_0204994C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern int func_02045B38(int a, int b, int c, u32 heap);
 void func_021BE868(struct Ov208Gfx *g)
 {

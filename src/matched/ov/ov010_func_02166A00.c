@@ -22,9 +22,10 @@
 
 extern void *func_0215A5F4(void *b);
 extern void *func_0215A5DC(void *b);
-extern void *func_020120F4(void *p);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F38(int base);
-extern int func_02159B10(void *a, void *b);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern unsigned short *func_02159AE8(void *a, void *b);
 extern int func_02166854(void *a, int b, unsigned short *c, unsigned short *d, unsigned short *e);
 extern void func_0215897C(void *a, int b);

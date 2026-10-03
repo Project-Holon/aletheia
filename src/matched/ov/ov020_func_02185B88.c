@@ -13,8 +13,9 @@
  *   func_021A3074 0x021A3074 thumb ov021
  *   func_0216DAC8 0x0216DAC8 thumb ov010
  */
-extern void *func_02188CB4(void *);
-extern unsigned int *func_021A3074(void *);
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern void func_0216DAC8(unsigned int *, unsigned int);
 void func_02185B88(void *p, unsigned int v)
 {

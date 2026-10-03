@@ -42,8 +42,8 @@ extern struct Hdr02062474 g_02146BB0;
 extern u32 g_020A8148;
 extern u32 g_020A814C;
 extern void func_020625D8(void);
-extern void func_020624C8(void);
-extern void func_02062594(void);
+extern u32 func_020624C8(u32 size, u32 flag);
+extern int func_02062594(u32 id);
 
 void func_02062474(u32 a, u32 b, u32 c, u32 d)
 {

@@ -23,7 +23,8 @@ typedef signed char s8;
 typedef short s16;
 
 extern void *func_02158F50(void *vm);
-extern void func_02012374(void *evt, void *task);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 void func_0215897C(void *vm, void *task)
 {

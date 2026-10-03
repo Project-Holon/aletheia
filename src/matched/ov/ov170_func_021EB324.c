@@ -27,8 +27,11 @@ typedef struct {
 } Work;
 
 extern void func_021EABB8(Item *it);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *a, unsigned b);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(Work *w, unsigned i);
 
 void func_021EB324(Work *w)

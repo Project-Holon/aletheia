@@ -19,8 +19,9 @@
  */
 
 extern int func_021D775C(int key);
-extern void *func_021C7CF4(void *a, int b);
-extern int func_021D62A8(void *p);
+struct Unk021D62A8;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62A8(struct Unk021D62A8 *p);
 extern void func_021D7704(int a, int b);
 extern int d_021F2444[];
 

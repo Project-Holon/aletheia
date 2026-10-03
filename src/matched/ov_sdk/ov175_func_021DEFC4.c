@@ -19,8 +19,9 @@
  *  *  between the two halves.
  */
 
-extern void func_021E22E4(void);
-extern void func_021BF540(void);
+typedef signed int     s32;
+extern s32 func_021E22E4(void);
+extern int func_021BF540(void);
 extern void func_021DFE20(void);
 
 void func_021DEFC4(void)

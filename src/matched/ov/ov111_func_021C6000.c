@@ -37,14 +37,17 @@ typedef struct {
     u8 f32D4;
 } Work;
 
-extern void func_02045088(int heap);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+extern void func_02045088(u16 heapId);
 extern void *func_020450F0(int a, int b, int c, int d, int e, int f, int g);
-extern void *func_02045770(void *p);
-extern void func_02043B5C(void *p, int v);
-extern void func_02040C14(int a, int b, int c, int d);
-extern void func_0201F5BC(int a, int b, int c, int d, int heap);
-extern void func_02049B40(int a, int b, int c, int d, int e, int heap);
-extern void func_02041B6C(int frame);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
+extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_02041B6C(u32 bit);
 extern void *func_0201C440(int heap);
 extern const u8 d_021C8773[8][6];
 

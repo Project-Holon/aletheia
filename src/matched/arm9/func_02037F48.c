@@ -32,10 +32,10 @@ typedef signed int s32;
 
 extern u8 *lbl_021469D0;
 extern u8 d_020A7A20[];
-extern u8 *func_0203D788(void);
+extern void *func_0203D788(void);
 extern u32 func_0203D6BC(void);
-extern s32 func_0203D680(void);
-extern u32 func_02037D98(u32 a);
+extern u32 func_0203D680(void);
+extern int func_02037D98(int a);
 extern void func_020387A0(u32 a, u32 b, u32 c);
 
 void func_02037F48(void)

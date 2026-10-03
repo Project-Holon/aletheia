@@ -18,7 +18,7 @@
  *   g_021A5914   0x021A5914  data
  */
 
-extern int func_02194724(void *game, int pnum);
+extern int func_02194724(int *game, int pnum);
 extern int OS_SPrintf(char *dst, const char *fmt, ...);
 extern double func_021947C0(void *game, char *name, void *func, double value, int index);
 extern char g_021A5914[];

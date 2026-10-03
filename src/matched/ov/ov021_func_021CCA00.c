@@ -51,8 +51,8 @@ typedef struct {
 
 extern Pos d_021DB404;
 
-extern int func_0201AA18(void *p);
-extern void *func_0201AB28(void *p, int i);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);

@@ -37,7 +37,9 @@ typedef struct W {
 extern W *g_021797A4;
 extern void *func_0203D798(void);
 extern int func_0217731C(u8 *p);
-extern int func_0203EFC8(void *a, void *b, int n);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02082D44(void *src, void *dst, int n);
 
 int func_021773E0(u8 *p)

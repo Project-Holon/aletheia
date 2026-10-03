@@ -14,8 +14,10 @@
  *   func_021766F0 0x021766F0 thumb ov011
  */
 typedef unsigned int u32;
-extern void *func_020122C0(void *owner, void *a, void *b, u32 size);
-extern void *func_020124E8(void *p);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021766F0(void *p, void *q, void *r);
 void *func_021766CC(void *p, void *q)
 {

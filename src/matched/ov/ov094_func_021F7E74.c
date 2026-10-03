@@ -16,7 +16,7 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void func_021F7A28(u32 a, u32 b);
+extern void func_021F7A28(int a, u32 b);
 
 void func_021F7E74(u32 a)
 {

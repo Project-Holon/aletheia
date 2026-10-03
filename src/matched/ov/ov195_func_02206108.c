@@ -58,7 +58,7 @@ typedef struct Owner {
 extern fx32 func_022060C8(void *res);
 extern void func_02206274(Owner *o);
 extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
-extern void func_02015FF0(void *obj, int v);
+extern void func_02015FF0(char *p, int v);
 extern void func_020173B4(void *obj);
 extern void func_02015CAC(void *obj, VecFx32 *scale);
 extern void func_02015EA0(void *obj);

@@ -21,12 +21,12 @@
  *   func_02175F4C  0x02175F4C  arm  ov009
  */
 
-extern int func_02175FB8(void);
+extern unsigned char func_02175FB8(void);
 extern int func_0217603C(void);
 extern char *func_0217637C(int index);
 extern void func_02173064(int aid, int type);
 extern int func_02176554(void);
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern void func_02175F4C(int status);
 
 void func_021735A4(void)

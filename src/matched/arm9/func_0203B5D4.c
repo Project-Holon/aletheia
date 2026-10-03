@@ -45,11 +45,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  g_021469DC;
-extern void func_0203B52C(void);
+struct Slot;
+extern void func_0203B52C(struct Slot *p);
 extern char str_0203B48C[];
 
 extern void *func_0203D788(void);
-extern u32   func_020393A8(void);
+extern int func_020393A8(void);
 extern u8   *func_0203D798(void);
 extern void  func_0203B2A8(u32 key);
 extern void  func_0203D700(void);

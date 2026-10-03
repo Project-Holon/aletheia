@@ -32,7 +32,8 @@ typedef unsigned int u32;
 extern void *ptr_020A7298;
 extern const signed char data_0209DFB0[];
 
-extern void *sub_0200873C(void *sys);
+struct Sub02008700Obj;
+extern struct Sub02008700Obj *sub_0200873C(void *sys);
 extern u32 sub_02008374(void *obj);
 
 signed char sub_02013080(u32 idx);

@@ -19,11 +19,13 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0201F73C(void *, u32, u32, u32);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void *func_02045730(void *);
-extern void func_02041B6C(void *);
+struct Cfg;
+struct Descriptor;
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_02041B6C(u32 bit);
 void func_021C62BC(u8 *p)
 {
     void *q;

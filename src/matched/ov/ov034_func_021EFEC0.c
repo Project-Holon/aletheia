@@ -22,13 +22,15 @@
  *   func_021F09BC 0x021F09BC thumb ov034
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021F0B20[];
-extern void func_021F0114(int);
+extern void func_021F0114(u32 heapId);
 extern void func_021F0228(int);
 extern void func_021F0724(void *);
 extern void func_021F0284(void *);
-extern void func_0203D34C(int, int);
+extern void func_0203D34C(u32 a, u32 b);
 extern int func_020056A0(void *, void *, int);
 extern void func_021F09BC(void *);
 

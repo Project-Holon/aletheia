@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 low:4;u8 high:4; } Flags;
 extern unsigned func_020399A8(void);
-extern int func_020173EC(void);
+typedef unsigned int   u32;
+extern u32 func_020173EC(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
 extern int func_0203D3F8(unsigned,unsigned,u16,unsigned,void *,int,int,int);
 int func_021DF9E8(char *p,void *src,int kind)

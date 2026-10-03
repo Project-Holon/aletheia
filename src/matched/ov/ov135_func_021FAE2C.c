@@ -18,9 +18,10 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_021F9A88(void *, void *);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B878(void *, u16);
-extern u16 func_0204B898(void *);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern u16 func_0204B898(struct Obj *p);
 int func_021FAE2C(u8 *p)
 {
     u32 sel = func_021F9A88(p, p + 96);

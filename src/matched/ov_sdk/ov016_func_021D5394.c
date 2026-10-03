@@ -28,7 +28,7 @@ typedef struct tagSELLINFO { u16 num; u16 attr; u32 offset; } SELLINFO;
 
 extern void *g_021DE674[2];
 
-extern void *func_021D4E1C(int lcd, int num, bool head);
+extern void *func_021D4E1C(int lcd, int num, int head);
 extern GXOamAttr *func_021D4FE0(void *cell, int idx);
 extern void func_021D52D4(int lcd, int idx, GXOamAttr *obj);
 

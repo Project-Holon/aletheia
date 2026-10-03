@@ -17,9 +17,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0201C4C0(void *);
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02031140(u32);
-extern void func_020452E8(void *);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_0201D83C(u32);
 extern void func_020450C8(void);
 

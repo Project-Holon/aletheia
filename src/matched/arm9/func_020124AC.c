@@ -19,8 +19,9 @@ struct Desc;
 
 extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *sub_020124E8(struct Desc *d);
-extern void func_02012474(void);
-extern void func_02034AC4(u32 v);
+typedef signed int     s32;
+extern int func_02012474(void *a0, u32 *a1, u32 *a2);
+extern int func_02034AC4(s32 handle);
 
 struct Desc *func_020124AC(void *a0, u32 a1, u32 (*fn)(void *, u32), u32 a3)
 {

@@ -27,12 +27,15 @@ typedef struct {u32 id; u32 v[10];} Record;
 extern const Record d_021B9BAC[1];
 extern void func_020403F4(u8);
 extern void func_021B9810(void *);
-extern void func_02030EAC(void *);
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
+struct Node;
+struct PrintSys;
+struct S020315D4;
+extern void func_02030EAC(struct Node *n);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void *);
-extern void func_021B998C(void *);
-extern void func_020315D4(void *);
+extern void func_021B998C(char *p);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 int func_021B964C(void *task, int b, int c, char *p)
 {

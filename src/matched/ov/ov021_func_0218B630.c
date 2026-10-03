@@ -23,9 +23,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 
-extern void *func_02012934(void *p);
-extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern u32 func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 
 int func_0218B630(void *sys, u32 move)

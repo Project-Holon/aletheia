@@ -17,8 +17,10 @@
 extern int func_021C1A44(char *);
 extern void func_021C1F74(char *);
 extern void func_02051C6C(void *);
-extern void func_0201ED04(void *);
-extern void func_02043598(int, int);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201ED04(struct WordSet *p);
+extern void func_02043598(u32 mask, u32 enable);
 void func_021C1AC0(char *p)
 {
     if (func_021C1A44(p)) {

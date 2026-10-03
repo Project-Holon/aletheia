@@ -15,7 +15,8 @@
  *   func_02039C68 0x02039C68 arm
  */
 extern int func_021563EC(void);
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_02039C68(void *, unsigned int, unsigned int);
 int func_021BFDA8(char *p, int ret) {
  if (!func_021563EC()) { func_02039C68(func_020399A8(),24,10); *(int *)(p+0x1cc)=172; }

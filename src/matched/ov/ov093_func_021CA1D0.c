@@ -29,10 +29,10 @@ struct Cmd {
 
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D62C4(void *p, int i);
-extern void func_021C2CA8(void *w, u8 *x);
+extern void func_021C2CA8(u8 *p, u8 *a);
 extern void func_021D65C8(u8 *x, u8 *y);
-extern void func_021CD4B0(void *w, u32 id, ...);
-extern int func_021D6D7C(u8 *x);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern u32 func_021D6D7C(u8 *p);
 extern int func_021CA238(void *p, u8 i);
 
 int func_021CA1D0(u8 *w, const struct Cmd *c)

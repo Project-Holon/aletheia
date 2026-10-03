@@ -20,7 +20,7 @@
 
 
 extern unsigned char func_021DEB14(char *, signed char);
-extern void func_021EDB94(char *, int, short);
+extern void func_021EDB94(char *p, int a, int b);
 void func_021EDB34(char *p, int a)
 {
     short i;

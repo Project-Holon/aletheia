@@ -20,10 +20,11 @@
 
 typedef unsigned short u16;
 
-extern void func_02040DA8(int, int, int);
-extern void func_02040C14(int, int, int, int);
+typedef unsigned int   u32;
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_02040C14(u32 layer, u32 value, u32 count, u32 index);
 extern void func_02041300(int, int, int, int, int, int, int);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 extern void func_02192FA4(int, int);
 extern void func_02195588(int);
 

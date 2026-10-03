@@ -15,7 +15,9 @@
  *   func_021DE720 0x021DE720 thumb ov170
  */
 typedef struct {void *p;unsigned short f4;unsigned char flags;unsigned char pad[5];} State;
-extern void *func_02030734(unsigned,unsigned,unsigned,const char *,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F1400[];
 extern void *func_021DD2D0(void ***,int,unsigned);
 extern unsigned func_02017E88(void *,unsigned,unsigned);

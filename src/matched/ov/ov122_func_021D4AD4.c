@@ -20,13 +20,17 @@
 typedef unsigned short u16;
 extern void func_0201DD68(void);
 extern void func_021D45E8(char *);
-extern void func_02040DA8(int, int, int);
-extern void func_0203FB44(int, u16, u16);
-extern void func_020403F4(int);
-extern void func_02045C04(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct Rec;
+struct U16Vec;
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_0203FB44(u32 layer, u32 offset, u32 size);
+extern void func_020403F4(u32 i);
+extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
-extern void func_02045808(void *);
-extern void func_020452E8(void *);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_020452E8(struct Descriptor *d);
 void func_021D4AD4(char *p)
 {
     unsigned ranges;

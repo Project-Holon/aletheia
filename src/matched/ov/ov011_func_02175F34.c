@@ -38,7 +38,7 @@ typedef struct {
     u16 h[8];
 } Half8;
 
-extern int    func_02026478(void *p);
+extern u32 func_02026478(void *obj);
 extern Half8 *func_021583CC(int sv, int i);
 extern int    func_021583EC(int a, int i);
 extern u8     func_0200855C(int obj);

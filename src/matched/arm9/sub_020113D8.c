@@ -29,7 +29,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_0203F4CC(u32 *out);
-extern u8   func_020113F0(u32 row, u32 col);
+extern u8 func_020113F0(int row, int col);
 
 u32 func_020113D8(u32 row)
 {

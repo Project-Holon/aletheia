@@ -19,7 +19,9 @@
  */
 extern void func_021BA384(char *o, int i, int n);
 extern void func_021BA480(void *o);
-extern int func_020260E0(void *o);
+typedef unsigned char  u8;
+struct Sound;
+extern u8 func_020260E0(struct Sound *obj);
 extern void func_021B9FF0(void *p, void *list, int idx);
 void func_021BA438(char *p, int i)
 {

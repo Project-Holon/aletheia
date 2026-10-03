@@ -19,7 +19,8 @@
  */
 
 extern void MI_CpuFill8(void *dst, unsigned char data, unsigned long size);
-extern void *func_02060C5C(void *start, unsigned long size, unsigned short opt);
+typedef unsigned int   u32;
+extern void *func_02060C5C(void *start, u32 size, u32 attr);
 extern void OS_Terminate(void);
 extern void *g_021DE684;
 

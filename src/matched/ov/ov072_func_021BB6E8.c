@@ -26,7 +26,8 @@ extern char d_021BBD6C[];
 extern char d_021BBBDC[];
 extern void func_021BB80C(void);
 
-extern u32 *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BB7BC(void);
 extern void func_021BB820(u32 *p, u32 a);

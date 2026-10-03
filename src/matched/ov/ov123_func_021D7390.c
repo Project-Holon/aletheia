@@ -15,11 +15,13 @@
  *   func_021D6EE0 0x021D6EE0 thumb ov123
  *   func_021D72D8 0x021D72D8 thumb ov123
  */
-extern int func_021B99DC(void *);
-extern int func_021B9790(void *);
-extern void *func_021B97F4(void *);
+typedef unsigned char  u8;
+struct Sub02009448Obj;
+extern int func_021B99DC(u8 *p);
+extern int func_021B9790(u8 *p);
+extern u8 *func_021B97F4(u8 *p);
 extern int func_021D6E08(char *,int);
-extern void *func_02009448(void *);
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D72D8(char *);
 void func_021D7390(char *p)

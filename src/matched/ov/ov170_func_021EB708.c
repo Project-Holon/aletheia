@@ -14,5 +14,7 @@
  *   func_0202CA3C 0x0202CA3C thumb
  *   func_0202CEBC 0x0202CEBC thumb
  */
-extern unsigned char func_02045730(void *); extern unsigned char func_02045738(void *); extern unsigned char func_02045740(void *); extern void func_0202CA3C(void *,unsigned,unsigned,unsigned,unsigned); extern void func_0202CEBC(void *,unsigned,void *);
+typedef unsigned char  u8;
+struct Descriptor;
+extern u8 func_02045730(struct Descriptor *p); extern unsigned char func_02045738(void *); extern unsigned char func_02045740(void *); extern void func_0202CA3C(void *,unsigned,unsigned,unsigned,unsigned); extern void func_0202CEBC(void *,unsigned,void *);
 void func_021EB708(void *m,unsigned i,void *d){unsigned bg=func_02045730(d);unsigned w=func_02045738(d);unsigned h=func_02045740(d);func_0202CA3C(m,i,bg,w,h);func_0202CEBC(m,i,d);}

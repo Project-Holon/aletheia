@@ -12,7 +12,8 @@
  *   func_02082BCC 0x02082BCC arm
  */
 typedef unsigned short u16;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_02082BCC(void *, int, unsigned);
 void func_021DE12C(char *p)
 {

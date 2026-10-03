@@ -21,7 +21,7 @@ typedef struct {
     void (*free)(unsigned long, void *, long);
 } Svl;
 extern Svl *g_021ACEF4;
-extern void func_02179CF4(void *http);
+extern void func_02179CF4(char *http);
 
 void func_0217C104(void)
 {

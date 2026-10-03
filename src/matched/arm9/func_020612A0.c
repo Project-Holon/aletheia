@@ -33,7 +33,8 @@ struct Allocator02061 {
     u32 param2;
 };
 
-extern void func_02060E30(void *heap, void *block);
+struct ExpHeap;
+extern void func_02060E30(struct ExpHeap *heap, void *block);
 
 void func_020612A0(struct Allocator02061 *allocator, void *block)
 {

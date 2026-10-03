@@ -61,12 +61,15 @@ extern void *func_02048F60(u32, u32, u32);
 extern void *func_02046DB8(u32, u32);
 extern int func_02046FF8(int *);
 extern void *func_02047400(void *, u32, void *);
-extern void *func_02047564(void *, const void *, int);
+struct G3dOwner;
+struct G3dRec;
+struct Tagged;
+extern struct G3dRec *func_02047564(struct G3dOwner *a0, const struct G3dOwner *a1, int a2);
 extern void *func_0204767C(void *, void **, u16);
 extern u32 func_020477A4(void *, u16);
 extern void func_0207ADC4(int *);
-extern void *func_02046F48(void *);
-extern u8 *func_0206E964(void *);
+extern void *func_02046F48(struct Tagged *p);
+extern unsigned char *func_0206E964(unsigned char *p);
 extern void func_0207DCF8(void *);
 extern void sub_020307B0(void *);
 

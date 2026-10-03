@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 u32 func_020362DC(void);
 int func_0215A61C(int a);
-void func_020061E4(int a);
+void func_020061E4(u32 a);
 int func_02159190(int a);
 void func_02191134(int a);
 void func_02191794(int a);

@@ -20,7 +20,8 @@
 struct SBL { char pad0[0x498]; char sortkey[0x208]; int ascending; };
 struct G { int pad; struct SBL *slist; };
 extern struct G g_021AEB04;
-extern int func_0219E120(void *server, char *key, int idefault);
+struct SBServer;
+extern int func_0219E120(struct SBServer *server, char *key, int idefault);
 extern int func_0219F0E0(void *s1, void *s2);
 int func_0219F288(void *entry1, void *entry2)
 {

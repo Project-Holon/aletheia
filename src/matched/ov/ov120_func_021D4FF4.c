@@ -22,15 +22,15 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021D8664(void *);
-extern void func_020435F4(int);
-extern void func_021D7EC4(void *);
-extern void func_021D68C4(void *);
-extern void func_021D63F4(void *, int, int);
-extern void func_021D69F4(void *, void *, int);
-extern void func_02041B6C(int);
+extern int func_021D8664(u8 *p);
+extern void func_020435F4(u32 planes);
+extern void func_021D7EC4(u8 *p);
+extern void func_021D68C4(u8 *p);
+extern void func_021D63F4(u8 *p, int flag, int mode);
+extern void func_021D69F4(u8 *p, void *q, u32 n);
+extern void func_02041B6C(u32 bit);
 extern void func_02040588(u32, u32);
-extern void func_021D6D94(void *);
+extern void func_021D6D94(u8 *p);
 extern void func_021D4244(int, void (*)(int), int);
 extern void func_021D4FD0(int);
 void func_021D4FF4(u8 *p)

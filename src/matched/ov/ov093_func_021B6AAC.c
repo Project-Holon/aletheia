@@ -33,12 +33,12 @@ extern void func_021B9460(void *, void *, u8);
 extern int func_021BA9C8(void *, void *, void *, int, u16);
 extern void func_021B69FC(int, char *);
 extern int func_021CD6F0(void *, void *, int, int, u16, u8, u8, int, u8, void *, u16);
-extern void func_021B6A3C(void *, void *);
-extern void func_021B6A70(void *, void *, int);
+extern void func_021B6A3C(unsigned char *p, unsigned char *q);
+extern void func_021B6A70(unsigned char *p, unsigned char *q, int r);
 extern int func_021CD978(int);
 extern void func_021BAA94(int, int, u8, u8);
 extern void func_021BAB40(int);
-extern int func_021B83F4(u8 *, int *);
+extern int func_021B83F4(int a);
 int func_021B6AAC(int unused, u8 *p)
 {
     u8 *q;

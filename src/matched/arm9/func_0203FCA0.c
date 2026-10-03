@@ -94,7 +94,7 @@ extern struct BgSys *g_02146A44;
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void func_02040618(u32 bgId, u32 which, u32 value);
-extern u32 func_02042218(u32 screenSize, u32 type);
+extern int func_02042218(int a0, int a1);
 extern void func_020423D4(u32 bgId);
 extern void func_02042FF8(u32 bgId, u32 offset, u32 size);
 extern void func_02082A48(u32 value, void *dest, u32 size);

@@ -26,7 +26,7 @@ typedef unsigned long  u32;
 
 typedef enum { K73 = 0x73 } Idx;
 
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_021BAAB8(char *p, int a, int b);
 extern int func_020399A8(void);
 extern void func_02039C68(u32 h, u32 a, u32 b);

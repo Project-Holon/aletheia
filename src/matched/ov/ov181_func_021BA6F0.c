@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
 extern void func_0207D63C(unsigned, int, int, int, int);
-extern void *func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct CharBuf { u8 *pixels; u16 width, height, tileSize; };
 extern void func_02043B5C(struct CharBuf *, u8);
 int func_021BA6F0(char *p)

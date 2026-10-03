@@ -30,7 +30,7 @@ extern u8 *g_021469DC;
 extern u8  g_020A7BA8[];
 extern u8  g_020A7BEC[];
 
-extern u8  *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_02034714(u32 a, u32 b, u32 c);
 
 void func_0203CA04(void)

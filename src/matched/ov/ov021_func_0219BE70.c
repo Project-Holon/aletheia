@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef struct { u32 a, b, c; } T12;
 extern T12 d_021D5480;
 extern u8 *func_0216D69C(u32);
-extern void func_0219BF3C(u32, u32);
+extern void func_0219BF3C(int a, u32 v);
 extern void func_0216D8C0(u32, void *);
 extern void func_0216D568(u32, u32);
 

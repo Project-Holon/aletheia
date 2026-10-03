@@ -58,7 +58,7 @@ extern void func_02195B20();
 extern void func_02195E68();
 extern void func_0216C7A8(void *socket);
 extern void func_0216E5B0();
-extern void func_0216E4C0();
+extern int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len);
 
 int func_0216BA4C(void)
 {

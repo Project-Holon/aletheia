@@ -33,8 +33,10 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  func_0204581C(void *s);
-extern void *func_02045B38(u32 a, u32 b, u16 c, u16 d);
+struct MsgBank;
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *unk_020A7370;
 
 struct Entry { u8 tag[5]; void *str; };

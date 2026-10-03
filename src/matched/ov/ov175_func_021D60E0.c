@@ -28,8 +28,8 @@ extern void func_021E8AB8(u32);
 extern void func_021D6550(u32 *,int);
 extern int func_021D65DC(char *);
 extern void func_021D65C8(u32 *);
-extern void func_021D6048(void);
-extern void func_021D61CC(void);
+extern void func_021D6048(unsigned sys, int *state, int *p);
+extern void func_021D61CC(void *a, u32 **pp, char *p);
 void func_021D60E0(u32 sys,int *state,u32 *p)
 {
     u32 *ctx=(u32 *)p[16];

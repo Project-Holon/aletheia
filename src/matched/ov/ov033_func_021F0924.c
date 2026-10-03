@@ -85,16 +85,17 @@ extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(void *, u32, u32, u32, u32, u32);
-extern u32 func_02049EF4(void *o, u32 a, u32 b, struct Scr **out, u32 e);
+typedef signed int     s32;
+extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern u32 func_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags);
+extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
 extern void func_020410D0(u8 a, u32 b, u32 c, u32 d, u32 e, void *f, u32 g,
                           u32 h, u32 i, u32 j);
-extern void func_02041B6C(u8 a);
-extern void func_020307B0(u32 h);
-extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
-extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+extern void func_02041B6C(u32 bit);
+extern void func_020307B0(void *h);
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
 extern void func_0204B92C(u32, int);
 extern void func_0204B954(u32, u32);
@@ -110,7 +111,7 @@ void func_021F0924(Obj *p)
     func_02024A20(4, 3, func_020120F4(func_02188C80(p->f8)), p->heap);
     {
         Local s = {0};
-        u32 h;
+        void *h;
         void *arc;
         u16 *d;
         u16 i;
@@ -119,7 +120,7 @@ void func_021F0924(Obj *p)
         arc = func_020490F4(func_020275E4(), heap2);
         func_02049B68(arc, func_02027624(), 4, 0x40, 0x20, heap2);
         p->f14 = func_02049740(arc, func_02027628(), 4, 0, 0, heap2);
-        h = func_02049EF4(arc, func_0202762C(), 0, &ptr, heap2);
+        h = func_02049EF4(arc, func_0202762C(), 0, (void **)&ptr, heap2);
         base = p->f14;
         d = ptr->data;
         for (i = 0; i < 0x300; i++) {

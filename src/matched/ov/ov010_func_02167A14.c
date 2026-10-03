@@ -45,7 +45,8 @@ typedef struct Work {
 
 extern u8 d_02172A28[];
 extern void func_02034714(void *a, int b, void *c);
-extern u32 func_021943EC(void *obj, int i);
+struct Tbl;
+extern u32 func_021943EC(struct Tbl *t, u32 key);
 
 u32 func_02167A14(Work *w, int i)
 {

@@ -28,7 +28,8 @@ extern void func_021B7EE4(void *p, void *r);
 extern void func_021B80E0(void *p, int a, void *key);
 extern void func_021B810C(void *p);
 extern void func_021B8028(void *p, void *q);
-extern int func_0203EFC8(const void *a, const void *b, u32 n);
+typedef signed int     s32;
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int func_021B7DE0(void *p, void *r);
 
 int func_021B7C90(struct Mgr *m, void *r, void *key, void *q)

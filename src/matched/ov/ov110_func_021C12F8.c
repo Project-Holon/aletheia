@@ -15,5 +15,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern int func_02035D20(u32 *,u32 *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021C12F8(void) { u32 x,y; u32 result; if(func_02035D20(&x,&y) && x<232 && y>=8) { result=(y/8-1)/6; if(result<3) return result; } return -1; }

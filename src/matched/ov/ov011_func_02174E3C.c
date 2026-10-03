@@ -37,9 +37,10 @@ int func_02012944(int p);
 int func_02008468(void);
 void func_02082D44(int a, u8 *b, int c);
 int func_020127B8(int a);
-void func_021752DC(u8 *p);
-int func_02039338(void);
-void func_02175710(u8 *p, int a);
+typedef unsigned int   u32;
+int func_021752DC(u8 *p);
+u16 func_02039338(void);
+void func_02175710(u8 *o, u32 v);
 
 void func_02174E3C(u8 *p)
 {

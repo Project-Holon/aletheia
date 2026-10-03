@@ -23,7 +23,7 @@
 
 extern int func_02183D3C(int);
 extern void func_02183D34(int, void *);
-extern void func_02183E60(void);
+extern void func_02183E60(int a, int *state);
 extern void func_0204B878(int, int);
 extern int func_0204B98C(int);
 

@@ -70,7 +70,7 @@ struct Enc {
     struct Spot spots[121];
 };
 
-extern u32 func_02188C98(void *p);
+extern u32 func_02188C98(u8 *p);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_0218D168(u32 m);
 extern int func_0218DBD4(u32 m, int i);

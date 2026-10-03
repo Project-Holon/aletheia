@@ -28,14 +28,16 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(int a, int b);
-extern int func_021D62C4(void *m, int k);
-extern u8 func_021D5448(void *q);
-extern u16 func_021D54C0(void *p, int i);
+struct QG;
+struct Unk021D62A8;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern u8 func_021D5448(struct QG *p);
+extern u16 func_021D54C0(u8 *p, int i);
 extern int func_021E6D90(int e);
 extern int func_0201BEB8(int bag, int item);
 extern u32 func_021D78AC(u32 range);
 extern int func_021C8030(int a, int b, int c);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E6CDC(int x, int a, int c, u32 *d)
 {

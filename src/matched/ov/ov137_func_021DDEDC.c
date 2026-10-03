@@ -16,11 +16,13 @@
  *   func_021DD924 0x021DD924 thumb ov137
  */
 typedef unsigned short u16;
-extern void *func_020399A8(void);
+typedef unsigned int   u32;
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02039CB4(void *, int, int);
-extern unsigned func_021DE37C(char *);
+extern unsigned func_021DE37C(void *p);
 extern void func_0203D7B0(int);
-extern void func_0202208C(int,int,int,int,int,int,int);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021DD924(char *);
 int func_021DDEDC(char *p, int state) {
     if (func_02039CB4(func_020399A8(), 0xcf, 0x28) != 0 ||

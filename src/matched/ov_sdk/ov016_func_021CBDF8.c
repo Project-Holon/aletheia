@@ -43,7 +43,7 @@ struct focusobj {
     struct selobj *obj;
 };
 
-extern int func_021CF7F4(int idx);
+extern unsigned char func_021CF7F4(unsigned int i);
 extern void *func_021D5394(int lcd, int idx, int head);
 extern void func_021D5118(void *cell, int idx, int x, int y);
 extern void func_021D51F0(void *cell, int idx, int priority);

@@ -27,7 +27,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Obj_02016880;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void MIi_CpuCopy16(const void *src, void *dest, u32 size);
 extern void *func_02049FBC(void *a0, void *a1, u32 a2, void *a3, u32 a4);
 extern void *func_0204A03C(void *a0, void *a1, u32 a2, void *a3, u32 a4);
@@ -42,7 +43,7 @@ extern void sub_02016028(void *p, u32 flag);
 extern void func_02016C60(void *a, void *b);
 extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
-extern void func_02016880(void *a0, void *a1);
+extern void func_02016880(void *a0, struct Obj_02016880 *a1);
 
 extern char data_020A72CC[];
 

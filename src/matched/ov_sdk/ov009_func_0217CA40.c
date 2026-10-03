@@ -37,13 +37,13 @@ typedef struct {
     void *mTaskArray;
 } GSCoreMgr;
 
-extern GSCoreMgr *func_0217CA20(void);
-extern void func_0217F2BC();
+extern void *func_0217CA20(void);
+extern void func_0217F2BC(unsigned int msec);
 extern unsigned int func_0217F0B4(unsigned int *value);
-extern void func_0217F0FC();
+extern void func_0217F0FC(void *mutex);
 extern void func_020912A8();
-extern void func_0217F108();
-extern void func_0217F114();
+extern void func_0217F108(void *mutex);
+extern void func_0217F114(void *mutex);
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_021C1FF8(void);
 extern void func_0217CA2C(void);

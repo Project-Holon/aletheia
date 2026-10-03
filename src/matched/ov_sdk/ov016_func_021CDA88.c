@@ -28,7 +28,7 @@ extern unsigned char g_021DE624;
 extern void func_021CDAC8(void);
 extern void func_021BD674(int idx);
 extern void func_021BD29C(int msgId);
-extern void func_021CFFAC(int no);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40(void (*scene)(void));
 extern void func_021CDB48(void);
 

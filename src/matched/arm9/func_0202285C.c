@@ -40,7 +40,7 @@ struct Obj {
     u32 unk2C;
 };
 
-extern void func_020222A8(u16 id);
+extern void func_020222A8(u32 a);
 extern void func_020235F0(struct Obj *p, u32 arg);
 extern void func_0202363C(struct Obj *p);
 

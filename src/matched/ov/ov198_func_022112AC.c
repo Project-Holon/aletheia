@@ -20,13 +20,14 @@
  *   func_0220E13C 0x0220E13C thumb ov198
  */
 typedef unsigned char u8;
-extern int func_02021ED8(void *);
+typedef unsigned int   u32;
+extern u32 func_02021ED8(const char *ptr);
 extern unsigned func_02211958(u8 **);
 extern int func_02210A4C(u8 *);
 extern void func_02211970(u8 **, unsigned);
 extern void func_0220B760(u8 *, unsigned);
 extern int func_02211190(u8 *);
-extern void func_022110F8(u8 *, unsigned, unsigned);
+extern void func_022110F8(u8 *p, int a, int b);
 extern void func_022110E0(u8 **, unsigned, unsigned);
 extern void func_0220E13C(u8 *);
 int func_022112AC(u8 *p)

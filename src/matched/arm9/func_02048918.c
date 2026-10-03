@@ -74,13 +74,15 @@ typedef struct {
 extern void *func_02047788(void *obj);
 extern u16   func_0204779C(void *obj);
 extern void *func_02047790(void *obj, u16 idx);
-extern void  func_0204762C(void *anm);
+struct Rec;
+struct Tagged;
+extern void func_0204762C(struct Rec *p);
 extern void *func_02047554(void *rnd);
-extern void  func_020470D0(void *res);
-extern void  func_02046EFC(void *res);
+extern int func_020470D0(u32 *p);
+extern void func_02046EFC(struct Tagged *p);
 extern void *func_0204754C(void *rnd);
-extern void  func_02047504(void *rnd);
-extern void  func_02047738(void *obj);
+extern void func_02047504(struct Rec *p);
+extern void func_02047738(struct Rec *p);
 
 void func_02048918(Util *util, u16 unitIdx)
 {

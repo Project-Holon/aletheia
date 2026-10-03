@@ -20,8 +20,8 @@
  *       --func func_021C34F4 --addr 0x021C34F4 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D6824(int);
-extern void func_021BCB28(int);
+extern int func_021D6824(unsigned int f);
+extern void func_021BCB28(signed char v);
 
 void func_021C34F4(void)
 {

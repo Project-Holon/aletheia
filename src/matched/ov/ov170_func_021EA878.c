@@ -24,8 +24,10 @@ typedef struct {
     char *work;
 } Obj;
 
-extern void func_0202614C(void *obj, unsigned idx);
-extern void func_02026124(void *obj, unsigned idx);
+typedef unsigned int   u32;
+struct Sound;
+extern void func_0202614C(struct Sound *obj, u32 idx);
+extern void func_02026124(struct Sound *obj, u32 idx);
 extern void func_021EB988(Obj *p, const void *e, unsigned n);
 extern const unsigned char d_021EF8FC[];
 extern const unsigned char d_021EF8F4[];

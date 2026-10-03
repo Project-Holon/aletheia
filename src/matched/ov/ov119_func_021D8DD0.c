@@ -16,7 +16,8 @@
 
 extern void *func_02007A18(void *a, int b, int c, void *p);
 extern int func_0201AA18(void *m);
-extern void *func_0201AB28(void *m, int c);
+typedef unsigned int   u32;
+extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *a);
 
 void *func_021D8DD0(void *a, int b, int c, char *p)

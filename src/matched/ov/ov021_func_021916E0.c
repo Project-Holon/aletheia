@@ -33,7 +33,7 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern u32 func_02190D5C(u32);
 extern u32 func_0201CE30(u32);
-extern void func_02040618(u32, u32, s16);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern u32 func_021927F8(u32 *);
 extern void func_021927FC(u32 *, u32, u32);
 extern void func_021928C0(u32 *, u32, u32);

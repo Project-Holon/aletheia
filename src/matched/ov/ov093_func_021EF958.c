@@ -29,7 +29,8 @@ typedef struct {
     u32 used[8];        /* 0x148 */
 } S;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const void *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021F3AF8[];
 extern void func_021EF988(S *p, u32 v);
 

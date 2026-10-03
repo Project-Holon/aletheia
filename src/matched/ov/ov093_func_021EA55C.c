@@ -34,7 +34,7 @@ struct H {
 
 extern void func_021EEE80(int a, u16 b, int *c);
 extern void func_021EEEF4(int a, u16 b, int *c);
-extern void func_021EF694(int a, u16 b);
+extern void func_021EF694(u32 a, u32 b);
 extern void func_021EF6A8(int a, u16 b, int *c);
 extern void func_021EF6E8(int a, u16 b, int *c);
 extern void func_021EF5E8(u32 a, u8 b, u16 c);

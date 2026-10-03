@@ -15,10 +15,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_020122C0(void *, void *, void *, u32);
-extern void *func_020124E8(void *);
-extern void func_0215F0E8(void *, void *, void *);
-extern int func_0215EFF4(void *, void *, void *);
+struct C;
+struct Desc;
+struct Obj;
+struct Pair;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_0215F0E8(u32 *out, const struct Pair *in, u32 *ctx);
+extern int func_0215EFF4(void *a, int *st, struct C *c);
 void *func_0215F060(void *p, void *ctx)
 {
     void *task;

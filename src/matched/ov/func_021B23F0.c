@@ -24,10 +24,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4();
-extern u32 func_021F37A4(void *);
+extern void func_021F37A4(u8 *p);
 
 int func_021B23F0(u32 a, u32 b, u32 c, u32 d)
 {

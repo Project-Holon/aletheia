@@ -18,7 +18,8 @@
 
 typedef unsigned char u8;
 
-extern void func_0204F27C(void *p);
+struct Actor;
+extern void func_0204F27C(struct Actor *p);
 extern void func_020307B0(void *p);
 
 void func_0204ED24(void *p)

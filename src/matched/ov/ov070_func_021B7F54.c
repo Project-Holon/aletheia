@@ -56,8 +56,8 @@ typedef struct Ent {
 
 extern char d_021BBBC0[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, char *file, u32 line);
-extern void sub_02007CC8(void *base, void *buf, u32 id, int save);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void sub_02007CC8(u8 *base, void *buf, u32 id, int save);
 extern int func_021B61C8(Obj *o);
 extern int func_02020F14(u32 heap);
 extern int func_02020F20(int h, int id, u16 heap);

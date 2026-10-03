@@ -31,15 +31,15 @@ typedef enum { B_FALSE, B_TRUE } Bool;
 extern void *func_0203159C(int a, int b, int c);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_021BA3B4(void);
-extern void func_021BA420(void *a);
+extern void func_021BA420(char *p);
 extern void func_021BA44C(void *a, void *b);
 extern void func_021BA4EC(void *a, void *b);
 extern void func_021BA528(void *a, void *b, void *c);
 extern u32 func_02045770(u32 a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
-extern void func_02040588(int a, int b);
-extern void func_020434DC(int a, int b);
+extern void func_02040588(u32 which, u32 enable);
+extern void func_020434DC(u32 mask, u32 enable);
 
 int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
 {

@@ -21,11 +21,14 @@
 
 extern void *func_02188CCC(void *p);
 extern void *func_021A1358(void *p);
-extern void *func_020120F4(void *p);
+typedef unsigned char  u8;
+struct Ctx;
+struct SoundSys;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012A30(void *p);
-extern void func_02028A70(void *p);
-extern int func_021F2AB8(void *p);
-extern void func_021F2AD4(void *p);
+extern void func_02028A70(struct SoundSys *sys);
+extern int func_021F2AB8(char *p);
+extern void func_021F2AD4(u8 *p);
 
 void func_0218A6E8(void *sys, void *q)
 {

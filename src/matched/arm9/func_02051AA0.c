@@ -17,7 +17,8 @@
 
 typedef unsigned short u16;
 
-extern int func_020616CC(int a, int b, int c);
+typedef unsigned int   u32;
+extern u32 func_020616CC(u32 size, u32 flag, u32 dir);
 
 int func_02051AA0(int a, int b)
 {

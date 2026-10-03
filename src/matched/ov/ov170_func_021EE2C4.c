@@ -18,10 +18,12 @@
  */
 typedef struct { unsigned a, b; } Pair;
 extern const Pair d_021F02F0[];
-extern int func_020355C4(void);
+typedef unsigned char  u8;
+struct Struct_02025D1C;
+extern u8 func_020355C4(void);
 extern void func_021EE3CC(char **);
 extern void *func_02025CD0(unsigned, unsigned, void *, int, unsigned char, unsigned short);
-extern void func_02025D1C(void *);
+extern void func_02025D1C(struct Struct_02025D1C *obj);
 extern void func_021EE408(char **, int);
 extern void func_021ED55C(char **, int);
 void func_021EE2C4(char **p)

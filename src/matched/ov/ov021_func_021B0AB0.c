@@ -19,11 +19,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02159190(u32);
-extern u32 func_0215A61C(u32);
+extern int func_02159190(int a0);
+extern int func_0215A61C(int a0);
 extern void func_0219131C(u32);
 extern void func_0215A614(u32, u32);
-extern void func_02159168(u32);
+extern void func_02159168(int n);
 
 void func_021B0AB0(u32 a)
 {

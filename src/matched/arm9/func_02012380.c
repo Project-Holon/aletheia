@@ -23,9 +23,12 @@
  */
 
 extern void *sub_02012104(void *p);
-extern void  sub_02012108(void *p, int x);
-extern int   sub_02012304(void *v);
-extern void  sub_02012314(void *v);
+typedef unsigned int   u32;
+struct Ctx;
+struct S02012304;
+extern void sub_02012108(struct Ctx *p, u32 v);
+extern int sub_02012304(struct S02012304 *o);
+extern void sub_02012314(char *p);
 extern int   sub_020124F0(void *v);
 
 int func_02012380(void *p)

@@ -26,10 +26,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0200DC08(void *a);
-extern void func_0200DBA0(void *a, int b, int c);
-extern void func_0200DBF0(void *a);
-extern u32 func_0200DC0C(void *a, int b);
-extern void func_0200DBFC(void *a);
+typedef signed int     s32;
+struct Blk1AC;
+extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+extern void func_0200DBF0(struct Blk1AC *p);
+extern u8 func_0200DC0C(struct Blk1AC *p, u32 kind);
+extern void func_0200DBFC(struct Blk1AC *p);
 extern const u8 data_021DACD0[];
 
 int func_021CA164(void *a, int unused, int mode)

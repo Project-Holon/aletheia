@@ -28,8 +28,8 @@ typedef struct { u32 raw; } Slot;
 typedef struct { u8 b; } Byte;
 
 extern int func_021D775C(int a);
-extern int func_021D85C0(int a, int b);
-extern int func_0201BEB8(u16 id, u32 bit);
+extern int func_021D85C0(int a, u32 b);
+extern u32 func_0201BEB8(u16 id, u32 bit);
 extern void *func_021C88A4(int a, int k, int b);
 extern void func_021C88C8(int a, void *p);
 

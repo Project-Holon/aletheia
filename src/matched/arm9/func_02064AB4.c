@@ -38,7 +38,8 @@
  * guards would each need their own `pop`).
  */
 
-extern int func_02062F00(char *self, unsigned int i);
+typedef unsigned int   u32;
+extern int func_02062F00(void *s, u32 i);
 extern char *func_02062D40(char *self);
 extern int func_020629E8(int h, int v);
 extern void func_02064140(char *self, int v);

@@ -28,19 +28,20 @@
 
 typedef unsigned short u16;
 
-extern void func_02040588(int a, int b);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_021C5424(int a, int b);
 extern void func_0204B3B4(int a);
 extern void func_0201C6EC(int a);
 extern void func_0201C4C0(int a);
 extern void func_0201D83C(int a);
 extern void func_02045C04(int a);
-extern void func_0204ADA4(int a);
-extern void func_0204A8D4(int a);
-extern void func_0204AFD8(int a);
+extern void func_0204ADA4(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204AFD8(u32 i);
 extern void func_0204B1CC(int a);
-extern void func_02040DA8(int a, int b, int c);
-extern void func_020403F4(int a);
+extern void func_02040DA8(u32 idx, u32 count, u32 tile);
+extern void func_020403F4(u32 i);
 extern void func_020307B0(int a);
 
 void func_021C51A0(int *a)

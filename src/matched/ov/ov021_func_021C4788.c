@@ -21,10 +21,13 @@
 
 typedef unsigned int u32;
 
-void *func_020124E8(void *p);
-extern void func_02034A5C(u32);
-extern int func_021F376C(void *h);
-extern void func_021F3758(void *h);
+typedef signed int     s32;
+typedef unsigned char  u8;
+struct Obj;
+void *func_020124E8(struct Obj *p);
+extern void func_02034A5C(s32 handle);
+extern int func_021F376C(int *p);
+extern void func_021F3758(u8 *p);
 extern char ov063_id[];
 
 int func_021C4788(void *t)

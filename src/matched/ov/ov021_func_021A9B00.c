@@ -30,8 +30,8 @@ struct Spec { u16 id : 11; u16 lvl : 5; u8 lo; u8 hi; };
 
 extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 extern u32 func_021A9DC8(void);
-extern u32 func_02019C90(u32 id, u32 a, u32 b);
-extern u8 func_02005728(u8 v);
+extern u32 func_02019C90(u16 a, u16 b, u32 k);
+extern u32 func_02005728(u32 range);
 
 void func_021A9B00(struct Spec *spec, struct Slot14 *s)
 {

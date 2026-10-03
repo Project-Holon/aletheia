@@ -35,12 +35,13 @@ typedef struct {
     u32 f40;
 } S;
 
-extern int func_02020350(void *a, u32 id);
+struct Obj;
+extern u32 func_02020350(struct Obj *obj, u32 what);
 extern void func_021C59A8(S *p, u32 a, u32 b);
 extern void func_021C58CC(S *p, u16 a, u16 b, u16 c);
 extern void func_020061E4(u32 se);
-extern void func_020202FC(void *a, u32 b, u16 *out);
-extern u32 func_02020324(void *a, u16 b);
+extern void func_020202FC(struct Obj *obj, u16 *a, u16 *b);
+extern u16 func_02020324(struct Obj *obj, u32 n);
 extern void func_021C59F8(S *p, int v);
 
 void func_021C5440(S *p, int mode, u32 c, u32 *done)

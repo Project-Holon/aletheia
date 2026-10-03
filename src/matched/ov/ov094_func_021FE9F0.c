@@ -30,7 +30,7 @@ typedef enum { SLOT_0, SLOT_MAX = 8 } Slot;
 extern char *func_021F8694(void);
 extern void func_021FF134(char *p, int a, int b);
 extern int func_021FFD9C(char *p, int key);
-extern int func_021FF468(char *p, int i, int k);
+extern int func_021FF468(void *u, int i, int mode);
 extern void func_021FF630(char *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c);
 
 void func_021FE9F0(fx32 a, fx32 b, int n, int f48, int f4c)

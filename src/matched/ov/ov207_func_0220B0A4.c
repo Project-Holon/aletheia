@@ -53,7 +53,7 @@ extern void func_0220B908(char *);
 extern void func_0204E720(u32,int,int,int);
 extern int func_0220B940(char *);
 extern u32 func_0201C4E4(struct PrintSys *);
-extern void func_0220B40C(void *);
+extern void func_0220B40C(u8 *p);
 extern void func_0220B420(void *);
 extern void func_0220B424(void *);
 int func_0220B0A4(void *unused,int unused2,u32 *args,u32 *p)

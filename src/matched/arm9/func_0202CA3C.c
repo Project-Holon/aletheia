@@ -53,8 +53,7 @@ struct WinMgr {
     u32 heap;
 };
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char str_020A7790[];
 
 void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h)

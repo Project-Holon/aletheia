@@ -63,7 +63,7 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u32 func_0200C7C0(u16 id);
-extern u32 func_0200CC20(u32 id);
+extern u16 func_0200CC20(u32 a);
 
 void func_0200C914(u8 *p, u32 id, u32 a2, u32 a3, u32 start)
 {

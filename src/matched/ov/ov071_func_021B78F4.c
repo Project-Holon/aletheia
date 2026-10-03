@@ -13,7 +13,9 @@
  *   func_021B7234 0x021B7234 thumb ov071
  *   func_020409B4 0x020409B4 arm
  */
-extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_021B7234(void *,int,int);
 extern void func_020409B4(unsigned);
 void func_021B78F4(void *p, void **q) {func_020498F4(q[12],6,6,0,0,1,0x61);func_021B7234(p,1,6);func_020409B4(6);}

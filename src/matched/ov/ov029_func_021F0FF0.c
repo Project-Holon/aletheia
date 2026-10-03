@@ -12,7 +12,8 @@
  * symbols:
  *   func_02021B18 0x02021B18 thumb
  */
-extern void func_02021B18(void *);
+struct Obj02021B18;
+extern void func_02021B18(struct Obj02021B18 *o);
 void func_021F0FF0(char *p)
 {
     func_02021B18(*(void **)(p + 0x210));

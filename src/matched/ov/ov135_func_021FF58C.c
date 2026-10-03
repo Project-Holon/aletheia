@@ -34,9 +34,10 @@ typedef struct {
 extern const char str_02203E30[], ov131_id[];
 extern const u32 d_021DC800[];
 extern void func_021F50EC(u8 *);
-extern void *func_02030734(u32,u32,u32,const char *,u32);
+struct Ctx;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,u32,u32);
-extern void *func_020120F4(void *);
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_021F6B34(int);
 extern int func_021F6B80(void *,void *,int);
 extern void *func_021F6B40(void *,void *,int,int);

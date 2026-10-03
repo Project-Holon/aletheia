@@ -61,9 +61,10 @@ struct Descriptor {
     void *heap;
 };
 
-extern u32 sub_020416B8(u8 kind);
-extern void *sub_020437D4(void *heap);
-extern void sub_02040B1C(u8 kind, void *heap, u32 size, u16 unkA);
+struct Bmp;
+extern u8 sub_020416B8(int channel);
+extern void *sub_020437D4(const struct Bmp *bmp);
+extern void sub_02040B1C(u8 index, const void *src, u32 size, u32 tile);
 
 void sub_02045334(struct Descriptor *d)
 {

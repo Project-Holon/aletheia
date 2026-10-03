@@ -17,9 +17,10 @@
 
 typedef unsigned short u16;
 
-void func_0204A8D4(u16 x);
-void func_0204ADA4(u16 x);
-void func_0204AFD8(u16 x);
+typedef unsigned int   u32;
+void func_0204A8D4(u32 i);
+void func_0204ADA4(u32 i);
+void func_0204AFD8(u32 i);
 
 void func_021A29F4(u16 *p)
 {

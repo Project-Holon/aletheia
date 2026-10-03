@@ -24,7 +24,7 @@
 extern int func_02059F38(void);
 extern int DWC_IsValidAID(int aid);
 extern int DWCi_IsValidAID(int aid);
-extern int func_02177788(int aid);
+extern unsigned char func_02177788(int i);
 extern int DWCs_GetOutgoingBufferFreeSize(int aid);
 extern int DWCs_GetRequiredHeaderSize(int type);
 extern int func_02176BE4(void);

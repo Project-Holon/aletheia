@@ -43,13 +43,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   func_0201AA50(void *party);
+extern u32 func_0201AA50(void *p);
 extern int   func_0200AE54(void *rules, u32 k);
 extern int   func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+extern void *func_0201AB28(void *p, u32 idx);
 extern int   func_02019FD0(void *rules, void *mon, u32 *mask);
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
-extern int   func_0201A59C(void *rules, void *party, u32 z);
+extern int func_0201A59C(void *a0, void *a1, void *a2);
 
 int func_0201A090(void *rules, void *party, u32 *mask)
 {

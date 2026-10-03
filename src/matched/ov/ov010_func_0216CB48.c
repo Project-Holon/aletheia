@@ -64,27 +64,33 @@ typedef struct Work {
     void   *field18;    /* 0x18 */
 } Work;
 
-extern void *func_020120F4(void *p);
-extern void *func_0201210C(void *p);
+struct Actor;
+struct Big;
+struct Ctx;
+struct Desc;
+struct Obj;
+struct Sub020071CCCtrl;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188C54(void *p);
-extern void *sub_020122C0(void *owner, int a, void (*cb)(void), u32 size);
-extern Work *sub_020124E8(void *d);
+extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *sub_020124E8(struct Obj *p);
 extern void *func_02012964(void *p);
 extern void *func_0216DEE0(void *a0);
-extern void *func_0216DE94(void *p, int a);
-extern void  func_0216D88C(void *a, VecFx32 *out);
+extern void *func_0216DE94(void *map, u32 id);
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void *func_021B0A40(void *a, VecFx32 *pos);
 extern void *func_02188C58(void *p);
 extern void *func_0218EC2C(void *p);
 extern void  func_021B09D8(VecFx32 *pos, VecFx32 *out, void *a, void *b, void *c);
-extern void *func_02012EBC(void *p);
-extern void *func_020071CC(void *sys, u32 id);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u8   *func_0200DF58(void *p, int a);
-extern void *func_0202435C(void *p, int a);
+extern void *func_0202435C(void *slots, unsigned int heap);
 extern void  func_020307B0(void *p);
 extern void  func_021B09EC(void *p, s32 *a, s32 *b);
 extern u32   func_0219129C(void *a, s32 b, VecFx32 *pos, void *c, int d, s32 e);
-extern void  func_0216CAF4(void);
+extern int func_0216CAF4(int a0, int a1, int a2);
 
 void *func_0216CB48(void *owner, int idx, u8 arg)
 {

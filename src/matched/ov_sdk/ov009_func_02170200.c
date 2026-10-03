@@ -27,7 +27,7 @@ extern char d_021A2198[];
 extern char d_021A21A0[];
 extern int func_0209477C(const char *s);
 extern void MI_CpuCopy8(const void *src, void *dst, int size);
-extern int func_021864CC(void *conn, int pid, const char *msg);
+extern int func_021864CC(void **connection, int profile, char *message);
 
 int func_02170200(void *conn, unsigned char command, int pid, const char *data)
 {

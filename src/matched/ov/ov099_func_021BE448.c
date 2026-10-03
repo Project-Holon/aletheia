@@ -12,7 +12,7 @@
  * symbols:
  *   func_021BDD60 0x021BDD60 thumb ov099
  */
-extern int func_021BDD60(unsigned int);
+extern int func_021BDD60(int x);
 int func_021BE448(unsigned int a, int b)
 {
     int r = 15;

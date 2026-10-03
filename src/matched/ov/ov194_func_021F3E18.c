@@ -16,7 +16,9 @@
  *   func_0201C6FC 0x0201C6FC thumb
  *   func_02045808 0x02045808 arm
  */
-extern void func_0201EE84(int,unsigned,void *);
+typedef unsigned int   u32;
+struct WordSet;
+extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
 extern int func_02045770(int);
 extern void func_02043B5C(int,unsigned char);
 extern int func_02045EC0(unsigned,unsigned);
@@ -25,7 +27,7 @@ extern void func_0201C6FC(int,int,int,int,int,int);
 extern void func_02045808(int);
 void func_021F3E18(char *p,int value,void *mon) {
     int text,window;
-    func_0201EE84(*(int *)(p+24),0,mon);
+    func_0201EE84(*(void **)(p+24),0,mon);
     func_02043B5C(func_02045770(*(int *)(p+20)),*(unsigned short *)(p+32));
     text=func_02045EC0(*(unsigned *)p,value);
     func_0201F250(*(int *)(p+24),*(void **)(p+28),text);

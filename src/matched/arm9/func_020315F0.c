@@ -39,8 +39,9 @@ typedef struct {
     u32 work;
 } Proc;
 
-extern void func_02034AC4(u32 ovl);
-extern void func_02034A5C(u32 ovl);
+typedef signed int     s32;
+extern int func_02034AC4(s32 handle);
+extern void func_02034A5C(s32 handle);
 
 u32 func_020315F0(Proc *p)
 {

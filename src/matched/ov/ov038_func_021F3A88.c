@@ -25,7 +25,8 @@
  *   func_021F3F40 0x021F3F40 thumb ov038
  */
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern unsigned char *func_021897BC(void *, int);
 extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C80(void *);
@@ -35,9 +36,9 @@ extern int *func_0200B3A4(int, int);
 extern int func_021A3050(int);
 extern int func_021F3A08(int *, int, int, int *, int *);
 extern int func_020122C0(int, int, void *, int);
-extern void func_021F3B3C(void);
-extern void func_021F407C(void);
-extern void func_021F3F40(void);
+extern int func_021F3B3C(int a0, int *a1);
+extern int func_021F407C(int a0, int *a1);
+extern int func_021F3F40(int a0, int *a1);
 
 int func_021F3A88(int a0, int a1, int a2)
 {

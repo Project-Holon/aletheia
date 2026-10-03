@@ -13,9 +13,11 @@
  *   func_021DEEA4 0x021DEEA4 thumb ov121
  *   func_021DE8D0 0x021DE8D0 thumb ov121
  */
-extern void func_02157E78(void *);
-extern unsigned char func_02157E6C(void *);
-extern void func_021DEEA4(void *, void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02157E78(u8 *p);
+extern unsigned char func_02157E6C(char *p);
+extern void func_021DEEA4(u32 *p, void *f);
 extern void func_021DE8D0(void *, int *, char *);
 void func_021DE910(void *a, int *state, char *p)
 {

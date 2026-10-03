@@ -92,20 +92,26 @@ extern void func_021F7374(Obj *p);
 extern void func_021F4EC0(Obj *p, int a, int b);
 extern void *func_02202608(u32 heap);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_020120F4(void *a);
-extern u32 func_02012984(void *a);
-extern u16 func_0201B2B0(u32 a, void *e, u32 b, void *c, u32 d, u32 *out, u32 heap);
+typedef signed int     s32;
+struct BigObj;
+struct Ctx;
+struct Party;
+struct PartyMon;
+struct RecDC;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
 extern void func_020307B0(void *p);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, int);
-extern void *func_0201A920(u32 heap);
-extern u32 func_0201A98C(void *list, void *e);
-extern void *func_02034A5C(u32 a);
-extern void func_02034AC4(u32 v);
+extern struct Party *func_0201A920(u32 heap);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
+extern void func_02034A5C(s32 handle);
+extern int func_02034AC4(s32 handle);
 extern void func_02031348(void *h, u32 id, void *a, void *b);
 extern void func_0200AD9C(void *save, void *mon);
 extern void *func_0201AB28(void *list, u32 i);
-extern void func_02019CE0(void *a, void *b);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
 
 int func_021F6FD4(Obj *p)
 {
@@ -119,10 +125,10 @@ int func_021F6FD4(Obj *p)
         if (p->kind == 9) {
             void *e = func_021F7338(p, p->kind);
             u32 out;
-            u16 r;
+            u32 r;
 
             func_02017E1C(e, 6, 0);
-            r = func_0201B2B0(0, e, 1, p->fEA4, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
+            r = func_0201B2B0(0, e, 1, (u32)p->fEA4, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
             if (r != 0) {
                 Req *w;
 
@@ -152,7 +158,7 @@ int func_021F6FD4(Obj *p)
             void *e = func_021F7338(p, p->kind);
             void *mon = func_02202608(0x48);
             u32 out;
-            u16 r;
+            u32 r;
 
             func_0200AD9C(p->ctx->save, mon);
             if (func_02017E1C(e, 5, 0) != func_02017E1C(mon, 5, 0)
@@ -161,7 +167,7 @@ int func_021F6FD4(Obj *p)
                 r = 0;
                 if (p->f12F8 != 0) {
                     p->f12F8 = 0;
-                    r = func_0201B2B0(0, e, 1, mon, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
+                    r = func_0201B2B0(0, e, 1, (u32)mon, func_02012984(func_020120F4(p->ctx->f40)), &out, 0x48);
                 }
                 if (r != 0) {
                     Req *w;

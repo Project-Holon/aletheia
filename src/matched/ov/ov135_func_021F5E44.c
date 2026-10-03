@@ -40,9 +40,9 @@ typedef struct {
 extern const u8 tbl_02202DA4[][4];
 
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern void func_0204B92C(u32 obj, int v);
 extern void func_0204B878(u32 obj, u16 anim);

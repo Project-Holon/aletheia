@@ -101,16 +101,21 @@ extern const u16 d_021D8B34[];
 extern const Rect d_021D8CAC[];
 extern const Pos d_021D8B18[];
 
-extern void *func_02045B38(u32, u32, u32, u32);
-extern void *func_020457B0(u32, u32);
-extern u32 func_020084BC(void *p);
+struct MsgBank;
+struct Rec;
+struct Strbuf;
+struct Sub0200852CObj;
+struct U16Vec;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern int func_020084BC(const u16 *values);
 extern u16 *func_020084F4(void *p);
-extern void func_02045924(void *s, u16 *str);
-extern void *func_02045EC0(void *bank, u32 index);
-extern u32 func_02008550(void *a);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern void func_021A9154(Obj *p, Item *it, St *st);
-extern void func_02045808(void *p);
-extern void func_02045C04(void *h);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 
 void func_021A8BB8(Obj *p, void *q, int r)
 {

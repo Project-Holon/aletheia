@@ -37,7 +37,7 @@ typedef struct P {
     Fx *f14;
 } P;
 
-extern void func_02190D48(u32 a);
+extern int func_02190D48(u32 a);
 extern u32 func_02193210(u8 *p);
 extern u32 func_02190D2C(Fx *a, u32 b, u32 c, u32 d, u16 e, u32 f);
 

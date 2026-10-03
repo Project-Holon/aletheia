@@ -25,7 +25,7 @@ typedef struct {
     u16 ids[8];
 } T;
 
-extern int func_02045A98(void);
+extern u16 func_02045A98(void);
 
 int func_02161E84(T *p)
 {

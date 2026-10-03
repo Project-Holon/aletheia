@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_0202B420(void *p, u16 v);
+extern void sub_0202B420(u8 *p, u16 v);
 
 void func_0202B7C8(u8 *p, u16 v)
 {

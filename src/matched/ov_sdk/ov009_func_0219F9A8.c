@@ -64,7 +64,7 @@ typedef struct SBServerList {
 
 extern void func_0219F888(SBServerList *slist);
 extern void *func_0219DF64(SBServerList *slist);
-extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
+extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern void func_021A0A1C(SBServerList *slist, char *theError);
 extern unsigned int func_0217F264(void);
 extern void func_020946C8(unsigned int seed);

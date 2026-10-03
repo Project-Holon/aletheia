@@ -14,7 +14,9 @@
  *   d_021F140C 0x021F140C data a1
  */
 
-extern unsigned short *func_02030734(unsigned heap, unsigned size, unsigned clear, const char *file, unsigned line);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F140C[];
 
 void func_021EA808(char *p)

@@ -17,7 +17,7 @@
  *   func_02173D28  0x02173D28  arm  ov009
  */
 
-extern char *func_02175F3C(void);
+extern int func_02175F3C(void);
 extern int func_02173D9C(int error);
 extern int func_02173D28(int error);
 

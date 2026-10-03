@@ -32,7 +32,7 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_021C0AF0();
-extern u32 func_021C0B74();
+extern u32 func_021C0B74(u32 a0);
 extern u32 func_021C0BA8();
 extern u32 func_021C0C2C();
 extern u32 func_021C0C50();

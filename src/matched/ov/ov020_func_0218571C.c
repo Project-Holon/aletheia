@@ -17,10 +17,16 @@
  *   func_02185694 0x02185694 thumb ov020
  */
 typedef struct { void *owner; void *object; unsigned char payload[0x1c]; } Work;
-extern void *func_020120F4(void *p);
-extern void *func_020122C0(void *owner, void *a, void *b, unsigned int n);
-extern void *func_020124E8(void *p);
-extern unsigned short func_02012914(void *p);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern u16 func_02012914(const struct BigObj *p);
 extern void func_02159FA8(int a, void *b);
 extern void func_02185694(void);
 void *func_0218571C(void *owner)

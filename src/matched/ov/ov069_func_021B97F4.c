@@ -36,7 +36,8 @@ extern A16 d_021BA65C;
 extern B160 d_021BA7A0;
 extern u32 d_021BA60C[];
 
-extern void func_0203F8F4(int);
+typedef unsigned short u16;
+extern void func_0203F8F4(u16 heapId);
 extern void func_0203FC28(void *);
 extern void func_0203FCA0(u8, void *, int);
 extern void func_020414EC(u8);

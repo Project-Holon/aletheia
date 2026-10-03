@@ -35,7 +35,8 @@ typedef struct {
 extern int  func_02040804(u32 a);
 extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(u8 bg);
-extern void func_0204B8A0(void *obj, u16 v);
+struct Obj;
+extern void func_0204B8A0(struct Obj *p, u16 v);
 extern int  func_021BB0AC(u8 *p, int i);
 extern const u8 d_021BB538[];
 extern u32  d_021BB704[][6];

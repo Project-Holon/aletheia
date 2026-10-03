@@ -16,11 +16,14 @@
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
-extern void func_020452E8(void *);
-extern int func_02045760(void *);
-extern void func_02045788(void *,u8);
-extern void func_02045374(void *);
-extern void func_02041B6C(int);
+typedef unsigned int   u32;
+struct Cfg;
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
+extern u8 func_02045760(struct Descriptor *p);
+extern void func_02045788(struct Descriptor *p, u8 v);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32 bit);
 void func_021D82F8(char *p)
 {
     int i;

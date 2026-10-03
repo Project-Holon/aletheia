@@ -17,7 +17,7 @@
  */
 
 
-extern int func_021EF108(char *, int, int, int);
+extern int func_021EF108(const char *p, unsigned n, int a, int b);
 int func_021EF224(int a, int b)
 {
     int v = func_021EF108((char *)0x021F1174, 4, a, b);

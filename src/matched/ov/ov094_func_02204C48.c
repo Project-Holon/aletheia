@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef int BOOL;
 
 extern void func_0207D658(u32 addr, int plane, int brightness);
-extern void func_0220687C(void *m, void *a);
+extern void func_0220687C(char *p, void *q);
 
 #define reg_GXS_DB_DISPCNT (*(volatile u32 *)0x04001000)
 #define reg_G2S_DB_WININ   (*(volatile u16 *)0x04001048)

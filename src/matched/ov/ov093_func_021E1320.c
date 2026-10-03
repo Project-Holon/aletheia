@@ -19,9 +19,11 @@
 typedef unsigned short u16;
 
 extern int func_021D775C(int key);
-extern u16 func_021D70A8(void *p);
+typedef unsigned int   u32;
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021E8B28(void *p, u16 v);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 void func_021E1320(void *a, int b, int c)
 {

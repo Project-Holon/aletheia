@@ -77,7 +77,7 @@ extern u8   func_02036500(struct Src *s);
 extern int  func_020364D4(struct Src *s, u8 *buf, u32 n, u32 max);
 extern int  func_0203A804(u32 h);
 extern int  func_0203A7EC(u32 h);
-extern int  func_0203A634(u32 a);
+extern u32 func_0203A634(u32 a0);
 extern u8  *func_0203A81C(u32 h, u32 a, u32 b);
 extern void func_02082D44(void *dst, const void *src, int n);
 extern void func_02038D68(u32 h, u32 total, u8 *dst, struct St *st);

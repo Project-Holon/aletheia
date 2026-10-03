@@ -33,7 +33,7 @@ typedef struct {
     int f5b4;
 } D;
 
-extern int func_021ADAAC(int a, int b, u16 c, u16 d, int e, u8 f);
+extern u8 func_021ADAAC(int a, int b, int c, int d, int e, int f);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021AAFC0(int a, D *d, R *r)

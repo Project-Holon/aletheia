@@ -41,8 +41,8 @@ typedef struct Obj {
     u8 padBC[0xc4 - 0xbc];
 } Obj;
 
-extern void func_02034714(const char *file, int line, const char *msg);
-extern Obj *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern void func_021CCEB8(Obj *p);

@@ -24,7 +24,8 @@ typedef struct Rec10 {
     u16 rest[4];
 } Rec10;
 
-extern int func_021646E8(u16 id);
+typedef unsigned int   u32;
+extern u16 func_021646E8(u32 n);
 extern const Rec10 d_02171534[];
 
 u16 func_02164708(u16 id)

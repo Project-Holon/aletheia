@@ -105,7 +105,7 @@ extern void func_02088234(void);
 extern int func_020948E0(const char *s1, const char *s2) __attribute__((pure));
 extern int func_0217956C(DWCHttp *http, DWCHttpParam *param);
 extern void func_02059F54(int error, int errorCode);
-extern int func_02178F4C(DWCCalInfo *cal);
+extern int func_02178F4C(void *cal);
 extern int func_02179218(DWCHttp *http, DWCCalInfo *calinfo, int allowessid);
 extern void func_02179CF4(DWCHttp *http);
 extern int func_02179F3C(DWCHttp *http, char *label, char *data, unsigned long data_len);

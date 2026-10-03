@@ -18,7 +18,7 @@
 typedef unsigned int u32;
 
 extern int func_021A0ED4(u32 a);
-extern void func_021A0F30(u32 a, u32 b);
+extern int func_021A0F30(u32 a, u32 b);
 
 int func_021D1AEC(int a, int *seq, u32 *c)
 {

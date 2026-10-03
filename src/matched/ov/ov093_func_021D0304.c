@@ -27,12 +27,14 @@ typedef unsigned long long u64;
 struct G { void *p0; u8 pad[0xf0]; u64 seed; u64 mul; u64 add; u8 pad2[0xc]; void *list; u8 start; };
 extern int func_021D0644(void *, void *, void *, int);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021D6940(void *, int, u32, u16 *);
-extern u32 func_021B9B94(void *);
-extern u32 func_021B8588(void *);
+struct Q1;
+struct S2;
+extern int func_021D6940(const u8 *p, int i, u32 j, u16 *out);
+extern u8 func_021B9B94(struct Q1 *p);
+extern u32 func_021B8588(void **p);
 extern u8 func_021D7F2C(u32 a, u8 b);
 extern int func_021CFBBC(void *, u8);
-extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 extern u16 func_021D57FC(void *);
 extern int func_021D799C(int, int);
 int func_021D0304(struct G *g, void *mon, void *target, u8 *out)

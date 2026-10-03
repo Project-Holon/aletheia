@@ -19,13 +19,15 @@
  */
 typedef struct { int mode; int v[7]; } Config;
 typedef struct { int a,b,c,d,callback; Config config; unsigned short heap; } Request;
-extern Request *func_02030734(int,int,int,const void *,int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
-extern void func_021E58A4(int,int,int);
+extern void func_021E58A4(int unused, int mode, unsigned color);
 extern int func_02045B38(int,int,int,int);
 extern int func_0201EC74(int,int,int);
 extern int func_021E8A3C(int,int,int);
-extern void func_0217D458(void);
+extern void func_0217D458(int a, int unused, char *p);
 extern const char d_0217E61C[];
 Request *func_0217D398(Config *p, int heap)
 {

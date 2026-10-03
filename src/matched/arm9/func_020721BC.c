@@ -54,8 +54,8 @@ struct DST {
     s32 f34;
 };
 
-extern void func_0207C930(s32 a, s32 b);
-extern s32  func_0207C86C(void);
+extern void func_0207C930(u32 numer, u32 denom);
+extern u32 func_0207C86C(void);
 
 void func_020721BC(struct DST *d, struct SRC *s)
 {

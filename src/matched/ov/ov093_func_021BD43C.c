@@ -26,9 +26,9 @@ extern char *func_021B9AEC(char *p, int i);
 extern u8 func_021B8BEC(u8 *p, u32 k, u8 n);
 extern void func_021BD4D4(u8 *p, int a, int b);
 extern void func_021B9C10(char *p, u8 a, u8 b);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern u8 *func_021B9BF0(char *p, u8 i);
-extern int func_021D5B68(u8 *p);
+extern int func_021D5B68(void *p);
 extern void func_021D5FC0(u8 *p, u32 n);
 
 void func_021BD43C(u8 *p, int i, u8 a, u8 b, int c)

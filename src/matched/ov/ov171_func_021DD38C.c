@@ -20,7 +20,8 @@ extern void func_021DCBA4(char *);
 extern int func_021DCBE8(char *);
 extern void func_021DE080(char *, int, int);
 extern void func_021DDFBC(char *);
-extern void func_020434DC(int, int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
 int func_021DD38C(char *p)
 {
     switch (*(int *)(p + 0xc70)) {

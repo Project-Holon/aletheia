@@ -27,17 +27,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021640B0();
+extern int func_021640B0(int a);
 extern int func_0216D57C();
-extern int func_0216DB24();
+extern int func_0216DB24(int a0);
 extern int func_021631C0();
 extern int func_02163418();
 extern int func_0216352C();
 extern int func_021637B0();
-extern int func_02163650();
+extern int func_02163650(int a0, int a1);
 extern int func_02163868();
 extern int func_0216372C();
-extern int func_021638AC();
+extern int func_021638AC(int a0, int a1);
 
 void func_02163340(int a0, int a1)
 {

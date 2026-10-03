@@ -22,9 +22,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
-extern void func_0204581C(void *);
+struct Obj;
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
 extern void func_021BB00C(void *,void *);
-extern u16 func_02045F50(const void *);
+extern u16 func_02045F50(const struct Obj *o);
 extern u16 func_021B99F0(int,int,int);
 extern int func_021B9A48(u32);
 extern u32 func_021B99D8(u32,u32,u32);

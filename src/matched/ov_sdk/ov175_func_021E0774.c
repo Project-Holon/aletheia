@@ -62,14 +62,14 @@ typedef struct GSLoginCertificate GSLoginCertificate;
 
 extern void *func_021819B0(char **namespaces, int count);
 extern int func_021829AC(void *stream, char *namespaceName, char *tag);
-extern int func_021E2874(GSLoginCertificate *cert, char *aNamespace, void *writer);
+extern int func_021E2874(struct GSLoginCertificate *cert, char *aNamespace, void *writer);
 extern int func_02182A2C(void *stream, char *namespaceName, char *tag);
 extern int func_02182E90(void *stream, char *namespaceName, char *tag, unsigned char *data, int len);
 extern int func_02182CF0(void *stream, char *namespaceName, char *tag, unsigned int value);
 extern int func_02181DE8(void *stream);
-extern void func_02181D84(void *stream);
+extern void func_02181D84(void **p);
 extern void *func_0217FD7C(char *theURL, char *theService, void *theRequestSoap, void (*cb)(int, void *, void *, void *), void *theUserData);
-extern void func_021E08E8(int theHttpResult, void *theResponseData, void *theUserData, void *unused);
+extern void func_021E08E8(int theHttpResult, int unused, void *theResponseData, void *theUserData);
 extern char *g_021E41B8[1];
 extern char g_021E41E4[];
 extern char g_021E41E8[];

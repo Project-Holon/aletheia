@@ -29,8 +29,8 @@ int *func_021F54E0(int a);
 int func_021C1CB0(int a, char *b, u8 c);
 int func_020124E8(int a);
 void func_021C313C(char *a, int b);
-void func_021C2D68(void);
-void func_021C2CF4(void);
+int func_021C2D68(int a, int *b);
+int func_021C2CF4(void *a, u8 *p);
 
 int func_021C1DCC(int a, char *b, int c, int d)
 {

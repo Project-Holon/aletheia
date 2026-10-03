@@ -23,7 +23,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
-extern int func_021B9A40(int v);
+extern unsigned char func_021B9A40(unsigned int x);
 typedef struct Word { u32 v; } Word;
 extern Word func_021E8940(int v);
 extern int func_021CBFF8(int a, int b, Word c);

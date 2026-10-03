@@ -22,7 +22,9 @@ typedef struct {
     void *f14;
 } Work;
 
-extern int func_0201C6B4(void *p);
+typedef unsigned int   u32;
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_021C7E48(Work *p);
 extern void func_021C8364(Work *p);
 

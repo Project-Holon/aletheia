@@ -72,21 +72,26 @@ typedef struct {
     u8 f99;             /* 0x99 */
 } Outer;
 
-void *func_020124E4(void *);
+struct Ctx;
+struct Obj;
+struct Rec44;
+struct Sub24;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
 void *func_02012138(void *);
-void *func_020120F4(void *);
+void *func_020120F4(const struct Ctx *p);
 u8 *func_02158344(void *);
 void func_0217553C(u8 *);
-void *func_02188C7C(void *p);
+void *func_02188C7C(u8 *p);
 void func_0216D9A0(void *);
-void *func_02012950(void *, int);
-void func_0201F02C(void *, int, void *);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0216D3CC(void *);
 void func_0216D410(void *, int);
-int func_0216D480(void *);
+int func_0216D480(char *p);
 int func_02174258(u8 *);
-int func_02175C40(u8 *);
+int func_02175C40(void *p);
 int func_02173AE0(u8 *, int, int, int);
 int func_0217F40C(Ov018Obj *p);
 int func_02175514(u8 *);

@@ -21,7 +21,7 @@ typedef unsigned int u32;
 typedef struct { u32 x, y, z; } V;
 typedef struct { u8 pad[0x10]; u8 f10; u8 f11; u8 f12; u8 f13; u32 f14; u32 f18; u32 f1C; u32 f20; u32 f24; u8 pad28[0xc]; u32 f34; u32 f38; } E;
 typedef struct { u32 a; V v; } T;
-extern u32 func_021ABEA0(u32 a, u32 b);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32 a, void *tbl, u32 c, u32 d, void *t, u32 f);
 extern u8 d_021DAB90[];
 void func_021C9258(u32 a, V *v)

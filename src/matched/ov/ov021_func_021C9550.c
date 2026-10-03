@@ -26,7 +26,7 @@ typedef struct Rec { u32 h; V3 pos; } Rec;
 
 extern void func_0216D88C(u32, V3 *);
 extern u32 func_0216D5F8(u32);
-extern u32 func_021ABEA0(u32, u32);
+extern int func_021ABEA0(u32 a, u32 b);
 extern void func_021ABFA8(u32, void *, u32, u32, Rec *, u32);
 extern u32 d_021DAC80[];
 

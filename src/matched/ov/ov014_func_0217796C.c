@@ -29,7 +29,7 @@ struct Head {
 void func_02177888(u32 a);
 int func_02177C1C(u32 *p);
 void func_02177744(void);
-void func_02179664(int v);
+void func_02179664(unsigned char v);
 void func_021793F8(void);
 
 void func_0217796C(u32 arg)

@@ -48,7 +48,7 @@ struct UtilWork {
     u8 f157[5];
 };
 
-extern void func_02017E40(void *a, int b, int c);
+extern void func_02017E40(void *p, u32 id, u32 v);
 
 void func_021D5608(struct UtilWork *p, int i, u8 n)
 {

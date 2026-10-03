@@ -25,7 +25,9 @@
 
 extern void func_02049B40(int, int, int, int, int, int);
 extern int func_0201F5DC(int, int, int, int);
-extern int func_020450F0(int, int, int, int, int, int, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045790(int, int);
 extern int func_02045770(int);
 extern void func_02043B5C(int, int);

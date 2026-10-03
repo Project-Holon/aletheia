@@ -19,8 +19,9 @@
 struct PrintSys;
 struct Descriptor;
 extern unsigned func_0201C4E4(struct PrintSys *);
-extern unsigned func_02045770(struct Descriptor *);
-extern int func_0201C6C4(struct PrintSys *, unsigned);
+typedef unsigned int   u32;
+extern void *func_02045770(struct Descriptor *p);
+extern u32 func_0201C6C4(struct PrintSys *p, void *v);
 extern void func_02045334(struct Descriptor *);
 struct Context { char pad[72]; int ps; };
 void func_021BD3FC(const struct Context *p)

@@ -44,7 +44,7 @@ extern void ov208_func_021C51D4(struct Ov208Mdl *m);
 extern void ov208_func_021C7448(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C5F34(u16 *heap, u8 *p, int key, int ev);
 extern u32  func_020362DC(void);
-extern int  func_02035D20(u32 *x, u32 *y);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void ov208_func_021C7CE8(u16 *heap, u8 *p, int key);
 extern void ov208_func_021C7534(u16 *heap, u8 *p, int key);
 extern void func_020061E4(u32 se);

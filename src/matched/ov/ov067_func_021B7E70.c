@@ -40,8 +40,8 @@ typedef struct S {
 } S;
 
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
-extern void func_020355D8(int a);
+extern u8 func_020355C4(void);
+extern void func_020355D8(u8 v);
 extern unsigned int func_0203630C(void);
 extern void func_021B83A0(S *p);
 

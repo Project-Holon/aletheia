@@ -27,10 +27,12 @@ typedef struct {
 
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(void *p, int a);
-extern void func_021A3964(unsigned char *a, int b);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021A3964(u8 *p, u32 v);
 
 extern int func_021A6C6C(S *a, u16 e);
-extern void func_020061E4(int x);
+extern void func_020061E4(u32 a);
 
 void func_021A62FC(S *a, void *b, int c, int d, u16 e)
 {

@@ -12,7 +12,9 @@
  *   func_021BF734 0x021BF734 thumb ov110
  */
 typedef unsigned char u8;
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern unsigned func_021BF734(u8 *);
 void func_021BFC20(u8 *p, unsigned visible) {
     if (visible) {

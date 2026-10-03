@@ -41,7 +41,7 @@ extern void func_02162248(void *random_seed, unsigned long len);
 extern void func_02163C9C(CPSSha1Ctx *ctx);
 extern unsigned long func_02087988(void);
 extern void func_02163CF0(CPSSha1Ctx *ctx, void *data0, int datalen);
-extern void func_02163E10(CPSSha1Ctx *ctx, unsigned char *digest);
+extern void func_02163E10(void *ctx, unsigned char *digest);
 extern unsigned long func_0208799C(unsigned long state);
 
 extern unsigned char g_021AA648;

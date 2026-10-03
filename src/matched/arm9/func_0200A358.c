@@ -59,9 +59,9 @@ extern int   sub_020071EC(int a);
 extern void  sub_0200A480(u8 *p);
 extern void  func_02034AC4(void *id);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern void *func_021DFC20(int a);
-extern int   func_021DFE90(void *p);
-extern void *func_021DFEAC(void *p);
+extern void *func_021DFC20(u32 heap);
+extern u8 func_021DFE90(u8 *p);
+extern void *func_021DFEAC(u8 *p);
 extern u8    ov_id_E4[];
 
 void sub_0200A358(u8 *p, int a1, int a2, int a3)

@@ -27,12 +27,13 @@ typedef struct Self {
     void *ctx;
 } Self;
 
-extern void *func_02188CB4(void *p);
-extern void *func_021A3074(void *p);
-extern void *func_02188C7C(void *p);
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
+extern void *func_02188C7C(u8 *p);
 extern int func_0216DD1C(void *list, void **out, unsigned long *iter);
 extern int func_0216D454(void *rec);
-extern unsigned char *func_0216E3C4(void *rec);
+extern void *func_0216E3C4(void *p);
 extern void func_0216D828(void *rec, Vec3s *out);
 
 int func_021AAEC0(Self *self, int x, short y2, int z, int skip)

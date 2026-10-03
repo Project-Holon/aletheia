@@ -39,9 +39,9 @@ typedef struct GSUdpEngineObject {
     int (*unrecognizedCB)(unsigned int, unsigned short, unsigned char *, int, void *);
     void *userData;
 } GSUdpEngineObject;
-extern GSUdpEngineObject *func_02180404(void);
-extern void func_0217D254(int theCat, int theType, unsigned char theLevel, char *theTokenStr, ...);
-extern int func_02184200();
+extern void *func_02180404(void);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 
 extern char *func_02198620(unsigned int ip, unsigned short port, char *string);

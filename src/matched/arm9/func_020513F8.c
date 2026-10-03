@@ -15,7 +15,8 @@
  */
 
 extern void func_02051394(int a);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_020513F8(void *p, int a)
 {

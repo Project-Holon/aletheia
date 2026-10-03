@@ -31,7 +31,7 @@ extern int func_021D775C(int key);
 extern int func_021EF948(int k);
 extern u8 *func_021C88A4(int a, int k, int c);
 extern Word func_021E8940(int k);
-extern void func_021C8838(u8 *p, int a, int b);
+extern void func_021C8838(void *p, int a, int b);
 extern void func_021C88C8(int a, u8 *p);
 extern int d_021F265C[];
 

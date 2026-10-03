@@ -36,7 +36,9 @@
  * party slot with a fade), then the view is restored.
  */
 
-extern void func_021EBBC8(unsigned char *p, int kind, int i);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern void func_021DD314(unsigned char *p, int box, int pos);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
@@ -44,13 +46,13 @@ extern void func_021DF040(unsigned char *p);
 extern void func_021EDAB0(unsigned char *p, int box);
 extern void func_021EDB34(unsigned char *p, int box);
 extern void func_021EF670(char *w);
-extern void func_020260E4(void *obj, unsigned char sel);
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE3E4(unsigned char *p, unsigned idx);
 extern void func_021ED55C(unsigned char *p, int flag);
 extern void func_021ED888(char *w, int a);
 extern void func_021ECB20(unsigned char *p, int f, int c);
 extern void func_021ED508(unsigned char *p, int a, int b);
-extern void func_021EA1C0(unsigned char *p);
+extern void func_021EA1C0(void *p);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E002C(unsigned char *p);
 extern void func_021EA1E8(unsigned char *p);

@@ -41,9 +41,9 @@ typedef int           s32;
 typedef unsigned int  u32;
 typedef unsigned char u8;
 
-extern u8 func_0202AFAC(u8 *obj, s32 *pos);
-extern u8 func_0202AFFC(u8 *obj, s32 *pos);
-extern u8 func_0202B04C(u8 *obj, s32 *pos);
+extern u8 func_0202AFAC(const u8 *obj, const s32 *pos);
+extern u8 func_0202AFFC(const u8 *obj, const s32 *pos);
+extern u8 func_0202B04C(const u8 *obj, const s32 *pos);
 
 u8 func_0202AF74(u8 *obj, s32 *pos)
 {

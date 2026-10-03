@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021C8010(void *p, int k);
+extern int func_021C8010(u8 *p, unsigned int v);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F29D8[];

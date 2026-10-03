@@ -18,10 +18,13 @@
  *   func_02049B40  0x02049B40  arm
  */
 
-extern void func_02045088(int);
-extern int func_020450F0(int, int, int, int, int, int, int);
-extern void func_0201F5BC(int, int, int, int, int);
-extern void func_02049B40(int, int, int, int, int, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02045088(u16 heapId);
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
+extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 void func_021BD078(int *p)
 {

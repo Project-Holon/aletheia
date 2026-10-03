@@ -23,7 +23,8 @@ extern u32 *g_02146940;
 
 extern void func_02026D88(u32 *p, u32 a0);
 extern void *func_02012FCC(void *sys);
-extern u16  func_0200864C(const void *p);
+struct PlayTime;
+extern u16 func_0200864C(const struct PlayTime *p);
 
 void func_020267BC(u32 a0)
 {

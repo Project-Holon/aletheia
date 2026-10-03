@@ -16,7 +16,8 @@
  * Poke the channel-selection helper with 0, 1, 2, 3 in turn.
  */
 
-extern void sub_020403F4(int ch);
+typedef unsigned int   u32;
+extern void sub_020403F4(u32 i);
 
 void func_021FC2A4(void)
 {

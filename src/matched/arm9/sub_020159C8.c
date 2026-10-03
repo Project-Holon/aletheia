@@ -147,8 +147,7 @@ struct Obj {
 
 extern const char func_020159C8_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020163C4(struct Obj *obj, s32 i, const struct Sub150 *src);
 
 struct Rec *func_020159C8(struct Obj *obj, u32 a1, u32 a2, u32 a3,

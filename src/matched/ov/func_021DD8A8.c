@@ -17,10 +17,11 @@
  */
 typedef unsigned int u32;
 
-extern void *func_0201AB28(u32 v, u32 n);
-extern u32 func_02017D30(void *p);
+extern void *func_0201AB28(void *p, u32 idx);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
 extern void func_020185C4(void *p);
-extern void func_02017D70(void *p, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 
 void func_021DD8A8(void **pp, u32 idx)
 {
@@ -29,7 +30,7 @@ void func_021DD8A8(void **pp, u32 idx)
 
     if (idx < 0x1e)
         return;
-    h = func_0201AB28(*(u32 *)((char *)*pp + 8), idx - 0x1e);
+    h = func_0201AB28(*(void **)((char *)*pp + 8), idx - 0x1e);
     v = func_02017D30(h);
     func_020185C4(h);
     func_02017D70(h, v);

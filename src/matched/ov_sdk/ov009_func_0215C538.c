@@ -34,7 +34,7 @@ struct CPSVars {
 extern struct CPSVars g_021A826C;
 extern u32 func_0215B470(u8 *buf, u32 len);
 extern unsigned long long OS_GetTick(void);
-extern u32 func_0215B504(void);
+extern long func_0215B504(void);
 extern void OS_Sleep(u32 msec);
 extern u8 *func_0215AEB0(u32 *len);
 extern u8 *func_0215C508(u8 *p);

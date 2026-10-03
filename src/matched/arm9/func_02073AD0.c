@@ -54,8 +54,8 @@ typedef signed   int   s32;
 struct Ent { u32 a; u32 b; };
 extern struct Ent g_0214E934[];
 
-extern s32  func_0208A24C(s32 x);
-extern void func_02089638(u32 mask, u32 lo, s32 hi);
+extern unsigned short func_0208A24C(int dB);
+extern void func_02089638(u32 chBitMask, int volume, int shift);
 
 struct Slot {
     u8  pad_00[0x44];

@@ -16,6 +16,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct {
     u16 id;
@@ -24,7 +25,7 @@ typedef struct {
 } P;
 
 extern int func_0201AA18(int);
-extern int func_0201AB28(int, int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021BDD78(int, int, int, int);
 
 int func_021BC1D0(P *p)
@@ -34,7 +35,7 @@ int func_021BC1D0(P *p)
     n = func_0201AA18(*p->f);
     for (i = 0; i < n; i++) {
         int **q = &p->f;
-        int e = func_0201AB28(*p->f, i);
+        int e = (int)func_0201AB28((void *)*p->f, i);
         if (func_021BDD78(e, *(u16 *)((char *)*q + 0x44), 0, p->id) == 1)
             return i;
     }

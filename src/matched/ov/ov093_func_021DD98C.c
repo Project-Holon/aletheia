@@ -19,10 +19,11 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern void *func_021C7CF4(void *a, int b);
+typedef signed char    s8;
+extern void *func_021C7CF4(int *p, int i);
 extern u8 *func_021C8120(void *a, int k);
-extern int func_021D5D14(void *m, u32 e, int d);
-extern u32 func_021D78AC(int k);
+extern int func_021D5D14(s8 *p, int i, int sign);
+extern u32 func_021D78AC(u32 range);
 extern void func_021DD9E8(void *a, int b, int c, int d);
 extern u8 d_021F1364[5];
 

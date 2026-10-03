@@ -31,9 +31,9 @@ extern void func_0216D874(void *p, s16 v);
 extern void func_0216D89C(void *p, const void *q);
 extern void func_02163F10(void *p);
 extern void func_0216D5D8(void *p, int v);
-extern void func_0216D4B4(void *p);
+extern void func_0216D4B4(char *p);
 extern void func_0216D568(void *p, u32 v);
-extern void func_0216D570(void *p, u32 v);
+extern void func_0216D570(char *p, u32 v);
 
 void func_0216E014(void *a, int *p, int b)
 {

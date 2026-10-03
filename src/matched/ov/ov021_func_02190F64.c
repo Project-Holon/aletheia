@@ -26,7 +26,8 @@ typedef struct Fx {
     u16 f06;
 } Fx;
 
-extern void *func_02190DCC(Fx *a, u32 b, u32 c, u32 d, u16 e, u16 f);
+struct Obj2;
+extern struct Obj2 *func_02190DCC(struct Fx *a, u32 b, u32 c, u16 d, u16 e, u16 f);
 
 void func_02190F64(Fx *a, u32 b)
 {

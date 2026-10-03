@@ -27,7 +27,8 @@
  *       --func sub_02035C38 --addr 0x02035C38 --cc 1.1p1 --arm
  */
 
-extern void *sub_02035224(void);
+struct UiCtx;
+extern struct UiCtx *sub_02035224(void);
 extern int sub_02035C20(const void *p);
 
 int sub_02035C38(void)

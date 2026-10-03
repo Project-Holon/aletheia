@@ -14,5 +14,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_02046C9C(void *, int, int);
+struct Rec;
+extern void func_02046C9C(struct Rec *rec, u32 mode, u32 value);
 void func_02169568(char *p) { func_02046C9C(*(void **)(p + 0x88), 2, 0); }

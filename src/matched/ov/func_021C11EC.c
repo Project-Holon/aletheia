@@ -20,7 +20,7 @@
  *       --func func_021C11EC --addr 0x021C11EC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D3D8C(void);
+extern int func_021D3D8C(void);
 
 void func_021C11EC(void)
 {

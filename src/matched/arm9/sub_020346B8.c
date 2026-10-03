@@ -42,7 +42,9 @@ struct Owner {
     void *unk_00;
 };
 
-extern void sub_0203422C(void *obj, u32 lo, u32 hi);
+typedef signed int     s32;
+struct AreaMan;
+extern void sub_0203422C(struct AreaMan *p, u32 start, s32 len);
 extern void sub_02034630(struct Sentinel *p);
 
 void sub_020346B8(struct Owner *owner, struct Sentinel *p)

@@ -35,13 +35,17 @@ typedef struct Node {
     u8 f18[12];         /* 0x18 */
 } Node;
 
-extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-extern Node *func_020124E8(void *p);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Desc;
+struct HopWork;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CD0(void *p);
 extern void func_0207CA00(void *a, void *b, void *c);
 extern void func_020061E4(u32 v);
-extern void func_021619B8(void);
+extern int func_021619B8(void *task, u32 *seq, struct HopWork *w);
 
 void *func_02161AC0(void *p, void *a1, Tri *t, void *a3)
 {

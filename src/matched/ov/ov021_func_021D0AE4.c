@@ -15,7 +15,8 @@
 
 typedef unsigned short u16;
 
-extern int func_020056EC(int n);
+typedef unsigned int   u32;
+extern u32 func_020056EC(u32 range);
 extern void func_02168878(void *p, u16 a, int b, int c, int d, int e, u16 f);
 
 void func_021D0AE4(char *p, int mode)

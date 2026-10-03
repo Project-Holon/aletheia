@@ -21,7 +21,8 @@ typedef unsigned char u8;
 
 extern int func_020399A8(void);
 extern int func_0203D1A4(int v);
-extern void func_02034714(void *file, int line, void *msg);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02183FB8(int o, void *p, u8 i, int y);
 extern void func_02184060(int o, u8 i);
 

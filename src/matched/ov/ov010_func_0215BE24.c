@@ -42,16 +42,19 @@ typedef unsigned int u32;
 extern u16 *func_02159AE8(void *c, void *vm);
 extern u16 func_02159B10(void *c, void *vm);
 extern void *func_0215A5E4(void *vm);
-extern void *func_02012944(void *sys);
-extern int func_0215B4AC(void *vm, u16 slot, void **mon);
+struct Buf;
+struct Sub0200852CObj;
+struct U16Vec;
+extern u8 *func_02012944(void *p);
+extern int func_0215B4AC(void *a0, u32 a1, void **a2);
 extern u32 func_02017E1C(void *mon, u32 id, void *arg);
-extern u32 func_02008530(void *player);
-extern u32 func_0215A5CC(void *vm);
-extern void *func_020457B0(u32 size, u32 heap);
+extern u32 func_02008530(const struct Sub0200852CObj *obj);
+extern u16 func_0215A5CC(void *a0);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02008500(void *player, void *str);
-extern int func_0204589C(void *a, void *b);
-extern void func_02045808(void *str);
-extern u32 func_02008550(void *player);
+extern int func_0204589C(struct Buf *a, struct Buf *b);
+extern void func_02045808(struct U16Vec *vec);
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern u8 g0209DF08;
 
 int func_0215BE24(void *c, void *vm)

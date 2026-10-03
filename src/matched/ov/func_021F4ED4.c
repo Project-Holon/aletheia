@@ -16,7 +16,7 @@
  * Tail-call thunk to sub_02012FFC.
  */
 
-extern void sub_02012FFC(void);
+extern signed char sub_02012FFC(void);
 
 void func_021F4ED4(void)
 {

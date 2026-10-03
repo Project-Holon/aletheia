@@ -75,8 +75,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *sub_020071CC(void *sys, u32 id);
-extern void *func_02012EBC(void *p);
+struct Big;
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern void *func_02012EBC(struct Big *p);
 extern u32   func_020173EC(const void *obj);
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
 extern void  MI_CpuCopy8(const void *src, void *dest, u32 size);

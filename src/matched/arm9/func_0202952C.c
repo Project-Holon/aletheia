@@ -23,7 +23,7 @@ extern u32  func_020120F4(u8 *p);
 extern u8  *func_020122C0(u8 *p, u32 a, u32 cb, u32 c);
 extern u8  *func_020124E8(u8 *p);
 extern u32  func_02012A30(u32 v);
-extern void func_020294F4(void);
+extern int func_020294F4(u32 unused, u32 *state, u8 *cfg);
 
 u8 *func_0202952C(u8 *p, u32 a)
 {

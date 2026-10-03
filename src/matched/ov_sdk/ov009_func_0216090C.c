@@ -46,7 +46,7 @@ extern void func_02163C9C(void *ctx);
 extern void func_02163CF0(void *ctx, void *data0, int datalen);
 extern void func_02163DA8(void *ctx, unsigned char *digest);
 extern SOCLCaInfo *func_02160130(CPSSslConnection *con, char *dn);
-extern int func_02160764(CPSSslConnection *con, SOCLCaInfo *ca);
+extern int func_02160764(struct CPSSslConnection *con, struct SOCLCaInfo *ca);
 
 static int func_0216090C(CPSSslConnection *con)
 {

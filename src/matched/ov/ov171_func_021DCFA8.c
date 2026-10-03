@@ -15,6 +15,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201C6B4(void*);
+struct PrintSys;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern u32 func_020221A4(void);
 int func_021DCFA8(u8*p){if(func_0201C6B4(*(void**)(p+0xb6c))==1 && func_020221A4()==1)return *(int*)(p+0xc74);return 2;}

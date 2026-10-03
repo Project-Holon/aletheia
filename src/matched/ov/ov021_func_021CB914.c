@@ -24,8 +24,10 @@ typedef unsigned int   u32;
 
 typedef int (*TaskFn)(void *task, int *state, void *work);
 
-extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
-extern void *func_020124E8(void *task);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021CB8AC(void *task, int *state, void *work);
 
 void *func_021CB914(void *a, u32 owner)

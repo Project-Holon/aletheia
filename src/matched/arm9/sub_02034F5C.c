@@ -31,7 +31,8 @@
  */
 
 extern void *g_02034F5C_Ptr;
-extern void func_02034EF8(void *a);
+struct AreaCtx;
+extern void func_02034EF8(struct AreaCtx *p);
 
 void sub_02034F5C(void)
 {

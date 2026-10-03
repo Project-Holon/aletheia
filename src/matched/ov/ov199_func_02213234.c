@@ -12,7 +12,9 @@
  *   func_02082BCC 0x02082BCC arm
  *   d_02213D04 0x02213D04 data ov199 a1
  */
-extern void *func_02030734(int, unsigned int, int, const char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned int);
 extern const char d_02213D04[];
 void *func_02213234(void *unused, int heap, char *p)

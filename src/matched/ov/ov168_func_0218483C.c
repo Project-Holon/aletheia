@@ -13,7 +13,7 @@
  *   func_02035C08  0x02035C08  arm
  */
 
-extern void func_02035C08(void *);
+extern void func_02035C08(const void *p);
 
 void func_0218483C(void)
 {

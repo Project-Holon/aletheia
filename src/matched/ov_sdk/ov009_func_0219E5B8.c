@@ -48,7 +48,7 @@ extern char g_021A81AC[];
 extern int func_0219F978(char *buf, int len);
 extern unsigned int func_0209477C(const char *s);
 extern int func_0209ABEC(const char *s1, const char *s2, unsigned int n);
-extern void func_0217D254(int cat, int type, int level, const char *fmt, ...);
+extern int func_0217D254(int index, char *table, int mask, const char *fmt, ...);
 extern int func_0219D114(char *keyname);
 extern void func_0219E01C(_SBServer *server, char *keyname, char *value);
 extern int func_02084F40(char *dst, const char *fmt, ...);

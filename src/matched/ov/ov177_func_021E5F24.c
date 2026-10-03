@@ -24,16 +24,22 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {short x,y;} Pt;
 typedef struct Work Work;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,int);
+typedef unsigned int   u32;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Obj;
+struct U16Vec;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021E7270(char *);
 extern void func_021E6F20(Work *,void *,void *,u16);
-extern int func_020407E8(u8);
+extern u32 func_020407E8(u32 layer);
 extern void func_0204B404(void *,const Pt *,u16);
-extern void func_0204B3DC(void *,int);
-extern void *func_02045EC0(void *,unsigned);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_0201C724(void *,void *,short,short,void *,int,int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021E5F24(char *p,int mode,void *mgr,void *print,int font)
 {
     int i;

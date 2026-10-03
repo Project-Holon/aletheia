@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0202EB0C(void);
+extern u32 func_0202EB0C(void);
 extern u8  g_0214617C[];
 extern const u16 tbl_0209DEB0[];
 extern const u16 tbl_0209DED0[];

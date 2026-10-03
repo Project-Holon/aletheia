@@ -20,11 +20,14 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02188CB4(void *x);
-extern void *func_021A3074(void *a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern int func_021A2FA4(void *a, int b);
-extern int func_021AB0F0(int a);
-extern int func_021BB188(int a);
+extern u16 func_021AB0F0(u32 attr);
+extern int func_021BB188(u16 a);
 extern int func_0219E418(void *a, int b);
 extern int func_021C46F8(void *a, void *b, int c);
 

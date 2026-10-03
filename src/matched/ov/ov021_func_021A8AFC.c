@@ -14,8 +14,9 @@
  *   func_02040588  0x02040588  arm
  */
 
-extern void func_021A92A4(int a, int b);
-extern void func_02040588(int a, int b);
+typedef unsigned int   u32;
+extern void func_021A92A4(u32 a, u32 b);
+extern void func_02040588(u32 which, u32 enable);
 
 void func_021A8AFC(int a, int b)
 {

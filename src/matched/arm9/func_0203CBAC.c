@@ -86,9 +86,8 @@ extern const char str_020A7CE8[];
 extern struct Mod g_021469E0;
 
 extern void  func_0203064C(u32 a, u32 b, u32 c);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
-                           u32 line);
-extern void *func_0200F17C(u32 mode);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_0200F17C(u32 sel);
 extern void  func_02034714(const char *file, u32 line, const char *msg);
 extern struct Req *func_0203D8F0(struct Req *req, u32 a);
 extern void  func_02082D44(void *dst, void *src, u32 n);

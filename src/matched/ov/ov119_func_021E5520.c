@@ -18,9 +18,10 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef enum { SHADING_TOON, SHADING_HIGHLIGHT } Shading;
-extern void func_020434DC(int,int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
 extern void func_0207DC44(int,int,int,int);
-extern void func_0207DD24(int,int,int,int,int);
+extern void func_0207DD24(u16 rgb, int alpha, int depth, int polygonID, int fog);
 extern void func_02046A94(u8, const void *);
 extern char d_021E7D00[];
 static inline void shading(Shading s) { *(volatile u16 *)0x04000060 = (u16)((*(volatile u16 *)0x04000060 & ~0x3002) | (s << 1)); }

@@ -29,8 +29,8 @@ typedef signed int     s32;
 
 extern void func_0200566C(void *p);
 extern int  func_021BA120(char *p);
-extern int  func_021BA1D8(void *p);
-extern void func_0208BEF0(int a);
+extern void func_021BA1D8(void *p);
+extern unsigned int func_0208BEF0(unsigned int status);
 extern void func_0203D7FC(void *p);
 extern void func_020307B0(void *p);
 

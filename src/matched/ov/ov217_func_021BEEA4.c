@@ -28,7 +28,7 @@ extern u8 *func_021BF76C(void *p);
 extern unsigned func_021BF7F4(void *);
 extern u8 func_021C11DC(u8 *p, u8 key);
 extern void func_021C11FC(u8 *h, u8 key, s32 *px, s32 *py);
-extern void func_021C20B4(unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void func_021C20B4(int a0, int a1, int a2, int a3, int a4);
 extern void func_021C20CC(unsigned);
 void func_021BEEA4(char *p)
 {

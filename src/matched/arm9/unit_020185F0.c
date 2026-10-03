@@ -25,16 +25,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02019C54(u16 a, u16 b);
-extern u32  func_0201AE1C(void *h, u32 k);
+struct Personal;
+extern void *func_02019C54(u32 a, u32 b);
+extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern u32  func_0201AF6C(u32 n);
 
 void func_020185F0(void)
 {
 }
 
-void func_020185F4(void)
+void *func_020185F4(void *p)
 {
+    return p;
 }
 
 u32 func_020185F8(u16 a, u16 b, u32 c)

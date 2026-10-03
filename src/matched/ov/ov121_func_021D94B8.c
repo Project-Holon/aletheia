@@ -11,7 +11,8 @@
  * symbols:
  *   func_021DA9F8 0x021DA9F8 thumb ov121
  */
-extern int func_021DA9F8(void *);
+typedef unsigned char  u8;
+extern int func_021DA9F8(u8 *p);
 int func_021D94B8(char *p)
 {
     return func_021DA9F8(*(void **)(p+4));

@@ -73,7 +73,7 @@ struct Obj {
     s32 f34;
 };
 
-extern void func_0206DDA4(u32 hdr, int *body, int n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 
 void func_02071858(struct Obj *o)
 {

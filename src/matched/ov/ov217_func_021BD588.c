@@ -18,7 +18,8 @@
  */
 
 typedef struct { unsigned short x, y; } Pos;
-extern int func_021BC720(void *p, int index);
+typedef unsigned int   u32;
+extern u32 func_021BC720(void *p, u32 i);
 extern void func_0204B404(int obj, Pos *pos, int c);
 extern void func_0204B3DC(int a, int b);
 

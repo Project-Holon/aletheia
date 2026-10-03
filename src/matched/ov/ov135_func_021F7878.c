@@ -24,10 +24,12 @@ typedef unsigned int u32;
 typedef struct { u16 x,y,z; u8 a,b; } Pos;
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_0204B294(void *,void *,void *,void *,Pos *,u16,u16);
-extern void func_0204B878(void *,u16);
-extern void func_0204B92C(void *,u32);
-extern void func_0204B974(void *);
-extern void func_0204B3DC(void *,u32);
+struct Actor;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B974(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021F7878(u8 *p)
 {
     Pos pos;

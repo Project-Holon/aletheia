@@ -20,8 +20,9 @@
  */
 
 
-extern void func_02006D64(int);
-extern int func_02006D94(void);
+typedef unsigned int   u32;
+extern void func_02006D64(u32 n);
+extern u32 func_02006D94(void);
 extern void func_0218448C(int *);
 extern void func_02184470(int *);
 

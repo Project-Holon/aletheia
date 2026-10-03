@@ -32,9 +32,10 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-void func_021D76BC(int a, int b);
+struct Unk021D62A8;
+int func_021D76BC(int key, u32 val);
 void *func_021C7CF4(int a, int b);
-int func_021D62C4(void *p, int k);
+int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021D5B48(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
 void func_021E4408(void *a, int b, int c)

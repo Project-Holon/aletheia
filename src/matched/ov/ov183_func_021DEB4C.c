@@ -40,10 +40,10 @@ extern void func_02034714(const char *,u32,const char *);
 extern void *func_021FB378(void *,int,int,int,int,int,int,int,void *,u16);
 extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
 extern void func_021FC754(char *,void *,void *,void *,u16);
-extern void func_021FC868(void *,int,int,int);
+extern void func_021FC868(u8 *p, u32 a, u32 b, u32 c);
 extern void func_021DF1DC(char *,char *,char *,int,void *,void *,u16 *,u32);
 extern void func_021FD73C(int *,int);
-extern void func_021DED14(void);
+extern void func_021DED14(int *a, int *state, char *p);
 extern const char d_021E3964[];
 void func_021DEB4C(int *task,int *state,char *p)
 {

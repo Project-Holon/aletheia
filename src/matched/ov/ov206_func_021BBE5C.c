@@ -42,10 +42,11 @@ extern u32 func_020275E4(void);
 extern void *func_0202D7C8(u16 heap);
 extern u32 func_021BC0AC(void);
 extern u32 func_021BC0E0(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
+struct MsgBank;
+extern void *func_020490F4(u32 id, u16 heap);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_0201ADE4(u32 a, u16 b, u16 c);
-extern void *func_02045EC0(void *a, u32 b);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 void func_021BBE5C(S *p)
 {
     u8 i;

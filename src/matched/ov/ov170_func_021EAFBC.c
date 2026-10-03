@@ -20,12 +20,17 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct { unsigned char pad[18]; unsigned char low:7,high:1; } Entry;
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *,u32);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+struct StrObj;
+struct WordSet;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021EAAE4(char *,u32);
 extern void func_021EAC28(char *,int,void *,u32,int,int,u32,u16);
-extern u32 func_0201D304(void *,u32,u32);
-extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_021EABA0(void **);
 #define W(p) (*(char **)((p)+44))
 void func_021EAFBC(char *p,const Entry *e,u32 i)

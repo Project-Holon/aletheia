@@ -19,13 +19,15 @@
  *   func_020315D4 0x020315D4 arm
  */
 extern void func_021FD15C(int, int);
-extern void func_021E0774(void *);
-extern void func_021E0808(void *);
-extern void func_0201C4C0(void *);
-extern void func_021FD820(void *);
-extern void func_021FBDA4(int, int);
+struct PrintSys;
+struct S020315D4;
+extern void func_021E0774(char *p);
+extern void func_021E0808(char *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_021FD820(char *r5);
+extern void func_021FBDA4(int a, unsigned mode);
 extern void func_021FC0C8(int, int);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 int func_021E05C4(void *a, int unused, int *q, void **p)
 {
     func_021FD15C((int)p[2], q[2]);

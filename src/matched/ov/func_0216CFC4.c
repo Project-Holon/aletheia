@@ -29,7 +29,7 @@ extern int func_0216D59C();
 extern int func_0216D5A4();
 extern int func_0216D5AC();
 extern int func_0216D5B4();
-extern int func_0216D620();
+extern int func_0216D620(int a0, int a1, int a2);
 extern int func_0216D65C();
 extern int func_0216D668();
 

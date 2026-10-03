@@ -32,7 +32,7 @@ extern void func_021BC9CC(char *p);
 extern int func_021BCA48(char *p);
 extern void func_02045334(u32 a);
 extern void func_021BC92C(char *p);
-extern void func_021BCB9C(char *p, int a);
+extern void func_021BCB9C(void *p, int keep);
 
 void func_021BCDD8(char *p)
 {

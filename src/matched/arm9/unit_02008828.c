@@ -85,7 +85,9 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern void  MI_CpuFill8(void *dest, u8 data, u32 size);
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+struct Sub02014444Obj;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 #define BLOCK_ID 0x1C
 
@@ -220,7 +222,7 @@ void sub_0200890C(void *sys, struct Sub02008828Rec *dest)
  * were the last unverifiable ones in this file.  See "The two near misses in
  * this run" in docs/MATCHING.md. */
 extern u8   sub_02014468(const void *src);
-extern void sub_02014464(void *dest, u8 value);
+extern void sub_02014464(struct Sub02014444Obj *o, u8 v);
 
 void sub_0200892C(struct Sub02008828Obj *obj, const void *src)
 {

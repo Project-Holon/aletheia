@@ -40,7 +40,7 @@
 
 typedef unsigned int u32;
 
-extern u32  sub_02008390(void *obj);
+extern unsigned int sub_02008390(char *a0);
 extern void sub_02005C28(u32 on);
 
 void sub_0200530C(void *obj)

@@ -24,7 +24,8 @@ extern void func_02049B68(void *, unsigned int, unsigned int, unsigned int, unsi
 extern void func_02049658(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void func_020498F4(void *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void func_02049238(void *);
-extern void func_020409B4(unsigned char);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 void func_021F5D4C(int unused, char *p)
 {

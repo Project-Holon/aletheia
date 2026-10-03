@@ -42,9 +42,10 @@ typedef struct {
 
 void func_0217F4C4(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
-void func_02174E14(void *, int);
-void func_0217538C(void *, int);
-void func_02175368(void *);
+typedef unsigned char  u8;
+void func_02174E14(u8 *p, int a);
+void func_0217538C(u8 *p, int a);
+void func_02175368(char *p);
 
 void func_0217FE38(void *v, Ov018Outer *c)
 {

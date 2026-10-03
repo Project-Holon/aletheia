@@ -35,7 +35,8 @@
  *       --func sub_020307B0 --addr 0x020307B0 --cc 1.1p1 --arm
  */
 
-extern void sub_02030164(void *p);
+typedef unsigned int   u32;
+extern u32 sub_02030164(void *p);
 extern void sub_02030A2C(void *p);
 
 void sub_020307B0(void *p)

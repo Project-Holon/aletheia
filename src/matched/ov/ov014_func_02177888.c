@@ -30,13 +30,13 @@ extern u8 *g_021797A4;
 int func_02178E4C(void);
 int func_02177AEC(void);
 void func_021777FC(void);
-int func_021795A4(void);
-int func_02177ACC(void);
+unsigned short func_021795A4(void);
+unsigned int func_02177ACC(void);
 int func_02178E68(void);
 void func_02177704(void);
-int func_02179570(int a);
-void func_0203D720(int a);
-void func_0203D754(int a);
+int func_02179570(void (*cb)(int));
+void func_0203D720(u32 a);
+void func_0203D754(u32 a);
 
 void func_02177888(u32 arg)
 {

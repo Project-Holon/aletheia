@@ -19,7 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
-extern void func_0204B3DC(void *,unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_021B765C(u8 *,u16,s16,int,int);
 extern int _s32_div_f(int,int);
 extern const s16 table[];

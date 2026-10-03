@@ -23,7 +23,8 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021D7040(void *n);
+struct Node;
+extern void func_021D7040(struct Node *n);
 
 void func_021DCF9C(void *n)
 {

@@ -29,7 +29,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8  *func_0202C124(u32 heap);
+extern void *func_0202C124(u32 heap);
 extern void func_0202C118(void *obj);
 extern void func_0202C148(u8 *p, u32 heap);
 

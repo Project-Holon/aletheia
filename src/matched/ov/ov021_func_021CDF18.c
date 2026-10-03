@@ -49,10 +49,10 @@ extern u32 func_020399A8(void);
 extern void func_02039C68(u32 h, int a, int b);
 extern int func_02039CB4(u32 h, int a, int b);
 extern int func_02190EF0(u32 h);
-extern void func_0203CEAC(int a);
+extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
 extern void func_0201F02C(int a, int b, int c);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern u8 data_021DB498[];
 
 #define U32(o) (*(u32 *)(p + (o)))

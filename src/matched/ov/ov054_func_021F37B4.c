@@ -39,11 +39,12 @@ extern int func_02188D2C(int);
 extern int func_02188C80(int);
 extern int func_02012134(int);
 extern int func_0202B57C(int);
-extern int *func_02048F60(int, int, int);
+typedef unsigned int   u32;
+extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 extern int func_021BE480(int, int, int);
 extern int func_021C4D14(int, int, int, int, int);
 extern void func_021C4DC0(int, int, int, int);
-extern void func_020307B0(int *);
+extern void func_020307B0(void *p);
 extern void func_021F3874(O *);
 
 void func_021F37B4(O *o, int q)

@@ -31,10 +31,11 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02017DBC(void *p);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
-extern void func_02017DE4(void *p, u32 f);
-extern int  func_0201BB5C(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
+extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 
 int func_0201BBE8(void *a0)
 {

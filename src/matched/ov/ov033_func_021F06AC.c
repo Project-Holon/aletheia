@@ -32,8 +32,11 @@ extern void func_02040588(unsigned char, unsigned char);
 extern void func_0203FCA0(unsigned char, void *, unsigned char);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);
-extern void *func_0204B100(unsigned, unsigned, unsigned);
-extern void func_0204B270(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_02043598(unsigned, unsigned);
 
 void func_021F06AC(char *p)

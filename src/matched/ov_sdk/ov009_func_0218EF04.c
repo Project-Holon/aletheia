@@ -48,7 +48,7 @@ struct GPIConnection {
 };
 
 extern void func_0217D254(int cat, int type, int level, char *fmt, ...);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 extern int func_021888C0(void **connection, int profileid, int type, char *message);
 extern void func_0218437C(void *array, int n);

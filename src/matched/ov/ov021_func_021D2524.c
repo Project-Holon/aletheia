@@ -26,14 +26,17 @@
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern void *func_0215A5F4(void *p);
-extern void *func_020122C0(void *a, u32 b, void *c, u32 d);
-extern void *func_020124E8(void *task);
-extern void func_021D25A4(void *p);
-extern void func_021D26D0(void);
-extern void func_021D25F4(void *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
+extern void func_021D25A4(u32 *p);
+extern u32 func_021D26D0(u32 a, u32 *st, u32 *p);
+extern void func_021D25F4(u32 *p, int a, int b, int c, int s0, int s1);
 extern void func_0215897C(void *vm, void *task);
 
 int func_021D2524(u32 a, u32 b)

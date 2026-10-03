@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 
 extern u16 func_021CA234(u8 *p);
 extern u16 func_021CA2CC(u16 v);
-extern u16 func_021CBD90(u8 *p, u32 x, u32 y, u32 kind, u8 alt);
+extern u16 func_021CBD90(void *ctx, u32 round, u32 stage, u32 line, u8 alt);
 extern int func_021CA2A4(const u16 *arr, u16 val, u16 n);
 
 void func_021C9E8C(u8 *p)

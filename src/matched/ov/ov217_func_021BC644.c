@@ -16,10 +16,11 @@
  *   func_021BC3B8 0x021BC3B8 thumb ov217
  */
 struct S { char pad0[4]; void *f4; char pad8[0x2a]; unsigned char f32; char pad33; int f34; };
-extern int func_021C0DF0(void *p);
-extern int func_021C0DF4(void *p);
-extern int func_021C0DF8(void *p);
-extern void func_021BC3B8(int v);
+typedef unsigned int   u32;
+extern u32 func_021C0DF0(void *p);
+extern u32 func_021C0DF4(void *p);
+extern u32 func_021C0DF8(void *p);
+extern void func_021BC3B8(u32 a0);
 
 void func_021BC644(struct S *p)
 {

@@ -35,7 +35,7 @@ typedef struct SsaStatics {
 
 extern SsaStatics g_021DE60C;
 
-extern void func_021CFFAC(int no);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021CC46C(void);
 
 static void func_021CC4E8(int dir)

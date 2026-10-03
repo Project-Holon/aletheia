@@ -21,12 +21,12 @@
 
 extern void func_02051C88(int);
 extern void func_021F2D50(void *);
-extern void func_021F2DC8(void *);
-extern void func_021F1F80(void *);
+extern void func_021F2DC8(char *p);
+extern void func_021F1F80(char *p);
 extern int func_021F2DA8(void *);
 extern void func_021F05D0(void *);
 extern void func_021F0728(void *);
-extern void func_021F1CD8(void *);
+extern void func_021F1CD8(char *p);
 
 void func_021F2130(char *p)
 {

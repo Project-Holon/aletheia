@@ -68,7 +68,8 @@ struct MsgFile {
 extern char g_020A7E8C[];
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
-extern void func_020495F4(void *stream, u32 size, void *dest);
+struct ArcFile;
+extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern void func_0204960C(void *stream, u32 pos);
 extern void func_02082D44(const void *src, void *dest, u32 size);
 

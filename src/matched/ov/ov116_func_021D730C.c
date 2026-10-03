@@ -15,7 +15,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_0202E54C(void *);
+struct Obj0202E54C;
+extern void func_0202E54C(struct Obj0202E54C *p);
 void func_021D730C(u8 *p)
 {
     if (*(void **)(p + 0x1840)) {

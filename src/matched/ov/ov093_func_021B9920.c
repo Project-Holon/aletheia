@@ -13,7 +13,8 @@
  */
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern u8 *func_021B9C00(void *p, u32 i);
+struct S2;
+extern u8 *func_021B9C00(struct S2 *p, u32 i);
 u8 *func_021B9920(void *p, u32 i, u8 j)
 {
     return func_021B9C00((void *)((unsigned int)p + 4 + i * 28), j);

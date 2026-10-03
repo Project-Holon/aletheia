@@ -16,9 +16,9 @@
  *   func_02040618 0x02040618 arm
  */
 typedef unsigned char u8;
-extern int func_021BC7DC(void *);
-extern void func_021BC8FC(void *, int, int, int, int);
-extern int func_021BC93C(void *);
+extern int func_021BC7DC(u8 *p);
+extern void func_021BC8FC(u8 *p, int a, int start, int end, int n);
+extern int func_021BC93C(u8 *p);
 extern void func_02040618(unsigned, unsigned, unsigned);
 int func_021BB7B8(u8 *p)
 {

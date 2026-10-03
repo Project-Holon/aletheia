@@ -30,12 +30,14 @@ extern void func_021D5D3C(int);
 extern void func_021D5C94(int);
 extern void func_021D5ED8(int, int);
 extern int func_0203CD98(void);
-extern void func_0200FBB0(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);
 extern void func_0200FBA0(void);
 extern void func_0203C968(void);
-extern void func_021D4B3C(void);
-extern void func_021D460C(void);
+extern void func_021D4B3C(u8 *p);
+extern void func_021D460C(u8 *p);
 
 void func_021D4AB0(int a)
 {

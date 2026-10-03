@@ -12,5 +12,6 @@
  *   d_02200D38 0x02200D38 data a1
  */
 extern char d_02200D38[];
-extern void func_02034714(void *,int,void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 int func_021FB7B0(void *p,int i) { if(i>=12)func_02034714(d_02200D38,0,d_02200D38);return *(unsigned short *)((unsigned)p+i*2); }

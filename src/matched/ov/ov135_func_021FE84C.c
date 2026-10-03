@@ -14,7 +14,8 @@
  */
 extern void func_021FF318(char *, int, int, int, int);
 extern void func_021F4E98(char *, unsigned, unsigned);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 int func_021FE84C(char *p)
 {
     if (*(int *)(p + 0xd0) == 0) {

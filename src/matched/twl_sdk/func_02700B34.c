@@ -38,7 +38,7 @@ extern u32 data_0273302C[];
 
 extern void func_0208C86C(u32*);
 extern void func_02731590(u32*);
-extern void func_02700DB8(u32);
+extern u32 func_02700DB8(u32 a0);
 extern void func_02702080(void);
 extern void func_0270212C(void);
 extern void func_027021E4(void);

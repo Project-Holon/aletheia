@@ -22,7 +22,8 @@ typedef struct {
     int f4;
 } Req;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF3C(void);
 extern int func_021BAC38(Req *req_p, void *bgnEndInfo_p, char *label_p, char *value_p);
 

@@ -26,9 +26,10 @@ typedef unsigned int u32;
 extern char *func_021F0F44(char *this, u8 id);
 extern void func_021F0F30(char *e, int a, int b);
 extern void func_021F1144(char *this, char *e, int a, int b, int c, void *d);
-extern void func_021F1418(void);
+struct S02030FB4;
+extern void func_021F1418(void *h, u8 *t);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void *node);
+extern void *func_02031290(struct S02030FB4 *p);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F13A0(char *this, int a, int b, u8 c, int s)

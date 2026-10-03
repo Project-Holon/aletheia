@@ -14,8 +14,9 @@
  *   func_020403F4 0x020403F4 arm
  *   func_0204363C 0x0204363C arm
  */
-extern void func_020403F4(int v);
-extern void func_0204363C(int v);
+typedef unsigned int   u32;
+extern void func_020403F4(u32 i);
+extern void func_0204363C(u32 swap);
 void func_021C4EC4(void)
 {
     func_020403F4(4);

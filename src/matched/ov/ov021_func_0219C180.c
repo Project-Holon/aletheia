@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
 extern int func_02163E34(u32, Vec *, u32 *);
-extern u32 func_021AB11C(u32 a);
+extern int func_021AB11C(u32 attr);
 extern int d_021D53B4[][2];
 extern int d_021D53D4[][2];
 

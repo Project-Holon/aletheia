@@ -21,12 +21,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C7EE0[];
 extern unsigned func_02008FEC(void *);
-extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
+typedef unsigned int   u32;
+struct Big;
+struct Sub02008EACObj;
+struct Sub02008EACObjLayout;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(unsigned, void *, unsigned);
-extern void *func_02012EBC(void *);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02008F08(unsigned);
-extern void func_02008EAC(void *);
-extern void func_02008F48(void *, unsigned, unsigned, void *);
+extern void func_02008EAC(struct Sub02008EACObj *obj);
+extern void func_02008F48(struct Sub02008EACObjLayout *obj, u8 kind, u32 unused, void *p);
 void *func_021C3CC0(void *a, unsigned b, unsigned c, unsigned d, unsigned heap)
 {
     u8 *p;

@@ -19,7 +19,7 @@
 
 extern int g_021A8230;
 extern int func_0209477C(char *s);
-extern void func_02092344(char *d, char *s, int n);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 void func_0219FCF0(char **buffer, char *str, int *len)
 {
 	int slen;

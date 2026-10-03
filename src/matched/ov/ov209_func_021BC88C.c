@@ -14,5 +14,5 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0201AF80(int,u16 *);
+extern u16 *func_0201AF80(u32 heap, u16 *countOut);
 void func_021BC88C(char *p) { *(void **)(p+0xc38)=func_0201AF80(107,0); }

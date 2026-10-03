@@ -26,7 +26,7 @@ extern int func_021A5728(int a);
 extern void func_021A572C(int a);
 extern int func_021A3AB8(int a, int b);
 extern int func_021A44BC(int a, int b);
-extern int func_021C0CE4(int a, int b, int c);
+extern int func_021C0CE4(u32 a, u32 b, u32 flags);
 
 int func_021C0CA4(int a, int b, int c, int d)
 {

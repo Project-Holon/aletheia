@@ -15,8 +15,9 @@
  *   func_021DD044 0x021DD044 thumb ov093
  */
 typedef unsigned int u32;
-extern void *func_021C7CF4(void *, int);
-extern int func_021D62C4(void *, int);
+struct Unk021D62A8;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 extern int func_021DDEA4(void *, int, u32);
 extern void func_021DD044(void *, void *, int);
 void func_021DD4E0(int a, void *b, int c)

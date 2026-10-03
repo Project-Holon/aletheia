@@ -13,7 +13,8 @@
  *   func_020403F4  0x020403F4  arm
  */
 
-void func_020403F4(int);
+typedef unsigned int   u32;
+void func_020403F4(u32 i);
 
 void func_021B7034(void)
 {

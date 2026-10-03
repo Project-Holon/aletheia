@@ -40,7 +40,7 @@ typedef unsigned int u32;
 
 extern u32 g_02146BB0[];
 extern u32 g_02146BB4[];
-extern int func_0206207C(u32 *a, u32 *b, u32 c, u32 d);
+extern int func_0206207C(void *headp, void *freep, int a2, int a3);
 
 int func_02062594(u32 id)
 {

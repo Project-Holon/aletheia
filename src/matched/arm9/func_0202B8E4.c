@@ -23,7 +23,7 @@ typedef unsigned int  u32;
 struct Obj;
 
 extern void func_0202B9C8(struct Obj *o);
-extern void func_020307B0(struct Obj *o);
+extern void func_020307B0(void *p);
 
 void func_0202B8E4(struct Obj *o)
 {

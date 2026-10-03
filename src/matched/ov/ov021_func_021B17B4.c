@@ -26,8 +26,8 @@ unsigned char **func_02158F58(void *a);
 void *func_02188CB4(unsigned char *p);
 void *func_021A3074(unsigned char *p);
 s16 *func_02159AE8(void *a0, void *a1);
-s16 func_0216D83C(void *a);
-s16 func_0216D86C(void *a);
+int func_0216D83C(void *p);
+int func_0216D86C(void *p);
 
 int func_021B17B4(int a, int b)
 {

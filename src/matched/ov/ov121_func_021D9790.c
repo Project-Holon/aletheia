@@ -15,9 +15,10 @@
  *   func_0203FC28 0x0203FC28 arm
  *   d_021DF598 0x021DF598 data a4
  */
-extern void func_02040588(int,int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_02050ED4(void);
-extern void func_021D9960(void *);
+extern void func_021D9960(char *p);
 extern void func_0203FC28(const void *);
 extern const unsigned d_021DF598[];
 void func_021D9790(char *p) { func_02040588(0,0);func_02050ED4();func_021D9960(p+12);func_0203FC28(d_021DF598); }

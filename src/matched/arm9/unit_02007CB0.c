@@ -94,7 +94,7 @@ extern void MI_CpuFill8(void *dest, u8 value, u32 size);
 
 extern u32 func_02020FE4(u32 a, u32 b, u16 c);
 extern u32 func_02021288(u32 a);
-extern u32 func_0202130C(u16 id);
+extern u8 func_0202130C(u16 id);
 
 u32 sub_02007D00(u8 *base, u32 id, void **pp, u32 *pn);
 u32 sub_02007D6C(u8 *base, u32 a, void **pp, u32 *pn, u16 d);

@@ -24,7 +24,7 @@ extern void func_0218BE84(char *p, char *q);
 extern void func_0218BD94(char *p);
 extern void func_0218BB64(char *p);
 extern void func_0218BC6C(char *p);
-extern void func_020307B0(char *p);
+extern void func_020307B0(void *p);
 
 void func_0218B7F8(char *p)
 {

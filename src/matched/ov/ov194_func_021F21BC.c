@@ -15,7 +15,8 @@
  */
 
 extern unsigned short func_02045A98(void);
-extern void func_021F23FC(unsigned char *, int);
+typedef unsigned char  u8;
+extern int func_021F23FC(u8 *p, int direction);
 
 int func_021F21BC(unsigned char *p, unsigned short a, unsigned short b)
 {

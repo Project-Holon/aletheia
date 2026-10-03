@@ -54,7 +54,7 @@ extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_02015C30(void *p, int *out);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern int func_021F935C(int x);
-extern void func_022010D0(void);
+extern void func_022010D0(void *task, char *q);
 extern void func_022011FC(void *p);
 extern int func_022019F4(Work *w, int key);
 

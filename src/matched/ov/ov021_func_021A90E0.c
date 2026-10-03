@@ -46,7 +46,8 @@ struct W {
     void *f124;
 };
 
-extern void func_0204B878(void *o, u32 v);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_021A9080(struct W *w, u32 a, u32 b);
 
 void func_021A90E0(struct W *w)

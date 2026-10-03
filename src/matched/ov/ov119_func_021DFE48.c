@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern void func_02005D90(int,int),func_02005DF8(int),func_02045CAC(int,int,int);
 extern int func_021D8AA8(void *),func_0201F5DC(int,int,int,int);
 extern void *func_021D8FA4(void *,int);
-extern void func_0201EEF4(int,int,void *),func_0201F02C(int,int,int),func_0201F250(int,int,int),func_021E0FF4(void *,int,int),func_021DFD30(u8 *,u32),func_02040588(int,int),func_021D8E84(void *,int),func_021DFF40(void *);
+extern void func_0201EEF4(void *p, u32 i, void *mon),func_0201F02C(int,int,int),func_0201F250(int,int,int),func_021E0FF4(void *,int,int),func_021DFD30(u8 *,u32),func_02040588(int,int),func_021D8E84(void *,int),func_021DFF40(void *);
 void func_021DFE48(char *p)
 {
     void *mon;
@@ -45,7 +45,7 @@ void func_021DFE48(char *p)
     else func_02045CAC(*(int *)(p+0x720),48,*(int *)(p+0x73c));
     if(func_021D8AA8(p)) mon=func_021D8FA4(p,0);
     else mon=func_021D8FA4(p,1);
-    func_0201EEF4(*(int *)(p+0x724),1,mon);
+    func_0201EEF4(*(void **)(p+0x724),1,mon);
     z=0;
     func_0201F02C(*(int *)(p+0x724),0,*(int *)(p+0x834));
     func_0201F250(*(int *)(p+0x724),*(int *)(p+0x738),*(int *)(p+0x73c));

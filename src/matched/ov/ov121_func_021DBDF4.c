@@ -21,15 +21,20 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { u32 w[51]; } Record;
 extern void func_02082BCC(void *,int,int);
-extern void *func_02043678(u32,u32,u32,u16);
-extern void *func_020457B0(u32,u16);
-extern void *func_02045EC0(void *,u32);
-extern void func_0201EFA4(void *,int,u32,int,int,int);
-extern void func_0201F250(void *,void *,void *);
-extern u32 func_0201D304(void *,u32,u32);
-extern u32 func_0201D42C(void *,void *);
+struct Bmp;
+struct MsgBank;
+struct StrObj;
+struct U16Vec;
+struct WordSet;
+extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern u32 func_0201D42C(struct StrObj *s, void *font);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021DBDF4(char *out,const Record *src,char *p,u16 heap)
 {
     int flags;

@@ -14,7 +14,8 @@
  *   d_02200D68 0x02200D68 data a4
  *   func_021FCE60 0x021FCE60 thumb ov186
  */
-extern void func_02034714(const void *,int,const void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02200D68[];
 extern void func_021FCE60(char *,int);
 int func_021FCE0C(char *p,unsigned field)

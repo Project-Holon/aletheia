@@ -28,7 +28,7 @@ typedef unsigned long u32;
 extern u8 g_021A826C[];
 extern u32 func_0215793C(u32 ip);
 extern u16 func_0215781C(u8 *s, u32 len);
-extern void func_02157FF8(u8 (*mac)[6], u32 ip, int new_entry);
+extern void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
 extern u8 *func_0215A450(u8 *buf, u32 *fragmented);
 extern void func_0215A23C(u8 *iphdr, u8 *udphdr, u32 len);
 extern void func_02158FE4(u8 *iphdr, u8 *icmpdata, u32 len);

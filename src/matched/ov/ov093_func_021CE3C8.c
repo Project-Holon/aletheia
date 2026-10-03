@@ -26,16 +26,17 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021EAE44(void *);
 extern int func_021EAE54(void *);
-extern void *func_021B990C(void *,u32,u8);
+typedef signed int     s32;
+extern void *func_021B990C(char *p, unsigned int i, unsigned int j);
 extern void func_021D8434(u8 *);
 extern u32 func_021CF470(u8 *,void *,u8 *);
 extern u32 func_021CF81C(u8 *,void *,u8 *);
-extern u16 func_021D54C0(void *,int);
+extern u16 func_021D54C0(u8 *p, int i);
 extern u32 func_021D81F8(void *,void *,void *,u32,void *);
 extern void func_021D82D0(u8 *,u32,u32);
 extern void func_021CF58C(u8 *,u8 *,void *);
 extern void func_021CE150(u8 *,u32);
-extern void func_021CF2F0(void);
+extern u32 func_021CF2F0(u8 *p, s32 *st);
 int func_021CE3C8(u8 *p,int *state)
 {
     u8 out[4];

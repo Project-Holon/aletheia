@@ -31,7 +31,7 @@ typedef struct {
 } B;
 
 extern int func_021F0D40(B *);
-extern int func_021F0D58(B *, int);
+extern u32 func_021F0D58(void *unused, u32 d);
 extern void func_0204B404(int, void *, int);
 
 void func_021F0CEC(char *o, B *b)

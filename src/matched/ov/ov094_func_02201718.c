@@ -41,10 +41,10 @@ typedef struct GlobalFlags { unsigned low:2; unsigned disabled:1; unsigned high:
 extern char *func_021F8694(void);
 extern void *func_021F86C4(void);
 extern int func_021F9824(void *);
-extern u8 func_02015EF4(void *);
+extern u8 func_02015EF4(char *p);
 extern u32 func_0203F0A8(void);
 extern int *func_02030734(u16, u32, int, const char *, u16);
-extern u32 func_02015EEC(void *);
+extern u16 func_02015EEC(char *p);
 extern void func_02016028(void *, u32);
 extern void *func_02030DA8(void *, void (*)(void *, int *), void *, u32);
 extern void func_02201304(void *, int *);

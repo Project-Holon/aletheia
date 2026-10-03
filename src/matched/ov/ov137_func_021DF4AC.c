@@ -24,10 +24,11 @@ typedef unsigned int u32;
 struct Range { u32 low, high; };
 extern struct Range d_021E1F34[];
 extern void func_021E14E4(void *);
-extern void func_021E026C(void *, int, u32);
-extern void func_021E1988(int);
+struct BigObj;
+extern void func_021E026C(u8 *p, int message, unsigned value);
+extern void func_021E1988(unsigned int n);
 extern u32 func_020056EC(u32);
-extern u8 *func_0201292C(const void *);
+extern void *func_0201292C(const struct BigObj *p);
 extern u32 func_02007E50(u8 *, u16, u16, u16);
 int func_021DF4AC(u8 *p)
 {

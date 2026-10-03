@@ -27,10 +27,11 @@ typedef signed char    s8;
 
 typedef struct Obj { u8 pad[0x294]; void *objs[27]; u32 mode; } Obj;
 typedef struct { u16 x0; Obj *a; void (*cb)(); } Req;
-extern void func_02196B7C();
-extern void func_0204B92C(void *, int);
+struct Actor;
+extern void func_02196B7C(u8 *p);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204BA00(void *, Req *);
-extern void func_0204B9A0(void *);
+extern void func_0204B9A0(struct Actor *a);
 extern void func_02196034(Obj *, void (*)(), u32);
 extern void func_02196B90();
 

@@ -67,10 +67,11 @@ struct Req {
     u8 unk_00[1];
 };
 
-extern struct Obj *sub_0204C8E4(void *owner);
-extern void sub_0204D0C4(struct Sub *s, void *c, u16 e);
-extern void sub_0204CED8(struct Obj *o, struct Req *r, void *d);
-extern void sub_0204CF40(struct Obj *o, void *c);
+struct Owner;
+extern struct Obj *sub_0204C8E4(struct Owner *ow);
+extern void sub_0204D0C4(struct Sub *s, void *c, u32 e);
+extern void sub_0204CED8(struct Obj *o, const struct Req *r, void *ctx);
+extern void sub_0204CF40(struct Obj *o, const struct Req *r);
 extern void sub_0204C98C(void *owner, struct Obj *o);
 extern void sub_0204B3DC(struct Obj *o, u32 enable);
 

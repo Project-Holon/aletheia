@@ -25,7 +25,9 @@
  */
 
 extern int func_021D5580(int lcd);
-extern void func_021D7794(int kind, int active);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_021D7794(u32 index, u8 val);
 extern void func_021D52B0(int lcd);
 extern void func_021BD660(void);
 extern void func_021BD404(void);

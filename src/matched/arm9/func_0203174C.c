@@ -76,7 +76,8 @@ struct Blk {
 extern void *func_02030734(u16 heap, u32 size, u32 align, const u8 *file,
                            u32 line);
 extern void *func_02033908(u16 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32   func_02033BF8(void *tbl);
+struct Obj02033BF0;
+extern u32 func_02033BF8(struct Obj02033BF0 *p);
 extern void  func_02033410(struct Blk *b, u32 f);
 extern void  func_020319C0(struct Blk *b);
 extern void  func_02034714(const u8 *file, u32 line, const u8 *expr);

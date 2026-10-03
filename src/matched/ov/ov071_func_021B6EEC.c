@@ -12,6 +12,8 @@
  *   func_0202570C 0x0202570C thumb
  *   func_020437AC 0x020437AC arm
  */
-extern void func_0202570C(void *);
-extern void func_020437AC(void *);
+struct Grid;
+struct Obj020437AC;
+extern void func_0202570C(struct Grid *g);
+extern void func_020437AC(struct Obj020437AC *p);
 void func_021B6EEC(void **p) { func_0202570C(p[1]); func_020437AC(p[0]); p[1] = 0; p[0] = 0; }

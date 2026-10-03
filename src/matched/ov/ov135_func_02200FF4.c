@@ -27,14 +27,15 @@ struct RecDC;
 extern void func_02019CE0(const struct RecDC *, struct RecDC *);
 extern u32 func_02025C1C(u32, u32, u32);
 extern u32 func_02025C30(u32, u32, u32);
-extern u32 func_0200853C(const void *);
+struct Sub0200852CObj;
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u32 func_020173EC(void);
 extern u8 *func_021B9800(int, int, int);
 extern void func_021B98A0(u8 *, int, int, int);
 extern void func_021B98D8(u8 *, int, int);
 extern int func_021B98F8(u8 *);
 extern int func_021B9748(u8 *);
-extern void func_02034714(const char *, int, const char *);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char str_02203F58[];
 int func_02200FF4(u8 *p)
 {

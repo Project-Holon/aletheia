@@ -21,7 +21,7 @@ typedef unsigned int   u32;
 
 struct Sub { u8 pad00[0x2c]; u8 b2c; u8 pad2[0x3c - 0x2d]; u8 b3c; };
 struct Obj { struct Sub * volatile p; };
-extern int func_02072894(u8, u32, u32);
+extern u32 func_02072894(u32 a, u32 b, u32 c);
 
 int func_02073108(struct Obj *o, u32 v, u32 w)
 {

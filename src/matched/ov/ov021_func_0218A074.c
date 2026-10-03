@@ -25,17 +25,20 @@
  *   func_0218A6E8  0x0218A6E8  thumb  ov021
  */
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CE8(void *p);
 extern void func_021AA8F8(void);
 extern int func_02189BD0(void *a, int b, int *c, int *d);
-extern void func_021AA8EC(void *p);
+extern void func_021AA8EC(u8 *p);
 extern void *func_02188D20(void *p);
 extern int func_021BC5BC(void *p);
-extern void *func_02188CB4(void *p);
-extern void func_021A3550(void *p, int v);
-extern void func_021A356C(void *p);
-extern int func_02189A70(void *p);
+extern void *func_02188CB4(u8 *p);
+extern void func_021A3550(u32 *p, int a);
+extern void func_021A356C(void **p);
+extern u32 func_02189A70(u8 *p);
 extern void func_021F3B10(void);
 extern void func_0218A6E8(void *a, void *b);
 

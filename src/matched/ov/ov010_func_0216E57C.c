@@ -32,7 +32,7 @@ typedef struct
     unsigned int raw44;
 } Context;
 extern int func_0216E4EC(void *);
-extern Context *func_0216D67C(void *);
+extern void *func_0216D67C(void *a0);
 extern void func_0216D88C(const void *, Vec *);
 
 void func_0216E57C(void *a)

@@ -40,7 +40,7 @@ extern u16 func_021D2794(int bmpType);
 extern int func_021D22AC(void);
 extern void func_021D2314(void);
 extern void func_021D240C(void);
-extern int func_021D3250(void);
+extern unsigned int func_021D3250(void);
 extern int func_021D3AC8(void);
 
 void func_021D4214(void)

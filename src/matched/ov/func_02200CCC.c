@@ -66,7 +66,7 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
 extern void func_02041300(u32 layer, int a1, int a2, int a3, u8 a4, u8 a5, u8 a6);
 extern void func_020409B4(u32 layer);
-extern void func_02041570(u32 layer, u32 a1);
+extern void func_02041570(int channel, u16 val);
 
 extern struct DispConfig g_02203A04;
 extern struct BgTemplate g_02203A14;

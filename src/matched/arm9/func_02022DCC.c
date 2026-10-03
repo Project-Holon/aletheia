@@ -27,10 +27,12 @@
 
 typedef unsigned int u32;
 
-extern void func_02023CFC(void *table, void *val, u32 idx);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+struct Struct_02023CFC;
+extern void func_02023CFC(struct Struct_02023CFC *table, void *val, u32 idx);
 extern void func_02023D18(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern void func_02023D60(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
-                          u32 a6);
+extern void func_02023D60(u8 *p, u16 a, u16 b, u16 c, u32 d, u32 e, u32 f);
 extern void func_02023D40(void *a0, u32 a1, u32 a2, u32 a3);
 
 void func_02022DCC(u32 a0, void *a1, u32 a2)

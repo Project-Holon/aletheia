@@ -12,7 +12,7 @@
  *   func_021799B4  0x021799B4  thumb ov015
  */
 
-void func_021799B4(int v);
+void func_021799B4(unsigned v);
 
 int func_02179840(int v)
 {

@@ -14,5 +14,6 @@
  */
 extern char d_02200D48[];
 extern const unsigned d_02200880[];
-extern void func_02034714(void *,int,void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 unsigned short func_021FC36C(unsigned i) { if(i>=8)func_02034714(d_02200D48,0,d_02200D48);return d_02200880[i]; }

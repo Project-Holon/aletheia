@@ -76,9 +76,10 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern char sFile_020A7364[];
-extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file,
-                           u32 line);
-extern void *func_020457B0(u32 size, u32 heap);
+typedef unsigned short u16;
+struct U16Vec;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 
 struct Tag {
     u8 unk00;

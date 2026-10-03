@@ -43,7 +43,7 @@ extern const char d_02187EB4[];
 extern const Tmpl d_02187DBC;
 
 extern int func_02186278(u16 *p, int which);
-extern Tmpl *func_02030734(int heap, int size, int clear, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_021867C4(int, int);
 extern u8 *func_02186830(int h, int b, int heap);
 extern int func_02161ECC(void *p);
@@ -51,7 +51,7 @@ extern int func_021867B0(void *p);
 extern void func_02186818(int h, int v);
 extern u16 *func_0218682C(int h);
 extern void func_0216E618(Tmpl *, u16, u16, int);
-extern void func_0218683C(u8 *t);
+extern void func_0218683C(void *p);
 extern void func_02186804(int);
 
 Tmpl *func_02186538(u16 *p, int which, int id)

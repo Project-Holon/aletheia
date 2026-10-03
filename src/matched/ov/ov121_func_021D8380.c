@@ -15,7 +15,8 @@
  *   func_021DA698 0x021DA698 thumb ov121
  */
 extern void func_020414EC(unsigned),func_020409B4(unsigned),func_02040588(unsigned,unsigned);
-extern void func_021DA698(void *);
+typedef unsigned char  u8;
+extern void func_021DA698(u8 *p);
 void func_021D8380(char *p) {
  if(*(void **)(p+0x270)!=0) {func_020414EC(2);func_020409B4(2);func_02040588(2,0);func_021DA698(*(void **)(p+0x270));*(unsigned *)(p+0x270)=0;}
 }

@@ -32,7 +32,7 @@ typedef struct {
     u16 h2;
 } Rec;
 
-extern int func_02159B10(void *, void *);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012F44(void *);

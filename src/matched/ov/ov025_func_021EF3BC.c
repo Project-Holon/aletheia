@@ -20,7 +20,7 @@
 extern int *func_021A21B8(int);
 extern void func_021A21F8(int, int, int, int, int, int, int, int, void *);
 extern void func_021A22E0(int, int, int, int);
-extern void func_021EF634(void);
+extern void func_021EF634(int *a, int n, int idx);
 
 int func_021EF3BC(int a, int b)
 {

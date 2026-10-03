@@ -13,7 +13,10 @@
  *   func_02012B28 0x02012B28 thumb
  *   func_02012B2C 0x02012B2C thumb
  */
-extern void *func_020127A4(void *);
-extern int func_02012B28(void *);
-extern void func_02012B2C(void *,int);
+typedef unsigned int   u32;
+struct Rec44;
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
+extern u32 func_02012B28(const struct Rec44 *p);
+extern void func_02012B2C(struct Rec44 *p, u32 v);
 void func_02185F48(void *p) { void *q; q=func_020127A4(p); if (func_02012B28(q)!=3) func_02012B2C(q,0); else func_02012B2C(q,2); }

@@ -25,7 +25,7 @@ struct RtcDate {
     u32 week;
 };
 
-extern u32  sub_02014044(u16 c);
+extern u32 sub_02014044(u32 id);
 extern void func_0203F4E4(struct RtcDate *date);
 extern void sub_0202EB60(u8 *out1, u8 *out2);
 

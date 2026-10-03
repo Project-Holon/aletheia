@@ -16,7 +16,8 @@ typedef signed char s8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void func_0204B6F4(void *,u32,u32);
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_021BD470(u8 *p,int i)
 {
     func_0204B6F4(*(void **)(p+i*4+0x70),6,1);

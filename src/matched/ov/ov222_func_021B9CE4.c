@@ -27,12 +27,14 @@ extern const u32 d_021BA1D8[];
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AF28(void *,u32,u32,u16);
+typedef signed int     s32;
+struct Obj;
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void*);
-extern u32 func_021BA028(void*);
+extern u32 func_021BA028(char *p);
 extern void* func_0204B294(u32,u32,u32,u32,const void*,u16,u16);
-extern void func_0204B3DC(void*,u32);
-extern void func_0204B92C(void*,u32);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021B9CE4(char*p)
 {
  u32 t;

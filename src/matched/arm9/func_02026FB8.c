@@ -40,13 +40,16 @@ typedef struct {
 
 extern void *g_02146940;
 
-extern void *func_02012EBC(void *a);
+struct Big;
+struct Blk34;
+struct PlayTime;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02012FCC(void *a);
 extern void *func_0200C0F0(void *a);
-extern u32   func_0200864C(void *a);
-extern u32   func_02008650(void *a);
-extern u32   func_0200C1C4(void *a);
-extern u32   func_0200C1DC(void *a);
+extern u16 func_0200864C(const struct PlayTime *p);
+extern u8 func_02008650(const struct PlayTime *p);
+extern u32 func_0200C1C4(struct Blk34 *p);
+extern u32 func_0200C1DC(struct Blk34 *p);
 
 void func_02026FB8(Obj *o)
 {

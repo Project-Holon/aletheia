@@ -24,16 +24,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_020450F0(int, u8, u8, u8, u8, int, int);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, int);
-extern void func_0201DD78(int, int, int);
+typedef signed short   s16;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 extern void *func_02012FFC(void);
 extern void *func_0201CCE4(void *, int, int, void *, void *, void *, void *, int, u16, int);
-extern void func_0201C7A4(void *, int, int, void *, void *);
+extern void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w);
 extern void func_0201F73C(void *, int, u16, int);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
-extern void func_02041B6C(int);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02041B6C(u32 bit);
 void func_021D4EF0(char *p, int n, int flag)
 {
     void *obj;

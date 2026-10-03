@@ -21,7 +21,8 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 typedef struct { u8 pad[0x294]; void *arr[5]; } Obj;
-extern void func_0204B3B4(void *p);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 
 void func_02197058(Obj *a)
 {

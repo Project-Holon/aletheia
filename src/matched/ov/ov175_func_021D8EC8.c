@@ -24,9 +24,11 @@
 typedef unsigned long u32;
 extern void func_021E8738(u32,u32,u32,u32);
 extern void func_021E8AB4(u32,u32),func_02012DAC(void *);
-extern int func_02012DD0(void *);
-extern void func_021DBC04(void *,int,int);
-extern int func_021DBDAC(void *);
+typedef unsigned char  u8;
+struct Record;
+extern int func_02012DD0(u8 *p);
+extern void func_021DBC04(u8 *p, u32 mode, struct Record *src);
+extern int func_021DBDAC(char *p);
 extern int func_021D9F04(char *,void *,void *);
 extern void func_021E8AA0(u32,void *),func_021E8AB8(u32),func_021D905C(void);
 extern int func_021E8844(u32);

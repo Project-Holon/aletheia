@@ -26,7 +26,7 @@ typedef struct {
     void *fC;
 } Work;
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern char d_021DE4A8[];
 
 Work *func_021C63AC(u32 heap, u32 n, u32 m)

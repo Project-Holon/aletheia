@@ -14,8 +14,9 @@
  *   func_021BBE34 0x021BBE34 thumb ov206
  */
 typedef struct { char pad[0x44]; int state; char pad48[4]; unsigned char a,b,c; char pad4f[0x1b4-0x4f]; int delta; } State;
-extern void func_02040588(int, int);
-extern void func_02041EE4(int, int, int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_021BBE34(State *, int);
 void func_021BA814(State *p)
 {

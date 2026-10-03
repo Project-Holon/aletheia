@@ -42,7 +42,7 @@ extern void func_0201F14C(u32 a, u32 b, u32 c);
 extern u32 func_02045EC0(u32 a, u32 b);
 extern void func_0201F250(u32 a, u32 b, u32 c);
 extern void func_02045808(u32 a);
-extern u32 func_02012FFC(void);
+extern signed char func_02012FFC(void);
 extern u32 func_0201CD10(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h,
                          u32 i, u32 j, void *k);
 extern void func_02045334(u32 a);

@@ -24,7 +24,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void *func_020120F4(u32, u32, u32, u32);
-extern void *func_02012934(void *p);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA1C(void *);
 
 int func_021C0C94(u32 a, u32 b, u32 c, u32 d)

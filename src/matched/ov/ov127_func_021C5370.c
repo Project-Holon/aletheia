@@ -16,5 +16,5 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef int (*Callback)(void *,void *,void *,const u8 *,void *);
 extern const Callback d_021C607C[];
-extern void *func_021C4994(void *,unsigned int);
+extern char *func_021C4994(unsigned *p, unsigned id);
 int func_021C5370(void *a,void *b,const u8 *desc,void *out) { return d_021C607C[*(u16 *)desc](func_021C4994(b,desc[3]),a,b,desc,out); }

@@ -28,7 +28,8 @@ typedef struct {
     void *f2C;
 } Ov018Obj;
 
-int func_02190EF0(void *);
+typedef unsigned int   u32;
+u32 func_02190EF0(u32 *p);
 
 int func_0217F40C(Ov018Obj *p)
 {

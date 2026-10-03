@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 extern int  func_02159190(int a);
 extern int  func_0215A61C(int a);
 extern int  func_021917C0(int a);
-extern u32  func_020056EC(int a);
+extern u32 func_020056EC(u32 range);
 extern void func_021F5840(void *tbl, u32 a, u32 b, u32 c, u32 d, void *e);
 extern char d_021F58D0[];
 extern char d_021F58E0[];

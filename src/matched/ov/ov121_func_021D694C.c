@@ -18,13 +18,13 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(u32,u32);
+extern void *func_020490F4(u32 id, u16 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
-extern void func_02040B94(u32,u32,u32,u16);
+extern void func_02040B94(u32 layer, u32 size, u32 offset, u32 heapId);
 void func_021D694C(u16 *p,int mode)
 {
     u16 heap=(*p&0x7fff)|0x8000;

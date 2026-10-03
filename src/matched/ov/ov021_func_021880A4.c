@@ -16,10 +16,12 @@
  *   func_020371AC  0x020371AC  arm
  */
 
-void func_020140B4(int h);
+typedef unsigned int   u32;
+struct Ctx;
+u32 func_020140B4(u32 a);
 void func_020307B0(void *p);
-void func_02012110(void *p, void *v);
-void func_020371AC(int a, int b);
+void func_02012110(struct Ctx *p, void *v);
+void func_020371AC(unsigned short a, unsigned int b);
 
 void func_021880A4(int *p)
 {

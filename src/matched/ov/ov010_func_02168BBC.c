@@ -14,9 +14,13 @@
  *   func_02082BCC 0x02082BCC arm
  *   func_02168B20 0x02168B20 thumb ov010
  */
-extern void *func_020120F4(void *);
-extern void *func_020122C0(void *, void *, void *, unsigned int);
-extern void *func_020124E8(void *);
+typedef unsigned int   u32;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, int, unsigned int);
 extern void func_02168B20(void);
 void *func_02168BBC(void *a, void *b)

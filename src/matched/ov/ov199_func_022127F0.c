@@ -14,9 +14,10 @@
  *   func_020307B0 0x020307B0 arm
  *   d_02213D00 0x02213D00 data a1 ov199
  */
-extern void func_0221380C(void *);
-extern void func_02213808(void *, int);
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+extern void func_0221380C(unsigned char *p);
+extern void func_02213808(char *p, int value);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_020307B0(void *);
 extern const char d_02213D00[];
 int func_022127F0(void *obj, int *command, int *ctx)

@@ -43,7 +43,8 @@ typedef struct {
 
 extern T *func_02012A38(int a);
 
-extern void func_021ADB4C(int a, int b);
+typedef unsigned int   u32;
+extern void func_021ADB4C(u32 a, u8 v);
 
 void func_021AAABC(S *s)
 {

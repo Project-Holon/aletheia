@@ -24,13 +24,14 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 typedef struct {u16 member;u8 w,h;} Config;
 extern const Config d_0220DB44[14];
-extern void *func_0202C9B4(u32,u32,u32);
+struct WinMgr;
+extern struct WinMgr *func_0202C9B4(u32,u32,u32);
 extern void *func_020490F4(u32,u16);
-extern void func_0202CA3C(void *,u32,u32,u32,u32);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_0202CFEC(void *,u32,u8,u8,s8,s8);
-extern void func_0202CB18(void *,u32,u32,u32,u32);
+extern void func_0202CB18(struct WinMgr *mgr,u32,void *,u32,u32);
 extern void func_02049238(void *);
-extern void func_0202CB4C(void *,u32,int,int);
+extern void func_0202CB4C(struct WinMgr *mgr,u32,s8,s8);
 void func_0220BBE4(char *p)
 {
     void *arc;
@@ -40,7 +41,7 @@ void func_0220BBE4(char *p)
     for(i=0;i<14;i++){
         func_0202CA3C(*(void **)(p+0x520),i,6,d_0220DB44[i].w,d_0220DB44[i].h);
         func_0202CFEC(*(void **)(p+0x520),i,0,64,0,64);
-        func_0202CB18(*(void **)(p+0x520),i,(u32)arc,d_0220DB44[i].member,1);
+        func_0202CB18(*(void **)(p+0x520),i,arc,d_0220DB44[i].member,1);
     }
     func_02049238(arc);
     func_0202CB4C(*(void **)(p+0x520),0,0,1);

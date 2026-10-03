@@ -14,7 +14,9 @@
  * Followers EC1C, EC28 and EC34 are already filed separately.
  */
 typedef unsigned short u16;
-extern int func_02008550(void *p);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern const u16 d_0218031C[];
 u16 func_0217EC04(void ***ctx)
 {

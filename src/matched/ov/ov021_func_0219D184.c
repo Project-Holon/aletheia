@@ -23,7 +23,8 @@ extern int func_0219CF00(int *, unsigned int, unsigned short *);
 extern int func_0219CF54(int *, unsigned int);
 extern int func_0219D144(int *, unsigned int, int);
 extern void func_0219D1F8(int *);
-extern void func_02046EFC(void *);
+struct Tagged;
+extern void func_02046EFC(struct Tagged *p);
 
 void func_0219D184(int *obj, int key)
 {

@@ -16,8 +16,9 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_02013FD8(u32 a);
-extern void func_021BEA9C(u32 a, u32 b);
+typedef unsigned char  u8;
+extern u8 func_02013FD8(u32 id);
+extern u32 func_021BEA9C(int row, int col);
 void func_021BE89C(u32 a, u32 b)
 {
     func_021BEA9C(func_02013FD8(a), func_02013FD8(b));

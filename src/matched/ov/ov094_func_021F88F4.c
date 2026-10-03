@@ -16,7 +16,7 @@
  *   func_021BA1EC 0x021BA1EC thumb ov093
  */
 extern char *d_0220AF20;
-extern int func_021BA1EC(void *);
+extern int func_021BA1EC(char **p);
 
 int func_021F88F4(void)
 {

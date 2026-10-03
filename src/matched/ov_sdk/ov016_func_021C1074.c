@@ -30,7 +30,7 @@ typedef struct {
 } MovData;
 
 extern void *func_021D6414(unsigned long size, int align);
-extern unsigned short *func_021C1030(void *msg, int id);
+extern unsigned int func_021C1030(unsigned int *p, unsigned int idx);
 extern unsigned char func_021C0F20(void);
 extern void func_021D3B18(void *wm, MovData *md);
 extern int func_021D3D44(void);

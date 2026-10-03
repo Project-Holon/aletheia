@@ -11,7 +11,9 @@
  * symbols:
  *   func_0204B98C 0x0204B98C arm
  */
-extern unsigned int func_0204B98C(void *);
+typedef unsigned int   u32;
+struct Actor;
+extern u32 func_0204B98C(struct Actor *a);
 struct Slot { void *object; int a; int b; };
 struct Obj { char pad[0x3c]; struct Slot slots[20]; };
 int func_021F30EC(struct Obj *p)

@@ -35,21 +35,21 @@ typedef unsigned int u32;
 extern u8 func_021BD0C0(char *p);
 extern void func_021BCAB0(char *p);
 extern void func_021BD0D0(char *p);
-extern void func_020414C4(int a);
-extern void func_020414EC(int a);
+extern void func_020414C4(u32 idx);
+extern void func_020414EC(u32 i);
 extern void func_021BC6D0(char *p);
 extern void func_021BC720(char *p);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
 extern void func_02045730(u32 a);
 extern void func_020409B4(void);
-extern void func_0204047C(int a, int b);
-extern void func_02040588(int a, int b);
+extern void func_0204047C(int idx, unsigned short val);
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_021BC838(char *p);
 extern void func_021BC848(char *p);
 extern int func_021BC910(char *p);
-extern void func_021BCB9C(char *p, int a);
+extern void func_021BCB9C(void *p, int keep);
 
 void func_021BCC80(char *p)
 {

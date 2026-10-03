@@ -118,8 +118,8 @@ extern void func_021C7744(Work *p);
 extern void func_021C78C4(Work *p);
 extern void func_021C7934(Work *p);
 extern void func_021C81A4(Work *p, u16 v);
-extern void func_0203D34C(int a, int heap);
-extern void func_0202208C(int a, int b, int c, int d, int e, int f, int heap);
+extern void func_0203D34C(u32 a, u32 b);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 
 int func_021C6FC4(void *proc, int *seq, void *parent)
 {

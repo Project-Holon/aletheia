@@ -31,13 +31,16 @@ typedef unsigned int u32;
 extern void func_02045CAC(u32 a0, u32 a1, u32 a2);
 extern u32 func_02045770(u32 p);
 extern void func_02043B5C(u32 win, u32 c);
-extern void func_0201F73C(void *desc, u32 kind, u16 base, u32 pal);
-extern u32 func_02012FFC(void);
+typedef unsigned char  u8;
+struct Cfg;
+struct Descriptor;
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
+extern signed char func_02012FFC(void);
 extern u32 func_0201CCE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
                          u32 a8, u16 a9, u16 a10);
-extern void func_02045334(void *win);
-extern void func_02045374(void *win);
-extern unsigned char func_02045730(void *win);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(u32 bit);
 
 void func_021BBF1C(char *p, u32 a1)

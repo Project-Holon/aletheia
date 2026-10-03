@@ -47,23 +47,28 @@ typedef struct Ctx {
 
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5E4(void *vm);
-extern u32 func_0215A5CC(void *vm);
+struct Big;
+struct MsgBank;
+struct Rec;
+struct U16Vec;
+struct Work;
+extern u16 func_0215A5CC(void *a0);
 extern void *func_02158F74(void *p);
 extern u16 func_02159B10(Ctx *c, void *vm);
 extern void *func_02156914(void *w, u32 heap);
-extern void func_02156A3C(void *w, u8 j, void *ws, u32 slot);
-extern void func_02156AD4(void *w, u8 j, void *ws, u32 slot);
+extern void func_02156A3C(struct Work *w, u8 j, void *ws, u32 slot);
+extern void func_02156AD4(struct Work *w, u8 j, void *ws, u32 slot);
 extern void *func_02012F44(void *h);
 extern void **func_02012F80(void *h);
-extern u8 func_0200A7A0(void *sv, u8 i);
-extern void *func_0200A7F8(void *sv);
+extern u8 func_0200A7A0(struct Big *p, u32 index);
+extern u8 *func_0200A7F8(struct Big *p);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
-extern void *func_020457B0(u32 size, u32 heap);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045994(void *dest, const void *src, u32 size);
-extern void *func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *str);
-extern void func_02045C04(void *bank);
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02045C04(struct Rec *rec);
 
 int func_0215D884(Ctx *c, void *vm)
 {

@@ -38,7 +38,8 @@ struct Obj020314F4 {
     u32 f1c;
 };
 
-extern void *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
+struct Obj02031538;
+extern struct Obj02031538 *func_02031538(u32 a0, u32 a1, u32 a2, u32 heap);
 
 void func_020314F4(struct Obj020314F4 *obj, u32 a1, u32 a2, u32 a3)
 {

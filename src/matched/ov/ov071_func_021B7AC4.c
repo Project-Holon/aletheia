@@ -13,6 +13,6 @@
  *   func_021B6FE0 0x021B6FE0 thumb ov071
  */
 typedef unsigned char u8;
-extern u8 *func_021B6F40(void *);
+extern void *func_021B6F40(u8 **p);
 extern void func_021B6FE0(void *,u8 *,int);
 void func_021B7AC4(void **p, void *q) { u8 *t;int i;t=func_021B6F40(q);for(i=0;i<6;i++)func_021B6FE0(p[i+3],t,i);}

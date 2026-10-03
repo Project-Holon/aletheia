@@ -13,7 +13,8 @@
  *   func_021F878C  0x021F878C  thumb  ov094
  */
 
-void func_021F878C(int);
+typedef unsigned int   u32;
+void func_021F878C(u32 a);
 
 int func_021D2990(int a, int b, int *c)
 {

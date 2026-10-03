@@ -30,13 +30,14 @@ typedef struct {
 
 extern char g_021CE53C[];
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF58(void);
 extern Req *func_021BEC10(void *mutexInfo_p, void *handle_p);
 extern int func_021BA124(char *s, int max);
 extern void func_021BA13C(void *p_p, int size);
 extern void func_021BA100(void *dst_p, void *src_p, int size);
-extern int func_021BA714(char *dst_p, char *src_p);
+extern int func_021BA714(char *dst_p, const char *src_p);
 
 int func_021BE8E8(void *handle, char *username_p, char *password_p)
 {

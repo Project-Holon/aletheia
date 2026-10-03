@@ -71,7 +71,7 @@ typedef struct SOCStatics {
     SOCLConfig soclConfig;
 } SOCStatics;
 
-extern int func_0215CA8C(SOCLConfig *socl_config);
+extern int func_0215CA8C(void *socl_config);
 extern void *func_0215F8A4(u32 size);
 extern void func_0215F8D0(void *ptr);
 extern SOCStatics g_021AA4BC;

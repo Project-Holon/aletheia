@@ -15,7 +15,9 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef struct { s16 x, y; } Pair;
 extern void func_0204B404(void *, const Pair *, int);
-extern void func_0204B8C4(void *, int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B8C4(struct Obj *p, u32 value);
 void func_021C66CC(u8 *p, int i, int x, int y)
 {
     Pair v;

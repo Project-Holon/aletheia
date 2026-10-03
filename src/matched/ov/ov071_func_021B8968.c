@@ -47,18 +47,19 @@ typedef struct {
 
 extern char d_021BAAA4[];
 
+struct Descriptor;
 int func_021B8968(int a, int *b, C *c, u8 *d)
 {
     extern unsigned func_02045770(void *);
     extern int func_0201C6C4(void *, unsigned);
-    extern void func_02045334(void *);
+    extern void func_02045334(struct Descriptor *d);
     extern void func_021B8EDC(void *);
     extern u32 func_020362DC(void);
     extern int func_02035C08(void *);
     extern void func_021B7108(void *);
-    extern void func_020355D8(int);
+    extern void func_020355D8(u8 v);
     extern void func_020061E4(unsigned int);
-    extern u8 func_021B7114(void *);
+    extern int func_021B7114(void *p);
     int i;
     int t;
 

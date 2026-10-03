@@ -19,7 +19,9 @@ typedef struct {
 } Obj;
 
 extern int func_021BD090(Obj *p);
-extern void *func_0201EC64(int a);
+typedef unsigned int   u32;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32 heap);
 
 void func_021BCFE0(Obj *p)
 {

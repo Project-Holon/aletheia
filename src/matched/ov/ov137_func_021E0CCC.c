@@ -10,7 +10,8 @@
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  */
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 int func_021E0CCC(int *p)
 {
     int *q = (int *)p[4];

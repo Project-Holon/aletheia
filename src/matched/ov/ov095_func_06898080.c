@@ -32,7 +32,8 @@ typedef unsigned int u32;
 extern u8 d_0689D638[];
 extern u8 d_0689D630[];
 extern u8 d_0689D640[];
-extern void func_021D7040(void *n);
+struct Node;
+extern void func_021D7040(struct Node *n);
 extern int func_021D76BC(int key, u32 val);
 extern void func_021D7704(int key, int m);
 

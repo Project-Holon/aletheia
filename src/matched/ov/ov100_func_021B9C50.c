@@ -20,7 +20,8 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02039CB4(void *,int,int);
 extern void func_02087C6C(void *);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);

@@ -15,6 +15,6 @@
  */
 struct U16Vec;
 extern void func_02045808(struct U16Vec *);
-extern void func_021FB494(void *);
+extern void func_021FB494(char *p);
 extern void *memset(void *,int,unsigned);
 void func_021FACE0(char *p) { if(*(unsigned *)p!=0){func_02045808(*(struct U16Vec **)(p+0x40));func_021FB494(*(void **)(p+8));memset(p,0,0x44);} }

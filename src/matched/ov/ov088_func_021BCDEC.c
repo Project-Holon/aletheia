@@ -17,8 +17,10 @@
  *   func_021BD23C  0x021BD23C  thumb  ov088
  */
 
-extern int func_0201FEBC(void *);
-extern void func_021BD118(void *, int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_0201FEBC(u8 *p);
+extern void func_021BD118(int *p, u32 mode);
 extern void func_021BD23C(void);
 
 void func_021BCDEC(void *p, int *st)

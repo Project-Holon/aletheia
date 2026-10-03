@@ -15,7 +15,7 @@
 extern int func_021D7D88(const char *);
 extern void *func_0215F650(const char *);
 extern char *func_0215FA9C(unsigned);
-extern void func_02094798(char *, const char *);
+extern char *func_02094798(char *dst, const char *src);
 int func_021D7E20(const char *s, char *out) {
  void *p;
  if (!func_021D7D88(s)) {

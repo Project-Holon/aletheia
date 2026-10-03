@@ -19,8 +19,9 @@
  *   func_021BB944 0x021BB944 thumb ov223
  */
 typedef enum { BIT8=8, BIT32=32 } Bits;
-extern void func_0204363C(int);
-extern void func_02040EBC(int,unsigned short);
+typedef unsigned int   u32;
+extern void func_0204363C(u32 swap);
+extern void func_02040EBC(u32 a0, u32 a1);
 extern void func_0207D63C(unsigned,int,int,int,int);
 extern void func_021B99A0(char *),func_021B9D9C(char *),func_021BA984(char *),func_021BAC70(char *),func_021BAD80(char *);
 extern void func_021BB944(char *);

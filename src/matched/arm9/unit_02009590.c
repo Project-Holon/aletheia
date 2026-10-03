@@ -27,7 +27,8 @@ typedef unsigned int  u32;
 
 extern u8  func_02009584(void *a, u32 b, u32 c);
 extern int func_0200856C(u32 b);
-extern int func_02009794(void *a, int b);
+struct Sub02009470Obj;
+extern u32 func_02009794(const struct Sub02009470Obj *obj, u32 n);
 
 u8 func_02009590(void *a, u32 b, u32 c)
 {

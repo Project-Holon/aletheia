@@ -25,7 +25,7 @@ typedef short s16;
 
 extern void func_02163A08();
 extern int func_02163A40();
-extern int func_0216D55C();
+extern int func_0216D55C(int a0, int a1);
 extern int func_0216D83C();
 extern int func_0216D86C();
 extern int func_0216D854();

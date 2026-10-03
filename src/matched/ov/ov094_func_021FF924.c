@@ -33,7 +33,7 @@ extern int func_022019F4(char *p, int key);
 extern u8 func_02015FAC(void *p);
 extern void func_0220074C(void *, int, int, Vec *, Vec *, int, int, int, void *, void (*)(void *), int, u8);
 extern int func_021F935C(int x);
-extern void func_02200D68(void);
+extern void func_02200D68(void *o, char *q);
 extern void func_02200DE4(void *p);
 #define FX(x) ((int)(((x) > 0) ? ((float)((x) << 12) + .5f) : ((float)((x) << 12) - .5f)))
 void func_021FF924(char *w, int key, int kind, int value, int a, int b, int c)

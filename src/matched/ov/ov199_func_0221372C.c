@@ -15,9 +15,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_02034714(const char *, int, const char *);
+typedef unsigned int   u32;
+struct S020314B8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_02213D00[];
-extern void func_0203133C(void *);
+extern void func_0203133C(struct S020314B8 *p);
 extern void func_020307B0(void *);
 void func_0221372C(char *p)
 {

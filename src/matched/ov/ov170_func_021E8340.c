@@ -19,7 +19,7 @@ extern int func_021EC9D8(char *p);
 extern void func_021ECA38(char *p);
 extern void func_021DE7B4(unsigned char *p);
 extern void func_021ED588(unsigned char *p);
-extern void func_021EBBC8(unsigned char *p, int kind, int i);
+extern void func_021EBBC8(unsigned char *p, unsigned kind, int i);
 extern int func_021E912C(unsigned char *p);
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))

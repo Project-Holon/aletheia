@@ -23,8 +23,11 @@
  */
 typedef unsigned short u16;
 typedef struct { u16 f0; char *f4; void (*f8)(char *); } Callback;
-extern void *func_02009448(void *);
-extern int func_02012DD0(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
+extern int func_02012DD0(u8 *p);
 extern void func_021D584C(char *);
 extern void func_021D57D0(char *,int,int,int);
 extern void func_021D5960(char *,int,int);
@@ -35,9 +38,9 @@ extern void func_021D6650(char *,int);
 extern int func_020185F0(void *);
 extern void func_021D6458(char *,int,int);
 extern void func_021D652C(char *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021D7204(char *);
-extern void func_021D7180(char *);
+extern void func_021D7180(int a);
 extern void func_021D6EE0(char *,int,int);
 void func_021D72D8(char *p)
 {

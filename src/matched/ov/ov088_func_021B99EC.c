@@ -19,7 +19,8 @@
  *   func_0203F9B4  0x0203F9B4  arm
  */
 
-extern void func_0204363C(int);
+typedef unsigned int   u32;
+extern void func_0204363C(u32 swap);
 extern void func_0204361C(void);
 extern void func_02030EAC(int);
 extern void func_02031140(int);

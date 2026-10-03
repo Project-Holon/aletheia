@@ -32,7 +32,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(u16 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *dst, u8 val, u32 size);
 extern u32   func_020275E4(void);
 extern u32   func_02049DB4(u32 h, u32 a, u32 c, void *d, u16 heap);

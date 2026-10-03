@@ -10,5 +10,5 @@
  * symbols:
  *   func_02024004 0x02024004 thumb
  */
-extern void func_02024004(int);
+extern int func_02024004(int a);
 int func_021BE398(void) {func_02024004(1);return 1;}

@@ -27,10 +27,11 @@ struct S {
 };
 
 extern int func_0201AA18(void *party);
-extern void *func_0201AB28(void *party, int i);
+struct Blk37;
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 buf);
 extern void *func_0200CA1C(u32 a);
-extern void func_0200CFA0(void *a, void *mon);
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 
 void func_021B9CA4(struct S *s, void *party)
 {

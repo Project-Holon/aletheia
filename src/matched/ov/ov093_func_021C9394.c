@@ -22,7 +22,7 @@ extern int func_021C9438(int a, u8 b);
 extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern void func_021D5EA8(u8 *p, int i, u8 n);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 
 typedef struct {
     u32 w; u8 b[8];

@@ -21,7 +21,7 @@ extern u32  func_0200A400(u8 *p);
 extern void func_0200A49C(u8 *p);
 extern u8  *func_0200A43C(u8 *p, u32 i);
 extern void func_0200A480(u8 *p);
-extern u32  func_02009F50(u8 *p, u32 i);
+extern int func_02009F50(char *p, unsigned int idx);
 
 void func_0200A13C(u8 *p, u32 i)
 {

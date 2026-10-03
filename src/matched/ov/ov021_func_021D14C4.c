@@ -84,7 +84,7 @@ typedef struct Plane021D14C4 {
     fx32 height;
 } Plane021D14C4;
 
-extern fx32 func_0207C768(fx32 numer, fx32 denom);
+extern u32 func_0207C768(u32 a, u32 b);
 extern Norm021D14C4 d_021DB9A0[];
 #define NRM(i) ((s16 *)d_021DB9A0)[i]
 extern const fx32 d_021DC158[];

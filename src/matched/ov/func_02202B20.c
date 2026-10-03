@@ -59,10 +59,13 @@ struct Obj {
 };
 
 #pragma thumb off
-extern void *func_02045EC0(void *bank, int index);
-extern void *func_02045770(void *p);
-extern void  func_02045808(void *p);
-extern void  func_02034714(void *file, int line, void *msg);
+struct Descriptor;
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045808(struct U16Vec *vec);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 #pragma thumb on
 
 extern void func_0201C724(void *owner, void *a, s16 b, s16 c, void *d, u32 e, int f);

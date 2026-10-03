@@ -26,7 +26,8 @@ typedef struct {
 
 extern const Pt d_0220AAB4;
 extern void func_022079C0(char *p, int i, Pt *pt);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02030EAC(struct Node *n);
 
 void func_02207960(char *p, int i)
 {

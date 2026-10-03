@@ -12,7 +12,9 @@
  *   func_020122C0 0x020122C0 thumb
  *   func_021F38D0 0x021F38D0 thumb ov065
  */
-extern void *func_020122C0(void *p, void *a, void *b, unsigned int size);
+typedef unsigned int   u32;
+struct Desc;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F38D0(void *p);
 
 void *func_021F38BC(void *p)

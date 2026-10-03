@@ -50,8 +50,8 @@ typedef unsigned int   u32;
 extern u8  *g_021469DC;
 extern char g_020A7BA8[];
 extern char g_020A7BB4[];
-extern void *func_02030734(int a, int b, int c, void *d, int e);
-extern void  func_02034714(char *a, u32 b, char *c);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void  func_0203A494(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void  func_0203AE20(u8 *p);
 

@@ -40,7 +40,7 @@ extern void func_021BA444(void*),func_021BA650(void*);
 extern int func_021B9E50(u32);
 extern void func_021BA95C(unsigned char*,int),func_021BA81C(unsigned char*,u32),func_021BA480(void*);
 extern int func_021BA9D0(unsigned char*),func_021B98DC(int,int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_021BA68C(void*,int,int),func_0204B3DC(void*,u32),func_0204E720(u32,int,int,int);
 extern void func_021BA8E8(void*,u32,const struct V*);
 int func_021B9B0C(unsigned char *state,unsigned char *p)

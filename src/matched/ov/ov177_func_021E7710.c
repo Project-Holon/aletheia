@@ -19,12 +19,14 @@
  *   func_021E7AE0 0x021E7AE0 thumb ov177
  */
 extern void func_021E7CD0(void *);
-extern void func_021E7C14(void *);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_021E7C14(char *p);
 extern void func_021E7B44(void *);
-extern void func_0202DC08(void *);
-extern void func_02040618(unsigned, int, int);
+extern void func_0202DC08(struct Obj *p);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_020307B0(void *);
-extern int func_021E7AE0(void *, void *);
+extern int func_021E7AE0(unsigned char *p, void *mgr);
 void func_021E7710(char *p)
 {
     *(volatile unsigned short *)0x04000050 = 0;

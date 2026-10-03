@@ -74,12 +74,12 @@ extern int func_021C4530(int x);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, void **a3, u16 a4);
 extern void *func_02049EB4(u32 a0, u32 a1, u32 a2, void **a3, u16 a4);
 extern void func_02049624(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern u32 func_020275E4(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_020409B4(u32 layer);
 extern const u32 d_021C86E8[][2];
 

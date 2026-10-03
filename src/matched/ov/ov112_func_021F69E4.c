@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_021F83F8[];
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
 typedef struct { u16 heap,n; void *p; Entry entries[5]; } Object;

@@ -44,12 +44,12 @@ struct SoundSys2 {
     u32 unkB4;
 };
 
-extern u32 func_021D21C0(u32 id);
-extern u32 func_021D21E0(u32 id);
-extern u32 func_02006148(u32 id);
+extern int func_021D21C0(u32 id);
+extern int func_021D21E0(u32 id);
+extern int func_02006148(u32 a0);
 extern void func_020061E4(u32 id);
 extern void func_020061F0(u32 id, u32 who);
-extern void func_020062BC(u32 slot, u32 who);
+extern void func_020062BC(int i, u32 level);
 
 void func_02028ACC(struct SoundSys2 *s, u32 id, u32 who)
 {

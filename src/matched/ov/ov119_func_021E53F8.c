@@ -19,8 +19,9 @@
 extern void func_020433E0(const void *);
 extern void func_0204A48C(const void *, const void *, unsigned int);
 extern void func_021E57E8(int);
-extern void func_02043534(int);
-extern void func_020435F4(int);
+typedef unsigned int   u32;
+extern void func_02043534(u32 planes);
+extern void func_020435F4(u32 planes);
 extern const char d_021E7D40[];
 extern const char d_021E7CC8[];
 void func_021E53F8(char *p)

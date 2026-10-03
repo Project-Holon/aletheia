@@ -64,7 +64,7 @@ extern u32 func_020457B0(u32 a, u32 b);
 extern u32 func_0200C1F4(u32 a);
 extern u32 func_0200C20C(u32 a);
 extern void func_02045924(u32 a, u32 b);
-extern void func_021CD348(void);
+extern int func_021CD348(int a, int *st, u8 *c);
 
 u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d)
 {

@@ -28,29 +28,40 @@
  *   func_020306F0 0x020306F0 arm
  */
 typedef unsigned char u8;
-extern int func_020221A4(void);
-extern void func_0204B3B4(void *);
+typedef unsigned int   u32;
+struct Bank;
+struct Descriptor;
+struct Node;
+struct Obj;
+struct PrintSys;
+struct Rec3;
+struct S02031140;
+struct S020315D4;
+struct TaskMenu;
+struct TaskMenuState;
+extern u32 func_020221A4(void);
+extern void func_0204B3B4(struct Obj *p);
 extern void func_0204ADA4(void *);
 extern void func_0204A8D4(void *);
 extern void func_0204AFD8(void *);
-extern void func_02030EAC(void *);
-extern void func_0204B1CC(void *);
+extern void func_02030EAC(struct Node *n);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
-extern void func_0202F038(void *);
-extern void func_0201CE48(void *);
-extern void func_02027858(void *);
+extern void func_0202F038(u8 *p);
+extern void func_0201CE48(struct Rec3 *p);
+extern void func_02027858(struct TaskMenu *m);
 extern void func_021D4A64(char *);
 extern void func_020307B0(void *);
 extern void func_02028604(void *);
-extern void func_020403F4(int);
-extern void func_0201C6EC(void *);
-extern void func_0201C4C0(void *);
-extern void func_020452E8(void *);
-extern void func_02031140(void *);
-extern void func_02027FD8(void *);
+extern void func_020403F4(u32 i);
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_0201C4C0(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_02031140(struct S02031140 *p);
+extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
 int func_021D53D0(void *a,int b,u8 *out,char *p)
 {

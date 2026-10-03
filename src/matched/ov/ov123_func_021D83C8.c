@@ -20,10 +20,11 @@ typedef unsigned int u32;
 extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021D5A60(char *);
-extern void *func_02009448(void *);
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_020092E0(void *, int);
 extern void func_021D6EE0(char *, int, int);
-extern void func_021D8958(void);
+extern void func_021D8958(char *p);
 void func_021D83C8(char *p)
 {
     if (func_020362DC() != 0 || func_02035C60() != 0) {

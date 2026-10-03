@@ -56,11 +56,11 @@ extern void *func_021A3074(unsigned char *p);
 extern void func_0216D410(void *, u16);
 extern void func_021A3038(unsigned char *, Vec *);
 extern void func_021F37B8(int, Vec *);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 extern void func_0216DAC8(unsigned int *, unsigned int);
 extern int func_021F37D8(void *);
 extern int func_0216D454(int);
-extern void func_0216D480(char *);
+extern int func_0216D480(char *p);
 extern void func_0216CF2C(int);
 
 int func_0217C820(Rec *r)

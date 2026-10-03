@@ -34,7 +34,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned long u32;
-extern int func_021C5928(void (*)(int,int,int),char *,char *);
+extern int func_021C5928(void (*callback)(int, int, int), char *gamecd, char *passwd);
 extern int func_021C5C04(char *,char *,char *);
 extern int func_021C5C38(void *,unsigned int,unsigned int);
 extern int func_021C5CFC(void *,char *,unsigned int);

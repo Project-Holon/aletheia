@@ -16,8 +16,10 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
 struct WinMgr;
-extern u32 func_0204B98C(void *);
-extern void func_0204B3DC(void *, u32);
+struct Actor;
+struct Obj;
+extern u32 func_0204B98C(struct Actor *a);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 int func_021FADA8(u8 *p)
 {

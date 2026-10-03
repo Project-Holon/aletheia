@@ -20,11 +20,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EF57C(int);
+struct WinMgr;
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(char **,int);
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(char *);
 extern int func_021E8FE0(char *,int);
 extern int func_021E8FC0(char *,int,int);
-extern int func_021E070C(u8 *);
-void func_021E58D8(u8 *p){func_021EF57C(*(int *)(*(char **)(p+0x2c)+0x74));func_021ED6E4((char **)p,0);func_021EBA5C(*(char **)(p+0x2c),24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,49));}
+extern int func_021E070C(char *p);
+void func_021E58D8(u8 *p){func_021EF57C(*(struct WinMgr **)(*(char **)(p+0x2c)+0x74));func_021ED6E4((char **)p,0);func_021EBA5C(*(char **)(p+0x2c),24);func_021DD14C((char *)p);func_021E8FC0((char *)p,(int)func_021E070C,func_021E8FE0((char *)p,49));}

@@ -30,7 +30,7 @@
 typedef unsigned int u32;
 
 extern void func_0200FD38(u32 a, u32 b);
-extern void func_020351A0(u32 a);
+extern int func_020351A0(u32 v);
 extern void func_020053EC(void);
 
 void sub_0200FA94(void)

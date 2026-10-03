@@ -31,9 +31,11 @@ struct Node {
     u8 b3a, b3b;
 };
 extern struct { u32 f0; Node *head; } g_021F3CB0;
-extern void *func_021C7CF4(void *, int);
-extern int func_021D62C4(void *, int);
-extern int func_021D5BB0(void *, u32);
+struct Unk021D62A8;
+struct UtilWork;
+extern void *func_021C7CF4(int *p, int i);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern int func_021D5BB0(struct UtilWork *p, u32 n);
 extern int func_021EF948(int);
 int func_021D7240(void *a, Node *b, int c)
 {

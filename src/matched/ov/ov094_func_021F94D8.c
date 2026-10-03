@@ -17,7 +17,8 @@
  *   func_020307B0 0x020307B0 arm
  *   func_02011264 0x02011264 thumb
  */
-extern void *func_02011324(void *);
+struct ScriptVm;
+extern void *func_02011324(struct ScriptVm *vm);
 extern void func_021F97E4(void *);
 extern void func_020307B0(void *);
 extern void func_02011264(void *);

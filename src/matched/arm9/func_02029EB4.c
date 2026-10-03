@@ -20,9 +20,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int  func_02029E58(void *a);
-extern u32  func_02012A30(void *a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern u32  func_02029E74(void *a, u32 id);
-extern int  func_02013C30(u16 id);
+extern u32 func_02013C30(u32 id);
 extern u32  func_02029E64(void *a, u32 id, u32 which);
 
 u32 func_02029EB4(void *a, u32 id, u32 which)

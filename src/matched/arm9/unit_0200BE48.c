@@ -28,7 +28,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 u16 *func_0200BE48(void *sys);
 

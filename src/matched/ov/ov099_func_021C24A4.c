@@ -23,7 +23,8 @@ typedef struct {
     u8 f1343;
 } Work;
 
-extern void func_02005CBC(int v, int n);
+typedef unsigned int   u32;
+extern void func_02005CBC(u32 value, u32 mask);
 extern void func_02006734(int v);
 
 void func_021C24A4(Work *w, int v)

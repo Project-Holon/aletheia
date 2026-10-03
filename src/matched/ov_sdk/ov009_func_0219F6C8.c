@@ -19,10 +19,10 @@
  */
 
 struct SBL { char pad0[4]; void *servers; };
-extern int func_02184200(void *a);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *a, int n);
-extern unsigned int func_0219E1EC(void *s);
-extern unsigned short func_0219E218(void *s);
+extern int func_0219E1EC(const int *p);
+extern unsigned short func_0219E218(const unsigned short *p);
 int func_0219F6C8(struct SBL *slist, unsigned int ip, unsigned short port)
 {
 	int numservers;

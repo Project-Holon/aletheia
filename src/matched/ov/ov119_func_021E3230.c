@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-extern void func_021E32C4(void *);
+extern void func_021E32C4(char *p);
 
 void func_021E3230(void *p)
 {

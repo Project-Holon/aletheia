@@ -21,7 +21,7 @@
  *   g_021A82D4  0x021A82D4  data
  */
 
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 extern unsigned long func_021578C8(unsigned long ip);
 extern unsigned char (*func_02157D8C(unsigned long ip))[6];
 extern unsigned char (*func_02157F60(unsigned long ip))[6];

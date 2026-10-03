@@ -24,7 +24,7 @@
  *   g_021A2164     0x021A2164  data
  */
 
-extern int func_02084F80(char *dst, int len, char *fmt, ...);
+extern int func_02084F80(char *dst, unsigned int len, const char *fmt, ...);
 extern int func_0209477C(char *s);
 extern char g_021A20E0[];
 extern char g_021A20F0[];

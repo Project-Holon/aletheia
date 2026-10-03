@@ -28,18 +28,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void *func_020124E4(void *);
-u32 func_02012138(void *);
-void *func_020120F4(void *);
-void *func_0201210C(void *p);
+struct BigObj;
+struct Ctx;
+struct Evt;
+struct Obj;
+void *func_020124E4(struct Obj *p);
+u32 func_02012138(const struct Ctx *p);
+void *func_020120F4(const struct Ctx *p);
+void *func_0201210C(const struct Ctx *p);
 u8 *func_02158344(int);
-u8 func_02012B58(void *);
-void func_02176230(u8 *a, u8 *b);
+u8 func_02012B58(const struct BigObj *p);
+u8 func_02176230(u8 *p, u8 *q);
 void *func_0217CE08(void *a, void *b, int c, int d);
-void func_02012374(void *a, void *b);
-u8 *func_020120F8(void *);
+void func_02012374(struct Evt *evt, struct Evt **out);
+u8 *func_020120F8(const struct Ctx *p);
 u16 func_02012AC8(void *);
-int func_02013D5C(int);
+u32 func_02013D5C(u32 id);
 void *func_0217F938(void *);
 
 int func_0217FA38(void *a, int *state)

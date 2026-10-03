@@ -38,7 +38,7 @@ extern int func_0219EC74(int a, int b, int c, int d, int e, int f, int g, void (
 extern int func_02173D9C(int err);
 extern void func_02175F4C(int status);
 extern int func_021719D0(int a, int b);
-extern void func_021719A4(int result);
+extern int func_021719A4(int error);
 extern void func_02174058(void);
 
 void func_02175698(void)

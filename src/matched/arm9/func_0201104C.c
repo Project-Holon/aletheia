@@ -47,10 +47,11 @@ extern u8 g_02146228[];
 extern void func_0201BA34(void *p);
 extern u32 func_0201AB08(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017D30(void *p);
-extern int func_02017E1C(void *a, int b, int c);
-extern void func_02017E40(void *a, int b, int c);
-extern void func_02017D70(void *p, u32 h);
+struct Sav;
+extern u32 func_02017D30(struct Sav *p);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern u32 func_02017D70(struct Sav *p, u32 f);
 extern void func_02010F50(int idx);
 
 u32 func_0201104C(void *box)

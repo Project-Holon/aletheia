@@ -21,7 +21,8 @@ extern void func_0204AFD8(void *a);
 extern void func_0204A8D4(void *a);
 extern void func_0204ADA4(void *a);
 extern void func_02049238(void *a);
-extern void func_0204B1CC(void *a);
+struct Bank;
+extern void func_0204B1CC(struct Bank *bank);
 
 void func_021B3F3C(char *w)
 {

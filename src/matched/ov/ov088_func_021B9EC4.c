@@ -39,13 +39,16 @@ extern char d_021BD508[];
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(void *, void *, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void *bank);
+typedef signed int     s32;
+typedef unsigned int   u32;
+struct Bank;
+extern void func_0204B270(struct Bank *bank);
 extern int func_0204A6C8(void *, int, int, int, int);
 extern int func_0204ABF0(void *, int, int, int, int);
-extern int func_0204AF28(void *, int, int, int);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204B294(int, int, int, int, Local *, int, int);
 extern void func_0204B92C(int, int);
-extern void func_02043598(int, int);
+extern void func_02043598(u32 mask, u32 enable);
 extern void func_02049238(void *);
 
 void func_021B9EC4(int *p, int heap)

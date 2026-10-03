@@ -24,7 +24,7 @@ typedef struct {
 
 extern void func_020061E4(unsigned se);
 extern int func_020077B8(void *save, unsigned box);
-extern void func_021EA1C0(unsigned char *p);
+extern void func_021EA1C0(void *p);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E087C(unsigned char *p);
 

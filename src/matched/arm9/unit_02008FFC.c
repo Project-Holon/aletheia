@@ -74,7 +74,7 @@ struct Sub02008F80Obj {
 
 extern void  sub_02008EAC(struct Sub02008F80Obj *obj);
 extern int   sub_02008EF8(const struct Sub02008F80Obj *obj);
-extern struct Sub02008F80Obj *sub_02008F08(u32 heap);
+extern void *sub_02008F08(int a0);
 extern void  sub_02008F3C(const struct Sub02008F80Obj *src,
                           struct Sub02008F80Obj *dest);
 

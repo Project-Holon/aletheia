@@ -19,8 +19,10 @@ typedef unsigned int u32;
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_02041B6C(u32);
 extern void func_021D9E44(u8 *,u8 *);
-extern void func_021DB964(void *,void *,u8 *);
-extern void func_0204B878(void *,int);
+typedef unsigned short u16;
+struct Obj;
+extern void func_021DB964(u8 *a, void *b, u8 *p);
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021D9CD0(u8 *a,u8 *p)
 {
     u8 i;

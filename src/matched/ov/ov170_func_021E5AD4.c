@@ -28,11 +28,14 @@
  * jump or cancel.
  */
 
-extern unsigned func_02025DE8(void *obj);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sound;
+extern int func_02025DE8(struct Sound *obj);
 extern unsigned int func_0203633C(void);
 extern void func_021DD238(unsigned char *p);
-extern void func_020260E4(void *obj, unsigned char sel);
-extern int func_020077B8(void *a, int b);
+extern void func_020260E4(struct Sound *obj, u8 sel);
+extern int func_020077B8(void *save, u32 box);
 extern void func_020061E4(unsigned se);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern int func_020076D0(void *s, unsigned *a, unsigned *b);

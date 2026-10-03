@@ -46,7 +46,7 @@ typedef struct {
 
 extern void func_021C479C(Work *p);
 extern void func_021C60CC(Work *p, void **bg, Info *info);
-extern void func_0202DBC4(void *p);
+extern void func_0202DBC4(u8 *p);
 extern void func_021C6874(Work *p, int scroll, int flush, int idx);
 extern void func_021C58E0(Work *p);
 extern void func_021C636C(Work *p, void **bg, Info *info);

@@ -33,15 +33,19 @@ typedef struct {
     u8 flags;
     u8 tail;
 } Record;
-extern void func_02008DF0(void *, u32);
+struct L0200ED54;
+struct Sub0200852CObj;
+struct Sub02008C20Obj;
+struct Sub02009D9CObj;
+extern u32 func_02008DF0(struct Sub02008C20Obj *obj, int i);
 extern void *func_0200ED48(void *);
-extern void func_0200ED54(void *, u32);
+extern void func_0200ED54(struct L0200ED54 *l, u32 val);
 extern void *func_021F72C4(void *);
 extern void *func_02009EC8(void *);
-extern void func_02009DE8(void *, void *);
+extern void func_02009DE8(struct Sub02009D9CObj *obj, struct Sub0200852CObj *p);
 extern void func_020307B0(void *);
 extern void *memset(void *, int, u32);
-extern void func_02008494(void *, Record *);
+extern void func_02008494(void *src, void *dst);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_0202EB7C(void *, Record *);
 void func_02201B44(u8 *p, void *mon, u8 *r, void *old)

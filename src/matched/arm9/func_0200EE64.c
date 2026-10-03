@@ -26,7 +26,7 @@ typedef unsigned int u32;
 
 extern void sub_0200EE50(void *p);
 extern int sub_0200F0CC(u32 a0, void **out, u32 *hint);
-extern void sub_0200EED8(void *item, u8 *dst);
+extern void sub_0200EED8(const void *item, void *record);
 
 void func_0200EE64(u32 a0, u8 *a1)
 {

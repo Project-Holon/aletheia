@@ -42,7 +42,8 @@ extern u8 d_021DC800[];
 
 extern void *func_021BE8D4(void *, void *, int, int);
 extern void *func_021BE92C(void *, void *, int, int, int, int, int);
-extern void func_02012374(void *, void *);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void *func_020144DC(void *, void *);
 extern void *func_020145CC(void *);
 extern void func_020120B4(void *, void *, void *, void *);

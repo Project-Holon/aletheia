@@ -26,8 +26,9 @@ extern void *func_0215A5E4(void *a0);
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0200CA1C(void *a);
-extern int func_0200D0CC();
-extern int func_0200CF28();
+struct Blk37;
+extern u16 func_0200D0CC(struct Blk37 *p);
+extern u16 func_0200CF28(struct Blk37 *p);
 
 int func_0215AF98(int a0, int a1)
 {

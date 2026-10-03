@@ -37,7 +37,8 @@
 typedef unsigned int u32;
 
 extern u32 sub_0202C72C(void *p);
-extern u32 sub_0202C6BC(void *p, u32 v);
+struct Obj0202C6B8;
+extern void sub_0202C6BC(struct Obj0202C6B8 *p, u32 v);
 
 u32 sub_0202C670(void *p)
 {

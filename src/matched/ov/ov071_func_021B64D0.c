@@ -21,10 +21,11 @@
 extern char d_021BA7D4;
 extern char d_021BA764;
 
+typedef unsigned short u16;
 void func_021B64D0(void)
 {
     void func_020433E0(void *);
-    void func_0203F8F4(int);
+    void func_0203F8F4(u16 heapId);
     void func_0203FC28(void *);
     void func_02082A7C(int, int, int);
 

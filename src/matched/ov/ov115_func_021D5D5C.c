@@ -31,10 +31,12 @@ typedef struct {
     u32 param;
     u8 x, y, a, b;
 } Template;
-extern void *func_020457B0(u32, u32);
-extern void func_02045CAC(void *, u32, void *);
+struct MsgBank;
+struct U16Vec;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void *func_02027778(Template *, void *);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 extern void func_0207D658(u32, int, int);
 extern void func_02027CFC(u8 *, int);
 extern void *func_021D5FE8(u8 *, int, int);

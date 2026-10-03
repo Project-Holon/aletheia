@@ -85,7 +85,7 @@ typedef struct R {
 typedef struct { u16 h0; u16 h2; u16 h4; } Dim;
 typedef struct { int f0; int f4; Dim *f8; } Img;
 
-extern R *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_02045B38(u32 a, u16 b, u16 c, u32 d);
 extern u32 func_020457B0(u32 size, u32 heap);
 extern u32 func_02045EC0(u32 a, u32 b);

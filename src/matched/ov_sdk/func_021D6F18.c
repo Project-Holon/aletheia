@@ -20,7 +20,7 @@
  *       --func func_021D6F18 --addr 0x021D6F18 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D54C4(void *);
+extern void *func_021D54C4(void *queue);
 
 void func_021D6F18(unsigned int i)
 {

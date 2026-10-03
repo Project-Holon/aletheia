@@ -15,7 +15,8 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_020111E8(void);
+typedef unsigned int   u32;
+extern u32 func_020111E8(void);
 
 int func_021F4E3C(int *p)
 {

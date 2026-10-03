@@ -91,7 +91,8 @@ struct DST {
     s32 f34;
 };
 
-extern void func_0207C930(s32 a, s32 b);
+typedef unsigned int   u32;
+extern void func_0207C930(u32 numer, u32 denom);
 extern s32  func_0207C86C(void);
 
 void func_020711C8(struct DST *d, struct SRC *s)

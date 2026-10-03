@@ -14,8 +14,8 @@
  *   func_021DF620 0x021DF620 thumb ov183
  */
 typedef signed char s8;
-extern unsigned int func_021FCE0C(void *, unsigned int);
-extern void func_021FCD0C(void *);
+extern int func_021FCE0C(char *p, unsigned field);
+extern void func_021FCD0C(char *p);
 extern void func_021DF620(char *, unsigned int, s8, int);
 void func_021DF3DC(char *p, int a)
 {

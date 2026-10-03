@@ -36,7 +36,7 @@ extern u8 d_021D8B26[];
 extern u8 d_021D8B27[];
 
 extern int func_021A8E78(u32 a, u32 b);
-extern int func_021A8B84(u32 a);
+extern int func_021A8B84(int idx);
 
 u32 func_021A8E80(struct W *w, u32 dir)
 {

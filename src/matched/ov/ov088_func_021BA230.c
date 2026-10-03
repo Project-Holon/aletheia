@@ -14,7 +14,7 @@
  *   func_021BB810  0x021BB810  thumb  ov088
  */
 
-extern int func_021BB840(void *, int);
+extern int func_021BB840(char *p, int y);
 extern void func_021BB810(void *, int, int, int);
 
 int func_021BA230(char *p)

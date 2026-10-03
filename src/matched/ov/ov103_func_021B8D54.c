@@ -11,7 +11,7 @@
  *   func_02035D20 0x02035D20 arm
  */
 typedef unsigned int u32;
-extern int func_02035D20(u32 *,u32 *);
+extern u32 func_02035D20(u32 *outA, u32 *outB);
 int func_021B8D54(u32 *p,u32 *out) {
  u32 x,y;
  if(func_02035D20(&x,&y)) {

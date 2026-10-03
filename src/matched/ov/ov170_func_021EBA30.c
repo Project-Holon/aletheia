@@ -19,9 +19,12 @@
 
 typedef unsigned int u32;
 
-extern void *func_02045770(void *win);
-extern void func_02043B5C(void *bmp, u32 color);
-extern void func_0201F73C(void *win, u32 a, u32 b, u32 c);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
+extern void func_0201F73C(void *a0, int a1, int a2, int a3);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 

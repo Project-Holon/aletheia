@@ -48,18 +48,18 @@ typedef struct {
     int c;
 } V;
 
-extern u32 func_02188D2C(void *a);
+extern int func_02188D2C(int *p);
 extern u32 func_02188C80(void *a);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EC4(u32 a);
 extern u8 *func_0200B3A4(u32 a, u32 b);
-extern int func_02188C84(void *p);
-extern u8 *func_02189764(void *p, int a, int b, int c);
+extern u16 func_02188C84(u8 *p);
+extern void *func_02189764(unsigned char *p, int id, int a, int b);
 extern void func_021BE760(u32 p, void *a, int b);
 extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
 extern void func_021F38D4(u8 *base, u32 t, int idx);
 extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
-extern void *func_02188CB4(void *a);
+extern void *func_02188CB4(u8 *p);
 extern void func_021A3038(void *a, int *v);
 extern int func_021F40D8(int *p);
 extern void func_021F3FA8(u32 a, void *b, u32 c);

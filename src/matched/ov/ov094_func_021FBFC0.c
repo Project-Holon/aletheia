@@ -29,7 +29,7 @@ extern char d_0220AE68[];
 extern int *func_02030734(u16, u32, int, const char *, u16);
 extern u32 func_0201134C(void *);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, int);
-extern void func_021F896C(void *, void (*)(void *), int);
+extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE8D8(void *, void *);
 extern void func_021FE6A4(void *, void *);
 extern void func_021FE750(void *);

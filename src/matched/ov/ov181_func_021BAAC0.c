@@ -13,7 +13,8 @@
  *   func_020434DC  0x020434DC  arm
  */
 
-extern void func_020434DC(int, int);
+typedef unsigned int   u32;
+extern void func_020434DC(u32 mask, u32 enable);
 
 int func_021BAAC0(void)
 {

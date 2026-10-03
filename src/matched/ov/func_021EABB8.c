@@ -17,8 +17,10 @@
  * Release both children of the object and then a global one.
  */
 
-extern void func_020456F8(void *);
-extern unsigned char func_02045730(void *);
+typedef unsigned char  u8;
+struct Descriptor;
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned int);
 
 void func_021EABB8(void **p)

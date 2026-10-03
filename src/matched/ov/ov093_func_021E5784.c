@@ -28,13 +28,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021D76BC(int, int);
-extern int func_021C8010(void *p, int k);
+struct Q7;
+struct QQ;
+extern int func_021D76BC(int key, u32 val);
+extern int func_021C8010(u8 *p, unsigned int v);
 extern int func_021C815C(void *p);
 extern u8 func_021B8C20(int kind, u32 flags, u32 v);
 extern void *func_021C88A4(void *a, int k, int b);
-extern int func_021C8138(void *p);
-extern u16 func_021D70A8(void *p);
+extern u16 func_021C8138(struct Q7 *p);
+extern u16 func_021D70A8(struct QQ *p);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F29E8[];
 

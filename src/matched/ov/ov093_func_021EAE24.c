@@ -13,7 +13,8 @@
  *   func_021EE25C 0x021EE25C thumb ov093
  */
 typedef unsigned char u8;
-extern void func_021EE23C(void *);
+struct Q;
+extern void func_021EE23C(struct Q *q);
 extern int func_021EE25C(void *);
 void func_021EAE24(u8 *p)
 {

@@ -22,11 +22,11 @@ typedef struct { u8 a : 5; u8 flag : 1; } Flags;
 typedef struct { u32 kind : 4; u32 rest : 28; } Command;
 extern void func_021CE2E8(u8 *);
 extern u32 *func_021EE6B8(void *,u8,u8 *,u8 *);
-extern void func_021D3F54(void *);
-extern void func_021D3FD0(void *);
+extern void func_021D3F54(u8 *p);
+extern void func_021D3FD0(unsigned char *p);
 extern void func_021EAF18(void *,int,int);
 extern void func_021EA614(void *,void *);
-extern int func_021EA710(void *);
+extern int func_021EA710(u32 *p);
 int func_021CE1B0(u8 *p,int *state)
 {
     u8 count;

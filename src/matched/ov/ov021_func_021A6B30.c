@@ -23,7 +23,8 @@ typedef struct {
     short h2;
 } P;
 
-extern int func_02006148(int a);
+typedef unsigned int   u32;
+extern int func_02006148(u32 a0);
 extern void func_020061F8(void);
 
 void func_021A6B30(P *p)

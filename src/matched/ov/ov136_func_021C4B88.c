@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021C44FC(u8 *);
-extern void func_02021FD8(void *, u32, u32, u32, u8, u16);
+struct Chan02021FD8;
+extern void func_02021FD8(struct Chan02021FD8 *p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 void func_021C4B88(void *unused, u8 *p)
 {
     u8 old;

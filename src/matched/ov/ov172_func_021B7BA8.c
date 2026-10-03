@@ -29,7 +29,7 @@ typedef struct {
     u8 rest : 6;
 } Flags;
 extern const char d_021C71F4[];
-extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021B8614(int unused, int unused2, void *p);
 extern int func_021BE0D8(void *p);
 extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u32 line);

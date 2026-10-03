@@ -15,5 +15,6 @@
  */
 extern unsigned int func_021B86B8(void *);
 extern void *func_021D5844(void *);
-extern void func_0200CFA0(void *,void *);
+struct Blk37;
+extern void func_0200CFA0(struct Blk37 *p, void *m);
 void func_021B8750(char *p,unsigned char k,void *m) { if(func_021B86B8(p)<=1 && k!=0) func_0200CFA0(*(void **)(*(char **)p+0x68),func_021D5844(m)); }

@@ -47,7 +47,7 @@ extern u8 *func_02030734(u32 heap, u32 size, u32 align, const u8 *file,
                          u32 line);
 extern void func_02082A7C(u32 a, void *p, u32 n);
 extern void func_020819B8(void *p, u32 n);
-extern u32 func_02033534(u32 a);
+extern int func_02033534(u32 a);
 extern const u8 str_020A7848[];
 extern u8 *g_02146994;
 

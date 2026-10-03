@@ -34,11 +34,11 @@ extern void func_02007084(void);
 extern void func_0202F7C4(u32 mode);
 extern int  func_0203CD98(void);
 extern void func_0203CF04(void);
-extern void func_0203CEAC(u32 a);
+extern int func_0203CEAC(int a0);
 extern void func_0203D0D0(void);
-extern void func_0203CF5C(void);
+extern u32 func_0203CF5C(void);
 extern int  func_0203CDBC(void);
-extern void func_020351A0(u32 a);
+extern int func_020351A0(u32 v);
 extern void func_020053EC(void);
 
 void func_0202F788(u32 mode)

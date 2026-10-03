@@ -21,14 +21,17 @@
  *   func_021D0218  0x021D0218  thumb  ov021
  */
 
-extern int func_02188C84(void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u16 func_02188C84(u8 *p);
 extern int func_02188C80(void *);
 extern unsigned func_020120F4(unsigned);
 extern unsigned func_02012EC4(unsigned);
-extern int func_02188C9C(void *);
+extern u16 func_02188C9C(u8 *p);
 extern void func_021F3998(int, int *, int *);
 extern char *func_0200B3A4(unsigned, int);
-extern int func_02188CD0(void *);
+extern u32 func_02188CD0(u8 *p);
 extern int func_021D0218(int, int, int);
 
 void func_021F37C0(void *a, int b, int c)

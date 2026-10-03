@@ -56,7 +56,7 @@ struct State {
 
 extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
 extern struct Obj *func_0204B034(unsigned char *a0, unsigned int a1, unsigned int heap);
-extern void func_0204B258();
+extern void func_0204B258(struct Bank *bank, void *p);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);

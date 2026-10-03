@@ -58,7 +58,8 @@ typedef struct DWCCalInfo {
 extern int func_02084F80(char *dst, unsigned long len, const char *fmt, ...);
 extern unsigned long func_0209477C(const char *s);
 extern int func_02179F3C(DWCHttp *http, const char *label, const void *data, unsigned long len);
-extern unsigned long func_02096578(const unsigned short *s);
+typedef unsigned short u16;
+extern int func_02096578(const u16 *s);
 extern int func_02179E60(DWCHttp *http, const char *label, const char *data);
 
 extern const char g_021A24E0[];

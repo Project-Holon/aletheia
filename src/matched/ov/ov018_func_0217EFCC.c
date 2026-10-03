@@ -18,8 +18,10 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 a, b, c, d; int e, f; } State;
-extern void *func_020120F4(const void *);
-extern u8 func_02012B58(const void *);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 func_02012B58(const struct BigObj *p);
 extern void func_0217F008(char *, char *);
 void func_0217EFCC(char *p, char *q)
 {

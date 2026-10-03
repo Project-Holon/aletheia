@@ -18,8 +18,9 @@ typedef signed short s16;
 typedef unsigned int u32;
 struct Point { s16 x, y; u16 f4; u8 f6, f7; };
 extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
-extern void func_0204B92C(void *, u32);
-extern void func_0204B3DC(void *, u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D62F8(u8 *p, int x, int y)
 {
     struct Point pt;

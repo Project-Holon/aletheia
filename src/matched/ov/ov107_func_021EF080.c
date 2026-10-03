@@ -16,8 +16,10 @@
  *   func_020450C8 0x020450C8 arm
  *   func_0203F9B4 0x0203F9B4 arm
  */
-extern void func_0204B3B4(void *);
-extern void func_0204B1CC(void *);
+struct Bank;
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
+extern void func_0204B1CC(struct Bank *bank);
 extern void func_0204A5AC(void);
 extern void func_020403F4(unsigned);
 extern void func_020450C8(void);

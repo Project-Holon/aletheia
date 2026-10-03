@@ -13,7 +13,8 @@
  *   func_0203D378 0x0203D378 arm
  */
 extern int func_021B6494(int *,int,int,int *);
-extern int func_0203D378(void);
+typedef unsigned int   u32;
+extern u32 func_0203D378(void);
 int func_021B630C(int *p,int value)
 {
     int i;

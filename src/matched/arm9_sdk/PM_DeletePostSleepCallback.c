@@ -14,7 +14,8 @@
  *   g_02153004 0x02153004 data
  */
 
-extern void func_0208C788(void);
+struct PMiGenCallbackInfo;
+extern void func_0208C788(struct PMiGenCallbackInfo **listp, struct PMiGenCallbackInfo *info);
 extern void g_02153004(void);
 
 asm void PM_DeletePostSleepCallback(void)

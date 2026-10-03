@@ -30,7 +30,8 @@ extern int func_02059F38(void);
 extern void func_02086028(void *mutex);
 extern void func_021C659C(int err, int servererror);
 extern void OS_UnlockMutex(void *mutex);
-extern int func_021C73C0(void *filelist, char *buf, unsigned int bufsize, char *opt);
+struct DWCNdFileInfo;
+extern int func_021C73C0(struct DWCNdFileInfo *filelist, char *buf, unsigned int bufsize, char *opt);
 extern char g_021D3B84[];
 extern NdState g_021D3B68;
 

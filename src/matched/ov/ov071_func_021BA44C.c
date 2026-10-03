@@ -26,7 +26,8 @@ typedef struct {
     } e[3];
 } S;
 
-extern int func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+typedef unsigned int   u32;
+extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045334(int a);
 extern void func_02045374(int a);
 extern void func_020409B4(unsigned int index);

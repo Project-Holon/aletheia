@@ -43,7 +43,7 @@ extern const char str_020A79FC[];
 
 extern u32  GX_GetBankForOBJ(void);
 extern u32  GX_GetBankForSubOBJ(void);
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 u32 func_02036DC8(u32 engine, u32 b)
 {

@@ -19,7 +19,7 @@
 extern int d_021B60CC[];
 extern void func_021B23E0(void);
 extern int func_021B11E8(void);
-extern void func_021B111C(void);
+extern int func_021B111C(void);
 
 void func_021B386C(void)
 {

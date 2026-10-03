@@ -22,7 +22,7 @@ typedef signed char s8;
 extern u32  func_0201FA04(void *p);
 extern u32  func_0201C4E4(u32 a);
 extern void func_02045334(u32 a);
-extern void func_0201FEF4(void *p);
+extern void func_0201FEF4(u8 *o);
 
 u32 func_0201FEBC(u8 *p)
 {

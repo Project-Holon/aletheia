@@ -20,11 +20,16 @@
 
 typedef unsigned short u16;
 
-void *func_0201210C(void *p);
-void *func_020122C0(void *p, int a, void *cb, int n);
-void *func_020124E8(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Ctx;
+struct Desc;
+struct Obj;
+void *func_0201210C(const struct Ctx *p);
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02082BCC(void *p, int v, int n);
-int func_02188C84(void *x);
+u16 func_02188C84(u8 *p);
 int func_02180538(void);
 
 void *func_021804F8(void *p, int a)

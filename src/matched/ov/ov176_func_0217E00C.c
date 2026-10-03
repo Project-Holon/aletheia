@@ -15,7 +15,9 @@
  *   d_0217E634 0x0217E634 data a1
  *   d_0217E544 0x0217E544 data a4
  */
-extern void *func_02030734(int, unsigned, int, const char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, int, unsigned);
 extern int func_0203CD98(void);
 extern void func_0203A574(int, const void *, int, void *);

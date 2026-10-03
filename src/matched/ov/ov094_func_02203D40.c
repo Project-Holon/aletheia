@@ -38,10 +38,13 @@ extern void func_02204960(Main *, int, int, int, int, int, int, int);
 extern void func_022043C0(Main *, int, int, int, int);
 extern void func_022045A8(Main *, int, int);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
-extern void func_02040588(unsigned int, u8);
-extern void func_02045374(void *);
-extern void func_02045334(void *);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+struct Cfg;
+struct Descriptor;
+extern void func_02040588(u32 which, u32 enable);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
+extern void func_020409B4(u32 index);
 extern void func_0220687C(Main *, void *);
 void func_02203D40(void *h, Ctx *c)
 {

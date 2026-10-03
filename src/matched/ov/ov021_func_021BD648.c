@@ -33,7 +33,8 @@ typedef struct {
 
 extern Tbl d_021D9BB0;
 extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern Work *func_020124E8(void *task);
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 
 void *func_021BD648(Arg *p)
 {

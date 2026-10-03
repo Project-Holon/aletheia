@@ -24,12 +24,13 @@ typedef unsigned int u32;
 extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8D38(void *, int, u16, u8 *);
-extern u8 *func_021B9934(void *, int);
+struct Unk021D62A8;
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021CFAC4(u8 *, void *);
+extern int func_021CFAC4(void *p, void *q);
 extern int func_021CFADC(u8 *, void *);
-extern int func_021CFB8C(u8 *, void *);
-extern int func_021D62C4(void *, int);
+extern int func_021CFB8C(void *p, void *q);
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
 u32 func_021CF9B4(u8 *g, void *m, u8 *a, u16 *b)
 {
     u8 buf[4];

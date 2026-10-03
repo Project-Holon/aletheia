@@ -85,7 +85,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *sub_020071CC(void *sys, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 /* The checksum pair over a byte range: sub_0203F2FC computes it, sub_0203F328
  * writes it back into the range's own trailer. */

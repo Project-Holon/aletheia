@@ -39,7 +39,8 @@ struct Chan {
 
 extern struct Sess d_021B60D8;
 extern int d_021B4BD0;
-extern void *func_021B2A20(int id);
+struct N;
+extern struct N *func_021B2A20(int id);
 extern struct Chan *func_021B1F2C(int id);
 
 int func_021B21A4(unsigned char id)

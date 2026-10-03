@@ -23,7 +23,8 @@ struct CodeIn;
 
 extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_0202E9AC();
+typedef unsigned char  u8;
+extern void func_0202E9AC(struct CodeIn *p, u8 *a1, u32 a2, u32 a3, u32 a4);
 extern void func_02049238(void *arc);
 
 void func_021B8B24(int p)

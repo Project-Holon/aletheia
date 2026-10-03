@@ -41,8 +41,10 @@ typedef struct Work {
 } Work;
 
 extern void *func_020122C0(int a, int b, void *cb, int size);
-extern Work *func_020124E8(void *task);
-extern int func_0200E588(void);
+typedef unsigned int   u32;
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
+extern u32 func_0200E588(void);
 extern void func_021D0C58(void);
 extern u8 d_0209DF0C;
 

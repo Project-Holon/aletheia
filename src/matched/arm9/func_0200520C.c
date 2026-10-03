@@ -35,7 +35,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void func_02005640(void);
-extern void func_02082594(int mode);
+extern void func_02082594(u32 dmaNo);
 extern u32  SDK_AUTOLOAD_MAIN_TWL_START[];
 
 void func_0200520C(void)

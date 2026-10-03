@@ -37,8 +37,8 @@ extern u32 func_02008550(u32 a);
 extern u32 func_02009634(u32 a, u32 b, u32 c);
 extern u32 func_02008530(u32 a);
 extern u8 *func_02012F38(u32 a);
-extern int func_02025B64(u32 a);
-extern int func_021CFD88(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u8 func_02025B64(u32 v);
+extern int func_021CFD88(int a, u32 b, u32 c, int d, int e);
 
 int func_021CFD08(u32 a, u32 b, u8 *c, int d, u32 e)
 {

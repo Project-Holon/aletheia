@@ -16,7 +16,7 @@
  *   func_021E908C  0x021E908C  thumb  ov093
  */
 
-extern void func_021BAB9C(int);
+extern int func_021BAB9C(int a);
 extern int func_021CD97C(int);
 extern void func_021CDD94(int, int);
 extern void func_021E908C(int);

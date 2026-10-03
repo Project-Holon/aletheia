@@ -36,15 +36,15 @@ typedef struct {
 extern u8 *func_0216DEEC(u32 a);
 extern void func_0216D1C8(u8 *o, u32 a, u32 b);
 extern void func_0216D040(u8 *o, Rec *r, u32 c, u32 a);
-extern void func_0216D208(u8 *o);
-extern int func_0216E51C(u8 *o);
+extern void func_0216D208(void *p);
+extern int func_0216E51C(void *a);
 extern void func_0216D548(u8 *o, u32 v);
-extern int func_0216D4D4(u32 a, u32 v);
+extern int func_0216D4D4(int a0, int a1);
 extern void func_0216D244(u32 a, u8 *o);
 extern void func_0216D268(u32 a, u8 *o);
 extern void func_0216E114(u8 *o);
 extern u32 func_0216D67C(u8 *o);
-extern int func_0216D4FC(u32 a0);
+extern int func_0216D4FC(int a0);
 extern void func_0216D0E8(u8 *o, Rec *r, u32 z);
 
 u8 *func_0216CDC4(u32 a, Rec *p, u32 b, u32 c)

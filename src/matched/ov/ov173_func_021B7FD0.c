@@ -13,8 +13,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0204B878(void *,unsigned);
-extern void func_0204B8C4(void *,int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B8C4(struct Obj *p, u32 value);
 void func_021B7FD0(u8 *p,int direction)
 {
     func_0204B8C4(*(void **)(p+264),0);

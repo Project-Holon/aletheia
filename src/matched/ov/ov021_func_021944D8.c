@@ -23,15 +23,15 @@
 
 typedef unsigned short u16;
 
-extern int *func_0216D69C(void *a);
+extern void *func_0216D69C(void *p);
 extern int func_021945A0(int x);
 extern void func_0216D5E0(void *a, int x);
 extern void func_0216D88C(void *a, int *out);
-extern int func_0216D5F8(void *a);
+extern u16 func_0216D5F8(void *p);
 extern void func_0216E014(void *a, int p, int n);
-extern int func_0216D598(void *a);
+extern u16 func_0216D598(void *p);
 extern void func_0216D674(void *a, int v);
-extern void func_0216DAC8(void *a, int v);
+extern void func_0216DAC8(unsigned int *p, unsigned int v);
 
 void func_021944D8(void *a)
 {

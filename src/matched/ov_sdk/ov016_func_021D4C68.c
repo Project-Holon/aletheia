@@ -17,7 +17,7 @@
  *   g_021DE66C  0x021DE66C  data
  */
 
-extern void func_021D6438(void *p);
+extern void func_021D6438(void **mem);
 extern void func_021D546C(void *que, void *elem);
 extern char *g_021DE66C;
 

@@ -17,11 +17,13 @@
  *   func_021780FC  0x021780FC  thumb ov014
  */
 
-int func_0203D378(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+u32 func_0203D378(void);
 int func_02176048(char *a, char *b, void *c, int d);
 int func_020399A8(void);
-void func_0203D1E8(int a, int b);
-void func_021780FC(int a);
+void func_0203D1E8(u32 unused, void *arg);
+void func_021780FC(u8 value);
 
 typedef struct { int w0; unsigned f : 4; } S;
 

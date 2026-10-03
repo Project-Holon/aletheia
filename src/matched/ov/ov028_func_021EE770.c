@@ -19,7 +19,9 @@
 
 int *func_021A21B8(int a);
 void func_021A232C(int a, int b, int c, int d, int e);
-unsigned short func_02014A10(int a);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+u16 func_02014A10(u32 i);
 int func_021A2108(int a, int b, int c);
 int func_021A23B0(int a);
 

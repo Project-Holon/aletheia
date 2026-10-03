@@ -23,7 +23,8 @@ extern int func_0216D5F8(int a);
 extern int func_0216D55C(int a, int b);
 extern int func_021641E8(int a);
 extern int func_021641F8(int a);
-extern void func_0219E784(int a, int b, s16 *v);
+typedef unsigned int   u32;
+extern void func_0219E784(u32 o, u32 idx, s16 *v);
 extern void func_0207CDB8(s16 *a, s16 *b);
 
 int func_021D0914(int a, s16 *v)

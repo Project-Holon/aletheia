@@ -26,8 +26,9 @@ typedef unsigned int u32;
 
 extern u32  func_02087988(void);
 extern void func_0208799C(u32);
-extern void *func_02060614(void *, void *);
-extern void func_020605B4(void *, void *);
+struct DList;
+extern void *func_02060614(struct DList *list, void *elem);
+extern void func_020605B4(volatile struct DList *list, void *elem);
 extern void func_02075B28(void *);
 
 void func_02075AB8(void *a, u32 v)

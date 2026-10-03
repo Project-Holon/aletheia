@@ -18,7 +18,7 @@
 extern char data_02732EFC[];
 void func_02087988(void);
 void func_0208799C(void);
-void func_0272FD40(void);
+void func_0272FD40(int a0);
 
 asm void func_0272FDDC(int ch, const void *src, void *dst)
 {

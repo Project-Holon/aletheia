@@ -18,8 +18,10 @@ typedef unsigned int u32;
 typedef struct TaskWork { void *system; void *vm; void *owner; int c; int idx; int n; } TaskWork;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_020122C0(void *, void *, void *, u32);
-extern TaskWork *func_020124E8(void *);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_021591B4(int, int, TaskWork *);
 void *func_02159204(void *vm)
 {

@@ -37,7 +37,7 @@ struct ArpEntry {
 
 extern unsigned long func_02087988(void);
 extern unsigned long func_021578EC(unsigned long ip);
-extern unsigned long func_02157928(unsigned long ip);
+extern int func_02157928(unsigned v);
 extern unsigned long long func_020870D0(void);
 extern unsigned long func_0208799C(unsigned long state);
 extern struct NetVars g_021A826C;

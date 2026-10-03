@@ -32,7 +32,7 @@ struct Sys {
     u8         head;
 };
 
-extern u32 func_02028DB8(struct Sys *s);
+extern int func_02028DB8(void *obj);
 
 void func_02028E80(struct Sys *s)
 {

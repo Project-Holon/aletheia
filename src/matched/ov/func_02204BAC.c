@@ -19,7 +19,7 @@
  * lane O10 candidate
  */
 
-extern int  func_021F8678(void);
+extern void *func_021F8678(void);
 extern void func_021F8884(int a);
 extern void func_0220687C(char *p, int v);
 

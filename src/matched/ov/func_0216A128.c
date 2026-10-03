@@ -20,8 +20,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02027FD8(void *);
-extern void func_02045808(void *);
+struct TaskMenuState;
+struct U16Vec;
+extern void func_02027FD8(struct TaskMenuState *s);
+extern void func_02045808(struct U16Vec *vec);
 
 void func_0216A128(void *p)
 {

@@ -29,10 +29,10 @@ typedef struct {
 } Seq;
 
 extern int func_021B8D8C(void *p, void *a, u32 b);
-extern void func_021EA384(void *win, int a);
-extern int func_021EA3A0(void *win);
+extern void func_021EA384(char *ctx, int a);
+extern int func_021EA3A0(u32 *p);
 extern void func_021EA678(void *win, u16 a, void *b);
-extern int func_021EA710(void *win);
+extern int func_021EA710(u32 *p);
 
 int func_021D21D4(Seq *s, int *state, u32 *a)
 {

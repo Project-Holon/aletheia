@@ -23,12 +23,14 @@ typedef unsigned int u32;
 typedef struct Point {s16 x,y;} Point;
 typedef struct Entry {s16 x,y; s16 rest[3];} Entry;
 extern const Entry d_021CA6C8[];
-extern void func_0204B3DC(void *,u32);
-extern void func_0204B878(void *,u16);
-extern void func_0204B9A0(void *);
-extern void func_0204B92C(void *,int);
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B878(struct Obj *p, u16 value);
+extern void func_0204B9A0(struct Actor *a);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B404(void *,const Point *,u32);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 static inline void Outside(int wnd,int effect)
 {
     u32 tmp=(*(volatile u16 *)0x0400004A & ~0x3F) | wnd;

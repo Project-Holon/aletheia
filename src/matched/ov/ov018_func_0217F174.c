@@ -12,7 +12,9 @@
  *   func_0204B6F4 0x0204B6F4 arm
  */
 typedef unsigned char u8;
-extern void func_0204B6F4(void *, unsigned int, unsigned int);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 void func_0217F174(u8 *p)
 {
     p[0x117] = 0;

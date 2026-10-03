@@ -28,7 +28,8 @@ extern char *g_02146940;
 
 extern int  func_0203CD98(void);
 extern void *func_02012FCC(u32 game);
-extern u16  func_0200864C(void *pt);
+struct PlayTime;
+extern u16 func_0200864C(const struct PlayTime *p);
 extern void func_020272EC(s32 a);
 extern void func_02026824(struct Obj *o);
 

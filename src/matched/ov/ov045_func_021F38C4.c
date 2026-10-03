@@ -21,15 +21,19 @@
  *   func_021A6DC4  0x021A6DC4  thumb  ov021
  */
 
-extern void *func_0201210C(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Big;
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int   func_02188CF0(void *p);
 extern void *func_02188C80(void *p);
-extern void *func_020120F4(void *p);
-extern void *func_02012EC4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012EC4(struct Big *p);
 extern void *func_0200B3A4(void *p, int n);
-extern int   func_021F3908(void *p, int i);
+extern int func_021F3908(char *a0, int a1);
 extern void *func_02188CA4(void *p);
-extern void  func_021A6DC4(void *a, void *b);
+extern void func_021A6DC4(u32 *b, void *a);
 
 void func_021F38C4(void *a0, int a1)
 {

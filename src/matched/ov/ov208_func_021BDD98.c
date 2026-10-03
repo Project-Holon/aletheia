@@ -108,17 +108,18 @@ struct Ov208Scene {
 };
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32  func_0204AC18(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
-extern u32  func_0204A6C8(void *h, u32 a, u32 b, u32 c, u32 heap);
-extern u32  func_0204AF28(void *h, u32 a, u32 b, u32 heap);
+typedef signed int     s32;
+extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32  func_021BD148(struct Ov208ActList *list, u32 heap);
 extern u32  func_021BD3C0(u32 mgr, int key);
 extern void func_021BD3CC(u32 mgr, int key, u16 *pos);
-extern void func_021BD378(u32 mgr, int key, int v);
-extern void func_021BD368(u32 mgr, int key, int v);
-extern int  func_021BE300(u32 kind);
+extern void func_021BD378(int a, int b, int c);
+extern void func_021BD368(int a, int b, int c);
+extern int func_021BE300(int kind);
 extern void func_021BE128(struct Ov208Scene *p);
 extern void func_021BE170(struct Ov208Scene *p);
 extern struct Ov208ActSrc data_021C8440[];

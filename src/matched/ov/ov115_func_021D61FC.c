@@ -31,7 +31,8 @@ extern int func_0203CEAC(void *);
 extern void func_021D6134(void *,void (*)(void),int);
 extern void func_021D6274(void);
 extern void func_021D625C(void);
-extern void func_021D6328(void);
+typedef unsigned char  u8;
+extern void func_021D6328(u8 *p);
 void func_021D61FC(void *p) {
     if (func_0200FB24()) {
         func_0203CF04(); func_0203D0D0(); func_0203C968(); func_0203CA04(); func_0200FBA0();

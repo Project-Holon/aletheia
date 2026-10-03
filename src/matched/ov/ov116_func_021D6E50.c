@@ -19,12 +19,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_0200853C(const void *);
+typedef unsigned int   u32;
+struct Sub0200852CObj;
+extern u32 func_0200853C(const struct Sub0200852CObj *obj);
 extern u8 *func_021B9800(int,int,int);
 extern void func_02156DC4(void (*)(void),void *);
 extern void func_021B98A0(u8 *,int,int,int);
 extern void func_021B98D8(u8 *,void *,int);
-extern void func_021B98F8(void *);
+extern int func_021B98F8(u8 *p);
 extern int func_021B9748(u8 *);
 extern void func_021D7258(u8 *);
 extern void func_021D6E3C(void);

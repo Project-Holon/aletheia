@@ -46,9 +46,10 @@ typedef struct Voice {
 } Voice;
 
 extern Voice *func_021B1488(void);
-extern int func_021B1498(u8 id);
+struct AdpcmState;
+extern int func_021B1498(unsigned int i);
 extern Voice *func_021B14A8(u8 id);
-extern void func_021B043C(void *src, void *dst, u32 n, int fmt);
+extern void func_021B043C(struct AdpcmState *hdr, void *dst, int n, int mode);
 extern void func_021B1634(void *src, void *dst, u32 n, int fmt);
 extern void func_021B16B4(void *src, void *dst, u32 n, int fmt);
 extern void func_021B14F8(Voice *v);

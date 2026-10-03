@@ -13,7 +13,8 @@
  */
 typedef unsigned char u8;
 extern void func_02202940(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+extern void func_020452E8(struct Descriptor *d);
 void func_022003BC(u8 *p)
 {
     int i;

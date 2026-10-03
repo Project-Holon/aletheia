@@ -52,7 +52,7 @@ extern int  func_021B9A84(u8 *p);
 extern int  func_021B9AA0(u8 *p);
 extern int  func_021B9AB4(u8 *p);
 extern int  func_0201AA18(int);
-extern int  func_021BB3C4(u8 *p, int v);
+extern int func_021BB3C4(void *unused, u32 p);
 extern void func_0204B878(int h, int f);
 
 extern const u8 d_021BEAB0[];

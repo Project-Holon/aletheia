@@ -24,10 +24,12 @@ typedef unsigned int   u32;
 
 typedef struct { int f[7]; } S7;
 
-void *func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void *p);
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 S7 *func_020128B8(void *p);
-void func_02184894(void);
+int func_02184894(void *a, int *state, struct Obj *o);
 void func_02184CEC(void *obj, void *p);
 void func_02185F18(void *a, void *b);
 

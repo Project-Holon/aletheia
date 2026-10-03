@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 struct E { u32 a,b,c,d; u16 h; };
 extern const char d_02180814[];
-extern void func_02034714(const char *file, int line, const char *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern struct E *func_0217FB30(struct E *p);
 extern void func_0217FA10(char *p, u32 *out, u32 a, u16 b);
 void func_0217F9DC(char *p, u32 a)

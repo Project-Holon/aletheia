@@ -26,7 +26,7 @@ typedef struct _NATNegotiator {
 extern void *g_021AE698;
 extern void *func_02184144(int elemSize, int numElemsToAllocate, void (*elemFreeFn)(void *));
 extern void func_02184234(void *array, void *newElem);
-extern int func_02184200(void *array);
+extern int func_02184200(const int *p);
 extern void *func_02184208(void *array, int n);
 
 NATNegotiator *func_02199138(void)

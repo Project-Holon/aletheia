@@ -24,7 +24,7 @@ extern int d_021F4328[];
 extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 extern void *func_021BE674(void *p, int i, u16 j, u16 k);
-extern void  func_021BE6B0(void *p, int b);
+extern void func_021BE6B0(unsigned char *p, int v);
 
 void func_021F3F38(int *a, void *b, int c)
 {

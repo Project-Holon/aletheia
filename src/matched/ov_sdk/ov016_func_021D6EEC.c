@@ -17,8 +17,8 @@
  *   g_021DE6A8  0x021DE6A8  data
  */
 
-extern void func_021D7744();
-extern void func_021D6438(void *mem);
+extern void func_021D7744(unsigned int idx, void *r4);
+extern void func_021D6438(void **mem);
 extern char *g_021DE6A8;
 
 void func_021D6EEC(void)

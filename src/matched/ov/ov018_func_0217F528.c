@@ -33,7 +33,8 @@ typedef unsigned short u16;
 
 extern unsigned char d_02183B2C[];
 
-void *func_0201210C(void *p);
+struct Ctx;
+void *func_0201210C(const struct Ctx *p);
 void func_02034714(void *, int, void *);
 void *func_02190708(void *, void *, u16, u16, u16, u16);
 

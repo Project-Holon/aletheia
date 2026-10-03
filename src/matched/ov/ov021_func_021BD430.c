@@ -32,7 +32,7 @@ typedef struct {
     T t;
 } S;
 
-extern int func_021BD394(S *p);
+extern int func_021BD394(void *p);
 
 void func_021BD430(S *p)
 {

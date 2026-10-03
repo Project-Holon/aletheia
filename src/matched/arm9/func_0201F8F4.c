@@ -45,7 +45,8 @@ struct Slot {
     u32 tag;
 };
 
-extern void func_02045808(void *obj);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 
 void func_0201F8F4(struct Slot *s)
 {

@@ -16,7 +16,8 @@
  */
 
 extern int func_0218E114(void *a, int b, int c, void **pp, int d, int e, int f);
-extern int func_021903B0(void *a, void *v);
+struct GPIOperation_s;
+extern int func_021903B0(void **connection, struct GPIOperation_s *operation);
 extern int func_02186E9C(void *a, int x);
 
 int func_02190650(void *a, int a1, int a2, int a3, int a4)

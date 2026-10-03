@@ -33,17 +33,20 @@ typedef struct Obj {
     int f844;
 } Obj;
 
-extern int func_020279E8(void *p);
-extern int func_02027A04(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct TaskMenu;
+extern u32 func_020279E8(struct TaskMenu *m);
+extern u8 func_02027A04(const u8 *p);
 extern void func_021BA9AC(Obj *o);
 extern void func_021B6100(Obj *o, void *fn);
-extern void func_020414EC(int v);
-extern void func_0204B92C(void *p, int v);
+extern void func_020414EC(u32 i);
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021BB3F4(Obj *o, int v);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_021B9AAC(Obj *o);
 extern void func_021B80C4(Obj *o, int v);
-extern void func_021B8AF4(Obj *o);
+extern void func_021B8AF4(void *p);
 extern void func_021BB1AC(Obj *o);
 
 void func_021B7504(Obj *o)

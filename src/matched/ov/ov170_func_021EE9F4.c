@@ -12,7 +12,9 @@
  *   func_021EE408 0x021EE408 thumb ov170
  *   func_021EE754 0x021EE754 thumb ov170
  */
-extern void func_020260E4(void *, unsigned char);
+typedef unsigned char  u8;
+struct Sound;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021EE408(char *, int);
 extern void func_021EE754(unsigned char *, unsigned);
 #define WORK(p) (*(char **)((p) + 0x2c))

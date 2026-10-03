@@ -27,10 +27,13 @@ extern const struct Pair d_021DA740;
 extern void func_021D6C90(u8 *, int, void *);
 extern void func_0204B404(void *, struct Pos *, u16);
 extern void func_0204B5AC(void *, struct Pair *);
-extern void func_0204B92C(void *, unsigned int);
-extern void func_0204B3DC(void *, unsigned int);
-extern void func_0204B688(void *, unsigned int);
-extern void func_0204B570(void *, unsigned int);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
+extern void func_0204B570(struct Actor *actor, u32 value);
 void func_021D67B4(u8 *p, int i)
 {
     struct Pos pos;

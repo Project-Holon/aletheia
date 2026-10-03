@@ -13,7 +13,9 @@
  *   d_02180324 0x02180324 data a2
  */
 typedef unsigned short u16;
-extern int func_02008550(void *p);
+typedef unsigned char  u8;
+struct Sub0200852CObj;
+extern u8 func_02008550(const struct Sub0200852CObj *obj);
 extern const u16 d_02180324[];
 u16 func_0217ECD0(void ***ctx)
 {

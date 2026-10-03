@@ -29,11 +29,11 @@ extern int func_021B9C74(void *);
 extern int func_021BF680(u8 *);
 extern void func_021BF6CC(u8 *, u8, u8);
 extern void func_021B9BEC(u8 *, int);
-extern int func_021BAC0C(void *);
+extern int func_021BAC0C(u8 *p);
 extern void func_020245AC(struct T245 *, u32);
 extern void func_020241E0(struct T241 *, u16 *, u16 *);
 extern void func_021BD7A0(u8 *, Handler);
-extern void func_021BF4C4(void);
+extern int func_021BF4C4(u8 *p, int *q);
 extern void func_021BF500(u8 *);
 void func_021BF53C(u8 *p, u32 *q)
 {

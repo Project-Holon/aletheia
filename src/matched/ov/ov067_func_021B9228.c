@@ -41,7 +41,7 @@ struct S {
     s8 f66;
 };
 
-extern void func_021B8FE4(struct S *p, int a1, int a2);
+extern void func_021B8FE4(struct S *s, u32 a1, u32 a2);
 extern void func_021B90B8(struct S *p, int a1, int a2);
 extern void func_021B9138(struct S *p, int a1, int a2);
 

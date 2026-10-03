@@ -17,8 +17,8 @@
 
 extern int func_021F1060(void *);
 extern void func_021F0300(void *);
-extern void func_021EFEF8(void *, void *, int);
-extern void func_021F2180(void *);
+extern void func_021EFEF8(char *p, void (*f)(void), int line);
+extern void func_021F2180(char *p);
 
 void func_021F21B4(char *p)
 {

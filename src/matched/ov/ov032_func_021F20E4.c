@@ -29,7 +29,8 @@ extern void func_02045374(u32 a);
 extern u8 func_02045730(u32 a);
 extern u32 func_02045770(u32 p);
 extern void func_02041B6C(u32 bit);
-extern void func_02031194(void *task);
+struct TcblNode;
+extern void func_02031194(struct TcblNode *n);
 
 void func_021F20E4(void *task, char *q)
 {

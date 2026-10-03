@@ -53,8 +53,9 @@ typedef struct {
 } R;
 
 extern int func_020120F4(int);
-extern void *func_0201210C(void *p);
-extern int func_02188C54(void *);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188C54(u8 *p);
 extern int func_020122C0(int, int, void *, int);
 extern R *func_020124E8(int);
 extern int func_020457B0(int, int);
@@ -66,7 +67,7 @@ extern int func_02012964(int);
 extern int func_0216DE94(int, int);
 extern int func_0216D88C(int, void *);
 extern int func_0219129C(int, int, void *, int, int, int);
-extern void func_02168174(void);
+extern int func_02168174(int a0, int a1, int a2);
 
 int func_021680C8(int a, E *b, int c, int d)
 {

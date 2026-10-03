@@ -36,17 +36,22 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020120F4(void *);
-extern void *func_0201210C(void *p);
-extern void *func_02012934(void *p);
-extern void *func_02012EBC(void *);
+struct Big;
+struct BigObj;
+struct Ctx;
+struct Desc;
+struct Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_02012EBC(struct Big *p);
 extern int func_02019ED4(void *ctx, void *q);
 extern int func_0201A090(void *rules, void *party, u32 *mask);
 extern void *func_0200BAC8(void *);
 extern u32 func_0200BBA8(void *a);
 extern void *func_0200BAF4(void *a0, int a1);
-extern void *func_020122C0(void *a, int b, void *cb, int size);
-extern u32 *func_020124E8(void *task);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern void func_020307B0(void *p);
 extern void func_021B59B0(void);
 

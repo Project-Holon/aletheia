@@ -66,12 +66,14 @@ struct Bmp {
 
 extern const char func_0204384C_File[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
-                           u32 line);
+typedef signed int     s32;
+struct BmpInfo;
+struct NitroFileHeader;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern void *func_0204A1BC(u32 arc, u32 member, u32 heap2, u16 tag);
-extern u32   func_02062A4C(void *handle, void **out);
-extern void  func_02043900(struct Bmp *b, void *info, u32 heap);
+extern s32 func_02062A4C(struct NitroFileHeader *file, void **out);
+extern void func_02043900(struct Bmp *b, struct BmpInfo *info, u32 heap);
 extern void  OS_Terminate(void);
 
 struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap)

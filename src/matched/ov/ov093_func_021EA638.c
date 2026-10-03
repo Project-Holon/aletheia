@@ -21,7 +21,9 @@ struct H {
 };
 
 extern void func_021EA55C(struct H *p, int a);
-extern void func_021EA730(char *p, int a, int b, int c);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void func_021EA730(char *p, u32 a, u16 b, u32 c);
 
 void func_021EA638(char *p, struct H *h, int c)
 {

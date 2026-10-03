@@ -17,9 +17,10 @@
  *   func_021D7390 0x021D7390 thumb ov123
  */
 extern int func_0203CD98(void);
-extern int func_021B95D4(int,void *);
-extern int func_021B973C(void *);
-extern int func_021B9748(void *);
+typedef unsigned char  u8;
+extern int func_021B95D4(int index, u8 *p);
+extern int func_021B973C(char *p);
+extern int func_021B9748(u8 *p);
 extern int func_021BE79C(int,unsigned int,unsigned int);
 extern void func_021D6EE0(char *,int,int);
 extern void func_021D7390(char *);

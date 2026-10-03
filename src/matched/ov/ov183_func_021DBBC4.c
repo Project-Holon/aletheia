@@ -20,15 +20,18 @@
  *   func_021FD6B0 0x021FD6B0 thumb ov186
  *   func_021FD1BC 0x021FD1BC thumb ov186
  */
-extern int func_02012E40(void *);
-extern int func_021FF88C(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct PrintSys;
+extern u8 func_02012E40(const u8 *o);
+extern int func_021FF88C(char *p);
 extern void func_021F9C6C(void *);
-extern void func_021FD71C(void *);
-extern int func_021FD72C(void *);
-extern void func_021FD854(void *);
-extern void func_0201C4E4(void *);
-extern void func_021FC830(void *);
-extern void func_021FD6B0(void *);
+extern void func_021FD71C(u8 *p);
+extern int func_021FD72C(int *p);
+extern void func_021FD854(char *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern int func_021FC830(u8 *p);
+extern int func_021FD6B0(u8 *p);
 extern void func_021FD1BC(void *);
 int func_021DBBC4(int a,int b,int c,char *p)
 {

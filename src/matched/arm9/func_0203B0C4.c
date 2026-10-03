@@ -30,11 +30,13 @@
 extern int  g_021469DC;
 extern char s_020A7BA8[];
 extern char s_020A7BC8[];
-extern void func_02034714(const char *a0, int a1, const char *a2);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02082D44(int a0, int a1, int a2);
 extern void func_0203AD80(int a0, int a1, int a2, int a3);
 extern void func_0203B084(void);
-extern void func_0203B038(void);
+extern void func_0203B038(u8 *a0);
 
 void func_0203B0C4(int a0, int a1)
 {

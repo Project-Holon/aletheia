@@ -43,12 +43,12 @@ typedef struct {
 
 extern const Tmpl d_021DAA80;
 
-extern u16 func_0200C468(void *a);
+extern u16 func_0200C468(const u8 *a);
 extern u8 func_0200C464(void *a, u8 i);
 extern void *func_0201F81C(int n, u32 heap);
 extern void func_0201F878(void *, u32, int, int, u32);
 extern void func_021C5880(u16 *a, u16 *b, u16 c);
-extern void func_021C576C(void);
+extern void func_021C576C(void *a);
 extern void *func_0201FF30(Tmpl *t, u16 a, u16 b, u32 heap);
 
 void func_021C58CC(char *p, u16 a, u16 b, u32 heap)

@@ -16,7 +16,9 @@
  *   func_021DEB34  0x021DEB34  thumb  ov119
  */
 
-extern void func_02045CAC(void *arc, int entry, void *dst);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern void func_021E1024(void *p);
 extern void func_021D8E84(void *p, int next);
 extern void func_021DEB34(void *p);

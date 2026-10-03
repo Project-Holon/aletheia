@@ -18,7 +18,8 @@ typedef struct {
 } Tbl;
 
 extern const Tbl d_021C398C;
-extern void func_0201DD78(int a, int b, int c);
+typedef unsigned int   u32;
+extern void func_0201DD78(u32 r, u32 g, u32 b);
 
 int func_021BB918(void *w, unsigned int idx)
 {

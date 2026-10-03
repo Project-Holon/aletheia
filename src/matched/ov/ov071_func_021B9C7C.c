@@ -43,11 +43,11 @@ typedef struct {
     int f2f4;
 } S;
 
-extern int func_02035CB8(u32 *a, u32 *b);
+extern u32 func_02035CB8(u32 *outA, u32 *outB);
 extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern int func_02035C60(void);
 extern int func_021B9F2C(S *p, int i, int v);

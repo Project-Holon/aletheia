@@ -18,5 +18,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02045EC0(void *,u32); extern u32 func_021B6148(u8 *); extern void func_0201F02C(void *,u32,void *); extern void func_0201F250(void *,void *,void *); extern void func_021B6B8C(int,int); extern void func_02045808(void *);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index); extern u32 func_021B6148(u8 *); extern void func_0201F02C(void *,u32,void *); extern void func_0201F250(void *,void *,void *); extern void func_021B6B8C(int,int); extern void func_02045808(void *);
 void func_021B694C(u8 *p,u8 *q) { void *r; u32 t; r=func_02045EC0(*(void **)(p+32),3); t=func_021B6148(q); func_0201F02C(*(void **)(p+48),0,(void *)t); func_0201F250(*(void **)(p+48),*(void **)(p+44),r); func_021B6B8C((int)p,0); func_02045808(r); }

@@ -23,9 +23,10 @@
 
 extern int func_02183D3C(int);
 extern void func_02183D34(int, void *);
-extern void func_02183DAC(void);
-extern void func_0202208C(int, int, int, int, int, int, int);
-extern int func_020221A4(void);
+typedef unsigned int   u32;
+extern void func_02183DAC(int a, int *state);
+extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
+extern u32 func_020221A4(void);
 
 void func_02183D4C(int a, int *state)
 {

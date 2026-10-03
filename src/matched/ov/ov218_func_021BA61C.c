@@ -15,7 +15,9 @@
  */
 typedef struct Pair { short x, y; } Pair;
 typedef struct Row { char pad[0x244]; void *item; char gap[0x94]; unsigned id; } Row;
-extern void func_0204B3DC(void *, unsigned);
+typedef unsigned int   u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B454(void *, Pair *, unsigned);
 extern void func_0204B404(void *, const Pair *, unsigned);
 void func_021BA61C(char *ctx)

@@ -13,8 +13,10 @@
  *   func_020452E8 0x020452E8 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern void func_0201C6EC(void *);
-extern void func_020452E8(void *);
+struct Descriptor;
+struct PrintSys;
+extern void func_0201C6EC(struct PrintSys *p);
+extern void func_020452E8(struct Descriptor *d);
 extern void func_020307B0(void *);
 void func_021BA934(char *p)
 {

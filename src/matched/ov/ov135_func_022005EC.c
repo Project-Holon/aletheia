@@ -49,9 +49,9 @@ extern void func_020061E4(u32 se);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B3DC(u32 v, int k);
 extern void func_0204B878(u32 v, int k);
-extern void func_020355D8(int v);
+extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
-extern int func_020355C4(void);
+extern u8 func_020355C4(void);
 extern void func_0204B9A0(u32 v);
 
 int func_022005EC(Work *p)

@@ -64,29 +64,32 @@ typedef struct Work {
 
 extern void *func_02188C58(void *o);
 extern void *func_02188D38(void *o);
-extern u16 func_02188C9C(void *o);
-extern void func_02185B88(void *o, int on);
-extern int func_0218F0F8(void *h);
-extern void func_0218F0A8(void *h);
-extern int func_0218F0E8(void *h);
+typedef unsigned int   u32;
+struct Evt;
+struct Obj;
+extern u16 func_02188C9C(u8 *p);
+extern void func_02185B88(void *p, unsigned int v);
+extern int func_0218F0F8(u8 *a);
+extern void func_0218F0A8(u8 *a);
+extern u32 func_0218F0E8(u8 *a);
 extern void func_021BDCC8(void *p, void *q);
 extern void func_02029D7C(void *a, void *b);
 extern void func_021A82D8(void *a, Work *w);
 extern void func_021A8278(Work *w);
 extern int func_021A8244(Work *w);
 extern void *func_021618E0(void *a, void *o);
-extern void func_02012374(void *a, void *b);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern int func_021BDD40(void *p);
-extern int func_021BDD48(void *p);
+extern int func_021BDD48(struct Obj *o);
 extern void func_021A82A8(Work *w);
 extern void func_021BDD20(void *p);
 extern u8 func_021A81EC(Work *w);
 extern void func_021A8200(Work *w);
 extern u8 func_021A81DC(Work *w);
 extern int func_021C6E48(void *p);
-extern void func_021BDD34(void *p);
+extern void func_021BDD34(u8 *p);
 extern void func_0218E160(void *h);
-extern void func_021BDCB8(void *p);
+extern void func_021BDCB8(u8 *p);
 extern void func_021A8234(Work *w);
 
 int func_021A7CE8(void *task, int *state, Work *w)

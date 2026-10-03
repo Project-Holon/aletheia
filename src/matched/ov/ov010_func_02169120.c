@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern void *func_02012EBC(void *);
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern char *func_02008B14(void *);
 extern u64 func_0203F524(void);
 void func_02169120(void *p) { char *q = func_02008B14(func_02012EBC(p)); *(u64 *)(q + 0x2c) = func_0203F524(); }

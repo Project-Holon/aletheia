@@ -37,7 +37,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0203C9AC(int,int,int,int);
+extern void func_0203C9AC(int a, u32 b, u32 c, u32 d);
 extern int func_021BA928(char *);
 extern void func_021BF280(char *,int);
 extern void func_021C1BEC(char *);
@@ -53,8 +53,8 @@ extern void func_021BAAB8(char *,int,int);
 extern int func_02156B8C(void);
 extern unsigned func_021BDD48(char *,void *);
 extern u32 func_020362DC(void);
-extern int func_021BDDA8(unsigned);
-extern void func_020061E4(int);
+extern int func_021BDDA8(int x);
+extern void func_020061E4(u32 a);
 extern void func_021C1A30(char *,int);
 extern unsigned func_021B96D0(char *);
 extern void func_021B9B64(char *);

@@ -15,7 +15,8 @@
  *   func_021B9DCC 0x021B9DCC thumb ov181
  */
 typedef unsigned short u16;
-extern void *func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct Bmp { void *pixels; u16 width, height, depth, kind; };
 extern void *func_020437D4(const struct Bmp *);
 extern void func_021BA354(void *, void *, unsigned);

@@ -26,13 +26,18 @@
 
 typedef unsigned short u16;
 
-extern void func_02027858(void *p);
-extern int  func_020456F8(void *p);
-extern int  func_02045730(void *p);
-extern void func_020409B4(int v);
-extern void func_020452E8(void *p);
-extern void func_0204B3B4(void *p);
-extern void func_020414EC(int v);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Descriptor;
+struct Obj;
+struct TaskMenu;
+extern void func_02027858(struct TaskMenu *m);
+extern void func_020456F8(struct Descriptor *d);
+extern u8 func_02045730(struct Descriptor *p);
+extern void func_020409B4(u32 index);
+extern void func_020452E8(struct Descriptor *d);
+extern void func_0204B3B4(struct Obj *p);
+extern void func_020414EC(u32 i);
 
 void func_021B8FB8(void *a0, char *a1)
 {

@@ -28,11 +28,12 @@ extern u8 *func_02012944(void *);
 extern void func_02008494(void *, void *);
 extern void *func_02008510(void *, int);
 extern void func_02082BCC(void *, u8, u32);
-extern u16 *func_02045A90(void *);
-extern u16 func_020458F8(void *);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern u16 func_020458F8(struct U16Vec *vec);
 extern u16 func_02045A98(void);
 extern void func_0217BC44(void *, int, int, int, void *, void *, int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 void func_021D6B88(u8 *p, void *save, int id)
 {
     void *str;

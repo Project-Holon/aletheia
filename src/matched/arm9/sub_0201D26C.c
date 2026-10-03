@@ -34,7 +34,8 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 sub_0201DC6C(void *font, u16 c);
+struct Font;
+extern u32 sub_0201DC6C(struct Font *p, u16 ch);
 
 u32 sub_0201D26C(u16 *p, void *font, u32 spacing, u16 **next)
 {

@@ -12,7 +12,8 @@
  * Extent ends with two bytes of zero alignment padding.
  */
 
-extern void func_021CA25C(int,int);
+typedef unsigned int   u32;
+extern void func_021CA25C(u32 a, u32 b);
 int func_021CA320(char *p)  {
     switch(*(unsigned short *)(p+8))  {
         case 0: func_021CA25C(*(short *)(p+4),1);

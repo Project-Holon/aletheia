@@ -46,7 +46,7 @@ struct B {
 extern int func_02045874(int, int);
 extern void func_02082D44(void *, void *, int);
 extern void func_02024570(struct H *, struct H *);
-extern void func_0202428C(struct H *);
+extern void func_0202428C(void *obj);
 
 void func_021B9E7C(struct A *p, struct B *src)
 {

@@ -13,7 +13,8 @@
  *   func_021D71B8 0x021D71B8 thumb ov120
  */
 typedef unsigned char u8;
-extern void func_0204B3B4(void *);
+struct Obj;
+extern void func_0204B3B4(struct Obj *p);
 extern void func_021D71B8(u8 *, void *, int);
 void func_021D7260(u8 *p, void *q)
 {

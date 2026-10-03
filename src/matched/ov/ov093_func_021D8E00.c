@@ -13,8 +13,10 @@
  *   func_021D5444 0x021D5444 thumb ov093
  * Caller uses the forwarder's live pointer return and forwards r1.
  */
-extern void *func_021C7CF4(void *, int);
-extern unsigned short func_021D5444(void *);
+typedef unsigned short u16;
+struct QF;
+extern void *func_021C7CF4(int *p, int i);
+extern u16 func_021D5444(struct QF *p);
 int func_021D8E00(void *a, int b)
 {
     if (func_021D5444(func_021C7CF4(a, b)) == 0x1a5) return 1;

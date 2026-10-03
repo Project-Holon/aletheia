@@ -29,7 +29,7 @@ extern void func_021B64A8(u8 *,u32);
 extern u32 func_0201C6B4(const struct PrintSys *);
 extern void func_021BD7D4(char *,u8,int,u8,int *);
 extern void func_0204B3DC(struct Obj *,u32);
-extern void func_021BD448(void *);
+extern void func_021BD448(char *p);
 extern void func_02031194(struct TcblNode *);
 extern const u8 d_021BDD88[];
 void func_021BD948(struct TcblNode *task,char *work)

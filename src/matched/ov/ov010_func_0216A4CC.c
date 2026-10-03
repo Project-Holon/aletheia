@@ -28,7 +28,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
-extern int *func_02012F50(void *base);
+extern void *func_02012F50(void *base);
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_021D0AC0();

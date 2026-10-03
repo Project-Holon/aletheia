@@ -34,12 +34,14 @@ typedef struct Obj {
 extern u8 d_021BFB3C[];
 extern u8 ov203_id[];
 
-extern u32 func_02012144(void *p);
+struct Comm;
+struct Ctx;
+extern u8 func_02012144(const struct Ctx *p);
 extern void func_0201213C(void *p, u32 v);
-extern int func_02026454(void *p);
-extern void func_02026400(void *p);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
 extern void func_020120B4(void *p, void *a, void *b, void *c);
-extern int func_020120F0(void *p);
+extern u32 func_020120F0(const struct Ctx *p);
 
 int func_02161BF8(void *a0, int *state, Obj *o)
 {

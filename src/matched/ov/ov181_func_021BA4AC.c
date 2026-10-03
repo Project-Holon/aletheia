@@ -13,7 +13,9 @@
  *   func_0201C7D0 0x0201C7D0 thumb
  *   d_021BAB40 0x021BAB40 data a2
  */
-extern void func_02045CAC(void *, unsigned, void *);
+typedef unsigned int   u32;
+struct MsgBank;
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
 extern unsigned func_0201D304(void *, void *, int);
 extern void func_0201C7D0(void *, short, short, void *, void *, unsigned short);
 extern const unsigned short d_021BAB40[];

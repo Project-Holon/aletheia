@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern int func_021E19A4(void);
-extern void func_021E0130(void *, int);
+extern void func_021E0130(u8 *p, int message);
 int func_021DF56C(u8 *p)
 {
     if (*(int *)(p + 12) < 180) {

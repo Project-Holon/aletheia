@@ -22,7 +22,8 @@ typedef unsigned char u8;
 
 extern void *func_02009860(void *p);
 extern void  func_02009CB0(void *p, void *buf);
-extern void  func_020598EC(void *h, void *buf);
+struct DWCstAccUserData;
+extern int func_020598EC(struct DWCstAccUserData *userdata, void *frienddata);
 
 void func_02009CC0(void *a0)
 {

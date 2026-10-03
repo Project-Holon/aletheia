@@ -21,11 +21,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Packet {u8 a,b; volatile u8 c; u8 d;};
-extern int func_02039338(void);
-extern void *func_021DCAFC(void *);
+extern u16 func_02039338(void);
+extern void *func_021DCAFC(u8 *p);
 extern unsigned func_021841A4(void *),func_021841A0(void *);
 extern u32 func_02080D24(int);
-extern int func_021DCBC4(void *,int,void *,int);
+extern void func_021DCBC4(void *p, u32 a, const void *b, u32 c);
 extern void func_021DE08C(char *,int,int);
 void func_021DCC24(int a,int b,u8 *c,u8 *p)
 {

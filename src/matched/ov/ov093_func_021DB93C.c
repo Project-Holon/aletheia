@@ -20,11 +20,11 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021D775C(int key);
-extern int func_021B9A24(u8 c, int k);
+extern int func_021B9A24(u32 a, u32 b);
 extern int func_021E85F8(int c);
 extern u32 sub_0201C1BC(u16 move);
 extern int func_021DB99C(int t);
-extern int func_021D76BC(int a, int b);
+extern int func_021D76BC(int key, u32 val);
 
 static inline void set8(int k, u8 v)
 {
@@ -36,7 +36,7 @@ void func_021DB93C(int a, int b, int x)
     int ok;
     u16 t;
 
-    if (func_021B9A24(func_021D775C(3), x) == 0) {
+    if (func_021B9A24((u8)func_021D775C(3), x) == 0) {
         ok = 0;
         if (func_021E85F8(x) != 0) {
             ok = 1;

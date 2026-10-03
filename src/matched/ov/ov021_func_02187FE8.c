@@ -17,7 +17,8 @@
  */
 
 void func_021880A4(int x);
-void func_02012110(void *p, void *v);
+struct Ctx;
+void func_02012110(struct Ctx *p, void *v);
 void func_020315D4(int a);
 void func_020306F0(int a);
 

@@ -104,31 +104,33 @@ struct Sys {
 };
 
 extern struct Ctx *g_021469F0;
-extern void *func_020399A8(void);
+typedef signed int     s32;
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_02039C68(void *h, u32 a, u32 b);
 extern int  func_02039CB4(void *h, u32 a, u32 b);
-extern int  func_02039338(void);
+extern u16 func_02039338(void);
 extern int  func_020399EC(void);
 extern int  func_02039ACC(void);
 extern void func_0203CBAC(struct Ctx *p, u32 a, u32 b);
 extern int  func_0203CD98(void);
-extern void func_0203CEAC(u32 a);
+extern int func_0203CEAC(int a0);
 extern u8  *func_0203CF10(int i);
-extern void func_0203CF3C(int i);
+extern void func_0203CF3C(u32 a);
 extern void func_0203CFF0(void *p);
 extern void func_0203D000(void);
 extern void func_0203D010(void);
 extern void func_0203D01C(void);
 extern void func_0203D0DC(void *fn);
 extern void func_0203D17C(u32 a);
-extern int  func_0203D210(void);
+extern u32 func_0203D210(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *q);
 extern struct Sys *func_0203D788(void);
 extern void func_0203DA20(void);
 extern void func_0203DC04(void);
 extern void func_0203DC4C(void);
 extern void func_0203DC68(struct Ctx *p, int state);
-extern int  func_0203EFC8(const void *a, const void *b, u32 n);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern void func_02087C6C(u8 *mac);
 
 void func_0203DC70(void)

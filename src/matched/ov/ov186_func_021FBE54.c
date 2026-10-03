@@ -26,11 +26,12 @@
 typedef unsigned int u32;
 
 extern char d_02200D48[];
-extern void func_02034714(char *a, u32 b, char *c);
+typedef signed int     s32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_0204A6C8(void *h, u32 a1, u32 a2, u32 a3, u32 s0);
 extern u32 func_0204AC18(void *h, u32 a1, u32 a2, u32 a3, u32 s0, u32 s1, u32 s2);
-extern void *func_0204AF28(void *h, u32 a1, u32 a2, u32 s0);
+extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 
 void func_021FBE54(char *base, u32 idx, u32 area)

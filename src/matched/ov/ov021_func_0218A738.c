@@ -34,8 +34,10 @@ struct Ctx738 {
     u16 f26;
 };
 
-extern void *func_02012B38(void *p);
-extern void func_02014474(void *p, int v);
+struct BigObj;
+struct Sub02014444Obj;
+extern void *func_02012B38(const struct BigObj *p);
+extern void func_02014474(struct Sub02014444Obj *o, u16 v);
 extern int func_02158768(int a0, int a1, int a2, int a3);
 extern int func_02158B00(void *p, u16 id);
 

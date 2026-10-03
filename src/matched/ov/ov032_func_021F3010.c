@@ -19,9 +19,11 @@
  */
 
 extern void *func_020450F0(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void *func_02045770(void *);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+struct Cfg;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void *func_02045730(void *);
 extern void func_020409B4(void *);
 

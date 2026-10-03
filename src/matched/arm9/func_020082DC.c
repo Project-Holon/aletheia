@@ -14,7 +14,7 @@
  */
 
 extern char g_0209DD64[];
-extern void func_020362A4(void *p);
+extern void func_020362A4(const void *p);
 void func_020082DC(void)
 {
     func_020362A4(g_0209DD64);

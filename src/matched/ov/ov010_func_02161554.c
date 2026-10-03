@@ -51,12 +51,13 @@ typedef struct Rec {
 extern const char d_02172978[];
 
 extern void *func_020120F4(void *p);
-extern void *func_02012934(void *sv);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *a, u32 b);
 extern u16 *func_020127A4(void *sv);
-extern u32 func_02012984(void *sv);
-extern u32 func_0201B2B0(void *a, void *b, u32 c, u32 d, u32 e, u32 *f, u32 g);
-extern Rec *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern u8 func_02012984(const struct BigObj *p);
+extern u32 func_0201B2B0(void *party, void *mon, u32 context, u32 param, u8 timezone, u32 *methodOut, u16 heap);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 Rec *func_02161554(Ctx *c, int a1, int mode, const Src *src)
 {
@@ -66,7 +67,7 @@ Rec *func_02161554(Ctx *c, int a1, int mode, const Src *src)
     void *k;
     u32 out;
     u32 res;
-    u32 x;
+    u8 x;
 
     sv = func_020120F4(*c->f18);
     r = 0;

@@ -19,8 +19,9 @@
 
 typedef unsigned int u32;
 
-extern void *func_02159D84(int, int);
-extern int func_02159DC8(void *);
+struct Obj;
+extern struct Obj *func_02159D84(int a, int b);
+extern u32 func_02159DC8(void *p);
 extern u32 func_02159DCC(void *, int);
 extern void func_02159C68(void *, void *, int);
 extern void func_02159DEC(void *);

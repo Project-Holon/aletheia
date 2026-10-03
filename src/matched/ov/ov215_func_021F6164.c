@@ -17,8 +17,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_0201F73C(void *, int, u16, int);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+struct Cfg;
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void *func_02045730(void *);
 extern void func_020409B4(void *);
 void func_021F6164(void *unused, char *p)

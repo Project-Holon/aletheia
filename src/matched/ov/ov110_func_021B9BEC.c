@@ -22,7 +22,7 @@ typedef struct { u32 entries[35]; } CallbackTable;
 typedef struct { u8 *owner; u32 field4, field8; int id, slot, state; } Context;
 extern const CallbackTable d_021C3B94;
 extern const char d_021C3C20[];
-extern void *func_02030734(u16, u32, u32, const char *, u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021BF7D0(u8 *);
 extern void *func_02030DA8(u32, u32, void *, int);
 void func_021B9BEC(u8 *p, int id) {

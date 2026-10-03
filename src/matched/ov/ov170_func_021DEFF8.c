@@ -19,13 +19,15 @@
  *   func_02017DE4 0x02017DE4 thumb
  */
 extern void *func_021DD2D0(void *p, int a, unsigned b);
-extern int func_02017DBC(void *p);
+typedef unsigned int   u32;
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern void *func_021DEDD8(void *p);
-extern void func_021ECCCC(char *p, void *s, int a);
-extern void func_021ED028(void *p, void *s);
+extern void func_021ECCCC(char *p, void **mon, int index);
+extern void func_021ED028(char *p, unsigned char *q);
 extern void func_021EB2A4(char *p, void *s);
 extern void func_021DEF58(void *s);
-extern void func_02017DE4(void *p, int a);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 void func_021DEFF8(char *p, unsigned b)
 {
     void *mon;

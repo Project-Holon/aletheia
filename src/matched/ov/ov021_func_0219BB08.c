@@ -22,7 +22,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 typedef int (*Step)(u32, u8 *);
 extern u8 *func_0216D69C(u32);
-extern int func_0219BC48(u32, u8 *);
+extern int func_0219BC48(int a, u8 *b);
 extern Step d_021D538C[];
 
 void func_0219BB08(u32 a)

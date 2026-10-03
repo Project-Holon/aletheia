@@ -355,13 +355,13 @@ extern GPResult func_02193488(GPConnection *connection, int sock, int *state);
 extern void func_0218946C(GPConnection *connection, GPIBuffer *buffer, char *str);
 extern void func_0218949C(GPConnection *connection, GPIBuffer *buffer, int value);
 extern void func_0218934C(GPConnection *connection, GPIBuffer *buffer, int ch);
-extern void func_02193748(char *src, char *dst);
+extern void func_02193748(const char *plaintext, char *encoded);
 extern GPResult func_02189780(GPConnection *connection, int sock, GPIBuffer *buffer,
                               int *len, GPIBool *connClosed, char *tag);
 extern GPIBool func_0219329C(GPConnection *connection, char *buffer, GPIBool flag);
 extern GPResult func_0219359C(GPConnection *connection, char *buffer, int *index,
                               char *key, char *value);
-extern GPIBool func_02193418(char *buffer, char *key, char *value, int len);
+extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern GPResult func_02189DFC(GPConnection *connection, GPICallback callback, void *arg,
                               GPIOperation *operation, int type);
 extern void func_02189D78(GPConnection *connection, GPResult result, GPIBool fatal);
@@ -371,13 +371,13 @@ extern GPResult func_021906E0(GPConnection *connection, char *nick, char *unique
                               char *email, char *firstname, char *lastname, int icquin,
                               int skip, GPEnum blocking, void *callback, void *param);
 extern void func_0219327C(char *dest, char *src, int len);
-extern char *func_021803BC(char *dest, char *src, int len);
+extern int func_021803BC(char *dst, const char *src, unsigned int n);
 extern u32 func_0217F264(void);
 extern void func_0217F2BC(u32 ms);
 extern void *func_0217EAB0(int size);
 extern void *func_0217EAC8(void *mem, int size);
 extern void func_0217EAE0(void *mem);
-extern int func_020948E0(char *a, char *b);
+extern int func_020948E0(const char *s1, const char *s2);
 extern char *func_02094B20(char *hay, char *needle);
 extern void *memset(void *dst, int ch, unsigned long n);
 extern int func_020964E0(char *s);

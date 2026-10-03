@@ -76,11 +76,15 @@ typedef struct Ctx {
 } Ctx;
 
 extern void *func_02188CCC(void *field);
-extern void *func_02188C7C(void *field);
+struct BigObj;
+struct Evt;
+struct Obj;
+struct S0201235C;
+extern void *func_02188C7C(u8 *p);
 extern int func_021A0ED4(void *link);
 extern void func_021A0F30(void *link, int on);
 extern int func_021A0F94(void *link);
-extern void func_021A0FA8(void *link);
+extern void func_021A0FA8(int *p);
 extern u32 func_021A12A4(void *link);
 extern void *func_021945A4(void *sys, void *field, u32 arg);
 extern void func_0216D9A0(void *map);
@@ -91,12 +95,12 @@ extern void func_0215EA30(Query *q, u16 a, u16 b, u32 c);
 extern void *func_0215EA38(u32 kind, Query *q, Info *info);
 extern void *func_0216075C(void *req, u16 id);
 extern void *func_021644F4(u32 i, void *a, void *b);
-extern void *func_020124E4(void *task);
-extern void *func_020120F4(void *p);
-extern void func_020129D0(void *sys, u8 v);
-extern void *func_0201210C(void *p);
-extern void func_0201235C(void *task, void *next);
-extern void func_02012374(void *task, void *sub);
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
+extern void func_020129D0(struct BigObj *p, u8 v);
+extern void *func_0201210C(const struct Ctx *p);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 int func_0215FD0C(void *task, void *unused, Ctx *c)
 {

@@ -19,9 +19,11 @@
 
 typedef short s16;
 
-extern void *func_02188CB4(void *p);
+typedef unsigned short u16;
+typedef unsigned char  u8;
+extern void *func_02188CB4(u8 *p);
 extern void func_021A3038(void *p, int *v);
-extern int func_02188C9C(void *p);
+extern u16 func_02188C9C(u8 *p);
 extern s16 d_021807AC[][2];
 extern s16 d_021807C0[][2];
 

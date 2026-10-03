@@ -27,9 +27,10 @@ extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
-extern void func_0216D410(void *, int);
+typedef unsigned short u16;
+extern void func_0216D410(void *a0, u16 a1);
 extern int func_0216D454(void *);
-extern void func_0216D480(void *);
+extern int func_0216D480(char *p);
 extern int func_021BE92C(int, int, int, int, int, int, int);
 extern void func_02012374(int, int);
 

@@ -9,7 +9,7 @@
  *   func_021FA284 0x021FA284 thumb
  */
 extern void func_021FD73C(void *, void *);
-extern void func_021FA284(void);
+extern void func_021FA284(void *p, int *state, unsigned char *ctx);
 void func_021FAA34(void *p, int *state, int *ctx)
 {
     if (*state == 0) {

@@ -20,9 +20,9 @@
  *       --func func_021CADCC --addr 0x021CADCC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern int func_021D6824(int);
+extern int func_021D6824(unsigned int f);
 extern int func_021CAC44(void);
-extern void func_021BCB28(int);
+extern void func_021BCB28(signed char v);
 
 void func_021CADCC(void)
 {

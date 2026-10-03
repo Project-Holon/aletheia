@@ -18,19 +18,24 @@
  *   func_020093D4 0x020093D4 thumb
  */
 typedef unsigned short u16;
-extern void *func_02009448(void *);
+typedef signed int     s32;
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sub02009210Obj;
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 extern void func_020307B0(void *);
 extern int func_020076D0(void *,void *,void *);
-extern int func_020173EC(void);
-extern void *func_02030734(int,int,int,const char *,u16);
-extern void *func_02009290(void *);
+extern u32 func_020173EC(void);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern u8 *func_02009290(struct Sub02009210Obj *obj);
 extern void func_02082D44(void *,void *,int);
-extern int func_02017E1C(void *,int,void *);
-extern void func_02019CA0(void *,int);
-extern int func_020185F4(void *);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02019CA0(void *p, u32 v);
+extern void *func_020185F4(void *p);
 extern void func_020074D8(void *,int);
-extern void func_020092F8(void *,int);
-extern void func_020093D4(void *,int);
+extern void func_020092F8(struct Sub02009210Obj *obj, u8 value);
+extern void func_020093D4(struct Sub02009210Obj *obj, s32 value);
 extern const char d_021DAB78[];
 void func_021D7224(char *p)
 {
@@ -58,7 +63,7 @@ void func_021D7224(char *p)
             }
             func_02019CA0(q,n);
         }
-        func_020074D8(*(void **)(p+0x24),func_020185F4(q));
+        func_020074D8(*(void **)(p+0x24),(int)func_020185F4(q));
         *(void **)(p+0xc)=q;
         func_020092F8(g,0);
         func_020093D4(g,*(int *)(p+0x7c));

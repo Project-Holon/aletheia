@@ -27,8 +27,8 @@ typedef unsigned short u16;
 typedef struct { u16 a[7]; } WPB;
 extern WPB *g_021DE65C;
 
-extern int func_021F1C30(int, int);
-extern void func_021F5FB0(int);
+extern int func_021F1C30(unsigned short child_aid, int ack);
+extern void func_021F5FB0(u16 aid);
 extern unsigned long func_02087988(void);
 extern unsigned long func_0208799C(unsigned long);
 

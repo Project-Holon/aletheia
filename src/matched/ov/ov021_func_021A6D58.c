@@ -24,12 +24,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02188C5C(void *p);
-extern void *func_02188CB4(void *p);
+extern u32 func_02188C5C(u8 *p);
+extern void *func_02188CB4(u8 *p);
 extern void func_021A3664(u32 *p, u32 heap);
 extern u32 func_021A36A4(u8 *p);
 extern void func_021BB3AC(u32 a, u32 b);
-extern u32 *sub_02030734(u32 heap, u32 size, int clear, const char *site, u32 tag);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char data_021DDF1C[];
 
 u32 *func_021A6D58(void *a, u32 heap)

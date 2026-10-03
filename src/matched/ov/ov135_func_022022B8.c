@@ -45,16 +45,20 @@ typedef struct {
 } Work;
 
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void func_0200CDE0(void *dex, void *mon);
-extern int func_0201AA18(void *party);
+struct Blk37;
+struct Party;
+struct PartyMon;
+struct Rec0200AD94;
+extern void func_0200CDE0(struct Blk37 *p, void *m);
+extern u32 func_0201AA18(void *p);
 extern void func_02017E40(void *mon, u32 id, u32 v);
 extern u8 func_02017F50(u32 species, u16 form, u32 pid);
 extern void func_0220246C(void *p, int which);
-extern u32 func_0201A98C(void *party, void *mon);
+extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern int func_020076D0(u32 s, u32 *a, u32 *b);
 extern u32 func_022026BC(void *mon);
 extern void func_0200752C(u32 s, u32 a, u32 e);
-extern void func_0200AD94(void *p, u16 v);
+extern void func_0200AD94(struct Rec0200AD94 *p, u16 v);
 
 void func_022022B8(Work *p, void *mon, u32 box, int hatch)
 {

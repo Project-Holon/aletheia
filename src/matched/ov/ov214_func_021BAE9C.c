@@ -22,11 +22,14 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern u32 func_02030CB0(u32);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void *func_02030CBC(u32,void *);
+struct Ctx;
+struct Obj02021EE4;
+struct PalAnmSlot;
+extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_02021518(u32);
-extern void func_02021EE4(void *,int);
-extern void func_0202155C(void *,u32,u32,u32);
-extern void func_020216D4(void *,u32,u32,u32);
+extern void func_02021EE4(struct Obj02021EE4 *o, int v);
+extern void func_0202155C(struct PalAnmSlot *slots, u32 idx, u32 size, u32 heap);
+extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern const char site[];
 void func_021BAE9C(int unused,char *p)
 {

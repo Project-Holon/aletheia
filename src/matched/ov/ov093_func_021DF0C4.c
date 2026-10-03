@@ -33,7 +33,8 @@ typedef struct Word { u32 v; } Word;
 extern Word func_021E899C(int a);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);
-extern u16 func_021D70A8(void *p);
+struct QQ;
+extern u16 func_021D70A8(struct QQ *p);
 void func_021C88C8(int a, void *p);
 
 void func_021DF0C4(void *a, int b, int c)

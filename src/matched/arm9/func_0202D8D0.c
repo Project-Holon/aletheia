@@ -15,8 +15,9 @@
  *   func_0202D7D8  0x0202D7D8  thumb
  */
 
-extern int func_02017E88(void *obj, int which, int zero);
-extern int func_02017EB4(void *obj);
+typedef unsigned int   u32;
+extern u32 func_02017E88(void *p, u32 id, u32 v);
+extern u32 func_02017EB4(void *p);
 extern int func_0202D7D8(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7,
                           unsigned short a8, unsigned short a9);
 

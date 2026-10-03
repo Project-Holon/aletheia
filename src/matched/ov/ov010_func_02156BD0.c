@@ -26,11 +26,13 @@ typedef struct Obj {
     u32 *f0c;
 } Obj;
 
-extern void func_02034AC4(u32);
+typedef signed int     s32;
+typedef unsigned short u16;
+extern int func_02034AC4(s32 handle);
 extern char ov133_id[];
 extern void func_0203064C(int, int, int);
 extern Obj *func_0203159C(void *, int, int);
-extern u32 *func_02030734(int, int, int, const char *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern const char d_02172730[];
 
 int func_02156BD0(void *a, u32 *out, u32 *src)

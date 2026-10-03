@@ -18,7 +18,7 @@
  *   g_021AA878     0x021AA878  data
  */
 
-extern int func_02195E60(const void *p);
+extern int func_02195E60(const int *p);
 extern int func_0217ED54(void);
 extern void func_02059F54(int error, int errorCode);
 extern char g_021AA878[];

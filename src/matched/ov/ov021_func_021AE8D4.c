@@ -22,7 +22,7 @@ typedef unsigned short u16;
 
 extern u32 func_0216D67C(u32 a, u32 b);
 extern u32 func_0216DD1C(u32 a, u32 *out, u32 *iter);
-extern u32 func_021AE79C(u32 a);
+extern int func_021AE79C(u32 a);
 extern u32 func_021AE884(u32 a);
 
 u32 func_021AE8D4(u32 a, u32 b)

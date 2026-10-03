@@ -31,8 +31,10 @@ typedef struct Work {
     int f0c;
 } Work;
 
-extern void *func_020124E4(void *a);
-extern void *func_020120F4(void *a);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern int   func_021CF8E4(u32 a, void *src, int *out);
 extern int   func_021CF940(u32 a, void *src, int idx, int *out);
 extern int   func_021CF9AC(u32 a, void *src, int x, int *out);

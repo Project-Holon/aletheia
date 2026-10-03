@@ -32,7 +32,7 @@ typedef struct GPIConnection {
 } GPIConnection;
 
 extern int func_0219329C(void **connection, char *input, int callErrorCallback);
-extern int func_02193418(char *command, char *key, char *value, int len);
+extern int func_02193418(const char *command, const char *key, char *value, int valueLen);
 extern void func_02193710(void **connection, int errorCode, char *errorString);
 extern void func_02189D78(void **connection, int result, int fatal);
 extern int func_020964E0();

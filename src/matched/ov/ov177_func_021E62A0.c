@@ -14,10 +14,10 @@
  *   func_021E6EFC  0x021E6EFC  thumb ov177
  *   func_020307B0  0x020307B0  arm
  */
-extern void func_021E7454(void *);
-extern void func_021E73B8(void *);
-extern void func_021E7270(void *);
-extern void func_021E6EFC(void *);
+extern void func_021E7454(int *p);
+extern void func_021E73B8(char *p);
+extern void func_021E7270(char *p);
+extern void func_021E6EFC(unsigned *p);
 extern void func_020307B0(void *);
 void func_021E62A0(void *p)
 {

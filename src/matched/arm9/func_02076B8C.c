@@ -22,7 +22,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02076070(void);
+extern int func_02076070(void);
 
 void func_02076B8C(void)
 {

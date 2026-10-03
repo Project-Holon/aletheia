@@ -41,21 +41,22 @@ typedef struct {
     u16 f14;
 } Obj;
 
-extern int func_0216D3CC();
+typedef unsigned char  u8;
+extern int func_0216D3CC(int a0);
 extern int func_0216D5F8();
 extern void func_0216D410();
 extern int func_0216D454();
 extern void func_0216D480();
-extern void func_0216D9A0();
-extern void func_0216D9E4();
+extern void func_0216D9A0(void *map);
+extern void func_0216D9E4(void *c);
 extern void *func_02188C7C(unsigned char *p);
-extern int func_02188C54();
-extern int func_021904B0();
+extern u32 func_02188C54(u8 *p);
+extern int func_021904B0(u32 a, u32 b);
 extern int func_021907A8();
 extern int func_0219077C();
 extern void func_02190788();
-extern void func_02190740();
-extern void func_02190728();
+extern int func_02190740(u32 a, u32 b, u32 c, u32 d);
+extern int func_02190728(u32 a);
 extern u32 func_020362DC(void);
 extern void func_02045C04();
 

@@ -23,17 +23,26 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned short u16;
-extern void *func_020457B0(int, int);
-extern void func_02045CAC(void *, int, void *);
-extern void func_0201F250(void *, void *, void *);
-extern void func_02045808(void *);
-extern void *func_02045770(void *);
-extern void func_02043B5C(void *, unsigned);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Cfg;
+struct CharBuf;
+struct Descriptor;
+struct MsgBank;
+struct Rec3;
+struct U16Vec;
+struct WordSet;
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
+extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
+extern void func_02045808(struct U16Vec *vec);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201F73C(void *, int, int, int);
-extern void func_0201CE48(void *);
+extern void func_0201CE48(struct Rec3 *p);
 extern void *func_0201CCE4(void *, int, int, void *, void *, int, void *, int, u16, u16);
-extern void func_02045334(void *);
-extern void func_02045374(void *);
+extern void func_02045334(struct Descriptor *d);
+extern void func_02045374(struct Cfg *cfg);
 extern void *func_02045730(void *);
 extern void func_020409B4(void *);
 void func_021DE4B4(char *p, int message, int unused) {

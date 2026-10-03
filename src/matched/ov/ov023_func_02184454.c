@@ -13,7 +13,8 @@
  *   func_02039338  0x02039338  arm
  */
 
-extern int func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 
 void func_02184454(int a0, int a1, int a2, char *a3)
 {

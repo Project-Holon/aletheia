@@ -19,8 +19,10 @@
 
 extern void func_021B6A00(int a, int b);
 extern int func_021B6A3C(int a);
-extern void func_0204E720(int a, int b, int c, int d);
-extern void func_02005E30(int a);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
+extern void func_02005E30(u32 a);
 extern int func_0204E804(void);
 
 int func_021B6750(char *p)

@@ -16,7 +16,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x,y; } Vec2;
 extern void func_0204B404(void *, const Vec2 *, unsigned);
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021BFC64(u8 *p, unsigned i) {
     Vec2 pos;
     if (i != -1) {

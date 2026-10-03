@@ -20,17 +20,20 @@
  *   func_021DA840 0x021DA840 thumb ov121
  *   func_021DA8AC 0x021DA8AC thumb ov121
  */
-extern void func_021DE300(void *);
-extern void func_021DA898(void *);
-extern void func_021D9718(void *);
-extern void func_021D972C(void *);
-extern void func_021D9738(void *);
-extern void func_021D9238(void *);
-extern void func_0201C4E4(void *);
-extern void func_021D9E50(void *);
-extern int func_021DA2C8(void *);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct PrintSys;
+extern void func_021DE300(char *p);
+extern void func_021DA898(char *p);
+extern void func_021D9718(u8 *p);
+extern void func_021D972C(char *p);
+extern void func_021D9738(char *p);
+extern void func_021D9238(char *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern void func_021D9E50(u8 *p);
+extern int func_021DA2C8(u8 *p);
 extern int func_021DA840(void **);
-extern int func_021DA8AC(void *);
+extern int func_021DA8AC(u32 *p);
 int func_021D6888(int a, int b, int c, char *p)
 {
     func_021DE300(*(void **)(p + 0x3b0));

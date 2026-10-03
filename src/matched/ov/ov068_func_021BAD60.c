@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  func_02082BCC(void *p, u32 v, u32 n);
-extern void *func_02045EC0(void *h, u32 idx);
+struct MsgBank;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void  func_021BA1C4(u8 *p, u32 a, u32 b, void *c, u32 d, u32 e, u16 f);
 
 void func_021BAD60(u8 *p, u32 a, u32 b, void *c, u32 s0, u32 s1, u32 s2, u16 s3)

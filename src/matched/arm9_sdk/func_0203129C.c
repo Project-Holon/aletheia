@@ -14,7 +14,7 @@
  *   g_02146990 0x02146990 data
  */
 
-extern void func_02031354(void);
+extern void *func_02031354(int a0);
 extern void g_02146990(void);
 
 asm void func_0203129C(void)

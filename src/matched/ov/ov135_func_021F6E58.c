@@ -87,15 +87,17 @@ extern u8 d_021E75FC[];
 extern u8 ov119_id[];
 
 extern void func_021F50EC(Work *p);
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+struct Ctx;
+struct RecDC;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void *func_02202608(u32 heap);
-extern void *func_020120F4(void *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_0200ADB4(void *sys);
 extern void *func_021F72C4(void *e);
 extern void func_0200AD9C(void *sys, void *mon);
-extern void func_02019CE0(void *src, void *dst);
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02019CE0(const struct RecDC *src, struct RecDC *dest);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02031348(void *h, u32 id, void *a, void *b);
 
 int func_021F6E58(Work *p)

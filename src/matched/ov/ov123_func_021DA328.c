@@ -19,14 +19,15 @@
  *   func_021DA1EC 0x021DA1EC thumb ov123
  */
 extern int func_0203CD98(void);
-extern int func_021B99DC(void *);
-extern int func_021B9790(void *);
+typedef unsigned char  u8;
+extern int func_021B99DC(u8 *p);
+extern int func_021B9790(u8 *p);
 extern int *func_021B97F4(void *);
 extern int func_021D9FD4(char *,int);
-extern void func_021D9634(void *);
+extern void func_021D9634(char *p);
 extern void func_021DA034(char *,void *,int);
-extern void func_021DA1A0(void);
-extern void func_021DA1EC(void);
+extern void func_021DA1A0(char *p);
+extern void func_021DA1EC(char *p);
 void func_021DA328(char *p)
 {
     int *q;

@@ -48,7 +48,8 @@ typedef struct { u32 w[3]; } DWCFriendData;
 
 extern void *func_02009860(void *obj);
 extern DWCFriendData *sub_020099C8(void *obj, int i);
-extern int   func_02009A34(void *obj);
+struct Sub020097BCObj;
+extern u32 func_02009A34(struct Sub020097BCObj *obj);
 
 extern int  DWC_CheckFriendKey(void *p, u64 key);
 extern void DWC_CreateFriendKeyToken(DWCFriendData *tok, u64 key);

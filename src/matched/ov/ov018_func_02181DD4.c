@@ -38,15 +38,20 @@ typedef struct {
     void *f30;
 } Ov018Obj;
 
-void *func_020124E4(void *);
-void func_0201F02C(void *, int, void *);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+struct Evt;
+struct Obj;
+struct WordSet;
+void *func_020124E4(struct Obj *p);
+void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F318(Ov018Obj *p);
 void *func_02158768(void *, int, int, int);
 int func_021589D0(void *);
-void func_02159058(int, int, int, int, int);
-void *func_02012374(void *, void *);
+void func_02159058(int a, int b, int c, int d, u16 e);
+void func_02012374(struct Evt *evt, struct Evt **out);
 void func_020307B0(void *);
 
 int func_02181DD4(void *a, int *state, Ov018Obj *c)

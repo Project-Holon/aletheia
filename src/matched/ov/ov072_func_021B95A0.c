@@ -67,19 +67,21 @@ typedef struct {
     u16 fA;
 } Arg;
 
-extern void func_02034AC4(u32 id);
+typedef signed int     s32;
+struct GfFont;
+extern int func_02034AC4(s32 handle);
 extern char ov067_id[];
 extern void func_0203064C(u32 a, u32 b, u32 c);
 extern u8 *func_0203159C(void *a, int b, int c);
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern int func_02045B38(int a, int b, int c, int d);
 extern u32 *func_021BB6E8(u32 heap);
-extern int func_021BBB24(u32 heap);
+extern int func_021BBB24(int a);
 extern void func_021B991C(void *a, void *b, void (*cb)(int, int *));
 extern void func_021B996C(int a, int *b);
 extern u32 func_020120F4(u32 a);
-extern u8 func_021BB764(u32 p, int i);
+extern u8 func_021BB764(int unused, u32 i);
 extern void func_021BB3E8(void *p, int a, int b, int c, u8 s0, u8 s1, u8 s2, u8 s3, u16 s4);
 extern void func_0201DD78(u32 a, u32 b, u32 c);
 extern void func_021BB448(void *p, u32 a, int x, int y);

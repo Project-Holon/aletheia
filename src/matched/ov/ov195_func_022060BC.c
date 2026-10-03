@@ -12,5 +12,5 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern void func_02014BA8(void *);
+extern void func_02014BA8(u8 *a0);
 void func_022060BC(char *p){func_02014BA8(*(void **)(p+76));}

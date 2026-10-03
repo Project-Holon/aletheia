@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0202DC08(void *);
+struct Obj;
+extern void func_0202DC08(struct Obj *p);
 
 void func_021D846C(u8 *p)
 {

@@ -43,12 +43,13 @@ typedef struct {
     u32 f8;
 } IconRec;
 
-extern u32 func_02017DBC(void *p);
+struct Sav;
+extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern u32 func_02017DE4(void *p, u32 f);
+extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec);
 extern void func_0204B3DC(u32, int);
-extern int func_0202136C(u16 item);
+extern u32 func_0202136C(u16 v);
 extern void func_0204B878(u32, u16);
 
 void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec)

@@ -73,7 +73,7 @@ typedef struct {
 extern u32 func_02188C54(u32 a);
 extern Work *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
 extern u32 func_0201EC64(u32 heap);
-extern u32 func_021904B0(u32 a, u32 b);
+extern int func_021904B0(u32 a, u32 b);
 extern u32 func_02190F64(u32 a, u32 b);
 extern u32 func_020457B0(u32 n, u32 heap);
 extern u32 func_02045EC0(u32 a, u32 b);
@@ -81,7 +81,7 @@ extern void func_02008494(u32 src, void *dst);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_0203D7BC(u32 a);
 extern void func_021CF164(Work *w);
-extern Sys *func_0203D798(void);
+extern void *func_0203D798(void);
 extern u32 func_0203D650(void);
 extern u8 d_021DE5E8[];
 

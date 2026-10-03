@@ -21,7 +21,8 @@ typedef unsigned char u8;
 typedef struct { u8 a : 4; u8 f : 2; u8 b : 2; } Fl;
 
 extern u8 *func_02158344(void *);
-extern int func_02026478(void *);
+typedef unsigned int   u32;
+extern u32 func_02026478(void *obj);
 extern int func_02012B58(int);
 
 int func_02158378(void *p)

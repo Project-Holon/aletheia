@@ -39,17 +39,17 @@ extern u8 func_021EEBE8(void *);
 extern Callback func_021CDD50(u8 *,u32,int *);
 extern void func_021CDD34(u8 *);
 extern void func_02005CA4(int,u32);
-extern void func_021EAE24(void *);
-extern void func_02005DF8(int);
+extern void func_021EAE24(u8 *p);
+extern void func_02005DF8(u32 a);
 extern void func_021F88BC(int);
 extern void func_02006740(void);
-extern int func_021F8678(void);
+extern void *func_021F8678(void);
 extern int func_021EEC4C(void *,void *,u32);
-extern int func_021EAE34(void *);
+extern int func_021EAE34(u8 *p);
 extern int func_02005E50(void);
 extern int func_021D3FA8(u8 *);
-extern void func_021EAE74(void *,u16,u16);
-extern void func_021BA7F8(void *);
+extern void func_021EAE74(char *p, u32 a, u32 b);
+extern void func_021BA7F8(char *p);
 int func_021CDC0C(u8 *p)
 {
     u32 id;

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Word { u32 v; } Word;
 extern int func_021D775C(int);
-extern u8 func_021B9A40(int);
+extern unsigned char func_021B9A40(unsigned int x);
 extern u8 *func_021C88A4(int, int, int);
 extern Word func_021E8940(int);
 extern void func_021C8838(void *, int, int);

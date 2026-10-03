@@ -34,7 +34,8 @@ extern void *func_0204ACEC(void *, int, int, int, int);
 extern void func_02049238(void *);
 extern void *func_02049DF4(void *, int, int, void *, int);
 extern void *func_0204ABBC(void *, int);
-extern void *func_02030734(int, int, int, const char *, int);
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082A60(const void *, void *, int);
 extern const char d_02183B14[];
 

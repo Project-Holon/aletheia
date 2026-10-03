@@ -17,7 +17,8 @@ typedef short s16;
 typedef struct { u16 count, pad; int index; } Tail;
 extern s16 table[];
 extern void func_020061F8(int);
-extern void func_021F4EB4(int, int, s16, s16);
+typedef unsigned int   u32;
+extern void func_021F4EB4(u32 unused, u32 p, s16 a, s16 b);
 void func_021F7FAC(char *p, char *q) {
     Tail *t = (Tail *)(q + 0xf0);
     u16 angle = ((int)t->count << 11) % 65536;

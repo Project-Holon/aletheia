@@ -64,15 +64,16 @@ struct Ctx {
 
 extern struct Entry *func_02012A38(void *p);
 extern void *func_02012974(void *p);
-extern u16 func_02188C9C(void *p);
-extern void *func_02188CB4(void *p);
-extern void *func_021A3074(void *p);
+struct Blk34;
+extern u16 func_02188C9C(u8 *p);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(u8 *p);
 extern void func_0216D88C(void *a, s32 *out);
 extern int func_02159C48(void *a, int x, int z);
 extern int func_02159BD4(void *a, int x, int z);
-extern void *func_02012F08(void *p);
-extern int func_0200C234(void *p, int v);
-extern u32 func_02188CFC(void *p);
+extern void *func_02012F08(int *p);
+extern u32 func_0200C234(struct Blk34 *p, u32 bit);
+extern u32 func_02188CFC(u8 *p);
 extern int func_021AABC4(struct Entry *p, struct Enc *e);
 extern u32 func_02005728(u32 v);
 extern void func_021AABEC(struct Entry *p);

@@ -21,13 +21,13 @@
  */
 
 extern void func_021EFEE4(unsigned);
-extern void func_021F0C0C(void *);
+extern void func_021F0C0C(char *p);
 extern void func_02030EAC(unsigned);
 extern void func_020307B0(void *);
-extern void func_021F0A90(void *);
-extern void func_021F08EC(void *);
-extern void func_021F07DC(void *);
-extern void func_021F0738(void *);
+extern void func_021F0A90(char *p);
+extern void func_021F08EC(char *p);
+extern void func_021F07DC(char *p);
+extern void func_021F0738(char *p);
 
 void func_021F0124(char *p)
 {

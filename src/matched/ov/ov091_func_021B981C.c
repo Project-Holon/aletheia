@@ -18,12 +18,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 extern void func_021BB1A0(int, u8 *, int);
 extern void func_021BB0C4(u8 *, u8 *, int);
 extern void func_021BB200(u8 *, u8 *, int, int);
 extern void func_021B999C(u8 *);
 extern void func_0201AB8C(int, int, int, u16);
-extern int func_0201AB28(int, int);
+extern void *func_0201AB28(void *p, u32 idx);
 extern void func_020061E4(unsigned int);
 #define W(o) (*(int *)(p + (o)))
 #define ROW(i) (*(u8 **)(p + (i) * 4 + 0x160))
@@ -38,8 +39,8 @@ void func_021B981C(u8 *p)
         func_021BB0C4(p, ROW(W(0x30)), p[0x104]);
         if (p[0x104] >= 16) {
             func_0201AB8C(*(int *)W(0x280), W(0x2c), W(0x30), *(u16 *)p);
-            func_021BB200(p, ROW(W(0x2c)), func_0201AB28(*(int *)W(0x280), W(0x2c)), p[0x104]);
-            func_021BB200(p, ROW(W(0x30)), func_0201AB28(*(int *)W(0x280), W(0x30)), p[0x104]);
+            func_021BB200(p, ROW(W(0x2c)), (int)func_0201AB28(*(void **)W(0x280), W(0x2c)), p[0x104]);
+            func_021BB200(p, ROW(W(0x30)), (int)func_0201AB28(*(void **)W(0x280), W(0x30)), p[0x104]);
             p[0xe] = 4;
             func_020061E4(0x642);
         }

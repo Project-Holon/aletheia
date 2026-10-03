@@ -14,7 +14,8 @@
 
 typedef unsigned int u32;
 
-extern void func_0202ABD0(void *obj);
+struct Obj;
+extern void func_0202ABD0(struct Obj *obj);
 
 void func_0202AB84(void *obj)
 {

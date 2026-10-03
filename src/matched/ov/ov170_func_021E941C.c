@@ -19,11 +19,15 @@
 #define WORK(p) (*(char **)((p)+0x2C))
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(unsigned char *);
-extern void func_020260E4(void *,unsigned char);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Sound;
+struct Struct_02025CD0;
+extern void func_020260E4(struct Sound *obj, u8 sel);
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED6E4(unsigned char *,int);
-extern int func_020355C4(void);
-extern void func_020260F4(void *,int);
+extern u8 func_020355C4(void);
+extern void func_020260F4(struct Struct_02025CD0 *obj, u32 state);
 int func_021E941C(unsigned char *p) {
  func_021EBA5C(WORK(p),0x1B); func_021DD14C(p);
  func_020260E4(*(void **)(WORK(p)+0x70),p[0x16]);

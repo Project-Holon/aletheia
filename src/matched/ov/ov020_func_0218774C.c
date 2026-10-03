@@ -29,8 +29,11 @@ typedef struct { int a; int b; u16 c; int d; int e; u8 f; u8 g; u8 pad[10];
                  int h; int i; } T;
 
 extern int func_021876E0(void *, int *, char *);
-extern void *func_020122C0(void *, int, int (*)(void *, int *, char *), int);
-extern void *func_020124E8(void *);
+typedef unsigned int   u32;
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern void *func_020124E8(struct Obj *p);
 extern int func_020124EC(void *);
 extern u16 func_02188C84(int);
 extern u8 func_0202E8B8(int);

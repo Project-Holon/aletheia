@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u8 a6, u8 a7, u8 a8, u8 a9);
-extern u32 func_02041B6C(u32);
+extern void func_02041B6C(u32 bit);
 extern void func_020409B4(u32 layer);
 
 void func_0217F240(u8 *p, int mode)

@@ -14,11 +14,11 @@
  *   func_021DBC98 0x021DBC98 thumb ov119
  *   func_021DBC3C 0x021DBC3C thumb ov119
  */
-extern int func_021E665C(void *);
+extern int func_021E665C(char *p);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *, int);
-extern void func_021DBC98(void *);
-extern void func_021DBC3C(void *);
+extern void func_021DBC98(char *p);
+extern void func_021DBC3C(char *p);
 void func_021DBD3C(char *p)
 {
     if (func_021E665C(p)) {

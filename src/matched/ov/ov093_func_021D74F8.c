@@ -27,7 +27,7 @@ typedef struct {
 
 extern Tbl g_021F3ECC;
 extern char data_021F3AB4[];
-extern void func_02034714(void *a, int b, void *c);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 void func_021D74F8(int line)
 {

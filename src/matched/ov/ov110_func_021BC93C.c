@@ -14,8 +14,10 @@
  *   func_0207D658 0x0207D658 arm
  */
 typedef unsigned char u8;
-extern void func_02030EAC(void *);
-extern void func_0207D658(int, int, int);
+typedef unsigned int   u32;
+struct Node;
+extern void func_02030EAC(struct Node *n);
+extern void func_0207D658(u32 addr, int plane, int brightness);
 int func_021BC93C(u8 *p)
 {
     if (*(int *)(p+0x18)==0) {

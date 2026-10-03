@@ -31,9 +31,9 @@
 typedef unsigned int u32;
 
 extern char  g_020A7064[];
-extern void  func_02034714(char *a, u32 b, char *c);
-extern void  func_020087A8(char *p, u32 idx);
-extern u32  *func_020087D4(char *p, u32 idx);
+extern void func_02034714(const char *expr, u32 line, const char *file);
+extern void func_020087A8(void *sys, u32 index);
+extern u32 *func_020087D4(void *sys, u32 index);
 extern void  func_02031C10(u32 a, u32 b, u32 *c);
 
 void func_02007374(char *a0, u32 a1)

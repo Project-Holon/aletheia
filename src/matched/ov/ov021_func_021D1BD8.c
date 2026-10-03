@@ -20,11 +20,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02158F58(u32 a);
+extern int func_02158F58(int a0);
 extern u32 func_02188CCC(u32 a);
 extern int func_021A0ED4(u32 a);
-extern void func_021A0F30(u32 a, u32 b);
-extern void func_02159168(u32 a);
+extern int func_021A0F30(u32 a, u32 b);
+extern void func_02159168(int n);
 
 int func_021D1BD8(u32 *a, int *seq)
 {

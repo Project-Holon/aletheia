@@ -43,7 +43,7 @@ extern int func_021BEC74(NHTTPMutexInfo *mutexInfo_p, NHTTPConnection *connectio
 extern int func_021BBF44(NHTTPReq *req_p, char *commBuf_p, int socket, int *bufwp_p,
                          char *src_p, int srclen);
 extern void func_021BA13C(void *p_p, int size);
-extern int func_021BA2D0(char *p_p, char c);
+extern int func_021BA2D0(char *dst, int c);
 
 static int func_021BC160(NHTTPMutexInfo *mutexInfo_p, NHTTPReq *req_p, char *commBuf_p,
                          char *label_p, int socket, int *bufwp_p, int sendtype)

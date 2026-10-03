@@ -46,7 +46,8 @@ extern char str_0203B950[];
 
 extern void *func_0203D788(void);
 extern u32   func_02037A6C(u32 a, u32 b, u32 c, u32 d);
-extern u32   func_02037928(u32 a, u32 b);
+typedef unsigned short u16;
+extern u32 func_02037928(u32 a0, u16 a1);
 extern u32   func_0203B2FC(void *p);
 extern u32   func_0203B344(void *p);
 extern void  func_0203AD80(u32 ctx, void *tag, u32 val, u32 line);

@@ -14,7 +14,7 @@
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 extern void *func_02048A18(void *,u16);
-extern void func_02047910(void *,int,int);
+extern int func_02047910(void *a, int idx, int amount);
 void func_021E0BC0(char *p,char *q,int i)
 {
     void *r = func_02048A18(*(void **)(p+0xaf4),*(int *)(p+0xae0+i*4));

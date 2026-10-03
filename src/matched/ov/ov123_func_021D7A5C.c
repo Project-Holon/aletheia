@@ -19,12 +19,13 @@
  *   d_021DAB9C 0x021DAB9C data a1
  */
 typedef unsigned char u8;
-extern int func_021D5C0C(void *);
-extern int func_021D5C2C(void *);
+typedef unsigned int   u32;
+extern int func_021D5C0C(char *p);
+extern int func_021D5C2C(char *p);
 extern int func_021D5C64(void *, const char *, int);
-extern void func_021D6EE0(u8 *, int, int);
-extern void func_021D6FF0(void);
-extern void func_021D7A18(u8 *);
+extern void func_021D6EE0(u8 *p, u32 v, int unused);
+extern void func_021D6FF0(char *p);
+extern void func_021D7A18(int a);
 extern const char d_021DAB88[], d_021DAB90[], d_021DAB9C[];
 void func_021D7A5C(u8 *p)
 {

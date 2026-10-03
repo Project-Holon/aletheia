@@ -14,5 +14,5 @@
  */
 typedef unsigned short u16;
 extern const u16 d_021D8BD8[];
-extern void func_021D7CE8(void *,u16,int);
+extern void func_021D7CE8(char *p, u16 n, int i);
 void func_021D7E88(char *p,int i) {func_021D7CE8(p,d_021D8BD8[i],*(int *)(p+0x24));}

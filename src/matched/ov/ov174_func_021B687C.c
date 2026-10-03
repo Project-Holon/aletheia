@@ -20,7 +20,7 @@
 typedef unsigned char u8;
 extern void func_020310C4(void *),func_020286C4(void *,void *,void *),func_0201CE48(void *),func_02045808(void *);
 extern unsigned func_0201CE30(void *);
-extern void func_021B7364(void *,int);
+extern void func_021B7364(char *p, int v);
 extern int func_02028484(void *,void *),func_0201C4E4(void *);
 void func_021B687C(u8 *p)
 {

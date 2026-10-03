@@ -23,7 +23,8 @@
  *   func_020307B0 0x020307B0 arm
  *   g_021C88E0 0x021C88E0 data a4
  */
-extern void func_020351F8(int, int);
+typedef unsigned int   u32;
+extern void func_020351F8(u32 a, u32 b);
 extern int func_02085D3C(void);
 extern void func_021B6424(void);
 extern void func_021B642C(void);
@@ -33,7 +34,7 @@ extern void func_021B6444(void);
 extern void func_021B6868(char *);
 extern void func_021B65C4(void *);
 extern void func_021B67BC(char *);
-extern void func_02034FB8(int);
+extern void func_02034FB8(u32 v);
 extern void func_020307B0(void *);
 extern void *g_021C88E0;
 void func_021B63B8(char *p)

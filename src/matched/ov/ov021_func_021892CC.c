@@ -29,7 +29,7 @@ typedef signed int     s32;
 
 extern u32 func_0218932C(void *a);
 extern u32 func_02189370(void *a);
-extern void func_021893C0(void *a);
+extern void func_021893C0(u8 *p);
 extern u32 func_02012844(u32 a);
 extern u32 func_02162458(u32 a);
 extern u32 func_02012984(u32 a);

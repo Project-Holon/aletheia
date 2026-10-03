@@ -29,7 +29,7 @@ typedef unsigned int u32;
 extern void *func_020913D0(u32 heap);
 extern void func_020913E8(void *p);
 extern u32 func_020913BC(void *p);
-extern void func_02092344(void *dst, const void *src, u32 n);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
 void *func_020913FC(u32 a0, u32 a1)
 {

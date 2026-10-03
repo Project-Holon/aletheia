@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { I_ZERO = 0, I_LIMIT = 9 } Index;
-extern int func_021F4AF0(void *, int);
+extern int func_021F4AF0(u8 *p, int index);
 extern u8 *func_021F5450(u8 *, int);
 static inline int coordinate(int value, Index offset)
 {

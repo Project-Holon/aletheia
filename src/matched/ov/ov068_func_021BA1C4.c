@@ -33,7 +33,7 @@ typedef unsigned int   u32;
 
 extern void func_02082BCC(void *p, u32 a, u32 b);
 extern u32  func_020457B0(u32 a, u32 b);
-extern void func_02028470(void *a, u32 b);
+extern void func_02028470(u8 *p, u32 v);
 extern u32  func_02045778(u32 a);
 extern void func_0201F73C(u32 win, u32 kind, u32 base, u32 pal);
 extern u32  func_02045770(u32 a);

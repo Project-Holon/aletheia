@@ -23,12 +23,13 @@ typedef unsigned short u16;
 typedef struct { int w[8]; } B32;
 
 extern const B32 d_021D3F18;
-extern void func_02040588(int, int);
+typedef unsigned int   u32;
+extern void func_02040588(u32 which, u32 enable);
 extern void func_0203FCA0(int, void *, int);
 extern void func_02041300(int, int, int, int, int, int, int);
-extern void func_020409B4(int);
+extern void func_020409B4(u32 index);
 extern void func_0207D63C(int, int, int, int, int);
-extern void func_0204047C(int, int);
+extern void func_0204047C(int idx, unsigned short val);
 
 void func_02192EE0(int a)
 {

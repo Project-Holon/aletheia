@@ -23,12 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 struct C {void *owner,*parent; u8 kind,index,n,count; void *obj[6]; int step; u8 active; u8 pad[3]; const u8 *types;};
-extern int func_0201AA18(void*);
+struct Obj;
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void*,u32);
 extern int func_021B9E50(u32),func_021B9E80(u32);
 extern int func_021B9EB0(void*,u32);
-extern void *func_021BA71C(void*,int,int,u16);
-extern void func_0204B3DC(void*,u32);
+extern void *func_021BA71C(char *p, int a, int b, unsigned short c);
+extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021B9EE4(struct C *p,void *owner,u8 kind,u8 index,void *a,void *parent,const u8 *types)
 {
     int i,x,y,frame;

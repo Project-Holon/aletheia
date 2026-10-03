@@ -43,7 +43,7 @@ extern char *func_021C1020(char *);
 extern int func_021843E8(void *, void *, int (*)(void *, void *), int, int);
 extern void *func_02184208(void *, int);
 extern void func_0218437C(void *, int);
-extern int func_02184200(void *);
+extern int func_02184200(const int *p);
 extern void func_021841B0(void *);
 extern void func_0217EAE0(void *);
 extern int func_021C121C(void *, void *);

@@ -18,7 +18,8 @@ typedef unsigned char u8;
 extern void func_0203064C(int,int,int);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082AC0(int,void *,int);
-extern void *func_02008FEC(void *);
+struct Sub02008F80Obj;
+extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_02031324(int);
 int func_021C5480(void *a, int unused, void **arg)
 {

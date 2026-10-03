@@ -22,7 +22,8 @@
 extern void func_021E8AA0(int,int);
 extern void func_0217BBDC(void),func_0217CC78(void),func_0217C2EC(void),func_0217CAE0(void);
 extern int func_0200B078(int,int);
-extern void func_02034714(const void *,int,const void *);
+typedef unsigned int   u32;
+extern void func_02034714(const char *expr, u32 line, const char *file);
 extern const char d_0217E618[];
 void func_0217BB58(int p,int *state,char *q)
 {

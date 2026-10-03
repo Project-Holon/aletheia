@@ -23,8 +23,9 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 extern int func_02156CD0(void);
-extern void *func_020399A8(void);
-extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
 extern u32 g_021E2C8C[];
 
 int func_021DA434(void)

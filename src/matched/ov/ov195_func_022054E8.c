@@ -28,7 +28,8 @@ extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
 extern unsigned char func_02045730(int);
-extern void func_020409B4(int);
+typedef unsigned int   u32;
+extern void func_020409B4(u32 index);
 
 void func_022054E8(int a, int *p, int flag)
 {

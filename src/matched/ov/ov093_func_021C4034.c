@@ -34,9 +34,9 @@ extern int func_021C40F4(u8 *p, int i);
 extern void func_021C5B74(u8 *p, u8 *a, int c, int k);
 extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021D6D5C(u8 *a, u16 v);
-extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
 extern void func_021CD64C(void *w, u8 id, ...);
-extern void func_021C5DAC(u8 *p, int a, int b, int c);
+extern void func_021C5DAC(u8 *p, u32 a, int n, const int *v);
 extern void func_021C5D88(u8 *p, u8 *a, int b);
 
 int func_021C4034(u8 *p, u8 *a)

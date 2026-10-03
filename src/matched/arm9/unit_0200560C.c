@@ -69,8 +69,10 @@ struct Sub02005610Sys {
 
 extern struct Sub02005610Sys sub_02005610_Sys;
 
-extern void  func_02030D28(void *heap);
-extern void *func_02030DA8(void *heap, u32 a, u32 b, u32 c);
+struct Ctx;
+struct Node;
+extern void func_02030D28(struct Ctx *c);
+extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 
 void sub_0200560C(void)
 {

@@ -12,7 +12,9 @@
  *   func_021B64B8 0x021B64B8 thumb ov101
  */
 extern void func_021B658C(int,int);
-extern int func_021B64B8(int,int,int,int,unsigned char,int,int,int);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+extern u32 func_021B64B8(u32 p, u32 a, u32 b, u32 c, u8 d, u32 e, u32 f, u32 g);
 int func_021B67F8(int *p,int resource)
 {
     switch(p[1]) {

@@ -12,7 +12,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020310C4(void *);
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 void func_021F6158(void *unused, char *p)
 {
     func_020310C4(*(void **)(p + 0x54));

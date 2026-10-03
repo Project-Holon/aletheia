@@ -29,19 +29,21 @@ typedef unsigned int u32;
 typedef short s16;
 typedef struct { u32 x, y; } Pos;
 extern Pos d_021E81D4[26];
-extern void func_02040588(int, int);
+struct Cfg;
+struct Descriptor;
+extern void func_02040588(u32 which, u32 enable);
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
-extern void func_02041B6C(int);
-extern void func_02040618(int, int, int);
+extern u32 func_02049990(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u32 a6, u16 a7);
+extern void func_02041B6C(u32 bit);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_02049238(void *);
 extern void func_0201DD78(u32, u32, u32);
 extern void *func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02045CAC(int, int, int);
-extern void *func_02045770(void *);
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *, s16, s16, void *, void *);
-extern void func_02045374(void *);
-extern void func_02045334(void *);
+extern void func_02045374(struct Cfg *cfg);
+extern void func_02045334(struct Descriptor *d);
 void func_021E5C64(char *p)
 {
     u32 i;

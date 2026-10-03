@@ -13,8 +13,11 @@
  *   func_0207D63C 0x0207D63C arm
  */
 typedef unsigned char u8;
-extern void func_0204B3DC(void *,unsigned);
-extern void func_0204B688(void *,unsigned);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0207D63C(unsigned,int,int,int,int);
 void func_021BA8D0(char *p)
 {

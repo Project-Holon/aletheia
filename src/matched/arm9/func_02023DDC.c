@@ -18,8 +18,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern void func_02023C3C(int a, int b, int c, int d, u32 e, u32 f);
-extern void func_02030EAC(void *p);
+struct Node;
+extern void func_02023C3C(u32 x2, u32 y2, u32 x1, u32 y1, int win, int sub);
+extern void func_02030EAC(struct Node *n);
 
 void func_02023DDC(void *a0, short *a1)
 {

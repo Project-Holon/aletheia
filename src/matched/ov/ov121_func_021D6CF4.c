@@ -14,7 +14,9 @@
  *   d_021DFB80 0x021DFB80 data ov121 a1
  */
 extern void func_02082BCC(void *, int, int);
-extern void *func_02030734(int, int, int, const char *, int);
+typedef unsigned short u16;
+typedef unsigned int   u32;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02050C04(void *, int, int, int);
 extern const char d_021DFB80[];
 void func_021D6CF4(int *p, int heap)

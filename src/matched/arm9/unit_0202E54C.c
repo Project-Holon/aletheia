@@ -34,7 +34,8 @@ struct Obj0202E54C {
     void *unk20;
 };
 
-extern void func_02045808(void *p);
+struct U16Vec;
+extern void func_02045808(struct U16Vec *vec);
 extern void func_020307B0(void *p);
 
 void sub_0202E54C(struct Obj0202E54C *p)

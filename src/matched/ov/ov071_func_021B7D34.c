@@ -17,10 +17,13 @@
  *   func_020315D4 0x020315D4 arm
  */
 
-extern int func_0201C6B4(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+struct S020315D4;
+extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02043534(unsigned);
 extern void func_021B7E24(void **);
-extern void func_021B6EEC(void *);
+extern void func_021B6EEC(void **p);
 extern void func_021B7D98(void);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 int func_021B7D34(void *a,int b,char *c,void **d) { if(func_0201C6B4(*(void **)(*(char **)(c+4)+8))==0) return 0; func_02043534(8); func_021B7E24(d); func_021B6EEC(d); func_021B7D98(); func_020315D4(a); return 1; }

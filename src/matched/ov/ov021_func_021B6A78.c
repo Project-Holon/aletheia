@@ -23,9 +23,12 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5E4(void *a0);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_02012EBC(void *);
+typedef signed int     s32;
+struct Big;
+struct Rec;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
-extern u16 func_0200A8AC(void *);
+extern s32 func_0200A8AC(struct Rec *r);
 
 int func_021B6A78(void *a, void *b)
 {

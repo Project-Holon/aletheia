@@ -39,7 +39,7 @@ extern int func_021A55A8(u8 *, u32, int);
 extern int func_021A4444(u8 *, Req *);
 extern void func_021A4224(u8 *, int, Req *);
 extern void func_021A4CA8(u8 *, int, Req *);
-extern void func_021A43D8(u8 *, int, u32);
+extern void func_021A43D8(u8 *p, int k, int dir);
 
 void func_021A41B0(u8 *p, u32 a, u32 b, u32 c)
 {

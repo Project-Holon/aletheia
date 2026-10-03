@@ -31,9 +31,9 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 
-extern u8 *func_0203D798(void);
+extern void *func_0203D798(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_02037700(u32 a, u32 b);
+extern int func_02037700(u32 a0, u32 a1);
 
 void func_0203C864(void)
 {

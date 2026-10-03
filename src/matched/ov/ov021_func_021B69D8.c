@@ -42,19 +42,22 @@ struct Owner {
 
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(void *, void *);
-extern void *func_02012EBC(void *);
+struct Big;
+struct Rec;
+struct U16Vec;
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200A8A0(void *);
 extern void *func_021690A4(void *);
 extern void func_02087C88(struct Owner *);
 extern int func_0200A940(void *, int, int, void *);
-extern int func_0200A8F8(void *, int);
+extern u32 func_0200A8F8(struct Rec *r, u32 index);
 extern int func_0200A8C8(void *, int);
 extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(void *);
-extern void *func_020457B0(int, int);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045924(void *, int);
 extern void func_0201EE0C(u32, u32, void *, int, int, int);
-extern void func_02045808(void *);
+extern void func_02045808(struct U16Vec *vec);
 
 u32 func_021B69D8(void *a, void *b)
 {

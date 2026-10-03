@@ -75,16 +75,22 @@ typedef struct Work {
 } Work;
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern void *func_020120F4(void *p);
-extern void *func_02012EBC(void *sys);
+struct Big;
+struct BigObj;
+struct Blk37;
+struct Ctx;
+struct Hdr;
+struct Sub02008700Obj;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void *func_0200CA1C(void *sys);
-extern u32 func_0200CA38(void *p);
+extern u32 func_0200CA38(struct Blk37 *p);
 extern int func_0201AA18(void *party);
-extern void *func_0200873C(void *save);
-extern void *func_02012934(void *sys);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *party, u32 i);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
-extern u32 func_0201897C(void *mon);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern u32 func_0201897C(struct Hdr *p);
 extern const char d_02172978[];
 
 Setup *func_02160E08(Work *w, int kind, int mode, Src *src)

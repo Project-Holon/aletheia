@@ -32,7 +32,7 @@ typedef struct {
     State *st;
 } Work;
 
-extern void func_02034714(void *file, int line, void *msg);
+extern void func_02034714(const char *expr, u32 line, const char *file);
 
 int func_021FE9B0(Work *p)
 {

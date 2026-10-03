@@ -22,12 +22,12 @@ typedef unsigned int u32;
 typedef struct { int state; int y; u8 *p; } Anim;
 extern const char str_02203E44[];
 extern void func_021FF6A4(u8 *);
-extern void *func_02030734(u32, u32, u32, const char *, u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *, void (*)(void *, Anim *), void *, int);
 extern Anim *func_02030EE8(void *);
 extern void func_021FF92C(void *, Anim *);
 extern void func_021FF914(Anim *, int);
-extern void func_020061E4(int);
+extern void func_020061E4(u32 a);
 void func_021FF8B0(u8 *p)
 {
     Anim *a;

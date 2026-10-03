@@ -26,7 +26,8 @@ extern void func_0207CA00(Vec *,Vec *,Vec *);
 extern int func_0207CBD0(Vec *);
 extern void func_0207CCA4(Vec *,Vec *);
 extern void func_0207CEE4(int,Vec *,Vec *,Vec *);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B404(void *,u16 *,u16);
 void func_021B8D20(u8 *p) {
  u16 xy[2]; Vec delta; Vec pos; int length;

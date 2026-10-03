@@ -49,15 +49,19 @@ typedef struct BattleMon {
     u8 f38;             /* 0x38 */
 } BattleMon;
 
-extern void func_02017528(void *p);
-extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+struct Mon;
+struct Sav;
+struct Strbuf;
+struct U16Vec;
+extern void func_02017528(struct Sav *p);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void func_020185B0(void *p, u8 v);
-extern void *func_020457B0(u32 cap, u32 heap);
+extern void func_020185B0(void *p, u32 v);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern u16 func_02045A98(void);
-extern void func_02045924(void *buf, const u16 *src);
-extern void func_02045808(void *buf);
+extern void func_02045924(struct Strbuf *o, const u16 *src);
+extern void func_02045808(struct U16Vec *vec);
 extern u32 func_02018430(void *p);
 
 void func_0216869C(const BattleMon *src, void *mon)

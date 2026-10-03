@@ -46,8 +46,9 @@ struct S {
 };
 
 extern void func_021B9280(struct S *p, u32 a1, u32 a2);
-extern int func_020355C4(void);
-extern void func_0202EB04(void *p);
+struct CodeIn;
+extern u8 func_020355C4(void);
+extern void func_0202EB04(struct CodeIn *p);
 
 void func_021B92F0(struct S *p, u32 a1, u32 a2)
 {

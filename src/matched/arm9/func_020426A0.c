@@ -33,7 +33,7 @@ struct Screen {
     u8   size_code;
 };
 
-extern void func_020422D4(u8 size_code, u8 *width, u8 *height);
+extern void func_020422D4(u32 mode, u8 *a, u8 *b);
 extern u16  func_02040EE0(u8 x, u8 y, u8 size_code);
 extern u16  func_02040F84(u8 x, u8 y, u8 w, u8 h);
 

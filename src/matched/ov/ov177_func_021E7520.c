@@ -34,19 +34,20 @@ extern const char d_021E8DBC[];
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, u32);
 extern void *func_0202DB0C(void *, int, void *, void *, int, int, u16);
-extern void func_0202DE68(void *, int);
-extern void func_0202DE5C(void *, int);
+struct PmsDraw;
+extern void func_0202DE68(struct PmsDraw *p, u32 v);
+extern void func_0202DE5C(struct PmsDraw *p, u8 v);
 extern u32 func_021E7CF0(void *, u32, u32);
 extern void func_021E78B0(Work *, const Record *, void *, void *, void *, void *, int, u16);
 extern u32 func_02008554(const Record *);
 extern void func_021E7B68(Work *, u32, void *, u32);
 extern void func_021E7C3C(Work *, const Record *, void *, void *, u32);
-extern void func_0204989C(int, int, int, int, int, int, u16);
+extern void func_0204989C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 flags);
 extern void func_020413B0(u32, u8, u8, u8, u8, u8);
 extern u32 func_0204162C(int);
 extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
 extern void func_020409B4(u32);
-extern void func_02040618(int, int, int);
+extern void func_02040618(u32 layer, u32 a, u32 b);
 extern void func_0207D63C(void *, int, int, int, int);
 Work *func_021E7520(const Record *rec, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, u32 mode, u32 owner, int style, u16 heap)
 {

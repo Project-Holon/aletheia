@@ -34,7 +34,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u8 *func_020124E8(struct Desc *p);
 extern void func_02082BCC();
-extern int func_020173EC();
+extern u32 func_020173EC(void);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02012EBC(struct Big *p);
 extern int func_0200E2BC();

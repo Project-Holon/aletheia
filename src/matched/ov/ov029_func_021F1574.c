@@ -28,8 +28,9 @@ extern int func_0204A6C8(int, int, int, int, int);
 extern int func_0204AF28(int, int, int, int);
 extern int func_02049F78(int, int, void *, int);
 extern void func_020307B0(int);
-extern void func_0203D88C(int, int);
-extern void func_0203D34C(int, int);
+typedef unsigned int   u32;
+extern void func_0203D88C(u32 a, u32 b);
+extern void func_0203D34C(u32 a, u32 b);
 extern const int d_021F31C8[];
 extern const int d_021F33CC[];
 

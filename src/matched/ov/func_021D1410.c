@@ -45,24 +45,24 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021D13A4(BattleSeq *s);
-extern u16 func_021B86DC(void *battle);
+extern u16 func_021B86DC(void **p);
 extern void func_021F878C(u32 a);
-extern int func_021B904C(void *battle, int idx);
-extern int func_021BA1A8(void *battle, int flag);
-extern int func_021B8FF4(void *battle);
-extern int func_021BA020(void *battle, int v);
-extern int func_021BA004(void *battle, int v);
-extern int func_021B919C(void *battle);
-extern int func_021B9210(void *battle);
-extern int func_021B9244(void *battle);
+extern u8 func_021B904C(u8 *p, int k);
+extern int func_021BA1A8(char **p, int m);
+extern u8 func_021B8FF4(u8 *p);
+extern unsigned short func_021BA020(char *p, int i);
+extern u16 func_021BA004(char *p, int i);
+extern u32 func_021B919C(u8 *p);
+extern u32 func_021B9210(u8 *p);
+extern u32 func_021B9244(char *p);
 extern void func_021EAF18(void *msg, int a, int id);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EA614(void *win, void *msg);
-extern int func_021EA710(void *win);
-extern void func_021EA6B0(void *win, int v, int flag);
+extern int func_021EA710(u32 *p);
+extern int func_021EA6B0(char *p, u16 a, u16 b);
 extern int func_021F7EB4(void);
-extern void func_021F7F58(int v, int a, int b, int c, int d);
-extern void func_021F7998(int se);
+extern void func_021F7F58(int a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021F7998(u32 a);
 
 int func_021D1410(BattleSeq *s, int *state)
 {

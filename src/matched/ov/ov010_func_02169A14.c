@@ -17,7 +17,7 @@
 
 typedef unsigned int u32;
 
-extern void func_0206DDA4(u32 cmd, void *arg, u32 n);
+extern void func_0206DDA4(u32 cmd, const void *params, u32 n);
 extern void func_0206DB80(void);
 extern int func_0207DEA4(void *p);
 

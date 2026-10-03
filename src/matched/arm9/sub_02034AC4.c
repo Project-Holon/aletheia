@@ -33,9 +33,10 @@ extern const char s_FileName[];
 extern const char s_Expr0[];
 
 extern int sub_02034BB0(s32 handle);
-extern int func_02034D60(s32 handle);
-extern struct Registration *func_02034CBC(int which);
-extern int func_02034D08(int which);
+typedef unsigned char  u8;
+extern int func_02034D60(u32 id);
+extern void *func_02034CBC(int i);
+extern u8 func_02034D08(int i);
 extern void sub_02034714(const char *file, u32 line, const char *expr);
 extern int FS_SetDefaultDMA(int dma);
 extern int FS_LoadOverlay(int target, s32 handle);

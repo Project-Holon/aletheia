@@ -32,7 +32,8 @@ typedef unsigned int u32;
 extern void func_02034F84(u32 a);
 extern void func_0203AD8C(void *p);
 extern void func_0203AD80(void *ctx, void *ptr, u32 cond, u32 line);
-extern void func_0203AF40(u32 a);
+struct Rec;
+extern void func_0203AF40(struct Rec *p);
 extern u32 *g_021469DC;
 
 void func_0203AFCC(void *a, u32 b)

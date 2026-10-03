@@ -17,7 +17,8 @@
  *   g_021DE66C  0x021DE66C  data
  */
 
-extern void func_02075E10(int id);
+typedef unsigned short u16;
+extern void func_02075E10(u16 lock_id);
 extern void func_02075E80(int id);
 extern char *g_021DE66C;
 

@@ -36,7 +36,8 @@ typedef struct {
     int result;
 } ThreadData;
 
-extern void *func_021BEF08(void);
+typedef unsigned char  u8;
+extern u8 *func_021BEF08(void);
 extern void *func_021BEF58();
 extern void func_021BEFCC();
 extern void *func_021BEF40(void *sysInfo_p);

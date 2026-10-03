@@ -17,7 +17,8 @@
  * The fifth argument to 021736E0 is visibly written to the outgoing stack slot.
  */
 extern int func_021736D8(void);
-extern unsigned int func_02039338(void);
+typedef unsigned short u16;
+extern u16 func_02039338(void);
 extern unsigned int func_020399A8(void);
 extern void func_021736E0(int, int, int, char *, unsigned int);
 extern int func_0203D3A8(unsigned int, unsigned int, unsigned int, unsigned int);

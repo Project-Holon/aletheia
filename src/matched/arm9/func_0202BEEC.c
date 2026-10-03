@@ -31,11 +31,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern int    func_0204961C(void *handle);
-extern void  *func_02030734(u32 heapId, u32 size, u32 zero,
-                            const void *file, u32 line);
-extern void   func_0204944C(void *handle, u32 idx, u32 a2, u32 len,
-                            void *buf);
+struct ArcFile;
+extern u16 func_0204961C(void *obj);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 extern void   func_02049238(void *handle);
 
 void func_0202BEEC(u8 *p, u32 id)

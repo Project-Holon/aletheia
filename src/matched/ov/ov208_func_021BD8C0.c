@@ -29,7 +29,7 @@ extern void func_0204047C(int,u16);
 extern struct Bank *func_0204B100(int,unsigned char,unsigned);
 extern void func_0204B270(struct Bank *);
 extern void func_021BDCF8(struct Ov208Scene *);
-extern void func_021BD358(void *,int);
+extern void func_021BD358(char *p, int v);
 extern void func_021BDD48(char *,short);
 extern void func_021BDCDC(int,char *);
 extern void *func_020056A0(unsigned,unsigned,unsigned);

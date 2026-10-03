@@ -27,9 +27,11 @@ typedef struct { u8 v[3]; } Triple;
 typedef struct { u16 f00, f02, f04; u8 f06, f07; } Request;
 extern const Triple data_021D5708, data_021D5704, data_021D570C;
 extern void *func_0204B294(u32, u32, u32, u32, Request *, u16, u16);
-extern void func_0204B92C(void *, u32);
-extern void func_0204B3DC(void *, u32);
-extern void func_0204B688(void *, u32);
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B688(struct Actor *actor, u32 value);
 void func_021D46CC(char *p)
 {
     Triple x = data_021D5708;

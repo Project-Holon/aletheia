@@ -30,12 +30,14 @@ typedef struct {
     u8 f0e;
 } Rec;
 
-extern int func_02012138(void *);
-extern int func_0200FB24(void);
-extern int func_02012204(void *);
+typedef unsigned int   u32;
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
+extern u32 func_0200FB24(void);
+extern u32 func_02012204(const struct Ctx *p);
 extern int func_02035390(void);
 extern int func_020353B0(void);
-extern Rec *func_02030734(int, int, int, const char *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020263D8(int, int, void *);
 extern const char d_02183AE0[];
 

@@ -16,12 +16,17 @@
  *   func_02045334 0x02045334 arm
  */
 typedef unsigned char u8;
-extern void func_020310C4(void *);
+typedef unsigned int   u32;
+struct Descriptor;
+struct PrintSys;
+struct Rec3;
+struct Tcbl;
+extern void func_020310C4(struct Tcbl *p);
 extern unsigned func_0201CE30(void *);
-extern void func_0201CE48(void *);
-extern unsigned func_0201C4E4(void *);
-extern unsigned func_0201C6B4(const void *);
-extern void func_02045334(void *);
+extern void func_0201CE48(struct Rec3 *p);
+extern u32 func_0201C4E4(struct PrintSys *ps);
+extern u32 func_0201C6B4(const struct PrintSys *p);
+extern void func_02045334(struct Descriptor *d);
 void func_021F9374(u8 *p)
 {
     func_020310C4(*(void **)(p + 0xcc));

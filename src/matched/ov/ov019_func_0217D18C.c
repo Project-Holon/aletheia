@@ -57,8 +57,9 @@ typedef struct {
 } Rec30;
 
 extern int func_0217BB04(u8 *a);
-extern void func_0217F210(u8 *a, int b, int c);
-extern int func_0217F1EC(u8 *a);
+typedef unsigned int   u32;
+extern void func_0217F210(u8 *p, int a, u32 b);
+extern u32 func_0217F1EC(u8 *p);
 extern int func_020399A8(void);
 extern void func_02039C68(int a, int b, int c);
 extern int func_02039CB4(int a, int b, int c);
@@ -74,7 +75,7 @@ extern int func_0201A920(int heap);
 extern void func_0217422C(u8 *a, int b, void *c);
 extern int func_02174268(u8 *a);
 extern void func_020307B0(void *p);
-extern int func_0203D378(void);
+extern u32 func_0203D378(void);
 extern void func_0217B8E4(u8 *a, int b);
 extern u8 d_021807E8[];
 

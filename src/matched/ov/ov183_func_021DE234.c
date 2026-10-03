@@ -18,11 +18,14 @@
  */
 extern void func_021DE780(char *, char *);
 extern void func_021DE8FC(char *, char *);
-extern void func_020409B4(int);
-extern void func_021FD820(void *);
-extern void func_0201C4C0(void *);
+typedef unsigned int   u32;
+struct PrintSys;
+struct S020315D4;
+extern void func_020409B4(u32 index);
+extern void func_021FD820(char *r5);
+extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02025588(void *);
-extern void func_020315D4(void *);
+extern void func_020315D4(struct S020315D4 *p);
 int func_021DE234(void *a, int b, char *q, char *p)
 {
     func_021DE780(p, q);

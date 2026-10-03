@@ -30,18 +30,18 @@ typedef unsigned int u32;
 extern u8 *func_021BB964(void *);
 extern int func_021C8138(void *);
 extern u8 func_021C8140(void *, int);
-extern u16 func_021C7CBC(void *);
-extern u16 func_021C7CC8(void *);
+extern u16 func_021C7CBC(u8 *p);
+extern u16 func_021C7CC8(u8 *p);
 extern u16 func_021C7CD4(void *);
-extern u16 func_021C7CDC(void *);
-extern u16 func_021C7CE8(void *);
+extern u16 func_021C7CDC(u8 *p);
+extern u16 func_021C7CE8(u8 *p);
 extern char *func_021B9AEC(char *, int);
 extern u32 func_021B9B94(void *);
 extern u8 func_021B9B98(char *);
 extern void *func_021B9BF0(void *, u8);
-extern u8 func_021D54B4(void *);
+extern u8 func_021D54B4(u8 *p);
 extern int func_021D59B4(u8 *p, int k);
-extern int func_021B8B9C(void *, u8);
+extern int func_021B8B9C(unsigned char *p, unsigned char k);
 
 void func_021BA878(u8 *p)
 {

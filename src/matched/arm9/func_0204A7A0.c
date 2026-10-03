@@ -64,7 +64,7 @@ extern struct Sys *g_02146A74;
 extern const struct Templ g_020A1430;
 extern char s_clact_c[];
 
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  sub_0204DACC(struct Owner *owner, s32 idx, struct Templ *t, u32 a3, u32 a4);
 extern void  sub_020307B0(void *p);
 

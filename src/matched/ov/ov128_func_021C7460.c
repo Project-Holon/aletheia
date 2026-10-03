@@ -18,10 +18,11 @@
 typedef unsigned char u8;
 extern const char d_021CA58A[];
 extern int func_02035C08(const char *);
-extern void func_020061E4(int);
+typedef unsigned int   u32;
+extern void func_020061E4(u32 a);
 extern void func_021CA154(u8 *,int);
 extern void func_021CA184(u8 *,int,int);
-extern void func_020355D8(int);
+extern void func_020355D8(u8 v);
 int func_021C7460(int *p,int *q,u8 *ctx)
 {
     int v;

@@ -30,7 +30,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_021C1F44(u32);
+struct Node;
+extern void func_021C1F44(int a);
 extern void func_021C0C00(u32, u32);
 extern void func_021C0B58(void *, char *, void *);
 extern void func_021C0950(void *, char *, void *);
@@ -39,12 +40,12 @@ extern void func_021C06A0(void *, char *, void *);
 extern void func_021C0524(void *, char *, void *);
 extern void func_021C03C4(void *, char *, void *);
 extern void func_021C06EC(void *, char *, void *);
-extern void func_021BC97C(void *);
-extern void func_021BC61C(void *);
+extern void func_021BC97C(char *p);
+extern void func_021BC61C(char *p);
 extern void func_021BC464(void *);
 extern void func_021BBB34(void *);
-extern void func_021BC34C(void *);
-extern void func_02030EAC(void *);
+extern void func_021BC34C(char *p);
+extern void func_02030EAC(struct Node *n);
 extern void func_02049238(void *);
 extern void func_02034A5C(int);
 extern u8 ov072_id[];

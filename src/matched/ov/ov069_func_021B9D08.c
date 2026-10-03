@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 e);
+struct GfFont;
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C440(u16 heap);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
 extern int func_02045770(int);

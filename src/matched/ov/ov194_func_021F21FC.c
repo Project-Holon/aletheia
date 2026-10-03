@@ -19,9 +19,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021F4ED8(void *,u16 *);
+extern u16 func_021F4ED8(const char *p, const u16 *b);
 extern int func_021F4E18(int,int,u16 *,int,u8 *);
-extern void func_021F4DDC(void *,u16,u16 *,int,u8 *);
+extern void func_021F4DDC(const char *p, int i, u16 *dst, u32 n, u8 *count);
 extern int func_021F2150(u8 *);
 extern int func_021F2190(char *,u16);
 typedef struct { u8 removedCount, addedCount; u16 removed[4],added[4]; } Changes;

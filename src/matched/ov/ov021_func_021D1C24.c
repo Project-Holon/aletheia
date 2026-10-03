@@ -35,8 +35,9 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
 extern u32 func_02007B44(u32 a);
 extern void *func_02188CB4(unsigned char *p);
-extern void *func_02012934(void *p);
-extern u32 func_0201AB28(void *a, u32 b);
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
+extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02188C54(u32 a);
 
 u32 func_021D1C24(u32 a, u32 b, u32 c)
@@ -52,7 +53,7 @@ u32 func_021D1C24(u32 a, u32 b, u32 c)
     p[0] = func_02007B44(func_02012EBC(p[2]));
     p[3] = b;
     p[4] = (u32)func_02188CB4((void *)b);
-    p[5] = func_0201AB28(func_02012934((void *)p[2]), c);
+    p[5] = (u32)func_0201AB28(func_02012934((void *)p[2]), c);
     p[7] = func_02188C54(p[3]);
     *((u8 *)p + 0x4e) = c;
     p[0x15] = 0;

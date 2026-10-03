@@ -43,8 +43,10 @@ typedef struct {
     u16 g;
 } W;
 
-extern void *func_020124E4(void *o);
-extern void *func_0201210C(void *p);
+struct Ctx;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188D2C(void *p);
 extern W *func_021897BC(void *p, int i);
 extern V *func_021BE480(void *p, int i, u16 j);

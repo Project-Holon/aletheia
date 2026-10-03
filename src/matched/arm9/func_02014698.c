@@ -31,7 +31,8 @@ extern void *func_020144DC(u32 a0, u32 a1);
 extern void  func_020120B4(u32 a0, u32 a1, u32 a2, u32 a3);
 extern u32   func_020120F0(u32 ctx);
 extern void *func_020145CC(u32 a0);
-extern void  func_02012374(void *obj, void *out);
+struct Evt;
+extern void func_02012374(struct Evt *evt, struct Evt **out);
 
 u32 func_02014698(void *obj, u32 *mode, u32 *args)
 {

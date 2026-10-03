@@ -13,11 +13,13 @@
  *   func_021DA8B0 0x021DA8B0 thumb ov121
  *   func_021D80C0 0x021D80C0 thumb ov121
  */
-extern void func_0204E720(int, int, int, int);
+typedef signed int     s32;
+typedef unsigned int   u32;
+extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
 extern int func_0204E804(void);
-extern void func_02005E30(int);
+extern void func_02005E30(u32 a);
 extern void func_021DA8B0(void *, void *);
-extern void func_021D80C0(void);
+extern void func_021D80C0(void *p, int n, char *q);
 void func_021D6DF4(void *a, int *state)
 {
     switch (*state) {

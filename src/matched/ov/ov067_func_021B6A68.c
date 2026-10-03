@@ -24,7 +24,8 @@ typedef struct S {
     u16 f28;
     u16 f2a;
 } S;
-extern void func_0204B878(void *, u16);
+struct Obj;
+extern void func_0204B878(struct Obj *p, u16 value);
 void func_021B6A68(S *p, u32 flag)
 {
     p->f04 = flag;

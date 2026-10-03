@@ -25,7 +25,7 @@ extern void func_021C3194(void);
 extern void func_021BD29C(int msg);
 extern void func_021BC820(int color);
 extern void func_021BD744(int type);
-extern void func_021CFFAC(int no);
+extern void func_021CFFAC(unsigned int v);
 extern void func_021C0E40(void (*scene)());
 extern void func_021C3214(void);
 

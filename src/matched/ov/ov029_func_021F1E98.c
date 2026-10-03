@@ -18,12 +18,13 @@
  *   func_0203FB44  0x0203FB44  arm
  */
 
-extern void func_021F1DB0(void *);
-extern void func_021F1BBC(void *);
+typedef unsigned int   u32;
+extern void func_021F1DB0(char *p);
+extern void func_021F1BBC(char *p);
 extern void func_0204B3B4(int);
-extern void func_0204AFD8(int);
-extern void func_0204A8D4(int);
-extern void func_0204ADA4(int);
+extern void func_0204AFD8(u32 i);
+extern void func_0204A8D4(u32 i);
+extern void func_0204ADA4(u32 i);
 extern void func_0203FB44(int, unsigned short, unsigned short);
 
 void func_021F1E98(char *p)

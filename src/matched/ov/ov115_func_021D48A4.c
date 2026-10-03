@@ -30,7 +30,7 @@ extern void func_021D426C(u8 *,u32);
 extern void func_021D4878(u8 *);
 extern void func_021D5F7C(int);
 extern void func_021D5CCC(int,int);
-extern void func_021D4AB0(u8 *);
+extern void func_021D4AB0(int a);
 extern void func_021D5E34(int);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))

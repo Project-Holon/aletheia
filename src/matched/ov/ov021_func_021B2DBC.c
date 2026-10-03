@@ -20,11 +20,12 @@
  */
 
 extern int func_02159B10(int a, int b);
-extern int func_021B2BD8(int b);
+typedef unsigned int   u32;
+extern int func_021B2BD8(u32 a);
 extern int func_0218BA98(int a, int b);
 extern void func_0218C88C(int a, int b, int c);
 extern int func_0218C990(int a, unsigned short *b);
-extern void func_020061E4(int a);
+extern void func_020061E4(u32 a);
 
 int func_021B2DBC(int a, int b)
 {

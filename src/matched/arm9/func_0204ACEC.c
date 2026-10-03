@@ -70,7 +70,8 @@ typedef struct Outer0204ACEC {
 } Outer0204ACEC;
 
 extern Outer0204ACEC *lbl_02146A74;
-extern void *func_02049250(void *a0, u32 a1, u32 a2);
+struct ArcFile;
+extern void *func_02049250(struct ArcFile *arc, u32 member, u32 heap);
 extern void func_0204DEE8(Inner0204ACEC *a0, u32 a1, void *a2, u32 a3, u32 a4);
 extern void func_020307B0(void *a0);
 

@@ -24,7 +24,8 @@
 
 typedef unsigned int u32;
 
-extern int func_02072EC8(u32 a);
+typedef unsigned short u16;
+extern u16 func_02072EC8(u32 idx);
 
 int func_02006224(u32 a0)
 {

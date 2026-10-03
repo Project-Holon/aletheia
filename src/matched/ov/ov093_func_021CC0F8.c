@@ -22,11 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021D5BDC(void *m, u32 n);
-extern void func_021D5FE4(void *m, u32 n);
+struct S;
+struct UtilWork;
+extern int func_021D5BDC(struct UtilWork *p, u32 n);
+extern void func_021D5FE4(u8 *p, unsigned int n);
 extern u8 func_021D5440(u8 *p);
-extern void func_021CD4B0(void *w, u32 id, ...);
-extern int func_021D5F38(void *m, u32 n);
+extern void func_021CD4B0(void *w, volatile u32 id, ...);
+extern int func_021D5F38(struct S *p, int n);
 extern void func_021CD64C(void *w, u8 id, ...);
 
 int func_021CC0F8(char *p, void *m, int c, int n)

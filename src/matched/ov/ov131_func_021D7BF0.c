@@ -14,7 +14,8 @@
  */
 
 extern void func_021D7E84(void *, unsigned char *);
-extern void func_02045C04(void *);
+struct Rec;
+extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
 void func_021D7BF0(void *a, unsigned char *p)
 {

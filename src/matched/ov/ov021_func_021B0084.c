@@ -42,11 +42,12 @@ extern void *func_0215A5F4(u32 p);
 extern void func_0215A684(u32 a, u32 b);
 extern u32 func_0215A690(u32 a);
 extern void *func_0215A5DC(u32 a0);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C54(void *a);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
+extern u32 func_02188C54(u8 *p);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern u32 func_02190C78(u32 a);
-extern void func_021909BC(u32 a);
+extern int func_021909BC(u32 a);
 
 int func_021B0084(u32 a0, int *st, Ctx *c)
 {

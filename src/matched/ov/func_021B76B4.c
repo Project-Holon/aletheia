@@ -24,7 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-void *func_0201292C(void *a0);
+struct BigObj;
+void *func_0201292C(const struct BigObj *p);
 int func_02009310(int a2, int i);
 int func_02009330(int a2, int i);
 int func_02007E50(void *saved, int a, int b, int c);

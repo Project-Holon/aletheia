@@ -14,7 +14,7 @@
  *   d_021F4660 0x021F4660 data a1
  */
 
-extern unsigned int func_021F3F44(unsigned int);
+extern int func_021F3F44(int x);
 extern int func_021F3F70(int, int);
 extern const unsigned char d_021F4660[];
 int func_021F3FC0(unsigned int a, int i)

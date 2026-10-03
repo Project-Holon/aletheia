@@ -114,7 +114,7 @@ typedef struct {
 
 extern void func_021FE118(Work *p);
 extern void func_021FDBCC(void);
-extern void func_021FDD00(Work *p);
+extern void func_021FDD00(void *p);
 extern void func_021FDF2C(Work *p);
 extern void func_021FDDA8(Work *p);
 extern void func_021FFFE8(Work *p, u32 a, u32 b);

@@ -24,8 +24,11 @@ typedef struct {
 } Rect;
 
 extern void *func_0204B294(unsigned, unsigned, unsigned, unsigned, Rect *, unsigned, unsigned);
-extern void func_0204B92C(void *, unsigned);
-extern void func_0204BA20(void *, unsigned);
+typedef unsigned int   u32;
+struct Actor;
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204BA20(struct Actor *a, u32 v);
 
 void *func_021F3214(char *p, unsigned a, unsigned b, unsigned c, short x, short y, unsigned char w, unsigned char h, unsigned char z)
 {

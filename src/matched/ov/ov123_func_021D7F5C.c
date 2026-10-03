@@ -10,7 +10,8 @@
  * extent: two zero alignment bytes at 021D7F9A follow the return.
  */
 typedef unsigned short u16;
-extern void *func_02009448(void *);
+struct Sub02009448Obj;
+extern struct Sub02009448Obj *func_02009448(void *sys);
 int func_021D7F5C(char *p)
 {
     int i, j;

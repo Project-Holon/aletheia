@@ -36,7 +36,7 @@ typedef struct {
 extern Mode d_021D872C[];
 extern s32 func_02189A2C(u32 a);
 extern void func_0202208C(int a, int b, int c, int d, int e, int f, int g);
-extern int func_020221A4(void);
+extern u32 func_020221A4(void);
 
 void func_021A0D68(u32 *a)
 {

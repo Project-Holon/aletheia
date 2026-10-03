@@ -23,10 +23,10 @@
 
 typedef unsigned int u32;
 
-extern void *func_021657C8(void);
+extern int func_021657C8(void);
 extern u32 func_027028B0(void);
 extern u32 func_02702A98(void);
-extern void func_02165A4C(u32 phase);
+extern void func_02165A4C(unsigned char phase);
 extern u32 func_02702BFC(void *arg);
 extern u32 func_02702FE8(void *arg);
 extern u32 func_02703424(void *arg);

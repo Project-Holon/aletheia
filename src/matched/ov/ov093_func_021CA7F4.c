@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Flags { u32 a:1; u32 b:31; };
-extern u32 func_021B8588(void *);
+extern u32 func_021B8588(void **p);
 extern u8 func_021CB214(u8 *, u8 *, const u8 *);
 extern void func_021CA8C8(void *);
 extern int func_021CAA58(u8 *, u8 *, u16, const u8 *, int, void *);

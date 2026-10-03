@@ -33,7 +33,7 @@ struct ArcFile;struct NitroFileHeader;
 extern const Config configA,configB;
 extern u32 func_0202DA04(int);
 extern void func_021BC3E4(u16 *,int *,const Config *,u32);
-extern struct ArcFile *func_020490F4(u32,u16);
+extern void *func_020490F4(u32 id, u16 heap);
 extern void *func_02049250(struct ArcFile *,u32,u32);
 extern int func_02062A98(struct NitroFileHeader *,void **);
 extern int func_02062A00(struct NitroFileHeader *,void **);

@@ -45,8 +45,9 @@ extern void func_0203FC28(const void *);
 extern void func_021D4534(const void *, int, int);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0204A48C(const Config *, u32, u32);
-extern void *func_0204B100(int, u8, u32);
-extern void func_0204B270(void *);
+struct Bank;
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern void func_0204B270(struct Bank *bank);
 extern void func_02043598(u32, u32);
 static inline void visible(int plane)
 {

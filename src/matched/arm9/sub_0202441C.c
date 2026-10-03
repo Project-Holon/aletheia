@@ -25,9 +25,11 @@ struct Struct_0202441C {
 };
 
 extern const u16 Table_0209F724[];
-extern void *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
-extern void *sub_02045EC0(void *bank, u32 strIdx);
-extern void  func_02045C04(void *bank);
+struct MsgBank;
+struct Rec;
+extern struct MsgBank *sub_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *sub_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045C04(struct Rec *rec);
 
 void *func_0202441C(const struct Struct_0202441C *obj, u32 heapId)
 {

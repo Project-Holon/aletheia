@@ -58,9 +58,9 @@ typedef struct Obj {
 } Obj;
 
 extern int func_0203D1B4(void);
-extern int func_0200FB24(void);
-extern int func_0217873C(void *);
-extern int func_02177494(void *, int);
+extern u32 func_0200FB24(void);
+extern int func_0217873C(u8 *p);
+extern int func_02177494(u8 *obj, u32 flags);
 extern Rec *func_02177BFC(void *, u8 *);
 extern int func_02013D5C(u16);
 extern int func_02158570(u16);

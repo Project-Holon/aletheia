@@ -63,7 +63,8 @@ typedef unsigned int   u32;
 extern void *func_020185F0(void);
 extern u32   func_02017E88(void *p, u32 id, u32 v);
 extern void  func_02017E64(void *p, u32 id, u32 v);
-extern void  func_02045F5C(void *bank, u32 id, void *dest, u32 n);
+struct MsgData;
+extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void  func_02048F4C(void *a, u32 b, u32 c);
 
 extern void *gMsgBank;

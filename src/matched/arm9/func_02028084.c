@@ -76,12 +76,14 @@ struct Obj {
 };
 
 extern char  g_020A74E0[];
-extern void *func_02030734(int heap, int size, int c, void *file, int line);
+struct Descriptor;
+struct StrObj;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *p, u8 v, u32 n);
 extern u32   sub_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void  func_020282D8(u32 bg, struct Cfg *c, u32 d);
-extern u32   sub_0201D304(void *s, u32 a, u32 b);
-extern void *func_02045770(void *cell);
+extern u32 sub_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void *func_02045770(struct Descriptor *p);
 extern void  sub_0201C724(void *owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 
 struct Obj *func_02028084(struct Cfg *cfg, struct Src *src, u16 a2, u16 a3,

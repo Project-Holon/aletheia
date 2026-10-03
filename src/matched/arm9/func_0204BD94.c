@@ -43,7 +43,8 @@ struct Obj {
 extern const char s_clact_c[];
 
 extern void  func_02065AA8(struct Obj *p);
-extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_0204BE84(void *dst, void *src);
 extern void  func_02065B64(struct Obj *p, void *slot);
 

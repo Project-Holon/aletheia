@@ -27,7 +27,8 @@ struct Allocator02061 {
     u32 param2;
 };
 
-extern void *func_02060CA0(void *heap, u32 size, s32 align);
+struct ExpHeap;
+extern void *func_02060CA0(struct ExpHeap *heap, u32 size, s32 align);
 
 void *func_0206128C(struct Allocator02061 *allocator, u32 size)
 {

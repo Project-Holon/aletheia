@@ -70,10 +70,11 @@ struct WordSet {
     struct Entry *unk08;
 };
 
-extern u16 *func_02045A90(void *s);
-extern void func_0204581C(void *s);
+struct U16Vec;
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern void func_0204581C(struct U16Vec *vec);
 extern u16  func_02045A98(void);
-extern void func_02045AFC(void *s, u16 c);
+extern void func_02045AFC(struct U16Vec *vec, u16 value);
 
 extern u32   func_0201D5C4(void);
 extern u32   func_0201D5CC(const u16 *p);

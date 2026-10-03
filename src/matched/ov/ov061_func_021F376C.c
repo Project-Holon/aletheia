@@ -45,17 +45,17 @@ extern int func_02188C80(u8 *a);
 extern int func_020120F4(int a);
 extern int func_02012844(int a);
 extern int *func_021897BC(char *a, int idx);
-extern int func_02188C9C(u8 *a);
+extern u16 func_02188C9C(u8 *p);
 extern void func_021F388C(int *o, int a);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
 extern void func_021BE580(int a);
 extern int func_021BE6BC(u8 *p);
 extern void func_021BE4B4(int a, int b, int c, int d);
-extern int func_021F3868(int *o, void *g);
-extern int func_021A3050(void *g);
+extern int func_021F3868(void *unused, void *x);
+extern u16 func_021A3050(u8 *p);
 extern void func_021A3364(void *g, int b, V3 *out);
 extern int func_02162478(int h, V3 *v);
-extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
+extern void func_021BE6CC(int a, int b, int c, int d, int e);
 extern void func_021BE6B0(u8 *p, int v);
 
 void func_021F376C(u8 *a)
