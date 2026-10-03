@@ -28,7 +28,8 @@ extern int DWC_CheckProfanityProcess(void);
 extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02045EC0(u32 msg, u32 id);
 extern void func_02045C04(u32 msg);
-extern void func_020084E4(u32 win, u32 str);
+struct U16Vec;
+extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_02045808(u32 str);
 
 int func_021DCAEC(char *obj, int *out)
@@ -44,7 +45,7 @@ int func_021DCAEC(char *obj, int *out)
         u32 msg = func_02045B38(0, 2, 0x51, *(u16 *)(obj + 0x124));
         u32 str = func_02045EC0(msg, 0xf);
         func_02045C04(msg);
-        func_020084E4(*(u32 *)(obj + 0x1490), str);
+        func_020084E4((u16 *)*(u32 *)(obj + 0x1490), (struct U16Vec *)str);
         func_02045808(str);
     }
     return done;

@@ -20,10 +20,12 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern u32 func_020084E4(u32 value, void *dst);
+struct U16Vec;
+extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_0200854C(int, int);
 extern u32 func_02005728(u32 range);
 extern void func_0200852C(int, u32);
@@ -35,7 +37,7 @@ void func_021BC4A4(int a, int b, int c)
 {
     u64 x;
     u32 y;
-    func_020084E4(a, (void *)b);
+    func_020084E4((u16 *)a, (struct U16Vec *)b);
     func_0200854C(a, c);
     func_0200852C(a, func_02005728(-1));
     x = func_0203F0A8();

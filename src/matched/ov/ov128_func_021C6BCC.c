@@ -19,6 +19,7 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
+typedef unsigned short u16;
 extern void *func_0201283C(const void *);
 extern void *func_0200846C(int);
 typedef unsigned int   u32;
@@ -29,7 +30,7 @@ struct WordSet;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern struct Sub020097BCEnt *func_020099D4(struct Sub020097BCObj *obj, int i);
 extern void func_02045924(void *,const void *);
-extern void func_020084E4(void *,void *);
+extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
 extern void func_020307B0(void *);

@@ -29,7 +29,7 @@ extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 he
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045C04(struct Rec *rec);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_020084E4(u32 value, void *dst);
+extern void func_020084E4(u16 *out, struct U16Vec *vec);
 extern u16 func_02039338(void);
 extern int func_02012950(int, int);
 extern void func_02008494(int, int);
@@ -54,7 +54,7 @@ void func_021D4608(u8 *p)
             message = func_02045B38(0, 2, 0x51, 0x1f);
             text = func_02045EC0(message, 15);
             func_02045C04(message);
-            func_020084E4(value, text);
+            func_020084E4((u16 *)value, text);
             func_02045808(text);
         }
         func_02008494(value, func_02012950(*(int *)(p + 0x2c), 1 - func_02039338()));
