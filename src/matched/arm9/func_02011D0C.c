@@ -22,13 +22,15 @@
 
 typedef unsigned char u8;
 
-extern void func_02011610(void *a1, u8 *buf);
+struct IcaAnime;
+struct Rec12;
+extern unsigned int func_02011610(struct IcaAnime *a1, struct Rec12 *buf);
 extern void func_02048B44(void *a0, const u8 *buf);
 
 void func_02011D0C(void *a0, void *a1)
 {
     u8 buf[0xc];
 
-    func_02011610(a1, buf);
+    func_02011610(a1, (struct Rec12 *)buf);
     func_02048B44(a0, buf);
 }

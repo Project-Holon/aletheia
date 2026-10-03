@@ -46,7 +46,7 @@ extern u32 func_020362DC(void);
 extern void func_021CE9E4(u8 *p, int n);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_020399B8(void);
+extern u32 func_020399B8(u8 *p);
 extern int func_021CF1AC(u8 *p, int a, u8 b);
 extern u32 func_02188C54(u32 a);
 extern u32 func_02190BE4(u32 a, u32 b);
@@ -102,8 +102,7 @@ u32 func_021CEB84(u8 *p)
         }
         break;
     case 1:
-        func_020399A8();
-        if (func_020399B8() == 1) {
+        if (func_020399B8((u8 *)func_020399A8()) == 1) {
             *(u32 *)(p + 0x52c) = 0;
             if (func_021CF1AC(p + 0x30, 0, p[0x51b]) == 1) {
                 s->state = 2;

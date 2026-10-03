@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Runs func_0200E06C, then func_0200E0E8, then the initialiser, returning
  * the middle result.
@@ -20,15 +20,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0200E06C(u8 *p, u32 a);
-extern u32  func_0200E0E8(u8 *p, u32 a);
+extern void func_0200E06C(char *p);
+struct Slot;
+extern u32  func_0200E0E8(const struct Slot *p, int a);
 extern void func_0200E024(void *obj);
 
 u32 func_0200E164(u8 *p, u32 a)
 {
-    func_0200E06C(p, a);
+    func_0200E06C((char *)p);
     {
-        u32 r = func_0200E0E8(p, a);
+        u32 r = func_0200E0E8((const struct Slot *)p, (int)a);
 
         func_0200E024(p);
         return r;

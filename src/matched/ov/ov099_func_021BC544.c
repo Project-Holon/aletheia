@@ -1,9 +1,6 @@
 /*
  * unit:     yes
- * function: func_021BC544
- * function: func_021BC5C0
- * function: func_021BC5D4
- * function: func_021BC5E8
+ * function: func_021BC544, func_021BC5C0, func_021BC5D4, func_021BC5E8
  * address:  0x021BC544
  * packet:   pkt_ov099_021BC544
  * region:   ov099
@@ -40,8 +37,10 @@ extern u32 func_0203D378(void);
 extern void func_021BA874(char *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
-extern int func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 
 int func_021BC544(char *p, int v);
 
@@ -58,7 +57,7 @@ int func_021BC544(char *p, int v)
     } else {
         func_021BAAB8(p, 0x4c, 0);
         func_021BC090(p);
-        func_02039C68(func_020399A8(), 0x1b, 0xa);
+        func_02039C68((struct Link *)func_020399A8(), 0x1b, 0xa);
         *(u32 *)(p + 0x1CC) = 0x49;
     }
     return v;

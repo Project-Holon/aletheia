@@ -16,18 +16,20 @@
  *   func_0203D7BC 0x0203D7BC arm
  */
 extern int func_021C1154(char *, int);
-extern int func_020399A8(void);
-extern int func_02039CB4(unsigned, unsigned, unsigned);
-extern void func_02039C68(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
+extern void func_02039C68(struct Link *, unsigned, unsigned);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 int func_021C14A8(char *p, int ret)
 {
     if (func_021C1154(p, ret) == 0) {
-        if (func_02039CB4(func_020399A8(), 15, 10) != 0) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 15, 10) != 0) {
             func_0203D7B0(1);
             func_0203D7BC(1);
-            func_02039C68(func_020399A8(), 18, 10);
+            func_02039C68((struct Link *)func_020399A8(), 18, 10);
             *(int *)(p + 0x1cc) = 45;
         }
     }

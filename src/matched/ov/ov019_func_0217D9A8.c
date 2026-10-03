@@ -66,15 +66,17 @@ typedef struct {
     u8 f16e;
 } Work;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int a);
 extern void func_02034714(void *a, int b, void *c);
 typedef unsigned int   u32;
 extern u32 func_0203D378(void);
 extern void func_0203D7BC(int a);
 extern void func_0203D1E8(int a, int b);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern int func_02012944(int a);
 extern int func_0217BB20(Ctx *ctx);
 extern void func_0217F074(void *p);
@@ -98,7 +100,7 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
     Work *w = *(Work **)((u8 *)ctx + 0x355c);
     int r;
 
-    func_0203D1A4(func_020399A8());
+    func_0203D1A4((int)func_020399A8());
     if (w == 0)
         func_02034714(d_021807E4, 0, d_021807E4);
 
@@ -138,14 +140,14 @@ int func_0217D9A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         }
         if (obj->b1 == 0) {
             func_021736E0(obj->f00);
-            func_02039C68(func_020399A8(), 0xc, 0x14);
+            func_02039C68((struct Link *)func_020399A8(), 0xc, 0x14);
         }
         (*state)++;
         break;
     case 1:
         if (obj->b1 == 0) {
-            if (func_02039CB4(func_020399A8(), 0xc, 0x14) == 1) {
-                func_0203D1E8(func_020399A8(), 1);
+            if (func_02039CB4((struct Link *)func_020399A8(), 0xc, 0x14) == 1) {
+                func_0203D1E8((int)func_020399A8(), 1);
                 (*state)++;
             }
         } else {
