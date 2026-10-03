@@ -33,7 +33,7 @@ typedef unsigned int u32;
 
 extern u32 d_02208F50[];
 extern u32 d_02208CEC[];
-extern char *func_02030734(u32, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, int);
 extern void func_0204335C(u32 keep);
 extern void func_020433E0(void *);
@@ -50,7 +50,7 @@ extern u32 func_020056A0(void *, void *, int);
 
 char *func_022058F8(u32 a, u32 b)
 {
-    char *p = func_02030734(b, 0x10, 0, d_02208F50, 0x1df);
+    char *p = func_02030734(b, 0x10, 0, (const char *)d_02208F50, 0x1df);
 
     func_02082BCC(p, 0, 0x10);
     *(volatile u16 *)0x04000050 = 0;

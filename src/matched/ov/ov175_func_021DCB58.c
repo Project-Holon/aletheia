@@ -23,7 +23,7 @@ typedef unsigned short u16;
 extern u8 *func_02012944(void *);
 extern void *func_0200853C(void *);
 extern unsigned func_020173EC(void);
-extern int func_0201AA18(void *);
+extern unsigned func_0201AA18(void *p);
 typedef unsigned int   u32;
 extern void *func_0201AB28(void *p, u32 idx);
 extern u8 *func_021B9800(int,int,int);
@@ -46,7 +46,7 @@ void func_021DCB58(char *p,void *q,int mode)
     case 1:
         size=func_020173EC();
         func_021B98A0(*(u8 **)(p+0x121c),*(u16 *)(p+0x124),size*func_0201AA18(q),0);
-        for(i=0;i<func_0201AA18(q);i++) {
+        for(i=0;i<(int)func_0201AA18(q);i++) {
             mon=func_0201AB28(q,i);
             func_021B98D8(*(u8 **)(p+0x121c),(int)mon,func_020173EC());
         }

@@ -19,7 +19,7 @@
  *   func_02005D90 0x02005D90 thumb
  *   d_02213D04 0x02213D04 data a1 ov199
  */
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned);
+extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
 struct Big;
@@ -33,7 +33,7 @@ typedef enum { tag_2854 = 0x2c0 } Offset2854;
 int *func_02212854(int unused, unsigned heap, char *ctx)
 {
     Offset2854 offset = tag_2854;
-    int *p = func_02030734(heap, 0x44, 0, d_02213D04, offset);
+    int *p = func_02030734(heap, 0x44, 0, d_02213D04, tag_2854);
     func_02082BCC(p, 0, 0x44);
     p[2] = (int)(ctx + 4);
     p[3] = *(int *)(ctx + 0x20);

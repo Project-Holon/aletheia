@@ -20,14 +20,14 @@
 
 
 extern unsigned char d_021E8DD4[];
-extern int *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern void func_02082BCC(int *, int, int);
 extern void func_021E8AA0(int *, int);
 
 int *func_021E8A3C(int a, int b, int c)
 {
     int *p;
-    p = func_02030734(c, 0x10, 0, d_021E8DD4, 0x246);
+    p = func_02030734(c, 0x10, 0, (const char *)d_021E8DD4, 0x246);
     func_02082BCC(p, 0, 0x10);
     *(int *)((char *)p + 8) = a;
     func_021E8AA0(p, b);

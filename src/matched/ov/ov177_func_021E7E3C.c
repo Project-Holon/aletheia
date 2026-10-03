@@ -43,7 +43,7 @@ static inline unsigned HeapTemp(unsigned heap)
     return heap;
 }
 extern const char d_021E8DBC[];
-extern void *func_02030734(int, unsigned, int, const char *, int);
+extern void *func_02030734(unsigned heap, unsigned size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern void *func_0200BAF4(void *, u16);
 extern void func_0204989C(int, int, int, int, int, int, u16);
@@ -53,7 +53,7 @@ extern void *func_0204ACEC(void *, unsigned, int, int, u16);
 extern unsigned func_0201BC40(void);
 extern unsigned func_0201BCB4(void);
 extern void *func_0204AF28(void *, unsigned, unsigned, u16);
-extern int func_0201AA18(void *party);
+extern unsigned func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, int i);
 extern unsigned func_02017E1C(void *p, unsigned id, unsigned v);
 extern void *func_020185F4(void *);
@@ -116,7 +116,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     handle = func_020490F4(7, heap);
     work->pal = func_0204ACEC(handle, func_0201BC3C(), 0, 0xA0, h);
     work->cell = func_0204AF28(handle, func_0201BC40(), func_0201BCB4(), h);
-    for (i = 0; i < func_0201AA18(party); i++) {
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             work->chr[i] = func_0204A6C8(handle, func_0201BA68(func_020185F4(mon)), 0, 0, h);
@@ -133,7 +133,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     req.y = 0x2C;
     req.id = 1;
     req.a = 1;
-    for (i = 0; i < func_0201AA18(party); i++) {
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             req.x = i * 0x28 + 0x18;
@@ -154,7 +154,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     sLevel = func_02045EC0(msg, 0x63);
     sMale = func_02045EC0(msg, 0x64);
     sFemale = func_02045EC0(msg, 0x65);
-    for (i = 0; i < func_0201AA18(party); i++) {
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
         if (func_02017E1C(mon, 0xA9, 0) != 0) {
             work->win[i] = func_020450F0(1, i * 5 + 1, 4, 5, 6, 15, 1);

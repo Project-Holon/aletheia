@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * EXACT* tail: already matched ov196_func_0220AF64.c eight-byte stub.
  * symbols:
  *   sub_02030734 0x02030734 arm

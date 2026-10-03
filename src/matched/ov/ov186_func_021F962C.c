@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02012EBC   0x02012EBC  thumb
@@ -20,7 +20,8 @@
 
 extern int func_02012EBC(int);
 extern int func_021FC4DC(int);
-extern int func_020071CC(int, int);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *, unsigned int);
 
 void func_021F962C(char *r5, int *r4)
 {
@@ -30,6 +31,6 @@ void func_021F962C(char *r5, int *r4)
     *(int *)r5 = r4[3];
     *(int *)(r5 + 0xC) = r4[2];
     *(int *)(r5 + 4) = func_021FC4DC(r4[0]);
-    *(int *)(r5 + 0x10) = func_020071CC(x, 0x3a);
+    *(int *)(r5 + 0x10) = (int)func_020071CC((struct Sub020071CCCtrl *)x, 0x3a);
     *(int *)(r5 + 0x14) = *(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4);
 }

@@ -16,13 +16,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Object { int capacity; int entries[4]; int unused; void *vector; void *a; void *b; void *c; };
 extern char d_021E3968[];
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_020457B0(u32, u16);
 struct Object *func_021E07A4(int heap, int n, void *a, void *b, void *c, int *entries)
 {
     int i;
     struct Object *p;
-    p = func_02030734(heap, 40, 0, d_021E3968, 192);
+    p = func_02030734((u16)heap, 40, 0, d_021E3968, 192);
     p->a = a;
     p->b = b;
     p->capacity = n;

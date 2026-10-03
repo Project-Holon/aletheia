@@ -175,7 +175,7 @@ extern int func_0200FB24(void);
 extern int func_02012EBC(u32 a);
 extern int func_0201A090(int rules, void *party, u32 *mask);
 extern int func_0201A918(void);
-extern int func_0201AA18(void *list);
+extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, int i);
 extern void func_020242A4(void *obj, u32 id);
 extern u32 func_020245D4(void *p, u32 a1);
@@ -184,7 +184,8 @@ extern void func_0203064C(u32 a, u32 b, u32 c);
 extern int func_0203CD98(void);
 extern void func_02040588(u32 which, u32 enable);
 extern void func_02045808(void *a);
-extern void func_02045A38(void *a, void *dst, u32 n);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *a, u16 *dst, unsigned int n);
 extern u16 func_02045A98(void);
 extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern void func_02045C04(void *h);
@@ -256,7 +257,7 @@ static inline void TouchParty(u8 *rec, u8 *buf)
     {
         void *p = rec + 0xd4;
 
-        for (i = 0; i < func_0201AA18(p); i++)
+        for (i = 0; i < (int)func_0201AA18(p); i++)
             func_0201AB28(p, i);
     }
 }
@@ -457,7 +458,7 @@ void func_021D7E18(u32 sys, int *state, struct Obj *obj)
                 bad++;
                 msg = func_02045B38(0, 2, 0xd2, 0x8057);
                 str = func_02045EC0(msg, 0x8057);
-                func_02045A38(str, r, 8);
+                func_02045A38(str, (u16 *)r, 8);
                 func_02045808(str);
                 func_02045C04(msg);
             }

@@ -23,7 +23,7 @@ typedef unsigned int u32;
 typedef struct Rect { u8 x,y,w,h; } Rect;
 extern const Rect d_02211A74[];
 extern char d_02212540[];
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_020307B0(void *);
 extern void func_02041090(u32,u32,u32,u32,u8,u8);
 extern void func_02041B6C(u32);
@@ -33,7 +33,7 @@ void func_0220B6D0(u8 *p,u8 state,u8 flag,u8 mode)
     unsigned long off=state*4;
     u32 h=((const u8 *)d_02211A74)[off+3];
     u32 w=((const u8 *)d_02211A74)[off+2];
-    void *buf=func_02030734((*(u16 *)(*(char **)p+0x10)&0x7FFF)|0x8000,w*h*2,0,d_02212540,0x205);
+    void *buf=func_02030734((u16)((*(u16 *)(*(char **)p+0x10)&0x7FFF)|0x8000),w*h*2,0,d_02212540,0x205);
     func_0220B5AC(p,buf,state,flag,mode);
     func_02041090(6,(u32)buf,((const u8 *)d_02211A74)[off],((const u8 *)d_02211A74)[off+1],w,h);
     func_02041B6C(6);

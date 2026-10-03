@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT
- * ABI: full-width line tag preserves r6 without caller-side u16 truncation.
+ * ABI: allocator tag is u16; passing symbolic tag_2740 directly avoids truncating
+ * the live offset variable and preserves the original instruction shape.
  * lever: enum tag 0x24F remains live and becomes offset 0x1B4.
  * symbols:
  *   func_02030734 0x02030734 arm
@@ -19,7 +20,7 @@
  *   d_02213D00 0x02213D00 data a1 ov199
  *   d_02213D04 0x02213D04 data a1 ov199
  */
-extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned);
+extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned short u16;
 typedef unsigned int   u32;
@@ -32,7 +33,7 @@ typedef enum { tag_2740 = 0x24f } Offset2740;
 int *func_02212740(void *obj, unsigned heap, char *ctx)
 {
     Offset2740 offset = tag_2740;
-    int *p = func_02030734(heap, 0x18, 0, d_02213D04, offset);
+    int *p = func_02030734(heap, 0x18, 0, d_02213D04, tag_2740);
     func_02082BCC(p, 0, 0x18);
     p[0] = *(int *)(ctx + 4);
     offset -= 0x9b;

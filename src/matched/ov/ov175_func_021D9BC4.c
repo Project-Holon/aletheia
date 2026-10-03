@@ -23,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u32 func_0201AA18(u32 list);
+extern unsigned int func_0201AA18(void *list);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u8 *func_020185F0(u32 entry);
 extern u32 func_020173E8(void);
@@ -31,10 +31,10 @@ extern int func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 
 int func_021D9BC4(u32 a, u32 b)
 {
-    u32 n = func_0201AA18(a);
+    u32 n = func_0201AA18((void *)a);
     u32 i;
 
-    if (n == func_0201AA18(b)) {
+    if (n == func_0201AA18((void *)b)) {
         for (i = 0; i < n; i++) {
             u32 ea = (u32)func_0201AB28((void *)a, i);
             u32 eb = (u32)func_0201AB28((void *)b, i);

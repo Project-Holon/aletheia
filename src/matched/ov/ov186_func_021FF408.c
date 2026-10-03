@@ -36,7 +36,7 @@ typedef unsigned long u32;
 typedef unsigned short u16;
 typedef struct {u32 value;u32 unused;void *owner;void *arg;void *context;void (*a)(char *);void (*b)(char *);void (*c)(char *);void (*d)(char *);void (*e)(char *);void (*f)(char *);} Config;
 extern int func_02034AC4(int);
-extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *func_02030734(unsigned int,unsigned int,int,const char *,u16);
 extern void func_02082BCC(void *,u32,u32);
 typedef unsigned char  u8;
 struct Big;

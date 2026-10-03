@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * tail: existing matched accessor followers 021F9B98 and 021F9B9C; lead only.
  * symbols:
  *   func_02034714 0x02034714 arm

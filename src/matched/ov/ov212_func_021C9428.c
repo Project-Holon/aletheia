@@ -7,17 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02030734 0x02030734 arm
  */
 
-extern unsigned char *func_02030734(int, int, int, int, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 
 void func_021C9428(int p, int b, int c)
 {
-    unsigned char *q = func_02030734(c, 0x48, 1, 0x021C99A8, 0x1ce);
+    unsigned char *q = func_02030734(c, 0x48, 1, (const char *)0x021C99A8, 0x1ce);
 
     *(int *)q = p;
     *(int *)(q + 4) = b;
