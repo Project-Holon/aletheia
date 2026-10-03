@@ -1,0 +1,89 @@
+/*
+ * function: func_021B6100
+ * address: 0x021B6100
+ * packet: pkt_ov133_021B6100
+ * region: ov133
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 408 bytes versus 404, 163 concrete differences, 18/18 relocations resolved; constructor stores and divisor/multiply register allocation differ, trailing code shifted.
+ * checks: 1 own allocator 5 args, six initializers one pointer each, 056A0 three u32 args, 2208C pointer+six full words, 9028 third u16, A828/A834 own pointer/byte prototypes, runtime unsigned division and signed modulo; 2 matched 75E0/9C08/6E74/9B48 and own 6294 provide field/callee evidence; 3 const parent implicit pointer conversion CCERR, explicit cast plus unsigned-long v compiles unchanged DIFF163, int limit and fourth-2208C signedness iteration also flat; 4 duplicate-call branch, narrow-result, long-index, declaration-order and constant-live-range idioms read; 5 unfiltered idiom directory refreshed, same/sibling neighbours reread. Macro-free emitter one agrees with fixed one DIFF163, but permuter baseline DIFF161 unresolved1 disagrees; once-only jobs1/budget300/types completed, no improvement, output rejected and fixed best preserved. Next: typed owner field at a8 and quotient call narrowing while retaining unsigned division; both scheduling variants exhausted.
+ * protected-tool: tools/permuter.py Scorer._post omits region in resolve_relocations(fb,c["addr"],self.decls,src=self.srckey); replacement adds region=self.reg.name. Fixed one and emitted one resolve 18/18 versus search baseline unresolved1; Ilias owns correction, tools untouched.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_021B69AC 0x021B69AC thumb ov133
+ *   func_021B6BA4 0x021B6BA4 thumb ov133
+ *   func_021B6E74 0x021B6E74 thumb ov133
+ *   func_021B6F00 0x021B6F00 thumb ov133
+ *   func_021B9DE8 0x021B9DE8 thumb ov133
+ *   func_021B9B48 0x021B9B48 thumb ov133
+ *   func_020056A0 0x020056A0 thumb
+ *   func_021B6884 0x021B6884 thumb ov133
+ *   func_0202208C 0x0202208C thumb
+ *   func_021B9028 0x021B9028 thumb ov133
+ *   func_0200A828 0x0200A828 thumb
+ *   func_0200A834 0x0200A834 thumb
+ *   func_02005D90 0x02005D90 thumb
+ *   func_0203D34C 0x0203D34C arm
+ *   _u32_div_f 0x0209C2B0 arm
+ *   _s32_div_f 0x0209C0A4 arm
+ *   d_021BA600 0x021BA600 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Big;
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void func_021B69AC(u8 *);
+extern void func_021B6BA4(u8 *);
+extern void func_021B6E74(u8 *);
+extern void func_021B6F00(u8 *);
+extern void func_021B9DE8(u8 *);
+extern void func_021B9B48(u8 *);
+extern void *func_020056A0(u32,u32,u32);
+extern void func_021B6884(void *,u8 *);
+extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void func_021B9028(u8 *,int,u16);
+extern u8 func_0200A828(struct Big *);
+extern void func_0200A834(struct Big *,u8);
+extern void func_02005D90(u32,u16);
+extern void func_0203D34C(u32,u32);
+extern const char d_021BA600[];
+u8 *func_021B6100(const void *parent,u32 heap)
+{
+    u8 *p;
+    unsigned long v;
+    p=func_02030734(heap,0x18f0,1,d_021BA600,0x1de);
+    *(u16 *)p=heap;
+    *(void **)(p+4)=(void *)parent;
+    *(u32 *)(p+12)=7;
+    *(u32 *)(p+16)=0;*(u32 *)(p+20)=0;*(u32 *)(p+24)=0;
+    *(u32 *)(p+0x30)=0;*(u32 *)(p+0x38)=0;*(u32 *)(p+0x3c)=0;*(u32 *)(p+0x40)=0;
+    *(u32 *)(p+0x98)=0;*(u32 *)(p+0xa4)=8;
+    *(u16 *)(p+0x182c)=0;
+    *(u16 *)(p+0x1838)=0;*(u16 *)(p+0x183a)=0;*(u32 *)(p+0x183c)=0;
+    *(u8 *)(p+0x18c6)=0;*(u32 *)(p+0x18c8)=0;
+    *(u32 *)(p+0x18d0)=0;*(u32 *)(p+0x18cc)=0;
+    *(u16 *)(p+0x18d4)=255;*(u8 *)(p+0x18c1)=0;
+    *(u32 *)(p+0x1834)=0;*(u32 *)(p+0x18ec)=0;*(u16 *)(p+0x182e)=0;
+    *(u32 *)(p+0x34)=10;
+    func_021B69AC(p);func_021B6BA4(p);func_021B6E74(p);
+    func_021B6F00(p);func_021B9DE8(p);func_021B9B48(p);
+    *(void **)(p+8)=func_020056A0((u32)func_021B6884,(u32)p,8);
+    func_0202208C((void *)2,1,1,0x7fff,18,1,*(u16 *)p);
+    v=*(u32 *)(p+0x1834)+0x18000;
+    *(u16 *)(p+0x18c2)=10;
+    if(v>=*(u16 *)(p+0xa8)*0x7fff) func_021B9028(p,8,(v-*(u16 *)(p+0xa8)*0x7fff)/0x7fff);
+    else func_021B9028(p,8,v/0x7fff);
+    *(u32 *)(p+0xa4)=8;*(u32 *)(p+0x98)=1;*(u32 *)(p+0x9c)=0;
+    *(u32 *)(p+0xa0)=0x10000+*(u16 *)(p+0x182c)%0x1249;
+    if(func_0200A828(*(struct Big **)(*(u8 **)(p+4)+8))==0) {
+        func_0200A834(*(struct Big **)(*(u8 **)(p+4)+8),1);
+        *(u32 *)(p+0x1840)=1;
+    } else *(u32 *)(p+0x1840)=0;
+    func_02005D90(0x454,0xffff);
+    func_0203D34C(0,*(u16 *)p);
+    return p;
+}

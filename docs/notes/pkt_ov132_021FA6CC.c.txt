@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full callee bodies/prototypes agree; 2 constructor A5B0 and neighbour A64C confirm offsets, no closer twin; 3 unsigned word stores/const Key and copied SDK unsigned-long address prototype no improvement (6 bytes, two targeted compiles); 4 enum/store and declared-struct idioms tested or fit current C; 5 idiom directory and matched A5B0/A64C/A7E0 reread; permuter 300 baseline DIFF6, best DIFF6.
+ * checks: 1 fresh 9730/9768 show and 25EA4/23F60/B3DC/B9A0/B98C bodies confirm arities; 2 fresh A5B0/A64C/A7E0 no full twin; 3 u8/const-char pointer unchanged; 4 struct-field, chained-assignment and enum-zero idioms; 5 fresh directory/neighbours.
+ * Wave60: six runs, best DIFF276/276 six bytes. Typed state and enum field stores unchanged; chained assignment DIFF12. Prior permuter300 not repeated.
  * residue: size 276/276; 6 bytes at +6C..72: constant 1 uses r0 rather than r1 and zero materialization sinks two bytes.
- * next: no scheduling reorder remains in this attempt; consider an evidence-backed named state field type.
+ * next: r1 one and earlier r0 zero remain; two scheduling variants used this retry.
  * symbols:
  *   table 0x021FDC20 data a1
  *   func_02035C08 0x02035C08 arm

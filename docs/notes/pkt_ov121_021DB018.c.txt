@@ -9,7 +9,10 @@
  * isa: thumb
  * status: DIFF
  * residue: DIFF 976/976, 177 concrete bytes; no unresolved call/data blocker.
- * checks: 1 own ARM9/caller prototypes account for all 43 relocations; DCF54 reads char pointer, arc, int, int, u8, u16 and B294 consumes the eight-byte Record; 2 matched ov121 D694C/D6AEC/DCF54 and DB938 confirm resources and union cell; 3 short loop counters worsened size, const p produced CCERR then 241 differing bytes after casts; 4 declaration/register reuse, aggregate assignment and stack-struct idioms read; 5 refreshed unfiltered idioms and ov121/ov122 neighbours including DB938, C734 and D83DC; no rescuing twin. Permuter: one 300-run pass, searched const-p check spelling; emitted baseline agrees at 241; fixed mutant 239 rejected against best 177. Remaining lever: second-loop index versus zero register allocation; no further sweep.
+ * checks: 1 all 43 arities rederived from primary ARM9 source and matched ov121 callers, explicit B294 r0 result retained despite legacy void callee; 2 D694C/D6AEC/DCF54/DB938 twins reread; 3 enum second-loop index worsened980/206, u16 heap confirmed by matched callers, mutable p retained; 4 index reuse unchanged177, cast eight-byte Record buffer worsened972/348, both ordering/temp variants consumed; 5 idiom directory and neighbours refreshed. Best restored after three nonshrinking changes, four retry runs.
+ * permuter: skipped because previous note records the 300-run search.
+ * next hypothesis: second-loop index/zero web ties remain; cast storage fixes
+ * no addressing mismatch, and enum index buys the register at four-byte cost.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

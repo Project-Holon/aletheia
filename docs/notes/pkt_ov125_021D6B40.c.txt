@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 callee files/units checked; 7700 twelve-byte getter reads no input, narrow heap setters copied, status returns full words; 2 683C/7064/7154 twins read; 3 unsigned out inert140, enum index149 reverted; 4 enum Boolean preserves second compare, error switch preserves compare chain, shared-tail/frame idioms read; ordering variants exhausted (2), next hypothesis common result label after 885C; 5 full idiom directory and neighbours refreshed, no new twin; permuter 300 best1136/652 rejected volatile-add(result) and baseline disagreement136/2wild versus fixed140/0wild.
- * residual: 1132 versus1136, 140 concrete bytes; result/data slots4/8 swapped from8/4, inner result store/tail is two bytes earlier. Macro-free fixed baseline agrees best source1132/140; all50 relocation sites resolved.
+ * checks: 1 own callee files/units and matched callers rederived; 7700 show reads no input, 88BC/88F0 show4/3, ov114 getters show1/2; actual int heap setters plus explicit u16 casts unchanged103; 2 full 683C/7064/7154 neighbours, sibling124/126 search no closer twin; 3 enum result, unsigned-long result and mutable data unchanged103, prior unsigned out/enum index not repeated; 4 local stack-order and selective shared-result-tail levers140->134->103; two ordering variants used; 5 full sorted idiom directory and matched neighbours refreshed.
+ * retry: wave60 seven runs; after two improvements, three nonshrinking changes stop iteration, followed by one own-interface check; prior permuter300 skipped, volatile result mutant rejected and baseline scorer136 disagreed with fixed140.
+ * residual: 1132 versus1136, 103 concrete bytes; result/data slots4/8 remain swapped from8/4; case3 result store still cross-jumps onto case2, leaving tail two bytes early. All50 relocations resolved.
  * symbols:
  *   func_021D7700 0x021D7700 thumb ov125
  *   func_021D75C0 0x021D75C0 thumb ov125
@@ -65,8 +66,8 @@ extern int func_021D885C(int,int);
 extern int func_021D87FC(int,int);
 extern int func_021D88BC(int,int,int,int);
 extern int func_021D88F0(int,int,int);
-extern u8 *func_021B9800(u16,int,int);
-extern void func_021B98A0(u8 *,u16,int,int);
+extern u8 *func_021B9800(int,int,int);
+extern void func_021B98A0(u8 *,int,int,int);
 extern void func_021B98D8(u8 *,int,int);
 extern int func_021B98F8(u8 *);
 extern int func_021B9748(u8 *);
@@ -96,11 +97,11 @@ extern void *d_020A7370;
 #define P(k) (*(u8 **)(p+(k)))
 int func_021D6B40(char *p,u32 *out)
 {
-    const char *data;
     u32 result=0;
+    const char *data;
     Status ok;
     u8 *received;
-    int n,m,n2,m2,outer,inner,i,a,b;
+    int n,m,outer,inner,n2,m2,i,a,b;
     const char *entry;
     *out=0;
     switch(W(0x3d8)) {
@@ -111,8 +112,8 @@ int func_021D6B40(char *p,u32 *out)
         case 0:
             data=func_021D7700();
             if(W(0x404)) func_02034714(d_021D8D28,0,d_021D8D28);
-            P(0x404)=func_021B9800(W(0x13c),func_0200853C(func_02012944(*(void **)p)),W(0x494));
-            func_021B98A0(P(0x404),W(0x13c),0x540,3);
+            P(0x404)=func_021B9800((u16)W(0x13c),func_0200853C(func_02012944(*(void **)p)),W(0x494));
+            func_021B98A0(P(0x404),(u16)W(0x13c),0x540,3);
             func_0200B784(*(const u16 *)(data+0xa6),&n,&m);
             B(0x490)=0;
             for(i=0;i<n;i++) {
@@ -172,10 +173,10 @@ int func_021D6B40(char *p,u32 *out)
         }break;
     case 0x55f1:
         switch(W(0x3e0)) {
-        case 0:a=func_021D8754(p+0x174,W(0x3ac));save:result=a;break;
+        case 0:a=func_021D8754(p+0x174,W(0x3ac));goto save;
         case 1:a=func_021D879C(100,W(0x3ac));goto save;
-        case 2:a=func_021D885C(100,W(0x3ac));goto save;
-        case 3:a=func_021D87FC(100,W(0x3ac));goto save;
+        case 2:a=func_021D885C(100,W(0x3ac));save:result=a;break;
+        case 3:result=func_021D87FC(100,W(0x3ac));break;
         }break;
     case 0x55f2:a=func_021D88BC(W(0x3a4),W(0x3a8),100,W(0x3ac));goto save;
     case 0x55f3:a=func_021D88F0(W(0x3a4),W(0x3a8),W(0x3ac));goto save;
@@ -184,5 +185,4 @@ int func_021D6B40(char *p,u32 *out)
     if(result==1) W(0x3dc)=W(0x3d8);
     return result;
 }
-
 

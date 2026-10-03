@@ -1,0 +1,84 @@
+/*
+ * function: func_021B6BA4
+ * address: 0x021B6BA4
+ * packet: pkt_ov133_021B6BA4
+ * region: ov133
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee bodies/twin confirm arity; ABF0/B294 live r0 retained; 2 ov112 021F44F8 descriptor/archive twin; 3 const p 232 bytes differ, Context heap 32 unchanged, u16 z 619; 4 enum zero idiom shrank 619 to 32, scalar enum externs unchanged; 5 refreshed full idiom list and ov133 6E74/ov112 44F8; permuter 300 baseline agrees 680/32, no improvement.
+ * residue: 680/680 bytes, all 33 relocations resolved; scalar zero arguments use adds from r6 instead of movs #0 at BA..27C.
+ * prototype: ABF0 and B294 return live r0 from forwarding calls despite legacy void declarations; preserve caller's observed result.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_02041EE4 0x02041EE4 arm
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_02049238 0x02049238 arm
+ *   func_020409B4 0x020409B4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { ZERO=0 } Zero;
+typedef struct { u16 x,y,index; u8 flag,mode; } Request;
+extern void *func_020490F4(u32, u16);
+extern void func_02049B68(void *, int, int, int, int, u16);
+extern void func_02049658(void *, int, int, int, int, int, u16);
+extern void func_020498F4(void *, int, int, int, int, int, u16);
+extern void func_02041EE4(u32, u32, u32);
+extern int func_0204ABF0(void *, u32, u32, u32, u16);
+extern int func_0204A6C8(void *, u32, u32, u32, u16);
+extern int func_0204AF28(void *, u32, u32, u32);
+extern u32 func_0204B294(u32, u32, u32, u32, u32, u16, u16);
+extern void func_0204B3DC(void *, u32);
+extern void func_02049238(void *);
+extern void func_020409B4(u32);
+void func_021B6BA4(u8 *p)
+{
+    void *arc;
+    Request r;
+    Zero z;
+    arc = func_020490F4(46, *(u16 *)p);
+    z=ZERO;
+    func_02049B68(arc, 4, 0, 0, z, *(u16 *)p);
+    func_02049658(arc, 7, 3, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 12, 3, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 11, 2, 0, z, z, *(u16 *)p);
+    func_02049B68(arc, 3, 4, 0, z, *(u16 *)p);
+    func_02049658(arc, 10, 4, 0, z, z, *(u16 *)p);
+    func_02049658(arc, 9, 7, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 16, 4, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 15, 6, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 14, 5, 0, z, z, *(u16 *)p);
+    func_020498F4(arc, 13, 7, 0, z, z, *(u16 *)p);
+    func_02041EE4(6, 0, 128);
+    func_02041EE4(5, 0, (u32)-128);
+    *(int *)(p + 0x1858) = func_0204ABF0(arc, 2, 0, 0, *(u16 *)p);
+    *(int *)(p + 0x1864) = func_0204A6C8(arc, 8, 0, 0, *(u16 *)p);
+    *(int *)(p + 0x1870) = func_0204AF28(arc, 20, 24, *(u16 *)p);
+    *(int *)(p + 0x1860) = func_0204ABF0(arc, 1, 1, 0, *(u16 *)p);
+    *(int *)(p + 0x186c) = func_0204A6C8(arc, 6, 0, 1, *(u16 *)p);
+    *(int *)(p + 0x1878) = func_0204AF28(arc, 19, 23, *(u16 *)p);
+    *(int *)(p + 0x185c) = func_0204ABF0(arc, 0, 0, 64, *(u16 *)p);
+    *(int *)(p + 0x1868) = func_0204A6C8(arc, 5, 0, 0, *(u16 *)p);
+    *(int *)(p + 0x1874) = func_0204AF28(arc, 17, 21, *(u16 *)p);
+    r.x = 32; r.y = 224; r.index = 0; r.flag = 0; r.mode = 2;
+    *(u32 *)(p + 0x184c) = func_0204B294(*(u32 *)(p + 0x1848), *(u32 *)(p + 0x1864), *(u32 *)(p + 0x1858), *(u32 *)(p + 0x1870), (u32)&r, 0, *(u16 *)p);
+    r.x = 224; r.y = 224; r.index = 1;
+    *(u32 *)(p + 0x1850) = func_0204B294(*(u32 *)(p + 0x1848), *(u32 *)(p + 0x1864), *(u32 *)(p + 0x1858), *(u32 *)(p + 0x1870), (u32)&r, 0, *(u16 *)p);
+    r.x = 128; r.y = 96; r.index = 2; r.flag = 0; r.mode = 0;
+    *(u32 *)(p + 0x1854) = func_0204B294(*(u32 *)(p + 0x1848), *(u32 *)(p + 0x1864), *(u32 *)(p + 0x1858), *(u32 *)(p + 0x1870), (u32)&r, 0, *(u16 *)p);
+    func_0204B3DC(*(void **)(p + 0x184c), 1);
+    func_0204B3DC(*(void **)(p + 0x1850), 1);
+    func_0204B3DC(*(void **)(p + 0x1854), 0);
+    func_02049238(arc);
+    func_020409B4(3); func_020409B4(2); func_020409B4(7);
+}

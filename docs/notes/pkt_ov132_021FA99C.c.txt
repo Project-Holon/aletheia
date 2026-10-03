@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all own/SDK callee bodies confirm arity, ABBC live-r0 return exception; 2 no shared-callee ov132 twin, A7E0 source caller read; 3 const p, signed y and long height no change (36 bytes); 4 enum/declaration/operand and stack-struct idioms read; 5 directory and matched A7E0/AAF4 reread; permuter300 baseline DIFF36, split-assign(dst) best35 independently fixed-one confirmed.
+ * checks: 1 fresh A1BC/E964/ABBC and DC_FlushRange/GXS_LoadOBJ/Pltt bodies confirm arities, live-r0 ABBC return retained; 2 fresh A7E0/AAF4 no full twin; 3 byte height/slot unchanged, const input retained; 4 aggregate/spill/enum-zero/narrow-home idioms; 5 fresh full directory/neighbours, enum Y and independent zero call unchanged.
+ * Wave60: eight runs, best DIFF284/28435. Dimension aggregate and height declaration unchanged; u16 block with byte step DIFF38; prior permuter300 not repeated.
  * residue: size284/284, 35 bytes: prologue slot/zero scheduling plus src/x/y/line/height and hoisted row-offset spill slots; dst split assignment fixes +42 operand order.
- * next: declaration order budget exhausted; a source-level aggregate of adjacent dimension locals might pin their storage.
+ * next: stored Y/slot prologue order and src/x/y/line/height/CSE slot ordering remain; two scheduling variants used this retry.
  * ABI: ABBC tail forwards mode and leaves VRAM offset in r0, consumed here despite void own declaration.
  * symbols:
  *   func_0204A1BC 0x0204A1BC arm

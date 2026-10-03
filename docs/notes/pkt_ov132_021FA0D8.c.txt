@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee prototypes and scalar signed runtime ABI agree; 2 A4AC byte choices confirms arrays/counters, no closer twin; 3 const ctx no change, unsigned/long round both 5 bytes, enum adds guard; 4 spill/declaration/struct idioms fit current storage; 5 directory and A4AC/A3A8 reread; permuter300 emitted baseline DIFF5 (414 bytes), best unchanged.
+ * checks: 1 fresh 5725C/A3A8 bodies confirm arities 2/3, 05728 matched caller takes one, signed runtime scalar retained; 2 fresh A4AC no full twin; 3 const-byte ctx/u16 round unchanged; 4 separate-index scope and unsigned-hoisted-sum idioms; 5 fresh directory and neighbours.
+ * Wave60: six runs, best DIFF414/416 five stack-slot bytes. Row scope DIFF10; shuffle-counter scope unchanged; wide row DIFF185. Prior permuter300 not repeated.
  * residue: round and row-times-12 spill slots exchange sp+4/sp+8 at +B0/D4/DC/114/118; compiled body 414, original extent 416 includes 2 alignment bytes.
- * next: declaration-order budget exhausted; a distinct round loop counter or inline helper may alter spill lifetimes.
+ * next: two scheduling variants used this retry; row-times-12 CSE and round homes remain exchanged.
  * division: retain scalar signed runtime helper on the admitted zero-total path.
  * symbols:
  *   func_0215725C 0x0215725C thumb ov010

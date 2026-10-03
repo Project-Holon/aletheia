@@ -1,0 +1,161 @@
+/*
+ * function: func_021B8C6C
+ * address: 0x021B8C6C
+ * packet: pkt_ov133_021B8C6C
+ * region: ov133
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 vector/scale arities and BA24C full-word forwarding verified; 2 own ov133 twins and ov112 7ECC agree; 3 const pointers and long progress both DIFF433; 4 split-offset/halfword/lerp/address idioms read, two manual scheduling variants exhausted; 5 fresh idiom listing, own and ov112 neighbours reread, Vec locals already direct structs; permuter300 baseline DIFF433 size816 agreed, safe final DIFF41 size828; next lever separate per-loop source and lerp spill lifetimes.
+ * ABI: 021BA24C stores r1 with strh and returns (021BA24C/24E); original
+ *      021B8DBC forwards the full timer without a truncation, so its extern
+ *      parameter is int here rather than the u16 used by constant callers.
+ * lever: split manager address assignments restored three stack homes and
+ *        the 828-byte extent; remaining DIFF41 is spill/lerp operand allocation.
+ * symbols:
+ *   func_021BA184 0x021BA184 thumb ov133
+ *   func_021BA218 0x021BA218 thumb ov133
+ *   func_021BA250 0x021BA250 thumb ov133
+ *   func_021BA238 0x021BA238 thumb ov133
+ *   func_021BA228 0x021BA228 thumb ov133
+ *   func_021BA240 0x021BA240 thumb ov133
+ *   func_021BA208 0x021BA208 thumb ov133
+ *   func_021F4EB4 0x021F4EB4 thumb ov112
+ *   func_021F4EA4 0x021F4EA4 thumb ov112
+ *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   func_021BA24C 0x021BA24C thumb ov133
+ *   func_021BA148 0x021BA148 thumb ov133
+ *   func_021BA1D8 0x021BA1D8 thumb ov133
+ *   func_021BA22C 0x021BA22C thumb ov133
+ *   _s32_div_f 0x0209C0A4 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef struct { int x,y,z; } Vec;
+typedef struct { int x,y; } Pair;
+extern u8 *func_021BA184(void *);
+extern u8 *func_021BA218(u8 *);
+extern u16 func_021BA250(u8 *);
+extern unsigned int *func_021BA238(u8 *);
+extern unsigned int *func_021BA228(u8 *);
+extern int func_021BA240(u8 *);
+extern u8 *func_021BA208(u8 *);
+extern void func_021F4EB4(int,int,s16,s16);
+extern void func_021F4EA4(int,int,Vec *);
+extern void func_021F4E8C(int,int,Vec *);
+extern void func_021BA24C(u8 *,int);
+extern void func_021BA148(void *,u8 *);
+extern void func_021BA1D8(u8 *,void *);
+extern void func_021BA22C(u8 *,const Pair *);
+void func_021B8C6C(const u8 *p)
+{
+    Vec a,b,c;
+    int offA;
+    s16 scale;
+    int offC,offD;
+    unsigned int managerA;
+    unsigned long managerB;
+    u8 *managerC;
+    int nextList;
+    u8 *entry,*old,*sprite;
+    const Pair *source,*target;
+    int timer;
+    u16 remaining;
+    int offB;
+    s16 newscale;
+    long progress;
+    int x,y;
+    Pair *tmp;
+    entry=func_021BA184(*(void **)(p+0x1828));
+    if(entry) {
+        offA=0x1828; offA=0x1884;
+        offB=0x1828; offB=0x1884;
+        offC=0x1828; offC=0x1884;
+        offD=0x1828; offD=0x1884;
+        do {
+            old=entry;
+            sprite=func_021BA218(entry);
+            timer=func_021BA250(entry);
+            source=(Pair *)func_021BA238(entry);
+            tmp=(Pair *)func_021BA228(entry);
+            target=tmp;
+            scale=(s16)func_021BA240(entry);
+            entry=func_021BA208(entry);
+            timer=(u16)(timer-1);
+            if(timer) {
+                newscale=(s16)(scale+(4096-scale)*timer/10);
+                func_021F4EB4(*(int *)(p+offA),(int)sprite,newscale,newscale);
+                func_021F4EA4(*(int *)(p+offB),(int)sprite,&a);
+                progress=10-(u16)timer;
+                x=source->x+progress*(target->x-source->x)/10;
+                if(x>0) a.x=(int)(0.5f+(float)(x<<12));
+                else a.x=(int)((float)(x<<12)-0.5f);
+                y=source->y+progress*(target->y-source->y)/10;
+                if(0<y) a.y=(int)(0.5f+(float)(y<<12));
+                else a.y=(int)((float)(y<<12)-0.5f);
+                a.z=0x46000;
+                func_021F4E8C(*(int *)(p+offD),(int)sprite,&a);
+                func_021BA24C(old,timer);
+            } else {
+                func_021BA148(*(void **)(p+0x1828),old);
+                func_021BA1D8(old,*(void **)(p+offC));
+            }
+        } while(entry);
+    }
+    nextList=0;
+    entry=func_021BA184(*(void **)(p+0x1820));
+    if(!entry) {
+        nextList=1;
+        entry=func_021BA184(*(void **)(p+0x1824));
+    }
+    if(entry) {
+        managerA=(unsigned int)p;
+        managerA=managerA+0x1884;
+        managerB=(unsigned long)p;
+        managerB=managerB+0x1884;
+        managerC=(u8 *)p;
+        managerC=managerC+0x1884;
+        offA=0x1884; offA=0x1824;
+        do {
+            remaining=func_021BA250(entry);
+            if(remaining) {
+                sprite=func_021BA218(entry);
+                source=(Pair *)func_021BA238(entry);
+                target=(Pair *)func_021BA228(entry);
+                remaining--;
+                if(remaining) {
+                    func_021F4EA4(*(int *)(p+0x1884),(int)sprite,&b);
+                    progress=10-remaining;
+                    x=source->x+progress*(target->x-source->x)/10;
+                    if(x>0) b.x=(int)(0.5f+(float)(x<<12));
+                    else b.x=(int)((float)(x<<12)-0.5f);
+                    y=source->y+progress*(target->y-source->y)/10;
+                    if(y>0) b.y=(int)(0.5f+(float)(y<<12));
+                    else b.y=(int)((float)(y<<12)-0.5f);
+                    func_021F4E8C(*(int *)managerC,(int)sprite,&b);
+                } else {
+                    func_021F4EA4(*(int *)managerA,(int)sprite,&c);
+                    if(target->x>0) c.x=(int)(0.5f+(float)(target->x<<12));
+                    else c.x=(int)((float)(target->x<<12)-0.5f);
+                    if(target->y>0) c.y=(int)(0.5f+(float)(target->y<<12));
+                    else c.y=(int)((float)(target->y<<12)-0.5f);
+                    func_021F4E8C(*(int *)managerB,(int)sprite,&c);
+                    func_021BA22C(entry,target);
+                }
+                func_021BA24C(entry,remaining);
+            }
+            entry=func_021BA208(entry);
+            if(!entry&&!nextList) {
+                nextList=1;
+                entry=func_021BA184(*(void **)(p+offA));
+            }
+        } while(entry);
+    }
+}

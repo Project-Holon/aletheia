@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 DBCC8 reads three args, DB54C six including narrow stack slots, own declarations checked; 2 DC734/DC4F0 twins inspected; 3 int state and enum booleans unchanged 636 diff; 4 SDK enum window inline unchanged; 5 full idiom listing and neighbours refreshed; permuter 300 baseline 796/792 636 agrees fixed one, best rejected (volatile-add(row), temporaries before case labels/read before assignment).
+ * checks: 1 all own files or matched callers rederived; DBCC8 show proves 3, B54C 6, C08C callback 3 corrected; 2 full DC734/DC4F0/DAC18 twins, no exact callback twin; 3 _Bool booleans and typed object fields unchanged 636, original load ordering unchanged; 4 sdk g2.h/gx.h int plane/effect/window bodies checked, int window unchanged 636; 5 full sorted idiom directory and matched/sibling neighbours refreshed, no closer twin.
+ * retry: wave60 six runs including one CCERR corrected in the same struct hypothesis; three nonshrinking changes stop iteration; earlier permuter300 skipped, its baseline796/636 agreed and its volatile-add and read-before-assignment mutants were rejected.
  * residual: +4 bytes, 636 concrete bytes differ; allocator/CSE before window setup and stack-slot scheduling.
  * volatile: DISPCNT, WININ, WINOUT and WIN0/1 H/V hardware window registers.
  * symbols:
@@ -33,7 +34,7 @@ typedef enum { NO=0, YES=1 } Bool;
 typedef enum { WNONE=0, W0=1, W1=2 } Windows;
 extern void func_021D9E04(u8 *);
 extern void func_021DA8B0(void *,void *);
-extern void func_021DC08C(void);
+extern void func_021DC08C(void *,u32 *,char *);
 extern void func_0204B3DC(void *,u32);
 extern void func_0207D658(u32,int,int);
 extern void func_021DBCC8(void *,int,int);

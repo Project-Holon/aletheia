@@ -3,13 +3,13 @@
  * address:  0x021F94F8
  * packet:   pkt_ov132_021F94F8
  * region:   ov132
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 FA558 takes 3, FA56C takes u8; 2 no ov132 twin; 3 wide j worsens, unsigned/enum callee zero unchanged; 4 zero-copy and enum-zero idioms tried; 5 neighbours reread, scalar spill only.
- * blocker: 212/212, 4 bytes: copied zero in r4 and first-loop r2 become movs zero; permuter 300 baseline agrees, no improvement.
+ * checks: 1 fresh FA558/FA56C bodies confirm arities 3/2, byte selected; 2 fresh 879C caller, no full twin; 3 const pointer and u16 count unchanged; 4 zero-copy, enum-zero and masked-width idioms; 5 fresh idiom listing and own neighbour rereads.
+ * blocker: Wave60 R2: six runs, best DIFF212/212 four bytes (r4/r2 zero copies become immediate movs); enum j/count and wide do-loop worsened. Prior permuter300 not repeated.
  * symbols:
  *   func_021FA558 0x021FA558 thumb ov132
  *   func_021FA56C 0x021FA56C thumb ov132

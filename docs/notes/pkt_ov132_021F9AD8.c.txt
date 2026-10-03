@@ -7,8 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: WIP
- * checks: 1 3D378 caller-loaded pointer retained, 9774 own show two args and unsigned index; 2 matched ov1329A48/B1CC no body twin; 3 u8 slot fixes home-store order, enum action unchanged (two checks); 4 shared-tail/if-else-store/multiply-high idioms; 5 full idiom listing and matched neighbours reread, eligible[2] initialiser already matches stack stores. Best DIFF540/54036; 4 runs +300 types permuter baseline agrees/no gain; ordering variants exhausted.
+ * status: DIFF
+ * checks: 1 fresh 9774 show two args and matched 3F0A8 returns u32(void), caller-loaded 3D378 pointer exception retained; 2 fresh 9A48/B1CC no full twin; 3 const record/u16 slot unchanged; 4 shared-tail and multiply-high idioms read; 5 fresh directory/neighbours.
+ * residual: Wave60 R2 six runs, best DIFF540/54036. Both explicit late labels worsened allocation (536/540370 or384); byte action unchanged. Prior permuter300 not repeated.
  * symbols:
  *   func_0203D378 0x0203D378 arm
  *   func_0203F0A8 0x0203F0A8 arm

@@ -7,8 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: WIP
- * checks: 1 ABI matched ARM9 0202EA40 four args; 2 matched ov132879C and neighbours; 3 s16 factor worse, long unchanged; 4 channel-shift/scoping/enum-zero idioms; 5 full idiom listing/neighbours, scalar spills. Best DIFF256/256166; 8 runs +300 permuter; unsafe s8 product repaired to int and clean port agrees.
+ * status: DIFF
+ * checks: 1 fresh matched 0202EA40 four-argument u16-pointer ABI copied unchanged; 2 fresh 879C caller and palette twin; 3 const pointer unchanged after one conversion CCERR; 4 raw-offset, dead-store, enum-offset and counter-zero idioms; 5 fresh directory and palette/caller rereads.
+ * residual: Wave60 R2 seven runs (one CCERR), best DIFF256/256166. Unsigned color unchanged; shared phase store and wider channel masks worsened. Prior permuter300 not repeated; p/offset stack homes and channel temporary lifetimes remain.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm
@@ -61,4 +62,3 @@ void func_021F91CC(u8 *p)
 
   func_02061CA4(31, 0, p + 0x1BA, 32);
 }
-

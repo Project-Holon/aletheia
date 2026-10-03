@@ -1,0 +1,59 @@
+/*
+ * function: func_021FD14C
+ * address: 0x021FD14C
+ * packet: pkt_ov132_021FD14C
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * followers: unlabelled leaves begin at 021FD208 and 021FD218.
+ * checks: 1 allocator five args, CpuCopy source/dest/size, sender eight; caller CAA8 consumes live return; 2 D350/D22C and FC644 allocation confirm fields; 3 scalar address q and SDK const-source prototype both compiled unchanged; 4 declaration/const/register idioms read; 5 refreshed directory and FC848/D2B8/D350/ov133 neighbours read. Next: m/n width, within existing retry budget.
+ * residual: 188-byte lead, 6 bytes: allocation buffer q and q+4 s use r6/r4 instead of r4/r6. Both allowed order variants exhausted. Permuter omitted because the 224-byte extent includes followers.
+ * symbols:
+ *   func_020307B0 0x020307B0 arm
+ *   func_02030734 0x02030734 arm
+ *   func_02008468 0x02008468 thumb
+ *   func_020173E8 0x020173E8 thumb
+ *   func_02082D44 0x02082D44 arm
+ *   func_020399A8 0x020399A8 arm
+ *   func_0203D3F8 0x0203D3F8 arm
+ *   d_021FDE5C 0x021FDE5C data a4
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned char u8;
+/* 021FC644 allocates and clears 0x1ac bytes; these fields are the copied block. */
+typedef struct {u16 heap;u8 pad[0x12a];u32 value;void *first,*second;char *buffer;u8 tail[0x70];} Owner;
+extern void func_020307B0(void *);
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern int func_02008468(void);
+extern u32 func_020173E8(void);
+extern void func_02082D44(const void *,void *,u32);
+extern void *func_020399A8(void);
+extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
+extern const char d_021FDE5C[];
+u32 func_021FD14C(Owner *p)
+{
+    u32 m,n;
+    char *s;
+    void *q;
+    u32 h;
+    if(p->buffer) func_020307B0(p->buffer);
+    m=func_02008468();
+    n=func_020173E8();
+    q=func_02030734(p->heap,m+4+n,0,d_021FDE5C,0x533);
+    p->buffer=q;
+    m=func_02008468();
+    s=(char *)q+4;
+    func_02082D44(&p->value,q,4);
+    n=func_02008468();
+    func_02082D44(p->first,s,n);
+    n=func_020173E8();
+    func_02082D44(p->second,s+m,n);
+    h=(u32)func_020399A8();
+    m=func_02008468();
+    n=func_020173E8();
+    return func_0203D3F8(h,0xff,0x1101,m+4+n,(u32)p->buffer,1,0,1);
+}

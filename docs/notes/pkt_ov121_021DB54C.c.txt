@@ -8,8 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residue: DIFF 1004/1004, 447 concrete bytes; no unresolved call/data blocker.
- * checks: 1 all record accessors read their supplied pointer; BF10 forwards u16 heap; B294 uses eight-byte Record and caller consumes its result; 2 matched ov121 DB938 confirms Rect union/window calls, D6AEC confirms Record; 3 unsigned key unchanged at 607, s16 dx/dy eliminated eight bytes and shrank to 447; 4 declared stack struct, div/mod, unsigned sum and declaration idioms read; 5 refreshed unfiltered idioms and ov121/ov122 neighbours including DB938/C734/D83DC; no rescuing twin. Permuter: one 300-run pass rejected for baseline disagreement (599 bytes/2 unresolved versus emitted fixed one 607 bytes/35 resolved); no second pass. Remaining lever: parameter spill and signed rectangle halfword load placement.
+ * residue: DIFF 1004/1004, 378 concrete bytes; no unresolved call/data blocker.
+ * checks: 1 primary/caller arities rederived (BF10 two; other record accessors one; B294 seven); full-word drawing ABI with explicit byte casts regressed1008/940; 2 DB938/D6AEC/DB478/DC734 and ov122 424C/46CC reread; 3 enum b unchanged447, long key/slot unchanged378, signed Rect h fixed447->411; 4 reversed first x guard fixed411->378, named base/stride worsened1008/934; both ordering variants consumed; 5 fresh idiom directory and matched neighbours, no rescuing twin.
+ * retry: 7 iterations plus one check-1 run; stopped after three nonshrinking changes, best restored. Previous permuter300 recorded, skipped here.
+ * lever: signed Rect halfwords retain ldrsh before the point stores; first a!=0 arm cross-jumps to the repeated plain-x assignment.
+ * next hypothesis: early separate record-base/stride and per-row div/mod remain differently CSE-hoisted; naming the address components did not fix their placement.
  * symbols:
  *   func_02041300 0x02041300 arm
  *   func_020413B0 0x020413B0 arm
@@ -43,7 +46,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-typedef union {u16 h[4];u8 b[8];} Rect;
+typedef union {s16 h[4];u8 b[8];} Rect;
 typedef struct {s16 x,y,z;u8 a,b;} Record;
 typedef struct {s16 x,y;} Position;
 typedef struct {void *pixels;u16 width,height,depth,kind;} Bmp;
@@ -130,11 +133,12 @@ void func_021DB54C(char *p,int a,int b,int c,u16 index,u16 heap)
     func_02082BCC(&point,0,8);
     point.y=(s16)rect.h[3];point.b=1;
     if(func_021DC024(p+40+220*(u32)key)==2) {dx=4;dy=8;}
-    if(a==0) {
+    if(a!=0) point.x=(s16)rect.h[2];
+    else {
         if(b) point.x=(s16)rect.h[2]-256;
         else if(b==0) point.x=(s16)rect.h[2]+256;
         else point.x=(s16)rect.h[2];
-    } else point.x=(s16)rect.h[2];
+    }
     point.x+=dx;point.y+=dy;
     if(func_021DC024(p+40+220*(u32)key)==1) resource=*(u32 *)(p+0xba8);
     else resource=*(u32 *)(p+0xb88+slot*4);

@@ -1,0 +1,71 @@
+/*
+ * function: func_021B9F5C
+ * address: 0x021B9F5C
+ * packet: pkt_ov133_021B9F5C
+ * region: ov133
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own B878 is two args with u16 value; B404 twin takes Pos plus flag; 2 9DE8 literal offsets and unsigned index measured DIFF259/292B; 3 short offset locals unchanged, enum and unsigned guard offsets worsen, const base cannot describe writes; 4 dead-store, multiply-high and address-type idioms tried; 5 fresh directory/twins checked, declared-struct-local read, Pos already materializes r7; next hypothesis separate getter/setter inline offset homes; permuter inapplicable: best is 24 bytes short.
+ * residual: DIFF259, compiled292 versus original316; four timer-offset homes collapse to two and guard byte is reused in decrement arm.
+ * symbols:
+ *   func_020416D4 0x020416D4 arm
+ *   func_0204B84C 0x0204B84C arm
+ *   func_0204B688 0x0204B688 arm
+ *   func_0203F0A8 0x0203F0A8 arm
+ *   _ull_mul 0x0209C054 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B3F4 0x0204B3F4 arm
+ *   func_0204B98C 0x0204B98C arm
+ *   func_0204B3DC 0x0204B3DC arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef short s16;
+typedef struct { s16 x, y; } Pos;
+extern u8 func_020416D4(u32);
+extern void func_0204B84C(void *, u32);
+extern void func_0204B688(void *, u32);
+extern u32 func_0203F0A8(void);
+extern void func_0204B404(void *, const Pos *, unsigned int);
+extern void func_0204B878(void *, u16);
+extern u32 func_0204B3F4(void *);
+extern u32 func_0204B98C(void *);
+extern void func_0204B3DC(void *, u32);
+void func_021B9F5C(u8 *p)
+{
+    int a, b, delay, c, d;
+    Pos pos;
+    u8 i;
+    u8 *q, *t;
+    a = 0x1890; a = 0x18b8;
+    b = 0x1890; b = 0x18b8;
+    delay = 0x100; delay = 0x190;
+    c = 0x1890; c = 0x18b8;
+    d = 0x1890; d = 0x18b8;
+    for (i = 0; i < 8; i++) {
+        q = p + i * 4;
+        func_0204B84C(*(void **)(q + 0x1890), func_020416D4(4));
+        func_0204B688(*(void **)(q + 0x1890), 0);
+        t = p + i;
+        if (p[(unsigned)i + d] == 0) {
+            pos.x = ((u64)func_0203F0A8() * 56) >> 32;
+            if ((u32)(((u64)func_0203F0A8() * 2) >> 32) == 1) pos.x = 256 - pos.x;
+            pos.y = ((u64)func_0203F0A8() * 192) >> 32;
+            func_0204B404(*(void **)(q + 0x1890), &pos, 1);
+            if (pos.y > 90) func_0204B878(*(void **)(q + 0x1890), ((u64)func_0203F0A8() * 2) >> 32);
+            else func_0204B878(*(void **)(q + 0x1890), (((u64)func_0203F0A8() * 2) >> 32) + 2);
+            p[(unsigned)i + c] = (((u64)func_0203F0A8() * 200) >> 32) + delay;
+        } else {
+            p[(unsigned)i + b] = p[(unsigned)i + a] - 1;
+        }
+    }
+    if (func_0204B3F4(*(void **)(p + 0x18b4)) == 1 && func_0204B98C(*(void **)(p + 0x18b4)) == 0) {
+        func_0204B3DC(*(void **)(p + 0x18b4), 0);
+    }
+}

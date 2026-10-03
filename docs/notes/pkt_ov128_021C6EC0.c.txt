@@ -8,21 +8,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own 6460 char* prototype restored, no byte change; full 6B50/CA014
- * bodies confirm u64 return/argument and int out-slot, 7674/7694 explicit live
- * arguments retained; 2 ov128 76F8 shares 6E74/status switch, no exact twin;
- * 3 u16 heap and const ctx compiled at DIFF448/628, no change (first const
- * attempt CCERR: scratch creation failed); 4 cross-jumped duplicated tails
- * and nested-if idioms tried within two ordering variants, both worse;
- * 5 idiom directory and own/sibling callers refreshed, escaped int result
- * already addresses sp+0x10 as original; no struct-local addressing mismatch.
- * residual: DIFF448, compiled lead 628 versus original lead 632; eight-byte
- * follower 021C7138 completes the handed extent 640. Case 4 mode guards and
- * case 10 status dispatch/shared tails remain differently laid out. Best
- * spelling restored; 4 iteration runs plus 3 checks, ordering cap consumed.
- * permuter: skipped because handed extent holds unlabelled follower 021C7138.
- * next hypothesis: distinct status-result storage and explicit repeated mode
- * action tails without the over-duplication of the failed nested switch.
+ * checks: 1 own/caller arities rederived, including 6EA0 four, 74C4 three, 74E8 two, 7674 three and 7694 two; 2 matched 76F8/7E78 confirm shapes; 3 full-width heap compiled without improvement; 4 separate case-10 status and repeated mode actions consumed two ordering variants; 5 refreshed idiom directory and matched ov128 callers. Three nonshrinking changes; best saved.
+ * residual: DIFF448, 628-byte lead versus original 632; handed 640 includes
+ * eight-byte follower 021C7138. New retry 4 runs; altered variants DIFF492.
+ * permuter: skipped for follower omitted from the compiled lead, as required.
+ * next hypothesis: original separate mode/status tails without merging the
+ * q[8]=3 assignment into earlier switch arms; explicit arities are verified.
  * extent: trailing 021C7138 tail-call stub included.
  * symbols:
  *   func_021C7138 0x021C7138 thumb ov128

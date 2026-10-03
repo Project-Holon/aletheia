@@ -8,10 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a: residue is exclusively spill offsets; getter/setter and callback arities read from own sources or full bodies; 2 B2B0 twin EXACT but relative-vector inline spills differ, refreshed ov112/ov132 callers; 3 const p and long coordinate locals each unchanged at 23 bytes, narrow coordinates rejected by full-word payload; 4 vset inline setter fixes 18 bytes, local stack-order and redundant-local idioms read; 5 refreshed full idiom directory and B6F0/FA2A0/9D18 neighbours, stack Vec offset already correct; further manual temporary/reorder variants capped.
+ * checks: 1 arities rederived from own matched FB1F4/FADA0 and EXACT B2B0/ov112_6D68; n/a argument/register residue because only spill offsets differ; 2 matched B2B0 and ov112/ov132 neighbours plus pending callers refreshed, no closer relative-vector twin; 3 u32 coordinates and const char *p each DIFF23 at328, narrowing rejected by full-word cursor payload; 4 aggregate pinning, nested inline, redundant definitions and right-to-left named sums each unchanged; non-inline setter adds a call and gives DIFF133 at332; 5 unfiltered idiom directory and matched neighbours refreshed, declared-struct stack idiom read, pos at sp+0x28 already correct.
  * residual: same-size 328 bytes, 19/19 resolved, 23 concrete bytes differ solely in x/y/z, wait, ctx and index spill offsets.
- * permuter: once 300 types jobs1; emitted macro-free baseline one confirms DIFF23 at 328 bytes; best22 rejected because temp mutation swaps z and wait cursor reads.
- * runs: 9 + permuter; iteration ended after third consecutive nonshrinking change (r4-r6), two manual temporary/reorder variants total.
+ * permuter: wave59 once300 types jobs1; emitted macro-free baseline one confirmed DIFF23 at328; best22 rejected because temp mutation swaps z/wait cursor reads. Spent budget preserved; wave60 did not rerun.
+ * runs: wave60 fresh retry7 (3 iteration, 2 check3, 2 check4); iteration stopped after three consecutive nonshrinking changes; two manual definition/temporary variants. Wave59 had9 + permuter300.
+ * spills: image x1c,y18,z14,wait10,ctx08,i0c; compiled x10,y0c,z08,wait1c,ctx14,i18. Original inline baseline retained; no fresh spelling improved it.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132

@@ -1,0 +1,20 @@
+/*
+ * function: func_06899050
+ * address: 0x06899050
+ * packet: pkt_ov095_06899050
+ * region: ov095
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * follower: store-return leaf after non-C veneer 0x06899040.
+ * symbols:
+ *   d_0689D758 0x0689D758 data a4
+ */
+extern unsigned int d_0689D758;
+unsigned int *func_06899050(unsigned int *out)
+{
+    *out = 2;
+    return &d_0689D758;
+}

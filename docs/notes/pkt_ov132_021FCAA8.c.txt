@@ -1,0 +1,181 @@
+/*
+ * function: func_021FCAA8
+ * address: 0x021FCAA8
+ * packet: pkt_ov132_021FCAA8
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 836 bytes, 30/30 relocations resolved, 145 differing bytes; prefix exact through +02AA except branch displacement. The multiply-high index is copied from r1 to r3 before the stack array read, inserting two bytes and shifting the tail.
+ * checks: 1 all callees derived from own matched bodies or primary assembly; legacy void forwarders corrected to int where original compares live r0, CEA8 own body reads four args and stores second arg as byte; 2 D84C multiply-high and D550 messaging twins, FC848 four-row initialization and owner allocation 0x1ac; 3 CEA8 third signedness, draw long/u64, struct array storage and u8 message parameter all leave 145; writable p is not const-qualified; 4 empty-switch-arm, random-high, declaration-order, narrow-result, inline-argument and stack-struct idioms read; 5 unfiltered idiom directory refreshed, D84C/D550/FC848 and ov133 75E0/9C08 neighbours reread. Permuter emitted baseline agrees with fixed one, once-only jobs1/budget300/types finishes DIFF145; no better candidate. Next: random-index return/local width while retaining unsigned multiply-high; both scheduling variants exhausted.
+ * interfaces: the original consumes live r0 from D14C, D84C, D22C, D350, D400 and message forwarders whose legacy declarations say void.
+ * symbols:
+ *   func_0200FB24 0x0200FB24 thumb
+ *   func_0203CDBC 0x0203CDBC arm
+ *   func_0203CEAC 0x0203CEAC arm
+ *   func_0203D7BC 0x0203D7BC arm
+ *   func_0203D1B4 0x0203D1B4 arm
+ *   func_0203F0A8 0x0203F0A8 arm
+ *   func_021FCDEC 0x021FCDEC thumb ov132
+ *   func_021FCE00 0x021FCE00 thumb ov132
+ *   func_021FD14C 0x021FD14C thumb ov132
+ *   func_021FD84C 0x021FD84C thumb ov132
+ *   func_021FD22C 0x021FD22C thumb ov132
+ *   func_021FCEA8 0x021FCEA8 thumb ov132
+ *   func_021FD6C8 0x021FD6C8 thumb ov132
+ *   func_021FD704 0x021FD704 thumb ov132
+ *   func_021FD6DC 0x021FD6DC thumb ov132
+ *   func_021FD6F0 0x021FD6F0 thumb ov132
+ *   func_021FD76C 0x021FD76C thumb ov132
+ *   func_021FD7D4 0x021FD7D4 thumb ov132
+ *   func_021FD6A4 0x021FD6A4 thumb ov132
+ *   func_021FD350 0x021FD350 thumb ov132
+ *   func_021FD400 0x021FD400 thumb ov132
+ *   func_021FD550 0x021FD550 thumb ov132
+ *   _ull_mul 0x0209C054 arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+extern u32 func_0200FB24(void);
+extern int func_0203CDBC(void);
+extern int func_0203CEAC(int);
+extern void func_0203D7BC(u32);
+extern int func_0203D1B4(void);
+extern u32 func_0203F0A8(void);
+extern void func_021FCDEC(int,int);
+extern int func_021FCE00(void *,int);
+extern int func_021FD14C(void *);
+extern int func_021FD84C(u8 *);
+extern int func_021FD22C(char *);
+extern int func_021FCEA8(void *,int,u32,int);
+extern int func_021FD6C8(void *);
+extern int func_021FD704(u8 *);
+extern int func_021FD6DC(char *);
+extern int func_021FD6F0(char *);
+extern int func_021FD76C(u8 *);
+extern int func_021FD7D4(u8 *);
+extern void func_021FD6A4(u8 *);
+extern int func_021FD350(char *,char *);
+extern int func_021FD400(char *);
+extern void func_021FD550(char *);
+void func_021FCAA8(u8 *p)
+{
+    u8 i,n,selected[4];
+    u32 packed,draw;
+    int all;
+    if(func_0200FB24()) {
+        *(u32 *)(p+4)=1;
+        if(func_0203CDBC()==0) func_0203CEAC(0);
+    }
+    if(*(u32 *)(p+4)==1) return;
+    switch(*(u32 *)(p+0x4c)) {
+    case 0: return;
+    case 1:
+        func_0203D7BC(1);
+        func_021FCDEC((int)p,70);
+        *(u32 *)(p+0x4c)=2;break;
+    case 2:
+        if(func_021FCE00(p,70)==1 && func_021FD14C(p)==1) {
+            if(*(u32 *)(p+0x48)==1) *(u32 *)(p+0x4c)=3;
+            else *(u32 *)(p+0x4c)=5;
+        }
+        break;
+    case 3:
+        if(func_021FD84C(p)==1) *(u32 *)(p+0x4c)=4;
+        break;
+    case 4:
+        n=0;
+        for(i=0;i<4;i++) if(*(u32 *)(p+i*0x30+0x68)==1) n++;
+        if(n==func_0203D1B4() && func_021FD22C((char *)p)==1) *(u32 *)(p+0x4c)=5;
+        break;
+    case 5: break;
+    case 6:
+        if(func_021FCE00(p,64)==1) {
+            if(*(u32 *)(p+0x48)==1) *(u32 *)(p+0x4c)=7;
+            else *(u32 *)(p+0x4c)=11;
+        }
+        break;
+    case 7:
+        if(func_021FCEA8(p,8,*(u32 *)(p+0x144),255)==1) *(u32 *)(p+0x4c)=8;
+        break;
+    case 8:
+        if(func_021FCEA8(p,9,*(u32 *)(p+0x148),255)==1) *(u32 *)(p+0x4c)=9;
+        break;
+    case 9:
+        if(func_021FD6C8(p)==1) *(u32 *)(p+0x4c)=10;
+        break;
+    case 10:
+        if(*(u32 *)(p+0x164)==1 && func_021FD704(p)==1) *(u32 *)(p+0x4c)=11;
+        break;
+    case 11: break;
+    case 12:
+        if(func_021FCE00(p,66)==1) {
+            if(*(u32 *)(p+0x48)==1) {
+                if(func_021FD6DC((char *)p)==1) *(u32 *)(p+0x4c)=13;
+            } else *(u32 *)(p+0x4c)=17;
+        }
+        break;
+    case 13:
+        if(*(u32 *)(p+0x168)==1 && func_021FD6F0((char *)p)==1) *(u32 *)(p+0x4c)=14;
+        break;
+    case 14:
+        if(*(u32 *)(p+0x16c)==1 && func_021FD76C(p)==1) *(u32 *)(p+0x4c)=15;
+        break;
+    case 15:
+        if(*(u32 *)(p+0x174)==1 && func_021FD7D4(p)==1) *(u32 *)(p+0x4c)=16;
+        break;
+    case 16: *(u32 *)(p+0x4c)=17;break;
+    case 17:
+        if(*(u32 *)(p+0x178)==1) func_021FD6A4(p);
+        break;
+    case 18:
+        if(func_021FD350((char *)p,*(char **)(p+0x120))==1) {
+            if(*(u32 *)(p+0x48)==1) *(u32 *)(p+0x4c)=19;
+            else *(u32 *)(p+0x4c)=21;
+        }
+        break;
+    case 19:
+        n=0;
+        for(i=0;i<4;i++) if(*(u32 *)(p+i*0x30+0x64)==1) n++;
+        if(n==func_0203D1B4() && func_021FD400((char *)p)==1) *(u32 *)(p+0x4c)=21;
+        break;
+    case 20: break;
+    case 21: break;
+    }
+    if(*(u32 *)(p+0x184)==1) {
+        packed=0;
+        packed+=*(u32 *)(p+0x78);
+        packed+=*(u32 *)(p+0xa8)<<4;
+        packed+=*(u32 *)(p+0xd8)<<8;
+        packed+=*(u32 *)(p+0x108)<<12;
+        if(func_021FCEA8(p,3,packed,255)==1) *(u32 *)(p+0x184)=0;
+    }
+    packed=0;n=0;
+    for(i=0;i<4;i++) {
+        if(*(u32 *)(p+i*0x30+0x6c)==1) { selected[n]=i;n++; }
+        packed+=*(u8 *)(p+i*0x30+0x70)<<(i*4);
+    }
+    if(n) {
+        draw=func_0203F0A8();
+        if(func_021FCEA8(p,11,packed+(selected[(u32)(((u64)draw*(u32)n)>>32)]<<16),255)==1) {
+            for(i=0;i<n;i++) {
+                *(u32 *)(p+selected[i]*0x30+0x6c)=0;
+                *(u8 *)(p+selected[i]*0x30+0x70)=10;
+            }
+        }
+    }
+    if(*(u32 *)(p+0x188)==1) {
+        all=1;
+        for(i=0;i<8;i++) {
+            if(*(u32 *)(p+i*4+0x18c)!=0xffff) {
+                if(func_021FCEA8(p,12,*(u32 *)(p+i*4+0x18c),255)==1) *(u32 *)(p+i*4+0x18c)=0xffff;
+                all=0;
+            }
+        }
+        if(all==1) *(u32 *)(p+0x188)=0;
+    }
+    func_021FD550((char *)p);
+}
