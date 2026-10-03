@@ -27,7 +27,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 a);
 struct Big;
 struct Sub02009470Obj;
@@ -51,7 +52,7 @@ void func_021D9248(void *p, int a1, void *a2, char *a3, int a4)
 
     if (a4 != (int)func_020399A8())
         return;
-    if (p == (void *)func_0203D1A4(func_020399A8()))
+    if (p == (void *)func_0203D1A4((u32)func_020399A8()))
         return;
     saved = func_02009470(func_02012EBC(*(void **)(a3 + 0x82c)));
     func_02082D44(a2, buf, 0x28);

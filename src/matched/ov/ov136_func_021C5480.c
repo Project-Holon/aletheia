@@ -15,7 +15,7 @@
  *   func_02031324 0x02031324 arm
  */
 typedef unsigned char u8;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082AC0(int,void *,int);
 struct Sub02008F80Obj;

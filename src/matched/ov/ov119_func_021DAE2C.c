@@ -18,13 +18,16 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DBA80 0x021DBA80 thumb ov119
  */
-extern unsigned func_020399A8(void);
-extern int func_02039CB4(unsigned,unsigned,unsigned),func_021DD24C(void *),func_020173EC(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned,unsigned);
+extern int func_021DD24C(void *),func_020173EC(void);
 extern void func_021DD294(void *,int,int),func_021E1098(void *),func_02082BCC(void *,int,int);
 extern void func_021D8E84(void *,int),func_021DBA80(void *);
 void func_021DAE2C(char *p) {
  int i;
- if(func_02039CB4(func_020399A8(),25,8)==0) {func_021DD24C(p);return;}
+ if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C(p);return;}
  func_021DD294(p,1,1);func_021E1098(p);
  p[0x11e0]=0;p[0x11e1]=0;p[0x11e8]=0;p[0x11e9]=0;
  for(i=0;i<6;i++) {

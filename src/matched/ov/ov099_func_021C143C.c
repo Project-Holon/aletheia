@@ -22,8 +22,10 @@ typedef unsigned short u16;
 extern int func_0203D378(char *);
 extern int func_021C1154(char *);
 extern int func_021BDD54(char *, void *);
-extern int func_020399A8(void);
-extern void func_02039C68(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned, unsigned);
 extern int func_02156A3C(void);
 extern void func_021BA874(char *, int);
 extern void func_021BAAB8(char *, int, int);
@@ -36,7 +38,7 @@ int func_021C143C(char *p, int ret)
         if (((u16 *)(p + 0x1f4))[index] != 0) {
             value = func_021BDD54(p, *(void **)(p + 8));
             if (value == ((u16 *)(p + 0x1f4))[index]) {
-                func_02039C68(func_020399A8(), 15, 10);
+                func_02039C68((struct Link *)func_020399A8(), 15, 10);
                 *(int *)(p + 0x1cc) = 44;
             } else {
                 func_021BA874(p, func_02156A3C());

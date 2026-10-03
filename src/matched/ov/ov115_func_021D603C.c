@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { FALSE, TRUE } BOOL;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_021D4D38(u16,int,int);

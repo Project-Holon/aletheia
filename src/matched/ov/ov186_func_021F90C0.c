@@ -45,7 +45,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern char ov125_id[];
 extern const char d_02200254[];
-extern void func_0203064C(void *,u32,u32),func_02082BCC(void *,int,unsigned);
+extern void func_0203064C(u32,u32,u32),func_02082BCC(void *,int,unsigned);
 extern char *func_0203159C(void *,u32,u32);
 extern void *func_021FC3BC(int,int,int),*func_02012F08(int *),*func_021FB884(unsigned,unsigned,unsigned);
 struct BigObj;
@@ -71,7 +71,7 @@ int func_021F90C0(void *obj,int unused,char *q)
     unsigned mode;
     int enabled;
     int zero;
-    func_0203064C((void *)1,0x5a,0x90000);
+    func_0203064C(1,0x5a,0x90000);
     p=func_0203159C(obj,0x1c,0x5a);
     zero=0;
     func_02082BCC(p,0,0x1c);
