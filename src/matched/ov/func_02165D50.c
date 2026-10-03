@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0204581C  0x0204581C  arm
@@ -18,23 +18,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0204581C();
-extern int func_02045994();
+struct Rec;
+struct Strbuf;
+struct U16Vec;
+extern void func_0204581C(struct U16Vec *vec);
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
-int func_02165D50(int a0, int a1, int a2)
+void func_02165D50(struct Rec *r, struct Strbuf *buf)
 {
-    int t4;
-    int t5;
-
-t4 = a1 + 0;
-t5 = a0 + 0;
-a0 = t4 + 0;
-    a0 = func_0204581C(a0);
-loc_02165D5C:
-t5 = t5 + 0x20;
-a0 = t4 + 0;
-a1 = t5 + 0;
-a2 = 9;
-    a0 = func_02045994(a0, a1, a2);
-loc_02165D68:
-    return a0;}
+    func_0204581C((struct U16Vec *)buf);
+    func_02045994(buf, (const u16 *)((char *)r + 0x20), 9);
+}

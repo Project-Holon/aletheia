@@ -13,9 +13,13 @@
  *   func_02045994 0x02045994 arm
  */
 
-extern int func_02045994(int, void *, int);
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Strbuf;
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
-int func_021F2328(char *self, int x)
+void func_021F2328(char *self, struct Strbuf *dst)
 {
-    return func_02045994(x, self, *(unsigned short *)(self + 0x1e) + 1);
+    func_02045994(dst, (const u16 *)self,
+                 *(unsigned short *)(self + 0x1e) + 1);
 }
