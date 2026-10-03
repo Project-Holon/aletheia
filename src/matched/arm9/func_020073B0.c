@@ -28,7 +28,8 @@ typedef unsigned int u32;
 
 extern char g_020A7064[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern void func_02031C30(u32 a, u32 b);
+struct Obj;
+extern int func_02031C30(struct Obj *a, struct Obj *b);
 
 void func_020073B0(char *a0, u32 a1)
 {
@@ -37,5 +38,5 @@ void func_020073B0(char *a0, u32 a1)
     if (slot[a1] == 0) {
         func_02034714(g_020A7064, 0, g_020A7064);
     }
-    func_02031C30(*(u32 *)(a0 + 0x10), slot[a1]);
+    func_02031C30((struct Obj *)*(u32 *)(a0 + 0x10), (struct Obj *)slot[a1]);
 }

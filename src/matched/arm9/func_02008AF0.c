@@ -19,10 +19,11 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_02082AC0(u32 val, void *dst, u32 size);
-extern void func_02008B9C(void *arg);
+struct Sub02008AECSession;
+extern void func_02008B9C(struct Sub02008AECSession *s);
 
 void func_02008AF0(void *obj)
 {
     func_02082AC0(0, obj, 0x5C);
-    func_02008B9C((u8 *)obj + 0x10);
+    func_02008B9C((struct Sub02008AECSession *)((u8 *)obj + 0x10));
 }

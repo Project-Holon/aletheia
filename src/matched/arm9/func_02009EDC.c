@@ -14,7 +14,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_02082BCC(void *p, int c, u32 n);
-extern void func_0200A480(void *p);
+struct Obj;
+extern void func_0200A480(struct Obj *p);
 
 void func_02009EDC(void *a0)
 {
@@ -24,5 +25,5 @@ void func_02009EDC(void *a0)
     *(void **)buf = a0;
     *(u32 *)(buf + 4) = 1;
     func_02082BCC(a0, 0, 0xa94);
-    func_0200A480(buf);
+    func_0200A480((struct Obj *)buf);
 }

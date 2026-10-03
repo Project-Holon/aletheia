@@ -11,14 +11,15 @@
  * status:   EXACT
  */
 
-extern unsigned int func_0200A400(void *p);
-extern void *func_0200A43C(void *p, int i);
+struct Obj;
+extern unsigned int func_0200A400(struct Obj *p);
+extern void *func_0200A43C(struct Obj *p, unsigned int i);
 typedef unsigned int   u32;
 extern u32 func_02009F0C(u32 a);
 void *func_02009FD4(char *p, unsigned int idx)
 {
-    unsigned char *e = (unsigned char *)func_0200A43C(p, idx);
-    unsigned int n = func_0200A400(p);
+    unsigned char *e = (unsigned char *)func_0200A43C((struct Obj *)p, idx);
+    unsigned int n = func_0200A400((struct Obj *)p);
     if (idx < n && func_02009F0C(*(unsigned char *)((char *)e + 0xb3)) != 0)
         return e;
     return 0;

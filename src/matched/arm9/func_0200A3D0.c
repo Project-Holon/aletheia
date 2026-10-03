@@ -47,7 +47,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u8   ov_abs_e4[];
-extern void func_021DFDB8(u32 v);
+extern void func_021DFDB8(void *v);
 extern void func_02034A5C(int p);
 extern void func_02082BCC(void *p, int c, u32 n);
 
@@ -55,7 +55,7 @@ void func_0200A3D0(void *obj)
 {
     switch (*(u32 *)((unsigned char *)obj + 4)) {
     case 0:
-        func_021DFDB8(*(u32 *)((unsigned char *)obj + 8));
+        func_021DFDB8((void *)*(u32 *)((unsigned char *)obj + 8));
         func_02034A5C((int)ov_abs_e4);
         break;
     case 1:

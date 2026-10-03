@@ -52,17 +52,18 @@ struct Date {
 };
 
 extern s16  tbl_020A1B38[];
-extern u32  func_0203F540(struct Date *d);
+struct RtcDate;
+extern s32  func_0203F540(struct RtcDate *d);
 
 u8 func_0200AA00(u32 a0, u32 a1, struct Date *src)
 {
     struct Date d = *src;
     u32 a, b;
 
-    a = func_0203F540(&d);
+    a = func_0203F540((struct RtcDate *)&d);
     d.f04 = a0;
     d.f08 = a1;
-    b = func_0203F540(&d);
+    b = func_0203F540((struct RtcDate *)&d);
     if (a >= b) {
         b += 365;
     }

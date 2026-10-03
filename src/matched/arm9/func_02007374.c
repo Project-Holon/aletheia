@@ -29,12 +29,13 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned char u8;
 
 extern char  g_020A7064[];
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_020087A8(void *sys, u32 index);
 extern u32 *func_020087D4(void *sys, u32 index);
-extern void  func_02031C10(u32 a, u32 b, u32 *c);
+extern void  func_02031C10(u8 *a, u8 *b, u32 c);
 
 void func_02007374(char *a0, u32 a1)
 {
@@ -44,5 +45,5 @@ void func_02007374(char *a0, u32 a1)
         func_02034714(g_020A7064, 0, g_020A7064);
     }
     func_020087A8(a0, a1);
-    func_02031C10(*(u32 *)(a0 + 0x10), slot[a1], func_020087D4(a0, a1));
+    func_02031C10((u8 *)*(u32 *)(a0 + 0x10), (u8 *)slot[a1], (u32)func_020087D4(a0, a1));
 }

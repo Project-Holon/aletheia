@@ -14,17 +14,18 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
 
 extern char g_020A71A4[];
-extern void *func_02030734(void *heap, int b, int c, void *d, int e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02082BCC(void *p, int c, u32 n);
-extern void  func_0200A358(void *p, void *a0, void *a1, void *a2);
+extern void  func_0200A358(unsigned char *p, void *ctrl, int mode, int heap);
 
 void *func_0200A300(void *a0, void *a1, void *a2)
 {
-    void *p = func_02030734(a2, 0xc, 0, g_020A71A4, 0x260);
+    void *p = func_02030734((u32)a2, 0xc, 0, g_020A71A4, 0x260);
 
     func_02082BCC(p, 0, 0xc);
-    func_0200A358(p, a0, a1, a2);
+    func_0200A358(p, a0, (int)a1, (int)a2);
     return p;
 }

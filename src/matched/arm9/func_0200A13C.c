@@ -17,21 +17,22 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0200A400(u8 *p);
-extern void func_0200A49C(u8 *p);
-extern u8  *func_0200A43C(u8 *p, u32 i);
-extern void func_0200A480(u8 *p);
+struct Obj;
+extern u32  func_0200A400(struct Obj *p);
+extern void func_0200A49C(struct Obj *p);
+extern void *func_0200A43C(struct Obj *p, u32 i);
+extern void func_0200A480(struct Obj *p);
 extern int func_02009F50(char *p, unsigned int idx);
 
 void func_0200A13C(u8 *p, u32 i)
 {
-    u32 n = func_0200A400(p);
+    u32 n = func_0200A400((struct Obj *)p);
     u8 *q;
 
-    func_0200A49C(p);
+    func_0200A49C((struct Obj *)p);
     if (i < n) {
-        q = func_0200A43C(p, i);
+        q = func_0200A43C((struct Obj *)p, i);
         q[0xb4] |= 2;
     }
-    func_0200A480(p);
+    func_0200A480((struct Obj *)p);
 }

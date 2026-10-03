@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0200A0E4.c \\
@@ -17,16 +17,17 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0200A49C(u8 *p);
+struct Obj;
+extern void func_0200A49C(struct Obj *p);
 extern u32  func_02009F50(u8 *p, u32 a);
-extern void func_0200A480(u8 *p);
+extern void func_0200A480(struct Obj *p);
 
 u32 func_0200A0E4(u8 *p, u32 a)
 {
     u32 r;
 
-    func_0200A49C(p);
+    func_0200A49C((struct Obj *)p);
     r = func_02009F50(p, a);
-    func_0200A480(p);
+    func_0200A480((struct Obj *)p);
     return r;
 }

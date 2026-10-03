@@ -19,14 +19,15 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
 
-extern void func_02161D98(void *p);
-extern void func_02161EEC(void *p);
+extern void func_02161D98(char *p);
+extern void func_02161EEC(u16 *p);
 extern void func_02161F00(void *p);
 
 void func_0200A848(void **a0)
 {
-    func_02161D98(a0);
-    func_02161EEC(&a0[0x7a]);
+    func_02161D98((char *)a0);
+    func_02161EEC((u16 *)&a0[0x7a]);
     func_02161F00(&a0[0x7f]);
 }

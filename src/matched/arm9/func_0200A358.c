@@ -58,7 +58,8 @@ struct Sub020071CCCtrl;
 struct Sub020071E4Ctrl;
 extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u8    sub_020071EC(const struct Sub020071E4Ctrl *ctrl);
-extern void  sub_0200A480(u8 *p);
+struct Obj;
+extern void  sub_0200A480(struct Obj *p);
 extern int func_02034AC4(int id);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *func_021DFC20(u32 heap);
@@ -95,6 +96,6 @@ void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
     *(u32 *)(p + 4) = 0;
     if (func_021DFE90((void *)*(u32 *)(p + 8)) == 0) {
         func_02082BCC((void *)*(u32 *)p, 0, 0x368);
-        sub_0200A480(p);
+        sub_0200A480((struct Obj *)p);
     }
 }

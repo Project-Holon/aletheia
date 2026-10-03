@@ -11,22 +11,23 @@
  * status:   EXACT
  */
 
-extern int func_0200A400(void *p);
-extern void func_0200A49C(void *p);
-extern void func_0200A480(void *p);
+struct Obj;
+extern unsigned int func_0200A400(struct Obj *p);
+extern void func_0200A49C(struct Obj *p);
+extern void func_0200A480(struct Obj *p);
 extern void *func_02009FD4(char *p, unsigned int idx);
 extern void func_02082D44(void *dst, void *src, int n);
 int func_0200A000(char *p, int idx, void *buf)
 {
     char *e;
     int r = 0;
-    func_0200A400(p);
-    func_0200A49C(p);
+    func_0200A400((struct Obj *)p);
+    func_0200A49C((struct Obj *)p);
     e = (char *)func_02009FD4(p, idx);
     if (e != 0) {
         func_02082D44(e, buf, 0xcc);
         r = 1;
     }
-    func_0200A480(p);
+    func_0200A480((struct Obj *)p);
     return r;
 }
