@@ -50,7 +50,7 @@ struct Config { u32 words[4]; };
 extern const struct Config d_021DA680;
 extern const u32 d_021DA9F0[], d_021DA658[];
 extern const char d_021DAA20[];
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern char *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,u8,u32);
 struct Bank;
@@ -89,7 +89,7 @@ int func_021D5128(void *a,int b,u8 *q)
     int bright;
     int color;
     struct Config cfg;
-    func_0203064C((void *)1,31,0x18000);
+    func_0203064C(1,31,0x18000);
     p=func_0203159C(a,0x2b4,31);
     func_02082BCC(p,0,0x2b4);
     *(u16 *)(p+0xc)=31;

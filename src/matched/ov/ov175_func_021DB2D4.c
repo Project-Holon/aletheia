@@ -16,13 +16,14 @@
  */
 
 typedef unsigned long u32;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int);
 extern void func_02034714(int, int, int);
 extern u32 g_021E2EF8[];
 int func_021DB2D4(int a, char *b)
 {
-    if (func_0203D1A4(func_020399A8()) == a) {
+    if (func_0203D1A4((int)func_020399A8()) == a) {
         func_02034714((int)g_021E2EF8, 0, (int)g_021E2EF8);
         return 0;
     }
