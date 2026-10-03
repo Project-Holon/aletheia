@@ -20,7 +20,7 @@
  */
 extern char ov094_id[], ov095_id[], ov096_id[];
 extern void func_021E8E38(unsigned short heap);
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_0208068C(unsigned int v);
 typedef unsigned int   u32;
 extern u32 func_0203D29C(void);
@@ -28,10 +28,10 @@ extern u32 func_0203D29C(void);
 void func_021E8DC4(unsigned short heap)
 {
     func_021E8E38(heap);
-    func_02034AC4(ov094_id);
+    func_02034AC4((int)ov094_id);
     func_0208068C(0x80);
-    func_02034AC4(ov095_id);
+    func_02034AC4((int)ov095_id);
     if (func_0203D29C() == 0) {
-        func_02034AC4(ov096_id);
+        func_02034AC4((int)ov096_id);
     }
 }

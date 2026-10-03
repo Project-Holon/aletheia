@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char ov114_id[];
-extern int func_02034AC4(void *);
+extern int func_02034AC4(int);
 extern char *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,u8,u32);
 struct Big;
@@ -48,7 +48,7 @@ extern void func_021DA034(char *,int,int);
 int func_021DA478(void *a,int unused,char *q)
 {
     char *p;
-    func_02034AC4(ov114_id);
+    func_02034AC4((int)ov114_id);
     p=func_0203159C(a,0x74,*(u16 *)(q+8));
     func_02082BCC(p,0,0x74);
     *(u16 *)p=*(u16 *)(q+8);

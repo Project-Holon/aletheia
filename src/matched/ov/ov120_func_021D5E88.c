@@ -46,7 +46,7 @@ extern const struct DispVram d_021D8B98;
 extern const u32 d_021D8974[];
 extern struct DispConfig d_021D8B60;
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern int func_02034AC4(const void *);
+extern int func_02034AC4(int);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 struct Bank;
@@ -69,7 +69,7 @@ u8 *func_021D5E88(u32 heap,void *arg)
     p=func_02030734(heap,0x164,1,d_021D8BC8,258);
     *(u16 *)(p+0xf4)=heap;
     *(void **)(p+0x118)=arg;
-    func_02034AC4(ov_id);
+    func_02034AC4((int)ov_id);
     func_02043534(0);
     func_020435F4(0);
     func_0204363C(1);

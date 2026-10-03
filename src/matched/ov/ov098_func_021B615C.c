@@ -28,7 +28,7 @@ struct W {
 };
 
 extern char ov094_id[];
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_0203064C(int, int, int);
 extern struct W *func_0203159C(int, int, int);
 extern void func_02082AC0(int v, void *p, u32 n);
@@ -38,7 +38,7 @@ int func_021B615C(int a, int b, int c)
 {
     struct W *p;
 
-    func_02034AC4(ov094_id);
+    func_02034AC4((int)ov094_id);
     func_0203064C(1, 0x85, 0xc0000);
     p = func_0203159C(a, 0xc, 0x85);
     func_02082AC0(0, p, 0xc);

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 ov231_id[];
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_02034A5C(void *id);
 extern int func_021809D8(void);
 extern int func_021BA1A8(u32 **p, int k);
@@ -31,7 +31,7 @@ int func_021B85EC(u32 **p)
 {
     int r;
     if (**p <= 1) {
-        func_02034AC4(ov231_id);
+        func_02034AC4((int)ov231_id);
         r = func_021809D8();
         func_02034A5C(ov231_id);
         if (r == 0) {

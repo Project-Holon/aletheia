@@ -39,7 +39,7 @@ extern const char d_021DAB68[];
 extern char ov067_id[];
 extern const u32 d_021DAA9C[], d_020A1464[], d_021DAA78[];
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern int func_02034AC4(void *);
+extern int func_02034AC4(int);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 struct Bank;
@@ -61,7 +61,7 @@ u8 *func_021D5D94(u32 heap)
     u8 *p;
     p=func_02030734(heap,0x4568,1,d_021DAB68,0xfe);
     *(u16 *)(p+0x43c4)=heap;
-    func_02034AC4(ov067_id);
+    func_02034AC4((int)ov067_id);
     func_02043534(0); func_020435F4(0); func_0204363C(1);
     *(volatile u32 *)0x04001000|=0x10000;
     func_0207D46C();

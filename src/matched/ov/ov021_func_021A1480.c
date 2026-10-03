@@ -22,11 +22,11 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern unsigned char abs_id_21[];
-extern void func_02034AC4(const void *);
+extern int func_02034AC4(int);
 extern u32 func_021F000C(u32, u16, u32 *, u32);
 
 void func_021A1480(u32 *p)
 {
-    func_02034AC4(abs_id_21);
+    func_02034AC4((int)abs_id_21);
     p[8] = func_021F000C(0x70, ((u16 *)p)[6], p, p[5]);
 }

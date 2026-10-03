@@ -40,7 +40,7 @@ extern const u32 d_021DABBC[];
 typedef unsigned char  u8;
 struct Bank;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_02034AC4(void *);
+extern int func_02034AC4(int);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
 extern void func_0204363C(u32 swap);
@@ -59,7 +59,7 @@ char *func_021D9958(int heap)
     char *p;
     p=func_02030734(heap,0xb70,1,d_021DABFC,201);
     *(u16 *)(p+0x9e4)=heap;
-    func_02034AC4(ov067_id);
+    func_02034AC4((int)ov067_id);
     func_02043534(0);
     func_020435F4(0);
     func_0204363C(1);

@@ -23,7 +23,7 @@
 extern void func_0203064C(int,int,int);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
-extern void func_02034AC4(void *);
+extern int func_02034AC4(signed int);
 extern char ov67_id[],ov177_id[];
 extern void func_0217AEF4(int *);
 extern void func_0217AF2C(int *);
@@ -38,8 +38,8 @@ int func_0217AE20(void *a,void *b,void *context)
     func_02082BCC(p,0,0x34);
     *(void **)(p+0x28)=context;
     *(unsigned short *)p=0x4e;
-    func_02034AC4(ov67_id);
-    func_02034AC4(ov177_id);
+    func_02034AC4((int)ov67_id);
+    func_02034AC4((int)ov177_id);
     func_0217AEF4((int *)p);
     func_0217AF2C((int *)p);
     func_0217AF50(p);

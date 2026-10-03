@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 OS_GetConsoleType(void);
-extern void sub_02034AC4(u8 *handle);
+extern int sub_02034AC4(signed int handle);
 extern u8 ov140_id[];
 extern int d_021F6380;
 
 void func_021E88CC(void)
 {
     if (OS_GetConsoleType() & 0x02000000) {
-        sub_02034AC4(ov140_id);
+        sub_02034AC4((int)ov140_id);
         d_021F6380 = 1;
     } else {
         d_021F6380 = 0;

@@ -32,7 +32,7 @@ extern void func_021EAD64(void *);
 extern void func_021EAD74(void *);
 extern void func_021EAD84(void *);
 extern int func_021EAD94(void *);
-extern void func_02034AC4(void *);
+extern int func_02034AC4(signed int);
 extern void func_02034A5C(void *);
 extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov198_id[];
@@ -42,13 +42,13 @@ int func_021EAC80(u8 *p, u8 *out)
     switch (p[0x174]) {
     case 0:
         func_021EAD44(*(void **)(p + 0x180), 0);
-        func_02034AC4(ov196_id);
+        func_02034AC4((int)ov196_id);
         p[0x174]++;
         break;
     case 1:
         if (func_021EAD54(*(void **)(p + 0x180))) {
             func_021EAD64(*(void **)(p + 0x180));
-            func_02034AC4(ov198_id);
+            func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
             p[0x174]++;
         }

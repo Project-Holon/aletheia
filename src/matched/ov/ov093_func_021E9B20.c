@@ -36,7 +36,7 @@ extern void func_021E9CA0(void *);
 extern void func_021E9CB0(void *);
 extern void func_021E9CC0(void *);
 extern int func_021E9CD0(void *);
-extern void func_02034AC4(void *);
+extern int func_02034AC4(int);
 extern void func_02034A5C(void *);
 extern void func_0220F3E8(u8 *p);
 extern u8 ov196_id[], ov198_id[];
@@ -48,13 +48,13 @@ int func_021E9B20(u8 *p)
     case 0:
         if ((u8)(p[0x12b] + 0xff) <= 1) func_021E9C60(*(void **)(p + 0x180), 0);
         else func_021E9C60(*(void **)(p + 0x180), 1);
-        func_02034AC4(ov196_id);
+        func_02034AC4((int)ov196_id);
         p[0x174]++;
         break;
     case 1:
         if (func_021E9C70(*(void **)(p + 0x180))) {
             func_021E9C80(*(void **)(p + 0x180));
-            func_02034AC4(ov198_id);
+            func_02034AC4((int)ov198_id);
             func_0220F3E8(p + 0x10c);
             p[0x174]++;
         }

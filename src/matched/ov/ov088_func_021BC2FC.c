@@ -56,7 +56,7 @@ extern void func_02008314(void *, void *);
 extern void func_020307B0(void *);
 extern void func_0203133C(int);
 extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_02034A5C(void *id);
 extern void *func_021DFC20(u32 heap);
 extern u8 func_021DFE90(u8 *p);
@@ -82,7 +82,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
     func_020307B0(*(void **)(t + 0x58));
     func_0203133C(*(int *)(t + 0x30));
     if (func_02007210(r4) == 1) {
-        func_02034AC4(ov228_id);
+        func_02034AC4((int)ov228_id);
         r6 = func_021DFC20(1);
         if (func_021DFE90(r6) == 1)
             func_021DFEB0(r6, r4);

@@ -26,7 +26,7 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012EC4(struct Big *p);
 extern int func_0200B3AC(void *p);
-extern void func_02034AC4(void *);
+extern int func_02034AC4(int);
 
 extern void *d_021D9D98[];
 extern void (*d_021D9CBC[])(void *);
@@ -38,7 +38,7 @@ void func_021BE1DC(void *arg)
     i = func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80(arg))));
     if (i != -1) {
         if (d_021D9D98[i] != 0) {
-            func_02034AC4(d_021D9D98[i]);
+            func_02034AC4((int)d_021D9D98[i]);
         }
         d_021D9CBC[i](arg);
     }
