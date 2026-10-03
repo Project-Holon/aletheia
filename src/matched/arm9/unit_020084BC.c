@@ -61,9 +61,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32   sub_0201F41C(void *dst, u32 value, u32 size);
-extern u32   sub_02045A38(void *dst, u32 value, u32 size);
 struct Strbuf;
 struct U16Vec;
+extern void sub_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern void sub_02045924(struct Strbuf *o, const u16 *src);
 extern struct U16Vec *sub_020457B0(u32 capacity, u32 heapId);
 
@@ -90,9 +90,9 @@ u32 sub_020084D4(u32 value, void *dst)
     return sub_0201F41C(dst, value, 8);
 }
 
-u32 sub_020084E4(u32 value, void *dst)
+void sub_020084E4(u16 *out, struct U16Vec *vec)
 {
-    return sub_02045A38(dst, value, 8);
+    sub_02045A38(vec, out, 8);
 }
 
 void sub_020084F4(void)

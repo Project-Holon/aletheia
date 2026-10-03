@@ -78,7 +78,8 @@ extern void func_0200A1E4(void *,u16);
 #define W(k) (*(u32 *)(p+(k)))
 
 extern int func_0200A0C8(void *);
-extern u32 func_0200A348(void *);
+struct Obj;
+extern u32 func_0200A348(struct Obj *);
 extern int func_0200A104(void *,u32);
 extern int func_0200A350(void *);
 extern int func_0202EB44(void);
