@@ -24,9 +24,10 @@ typedef struct {
     int f64;
 } Work;
 
-extern void *func_020122C0(int a, int b, void (*cb)(void), int size);
+extern void *func_020122C0(int a, int b, int (*cb)(void *task, int *state, void **q), int size);
 extern Work *func_020124E8(void *task);
-extern void func_021BF76C(void);
+extern int func_021BF76C(void *task, int *state, void **q);
+
 
 void *func_021BF5B4(int a, int b, int c, int d, int e, int f)
 {

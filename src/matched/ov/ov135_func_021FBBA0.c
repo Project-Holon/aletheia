@@ -17,11 +17,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
+struct WinMgr;
 extern void func_0204B3DC(u32 p, int on);
 extern u32 func_0204B898(u32 p);
 extern void func_0204B878(u32 p, u16 k);
 extern int func_021FA85C(void *p);
-extern void func_0202CAE4(void *p, int a, int b, int c, int d);
+extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 int func_021FBBA0(u8 *p)
 {
     int r;

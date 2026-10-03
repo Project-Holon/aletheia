@@ -13,10 +13,13 @@
  *   func_0202CDD4 0x0202CDD4 thumb
  *   func_021ED8A4 0x021ED8A4 thumb ov170
  */
-extern void func_0202CF98(int, int, signed char *, signed char *);
-extern unsigned func_0202CDD4(int, unsigned);
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
 extern void func_021ED8A4(char *);
-#define MGR(p) (*(int *)(*(char **)((p)+0x2c)+0x74))
+#define MGR(p) (*(struct WinMgr **)(*(char **)((p)+0x2c)+0x74))
 unsigned func_021EF6E0(char *p)
 {
     signed char a[2], b[2];

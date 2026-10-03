@@ -17,13 +17,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct UtilWork;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *);
 extern void func_021D5FC0(struct UtilWork *, u32);
 int func_021C9728(u8 *p, u8 *q)
 {
-    int a = func_021B9934(*(char **)(p + 8), q[8]);
-    if (!func_021D5B68((void *)a)) {
+    u8 *a = func_021B9934(*(char **)(p + 8), q[8]);
+    if (!func_021D5B68(a)) {
         func_021D5FC0((struct UtilWork *)a, *(u32 *)(q + 4));
         return 1;
     }

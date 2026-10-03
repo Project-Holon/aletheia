@@ -14,11 +14,11 @@
  *   func_021BFEAC 0x021BFEAC thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021BFEAC(u8 *, u8 *, u8 *, int *);
 int func_021C846C(u8 *p, int a, int b, int *out)
 {
-    int x = func_021B9934(*(char **)(p + 8), a);
-    int y = func_021B9934(*(char **)(p + 8), b);
-    return func_021BFEAC(p, (u8 *)x, (u8 *)y, out);
+    u8 *x = func_021B9934(*(char **)(p + 8), a);
+    u8 *y = func_021B9934(*(char **)(p + 8), b);
+    return func_021BFEAC(p, x, y, out);
 }

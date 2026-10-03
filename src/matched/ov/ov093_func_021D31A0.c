@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern char *func_021B9AEC(char *p, int i);
-extern void func_021B9C50(char *p, int k, u32 *o1, u32 *o2);
+extern void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
 extern void func_021EAA6C(u32 a, int b, int c);
 extern int func_021EAAD8(u32 a);
 extern int func_021B9F70(u32 p, int i);
@@ -57,7 +57,7 @@ int func_021D31A0(u32 *a, int *b, u32 *c)
         u = (u8)c[0];
         v = (u8)c[1];
         p = func_021B9AEC((char *)a[1], u);
-        func_021B9C50(p, v, 0, 0);
+        func_021B9C50((u8 **)p, v, 0, 0);
         func_021EAA6C(a[0x15], u, v);
         (*b)++;
         break;

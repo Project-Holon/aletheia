@@ -42,10 +42,11 @@ typedef struct {
     unsigned short timer;
 } Blk;
 
-extern int func_021EF770(int a);
+struct WinMgr;
+extern int func_021EF770(struct WinMgr *mgr);
 extern int func_021DE158(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EE008(unsigned char *p, int a, int b);
-extern void func_021EF75C(int a);
+extern void func_021EF75C(struct WinMgr *mgr);
 extern void func_020061E4(unsigned se);
 extern int func_021DD210(unsigned char *p, unsigned a, unsigned b);
 extern void func_021EC35C(unsigned char *p, int box);
@@ -58,12 +59,12 @@ extern int func_021DD930(unsigned char *p);
 extern void func_021DE66C(unsigned char *p, void *e);
 extern void func_021ED6E4(unsigned char *p, int v);
 extern int func_021E01E0(unsigned char *p);
-extern void func_021EF35C(int a);
-extern void func_021EF36C(int a);
+extern void func_021EF35C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define HELD(p) (*(unsigned char *)(WORK(p) + 0xA17E))
 
 int func_021E087C(unsigned char *p)

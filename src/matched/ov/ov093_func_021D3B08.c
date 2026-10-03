@@ -16,12 +16,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct UtilWork;
-extern int func_021B9934(char *, u8);
-extern void func_021D5B44(int, u16);
+extern u8 *func_021B9934(char *p, int i);
+struct QI;
+extern void func_021D5B44(struct QI *p, u16 v);
 int func_021D3B08(u32 *a, int *b, u32 *c)
 {
-    int x;
-    x = func_021B9934((char *)a[1], c[0]);
-    func_021D5B44(x, c[1]);
+    u8 *x;
+    x = func_021B9934((char *)a[1], (u8)c[0]);
+    func_021D5B44((struct QI *)x, c[1]);
     return 1;
 }

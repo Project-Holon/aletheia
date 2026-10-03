@@ -20,20 +20,20 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021B98AC(char *const *q, u32 b);
+extern u8 *func_021B98AC(char *const *q, u8 b);
 extern int func_021D80A8(void *p);
 extern u32 func_0201BD28(u32 v, u32 n);
 
-u32 func_021D2000(u32 *p, u32 k, u32 b)
+u32 func_021D2000(u32 *p, u32 k, u8 b)
 {
-    int r;
+    u8 *r;
 
     if (k != 0xAE) {
         return func_0201BD28(k, 0x1B);
     }
     r = func_021B98AC((char *const *)p[1], b);
     if (r) {
-        return func_021D80A8((void *)r);
+        return func_021D80A8(r);
     }
     return func_0201BD28(k, 0x1B);
 }

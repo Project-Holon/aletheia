@@ -32,8 +32,9 @@ struct S {
     void *f3c;
 };
 
-extern u32 func_0202CF84(void *mgr, u32 idx);
-extern u8 func_0202CF8C(void *mgr, u32 idx);
+struct WinMgr;
+extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
+extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 extern void func_020410D0(u8 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void func_02041B6C(u8 id);

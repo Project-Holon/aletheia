@@ -28,11 +28,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_02005D90(int,int),func_02005DF8(int),func_02045CAC(int,int,int);
-extern int func_021D8AA8(void *),func_021D8FA4(void *,int),func_0201F5DC(int,int,int,int);
-extern void func_0201EEF4(int,int,int),func_0201F02C(int,int,int),func_0201F250(int,int,int),func_021E0FF4(void *,int,int),func_021DFD30(u8 *,u32),func_02040588(int,int),func_021D8E84(void *,int),func_021DFF40(void *);
+extern int func_021D8AA8(void *),func_0201F5DC(int,int,int,int);
+extern void *func_021D8FA4(void *,int);
+extern void func_0201EEF4(int,int,void *),func_0201F02C(int,int,int),func_0201F250(int,int,int),func_021E0FF4(void *,int,int),func_021DFD30(u8 *,u32),func_02040588(int,int),func_021D8E84(void *,int),func_021DFF40(void *);
 void func_021DFE48(char *p)
 {
-    int mon,z,state;
+    void *mon;
+    int z,state;
     if(*(int *)(p+0xf2c)<6) return;
     func_02005D90(0x518,0xffff);
     func_02005DF8(6);

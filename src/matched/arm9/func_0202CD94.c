@@ -15,23 +15,22 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-struct Unk {
-    u16 unk00;
-    u16 unk02;
+struct WinMgr {
+    void *wins;
     u16 unk04;
     u16      : 15;
     u16 flag : 1;
 };
 
-extern u32 func_0202CDD4(struct Unk *p, u32 i);
+extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
 
-void func_0202CD94(struct Unk *p)
+void func_0202CD94(struct WinMgr *mgr)
 {
     u32 i;
 
-    if (!p->flag) return;
-    p->flag = 0;
-    for (i = 0; i < p->unk04; i++) {
-        if (func_0202CDD4(p, i) == 1) p->flag = 1;
+    if (!mgr->flag) return;
+    mgr->flag = 0;
+    for (i = 0; i < mgr->unk04; i++) {
+        if (func_0202CDD4(mgr, i) == 1) mgr->flag = 1;
     }
 }

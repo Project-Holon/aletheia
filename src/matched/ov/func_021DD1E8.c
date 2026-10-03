@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021ED904  0x021ED904  thumb  ov170
@@ -21,16 +21,17 @@
  */
 
 
+struct WinMgr;
 extern void func_021ED904(char *);
 extern void func_021ED9B4(int);
 extern void func_021EDF5C(char *);
 extern void func_021EB85C(char *, int);
-extern void func_021EF738(int);
+extern void func_021EF738(struct WinMgr *mgr);
 void func_021DD1E8(char *p)
 {
     func_021ED904(p);
     func_021ED9B4(*(int *)(p + 0x2c));
     func_021EDF5C(p);
     func_021EB85C(p, 0);
-    func_021EF738(*(int *)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF738(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
 }

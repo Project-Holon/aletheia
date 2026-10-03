@@ -20,17 +20,21 @@
  *   func_021C20CC 0x021C20CC thumb ov217
  */
 typedef unsigned char u8;
+typedef signed int s32;
 extern unsigned func_021C20D8(unsigned);
-extern unsigned func_021BF810(char *);
-extern unsigned func_021BF76C(void *);
+typedef unsigned int u32;
+extern u32 func_021BF810(void *p);
+extern u8 *func_021BF76C(void *p);
 extern unsigned func_021BF7F4(void *);
-extern unsigned func_021C11DC(unsigned,u8);
-extern unsigned func_021C11FC(unsigned,u8,unsigned,unsigned);
+extern u8 func_021C11DC(u8 *p, u8 key);
+extern void func_021C11FC(u8 *h, u8 key, s32 *px, s32 *py);
 extern void func_021C20B4(unsigned,unsigned,unsigned,unsigned,unsigned);
 extern void func_021C20CC(unsigned);
 void func_021BEEA4(char *p)
 {
-    unsigned object,index,x,y;
+    u8 *object;
+    unsigned index;
+    s32 x,y;
     func_021C20D8(*(unsigned *)(p+0x2d0));
     if (*(unsigned *)(p+0x3d0)==1) return;
     if (*(unsigned *)(p+0x3c8)==0) return;
@@ -41,7 +45,8 @@ void func_021BEEA4(char *p)
     if (*(unsigned *)(p+0x3c8)!=0) {
         object=func_021BF76C(p);
         index=func_021BF7F4(p);
-        func_021C11FC(object,index,(unsigned)&x,(unsigned)&y);
+        func_021C11FC(object,index,&x,&y);
+
         func_021C20B4(*(unsigned *)(p+0x2d0),104,34,x,y);
         func_021C20CC(*(unsigned *)(p+0x2d0));
     }

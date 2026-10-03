@@ -24,7 +24,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021D5440(u8 *m);
+extern u8 func_021D5440(u8 *p);
 extern void func_021C8838(u8 *p, int a, int b);
 extern void func_021C8860(u8 *p, u32 val);
 extern void func_021C8810(u8 *p);
@@ -32,8 +32,8 @@ extern int func_021C20BC(u8 *p, u8 *a, int r);
 extern void func_021C99A0(u8 *p, u8 *l);
 extern int func_021C8010(u8 *p, u32 x);
 extern void func_021C70E4(u8 *p, int a, int b, int c, int d, int e);
-extern u32 func_021D59B4(void *p, int k);
-extern int func_021C20D0(u8 *p, u8 *a, int r, u8 *l);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021C20D0(u8 *p, u8 *a, int c, u8 *l);
 
 void func_021C4EA4(u8 *p, u8 *a, int k, int n)
 {

@@ -22,8 +22,8 @@ typedef unsigned int u32;
 
 extern int func_0201134C(int);
 extern void func_0218A0F4(int, int, int, int, int);
-extern int func_021D5440(int);
-extern int func_021D59B4(int, int);
+extern u8 func_021D5440(u8 *p);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021C7E14(int, int, int, int, int, int);
 
 void func_02189170(int a, int b, int c)
@@ -36,9 +36,9 @@ void func_02189170(int a, int b, int c)
 
     func_0201134C(a);
     t = func_0201134C(a);
-    w = func_021D59B4(*(int *)(b + 0xc0), 0xd);
-    y = func_021D5440(*(int *)(b + 0xbc));
-    z = func_021D5440(*(int *)(b + 0xc0));
+    w = func_021D59B4(*(u8 **)(b + 0xc0), 0xd);
+    y = func_021D5440(*(u8 **)(b + 0xbc));
+    z = func_021D5440(*(u8 **)(b + 0xc0));
     r = func_021C7E14(*(int *)(b + 0xb4), y, z, *(u16 *)(b + 2), 1, 0);
     func_0218A0F4(a, c, w, r, t);
 }

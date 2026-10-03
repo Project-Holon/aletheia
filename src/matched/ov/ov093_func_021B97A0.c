@@ -34,10 +34,10 @@ extern char *func_021B9AEC(char *p, int i);
 extern int func_0201AA18(void *l);
 extern void func_0201A948(void *p);
 extern void *func_021B9BF0(void *p, int i);
-extern u8 func_021D5440(void *m);
+extern u8 func_021D5440(u8 *p);
 extern void func_021D6B84(void *m, int k);
-extern u32 func_021D5844(void *m);
-extern void func_0201A98C(void *l, u32 v);
+extern void *func_021D5844(void *m);
+extern u32 func_0201A98C(void *l, void *v);
 extern int func_021D67D0(void *m);
 extern void func_0201AC2C(void *l, void *m);
 

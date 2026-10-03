@@ -19,24 +19,28 @@
  *   func_021C271C 0x021C271C thumb ov217
  */
 typedef unsigned char u8;
+typedef signed int s32;
 extern unsigned func_021BF7E0(void *);
-extern unsigned func_021BF76C(void *);
-extern unsigned func_021C11E8(unsigned,u8);
-extern unsigned func_021C1224(unsigned,u8,unsigned,unsigned);
+extern u8 *func_021BF76C(void *p);
+extern u8 func_021C11E8(u8 *p, u8 n);
+extern void func_021C1224(u8 *h, u8 n, s32 *px, s32 *py);
 extern unsigned func_021C272C(unsigned,unsigned);
 extern unsigned func_021C271C(unsigned,unsigned,unsigned);
 void func_021BEF30(char *p)
 {
     int n,id;
     unsigned i;
-    unsigned object,x,y,slot;
+    u8 *object;
+    s32 x,y;
+    unsigned slot;
     n=func_021BF7E0(p);
     object=func_021BF76C(p);
     i=0;
     n--;
     for (;n>=0;n--) {
         id=func_021C11E8(object,n);
-        func_021C1224(object,n,(unsigned)&x,(unsigned)&y);
+        func_021C1224(object,n,&x,&y);
+
         if (id>=10) {
             slot=*(unsigned *)(p+i*4+0x2d4);
             func_021C272C(slot,id);

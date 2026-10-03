@@ -22,12 +22,13 @@ typedef struct {
     unsigned char hi : 4;
 } Obj;
 
+struct WinMgr;
 extern void func_020061E4(unsigned se);
-extern int func_021EF5E8(int p);
+extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DD238(Obj *p);
 extern int func_021E8F50(Obj *p, int v);
 
-#define MGR(p) (*(int *)(*(char **)((char *)(p) + 0x2C) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(*(char **)((char *)(p) + 0x2C) + 0x74))
 
 void func_021EA9F4(Obj *p, int v)
 {

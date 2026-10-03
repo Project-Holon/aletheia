@@ -18,7 +18,8 @@
  *   func_021E8FE0 0x021E8FE0 thumb ov170
  *   func_021E95CC 0x021E95CC thumb ov170
  */
-extern void func_021EF57C(int mgr);
+struct WinMgr;
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(char **p, int v);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
@@ -29,7 +30,7 @@ extern int func_021E95CC(unsigned char *p, unsigned char v);
 #define WORK(p) (*(char **)((p) + 0x2C))
 void func_021E79C8(unsigned char *p)
 {
-    func_021EF57C(*(int *)(WORK(p) + 0x74));
+    func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
     func_021ED6E4((char **)p, 0);
     func_021EBA5C(WORK(p), 0x18);
     func_021DD14C(p);

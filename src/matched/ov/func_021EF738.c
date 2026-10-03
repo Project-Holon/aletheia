@@ -15,10 +15,14 @@
  */
 
 
-extern void func_0202CB4C(char *, int, int, int);
-extern void func_0202CD64(char *, int, int, int, int);
-void func_021EF738(char *p)
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+void func_021EF738(struct WinMgr *mgr)
 {
-    func_0202CB4C(p, 9, 0x20, 0);
-    func_0202CD64(p, 9, -1, 0, 0xb);
+    func_0202CB4C(mgr, 9, 0x20, 0);
+    func_0202CD64(mgr, 9, -1, 0, 0xb);
 }

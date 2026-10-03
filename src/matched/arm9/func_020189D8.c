@@ -14,10 +14,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_02017E88(int a0, int a1, int a2);
+extern int func_02017E88(void *m, int a1, int a2);
 extern void func_020189F0(int a0, u32 a1);
 
-void func_020189D8(int a0, u32 a1)
+void func_020189D8(void *m, u32 a1)
 {
-    func_020189F0((u8)func_02017E88(a0, 0x70, 0), a1);
+    func_020189F0((u8)func_02017E88(m, 0x70, 0), a1);
 }

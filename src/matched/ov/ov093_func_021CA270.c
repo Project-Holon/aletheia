@@ -30,8 +30,9 @@ struct Cmd {
     u16 h6;
 };
 
-extern int func_021B9934(char *p, u8 i);
-extern void func_021D5FA4(int x, u16 n);
+extern u8 *func_021B9934(char *p, int i);
+struct Unk021D5FA4;
+extern void func_021D5FA4(struct Unk021D5FA4 *p, u16 n);
 extern void func_021CD4B0(void *w, u32 id, ...);
 extern int func_021C99A0(void *w, void *c);
 extern int func_021B8D8C(void *p, void *a, u32 b);
@@ -45,7 +46,7 @@ int func_021CA270(u8 *w, const struct Cmd *c)
     int s;
     int a;
     int b;
-    func_021D5FA4(func_021B9934(*(char **)(w + 8), c->b4), c->h6);
+    func_021D5FA4((struct Unk021D5FA4 *)func_021B9934(*(char **)(w + 8), c->b4), c->h6);
     func_021CD4B0(*(void **)(w + 0xC), 2, c->b4, c->h6);
     *(u8 *)(w + c->b4 + 0x7A9) = 0;
     func_021C99A0(w, (u8 *)c + 8);

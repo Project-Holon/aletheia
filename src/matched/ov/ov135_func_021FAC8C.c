@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_0202CE40(void *, u32);
+struct WinMgr;
+extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(void *, u32);
 extern void func_0204B92C(void *, u32);
@@ -28,7 +29,7 @@ extern void func_0204B878(void *, u16);
 extern void func_021F4FF4(u32, u32, u32);
 int func_021FAC8C(u8 *p)
 {
-    if (!func_0202CE40(*(void **)(p + 24), 0)) {
+    if (!func_0202CE40(*(struct WinMgr **)(p + 24), 0)) {
         if (func_020355C4() == 1)
             func_0204B3DC(*(void **)(p + 8), 0);
         else

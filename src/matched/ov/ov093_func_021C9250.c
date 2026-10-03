@@ -30,8 +30,8 @@ extern int func_021C9374(void *, u8);
 extern int func_021C9384(void *, u8);
 extern int func_021D5B68(void *);
 extern int func_021D5D14(void *, u32, int);
-extern void func_021C5A1C(u8 *, u8 *);
-extern void func_021C5A34(u8 *, u8 *);
+extern void func_021C5A1C(u8 *p, u8 *a);
+extern void func_021C5A34(u8 *p, u8 *a);
 extern int func_021C3008(u8 *, u8, u8 *, enum Kind, int, u8, u16, u32, int, u32);
 extern int func_021C99A0(void *, const void *);
 int func_021C9250(u8 *p, const Ent *e, u16 arg)

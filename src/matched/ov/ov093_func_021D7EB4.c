@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_021D5444  0x021D5444  thumb  ov093
@@ -24,7 +24,7 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D5444(void *p);
-int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 u32 func_02019C90(u16 a, u16 b, u32 k);
 
 u32 func_021D7EB4(void *a)

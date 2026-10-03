@@ -66,7 +66,7 @@ extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_0201756C(void *mon, u16 species, u16 level, u64 id);
 extern void func_02017E40(void *p, u32 id, u32 v);
-extern void func_0201A98C(void *party, void *mon);
+extern u32 func_0201A98C(void *party, void *mon);
 extern void func_021AA304(Loc *loc, void *ctx, u32 a);
 extern void func_020135C0(void *bs, void *ctx, void *p1, void *p2, Loc *loc, u32 heap);
 extern void func_020307B0(void *p);

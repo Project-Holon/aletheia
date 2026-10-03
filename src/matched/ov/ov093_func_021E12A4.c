@@ -32,7 +32,7 @@ extern int func_021D775C(int key);
 extern void *func_021C7CF4(void *p, int k);
 extern u16 func_021D5444(void *p);
 extern u32 func_021C7ED8(void *a, int b);
-extern u32 func_021D5844(void *m);
+extern void *func_021D5844(void *m);
 extern void func_021D7DC0(int a, void *b, void *out);
 extern int func_021D76BC(int key, u32 val);
 

@@ -27,7 +27,7 @@ extern u8 func_021B8DE4(u8 *m, u8 i);
 extern int func_021B902C(u8 x, u8 y);
 extern u8 func_021C50F8(u8 *q, u8 i);
 extern char *func_021B9934(char *p, int i);
-extern u32 func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 
 u32 func_021C5098(u8 *p)
 {
@@ -39,7 +39,7 @@ u32 func_021C5098(u8 *p)
         if (func_021B902C(x, func_021B8DE4(*(u8 **)(p + 4), i)) == 0) {
             int r = func_021C50F8(p + 0x1AB8, i);
             if (r != 0x1f) {
-                u32 t = func_021D59B4(func_021B9934(*(char **)(p + 8), r), 0xf);
+                u32 t = func_021D59B4((u8 *)func_021B9934(*(char **)(p + 8), r), 0xf);
                 if (t > best) {
                     best = t;
                 }

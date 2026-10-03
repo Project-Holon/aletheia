@@ -29,32 +29,33 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cmd { u32 a:8; u32 id:5; u32 b:10; u32 flag:1; u32 c:8; u8 target; };
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D6C24(void *);
 extern int func_021D5C30(void *);
-extern int func_021D59B4(void *, int);
-extern int func_021D6C50(void *, void *);
-extern u8 func_021D5440(u8 *);
-extern void func_021C5A1C(u8 *, void *);
+extern int func_021D59B4(u8 *p, int k);
+struct Unk021D6C50;
+extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
+extern u8 func_021D5440(u8 *p);
+extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021E0434(u8 *);
 extern void func_021D8510(u8 *);
 extern void *func_021D8484(void *);
 extern void func_021CD4B0(void *, u32, ...);
 extern int func_021C99A0(void *, const void *);
-extern void func_021C5A34(u8 *, void *);
+extern void func_021C5A34(u8 *p, u8 *a);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021C7B7C(u8 *, int);
 extern void func_021CC95C(void *, u32, int);
 int func_021CA47C(u8 *p, struct Cmd *q)
 {
-    u8 *a = (u8 *)func_021B9934(*(char **)(p + 8), q->id);
-    u8 *b = (u8 *)func_021B9934(*(char **)(p + 8), q->target);
+    u8 *a = func_021B9934(*(char **)(p + 8), (u8)q->id);
+    u8 *b = func_021B9934(*(char **)(p + 8), (u8)q->target);
     u16 k;
     int x, y;
     u32 lock;
     if (!func_021D6C24(a) && !func_021D6C24(b) && !func_021D5C30(a)) {
         k = func_021D59B4(a, 16);
-        if (func_021D6C50(a, b)) {
+        if (func_021D6C50((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b)) {
             x = func_021D5440(a);
             y = func_021D5440(b);
             if (q->flag) func_021C5A1C(p, a);

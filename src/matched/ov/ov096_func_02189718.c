@@ -25,18 +25,19 @@ typedef int s32;
 
 extern int func_0201134C(int);
 extern void func_020113B0(int, int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern int func_021D5BDC(int, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D5BDC(void *, int);
 
 int func_02189718(int a, int b) {
     int r7;
     int r6;
-    int t;
+    u8 *t;
+    u8 s;
     r7 = func_0201134C(a);
     r6 = func_0201134C(a);
-    t = func_0218A160(b, r7);
-    t = func_0218A2FC(b, t);
+    s = func_0218A160((u8 *)b, r7);
+    t = func_0218A2FC((u8 *)b, s);
     if (func_021D5BDC(t, 13)) {
         func_020113B0(a, *(int *)(a + 0x14) + r6);
     }

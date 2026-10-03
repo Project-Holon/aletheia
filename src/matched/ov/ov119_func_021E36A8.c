@@ -15,9 +15,9 @@
  *   func_021E35A0  0x021E35A0  thumb
  */
 
-extern void func_021E35A0(int a, int b, int c, int d, int e);
+extern void func_021E35A0(void *a, int b, int c, void *d, int e);
 
-void func_021E36A8(int a, int b, int c, int d, int e, int f)
+void func_021E36A8(void *a, int b, int c, void *d, int e, int f)
 {
     if (f != 0 && c == 0) {
         c = 1;

@@ -18,9 +18,12 @@
  *   func_021D5440  0x021D5440  thumb  ov093
  */
 
+typedef unsigned char u8;
+
 extern int func_021B9B94(void *);
-extern int func_021B9C00(void *, int);
-extern int func_021D5440(int);
+typedef unsigned int u32;
+extern u8 *func_021B9C00(void *p, u32 i);
+extern u8 func_021D5440(u8 *p);
 
 int func_021B9864(int a, int b, int c)
 {
@@ -28,7 +31,7 @@ int func_021B9864(int a, int b, int c)
     unsigned int n = func_021B9B94(p);
     unsigned int i;
     for (i = 0; i < n; i++) {
-        if (c == func_021D5440(func_021B9C00(p, (unsigned char)i)))
+        if (c == func_021D5440((u8 *)func_021B9C00(p, (unsigned char)i)))
             return i;
     }
     return -1;

@@ -33,20 +33,20 @@ struct Q {
     u8 pad4[0];
 };
 
-extern int func_021B9934(char *p, int i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern int func_021D6D54(void *p);
-extern int func_021D59B4(void *p, int k);
-extern void func_021C5A1C(u8 *p, void *m);
+extern int func_021D59B4(u8 *p, int k);
+extern void func_021C5A1C(u8 *p, u8 *a);
 extern void func_021D66D8(void *m, int v);
 extern void func_021CD4B0(void *w, u32 id, ...);
 extern int func_021C99A0(u8 *p, u8 *q);
-extern void func_021C5A34(u8 *p, void *m);
+extern void func_021C5A34(u8 *p, u8 *a);
 
 int func_021CA748(u8 *p, const struct Q *q)
 {
     u8 t;
-    void *m = (void *)func_021B9934(*(char **)(p + 8), ((u8 *)q)[4]);
+    void *m = func_021B9934(*(char **)(p + 8), ((u8 *)q)[4]);
     if (!func_021D5B68(m) && !func_021D6D54(m)) {
         t = func_021D59B4(m, 0x13);
         if (t != ((u8 *)q)[5]) {

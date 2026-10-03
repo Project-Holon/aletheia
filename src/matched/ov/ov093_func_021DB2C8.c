@@ -13,8 +13,9 @@
  *   func_021D70A8 0x021D70A8 thumb ov093
  *   func_021DB318 0x021DB318 thumb ov093
  */
+typedef unsigned short u16;
 extern int func_021D775C(int);
-extern unsigned short func_021D70A8(void *);
+extern u16 func_021D70A8(void *p);
 extern void func_021DB318(int,void *,int);
 
 void func_021DB2C8(void *a, void *b, int c)

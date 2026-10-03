@@ -15,7 +15,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern u8 func_021D5440(u32 x);
+extern u8 func_021D5440(u8 *p);
 
 int func_021C80AC(u8 *p, int key)
 {
@@ -26,7 +26,7 @@ int func_021C80AC(u8 *p, int key)
     total = 0;
     for (i = 0; i < p[0x782]; i++) {
         u8 *e = p + i * 16;
-        if (key != func_021D5440(*(u32 *)(e + 0x7e0))) {
+        if (key != func_021D5440(*(u8 **)(e + 0x7e0))) {
             total++;
             if (e[0x7ed] != 0) {
                 flagged++;

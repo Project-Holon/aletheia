@@ -37,7 +37,7 @@ struct Blk37 {
 extern u32   func_02017D30(void *m);
 extern void  func_02017D70(void *m, u32 saved);
 extern u32   func_02017E1C(void *m, u32 field, u32 arg);
-extern u32   func_02017F00(void *m);
+extern u8    func_02017F00(void *m);
 extern u32   func_02017EAC(void *m);
 extern u32   func_0200C720(u16 id);
 extern u32   func_0200D064(struct Blk37 *p, u16 id);

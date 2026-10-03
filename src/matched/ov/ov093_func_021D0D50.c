@@ -31,8 +31,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D0C78(void *,u8 *);
 extern u8 func_021D0980(u8 *,u8 *);
-extern int func_021CFD50(void *,int);
-extern void func_021D09E0(void *,u8 *,u8,int);
+extern u8 *func_021CFD50(void *,int);
+extern void func_021D09E0(void *,u8 *,u8,void *);
 extern u32 func_021B8588(void **);
 extern int func_021D1058(u8 *,void *);
 extern void func_021B8E28(u8 *,u8,u8 *,u8 *);
@@ -47,7 +47,7 @@ int func_021D0D50(u8 *p)
     u8 count;
     u8 n;
     u8 i;
-    int target;
+    u8 *target;
     int result;
     p[0x1b3] = func_021D0C78(p,p+0x1b5);
     if (p[0x1b3]) {

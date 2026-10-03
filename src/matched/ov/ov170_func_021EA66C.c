@@ -50,6 +50,7 @@ typedef struct {
     char *work;
 } Obj;
 
+struct WinMgr;
 extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(Obj *p);
@@ -63,8 +64,8 @@ extern void func_021ED6E4(Obj *p, int v);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
 extern int func_021E8FE0(Obj *p, int v);
 extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
-extern void func_021EF508(int mgr);
-extern void func_021EF534(int mgr);
+extern void func_021EF508(struct WinMgr *mgr);
+extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021EA728(Obj *p);
 extern void func_021EA878(Obj *p, int v);
 extern void func_021DEFEC(Obj *p, int b);
@@ -75,7 +76,7 @@ extern int func_021E0ABC(Obj *p);
 extern int func_021E0A40(Obj *p);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
-#define MGR(p) (*(int *)((p)->work + 0x74))
+#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 #define CNT(p) (*(unsigned short *)((p)->work + 0xA16C))
 
 int func_021EA66C(Obj *p, int i)

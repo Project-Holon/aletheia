@@ -53,14 +53,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 v; } Word;
 extern void func_021CFBA4(s8 *);
-extern void *func_021B9C00(void *, int);
+extern u8 *func_021B9C00(void *p, u32 i);
 extern int func_021D5B68(void *);
 extern void func_021D8434(u8 *);
 extern u32 func_021CF470(u8 *, void *, u8 *);
 extern u32 func_021D3DC4(u8 *, void *, void *);
 extern void func_021D8358(void *, u32, u8, u8);
 extern void *func_021B86B8(void ***);
-extern int func_021CFBF0(u8 *, int, u32, u8 *);
+extern int func_021CFBF0(u8 *, void *, u32, u8 *);
 extern void func_021D8394(void *, u8, u32);
 extern u32 func_021B8588(void *);
 extern u8 func_021D06C8(void *);
@@ -74,7 +74,7 @@ extern void func_021D82D0(void *, u32, u32);
 extern u32 func_021CF524(u32, void *, u32);
 extern u8 func_021D5448(void *);
 extern u32 func_021CF81C(u8 *, void *, u8 *);
-extern u8 func_021D5440(void *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern void func_021880BC(int, u8 *, int);
 extern void func_021CF58C(u32, u32, void *);
@@ -115,7 +115,7 @@ int func_021D0770(u8 *p, u32 *state)
             func_021D8358(R,move,p[0x11d],0);
             goto complete;
         }
-        if (func_021B86B8(*(void ****)p) && func_021CFBF0(p,(int)M,p[0x11d],&choice)) {
+        if (func_021B86B8(*(void ****)p) && func_021CFBF0(p,M,p[0x11d],&choice)) {
             func_021D8394(R,p[0x11d],choice);
             goto complete;
         }

@@ -66,6 +66,7 @@ typedef struct {
     char *work;
 } Obj;
 
+struct WinMgr;
 extern u32 func_020362DC(void);
 extern int func_021EA9F4(Obj *p, int v);
 extern unsigned func_021EF170(void);
@@ -73,7 +74,7 @@ extern void func_020260F4(void *obj, int state);
 extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_020061E4(unsigned se);
 extern int func_02035D20(void *x, void *y);
-extern int func_021EF5E8(int p);
+extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021DEFEC(Obj *p, int b);
 extern int func_021EA1F4(Obj *p, int i);
 extern void func_020260E4(void *obj, unsigned char sel);
@@ -96,7 +97,7 @@ extern int func_021E8FD0(Obj *p, int a);
 extern int func_021EA2DC(Obj *p, int i);
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
-#define MGR(p) (*(int *)((p)->work + 0x74))
+#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
 int func_021E5E68(Obj *p)
 {

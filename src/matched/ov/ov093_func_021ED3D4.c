@@ -28,16 +28,16 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct T { char *e; u16 st; u16 pad; u8 *cnt; };
 
-extern u8 *func_021B9920(void *p, int i, int j);
+extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern u8 func_021B8E70(u8 *p, u32 k);
-extern int func_021D5864(void *m);
-extern void func_021F7EE8(u32 a, u32 b);
+extern void *func_021D5864(void *m);
+extern void func_021F7EE8(void *m, int key);
 extern void func_021F7A28(u32 a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
 extern u8 *func_02031290(void *node);
 extern void func_021ED460(void);
 
-void func_021ED3D4(char *p, u8 k, int a, int b, int flag)
+void func_021ED3D4(char *p, u8 k, int a, u8 b, int flag)
 {
     struct T *t;
     u8 *m;

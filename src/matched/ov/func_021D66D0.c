@@ -24,5 +24,5 @@ typedef signed int s32;
 
 /* 021D66D0  movs r2,#0x4f; lsls r2,#2; strh r1,[r0,r2] */
 struct QJ { u8 pad[0x13c]; u16 v; };
-void func_021D66D0(struct QJ *p, u16 v) { p->v = v; }
+void func_021D66D0(struct QJ *p, u32 v) { p->v = v; }
 

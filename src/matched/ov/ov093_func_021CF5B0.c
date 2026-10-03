@@ -28,22 +28,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 v; } Word;
-extern u32 func_021CF89C(void *, int);
-extern int func_021D62C4(int, int);
-extern Word func_021D6314(int, int);
+extern u32 func_021CF89C(void *, void *);
+extern int func_021D62C4(void *, int);
+extern Word func_021D6314(void *, int);
 extern u16 func_021E8B80(Word);
-extern int func_021D5750(int, u32);
+extern int func_021D5750(void *, u32);
 extern void func_021EAF18(void *, u32, u32);
 extern void func_021EAF50(void *, u32);
-extern u16 func_021D5B40(int);
-extern u8 func_021D5440(int);
+extern u16 func_021D5B40(void *);
+extern u8 func_021D5440(u8 *p);
 extern int func_0201C314(u32);
-extern u16 func_021D67B8(int);
-extern u32 func_021D62D8(int, int);
+extern u16 func_021D67B8(void *);
+extern u32 func_021D62D8(void *, int);
 extern int func_0201BEB8(u32, int);
 extern int func_021EFCE4(int, int);
-extern int func_021EFC1C(int, int, int, u32);
-int func_021CF5B0(u8 *g, int m, u32 move, void *out)
+extern int func_021EFC1C(int, int, void *, u32);
+int func_021CF5B0(u8 *g, void *m, u32 move, void *out)
 {
     u32 k;
     u32 k2;

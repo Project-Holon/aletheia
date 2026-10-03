@@ -20,9 +20,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern u32 func_0202CA0C(u32 a);
+struct WinMgr;
+extern void func_0202CA0C(struct WinMgr *mgr);
 
-u32 func_021BCA78(u8 *p)
+void func_021BCA78(u8 *p)
 {
-    return func_0202CA0C(*(u32 *)(p + 0x20));
+    func_0202CA0C(*(struct WinMgr **)(p + 0x20));
 }

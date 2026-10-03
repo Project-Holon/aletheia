@@ -27,8 +27,8 @@ extern int func_021C9240(void *, u8);
 extern int func_021D5B68(void *);
 extern int func_021C27A0(u8 *, u8 *, u8 *, u32, S, u8, u32);
 extern void func_021C2910(u8 *, u8 *, u8 *, int, S, int, int, const void *);
-extern void func_021C5A1C(u8 *, u8 *);
-extern void func_021C5A34(u8 *, u8 *);
+extern void func_021C5A1C(u8 *p, u8 *a);
+extern void func_021C5A34(u8 *p, u8 *a);
 int func_021C9178(u8 *p, const Ent *e)
 {
     u8 *a;

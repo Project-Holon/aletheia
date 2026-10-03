@@ -22,13 +22,13 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern int func_021D62C4(int, int);
+extern int func_021D62C4(void *, int);
 extern void func_0218A0F4(int, int, int, int, int);
 
 void func_02189640(int a, int b, int c) {
     int r;
     int t;
     r = func_0201134C(a);
-    t = func_021D62C4(*(int *)(b + 0xc0), 0xb);
+    t = func_021D62C4(*(u8 **)(b + 0xc0), 0xb);
     func_0218A0F4(a, c, t, 1, r);
 }

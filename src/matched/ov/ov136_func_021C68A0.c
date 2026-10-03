@@ -23,8 +23,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
+struct WinMgr;
 extern int (*const d_021C7DA8[])(u8 *);
-extern void func_0202CD94(void *);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021C6594(u8 *);
 extern void func_0201C4E4(void *);
 extern void func_02045334(void *);
@@ -41,7 +42,7 @@ int func_021C68A0(u8 *p, int *st)
         return 0;
     }
     if (*(u8 **)(p + 8) != 0) {
-        func_0202CD94(**(void ***)(p + 8));
+        func_0202CD94(**(struct WinMgr ***)(p + 8));
         func_021C6594(*(u8 **)(p + 8));
         if (*(void **)(*(u8 **)(p + 8) + 0x1C4) != 0) {
             func_0201C4E4(*(void **)(*(u8 **)(p + 8) + 0x1C4));

@@ -25,7 +25,7 @@ extern int func_021D62A8(struct Unk021D62A8 *);
 extern int func_021C2AB0(u8 *);
 extern u16 func_021D57FC(void *);
 extern int func_021E8D24(u16, int);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 int func_021C282C(u8 *a, struct Unk021D62A8 *b, int c, int d, u8 e)
 {
     u16 t;
@@ -40,6 +40,6 @@ int func_021C282C(u8 *a, struct Unk021D62A8 *b, int c, int d, u8 e)
     if (c == 3 && func_021E8D24(func_021D57FC(b), 14)) return 2;
     if (c == 18 && func_021E8D24(func_021D57FC(b), 11)) return 2;
     if (c == 14 && func_021D62A8(b)) return 3;
-    if (c == 16 && func_021D59B4(b, 16) == 121) return 3;
+    if (c == 16 && func_021D59B4((u8 *)b, 16) == 121) return 3;
     return 0;
 }

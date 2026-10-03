@@ -20,8 +20,8 @@
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B98AC(char *const *q, u8 b);
-extern int func_021D59B4(void *p, int k);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void func_021F80FC(u32 a, int b);
 extern void func_021F7C2C(u32 a, u32 b);
@@ -32,7 +32,7 @@ void func_021ED208(char *p, u8 k, u16 a, int flag)
     int t;
     u32 v;
 
-    t = func_021D59B4((void *)func_021B98AC(*(char *const **)(p + 0x138), k), 0xd);
+    t = func_021D59B4(func_021B98AC(*(char *const **)(p + 0x138), k), 0xd);
     v = func_021B8E70(*(u8 **)(p + 0x134), k);
     if (flag == 0) {
         func_021F80FC(v, t);

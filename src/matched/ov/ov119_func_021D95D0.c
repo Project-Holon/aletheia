@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Select the alternate buffer when the object is idle.
  *
@@ -18,7 +18,7 @@
  */
 
 extern int func_021D8AA8(void *p);
-extern int func_021D8FA4(void *p, int i);
+extern void *func_021D8FA4(void *p, int i);
 extern int func_021D95A0(void *p);
 
 int func_021D95D0(void *p)
@@ -27,6 +27,6 @@ int func_021D95D0(void *p)
 
     if (func_021D8AA8(p))
         b = 1;
-    return func_021D95A0((void *)func_021D8FA4(p, b));
+    return func_021D95A0(func_021D8FA4(p, b));
 }
 

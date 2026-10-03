@@ -30,8 +30,10 @@ extern void *func_021C88A4(void *p, int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, unsigned v);
 extern void func_021C88C8(void *a, void *b);
-extern int func_021D70A8(void *a);
-extern int func_021E03D8(void *a, int b);
+typedef unsigned short u16;
+extern u16 func_021D70A8(void *p);
+typedef unsigned char u8;
+extern void func_021E03D8(u8 *a, int b);
 
 void func_021E24D4(void *a, void *b, int c, int *d)
 {

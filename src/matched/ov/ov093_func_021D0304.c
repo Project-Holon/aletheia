@@ -25,23 +25,23 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct G { void *p0; u8 pad[0xf0]; u64 seed; u64 mul; u64 add; u8 pad2[0xc]; void *list; u8 start; };
-extern int func_021D0644(void *, int, int, int);
-extern int func_021D59B4(int, int);
-extern int func_021D6940(int, int, u32, u16 *);
+extern int func_021D0644(void *, void *, void *, int);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021D6940(void *, int, u32, u16 *);
 extern u32 func_021B9B94(void *);
 extern u32 func_021B8588(void *);
-extern int func_021D7F2C(int, int);
+extern u8 func_021D7F2C(u32 a, u8 b);
 extern int func_021CFBBC(void *, u8);
-extern int func_021B9C00(void *, u8);
-extern u16 func_021D57FC(int);
+extern u8 *func_021B9C00(void *p, u32 i);
+extern u16 func_021D57FC(void *);
 extern int func_021D799C(int, int);
-int func_021D0304(struct G *g, int mon, int target, u8 *out)
+int func_021D0304(struct G *g, void *mon, void *target, u8 *out)
 {
     u16 hist[4];
     u32 sum;
     u32 i;
     u32 n;
-    int other;
+    u8 *other;
     int affinity;
     if (func_021D0644(g, mon, target, 4)) {
         g->seed = g->mul * g->seed + g->add;
@@ -55,7 +55,7 @@ int func_021D0304(struct G *g, int mon, int target, u8 *out)
         i = func_021D7F2C(func_021B8588(g->p0), g->start);
         for (; i < n; i++) {
             if (!func_021CFBBC(g, i)) {
-                other = func_021B9C00(g->list, i);
+                other = func_021B9C00(g->list, (u8)i);
                 if (func_021D0644(g, other, target, 4)) {
                     affinity = func_021D799C(((u8 *)hist)[4], func_021D57FC(other));
                     if (affinity == 0) {

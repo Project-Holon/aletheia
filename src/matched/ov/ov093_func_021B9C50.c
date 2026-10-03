@@ -20,9 +20,9 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern int func_021B9AB0(int k);
 extern int func_021B9AC8(int k);
 
-void func_021B9C50(u32 *p, int k, u32 *o1, u32 *o2)
+void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2)
 {
-    u32 t;
+    u8 *t;
     int a;
     int b;
 

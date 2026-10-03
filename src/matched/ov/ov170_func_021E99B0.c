@@ -37,8 +37,9 @@
  * and returns the next menu state.
  */
 
+struct WinMgr;
 extern void func_021EB988(unsigned char *p, const void *e, unsigned n);
-extern void func_021EF4E4(int mgr);
+extern void func_021EF4E4(struct WinMgr *mgr);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
 extern void func_021ED588(unsigned char *p);
 extern void func_021ECB20(unsigned char *p, int f, int c);
@@ -61,7 +62,7 @@ extern void func_021EF68C(char *w);
 extern const unsigned char d_021EFA10[];
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define HELD_WIN(p) (*(unsigned char *)(WORK(p) + 0x3DF6))
 
 int func_021E99B0(unsigned char *p)

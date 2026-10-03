@@ -15,20 +15,23 @@
  *   func_021EC8E4 0x021EC8E4 thumb
  */
 
-extern void func_0202CF98(int, int, signed char *, signed char *);
-extern unsigned func_0202CDD4(int mgr, unsigned idx);
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
 extern void func_021EC8E4(char *p);
 
-int func_021EF400(char *p)
+int func_021EF400(unsigned char *p)
 {
     signed char a[2];
     signed char b[2];
     unsigned r;
-    func_0202CF98(*(int *)(*(char **)(p + 0x2C) + 0x74), 8, &a[1], &a[0]);
-    r = func_0202CDD4(*(int *)(*(char **)(p + 0x2C) + 0x74), 8);
-    func_0202CF98(*(int *)(*(char **)(p + 0x2C) + 0x74), 8, &b[1], &b[0]);
+    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8, &a[1], &a[0]);
+    r = func_0202CDD4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8);
+    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8, &b[1], &b[0]);
     if (a[1] != b[1] || a[0] != b[0])
-        func_021EC8E4(p);
+        func_021EC8E4((char *)p);
     {
         int ret = 0;
         if (r != 0)

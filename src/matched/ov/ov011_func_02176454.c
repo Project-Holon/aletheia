@@ -47,7 +47,7 @@ extern int func_0201AA18(void *p);
 extern void *func_0201A920(int heap);
 extern int func_0201AB34(void *p, int i);
 extern void *func_0201AB28(void *p, int i);
-extern void func_0201A98C(void *p, void *q);
+extern u32 func_0201A98C(void *p, void *q);
 extern void func_02019CA0(void *p, int v);
 extern void func_02034714(void *a, int b, void *c);
 

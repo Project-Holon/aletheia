@@ -21,7 +21,7 @@ typedef unsigned int u32;
 
 extern int func_0201134C(int);
 extern void func_0218A0F4(int, int, int, int, int);
-extern int func_021D5440(int);
+extern u8 func_021D5440(u8 *p);
 extern int func_021C7DAC(int, int, int, int);
 
 int func_02188F58(int a, int b)
@@ -34,8 +34,8 @@ int func_02188F58(int a, int b)
 
     t0 = func_0201134C(a);
     t1 = func_0201134C(a);
-    y = func_021D5440(*(int *)(b + 0xbc));
-    z = func_021D5440(*(int *)(b + 0xc0));
+    y = func_021D5440(*(u8 **)(b + 0xbc));
+    z = func_021D5440(*(u8 **)(b + 0xc0));
     r = func_021C7DAC(*(int *)(b + 0xb4), y, z, *(u16 *)(b + 2));
     func_0218A0F4(a, 2, r, t0, t1);
     return *(int *)(b + 0xc4);

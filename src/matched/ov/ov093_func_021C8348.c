@@ -14,11 +14,11 @@
  *   func_021D69AC 0x021D69AC thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern u8 func_021D69AC(u8 *, int);
 int func_021C8348(u8 *p, int i)
 {
-    u8 n = func_021D69AC((u8 *)func_021B9934(*(char **)(p + 8), i), 4);
+    u8 n = func_021D69AC(func_021B9934(*(char **)(p + 8), i), 4);
     if (n != 0) {
         n--;
         if (n < 24) goto done;

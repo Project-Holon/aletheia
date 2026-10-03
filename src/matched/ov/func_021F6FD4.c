@@ -99,7 +99,7 @@ extern void func_020307B0(void *p);
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
 extern void func_02082BCC(void *, int, int);
 extern void *func_0201A920(u32 heap);
-extern void func_0201A98C(void *list, void *e);
+extern u32 func_0201A98C(void *list, void *e);
 extern void *func_02034A5C(u32 a);
 extern void func_02034AC4(u32 v);
 extern void func_02031348(void *h, u32 id, void *a, void *b);

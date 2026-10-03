@@ -19,19 +19,20 @@
  *   func_021EF5C4 0x021EF5C4 thumb
  */
 
+struct WinMgr;
 extern void func_021ED55C(char *p, int flag);
-extern int func_021EF770(int a);
+extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EDF5C(char *p);
 extern void func_02041EE4(unsigned index, unsigned a, unsigned b);
 extern void func_021EC804(char *p, short dx);
 extern void func_021EE26C(char *p, int d);
-extern int func_021EF5C4(int a);
+extern int func_021EF5C4(struct WinMgr *mgr);
 
 int func_021E0128(char *p)
 {
     if (*(unsigned short *)(*(char **)(p + 0x2C) + 0x66) == 0x17) {
         func_021ED55C(p, 1);
-        if (func_021EF770(*(int *)(*(char **)(p + 0x2C) + 0x74)) == 1)
+        if (func_021EF770(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 1)
             func_021EDF5C(p);
         *(unsigned short *)(*(char **)(p + 0x2C) + 0x66) = 0;
         return 0;
@@ -39,7 +40,7 @@ int func_021E0128(char *p)
     func_02041EE4(3, 1, 8);
     func_021EC804(p, -8);
     func_021EE26C(*(char **)(p + 0x2C), -8);
-    func_021EF5C4(*(int *)(*(char **)(p + 0x2C) + 0x74));
+    func_021EF5C4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74));
     (*(unsigned short *)(*(char **)(p + 0x2C) + 0x66))++;
     return 1;
 }

@@ -10,9 +10,9 @@
  * status:   EXACT
  */
 typedef signed char s8; typedef unsigned char u8; typedef unsigned short u16;
-void func_021D5EA8(s8 *p, int i, u8 n)
+void func_021D5EA8(u8 *p, int i, u8 n)
 {
-    s8 *q;
+    u8 *q;
     switch (i) {
     case 1: q = p + 0xfc; break;
     case 2: q = p + 0xfd; break;

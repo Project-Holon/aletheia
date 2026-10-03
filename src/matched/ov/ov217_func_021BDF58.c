@@ -50,9 +50,10 @@ extern void func_021BFC60(void *p);
 extern void func_021BF704(void *p);
 extern void func_021BF568(void *p);
 extern void func_021BEC84(void *p, int v);
-extern void *func_021BF76C(void *p);
-extern void func_021C1184(void *h, int v);
-extern void func_021C1154(void *h);
+extern u8 *func_021BF76C(void *p);
+extern void func_021C1184(u8 *h, u32 v);
+extern void func_021C1154(u8 *h);
+
 extern void func_021BE930(void *p, int v);
 extern void func_021BF3D8(void *p);
 extern void func_021BEFF8(void *p);

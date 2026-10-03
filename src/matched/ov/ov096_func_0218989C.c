@@ -25,33 +25,37 @@
  */
 typedef unsigned char u8;
 extern unsigned int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern int func_0218A308(int, u8);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u8 *func_0218A308(void *, u8);
 extern int func_0218A0F4(int, int, int, int, int);
 extern int func_021B8DE4(int, int);
-extern int func_021B9AF8(int, int);
+extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(int, int);
-extern int func_021B9B94(int);
-extern int func_021D5B68(int);
-extern int func_021D5448(int);
-extern int func_021D554C(int, u8);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
+extern int func_021D5B68(void *);
+extern int func_021D5448(void *);
+extern int func_021D554C(void *, u8);
 int func_0218989C(int a, int b)
 {
-    int x, z, y, n, p, i, j;
+    int x, z, n;
+    char *p;
+    int i, j;
+    u8 y;
     x = func_0201134C(a);
     z = func_0201134C(a);
-    y = func_0218A160(b, x);
+    y = func_0218A160((u8 *)b, x);
     n = func_021B8DE4(*(int *)(b + 0xb0), y);
-    p = func_021B9AF8(*(int *)(b + 0xb8), n);
+    p = func_021B9AF8(*(char **)(b + 0xb8), n);
     i = func_021B99B8(*(int *)(b + 0xb0), n);
-    for (; i < func_021B9B94(p); i++) {
+    for (; i < func_021B9B94((struct Q1 *)p); i++) {
         if (func_021D5B68(func_0218A308(p, i)) == 0) {
-            for (j = 0; j < func_021D5448(func_0218A2FC(b, y)); j++) {
-                if (func_0218A0F4(a, 3, func_021D554C(func_0218A2FC(b, y), j), 0, z) != 0)
+            for (j = 0; j < func_021D5448(func_0218A2FC((u8 *)b, y)); j++) {
+                if (func_0218A0F4(a, 3, func_021D554C(func_0218A2FC((u8 *)b, y), j), 0, z) != 0)
                     break;
             }
-            if (j != func_021D5448(func_0218A2FC(b, y)))
+            if (j != func_021D5448(func_0218A2FC((u8 *)b, y)))
                 break;
         }
     }

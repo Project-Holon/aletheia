@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 low:8,index:5,pad:10,flag:1,high:8; u16 value; u8 id,a; u8 pad8[4]; u8 msg[36]; } Ent;
 extern u8 *func_021B9934(void *, u8);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021C9BA8(u16);
 extern int func_021D5B68(void *);
 extern void func_021CD4B0(void *, u32, ...);
@@ -40,10 +40,11 @@ extern void func_021CC95C(void *, u32, int);
 extern void func_021C7B3C(u8 *, u32, u32, u32);
 extern void func_021C7B7C(u8 *, int);
 extern void func_021D8510(u8 *);
-extern void func_021D66D0(u8 *, u32);
+struct QJ;
+extern void func_021D66D0(struct QJ *p, u32 v);
 extern void *func_021D8484(void *);
 extern int func_021D62C4(void *, int);
-extern void func_021C195C(u8 *, u8 *, u32);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021C3FDC(u8 *, u8 *);
 int func_021C9A60(u8 *p, const Ent *e)
 {
@@ -65,7 +66,7 @@ int func_021C9A60(u8 *p, const Ent *e)
         func_021C7B3C(p, e->id, x, e->value);
         func_021CC95C(p + 0x1d74, s, line + 2);
         func_021D8510(a);
-        func_021D66D0(a, e->value);
+        func_021D66D0((struct QJ *)a, e->value);
         func_021CD4B0(*(void **)(p + 12), 29, e->id, e->value);
         func_021D8484(a);
         func_021CD4B0(*(void **)(p + 12), 88, e->id);

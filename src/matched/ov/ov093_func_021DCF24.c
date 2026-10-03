@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Node Node;
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern Node *func_021D732C(int, int);
 extern Node *func_021D7360(Node *);
 extern u32 func_021D70B4(Node *, int);

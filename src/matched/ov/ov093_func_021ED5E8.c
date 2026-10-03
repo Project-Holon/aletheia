@@ -24,22 +24,22 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 struct S { char *w; u8 k; u8 pad[3]; u32 v; u32 c; u32 a; u8 *cnt; };
 
-extern int func_021B98AC(char *const *q, u8 b);
-extern u32 func_021D5844(u32 *p);
-extern int func_021F7D80(int a, int b);
-extern void func_021F7E38(int a, int b);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern void *func_021D5844(void *m);
+extern void func_021F7D80(void *a, int b);
+extern void func_021F7E38(void *a, int b);
 extern void func_021F80E4(u32 a);
 extern int func_021F7EB4(void);
-extern void func_021F803C(u32 a, u32 b, u32 c);
+extern void func_021F803C(u32 a, void *m, u32 c);
 extern void func_02031194(u32 a);
 
 void func_021ED5E8(u32 x, struct S *t)
 {
-    u32 r;
+    void *r;
 
     switch (t->c) {
     case 0:
-        r = func_021D5844((u32 *)func_021B98AC(*(char *const **)(t->w + 0x138), t->k));
+        r = func_021D5844(func_021B98AC(*(char *const **)(t->w + 0x138), t->k));
         if (t->a == 0)
             func_021F7D80(r, t->v);
         else

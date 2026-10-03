@@ -39,7 +39,7 @@ enum Mode { M0, M1, M2, Mneg = -1 };
 struct Pair { u8 count, id; };
 struct Msg { u16 a; u16 kind:8; u16 n:7; u16 flag:1; u8 data[0x1c]; u32 w20; };
 extern int func_021C39CC(u8 *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern int func_021D5B68(u8 *);
 extern int func_021D62C4(void *, int);
@@ -58,7 +58,7 @@ extern void func_021BD9D4(u8 *, u8, u8, u8, u8);
 extern void func_021CD64C(void *, u8, ...);
 extern int func_021BDA00(u8 *);
 extern int func_021B8DDC(int);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern void func_021D8244(void *, int);
 static inline u8 rule(u8 n)
 {

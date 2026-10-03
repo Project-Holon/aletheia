@@ -41,45 +41,46 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_020061E4();
-extern u32 func_021BE7D8();
-extern u32 func_021BE934();
-extern u32 func_021BEA3C();
-extern u32 func_021BEAF8();
-extern u32 func_021BEF98();
-extern u32 func_021BF08C();
-extern u32 func_021BF11C();
-extern u32 func_021BF13C();
-extern u32 func_021BF264();
-extern u32 func_021BF2FC();
-extern u32 func_021BF38C();
-extern u32 func_021BF47C();
-extern u32 func_021BF704();
-extern u32 func_021BF76C(void *);
-extern u32 func_021BF810();
-extern u32 func_021BFC60();
-extern void func_021C116C(u32);
-u32 func_021BE704(u32 a0)
+extern void func_020061E4(u32 se);
+extern u32 func_021BE7D8(u32 a0);
+extern int func_021BE934(char *p);
+extern void func_021BEA3C(char *p, int a);
+extern void func_021BEAF8(u8 *p);
+extern void func_021BEF98(char *p);
+extern void func_021BF08C(char *p);
+extern void func_021BF11C(char *p);
+extern void func_021BF13C(char *p);
+extern void func_021BF264(char *p);
+extern void func_021BF2FC(char *p);
+extern void func_021BF38C(char *p);
+extern void func_021BF47C(char *p);
+extern void func_021BF704(void *p);
+extern u8 *func_021BF76C(void *p);
+extern u32 func_021BF810(void *p);
+extern void func_021BFC60(char *p);
+extern void func_021C116C(u8 *h);
+
+void func_021BE704(char *p)
 {
-    if (*(u32*)(((u8*)a0) + 968) != 0) {
-    if (func_021BF810(a0, *(u32*)(((u8*)a0) + 968)) != 0) {
-    func_021C116C(func_021BF76C((void *)a0));
+    if (*(u32 *)(p + 968) != 0) {
+        if (func_021BF810(p) != 0) {
+            func_021C116C(func_021BF76C(p));
+        }
     }
-    }
-    func_021BFC60(a0);
-    func_021BF704(a0);
-    func_021BEA3C(a0, -1);
-    *(u32*)(((u8*)a0) + 968) = 0;
-    func_021BF08C(a0);
-    func_021BE934(a0);
-    func_021BF11C(a0);
-    func_021BF13C(a0);
-    func_021BE7D8(a0);
-    func_021BF264(a0);
-    func_021BF2FC(a0);
-    func_021BF38C(a0);
-    func_021BEF98(a0);
-    func_021BF47C(a0);
-    func_021BEAF8(a0);
-    return func_020061E4(1352);
+    func_021BFC60(p);
+    func_021BF704(p);
+    func_021BEA3C(p, -1);
+    *(u32 *)(p + 968) = 0;
+    func_021BF08C(p);
+    func_021BE934(p);
+    func_021BF11C(p);
+    func_021BF13C(p);
+    func_021BE7D8((u32)p);
+    func_021BF264(p);
+    func_021BF2FC(p);
+    func_021BF38C(p);
+    func_021BEF98(p);
+    func_021BF47C(p);
+    func_021BEAF8((u8 *)p);
+    func_020061E4(1352);
 }

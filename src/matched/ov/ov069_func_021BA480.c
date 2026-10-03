@@ -29,7 +29,7 @@ typedef struct Ent {
 
 typedef struct Obj {
     unsigned char pad000[4];
-    int f4;
+    struct WinMgr *f4;
     char *f8;
     unsigned char pad00C[0x160 - 0xC];
     u16 page;
@@ -37,11 +37,13 @@ typedef struct Obj {
     int f164;
 } Obj;
 
+typedef unsigned int u32;
+struct WinMgr;
 extern void *func_020457B0(int size, int align);
 extern int func_021BA470(int a, int b, int c);
 extern void func_02045994(void *dst, void *src, int n);
 extern void func_021BA520(void *o, int i, void *buf, int flag);
-extern void func_0202CC70(int a, int i);
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern void func_02045808(void *p);
 
 void func_021BA480(Obj *o)

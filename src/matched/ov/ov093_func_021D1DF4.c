@@ -32,7 +32,7 @@ typedef struct {
 
 extern u32 func_021B8588(void *p);
 extern int func_021B9064(void *p, int i, int j);
-extern u8 *func_021B9920(void *p, int i, int j);
+extern u8 *func_021B9920(void *p, u32 i, u8 j);
 extern int func_021D5B68(void *p);
 extern int func_021D5C44(void *p);
 

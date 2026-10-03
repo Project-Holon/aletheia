@@ -34,6 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+struct WinMgr;
 extern void func_02027974(void *);
 extern int func_020279E8(void *);
 extern int func_02027A04(void *);
@@ -51,7 +52,7 @@ extern u32 func_02008FA4(void *);
 extern u16 func_020213AC(u32);
 extern void func_021C7430(u8 *, int, u16, u16);
 extern int func_021C7178(u8 *, u32);
-extern void func_0202CC70(void *, int);
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern void func_021C7298(u8 *, int);
 int func_021C6EA4(u8 *p)
 {

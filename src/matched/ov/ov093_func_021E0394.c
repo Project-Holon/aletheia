@@ -18,10 +18,11 @@
  *   func_021D7040  0x021D7040  thumb  ov093
  */
 typedef unsigned char u8;
+typedef unsigned short u16;
 extern u8 func_021D5440(u8 *p);
 extern void *func_021D732C(int a, int b);
 extern void *func_021D7360(void *n);
-extern int func_021D70A8(void *n);
+extern u16 func_021D70A8(void *p);
 extern int func_021D70B4(void *n, int k);
 extern void func_021D7040(void *n);
 

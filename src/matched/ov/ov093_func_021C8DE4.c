@@ -18,7 +18,7 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B9934(int a, u8 b);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021C8E48(int a, u8 b);
 extern int func_021D5B68(void *p);
 extern int func_021C1E14(int a, int b, int c, int d);
@@ -34,9 +34,9 @@ int func_021C8DE4(int p, const Ent *e)
     int t;
 
     if (e->b7 != 0x1f)
-        s = func_021B9934(*(int *)(p + 8), e->b7);
+        s = (int)func_021B9934(*(char **)(p + 8), e->b7);
     if (func_021C8E48(p + 0x1ab8, e->b6)) {
-        t = func_021B9934(*(int *)(p + 8), e->b6);
+        t = (int)func_021B9934(*(char **)(p + 8), e->b6);
         if (func_021D5B68((void *)t) == 0 && func_021C1E14(p, t, s, e->h4)) {
             if ((u8)e->ha)
                 func_021C99A0(p, (void *)&e->h8);

@@ -22,8 +22,8 @@
  *   func_021DFFE0 0x021DFFE0 thumb ov119
  */
 extern int func_021D8AA8(void *);
-extern int func_021D8FA4(void *, int);
-extern void func_0201EEF4(void *, int, int);
+extern void *func_021D8FA4(void *, int);
+extern void func_0201EEF4(void *, int, void *);
 extern void func_0201F02C(void *, int, int);
 extern void func_02045CAC(void *, unsigned, void *);
 extern void func_0201F250(void *, void *, void *);
@@ -32,7 +32,7 @@ extern void func_021D8E84(void *, int);
 extern void func_021DFFE0(void *);
 void func_021DFF40(char *p)
 {
-    int a;
+    void *a;
     if (*(int *)(p + 0xF2C) < 0xC8) {
         return;
     }

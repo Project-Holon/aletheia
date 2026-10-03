@@ -20,10 +20,10 @@
  *   func_021DE3E8 0x021DE3E8 thumb ov119
  */
 typedef unsigned short u16;
-typedef struct { char pad[0xfd8]; int obj[2][3]; } State;
+typedef struct { char pad[0xfd8]; void *obj[2][3]; } State;
 extern int func_020221A4(void *);
-extern int func_02017E1C(int,int,int);
-extern void func_021E1D68(void *,int);
+extern int func_02017E1C(void *,int,int);
+extern void func_021E1D68(void *,void *);
 extern void func_021E6440(void *,int,int);
 extern void func_021DEBD4(void *);
 extern void func_0202208C(int,int,int,int,int,int,int);
@@ -35,7 +35,9 @@ void func_021DE518(State *p)
 {
     char *b=(char *)p;
     u16 idx;
-    int col,row,obj,other;
+    int col,row;
+    void *obj;
+    int other;
     if(func_020221A4(p)) {
         idx=(u16)*(int *)(b+0x10a0);
         col=idx%3; row=idx/3;

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0218A378  0x0218A378  thumb  ov096
  *   func_021D67A8  0x021D67A8  thumb  ov093
@@ -21,11 +21,11 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0218A378(int, int, int);
-extern int func_021D67A8(int);
+extern int func_021D67A8(void *);
 
 int func_02189A44(int a, int b) {
     int t;
-    t = func_021D67A8(*(int *)(b + 0xc0));
+    t = func_021D67A8(*(u8 **)(b + 0xc0));
     if (t != 0) {
         t = func_0218A378(b, t, 2);
     } else {

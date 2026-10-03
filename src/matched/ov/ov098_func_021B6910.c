@@ -29,7 +29,9 @@ typedef int s32;
 
 extern int func_02045EC0(int, int);
 extern int func_021B6140(int);
-extern void func_0201EEF4(int, int, int);
+extern int func_021B6148(int);
+extern void func_0201EEF4(int, int, void *);
+extern void func_0201F02C(int, int, void *);
 extern void func_0201F250(int, int, int);
 extern int func_021B6B8C(int, int);
 extern void func_02045808(int);
@@ -39,7 +41,7 @@ void func_021B6910(int a, int b) {
     int t;
     r = func_02045EC0(*(int *)(a + 0x20), 0);
     t = func_021B6140(b);
-    func_0201EEF4(*(int *)(a + 0x30), 0, t);
+    func_0201EEF4(*(int *)(a + 0x30), 0, (void *)t);
     func_0201F250(*(int *)(a + 0x30), *(int *)(a + 0x2c), r);
     func_021B6B8C(a, 0x50);
     func_02045808(r);
@@ -50,7 +52,7 @@ void func_021B6988(int a, int b) {
     int t;
     r = func_02045EC0(*(int *)(a + 0x20), 3);
     t = func_021B6148(b);
-    func_0201F02C(*(int *)(a + 0x30), 0, t);
+    func_0201F02C(*(int *)(a + 0x30), 0, (void *)t);
     func_0201F250(*(int *)(a + 0x30), *(int *)(a + 0x2c), r);
     func_021B6B8C(a, 0);
     func_02045808(r);
@@ -61,7 +63,7 @@ void func_021B69C4(int a, int b) {
     int t;
     r = func_02045EC0(*(int *)(a + 0x20), 1);
     t = func_021B6140(b);
-    func_0201EEF4(*(int *)(a + 0x30), 0, t);
+    func_0201EEF4(*(int *)(a + 0x30), 0, (void *)t);
     func_0201F250(*(int *)(a + 0x30), *(int *)(a + 0x2c), r);
     func_021B6B8C(a, 0x50);
     func_02045808(r);

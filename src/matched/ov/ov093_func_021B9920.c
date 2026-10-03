@@ -11,8 +11,10 @@
  * symbols:
  *   func_021B9C00 0x021B9C00 thumb ov093
  */
-extern void *func_021B9C00(void *, unsigned int);
-void *func_021B9920(char *p, unsigned int i, unsigned int j)
+typedef unsigned int u32;
+typedef unsigned char u8;
+extern u8 *func_021B9C00(void *p, u32 i);
+u8 *func_021B9920(void *p, u32 i, u8 j)
 {
     return func_021B9C00((void *)((unsigned int)p + 4 + i * 28), j);
 }

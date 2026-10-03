@@ -15,12 +15,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Bits { u32 low : 8; u32 index : 5; u32 high : 19; };
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021BD60C(u8 *, u8 *, u8);
 int func_021CA128(u8 *p, struct Bits *q)
 {
-    int a = func_021B9934(*(char **)(p + 8), (u8)q->index);
-    if (func_021BD60C(p, (u8 *)a, 1)) {
+    u8 *a = func_021B9934(*(char **)(p + 8), (u8)q->index);
+    if (func_021BD60C(p, a, 1)) {
         *(int *)(p + 0x14) = 5;
         return 1;
     }

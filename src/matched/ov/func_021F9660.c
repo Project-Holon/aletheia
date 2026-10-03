@@ -33,12 +33,13 @@ typedef unsigned int u32;
 typedef struct {
     void **win;
     u8 pad4[0x18 - 4];
-    int f18;
+    struct WinMgr *f18;
     u8 pad1C[0x50 - 0x1C];
     u32 f50;
 } Obj;
 
-extern void func_0202CF98(int a, int b, char *c, char *d);
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void *func_02045770(void *p);
 extern void func_02043B5C(void *a, u32 b);
 extern void func_02045334(void *p);
@@ -49,7 +50,7 @@ extern void func_02040DA8(u32, u32, u32);
 
 void func_021F9660(Obj *p, int mode)
 {
-    char bright[2];
+    s8 bright[2];
     int i = 0;
 
     func_0202CF98(p->f18, 0, &bright[1], &bright[0]);

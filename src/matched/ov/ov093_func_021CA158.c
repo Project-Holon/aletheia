@@ -27,17 +27,17 @@ struct Cmd {
     u8 b4d;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021BC2B0(void *w);
 extern int func_021C8374(void *w, u8 i);
 extern int func_021C99A0(void *w, void *c);
-extern int func_021BDD00(void *w, int r, u8 b);
+extern int func_021BDD00(void *w, u8 *r, u8 b);
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern void func_021BB930(void *p, int x);
 
 int func_021CA158(u8 *w, struct Cmd *c)
 {
-    int r = func_021B9934(*(char **)(w + 8), c->b4c);
+    u8 *r = func_021B9934(*(char **)(w + 8), c->b4c);
     if (func_021BC2B0(w) == 0 && func_021C8374(w, c->b4c) == 0 && *(int *)(w + 0x14) == 0) {
         func_021C99A0(w, (u8 *)c + 4);
         if (func_021BDD00(w, r, c->b4d) != 0) {

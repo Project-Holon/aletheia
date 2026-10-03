@@ -24,12 +24,12 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D377C  shape F4: (u8) of a word arg, then func_021D5FB8 */
-extern int func_021B9934(char *p, int i);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D5FB8(void *p);
 
 int func_021D377C(u8 *p, int b, u32 *q)
 {
-    func_021D5FB8((void *)func_021B9934(*(char **)(p + 4), (u8)*q));
+    func_021D5FB8(func_021B9934(*(char **)(p + 4), (u8)*q));
     return 1;
 }
 

@@ -19,13 +19,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
 extern void func_0204B3DC(u32 p, int on);
 extern u32 func_0204B898(u32 p);
 extern void func_0204B878(u32 p, u16 k);
 extern void func_021FA9C8(void *p, u32 mode, int n);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern int func_020355C4(void);
-extern void func_0202CD64(void *p, u32 idx, signed char dx, signed char dy, u8 frames);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 extern const u8 tbl_02203298[][2];
 int func_021FB7A0(u8 *p)
 {

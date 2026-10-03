@@ -25,8 +25,8 @@ extern int func_021B8B9C(void *p, u8 k);
 extern u8 func_021B8BC4(void *p, u8 k);
 extern char *func_021B9AEC(void *p, int i);
 extern u32 func_021B9B94(void *p);
-extern int func_021B9C00(void *p, int i);
-extern int func_021D59B4(int m, int k);
+extern u8 *func_021B9C00(void *p, u32 i);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 
 void func_021CC800(u8 *a, u32 *out1, u32 *out2, u8 want)
@@ -36,7 +36,7 @@ void func_021CC800(u8 *a, u32 *out1, u32 *out2, u8 want)
     u32 i;
     char *p;
     u32 n;
-    int t;
+    u8 *t;
 
     sum = 0;
     *out1 = 0;

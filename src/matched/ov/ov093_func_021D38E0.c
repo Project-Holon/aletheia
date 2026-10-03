@@ -18,16 +18,16 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 typedef struct { int x; } S;
 extern void func_021D6034(u8 *, int, S);
 int func_021D38E0(u32 *a, int b, u32 *c)
 {
-    int m;
+    u8 *m;
     S s;
 
-    m = func_021B9934((char *)a[1], c[0]);
+    m = func_021B9934((char *)a[1], (u8)c[0]);
     s.x = c[2];
-    func_021D6034((u8 *)m, c[1], s);
+    func_021D6034(m, c[1], s);
     return 1;
 }

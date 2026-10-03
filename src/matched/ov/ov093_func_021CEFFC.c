@@ -25,9 +25,9 @@ extern void *func_021B86B8(void ***p);
 extern char *func_021B9AF8(char *p, int i);
 extern u8 func_021B9B94(char *p);
 extern u32 func_021B8670(void ***p);
-extern u32 func_021B9C00(char *p, u8 i);
-extern int func_021D5B68(u32 q);
-extern u32 func_021D5C30(u32 q);
+extern u8 *func_021B9C00(void *p, u32 i);
+extern int func_021D5B68(void *m);
+extern u32 func_021D5C30(void *m);
 
 u32 func_021CEFFC(u8 *p)
 {
@@ -36,7 +36,7 @@ u32 func_021CEFFC(u8 *p)
     u32 flag;
     u32 i;
     u32 c;
-    u32 w;
+    u8 *w;
     u32 cnt;
     if (func_021B86B8(*(void ****)p) == 0) {
         arr = func_021B9AF8(*(char **)(p + 4), 1);
@@ -48,7 +48,7 @@ u32 func_021CEFFC(u8 *p)
         flag = 0;
         c = 0;
         for (i = 0; i < lim; i++) {
-            w = func_021B9C00(arr, i);
+            w = func_021B9C00(arr, (u8)i);
             if (func_021D5B68(w) == 0) {
                 c++;
                 if (func_021D5C30(w) != 0) {

@@ -47,14 +47,14 @@ extern const char d_0220AC90[];
 
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
-extern void func_021FFE48(void *h, int b, int a);
-extern void func_022003EC(void *h, int a, int *buf, int b);
+extern void func_021FFE48(void *h, int b, void *a);
+extern void func_022003EC(void *h, void *a, int *buf, int b);
 extern int func_021F935C(int a);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021F8CB0(void *, void *);
 extern void func_021F8EF8(void *);
 
-void func_021F7D80(int a, int b)
+void func_021F7D80(void *a, int b)
 {
     Job *o;
 

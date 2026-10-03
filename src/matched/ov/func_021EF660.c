@@ -7,17 +7,20 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *
  * Forward a plus constants to func_0202CB4C.
  */
 
-extern void func_0202CB4C(int, int, int, int);
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
-void func_021EF660(int a)
+void func_021EF660(struct WinMgr *mgr)
 {
-    func_0202CB4C(a, 6, 0, 0x15);
+    func_0202CB4C(mgr, 6, 0, 0x15);
 }
 

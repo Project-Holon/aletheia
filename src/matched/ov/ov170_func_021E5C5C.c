@@ -38,6 +38,7 @@
  * back and restore the box view.
  */
 
+struct WinMgr;
 extern void func_021EE544(unsigned char *p, unsigned i);
 extern void func_021ED888(char *w, int a);
 extern void func_021EBA5C(char *w, int v);
@@ -46,7 +47,7 @@ extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E066C(unsigned char *p);
 extern void func_020307B0(void *ptr);
 extern void func_020061E4(unsigned se);
-extern void func_021EF36C(int a);
+extern void func_021EF36C(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
 extern void func_021EA1C0(unsigned char *p);
 extern int func_021E087C(unsigned char *p);
@@ -62,7 +63,7 @@ extern void func_021EE364(unsigned char *p, int idx, int v);
 extern void func_021DEFEC(unsigned char *p, int b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define HELD(p) (*(unsigned char *)(WORK(p) + 0xA17E))
 

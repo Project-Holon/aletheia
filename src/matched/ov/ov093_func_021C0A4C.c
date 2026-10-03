@@ -29,7 +29,7 @@ struct List { u8 good, bad, count, pad; struct Entry entries[1]; };
 extern void func_021C0C04(u8 *);
 extern u8 *func_021C0C14(u8 *);
 extern u8 *func_021C0C24(u8 *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021C6BF8(u8 *, u8 *, u8 *, u32);
 extern int func_021CC8B8(const u32 *, u8);
 extern int func_021C1E74(u8 *, u8 *, u8 *, const u8 *, u32, u16, u32, u32, u16 *);

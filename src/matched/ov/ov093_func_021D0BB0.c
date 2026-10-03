@@ -20,7 +20,7 @@ typedef unsigned int u32;
 extern u32 func_021B9B94(void *);
 extern u8 func_021B99C0(void *, int);
 extern void func_021B8E28(u8 *, u8, u8 *, u8 *);
-extern void *func_021B9C00(void *, u8);
+extern u8 *func_021B9C00(void *p, u32 i);
 extern int func_021D5B68(void *);
 extern void func_021D8394(void *, u8, u8);
 void func_021D0BB0(u8 *p)
@@ -37,7 +37,7 @@ void func_021D0BB0(u8 *p)
     for (i = 0; i < p[0x1b3]; i++) {
         func_021B8E28(*(u8 **)p, p[0x1b5 + i], &pair[1], &pair[0]);
         for (j = start; j < n; j++) {
-            if (!func_021D5B68(func_021B9C00(*(void **)(p + 0x118), j))) {
+            if (!func_021D5B68(func_021B9C00(*(void **)(p + 0x118), (u8)j))) {
                 func_021D8394(p + 0x124 + count++ * 4, pair[0], j);
                 start = j + 1;
                 break;

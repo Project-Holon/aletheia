@@ -86,13 +86,14 @@ typedef struct S {
     u8 pad9a[2];
 } S;
 
+struct WinMgr;
 extern const char d_021B9574[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
 extern void *func_0201C450(u32 size, u32 heap);
 extern void *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(void *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 extern void func_02082A90(const void *src, void *dst, u32 size);
 

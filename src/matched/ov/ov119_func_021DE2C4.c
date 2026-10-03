@@ -37,16 +37,17 @@ extern void func_02049990(void *,unsigned,int,int,u16,int,int,unsigned);
 extern void func_02049238(void *);
 extern void func_021E3208(void *,int);
 extern void func_02041B6C(int);
-extern int func_021D8FA4(void *,int);
+extern void *func_021D8FA4(void *,int);
 extern int func_021D89EC(void *);
-extern void func_021D9468(void *,int,int);
+extern void func_021D9468(void *,int,void *);
 extern void func_021DEBD4(void *),func_021DD09C(void *),func_021D8980(void *);
 extern void func_021D8E84(void *,int),func_021DEA24(void *);
 extern void func_0202208C(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 void func_021DE2C4(char *p)
 {
     void *resource;
-    int zero,slot,mon;
+    int zero,slot;
+    void *mon;
     if(func_020221A4()) {
         zero=0;
         func_02040588(3,zero);
@@ -59,12 +60,12 @@ void func_021DE2C4(char *p)
         func_02041B6C(3);
         p[0x11f3]=zero;
         slot=1;
-        if(func_021D89EC((void *)func_021D8FA4(p,slot))) {
+        if(func_021D89EC(func_021D8FA4(p,slot))) {
             mon=func_021D8FA4(p,slot);
             func_021D9468(p,slot,mon);
         }
         slot=0;
-        if(func_021D89EC((void *)func_021D8FA4(p,slot))) {
+        if(func_021D89EC(func_021D8FA4(p,slot))) {
             mon=func_021D8FA4(p,slot);
             func_021D9468(p,slot,mon);
         }

@@ -26,7 +26,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u32 func_021B8588(void *p);
-extern int func_021D5440(int m);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *p, int a, u32 b);
 extern u32 sub_0201BD28(u16 id, u32 field);
 extern u32 sub_0201BEB8(u16 id, u32 bit);
@@ -46,7 +46,7 @@ int func_021D80BC(void *p, int a, int m, u16 move)
     u8 n;
 
     mode = func_021B8588(p);
-    t = func_021B8D8C(p, a, func_021D5440(m));
+    t = func_021B8D8C(p, a, func_021D5440((u8 *)m));
     kind = sub_0201BD28(move, 0x1B);
     if (move == 0xAE) kind = func_021D80A8(m);
 

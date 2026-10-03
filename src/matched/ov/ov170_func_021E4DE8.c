@@ -20,6 +20,7 @@
  *   func_021EF670 0x021EF670 thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
  */
+struct WinMgr;
 extern void func_020061E4(unsigned);
 extern void func_020260E4(void *, unsigned char);
 extern void func_020260F4(void *, int);
@@ -36,11 +37,11 @@ extern void func_021ED508(unsigned char *, int, int);
 extern void func_021ED888(char *, int);
 extern void func_021EF670(char *);
 extern void func_021EF68C(char *);
-extern int func_021EF480(int);
-extern void func_021EF3A0(int);
-extern void func_021EF34C(int);
-extern void func_021EF36C(int);
-extern void func_021EF57C(int);
+extern int func_021EF480(struct WinMgr *mgr);
+extern void func_021EF3A0(struct WinMgr *mgr);
+extern void func_021EF34C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021EC000(char *, int, int);
 extern int func_021EBFEC(char *, int);
 extern void func_021ED108(char *, int);
@@ -57,7 +58,7 @@ extern int func_021E01B0(unsigned char *);
 extern void func_021EBC58(unsigned char *, int, int, int);
 #define WORK(p) (*(char **)((p) + 0x2c))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xa194))
 int func_021E4DE8(unsigned char *p)
 {

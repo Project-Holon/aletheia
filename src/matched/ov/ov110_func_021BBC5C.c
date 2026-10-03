@@ -18,13 +18,15 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
+struct WinMgr;
 extern void *func_02030734(unsigned, unsigned, int, const char *, u16);
 extern const char d_021C3C58[];
 extern u8 *func_021BF6D4(u8 *);
 extern void *func_020457B0(unsigned, unsigned);
 extern void *func_02045B38(unsigned, unsigned, unsigned, unsigned);
 extern void *func_02020D18(unsigned);
-extern void *func_0202C9B4(unsigned, unsigned, unsigned);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 u8 *func_021BBC5C(void *a, u8 *b, void *c)
 {
     u8 *p;

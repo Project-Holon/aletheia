@@ -31,17 +31,17 @@ extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(void *, u32, int);
 extern int func_021C7A54(u8 *, u8 *, u32);
 extern void func_021C7AA0(u8 *, u8 *);
-extern void func_021C5A1C(u8 *, u8 *);
-extern void func_021C5A34(u8 *, u8 *);
+extern void func_021C5A1C(u8 *p, u8 *a);
+extern void func_021C5A34(u8 *p, u8 *a);
 extern int func_021C99A0(void *, const void *);
-extern void func_021C2250(u8 *, u8 *, u32, u32);
-extern void func_021C195C(u8 *, u8 *, u32);
+extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
 int func_021C9CC0(u8 *p, const Ent *e)
 {
     u8 *a;
     u8 *b;
-    u32 x;
-    u32 y;
+    u16 x;
+    u16 y;
     u32 s;
     u8 f;
     u32 t;

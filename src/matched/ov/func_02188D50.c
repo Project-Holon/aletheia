@@ -16,8 +16,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_02188D50(u8 *p)
+void *func_02188D50(u8 *p)
 {
-    return *(u32 *)(p + 0x128);
+    return *(void **)(p + 0x128);
 }
 

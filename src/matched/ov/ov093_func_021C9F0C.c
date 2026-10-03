@@ -28,13 +28,13 @@ struct Cmd {
     u16 h8;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021CD4B0(void *w, u32 id, ...);
-extern void func_021D5734(int x, u32 a, u32 b, u32 c, u32 d);
+extern void func_021D5734(u8 *p, u8 i, u16 a, u8 b, u32 c);
 
 int func_021C9F0C(u8 *w, const struct Cmd *c)
 {
-    int r = func_021B9934(*(char **)(w + 8), c->b4);
+    u8 *r = func_021B9934(*(char **)(w + 8), c->b4);
     func_021CD4B0(*(void **)(w + 0xC), 0x1F, c->b4, c->b5, c->b6, c->b7, c->h8);
     func_021D5734(r, c->b5, c->h8, c->b6, c->b7);
     return 1;

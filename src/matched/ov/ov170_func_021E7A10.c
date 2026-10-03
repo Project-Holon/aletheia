@@ -36,8 +36,9 @@
 
 typedef unsigned short u16;
 
+struct WinMgr;
 extern void func_021EC000(char *w, int i, int v);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0190(unsigned char *p);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
@@ -47,7 +48,7 @@ extern void func_021ED888(char *w, int a);
 extern unsigned func_0202136C(u16 v);
 extern void func_021ECB20(unsigned char *p, int f, int c);
 extern void func_021ECB60(char *w, int i, int f);
-extern void func_021EF508(int mgr);
+extern void func_021EF508(struct WinMgr *mgr);
 extern void func_021EBAF8(unsigned char *p, unsigned v, int i);
 extern int func_021E8FE8(unsigned char *p, int sel);
 extern void func_020061E4(unsigned se);
@@ -57,7 +58,7 @@ extern void func_021EBCB4(unsigned char *p, int kind, int i);
 extern void func_021EBD78(unsigned char *p, int b);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define STATE(p) (*(int *)((p) + 0x28))
 #define TOP(p) (*(char **)(p))

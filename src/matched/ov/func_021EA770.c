@@ -18,10 +18,11 @@
 
 
 
-extern void func_021EF33C(int);
+struct WinMgr;
+extern void func_021EF33C(struct WinMgr *mgr);
 extern void func_021EC6F4(int);
 void func_021EA770(int p)
 {
-    func_021EF33C(*(int *)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF33C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
     func_021EC6F4(p);
 }

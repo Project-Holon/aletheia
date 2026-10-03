@@ -26,8 +26,9 @@ typedef unsigned int u32;
 
 extern int func_021B8D8C(void *p, void *a, u32 b);
 extern u32 func_021CD9E0(u8 *p);
-extern int func_021B9934(char *p, int i);
-extern void func_021D66D0(int p, u32 v);
+extern u8 *func_021B9934(char *p, int i);
+struct QJ;
+extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021EA768(u32 a, int b, int c);
 extern int func_021EA778(u32 a, int b);
 extern void func_021EA7A8(u32 a, int b);
@@ -43,7 +44,7 @@ int func_021D324C(u32 *a, int *b, u32 *c)
     switch (*b) {
     case 0:
         if (func_021CD9E0((u8 *)a) != 0) {
-            func_021D66D0(func_021B9934((char *)a[1], u), c[1]);
+            func_021D66D0((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
             return 1;
         }
         func_021EA768(a[0x15], s, 0);
@@ -51,7 +52,7 @@ int func_021D324C(u32 *a, int *b, u32 *c)
         break;
     case 1:
         if (func_021EA778(a[0x15], s) != 0) {
-            func_021D66D0(func_021B9934((char *)a[1], u), c[1]);
+            func_021D66D0((struct QJ *)func_021B9934((char *)a[1], u), c[1]);
             func_021EA7A8(a[0x15], s);
             (*b)++;
         }

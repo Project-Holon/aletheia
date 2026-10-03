@@ -33,8 +33,8 @@ typedef struct {
 extern u32 func_02045EC0(u32, u32);
 extern u32 func_0201EC64(u32);
 extern void func_0201EE0C(u32, u32, u32, int, int, int);
-extern void func_0201EE84(u32, u32, u32);
-extern void func_0201EEF4(u32, u32, u32);
+extern void func_0201EE84(u32, u32, void *);
+extern void func_0201EEF4(u32, u32, void *);
 extern void func_0201EF34(u32, u32, u16);
 extern u32 func_020457B0(int, u32);
 extern void func_0201F250(u32, u32, u32);
@@ -62,10 +62,10 @@ u32 func_02205620(u32 heap, u32 a, u32 b, u32 k0, u32 v0, u32 k1, u32 v1)
                 func_0201EE0C(w, i, p[i].val, z, 1, z);
                 break;
             case 1:
-                func_0201EE84(w, i, p[i].val);
+                func_0201EE84(w, i, (void *)p[i].val);
                 break;
             case 2:
-                func_0201EEF4(w, i, p[i].val);
+                func_0201EEF4(w, i, (void *)p[i].val);
                 break;
             case 3:
                 func_0201EF34(w, i, *(u16 *)p[i].val);

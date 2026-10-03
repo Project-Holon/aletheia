@@ -21,21 +21,21 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(int);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8D38(void *, int, u16, u8 *);
-extern int func_021B9934(void *, int);
-extern int func_021D59B4(int, int);
-extern int func_021CFAC4(u8 *, int);
-extern int func_021CFADC(u8 *, int);
-extern int func_021CFB8C(u8 *, int);
-extern int func_021D62C4(int, int);
-u32 func_021CF9B4(u8 *g, int m, u8 *a, u16 *b)
+extern u8 *func_021B9934(void *, int);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021CFAC4(u8 *, void *);
+extern int func_021CFADC(u8 *, void *);
+extern int func_021CFB8C(u8 *, void *);
+extern int func_021D62C4(void *, int);
+u32 func_021CF9B4(u8 *g, void *m, u8 *a, u16 *b)
 {
     u8 buf[4];
     u8 n;
     u8 i;
-    int q;
+    u8 *q;
     u16 k;
     n = func_021B8D38(*(void **)g, *(int *)(g + 4), func_021B8D8C(*(void **)g, *(void **)(g + 4), func_021D5440(m)) | 0x100, buf);
     for (i = 0; i < n; i++) {

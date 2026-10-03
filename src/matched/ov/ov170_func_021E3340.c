@@ -33,17 +33,18 @@
  * the message for the current mode.
  */
 
+struct WinMgr;
 extern void func_021DD530(unsigned char *p);
 extern unsigned char func_020260E0(void *obj);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern void func_021EE3E4(unsigned char *p, unsigned idx);
 extern void func_021ED55C(unsigned char *p, int flag);
 extern void func_021EA1E8(unsigned char *p);
-extern int func_021EF770(int mgr);
+extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EE364(unsigned char *p, int idx, int v);
 extern void func_021DEFEC(unsigned char *p, int b);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
-extern int func_021EF45C(int mgr);
+extern int func_021EF45C(struct WinMgr *mgr);
 extern void func_021DF040(unsigned char *p);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);
 extern void func_020061E4(unsigned se);
@@ -54,7 +55,7 @@ extern void func_021EF68C(char *w);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define MODE(p) (*(unsigned char *)(WORK(p) + 0xA173))
 #define STATE(p) (*(int *)((p) + 0x28))
 

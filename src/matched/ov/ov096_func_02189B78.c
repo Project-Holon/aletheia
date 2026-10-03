@@ -27,13 +27,13 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4, fb8, fbc, fc0, fc4; } Obj;
+typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; } Obj;
 
 extern int func_0201134C(int);
 extern void func_020113B0(int, int);
-extern int func_021D5448(int);
-extern u16 func_021D54C0(int, u8);
-extern int func_021D5440(int);
+extern int func_021D5448(void *);
+extern u16 func_021D54C0(void *, u8);
+extern u8 func_021D5440(u8 *p);
 extern int func_021C7DAC(int, int, int, int);
 
 int func_02189B78(int a, Obj *b) {

@@ -17,7 +17,7 @@
  */
 
 extern int func_021D775C(int key);
-extern int func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int a, int b);
 extern int func_021D62C4(void *p, int i);
 extern int func_021D76BC(int a, int b);
 
@@ -28,6 +28,6 @@ void func_021E101C(int a, int b, int c)
     if (c != func_021D775C(3))
         return;
     n = (unsigned char)func_021D775C(4);
-    if (func_021D62C4((void *)func_021C7CF4(b, n), 2) == 0)
+    if (func_021D62C4(func_021C7CF4(b, n), 2) == 0)
         func_021D76BC(64, 1);
 }

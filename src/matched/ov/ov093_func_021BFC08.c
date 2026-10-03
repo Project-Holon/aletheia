@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 raw; } Word;
 extern int func_021D62C4(u8 *, int);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern int func_021C66AC(u8 *, u8 *, u32);
 extern void func_021C5718(u8 *, u8 *, u32);

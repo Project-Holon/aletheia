@@ -33,10 +33,10 @@ typedef unsigned int u32;
 struct S { int h, x, y, dx, dy; u8 state, cnt; };
 extern u8 func_021B8FF4(u8 *);
 extern u8 func_021B9064(u8 *, u32, u32);
-extern u8 func_021B8ED8(u8 *, u32);
-extern int func_021B98AC(char *const *, u8);
-extern u8 func_021D5440(u8 *);
-extern int func_021D5864(void *);
+extern u8 func_021B8ED8(u8 *p, u8 k);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 func_021D5440(u8 *p);
+extern void *func_021D5864(void *);
 extern u16 func_021ECE08(u8 *, int);
 extern void func_021EEE24(u32, u16, u32, ...);
 extern void func_021ECEB8(u8 *, u32, u16, u32);
@@ -44,7 +44,7 @@ extern int func_021ECF68(u8 *);
 extern void func_021ED798(u8 *);
 extern int func_021ED814(struct S *);
 extern void func_021EDA04(u8 *);
-extern void func_021F7EE8(u32, u32);
+extern void func_021F7EE8(void *, int);
 extern void func_021F7A28(int, u32);
 extern void func_021F8260(int);
 extern int func_021F7EB4(void);
@@ -61,7 +61,7 @@ int func_021EC328(u8 *p, int *state, u8 id)
         b[14] = 0;
         for (i = 0; i < 2; i++) {
             b[8 + i] = func_021B8ED8(*(u8 **)(p + 0x134), b[10 + i]);
-            ((int *)b)[i] = func_021B98AC(*(char *const **)(p + 0x138), b[8 + i]);
+            ((u8 **)b)[i] = func_021B98AC(*(char *const **)(p + 0x138), b[8 + i]);
             b[12 + i] = func_021D5440(((u8 **)b)[i]);
             if (!func_021D5B68(((void **)b)[i])) b[14]++;
         }

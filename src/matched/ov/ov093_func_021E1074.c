@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(void *p, int k);
-extern int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021D76BC(int key, u32 val);
 
 void func_021E1074(int unused, void *q, int id)

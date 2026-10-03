@@ -65,7 +65,7 @@ extern void func_0201AE14(u32 h);
 extern u32 func_02045EC0(void *bank, u32 index);
 extern void func_020185C4(void *mon);
 extern void func_0202F190(void *mon, u32 a1, void *a2, u32 a3, u32 heap);
-extern void func_0201A98C(void *party, void *mon);
+extern u32 func_0201A98C(void *party, void *mon);
 extern void func_020307B0(void *p);
 extern void *g_020A7370;
 

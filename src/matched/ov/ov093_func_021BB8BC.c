@@ -15,10 +15,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021D5844(u32 *);
+extern void *func_021D5844(void *);
 extern u32 func_02017E1C(void *, u32, u32);
 extern void func_02027268(u32);
 void func_021BB8BC(u8 *p, u32 *q) {
-    func_02017E1C((void *)func_021D5844(q),0x73,*(u32 *)(p+0xac));
+    func_02017E1C(func_021D5844(q),0x73,*(u32 *)(p+0xac));
     func_02027268(*(u32 *)(p+0xac));
 }

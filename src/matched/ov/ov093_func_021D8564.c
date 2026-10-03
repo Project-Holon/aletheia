@@ -23,15 +23,15 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-int func_021D5440(int m);
+extern u8 func_021D5440(u8 *p);
 void *func_021D732C(int id, int sub);
 void func_021D7040(void *n);
 int func_021D8484(int m);
 
 void func_021D8564(int a, int b)
 {
-    int sa = func_021D5440(a);
-    int sb = func_021D5440(b);
+    int sa = func_021D5440((u8 *)a);
+    int sb = func_021D5440((u8 *)b);
     void *x = func_021D732C(4, sa);
     void *y = func_021D732C(4, sb);
 

@@ -14,7 +14,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-u8 func_021B8ED8(u8 *p, u32 k)
+u8 func_021B8ED8(u8 *p, u8 k)
 {
     u8 par = k & 1;
     u32 mode = *(u32 *)(*(u32 *)p + 4);

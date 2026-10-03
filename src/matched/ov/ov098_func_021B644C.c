@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 extern void func_021B6B5C(int a);
 extern int func_021B6B68(int a);
-extern void func_021F7EE8(u32 a, u32 b);
+extern void func_021F7EE8(void *m, int key);
 extern void func_021F7998(int a);
 extern void func_021B67A4(int a);
 extern int func_021F7EB4(void);
@@ -53,7 +53,7 @@ int func_021B644C(char *p)
         break;
     case 1:
         if (func_021B6B68(*(int *)(p + 0x14)) != 0) {
-            func_021F7EE8(*(u32 *)(p + 4), 1);
+            func_021F7EE8(*(void **)(p + 4), 1);
             func_021F7998(0x231);
             func_021B67A4(2);
             *(int *)(p + 0x60) = *(int *)(p + 0x60) + 1;

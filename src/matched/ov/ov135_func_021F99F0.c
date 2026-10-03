@@ -37,9 +37,10 @@ struct Obj {
     u8 g[4];
 };
 
+struct WinMgr;
 extern int (*const tbl_02203C48[])(Obj *p);
 
-extern void func_0202CD94(void *mgr);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_02202770(void *g);
 extern void func_022029F8(void *printer);
 

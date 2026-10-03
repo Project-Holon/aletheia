@@ -18,9 +18,10 @@
  *   func_021E070C 0x021E070C thumb
  */
 
+struct WinMgr;
 extern void func_021EC768(char *p, unsigned i, int flag);
 extern void func_021ED588(char *p);
-extern void func_021EF534(int mgr);
+extern void func_021EF534(struct WinMgr *mgr);
 extern int func_021E8FE0(char *p, int v);
 extern void func_021E8FC0(char *p, void (*cb)(void), int n);
 extern void func_021E070C(void);
@@ -33,6 +34,6 @@ void func_021E9E7C(char *p, unsigned char i, int v)
     *(unsigned char *)(WORK(p) + 0xA172) = 1;
     func_021EC768(WORK(p), (unsigned char)p[0x16], 1);
     func_021ED588(p);
-    func_021EF534(*(int *)(WORK(p) + 0x74));
+    func_021EF534(*(struct WinMgr **)(WORK(p) + 0x74));
     func_021E8FC0(p, func_021E070C, func_021E8FE0(p, v));
 }

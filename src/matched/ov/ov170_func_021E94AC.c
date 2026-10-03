@@ -23,10 +23,13 @@ typedef struct {
  int value;
  Work *work;
 } Obj;
-extern unsigned char func_0202CF8C(int,unsigned);
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct WinMgr;
+extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 int func_021E94AC(Obj *p,int a,int b) {
  p->work->flag=1;
- p->work->rest=func_0202CF8C(*(int *)((char *)p->work+0x74),7);
+ p->work->rest=func_0202CF8C(*(struct WinMgr **)((char *)p->work+0x74),7);
  p->work->lo=13;
  p->work->hi=12;
  p->work->a=0;

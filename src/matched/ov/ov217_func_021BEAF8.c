@@ -17,13 +17,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021BF810(u8 *, u32);
+extern u32 func_021BF810(void *p);
 extern u32 func_021BF5D0(u8 *, u32);
 extern u32 func_021BEBE4(u32);
 extern u32 func_021BEBC0(u32);
 void func_021BEAF8(u8 *p)
 {
-    if (*(u32 *)(p + 968) == 1 || *(u32 *)(p + 976) == 1 || func_021BF810(p, *(u32 *)(p + 976)) == 0) {
+    if (*(u32 *)(p + 968) == 1 || *(u32 *)(p + 976) == 1 || func_021BF810(p) == 0) {
         if (func_021BF5D0(p, 5) == 0) func_021BEBE4((u32)p);
     } else {
         if (func_021BF5D0(p, 5) == 1) func_021BEBC0((u32)p);

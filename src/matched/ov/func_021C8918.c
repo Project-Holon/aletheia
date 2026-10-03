@@ -101,7 +101,7 @@ extern int func_021CC960(void *q);
 extern int func_021CC96C(void *q);
 extern int func_021CC99C(void *q);
 extern void func_021CC974(void *q, int r);
-extern void *func_021B9940(void *party, u8 client);
+extern u8 *func_021B9940(void *party, u8 client);
 extern int func_021D5B68(void *mon);
 extern u8 func_021C9DE8(BattleCtx *s, BtlCmd *cmd);
 extern u8 func_021C8C6C(BattleCtx *s, BtlCmd *cmd);

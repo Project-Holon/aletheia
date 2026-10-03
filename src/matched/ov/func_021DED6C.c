@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021DED6C   0x021DED6C  thumb ov093
@@ -37,7 +37,7 @@ typedef signed int s32;
 int func_021D775C(int a);
 int func_021DCFF8(void *a, int k);
 int func_0209C2B0(int a, int b);
-int func_021D70A8(void *a);
+extern u16 func_021D70A8(void *p);
 void *func_021C88A4(int a, int k, int b);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);

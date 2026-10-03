@@ -24,12 +24,13 @@
  *   func_021EF68C 0x021EF68C thumb ov170
  */
 typedef unsigned char u8;
+struct WinMgr;
 extern void func_021EC000(char *,int,int);
 extern void func_021EE008(u8 *,int,int);
 extern void func_020061E4(unsigned);
 extern int func_021EA858(u8 *,int);
-extern void func_021EF35C(int);
-extern void func_021EF36C(int);
+extern void func_021EF35C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EC5A0(char **,int);
 extern int func_021E8FC0(u8 *,int (*)(u8 *),int);
 extern int func_021E01B0(u8 *);
@@ -48,8 +49,8 @@ int func_021E35D8(u8 *p)
         (*(int *)(W(p)+0xA194))++;
         return func_021EA858(p,25);
     case 1:
-        func_021EF35C(*(int *)(W(p)+0x74));
-        func_021EF36C(*(int *)(W(p)+0x74));
+        func_021EF35C(*(struct WinMgr **)(W(p)+0x74));
+        func_021EF36C(*(struct WinMgr **)(W(p)+0x74));
         if(p[0x18]==1) func_021EC5A0((char **)p,1);
         else func_021EC5A0((char **)p,0);
         func_020061E4(0x669);

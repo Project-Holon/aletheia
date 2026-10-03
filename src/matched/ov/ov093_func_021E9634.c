@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 func_021B8ED8(u8 *p, u8 k);
-extern int func_021B98AC(char *const *q, u8 b);
+extern u8 *func_021B98AC(char *const *q, u8 b);
 
 struct Pair {
     u8 *a;
@@ -25,7 +25,7 @@ struct Pair {
     char *const *q;
 };
 
-int func_021E9634(struct Pair *s, u32 k)
+u8 *func_021E9634(struct Pair *s, u32 k)
 {
     return func_021B98AC(s->q, func_021B8ED8(s->a, k));
 }

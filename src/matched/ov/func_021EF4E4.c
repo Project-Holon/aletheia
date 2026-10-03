@@ -15,10 +15,13 @@
  */
 
 
-extern void func_0202CB4C(char *, int, int, signed char);
-void func_021EF4E4(char *p)
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+void func_021EF4E4(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++)
-        func_0202CB4C(p, i, 0x15, (signed char)(i * 3 + 2));
+        func_0202CB4C(mgr, i, 0x15, (signed char)(i * 3 + 2));
 }

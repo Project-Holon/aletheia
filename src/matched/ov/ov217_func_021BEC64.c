@@ -17,10 +17,12 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_021BF76C(void *p);
-extern u32 func_021BF77C(void *p);
-extern void func_021C11A4(u32 a, u32 b);
+extern u8 *func_021BF76C(void *p);
+extern u8 *func_021BF77C(void *p);
+extern void func_021C11A4(u8 *p, int a1);
+
 void func_021BEC64(void *p)
 {
     func_021C11A4(func_021BF76C(p), 0xFFFFE000);

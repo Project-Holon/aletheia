@@ -31,14 +31,14 @@ extern void func_021E3230(void *);
 extern void func_021E1098(void *);
 extern void func_021E2438(char *,int);
 extern void func_021E5958(void *);
-extern void func_021E219C(void *,int,int,int);
+extern void func_021E219C(void *,void *,int,int);
 extern int func_021D8AA8(void *);
 extern void func_021E5998(void *);
 extern void func_021E3F30(void *);
 extern void func_021E2A98(void *,void *);
 extern void func_020056A0(void (*)(void *,void *),void *,int);
 extern void func_021B6558(int,int,int);
-void func_021E1D68(char *p,int a)
+void func_021E1D68(char *p,void *a)
 {
     func_02040588(3,0);
     func_021E3230(p);

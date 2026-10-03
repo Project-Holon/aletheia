@@ -20,13 +20,13 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012934(void *p);
 extern void *func_0201210C(void *p);
-extern unsigned int func_02188D50(unsigned char *);
+extern void *func_02188D50(unsigned char *);
 extern void func_021C32F4(unsigned int *, unsigned int);
 
 int func_0215CEBC(void *a, void *b)
 {
     void *p = func_0215A5DC(b);
     void *q = func_02012934(func_0215A5E4(b));
-    func_021C32F4((unsigned int *)func_02188D50(func_0201210C(p)), (unsigned int)q);
+    func_021C32F4(func_02188D50(func_0201210C(p)), (unsigned int)q);
     return 0;
 }

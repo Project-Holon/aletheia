@@ -23,7 +23,8 @@
  */
 
 
-extern void func_021EF57C(int);
+struct WinMgr;
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(char *, int);
 extern void func_021EBA5C(int, int);
 extern void func_021DD14C(char *);
@@ -33,7 +34,7 @@ extern int func_021E8FE0(char *, int);
 extern void func_021E8FC0(char *, int, int);
 void func_021E3BF8(char *p)
 {
-    func_021EF57C(*(int *)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF57C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
     func_021ED6E4(p, 0);
     func_021EBA5C(*(int *)(p + 0x2c), 0x18);
     func_021DD14C(p);

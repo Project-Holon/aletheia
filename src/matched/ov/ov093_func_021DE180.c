@@ -31,7 +31,7 @@ extern void *func_021C7CF4(void *p, int k);
 extern int func_021D5B68(void *p);
 extern int func_021DCFF8(int a, int b);
 extern void *func_021C88A4(void *a, int k, int b);
-extern int func_021D7B74(int a0, u32 a1);
+extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, u16 b);
 extern void func_021C8860(void *p, u32 v);
 extern u16 func_021D70A8(void *p);
@@ -51,7 +51,7 @@ void func_021DE180(int a, void *b, int c, int *d)
             j = func_021DCFF8(a, 2);
             m = (u8 *)func_021C88A4(b, 7, c);
             m[6] = k;
-            *(u16 *)(m + 4) = func_021D7B74((int)mon, j);
+            *(u16 *)(m + 4) = func_021D7B74(mon, j);
             func_021C8838(m + 0xc, 2, 0x407);
             func_021C8860(m + 0xc, m[6]);
             func_021C8860(m + 0xc, c);

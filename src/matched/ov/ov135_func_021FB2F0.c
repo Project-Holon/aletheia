@@ -45,11 +45,12 @@ typedef struct {
     u8 g[4];
 } Menu;
 
+struct WinMgr;
 extern void *func_02045770(void *win);
 extern void func_02043B5C(void *bmp, u32 color);
 extern void func_021FAC50(void *mgr, void *win, void *str, u32 x, u16 color, void *g);
 extern void func_02045334(void *win);
-extern void func_0202CEBC(void *mgr, u32 idx, void *win);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FB2F0(Menu *m, int page, int total)
 {

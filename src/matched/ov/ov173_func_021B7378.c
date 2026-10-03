@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0201EEF4(void *, u32, u32);
+extern void func_0201EEF4(void *, u32, void *);
 extern void func_0201EF34(void *, u32, u32);
 extern void func_0201F02C(void *, u32, u32);
 extern u16 func_021B7438(char **);
@@ -34,24 +34,24 @@ void func_021B7378(char *p, u32 kind)
 {
     void *str;
     switch (kind) {
-    case 0: func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p); break;
+    case 0: func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p); break;
     case 1: func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
-    case 2: func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p); break;
+    case 2: func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p); break;
     case 3:
-        func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p);
+        func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
     case 4:
-        func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p);
+        func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
     case 5:
-        func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p);
+        func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7448((char **)p)); break;
     case 6:
-        func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p);
+        func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
     case 7: func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
     case 8:
-        func_0201EEF4(*(void **)(p + 0x48), 0, **(u32 **)p);
+        func_0201EEF4(*(void **)(p + 0x48), 0, **(void ***)p);
         func_0201EF34(*(void **)(p + 0x48), 1, func_021B7438((char **)p)); break;
     case 9: func_0201F02C(*(void **)(p + 0x48), 2, *(u32 *)(*(char **)p + 4)); break;
     case 10: func_0201EF34(*(void **)(p + 0x48), 0, func_021B7448((char **)p)); break;

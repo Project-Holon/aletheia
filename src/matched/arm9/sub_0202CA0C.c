@@ -21,14 +21,14 @@ struct Elem {
     u8 pad[12];
 };
 
-struct Obj {
+struct WinMgr {
     struct Elem *arr;
     u16 count;
 };
 
 extern void sub_020307B0(void *ptr);
 
-void func_0202CA0C(struct Obj *obj)
+void func_0202CA0C(struct WinMgr *obj)
 {
     u32 i;
 

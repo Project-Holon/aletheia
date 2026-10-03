@@ -33,7 +33,7 @@ extern int func_0201BEB8(u16 id, u32 bit);
 extern void *func_021C7CF4(int a, int b);
 extern int func_021D5B68(void *p);
 extern void *func_021C88A4(int a, int k, int b);
-extern int func_021D7B74(void *p, int k);
+extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, int a);
 extern void func_021C88C8(int a, void *p);

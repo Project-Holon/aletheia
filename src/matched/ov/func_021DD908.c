@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021DD908   0x021DD908  thumb ov093
@@ -39,7 +39,7 @@ void *func_021C88A4(int a, int k, int b);
 void func_021C88C8(int a, void *p);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);
-int func_021D70A8(void *a);
+extern u16 func_021D70A8(void *p);
 
 void func_021DD908(void *a, int b, int c)
 {

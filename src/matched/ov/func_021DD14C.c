@@ -19,11 +19,12 @@
  */
 
 
+struct WinMgr;
 extern void func_021EE038(char *, int, int, int);
-extern void func_021EF660(int);
+extern void func_021EF660(struct WinMgr *mgr);
 void func_021DD14C(char *p)
 {
     func_021EE038(p, *(unsigned char *)(p + 0x1f), *(unsigned char *)(p + 0x20),
                   *(unsigned char *)(p + 0x21));
-    func_021EF660(*(int *)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF660(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
 }

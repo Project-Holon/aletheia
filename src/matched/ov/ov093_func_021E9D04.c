@@ -34,7 +34,7 @@ extern u32 func_021B9B04(int, int);
 extern void func_021E9984(u8 *, u8 *, int, u8, int);
 extern void *func_021D3D7C(void *);
 extern u8 func_021B9B94(void *);
-extern void *func_021B9C00(void *, u8);
+extern u8 *func_021B9C00(void *p, u32 i);
 extern int func_021D62C4(void *, int);
 
 void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
@@ -75,7 +75,7 @@ void func_021E9D04(u8 *p, int x, u8 a, u8 b, u8 c, u8 d)
     list = func_021D3D7C(*(void **)(p + 4));
     n = func_021B9B94(list);
     for (i = 0; i < n; i++)
-        p[0x144 + i] = func_021D62C4(func_021B9C00(list, i), 0x13);
+        p[0x144 + i] = func_021D62C4(func_021B9C00(list, (u8)i), 0x13);
     for (; i < 6; i++) p[0x144 + i] = 0;
     p[0x174] = 1;
 }

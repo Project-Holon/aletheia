@@ -14,9 +14,9 @@
 
 typedef unsigned int u32;
 
-extern int func_020189D8(u32 a, int b);
+extern int func_020189D8(void *m, int b);
 
-int func_020189D0(u32 a, int b)
+int func_020189D0(void *m, int b)
 {
-    return func_020189D8(a, b);
+    return func_020189D8(m, b);
 }

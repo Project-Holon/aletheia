@@ -11,5 +11,5 @@
  * symbols:
  *   func_0201EEF4 0x0201EEF4 thumb
  */
-extern void func_0201EEF4(int,int,int);
-void func_021BB99C(int a,int b,int c,int d) {func_0201EEF4(*(int *)(b+0x2c),c,d);}
+extern void func_0201EEF4(int,int,void *);
+void func_021BB99C(int a,int b,int c,int d) {func_0201EEF4(*(int *)(b+0x2c),c,(void *)d);}

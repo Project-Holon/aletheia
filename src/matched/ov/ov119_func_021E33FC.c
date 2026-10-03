@@ -49,7 +49,7 @@ typedef struct {
 
 extern Entry d_021E7B9C[4];
 extern int func_02017E1C(void *p, int id, int arg);
-extern int func_02017F00(void *p);
+extern u8 func_02017F00(void *p);
 extern void func_02015F04(void *p);
 extern int func_02015F14(void *p);
 extern void func_02015C78(void *p, Vec *v);

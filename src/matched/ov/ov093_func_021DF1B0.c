@@ -37,7 +37,7 @@ extern int func_021D7B74(void *m, u32 k);
 extern int func_021C8010(void *p, int x);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 v);
-extern int func_021D70A8(int a);
+extern u16 func_021D70A8(void *p);
 extern void func_021C88C8(void *a, void *b);
 void func_021DF1B0(int a, void *b, int c)
 {
@@ -54,7 +54,7 @@ void func_021DF1B0(int a, void *b, int c)
         r[11] = 6;
         func_021C8838(r + 12, 2, 0x40e);
         func_021C8860(r + 12, c);
-        func_021C8860(r + 12, func_021D70A8(a));
+        func_021C8860(r + 12, func_021D70A8((void *)a));
         func_021C88C8(b, r);
     }
 }

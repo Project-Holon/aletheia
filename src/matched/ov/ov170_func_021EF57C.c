@@ -14,10 +14,14 @@
  *   func_0202CD64 0x0202CD64 thumb
  */
 
-extern void func_0202CF98(int, int, signed char *, signed char *);
-extern void func_0202CD64(int mgr, unsigned idx, signed char dx, signed char dy, unsigned char frames);
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 
-void func_021EF57C(int mgr)
+void func_021EF57C(struct WinMgr *mgr)
 {
     signed char buf[2];
     unsigned short i = 0;

@@ -29,13 +29,15 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D69AC(u8 *a, int i);
-extern int func_021B9934(u8 *p, int i);
-extern int func_021D62C4(int p, int i);
-extern void func_021C5620(u8 *p, int a, int k, void *out);
-extern void func_021C6110(u8 *p, int a, int r);
+extern u8 *func_021B9934(char *p, int i);
+struct Unk021D62A8;
+struct Slot;
+extern int func_021D62C4(struct Unk021D62A8 *p, int i);
+extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
+extern void func_021C6110(u8 *p, u8 *a, unsigned int n);
 extern int func_021C000C(u8 *p, int k);
 extern void func_021CD4B0(void *w, u32 id, ...);
-extern void func_021C5D88(u8 *p, int a, int b);
+extern void func_021C5D88(u8 *p, u8 *a, int b);
 extern void func_021C0780(u8 *p, u8 *a, int i, u8 v);
 extern int func_021D5B68(u8 *p);
 extern u8 func_021D5440(u8 *p);
@@ -44,7 +46,7 @@ void func_021BFF60(u8 *p, u8 *a, int z)
 {
     u8 k;
     int n;
-    int w;
+    u8 *w;
     n = func_021D69AC(a, 4);
     if (n == 0) goto bad;
     k = n - 1;
@@ -53,8 +55,8 @@ bad:
     k = 0x1f;
 ok:
     if (k != 0x1f) {
-        w = func_021B9934(*(u8 **)(p + 8), k);
-        if (func_021D62C4(w, 0x21) != 0) {
+        w = func_021B9934(*(char **)(p + 8), k);
+        if (func_021D62C4((struct Unk021D62A8 *)w, 0x21) != 0) {
             func_021C5620(p, w, 0x21, 0);
             func_021C6110(p, w, 3);
             if (func_021C000C(p + 0x1ab8, k) != 0) {

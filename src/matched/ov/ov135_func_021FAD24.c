@@ -17,9 +17,10 @@ typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
 typedef unsigned int u32;
+struct WinMgr;
 extern u32 func_0204B98C(void *);
 extern void func_0204B3DC(void *, u32);
-extern void func_0202CD64(void *, u32, s8, s8, u8);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 int func_021FAD24(u8 *p)
 {
     if (func_0204B98C(*(void **)(p + 8))) return -1;

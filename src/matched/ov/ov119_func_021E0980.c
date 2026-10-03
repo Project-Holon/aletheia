@@ -26,9 +26,10 @@
  */
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern int func_021D8AA8(void *),func_021D8FA4(void *,int);
+extern int func_021D8AA8(void *);
+extern void *func_021D8FA4(void *,int);
 extern void func_0201A954(void *,int);
-extern int func_0201A98C(void *,void *);
+extern unsigned int func_0201A98C(void *,void *);
 extern void *func_0200CA1C(void *);
 extern void func_0200CDE0(void *,void *);
 extern u8 func_020076A4(void *);
@@ -38,7 +39,9 @@ extern int func_0202136C(u16);
 extern void func_02045CAC(int,int,int),func_021E1024(void *),func_021D8E84(void *,int),func_021E0958(void *),func_021E0A64(void *);
 void func_021E0980(char *p)
 {
-    int i,mon,z;
+    int i;
+    void *mon;
+    int z;
     char *t;
     if(func_021D8AA8(p)) {
         i=*(int *)(p+0xfa0)%3;
@@ -51,8 +54,8 @@ void func_021E0980(char *p)
         *(u16 *)(*(char **)(p+8)+0x2a)=*(int *)(p+0xf84);
     }
     func_0201A954(*(void **)(*(char **)(p+8)+0x1c),6);
-    func_0201A98C(*(void **)(*(char **)(p+8)+0x1c),(void *)mon);
-    func_0200CDE0(func_0200CA1C(*(void **)(p+0x82c)),(void *)mon);
+    func_0201A98C(*(void **)(*(char **)(p+8)+0x1c),mon);
+    func_0200CDE0(func_0200CA1C(*(void **)(p+0x82c)),mon);
     t=*(char **)(p+8);
     if(*(u16 *)(t+0x28)!=func_020076A4(*(void **)(p+0x828))) {
         z=0;

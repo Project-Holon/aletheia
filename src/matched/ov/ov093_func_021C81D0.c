@@ -18,23 +18,23 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021BD2B4(u32 *it, u8 *p);
-extern int func_021BD34C(u32 *it, u8 *p, u32 *x);
-extern u8 func_021D5440(u8 *x);
-extern u32 func_021C81C8(u8 *p, u8 *a, u32 x);
+extern void func_021BD2B4(u8 *it, u8 **q);
+extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
+extern u8 func_021D5440(u8 *p);
+extern u16 func_021C81C8(u8 *p, u8 *x, int flag);
 
 u16 func_021C81D0(u8 *p, u8 *a, u32 y)
 {
     u32 it;
-    u32 x;
+    u8 *x;
     u16 n;
     u32 base = func_021C81C8(p, a, y);
     int k = func_021D5440(a);
     n = 0;
-    func_021BD2B4(&it, p);
-    while (func_021BD34C(&it, p, &x)) {
-        if (k != func_021D5440((u8 *)x)) {
-            if (func_021C81C8(p, (u8 *)x, y) > base) {
+    func_021BD2B4((u8 *)&it, (u8 **)p);
+    while (func_021BD34C((u8 *)&it, (u8 **)p, &x)) {
+        if (k != func_021D5440(x)) {
+            if (func_021C81C8(p, x, y) > base) {
                 n++;
             }
         }

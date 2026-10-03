@@ -28,7 +28,7 @@ extern void *func_02012934(void *a);
 extern int func_0201AA14(void *a);
 extern int func_0201AA18(void *a);
 extern void *func_0215C40C(void *a, void *b);
-extern void func_0201A98C(void *a, void *b);
+extern u32 func_0201A98C(void *a, void *b);
 extern void *func_0200CA1C(void *a);
 extern void func_0200CDE0(void *a, void *b);
 extern void func_020307B0(void *a);

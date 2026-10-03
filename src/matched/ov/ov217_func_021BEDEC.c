@@ -18,7 +18,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern unsigned func_021BF810(char *,unsigned,unsigned);
+typedef unsigned int u32;
+extern u32 func_021BF810(void *p);
 extern unsigned func_021C2654(void *,unsigned,unsigned);
 extern unsigned func_021C2664(void *,unsigned,unsigned);
 extern unsigned func_021C2674(void *,unsigned,unsigned);
@@ -26,7 +27,7 @@ void func_021BEDEC(char *p)
 {
     unsigned r,g,b;
     void *color;
-    if (*(unsigned *)(p+0x3c8)==0 || *(unsigned *)(p+0x3d0)==1 || func_021BF810(p,*(unsigned *)(p+0x3d0),*(unsigned *)(p+0x3c8))==0) return;
+    if (*(unsigned *)(p+0x3c8)==0 || *(unsigned *)(p+0x3d0)==1 || func_021BF810(p)==0) return;
     color=p+56;
     r=func_021C2654(color,*(u8 *)(p+0x2b8),*(u8 *)(p+0x2b9));
     g=func_021C2664(color,*(u8 *)(p+0x2b8),*(u8 *)(p+0x2b9));

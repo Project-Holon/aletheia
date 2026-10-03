@@ -15,12 +15,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021C1D60(u8 *, u8 *, u32);
 u8 func_021CA248(u8 *p, const u8 *q)
 {
     u8 r;
-    if (func_021C1D60(p, (u8 *)func_021B9934(*(char **)(p + 8), q[4]), q[5])) r = 1;
+    if (func_021C1D60(p, func_021B9934(*(char **)(p + 8), q[4]), q[5])) r = 1;
     else r = 0;
     return r;
 }

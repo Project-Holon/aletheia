@@ -15,13 +15,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 struct UtilSlots; extern void func_021D6238(struct UtilSlots *, int);
 int func_021D3918(u32 *a, int b, u32 *c)
 {
-    int m;
+    u8 *m;
 
-    m = func_021B9934((char *)a[1], c[0]);
+    m = func_021B9934((char *)a[1], (u8)c[0]);
     func_021D6238((struct UtilSlots *)m, c[1]);
     return 1;
 }

@@ -59,7 +59,7 @@ extern void func_02015FD4(void *, u32);
 extern void func_02015D94(void *, Vec *);
 extern void func_02015D88(void *, u16);
 extern void func_02015F2C(void *, u32, void *, u32);
-extern void func_022003EC(void *, int, int *, int);
+extern void func_022003EC(void *, void *, int *, int);
 extern void func_022018A8(void *, Vec *, int);
 extern void func_0220055C(void *, int, int);
 extern int func_02201A20(int, int, Vec *, u16 *, int *);
@@ -89,7 +89,7 @@ void func_021FEEA8(char *w, void *src, int key)
         *(u32 *)(w + 0x44 + off) = func_02017E1C(src, 0x98, 0);
         if (func_02017EAC(src) == 1)
             *(int *)(w + 0x48 + off) |= 2;
-        func_022003EC(w, (int)src, (int *)(w + 0xc + off), key);
+        func_022003EC(w, src, (int *)(w + 0xc + off), key);
         func_022018A8(w, &vectors.pos, key);
         *(void **)(w + 8 + off) = func_020159C8(*(void **)(w + 4), vectors.pos.x, vectors.pos.y, vectors.pos.z, (void *)((u32)w + 0xc + off));
         func_0220055C(w, key, 1);

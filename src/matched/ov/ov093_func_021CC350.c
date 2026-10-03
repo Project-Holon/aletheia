@@ -31,7 +31,7 @@ typedef struct Rec {
 
 extern int func_021D5B68(void *m);
 extern int func_021D62C4(void *m, u32 v);
-extern u8 func_021D5440(void *m);
+extern u8 func_021D5440(u8 *p);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 

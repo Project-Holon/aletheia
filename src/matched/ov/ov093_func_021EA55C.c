@@ -37,7 +37,7 @@ extern void func_021EEEF4(int a, u16 b, int *c);
 extern void func_021EF694(int a, u16 b);
 extern void func_021EF6A8(int a, u16 b, int *c);
 extern void func_021EF6E8(int a, u16 b, int *c);
-extern void func_021EF5E8(int a, u8 b, u16 c);
+extern void func_021EF5E8(u32 a, u8 b, u16 c);
 extern void func_021EF664(int a, u16 b, int c);
 
 void func_021EA55C(struct H *p, int a)

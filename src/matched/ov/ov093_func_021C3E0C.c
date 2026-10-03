@@ -30,20 +30,21 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 pad[5]; u8 a:1,b:1,c:6; } Flag;
 extern u8 *func_021C3FAC(u8 *, int);
-extern u32 func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021C3FBC(u16);
 extern int func_021C3FCC(u16);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *, u32, ...);
 extern void func_021CD64C(void *, u32, ...);
 extern u32 func_021CC8D8(void *, int);
 extern void func_021CC95C(void *, u32, int);
 extern void func_021C7B3C(u8 *, int, u16, u16);
 extern void func_021C7B7C(u8 *, int);
-extern void func_021D66D0(u8 *, u32);
+struct QJ;
+extern void func_021D66D0(struct QJ *p, u32 v);
 extern void func_021D8564(u8 *, u8 *);
 extern int func_021D62C4(u8 *, int);
-extern void func_021C195C(u8 *, u8 *, u32);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
 extern void func_021C3FDC(u8 *, u8 *);
 void func_021C3E0C(u8 *p, u8 *a, u8 *c)
 {
@@ -67,8 +68,8 @@ void func_021C3E0C(u8 *p, u8 *a, u8 *c)
         func_021C7B3C(p, ai, x, y);
         func_021C7B3C(p, bi, y, x);
         func_021CC95C(p + 0x1d74, s, line + 3);
-        func_021D66D0(a, y);
-        func_021D66D0(b, x);
+        func_021D66D0((struct QJ *)a, y);
+        func_021D66D0((struct QJ *)b, x);
         func_021D8564(a, b);
         func_021CD4B0(*(void **)(p + 12), 0x58, ai);
         func_021CD4B0(*(void **)(p + 12), 0x58, bi);

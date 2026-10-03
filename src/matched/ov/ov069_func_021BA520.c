@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02045770  0x02045770  arm
@@ -21,12 +21,13 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
+struct WinMgr;
 extern u32  func_02045770(void *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(void *a);
 extern void func_0201C7D0(void *x, int y, int z, void *s, void *w, u32 v);
-extern void func_0202CEBC(u32 a, int b, void *c);
-extern void func_0202CC58(u32 a, int b);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 
 void func_021BA520(u8 *a0, int a1, void *a2, int a3)
 {
@@ -38,6 +39,6 @@ void func_021BA520(u8 *a0, int a1, void *a2, int a3)
         func_0201C7D0((void *)func_02045770(*(void **)(a0 + 0x10 + a1 * 4)), 0, 0, a2,
                       *(void **)(a0 + 0xc), 0x2D44);
     func_02045334(*(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CEBC(*(u32 *)(a0 + 4), a1, *(void **)(a0 + 0x10 + a1 * 4));
-    func_0202CC58(*(u32 *)(a0 + 4), a1);
+    func_0202CEBC(*(struct WinMgr **)(a0 + 4), a1, *(void **)(a0 + 0x10 + a1 * 4));
+    func_0202CC58(*(struct WinMgr **)(a0 + 4), a1);
 }

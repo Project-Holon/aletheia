@@ -30,7 +30,7 @@ extern int func_021CAA58(u8 *, u8 *, u16, const u8 *, int, void *);
 extern int func_021CACF4(u8 *, u8 *, u16, const u8 *, int, void *);
 extern int func_021CA8F8(u8 *, u8 *, u16, const u8 *, int, void *);
 extern u8 *func_021CA8D8(void *, int);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern u8 func_021CA8E8(void *, u8);
 extern int func_021CAFD8(u8 *, u32, u8 *, const u8 *, u16, void *);
 int func_021CA7F4(u8 *p, u8 *a, u16 b, const u8 *q, void *out)

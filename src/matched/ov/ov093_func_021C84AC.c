@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 struct Flags { u8 low:5; u8 flag:1; u8 high:2; };
-extern int func_021C2128(u8 *, u8 *);
+extern int func_021C2128(u8 *p, u8 *a);
 int func_021C84AC(u8 *p, u8 *a, u8 *out)
 {
     int r;

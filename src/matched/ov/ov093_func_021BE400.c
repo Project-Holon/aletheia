@@ -34,12 +34,12 @@ extern void func_021BEA60(u8 *, u8 *, u8 *, u32);
 extern void func_021CC95C(void *, u32, int);
 extern void func_021C64B4(u8 *, u16, u8 *, struct Out *);
 extern void func_021CA7F4(u8 *, u8 *, int, struct Out *, void *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021D7394(u8);
-extern int func_021D59B4(u8 *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *, u16, u32);
 extern int func_021BEC58(u8 *, u8 *, u16, void *);
-extern int func_021E03D8(void *, u16);
+extern void func_021E03D8(u8 *a, int b);
 extern void func_021D73D4(u8);
 void func_021BE400(u8 *p, u16 key)
 {

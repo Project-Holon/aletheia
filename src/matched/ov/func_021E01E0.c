@@ -17,11 +17,13 @@
  */
 
 
-extern int func_0202CDD4(int, int);
+typedef unsigned int u32;
+struct WinMgr;
+extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
 extern void func_021ED918(char *, int);
 int func_021E01E0(char *p)
 {
-    int x = func_0202CDD4(*(int *)(*(int *)(p + 0x2c) + 0x74), 9);
+    int x = func_0202CDD4(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74), 9);
     func_021ED918(p, -8);
     return x;
 }

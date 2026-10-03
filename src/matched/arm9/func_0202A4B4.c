@@ -73,7 +73,7 @@ extern char  g_020A76DC[];
 extern void *func_02030734(u16 heap, u32 size, u32 align, const char *file, u32 line);
 extern void  func_020307B0(void *p);
 extern void  func_0201A954(void *party, int max);
-extern void  func_0201A98C(void *party, void *mon);
+extern u32   func_0201A98C(void *party, void *mon);
 extern u32   func_020173EC(void);
 extern void  func_0202A3AC(u32 id, TrData *td);
 extern void  func_0202A3BC(u32 id, void *tp);

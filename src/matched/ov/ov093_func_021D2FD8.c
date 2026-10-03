@@ -33,14 +33,14 @@ typedef unsigned int u32;
 extern u8 func_021B8E70(u8 *, u32);
 extern void func_021F7CFC(u32, u16, u8, int, int);
 extern int func_021F7EB4(void);
-extern int func_021B98AC(char *const *, u8);
+extern u8 *func_021B98AC(char *const *q, u8 b);
 extern void func_021EAF18(u8 *, int, int);
-extern u8 func_021D5440(int);
+extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(u8 *, int);
 extern void func_021F883C(u32);
 extern const u16 d_021EFF80[];
 extern int func_021EA710(u32);
-extern void func_021BA2D4(u32, int);
+extern void func_021BA2D4(void *p, void *m);
 extern int func_02005F38(void);
 extern void func_021F7C0C(void);
 extern void func_02005D90(u32, u32);
@@ -56,7 +56,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
     case 1:
         if (!func_021F7EB4()) {
             if (c[2]) {
-                int p = func_021B98AC((char *const *)a[1], (u8)c[0]);
+                u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((u8 *)a + 0x58, 1, 0x41);
                 func_021EAF50((u8 *)a + 0x58, func_021D5440(p));
                 func_021F883C(0x518);
@@ -73,7 +73,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
     case 2:
         if (func_021EA710(a[21])) {
             if (c[2]) {
-                func_021BA2D4(a[0], func_021B98AC((char *const *)a[1], (u8)c[0]));
+                func_021BA2D4((void *)a[0], func_021B98AC((char *const *)a[1], (u8)c[0]));
                 (*b)++;
             } else return 1;
         }
@@ -84,7 +84,7 @@ int func_021D2FD8(u32 *a, int *b, const u32 *c)
             func_02005D90(0x47c, 0xffff);
             func_021B92A0(a[0]);
             if (c[3]) {
-                int p = func_021B98AC((char *const *)a[1], (u8)c[0]);
+                u8 *p = func_021B98AC((char *const *)a[1], (u8)c[0]);
                 func_021EAF18((u8 *)a + 0x58, 1, 0x42);
                 func_021EAF50((u8 *)a + 0x58, func_021D5440(p));
                 func_021EA614(a[21], (u8 *)a + 0x58);

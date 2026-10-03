@@ -18,7 +18,7 @@
  *   func_020306F0 0x020306F0 arm
  */
 extern void *func_0201AB28(void *,unsigned);
-extern int func_0201A98C(void *,void *);
+extern unsigned int func_0201A98C(void *,void *);
 extern void func_021B6108(void *);
 extern void func_02034A5C(unsigned);
 extern unsigned ov090_id[];

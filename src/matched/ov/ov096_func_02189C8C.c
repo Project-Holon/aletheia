@@ -32,21 +32,21 @@ typedef struct { u8 p0[0x38]; int f38; u8 p1[0x88]; int fc4; } Obj;
 
 extern const Seven d_0218A58C;
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern int func_021D59B4(int, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D59B4(u8 *p, int k);
 
 int func_02189C8C(int a, Obj *b) {
-    int s;
+    u8 s;
     int v;
     u32 i;
     Seven t;
-    s = func_0218A160((int)b, func_0201134C(a));
+    s = func_0218A160((u8 *)b, func_0201134C(a));
     t = d_0218A58C;
     i = 0;
     b->f38 = 0;
     for (; i < 7; i++) {
-        v = func_021D59B4(func_0218A2FC((int)b, s), t.v[i]);
+        v = func_021D59B4(func_0218A2FC((u8 *)b, s), t.v[i]);
         if (v > 6) {
             b->f38 += v - 6;
         }

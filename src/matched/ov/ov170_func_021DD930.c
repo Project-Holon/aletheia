@@ -38,9 +38,10 @@ typedef struct {
     int count;
 } Move;
 
+struct WinMgr;
 extern void func_021EC7B8(char *p, int i, unsigned j, int flag);
 extern void func_021EC548(unsigned i, short *x, short *y, int mode);
-extern int func_021EF4A4(int p);
+extern int func_021EF4A4(struct WinMgr *mgr);
 extern void func_021EC000(char *p, int i, int v);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern void func_021EC768(char *p, unsigned i, int flag);
@@ -65,12 +66,12 @@ int func_021DD930(unsigned char *p)
                 func_021EC548(e->slot, &t[1], &t[0], p[0x1A]);
             } else if (e->slot < 0x24) {
                 func_021EC548(e->slot, &t[1], &t[0], p[0x1A]);
-                if (p[0x1A] == 2 && func_021EF4A4(*(int *)(*(char **)(p + 0x2C) + 0x74)) == 0)
+                if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 0)
                     t[0] += 0xC0;
             } else {
                 if (e->id >= 0x1E) {
                     func_021EC548(0x24, &t[1], &t[0], p[0x1A]);
-                    if (p[0x1A] == 2 && func_021EF4A4(*(int *)(*(char **)(p + 0x2C) + 0x74)) == 0)
+                    if (p[0x1A] == 2 && func_021EF4A4(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 0)
                         t[0] += 0xC0;
                 } else {
                     func_021EC548(e->id, &t[1], &t[0], p[0x1A]);

@@ -32,7 +32,7 @@ typedef struct { u8 pad[0x782]; u8 n; u8 pad2[0x5d]; E e[6]; } S;
 
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021CC95C(void *lock, u32 v, int line);
-extern int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021E02DC(u8 *a, u16 key, u32 sub_pri);
 extern void func_021C6394(S *p, u8 *a, u16 key);
 extern void func_021E0394(u8 *a, u16 key);

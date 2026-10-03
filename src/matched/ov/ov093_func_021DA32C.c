@@ -28,7 +28,7 @@ typedef signed int s32;
 extern int func_021D775C(int a);
 extern u8 func_021C7D54(int a, int b, u8 *out);
 extern void *func_021C7CF4(int a, int b);
-extern int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 /* lo/hi sums are u16 accumulators; a u8 third parameter keeps its reload
    after the +0xf store. */
 extern void *func_021C88A4(int a, int k, int b);

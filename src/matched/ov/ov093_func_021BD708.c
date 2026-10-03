@@ -26,7 +26,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 b0:1, b1:1, b2:1, rest:5; } Bits;
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8DDC(u8);
 extern int func_021B86E4(u8 *);
 extern int func_021B8FF4(u8 *);

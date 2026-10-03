@@ -10,7 +10,10 @@
  * status:   EXACT* (extent runs past compiled, trailing padding)
  */
 
-int func_021D7F2C(int a, int b)
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+u8 func_021D7F2C(u32 a, u8 b)
 {
     if (a == 3)
         b = 3;

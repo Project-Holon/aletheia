@@ -31,7 +31,7 @@ extern u32 func_021C4A24(u8 *);
 extern u8 *func_021C4A34(u8 *, u32);
 extern u8 *func_021C4A44(u32);
 extern void func_021C4A54(u8 *, u8 *, Word, u32, u8 *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern u8 *func_021B9934(char *, int);
 extern int func_021D5B68(u8 *);
 extern int func_021D6064(u8 *, u8 *, Word *, u32 *);

@@ -19,28 +19,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x021C8D0C",
      "code:0x021C9068",
-     "code:0x021C9448",
-     "code:0x021C9728",
-     "code:0x021C9750",
-     "code:0x021C9778",
-     "code:0x021C97A4",
-     "code:0x021C9898",
-     "code:0x021C98C4",
-     "code:0x021C9A24",
-     "code:0x021C9DCC",
-     "code:0x021C9F4C",
-     "code:0x021CA128",
-     "code:0x021CA248",
-     "code:0x021CA2E8",
-     "code:0x021CA370",
-     "code:0x021CA394",
-     "code:0x021CA3AC",
-     "code:0x021CA5CC",
-     "code:0x021CA6C4",
-     "code:0x021CA6FC",
-     "code:0x021CC974"
+     "code:0x021CA5CC"
     ]
    }
   }

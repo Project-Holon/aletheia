@@ -19,8 +19,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-u32 func_021BF77C(void *p)
+u8 *func_021BF77C(void *p)
 {
     u32 i = *(u32 *)((char *)p + 0x2cc);
-    return *(u32 *)((char *)p + i * 4 + 0x2c4);
+    return *(u8 **)((char *)p + i * 4 + 0x2c4);
+
 }

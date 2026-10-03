@@ -68,7 +68,7 @@ typedef struct {
 
 extern LearnWork g_021F3B64;
 
-extern int func_021D5440(void *mon);
+extern u8 func_021D5440(u8 *p);
 extern void *func_021D5844(void *mon);
 extern u16 func_02018328(void *pp, u32 *iter, u16 level);
 extern void *func_021B9934(void *party, int idx);

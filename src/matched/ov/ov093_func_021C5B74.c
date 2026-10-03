@@ -20,7 +20,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern u8 func_021D5440(u8 *p);
-extern void func_021D5FA4(u8 *a, u16 n);
+struct Unk021D5FA4;
+extern void func_021D5FA4(struct Unk021D5FA4 *p, u16 n);
 extern void func_021CD4B0(void *w, u32 id, ...);
 extern void func_021C604C(u8 *p, u8 *a, int n);
 extern int func_021C5BD4(void *p, int v);
@@ -29,7 +30,7 @@ void func_021C5B74(u8 *p, u8 *a, int c, int d)
 {
     u8 n = func_021D5440(a);
     if (c > 0) {
-        func_021D5FA4(a, (u16)c);
+        func_021D5FA4((struct Unk021D5FA4 *)a, (u16)c);
         func_021CD4B0(*(void **)(p + 0xc), 2, n, (u16)c);
     } else if (c < 0) {
         func_021C604C(p, a, -c);

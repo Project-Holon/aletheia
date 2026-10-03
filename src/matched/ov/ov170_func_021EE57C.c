@@ -25,9 +25,10 @@ typedef unsigned int u32;
 
 
 
+struct WinMgr;
 extern unsigned char func_020260E0(void *obj);
 extern unsigned func_02025DE8(void *obj);
-extern int func_021EF5E8(int p);
+extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern void func_021EE408(char *p, int v);
 extern u32 func_020362DC(void);
@@ -42,7 +43,7 @@ unsigned func_021EE57C(char *p)
 {
     unsigned char sel = func_020260E0(OBJ(p));
     unsigned r = func_02025DE8(OBJ(p));
-    if (func_021EF5E8(*(int *)(WORK(p) + 0x74)) == 0) {
+    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 0) {
         if (r >= 0x23 && r <= 0x27) {
             func_020260E4(OBJ(p), sel);
             func_021EE408(p, sel);

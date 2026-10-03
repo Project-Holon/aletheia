@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(u8 *, u8);
+extern u8 *func_021B9934(char *p, int i);
 struct Ent {
     u16 v;
     u16 lo:5;
@@ -33,6 +33,6 @@ u32 func_021C0CB4(u8 *p, const struct Q *q, u32 *out)
 {
     u32 i = 0;
     for (; i < q->n; i++)
-        out[i] = func_021B9934(*(u8 **)(p + 8), q->e[i].lo);
+        out[i] = (u32)func_021B9934(*(char **)(p + 8), (u8)q->e[i].lo);
     return q->n;
 }

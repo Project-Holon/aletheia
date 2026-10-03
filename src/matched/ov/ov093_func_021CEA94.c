@@ -71,7 +71,7 @@ extern u32 func_021D8454(u32 *);
 extern int func_021B9AB0(int);
 extern u32 func_021D832C(u32 *);
 extern u8 func_021D5778(void *, u16);
-extern int func_021CF5B0(u8 *, int, u16, void *);
+extern int func_021CF5B0(u8 *, void *, u16, void *);
 extern void func_021EAF78(u8 *, u8);
 extern void func_021CE3B4(u8 *, u8 *);
 extern int func_021D5B68(void *);
@@ -87,7 +87,8 @@ extern void func_021E9858(void *);
 
 int func_021CEA94(u8 *p, u32 *state)
 {
-    u32 m, slot, k;
+    void *m;
+    u32 slot, k;
     u32 *record;
     u8 sub;
     switch (*state) {
@@ -119,18 +120,18 @@ int func_021CEA94(u8 *p, u32 *state)
             if (k == 0) func_021CE150(p, (u32)func_021CE4D0);
             else if (k == 5) func_021CE150(p, (u32)func_021CF220);
             else {
-                m = *(u32 *)(p + 8);
+                m = *(void **)(p + 8);
                 record = *(u32 **)(p + 12);
                 sub = 0;
                 slot = p[0x11d];
                 if (func_021B8588(*(void **)p) == 3) {
                     sub = (u8)((Record *)(p + 0xbc))->sub;
                     slot = func_021B9AB0(sub);
-                    m = *(u32 *)((u32)p + slot * 8U + 0xa4U);
+                    m = *(void **)((u32)p + slot * 8U + 0xa4U);
                 }
                 if (func_021D832C(record)) {
                     p[0x1b0] = slot;
-                    p[0x1b1] = func_021D5778((void *)m, (u16)((Record *)record)->id);
+                    p[0x1b1] = func_021D5778(m, (u16)((Record *)record)->id);
                     if (p[0x1b1] != 4) {
                         func_021CE150(p, (u32)func_021CED4C);
                         return 0;
@@ -141,7 +142,7 @@ int func_021CEA94(u8 *p, u32 *state)
                     func_021CE3B4(p, p + 0x58);
                     *state = 7;
                 } else {
-                    if (func_021B8588(*(void **)p) == 3 && sub != 0 && sub != 1 && !func_021D5B68((void *)m)) {
+                    if (func_021B8588(*(void **)p) == 3 && sub != 0 && sub != 1 && !func_021D5B68(m)) {
                         k = func_021D8340((u32 *)(p + 0xc0));
                         record = *(u32 **)(p + 12);
                         *(u32 *)(p + 12) = (u32)record + 4U;
