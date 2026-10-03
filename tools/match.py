@@ -72,6 +72,7 @@ from libmatch import (  # noqa: E402
 )
 from cw import versions_dir, verkey  # noqa: E402
 import env as toolenv  # noqa: E402  (compiler location and wine runner)
+import stampcache  # noqa: E402  (stamp-validated pickle caches)
 
 SDK_INCLUDE = "sdk/TwlSDK/include"
 
@@ -440,42 +441,77 @@ def listing_files(region):
         return []
 
 
+# The listing-derived indexes below (scan_listing, evidence, xregion_calls,
+# region_calls, overlay_data_structure) are built one listing at a time and
+# kept in build/cache/<kind>/ under the listing's stamp (mtime and size), so a
+# run reads only the listings that changed.  Each result is merged afresh in
+# every process, so a caller may change what it gets back.
+
+_LISTING_CACHES = {}
+
+
+def _listing_cache(kind):
+    fc = _LISTING_CACHES.get(kind)
+    if fc is None:
+        fc = _LISTING_CACHES[kind] = stampcache.FileCache(
+            "listing_" + kind, owners=[__file__])
+    return fc
+
+
+def _listing_part(kind, path, parse):
+    """parse(path), cached under the file's stamp; None for a missing or
+    unreadable file."""
+    st = stampcache.stamp_of(path)
+    if st is None:
+        return None
+    try:
+        return _listing_cache(kind).get(path, (st[1], st[2]),
+                                        lambda: parse(path))
+    except OSError:
+        return None
+
+
+def _scan_listing_file(path):
+    # disasm.py emits ".thumb" / ".arm" as the section-wide state and
+    # ".thumb_func" immediately before each Thumb entry point, with the
+    # ".type" directive sitting between that and the label.
+    starts = {}
+    mode_thumb = False
+    pending_thumb = None
+    with open(path, "r", errors="replace") as fh:
+        for line in fh:
+            s = line.strip()
+            if s == ".thumb_func":
+                pending_thumb = True
+                continue
+            if s in (".thumb", ".code 16"):
+                mode_thumb = True
+                continue
+            if s in (".arm", ".code 32"):
+                mode_thumb = False
+                continue
+            if s.startswith("func_") and s.endswith(":"):
+                a = int(s[5:-1], 16)
+                starts[a] = mode_thumb if pending_thumb is None else True
+                pending_thumb = None
+            elif s.startswith("veneer_") and s.endswith(":"):
+                a = int(s[7:-1], 16)
+                starts[a] = False
+                pending_thumb = None
+            elif s.startswith("loc_") and s.endswith(":"):
+                pending_thumb = None
+    return starts
+
+
 def scan_listing(region):
     """Return {addr: is_thumb} for every func_ label the listings declare."""
     if region in _FUNC_STARTS:
         return _FUNC_STARTS[region]
     starts = {}
     for path in listing_files(region):
-        # disasm.py emits ".thumb" / ".arm" as the section-wide state and
-        # ".thumb_func" immediately before each Thumb entry point, with the
-        # ".type" directive sitting between that and the label.
-        mode_thumb = False
-        pending_thumb = None
-        try:
-            with open(path, "r", errors="replace") as fh:
-                for line in fh:
-                    s = line.strip()
-                    if s == ".thumb_func":
-                        pending_thumb = True
-                        continue
-                    if s in (".thumb", ".code 16"):
-                        mode_thumb = True
-                        continue
-                    if s in (".arm", ".code 32"):
-                        mode_thumb = False
-                        continue
-                    if s.startswith("func_") and s.endswith(":"):
-                        a = int(s[5:-1], 16)
-                        starts[a] = mode_thumb if pending_thumb is None else True
-                        pending_thumb = None
-                    elif s.startswith("veneer_") and s.endswith(":"):
-                        a = int(s[7:-1], 16)
-                        starts[a] = False
-                        pending_thumb = None
-                    elif s.startswith("loc_") and s.endswith(":"):
-                        pending_thumb = None
-        except OSError:
-            continue
+        part = _listing_part("starts", path, _scan_listing_file)
+        if part is not None:
+            starts.update(part)
     if region == TWL_REGION:
         starts.setdefault(0x02707CB4, None)
         starts.setdefault(0x02732D54, None)
@@ -664,6 +700,48 @@ def evidence_files():
             unit_files("src_itcm", "units_itcm.json"))
 
 
+def _evidence_file(path):
+    """(labels, calls, pool_words) one ARM9 listing contributes."""
+    labels = {}
+    calls = {}
+    pool_words = {}
+    pools = set()
+    with open(path, "r", errors="replace") as fh:
+        pending_thumb = None
+        mode_thumb = False
+        for line in fh:
+            s = line.strip()
+            if s == ".thumb_func":
+                pending_thumb = True
+                continue
+            if s in (".thumb", ".code 16"):
+                mode_thumb = True
+                continue
+            if s in (".arm", ".code 32"):
+                mode_thumb = False
+                continue
+            m = _LABEL_DEF_RE.match(s)
+            if m:
+                labels[int(m.group(1), 16)] = (
+                    mode_thumb if pending_thumb is None else True)
+                pending_thumb = None
+                continue
+            m = _POOL_DEF_RE.match(s)
+            if m:
+                pools.add(int(m.group(1), 16))
+                continue
+            m = _CALL_RE.match(line)
+            if m:
+                calls.setdefault(int(m.group(1), 16), []).append(int(m.group(2), 16))
+                continue
+            m = _WORD_RE.match(line)
+            if m:
+                site = int(m.group(2), 16)
+                if site in pools:
+                    pool_words.setdefault(int(m.group(1), 16), []).append(site)
+    return labels, calls, pool_words
+
+
 def evidence():
     """Scan the ARM9 listings once for labels, call sites and pool words."""
     if "e" in _EVIDENCE:
@@ -675,44 +753,15 @@ def evidence():
               "stay wildcarded.\n         run: python tools/disasm.py arm9 "
               "--split", file=sys.stderr)
     for path in files:
-        pools = set()
-        try:
-            fh = open(path, "r", errors="replace")
-        except OSError:
+        part = _listing_part("evidence", path, _evidence_file)
+        if part is None:
             continue
-        with fh:
-            pending_thumb = None
-            mode_thumb = False
-            for line in fh:
-                s = line.strip()
-                if s == ".thumb_func":
-                    pending_thumb = True
-                    continue
-                if s in (".thumb", ".code 16"):
-                    mode_thumb = True
-                    continue
-                if s in (".arm", ".code 32"):
-                    mode_thumb = False
-                    continue
-                m = _LABEL_DEF_RE.match(s)
-                if m:
-                    ev.labels[int(m.group(1), 16)] = (
-                        mode_thumb if pending_thumb is None else True)
-                    pending_thumb = None
-                    continue
-                m = _POOL_DEF_RE.match(s)
-                if m:
-                    pools.add(int(m.group(1), 16))
-                    continue
-                m = _CALL_RE.match(line)
-                if m:
-                    ev.calls[int(m.group(1), 16)].append(int(m.group(2), 16))
-                    continue
-                m = _WORD_RE.match(line)
-                if m:
-                    site = int(m.group(2), 16)
-                    if site in pools:
-                        ev.pool_words[int(m.group(1), 16)].append(site)
+        labels, calls, pool_words = part
+        ev.labels.update(labels)
+        for k, v in calls.items():
+            ev.calls[k].extend(v)
+        for k, v in pool_words.items():
+            ev.pool_words[k].extend(v)
     _EVIDENCE["e"] = ev
     return ev
 
@@ -763,25 +812,31 @@ def xregion_listing_files():
     return out
 
 
+def _xcalls_file(path):
+    out = {}
+    with open(path, "r", errors="replace") as fh:
+        for line in fh:
+            # Cheap reject first; the marker is in every line that matters
+            # and in almost none that does not.
+            if "outside this region" not in line:
+                continue
+            m = _XCALL_RE.search(line)
+            if m:
+                out.setdefault(int(m.group(2), 16), []).append(int(m.group(1), 16))
+    return out
+
+
 def xregion_calls():
     """{target addr: [call site addr]} for branches that leave their region."""
     if "x" in _XCALLS:
         return _XCALLS["x"]
     out = defaultdict(list)
     for path in xregion_listing_files():
-        try:
-            fh = open(path, "r", errors="replace")
-        except OSError:
+        part = _listing_part("xcalls", path, _xcalls_file)
+        if part is None:
             continue
-        with fh:
-            for line in fh:
-                # Cheap reject first; the marker is in every line that matters
-                # and in almost none that does not.
-                if "outside this region" not in line:
-                    continue
-                m = _XCALL_RE.search(line)
-                if m:
-                    out[int(m.group(2), 16)].append(int(m.group(1), 16))
+        for k, v in part.items():
+            out[k].extend(v)
     _XCALLS["x"] = out
     return out
 
@@ -826,21 +881,27 @@ def regions_containing(addr):
 _REGION_CALLS = {}
 
 
+def _region_calls_file(path):
+    out = {}
+    with open(path, "r", errors="replace") as fh:
+        for line in fh:
+            m = _CALL_RE.match(line)
+            if m:
+                out.setdefault(int(m.group(1), 16), []).append(int(m.group(2), 16))
+    return out
+
+
 def region_calls(name):
     """{target: [site]} for branches inside one region's own listing."""
     if name in _REGION_CALLS:
         return _REGION_CALLS[name]
     out = defaultdict(list)
     for path in listing_files(name):
-        try:
-            fh = open(path, "r", errors="replace")
-        except OSError:
+        part = _listing_part("calls", path, _region_calls_file)
+        if part is None:
             continue
-        with fh:
-            for line in fh:
-                m = _CALL_RE.match(line)
-                if m:
-                    out[int(m.group(1), 16)].append(int(m.group(2), 16))
+        for k, v in part.items():
+            out[k].extend(v)
     _REGION_CALLS[name] = out
     return out
 
@@ -2927,11 +2988,19 @@ _ORG_RE = re.compile(r"^\s*\.org\s+(0x[0-9A-Fa-f]+|\d+)")
 _BYTE_RE = re.compile(r"^\s*\.byte\s+([^/]*)")
 
 
+_REGION_BY_NAME = [None, 0, {}]
+
+
 def _overlay_region(name):
-    for r in load_all_regions():
-        if r.name == name:
-            return r
-    return None
+    regs = load_all_regions()
+    if _REGION_BY_NAME[0] is not regs or _REGION_BY_NAME[1] != len(regs):
+        by_name = {}
+        for r in regs:
+            by_name.setdefault(r.name, r)       # the first region of a name wins
+        _REGION_BY_NAME[0] = regs
+        _REGION_BY_NAME[1] = len(regs)
+        _REGION_BY_NAME[2] = by_name
+    return _REGION_BY_NAME[2].get(name)
 
 
 def _overlay_bss_table():
@@ -2996,12 +3065,46 @@ def overlay_data_structure(name):
     key = ("s", name)
     if key in _OV_DATA:
         return _OV_DATA[key]
+    reg = _overlay_region(name)
+    base = reg.base if reg is not None else 0
+    paths = listing_files(name)
+    # The listing scan depends on the listing files and the region base alone;
+    # it is kept under their stamps in build/cache/listing_ovdata/.  The
+    # extents depend on scan_listing() of this process, so they are built
+    # below on every run.
+    stamp = (base, tuple(stampcache.stamp_of(p) for p in paths))
+    code, data, starts, ilen, pool_refs = _listing_cache("ovdata").get(
+        name, stamp, lambda: _scan_overlay_data(base, paths))
+    starts |= overlay_declared_starts(name) & data
+    import bisect
+    all_code = sorted(code)
+    extents = []
+    # An extent runs over contiguous instructions and ends where its last
+    # instruction does.  The length is the byte count the listing prints
+    # (2 for most Thumb lines, 4 for ARM and Thumb `bl`); a line without
+    # bytes counts as 4, the old assumption.  Taking every instruction as 4
+    # bytes made a Thumb function that ends in a 2-byte instruction swallow
+    # the first halfword of the data after it (ov010 func_0216FEAC ends in
+    # the `pop` at 0x0216FED6 and was taken to run to 0x0216FEDA, hiding the
+    # rodata word at 0x0216FED8), and let an extent bridge a 2-byte gap.
+    for a in sorted(scan_listing(name)):
+        i = bisect.bisect_right(all_code, a)
+        end = a + ilen.get(a, 4)
+        while i < len(all_code) and all_code[i] <= end:
+            end = all_code[i] + ilen.get(all_code[i], 4)
+            i += 1
+        extents.append((a, end))
+    out = (code, data, starts, extents, pool_refs)
+    _OV_DATA[key] = out
+    return out
+
+
+def _scan_overlay_data(base, paths):
+    """(code, data, starts, ilen, pool_refs) read from one overlay's listings."""
     code, data, starts = set(), set(), set()
     ilen = {}                   # instruction address -> length in bytes
     pool_refs = defaultdict(list)
-    reg = _overlay_region(name)
-    base = reg.base if reg is not None else 0
-    for path in listing_files(name):
+    for path in paths:
         prev_data = False
         in_pool = False
         cur = None                  # the offset .org last pinned, for .byte
@@ -3053,28 +3156,7 @@ def overlay_data_structure(name):
                         ilen[addr] = len(mb.group(1).split())
                     prev_data = False
                 in_pool = False
-    starts |= overlay_declared_starts(name) & data
-    import bisect
-    all_code = sorted(code)
-    extents = []
-    # An extent runs over contiguous instructions and ends where its last
-    # instruction does.  The length is the byte count the listing prints
-    # (2 for most Thumb lines, 4 for ARM and Thumb `bl`); a line without
-    # bytes counts as 4, the old assumption.  Taking every instruction as 4
-    # bytes made a Thumb function that ends in a 2-byte instruction swallow
-    # the first halfword of the data after it (ov010 func_0216FEAC ends in
-    # the `pop` at 0x0216FED6 and was taken to run to 0x0216FEDA, hiding the
-    # rodata word at 0x0216FED8), and let an extent bridge a 2-byte gap.
-    for a in sorted(scan_listing(name)):
-        i = bisect.bisect_right(all_code, a)
-        end = a + ilen.get(a, 4)
-        while i < len(all_code) and all_code[i] <= end:
-            end = all_code[i] + ilen.get(all_code[i], 4)
-            i += 1
-        extents.append((a, end))
-    out = (code, data, starts, extents, pool_refs)
-    _OV_DATA[key] = out
-    return out
+    return code, data, starts, ilen, pool_refs
 
 
 def in_overlay_data(name, addr):
@@ -3096,20 +3178,29 @@ def in_overlay_data(name, addr):
     if addr in code:
         return False
     import bisect
-    lows = [lo_ for lo_, _hi in extents]
+    memo = _OV_DATA.get(("lows", name))
+    if memo is None or memo[0] is not extents:
+        memo = _OV_DATA[("lows", name)] = (extents, [lo_ for lo_, _hi in extents])
+    lows = memo[1]
     i = bisect.bisect_right(lows, addr) - 1
     if i >= 0 and extents[i][0] <= addr < extents[i][1]:
         return False
     return addr in data or (addr & ~1) in data or (addr & ~3) in data
 
 
+_OV_WINDOWS = {}
+
+
 def overlay_windows(addr):
     """Sorted names of every overlay whose image or bss holds `addr`."""
-    out = set(overlay_candidates(addr))
-    for name, (lo, hi) in _overlay_bss_table().items():
-        if lo <= addr < hi:
-            out.add(name)
-    return sorted(out)
+    hit = _OV_WINDOWS.get(addr)
+    if hit is None:
+        out = set(overlay_candidates(addr))
+        for name, (lo, hi) in _overlay_bss_table().items():
+            if lo <= addr < hi:
+                out.add(name)
+        hit = _OV_WINDOWS[addr] = sorted(out)
+    return list(hit)
 
 
 def _is_arm9_address(addr):
@@ -6111,6 +6202,36 @@ def shard_files():
     return out
 
 
+def shard_files_stamped():
+    """[(name, path, mtime_ns, size)] for every shard file, in shard_files() order.
+
+    One scandir pass per region directory instead of listdir plus a stat or
+    an open per file."""
+    out = []
+    if not os.path.isdir(MANIFEST_DIR):
+        return out
+    for _region, d in stampcache.scan_subdirs(MANIFEST_DIR):
+        out.extend(stampcache.scan_files(d, (".json",)))
+    return out
+
+
+def _parse_shard(path):
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def shard_docs(files=None, on_error=None):
+    """{path: parsed shard} for `files` (default: every shard).
+
+    Shared by load_manifest_entries() and manifest_check().  Only the files
+    whose stamp changed since the last run are parsed; the rest come from
+    build/cache/shards.pkl."""
+    if files is None:
+        files = shard_files_stamped()
+    return stampcache.Cache("shards", owners=[__file__]).sync(
+        files, _parse_shard, on_error=on_error)
+
+
 def shard_doc(region, shard, entries):
     return {
         "tool": "tools/match.py",
@@ -6140,9 +6261,11 @@ def load_manifest_entries(check_legacy=True):
         return _MANIFEST_ENTRIES["e"]
     entries = []
     seen = {}
-    for path in shard_files():
-        with open(path, "r", encoding="utf-8") as fh:
-            doc = json.load(fh)
+    files = shard_files_stamped()
+    mtimes = {t[1]: t[2] for t in files}
+    docs = shard_docs(files)
+    for path in (t[1] for t in files):
+        doc = docs[path]
         for e in doc.get("functions", []):
             # The region is part of the identity, not just the address: overlays share
             # load addresses, so ov016 and ov093 legitimately both define func_021CDA0C
@@ -6156,7 +6279,7 @@ def load_manifest_entries(check_legacy=True):
                 # and concurrent filers see each other's half-written shards.  So: report it,
                 # prefer the shard written last, and keep going.
                 prev_path, prev_entry = seen[key]
-                newer = os.path.getmtime(path) > os.path.getmtime(prev_path)
+                newer = mtimes[path] > mtimes[prev_path]
                 sys.stderr.write(
                     "warning: manifest shards disagree: %s is in both %s and %s; using %s\n"
                     % (e["name"], os.path.relpath(prev_path, ROOT),
@@ -6225,15 +6348,22 @@ def check_legacy_manifest(entries):
 def collect_sources():
     """[(shard, region, source path, header, kind, reldir)] for every entry."""
     out = []
+    groups = []
+    files = []
     for reldir, kind in SRC_DIRS:
         srcdir = os.path.join(ROOT, *reldir.split("/"))
         if not os.path.isdir(srcdir):
             continue
-        for fn in sorted(os.listdir(srcdir)):
-            if not fn.endswith((".c", ".cpp")):
-                continue
-            path = os.path.join(srcdir, fn)
-            h = read_header(path)
+        fl = stampcache.scan_files(srcdir, (".c", ".cpp"))
+        groups.append((reldir, kind, fl))
+        files.extend(fl)
+    # Headers come from build/cache/headers.pkl; only files whose stamp
+    # changed are read again.
+    headers = stampcache.Cache("headers", owners=[__file__]).sync(
+        files, read_header)
+    for reldir, kind, fl in groups:
+        for fn, path, _mt, _sz in fl:
+            h = headers[path]
             if "address" not in h:
                 continue
             addr = int(h["address"], 0)
@@ -6503,6 +6633,23 @@ def manifest_duplicates(docs):
     return {k: v for k, v in seen.items() if len(v) > 1}
 
 
+def _rel_to_root(p):
+    """os.path.relpath(p, ROOT) for a path built under ROOT, without the
+    normalisation work."""
+    pre = ROOT + os.sep
+    return p[len(pre):] if p.startswith(pre) else os.path.relpath(p, ROOT)
+
+
+def _walk_stamped(top):
+    """os.walk(top) with scan_files() tuples: yields (dirpath, [(name, path,
+    mtime_ns, size)]).  One scandir call per directory."""
+    stack = [top]
+    while stack:
+        d = stack.pop()
+        yield d, stampcache.scan_files(d)
+        stack.extend(p for _n, p in reversed(stampcache.scan_subdirs(d)))
+
+
 def manifest_check():
     """Report duplicate manifest entries and json files shard_files() ignores.
 
@@ -6513,24 +6660,29 @@ def manifest_check():
     shards were twl_audio.json / twl_sys.json for a while).  This is the
     cheap, read-only gate for both.
     """
-    read = set(os.path.normcase(os.path.abspath(p)) for p in shard_files())
+    # One scandir walk lists every json file under layout/matched/ with its
+    # stamp; the shard files are the ones one level down in a region folder.
     on_disk = []
-    for dirpath, _dirs, files in os.walk(MANIFEST_DIR):
-        for fn in files:
-            if fn.endswith(".json"):
-                on_disk.append(os.path.join(dirpath, fn))
-    unread = [p for p in sorted(on_disk)
-              if os.path.normcase(os.path.abspath(p)) not in read]
-    docs = []
-    for p in shard_files():
-        try:
-            with open(p, encoding="utf-8") as fh:
-                docs.append((os.path.relpath(p, ROOT), json.load(fh)))
-        except Exception as exc:       # unparseable is itself a defect
-            unread.append(p)
-            sys.stderr.write("unparseable shard: %s (%s)\n"
-                             % (os.path.relpath(p, ROOT), exc))
-            continue
+    shard_stamps = []
+    for dirpath, fl in _walk_stamped(MANIFEST_DIR):
+        for t in fl:
+            if t[0].endswith(".json"):
+                on_disk.append(t[1])
+        if os.path.dirname(dirpath) == MANIFEST_DIR:
+            shard_stamps.extend(t for t in fl if t[0].endswith(".json"))
+    # The walk visits region folders and files by name, so shard_stamps is
+    # already in shard_files() order.
+    read = set(t[1] for t in shard_stamps)
+    unread = [p for p in sorted(on_disk) if p not in read]
+
+    def bad_shard(t, exc):             # unparseable is itself a defect
+        unread.append(t[1])
+        sys.stderr.write("unparseable shard: %s (%s)\n"
+                         % (os.path.relpath(t[1], ROOT), exc))
+
+    parsed = shard_docs(shard_stamps, on_error=bad_shard)
+    docs = [(_rel_to_root(t[1]), parsed[t[1]])
+            for t in shard_stamps if t[1] in parsed]
     dups = manifest_duplicates(docs)
     if unread:
         print("%d json file(s) under layout/matched/ are not read by shard_files():"
@@ -6612,6 +6764,15 @@ def cmd_manifest(args):
 
     if to_verify:
         if args.verify and len(to_verify) > 1:
+            # Fill the shared lazy caches once, here, before the pool: each
+            # is a check-then-fill dict, so cold workers would all repeat
+            # the same multi-second scan.
+            load_all_regions()
+            matched_addresses()
+            evidence()
+            xregion_calls()
+            for _reg in sorted({k[0] for k, _i, _t in to_verify}):
+                scan_listing(_reg)
             with ThreadPoolExecutor(max_workers=min(jobs, len(to_verify))) as ex:
                 for k, idx, entry in ex.map(do_work, to_verify):
                     by_shard[k][idx] = entry

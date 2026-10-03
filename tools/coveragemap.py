@@ -18,6 +18,7 @@ Usage:
 import argparse
 import bisect
 import glob
+import itertools
 import json
 import os
 import re
@@ -156,22 +157,20 @@ def listing_labels(path):
                     base = int(m.group(1), 16)
                     span_end = int(m.group(2), 16)
             if pending:
-                m = INSN.search(line)
+                m = INSN.search(line) if "/*" in line else None
                 if m:
                     out.append((int(m.group(1), 16), pending)); pending = None; continue
                 m = ORG.match(line)
                 if m and base is not None:
                     out.append((base + int(m.group(1), 16), pending)); pending = None; continue
-            m = LABEL.match(line)
-            if m:
-                # Only function labels bound an extent: the listings carry internal branch
-                # labels (loc_) and pool labels (pool_) inside a function, and sizing to the
-                # next label of any kind truncates most functions.
-                pending = m.group(1) if FUNCNAME.match(m.group(1)) else None
-                continue
-            m = INSN.search(line)
-            if m:
-                continue
+            c = line[:1]
+            if c == "_" or c.isalpha():
+                m = LABEL.match(line)
+                if m:
+                    # Only function labels bound an extent: the listings carry internal branch
+                    # labels (loc_) and pool labels (pool_) inside a function, and sizing to the
+                    # next label of any kind truncates most functions.
+                    pending = m.group(1) if FUNCNAME.match(m.group(1)) else None
     out.sort()
     return out, span_end
 
@@ -420,9 +419,9 @@ def aux_shard_status(region):
         files += glob.glob(os.path.join(d, "*.json"))
     files += glob.glob(os.path.join(ROOT, "layout", "matched", "arm9", "pkt_*.json"))
     for sh in files:
-        try:
-            data = json.load(open(sh, encoding="utf-8"))
-        except Exception:
+        # parsed shards come from match.py's stamp cache (build/cache/shards.pkl)
+        data = ovstats.cached_shard_doc(sh)
+        if data is None:
             continue
         for f in data.get("functions", []):
             if isinstance(f, dict) and f.get("name") and str(f.get("region")) == region:
@@ -436,7 +435,8 @@ def aux_functions():
         path = os.path.join(ROOT, rel)
         if not os.path.exists(path):
             continue
-        head = "".join(open(path, encoding="utf-8", errors="replace").readlines()[:18])
+        with open(path, encoding="utf-8", errors="replace") as hf:
+            head = "".join(itertools.islice(hf, 18))
         mr = HDR_RANGE.search(head); mc = HDR_CODE.search(head)
         code = int(mc.group(1), 16) if mc else 0
         code_end = (int(mr.group(1), 16) + code) if mr else 0

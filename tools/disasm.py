@@ -120,6 +120,7 @@ other tools never have to special-case ``.inst`` lines themselves.
 """
 
 import argparse
+import bisect
 import json
 import os
 import re
@@ -236,6 +237,7 @@ class Analyser:
             md.detail = True
             md.skipdata = False
         self.queue = []
+        self._decl = None       # (declared dict, size, sorted lows, items, flat)
 
     # -- helpers ---------------------------------------------------------
 
@@ -260,9 +262,23 @@ class Analyser:
         self.r.kind[off:off + size] = bytes([value]) * size
 
     def _in_declared(self, addr):
-        for lo, hi in self.r.declared.items():
-            if lo <= addr < hi:
-                return lo
+        d = self.r.declared
+        ent = self._decl
+        if ent is None or ent[0] is not d or ent[1] != len(d):
+            items = sorted(d.items())
+            flat = all(items[i][1] <= items[i + 1][0]
+                       for i in range(len(items) - 1))
+            ent = self._decl = (d, len(d), [lo for lo, _hi in items], items,
+                                flat)
+        if not ent[4]:
+            # overlapping ranges: the first one in declaration order wins
+            for lo, hi in d.items():
+                if lo <= addr < hi:
+                    return lo
+            return None
+        i = bisect.bisect_right(ent[2], addr) - 1
+        if i >= 0 and ent[3][i][0] <= addr < ent[3][i][1]:
+            return ent[3][i][0]
         return None
 
     def add_seed(self, addr, thumb, is_func=True):
@@ -663,6 +679,9 @@ class Analyser:
         self.mark_veneers()
 
 
+_NOT_UNK = re.compile(b"[^" + re.escape(bytes([UNK])) + b"]")
+
+
 def index_hidden_pool_words(region, all_regions):
     """Second-chance literal-pool scan inside code-adjacent unclassified runs.
 
@@ -729,14 +748,13 @@ def index_hidden_pool_words(region, all_regions):
                 return rec.thumb
         return None
 
+    kind = r.kind
     while off < n:
-        if r.kind[off] != UNK:
-            off += 1
-            continue
-        start = off
-        while off < n and r.kind[off] == UNK:
-            off += 1
-        end = off
+        start = kind.find(UNK, off, n)
+        if start < 0:
+            break
+        m = _NOT_UNK.search(kind, start, n)
+        off = end = m.start() if m else n
         po = start
         while po > 0 and r.kind[po - 1] == DATA:
             po -= 1
@@ -1104,8 +1122,7 @@ def emit_range(region, out_path, start_off, end_off, all_regions,
     add("\t.end")
     add("")
 
-    with open(out_path, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write("\n".join(lines))
+    _write_if_changed(out_path, "\n".join(lines))
 
     return {
         "region": r.name,
@@ -1168,6 +1185,21 @@ INST_INDEX_HEADER = [
 ]
 
 
+def _write_if_changed(path, text):
+    """Write `text` (UTF-8, LF) unless the file already holds exactly it, so an
+    unchanged listing keeps its modification time and the stamp caches of the
+    other tools stay valid."""
+    data = text.encode("utf-8")
+    try:
+        with open(path, "rb") as fh:
+            if fh.read() == data:
+                return
+    except OSError:
+        pass
+    with open(path, "wb") as fh:
+        fh.write(data)
+
+
 def write_inst_index(entries, path):
     """Write one inst_index.txt from a list of (addr, region, mnemonic, ops)."""
     if os.path.dirname(path):
@@ -1175,8 +1207,7 @@ def write_inst_index(entries, path):
     lines = list(INST_INDEX_HEADER)
     for addr, region, mnem, ops in sorted(entries, key=lambda e: (e[1], e[0])):
         lines.append("%08X  %-24s %-10s %s" % (addr, region, mnem, ops))
-    with open(path, "w", encoding="utf-8", newline="\n") as fh:
-        fh.write("\n".join(lines) + "\n")
+    _write_if_changed(path, "\n".join(lines) + "\n")
 
 
 def _read_all_inst_index(path):
@@ -1912,6 +1943,24 @@ def cmd_arm9(args):
     return 0
 
 
+_LAYOUT_BY_DIR = {}
+
+
+def _overlay_job(job):
+    """Disassemble one overlay: (region name, stats, inst_index rows)."""
+    layout_dir, extract, ov_id, out_dir = job
+    layout = _LAYOUT_BY_DIR.get(layout_dir)
+    if layout is None:
+        layout = _LAYOUT_BY_DIR[layout_dir] = load_layout(layout_dir)
+    r = build_overlay_region(layout, extract, ov_id, layout_dir)
+    Analyser(r).run()
+    index_hidden_pool_words(r, [r])
+    rows = []
+    st = emit(r, os.path.join(out_dir, _region_filename(r)), [r],
+              quirks=load_quirks(layout_dir, r.name), inst_index=rows)
+    return r.name, st, rows
+
+
 def cmd_overlay(args):
     layout = load_layout(args.layout)
     if args.all:
@@ -1924,15 +1973,21 @@ def cmd_overlay(args):
     stats = []
     inst_index = []
     touched = set()
-    for ov_id in ids:
-        r = build_overlay_region(layout, args.extract, ov_id,
-                                 args.layout)
-        Analyser(r).run()
-        index_hidden_pool_words(r, [r])
-        touched.add(r.name)
-        stats.append(emit(r, os.path.join(out_dir, _region_filename(r)), [r],
-                          quirks=load_quirks(args.layout, r.name),
-                          inst_index=inst_index))
+    jobs = [(args.layout, args.extract, ov_id, out_dir) for ov_id in ids]
+    workers = min(os.cpu_count() or 1, len(jobs))
+    if workers > 1:
+        # One overlay is independent of the others, so each runs in its own
+        # process.  map() yields the results in id order, which keeps the
+        # statistics and inst_index.txt rows in the order of a serial run.
+        from concurrent.futures import ProcessPoolExecutor
+        with ProcessPoolExecutor(max_workers=workers) as ex:
+            results = list(ex.map(_overlay_job, jobs))
+    else:
+        results = [_overlay_job(j) for j in jobs]
+    for name, st, rows in results:
+        touched.add(name)
+        stats.append(st)
+        inst_index.extend(rows)
     print("[*] overlays: %d region(s)" % len(stats))
     print_stats(stats)
     # Merge with whatever inst_index.txt already had for overlays not

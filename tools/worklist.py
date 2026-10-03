@@ -516,19 +516,34 @@ RE_THUNK_POOL_LABEL = re.compile(r"^pool_([0-9A-Fa-f]{8}):$")
 RE_THUNK_WORD = re.compile(r"^\.word\s+0x([0-9A-Fa-f]{8})")
 
 
+RE_THUNK_SHAPE = re.compile(
+    r"^[ \t\f\v]*func_[0-9A-Fa-f]{8}:[ \t\f\v]*\n(?:[ \t\f\v]*\n)?[ \t\f\v]*ldr", re.M)
+
+
 def _thunk_candidates_in_file(path):
     """[(func_addr, target)] tail-call thunks found in one listing file."""
     try:
         with open(path, encoding="utf-8", errors="replace") as fh:
-            lines = [ln.strip() for ln in fh]
+            text = fh.read()
     except OSError:
         return []
+    # Pre-filter: a thunk is a func_ label line, at most one blank line, then
+    # a line that starts with `ldr`.  A file without that shape has no thunk,
+    # so the line-by-line scan below is skipped for it.
+    if not RE_THUNK_SHAPE.search(text):
+        return []
+    # the lines as iterating the file gives them (no empty last line)
+    lines = [ln.strip() for ln in text.split("\n")]
+    if text.endswith("\n"):
+        lines.pop()
 
     # Literal pools stay inside the translation unit that references them
     # (disasm.py's TU split never cuts a span mid-pool), so one forward pass
     # per file is enough to resolve every pool_XXXXXXXX label to its value.
     pool_value = {}
     for i, line in enumerate(lines):
+        if not line.startswith("pool_"):
+            continue
         m = RE_THUNK_POOL_LABEL.match(line)
         if m and i + 1 < len(lines):
             wm = RE_THUNK_WORD.match(lines[i + 1])
@@ -538,6 +553,9 @@ def _thunk_candidates_in_file(path):
     out = []
     i, n = 0, len(lines)
     while i < n:
+        if not lines[i].startswith("func_"):
+            i += 1
+            continue
         fm = RE_THUNK_FUNC.match(lines[i])
         if not fm:
             i += 1
@@ -585,14 +603,28 @@ def _unit_files(units_json_path):
 
 def find_tail_call_thunks():
     """Every tail-call thunk image-wide: [{addr, target, region}], by addr."""
-    thunks = []
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import stampcache
+    work = []
     for path in _unit_files(UNITS_JSON) + _unit_files(ITCM_UNITS_JSON):
-        for addr, target in _thunk_candidates_in_file(path):
-            thunks.append({"addr": addr, "target": target, "region": "arm9"})
+        work.append(("arm9", path))
     for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "*.s"))):
         base = os.path.basename(path)
         region = base[:-2] if base.endswith(".s") else base   # "ov010"
-        for addr, target in _thunk_candidates_in_file(path):
+        work.append((region, path))
+    # A listing's thunks depend on that listing alone, so they are kept under
+    # its stamp (build/cache/worklist_thunks.pkl); a file that cannot be
+    # stamped has none, as _thunk_candidates_in_file() returns for it.
+    files = []
+    for _region, path in work:
+        st = stampcache.stamp_of(path)
+        if st is not None:
+            files.append((path, path, st[1], st[2]))
+    found = stampcache.Cache("worklist_thunks", owners=[__file__]).sync(
+        files, _thunk_candidates_in_file)
+    thunks = []
+    for region, path in work:
+        for addr, target in found.get(path, []):
             thunks.append({"addr": addr, "target": target, "region": region})
     thunks.sort(key=lambda t: t["addr"])
     return thunks

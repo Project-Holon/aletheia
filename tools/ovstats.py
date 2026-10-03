@@ -27,6 +27,7 @@ entry are counted as matched.  EXACT and EXACT* both count.
 import argparse
 import bisect
 import glob
+import itertools
 import json
 import os
 import re
@@ -34,6 +35,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
+import stampcache  # noqa: E402  (stamp-validated pickle caches)
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
 HDR_CODE = re.compile(r"classified\s+0x([0-9A-Fa-f]+) bytes code\s+\(([0-9.]+)%\),\s+0x([0-9A-Fa-f]+) bytes data")
@@ -60,45 +62,118 @@ def sdk_addrs(region):
     return _SDK.get(region, set())
 
 
-def listing_labels(path):
-    """[(address, label)] for every label in a listing, in address order."""
+def scan_listing(path):
+    """(head, labels, insns) from one read of a listing.
+
+    head    the first 18 lines joined (the header block)
+    labels  [(address, label)] for every function label, in address order
+    insns   [(address, byte count)] for every decoded instruction line
+
+    Each line is tested with INSN once, and only when it holds "/*", the one
+    thing every instruction comment starts with.  The labels follow the rule
+    of listing_labels() and the sizes the rule of function_code_bytes()."""
+    base = None
+    out = []
+    insns = []
+    head = []
+    pending = None
+    insn_search = INSN.search
+    label_match = LABEL.match
     with open(path, encoding="utf-8", errors="replace") as fh:
-        base = None
-        addr = None
-        out = []
-        pending = None
-        for line in fh:
+        for n, line in enumerate(fh):
+            if n < 18:
+                head.append(line)
             if base is None:
                 m = HDR_RANGE.search(line)
                 if m:
                     base = int(m.group(1), 16)
-                    addr = base
+            m = insn_search(line) if "/*" in line else None
+            if m:
+                insns.append((int(m.group(1), 16), len(m.group(2).split())))
             if pending:
-                m = INSN.search(line)
                 if m:
                     out.append((int(m.group(1), 16), pending))
                     pending = None
                     continue
-                m = ORG.match(line)
-                if m:
-                    out.append((base + int(m.group(1), 16), pending))
+                mo = ORG.match(line)
+                if mo:
+                    out.append((base + int(mo.group(1), 16), pending))
                     pending = None
                     continue
-            m = LABEL.match(line)
-            if m:
-                # extents are bounded by function labels only: loc_ and pool_ labels sit
-                # inside a function and would truncate most of them
-                pending = m.group(1) if FUNCNAME.match(m.group(1)) else None
-                continue
-            m = ORG.match(line)
-            if m and base is not None:
-                addr = base + int(m.group(1), 16)
-                continue
-            m = INSN.search(line)
-            if m:
-                addr = int(m.group(1), 16)
+            c = line[:1]
+            if c == "_" or c.isalpha():
+                ml = label_match(line)
+                if ml:
+                    # extents are bounded by function labels only: loc_ and pool_ labels sit
+                    # inside a function and would truncate most of them
+                    pending = ml.group(1) if FUNCNAME.match(ml.group(1)) else None
     out.sort()
+    return "".join(head), out, insns
+
+
+def listing_summary(path):
+    """(head, labels, {function address: instruction bytes}) for one listing."""
+    head, labels, insns = scan_listing(path)
+    return head, labels, code_bytes_from(insns, [a for a, _ in labels])
+
+
+def listing_labels(path):
+    """[(address, label)] for every label in a listing, in address order."""
+    return scan_listing(path)[1]
+
+
+def code_bytes_from(insns, addrs):
+    """{function address: instruction bytes}: see function_code_bytes()."""
+    starts = sorted(set(addrs))
+    out = dict.fromkeys(starts, 0)
+    out[None] = 0
+    for a, size in insns:
+        pos = bisect.bisect_right(starts, a) - 1
+        out[starts[pos] if pos >= 0 else None] += size
     return out
+
+
+_SHARDS = {}
+
+
+def _load_shards():
+    """Every shard of the tree, once per run, through match.py's stamp cache
+    (build/cache/shards.pkl): only the shard files that changed are parsed.
+    An unparseable shard is skipped."""
+    if not _SHARDS:
+        import match
+        files = match.shard_files_stamped()
+        docs = match.shard_docs(files, on_error=lambda _t, _e: None)
+        by_region = {}
+        for name, path, _mt, _sz in files:
+            if path in docs and name.startswith("pkt_"):
+                by_region.setdefault(os.path.basename(os.path.dirname(path)), []).append(docs[path])
+        _SHARDS["docs"] = docs
+        _SHARDS["by_region"] = by_region
+    return _SHARDS
+
+
+def shard_docs_of(region):
+    """[parsed shard] for layout/matched/<region>/pkt_*.json, in name order."""
+    return _load_shards()["by_region"].get(region, [])
+
+
+def cached_shard_doc(path):
+    """The parsed shard at `path` (spelled as glob returns it), or None when it is
+    missing or does not parse."""
+    docs = _load_shards()["docs"]
+    d = docs.get(path)
+    if d is None:
+        key = os.path.normcase(os.path.abspath(path))
+        for p, doc in docs.items():
+            if os.path.normcase(os.path.abspath(p)) == key:
+                return doc
+        try:
+            with open(path, encoding="utf-8") as fh:
+                d = json.load(fh)
+        except Exception:
+            return None
+    return d
 
 
 def shard_entries(overlay):
@@ -120,11 +195,7 @@ def shard_entries(overlay):
         if key not in entries or (status.startswith(MATCHED) and not entries[key].startswith(MATCHED)):
             entries[key] = status
 
-    for shard in sorted(glob.glob(os.path.join(ROOT, "layout", "matched", overlay, "pkt_*.json"))):
-        try:
-            d = json.load(open(shard, encoding="utf-8"))
-        except Exception:
-            continue
+    for d in shard_docs_of(overlay):
         for f in d.get("functions", []):
             if not isinstance(f, dict) or not f.get("name"):
                 continue
@@ -178,19 +249,7 @@ def function_code_bytes(path, addrs):
     it; pool words and data directives carry no byte field and are never counted, so a
     function is sized by its code alone, not by the distance to the next label.
     Instructions before the first label are returned under the key None."""
-    starts = sorted(set(addrs))
-    out = dict.fromkeys(starts, 0)
-    out[None] = 0
-    with open(path, encoding="utf-8", errors="replace") as fh:
-        for line in fh:
-            m = INSN.search(line)
-            if not m:
-                continue
-            a = int(m.group(1), 16)
-            size = len(m.group(2).split())
-            pos = bisect.bisect_right(starts, a) - 1
-            out[starts[pos] if pos >= 0 else None] += size
-    return out
+    return code_bytes_from(scan_listing(path)[2], addrs)
 
 
 def overlay_rows(funcs_out=None):
@@ -203,11 +262,17 @@ def overlay_rows(funcs_out=None):
     session writes shards while the map is being generated.
     """
     rows = []
-    for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
+    # One read of each listing gives its header, labels and per-function code
+    # bytes; none of the three depends on anything but the listing, so they
+    # are kept under the listing's stamp (build/cache/ovstats_listings.pkl).
+    tree = [t for t in stampcache.scan_files(os.path.join(ROOT, "asm", "overlays"), (".s",))
+            if t[0].startswith("ov")]
+    summaries = stampcache.Cache("ovstats_listings", owners=[__file__]).sync(tree, listing_summary)
+    for path in [t[1] for t in tree]:
         overlay = os.path.basename(path)[:-2]
         if not overlay.startswith("ov") or not overlay[2:].isdigit():
             continue
-        head = "".join(open(path, encoding="utf-8", errors="replace").readlines()[:18])
+        head, labels, code = summaries[path]
         m_range = HDR_RANGE.search(head)
         m_code = HDR_CODE.search(head)
         m_funcs = HDR_FUNCS.search(head)
@@ -226,7 +291,6 @@ def overlay_rows(funcs_out=None):
             "matched_sdk_funcs": 0,
         }
         sdk = sdk_addrs(overlay)
-        labels = listing_labels(path)
         addrs = [a for a, _ in labels]
         by_label = {}
         for a, name in labels:
@@ -234,7 +298,6 @@ def overlay_rows(funcs_out=None):
 
         # Both sides of the figure use one measure, each function's instruction bytes
         # (function_code_bytes), as arm9 does; pools and data runs count nowhere.
-        code = function_code_bytes(path, addrs)
         row["insn_bytes"] = sum(code.values())
         row["unattributed_bytes"] = code[None]
         for a in sorted(set(addrs)):

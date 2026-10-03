@@ -177,6 +177,8 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
+import stampcache  # noqa: E402  (stamp-validated pickle caches)
+
 MATCHED = "src/matched"
 COLUMNS = ("caller_file", "caller_func", "callee", "callee_def_file", "kind", "detail", "confidence")
 
@@ -240,28 +242,40 @@ def match_open_back(s, j):
     return -1
 
 
+_SPLIT_TOKENS = {}
+
+
 def split_top(s, sep=","):
-    parts, d, cur = [], 0, []
-    for ch in s:
+    # Only brackets and the separator matter; a regex jumps between them
+    # instead of testing every character.
+    pat = _SPLIT_TOKENS.get(sep)
+    if pat is None:
+        pat = _SPLIT_TOKENS[sep] = re.compile(r"[(\[{)\]}]|" + re.escape(sep))
+    parts, d, start = [], 0, 0
+    for m in pat.finditer(s):
+        ch = m.group()
         if ch in "([{":
             d += 1
         elif ch in ")]}":
             d -= 1
-        if ch == sep and d == 0:
-            parts.append("".join(cur))
-            cur = []
-        else:
-            cur.append(ch)
-    parts.append("".join(cur))
+        elif d == 0:
+            parts.append(s[start:m.start()])
+            start = m.end()
+    parts.append(s[start:])
     return [p.strip() for p in parts]
 
 
+_FNPTR_NAME = re.compile(r"\(\s*\*\s*(\w+)\s*\)")
+_BRACKET_DIM = re.compile(r"\[[^\]]*\]")
+_IDENT = re.compile(r"[A-Za-z_]\w*")
+
+
 def param_name(p):
-    m = re.search(r"\(\s*\*\s*(\w+)\s*\)", p)
+    m = _FNPTR_NAME.search(p)
     if m:
         return m.group(1)
-    p = re.sub(r"\[[^\]]*\]", "", p)
-    toks = re.findall(r"[A-Za-z_]\w*", p)
+    p = _BRACKET_DIM.sub("", p)
+    toks = _IDENT.findall(p)
     out, skip = [], False
     for t in toks:
         if skip:
@@ -295,6 +309,9 @@ def parse_params(s):
     return len(ps), var, [param_name(p) for p in ps], ps
 
 
+_TAIL_IDENT = re.compile(r"([A-Za-z_]\w*)\s*$")
+
+
 def decl_from_head(head):
     """head ends with ')': (name, return text, parameter text) or None."""
     head = head.rstrip()
@@ -303,7 +320,7 @@ def decl_from_head(head):
     o = match_open_back(head, len(head) - 1)
     if o <= 0:
         return None
-    m = re.search(r"([A-Za-z_]\w*)\s*$", head[:o])
+    m = _TAIL_IDENT.search(head[:o])
     if not m:
         return None
     name = m.group(1)
@@ -315,8 +332,11 @@ def decl_from_head(head):
     return name, head[:m.start()], head[o + 1:-1]
 
 
+_IDENT_OR_STAR = re.compile(r"[A-Za-z_]\w*|\*")
+
+
 def is_void_ret(ret):
-    t = [x for x in re.findall(r"[A-Za-z_]\w*|\*", ret) if x not in QUALS and x not in ("asm", "__asm")]
+    t = [x for x in _IDENT_OR_STAR.findall(ret) if x not in QUALS and x not in ("asm", "__asm")]
     return t == ["void"]
 
 
@@ -352,6 +372,10 @@ def _scalar_size(toks):
     return None
 
 
+_TS_STRUCT = re.compile(r"^(?:(?:const|volatile)\s+)*(struct|union)\s*(\w*)\s*(\{.*\})?\s*$", re.S)
+_TS_ENUM = re.compile(r"^(?:(?:const|volatile)\s+)*enum\b")
+
+
 def type_size(text, types, depth=0):
     """(size, align) of a type written without a declarator name, or None."""
     if depth > 20:
@@ -359,14 +383,14 @@ def type_size(text, types, depth=0):
     text = text.strip()
     if "*" in text or "(" in text:
         return 4, 4
-    m = re.match(r"^(?:(?:const|volatile)\s+)*(struct|union)\s*(\w*)\s*(\{.*\})?\s*$", text, re.S)
+    m = _TS_STRUCT.match(text)
     if m:
         if m.group(3):
             return struct_size(m.group(3)[1:-1], m.group(1) == "union", types, depth + 1)
         return types.get("%s %s" % (m.group(1), m.group(2)))
-    if re.match(r"^(?:(?:const|volatile)\s+)*enum\b", text):
+    if _TS_ENUM.match(text):
         return 4, 4
-    toks = [t for t in re.findall(r"[A-Za-z_]\w*", text) if t not in ("const", "volatile", "register", "static", "extern")]
+    toks = [t for t in _IDENT.findall(text) if t not in ("const", "volatile", "register", "static", "extern")]
     sz = _scalar_size(toks)
     if sz is not None:
         return sz, min(max(sz, 1), 4)
@@ -380,18 +404,24 @@ def type_size(text, types, depth=0):
     return None
 
 
+_DECL_STRUCT = re.compile(r"^(.*?(?:struct|union)\s*\w*\s*\{.*\})\s*(.*)$", re.S)
+_DECL_FIRST = re.compile(r"^(.*?)([\s*]*)([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(:\s*\w+)?$", re.S)
+_DIM = re.compile(r"\[([^\]]*)\]")
+_BITFIELD = re.compile(r":\s*(\w+)\s*$")
+
+
 def _declarators(field):
     """[(type text, array product, bitfield width or None)] for one field."""
     field = field.strip()
     if not field:
         return []
-    m = re.match(r"^(.*?(?:struct|union)\s*\w*\s*\{.*\})\s*(.*)$", field, re.S)
+    m = _DECL_STRUCT.match(field)
     if m:
         base, rest = m.group(1), m.group(2)
     else:
         parts = split_top(field)
         first = parts[0]
-        mm = re.match(r"^(.*?)([\s*]*)([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*(:\s*\w+)?$", first, re.S)
+        mm = _DECL_FIRST.match(first)
         if not mm:
             return [(field, 1, None)]
         base, rest = mm.group(1), first[len(mm.group(1)):]
@@ -401,12 +431,12 @@ def _declarators(field):
     for d in split_top(rest) if rest.strip() else [""]:
         ptr = "*" in d or "(" in d
         n = 1
-        for dim in re.findall(r"\[([^\]]*)\]", d):
+        for dim in _DIM.findall(d):
             try:
                 n *= int(dim.strip(), 0)
             except ValueError:
                 return [(None, 1, None)]
-        bf = re.search(r":\s*(\w+)\s*$", d)
+        bf = _BITFIELD.search(d)
         bits = int(bf.group(1), 0) if bf and bf.group(1).isdigit() else None
         out.append((base + (" *" if ptr else ""), n, bits))
     return out
@@ -441,29 +471,35 @@ def struct_size(body, union, types, depth=0):
     return total, align
 
 
+_TD_ENUM = re.compile(r"^(?:const\s+)?enum\b")
+_TD_STRUCT = re.compile(r"^((?:const\s+)?(struct|union)\s*(\w*)\s*\{.*\})\s*(.*)$", re.S)
+_TD_PLAIN = re.compile(r"^(.*?)([\s*]*)([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", re.S)
+_TD_DECLARATOR = re.compile(r"([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$")
+
+
 def add_typedef(stmt, types):
     body = stmt[len("typedef"):].strip()
-    if re.match(r"^(?:const\s+)?enum\b", body):
-        nm = re.search(r"([A-Za-z_]\w*)\s*$", body)
+    if _TD_ENUM.match(body):
+        nm = _TAIL_IDENT.search(body)
         if nm:
             types[nm.group(1)] = (4, 4)
         return
-    m = re.match(r"^((?:const\s+)?(struct|union)\s*(\w*)\s*\{.*\})\s*(.*)$", body, re.S)
+    m = _TD_STRUCT.match(body)
     if m:
         st = type_size(m.group(1), types)
         if m.group(3) and st:
             types["%s %s" % (m.group(2), m.group(3))] = st
         base, decls = m.group(1), m.group(4)
     else:
-        mm = re.match(r"^(.*?)([\s*]*)([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", body.split(",")[0], re.S)
+        mm = _TD_PLAIN.match(body.split(",")[0])
         if not mm or "(" in body:
-            for nm in re.findall(r"\(\s*\*\s*(\w+)\s*\)", body):
+            for nm in _FNPTR_NAME.findall(body):
                 types[nm] = (4, 4)
             return
         base = mm.group(1)
         decls = body[len(base):]
     for d in split_top(decls):
-        nm = re.search(r"([A-Za-z_]\w*)\s*((?:\[[^\]]*\])*)\s*$", d)
+        nm = _TD_DECLARATOR.search(d)
         if not nm:
             continue
         if "*" in d:
@@ -473,7 +509,7 @@ def add_typedef(stmt, types):
         if st is None or st[0] is None:
             continue
         n = 1
-        for dim in re.findall(r"\[([^\]]*)\]", nm.group(2)):
+        for dim in _DIM.findall(nm.group(2)):
             try:
                 n *= int(dim.strip(), 0)
             except ValueError:
@@ -483,29 +519,37 @@ def add_typedef(stmt, types):
             types[nm.group(1)] = (st[0] * n, st[1])
 
 
+_TRAILING_DIM = re.compile(r"\[[^\]]*\]\s*$")
+_TAIL_IDENT0 = re.compile(r"[A-Za-z_]\w*\s*$")
+_STRUCT_WORD = re.compile(r"\b(struct|union)\b")
+
+
 def param_words(ptext, types):
     """Registers a parameter takes: (words, size_known, is_64)."""
     p = ptext.strip()
     nm = param_name(p)
-    if "(" in p or re.search(r"\[[^\]]*\]\s*$", p) or "*" in p:
+    if "(" in p or _TRAILING_DIM.search(p) or "*" in p:
         return 1, True, False
     t = p
     if nm:
         t = re.sub(r"\b%s\b\s*$" % re.escape(nm), "", p)
     st = type_size(t, types)
-    if st is None and re.search(r"[A-Za-z_]\w*\s*$", p):
+    if st is None and _TAIL_IDENT0.search(p):
         # `unsigned n`, `struct pair v`: param_name() keeps no name for these
-        t = re.sub(r"[A-Za-z_]\w*\s*$", "", p)
+        t = _TAIL_IDENT0.sub("", p)
         st = type_size(t, types) if t.strip() else None
     if st is None or st[0] is None:
         return 1, False, False
     sz = st[0]
     words = max(1, (sz + 3) // 4)
-    return words, True, sz == 8 and not re.search(r"\b(struct|union)\b", t) and words == 2
+    return words, True, sz == 8 and not _STRUCT_WORD.search(t) and words == 2
+
+
+_RET_QUALS = re.compile(r"\b(static|extern|inline|__inline|asm|__asm)\b")
 
 
 def ret_is_64(ret, types):
-    r = re.sub(r"\b(static|extern|inline|__inline|asm|__asm)\b", "", ret)
+    r = _RET_QUALS.sub("", ret)
     if "*" in r:
         return False
     st = type_size(r, types)
@@ -530,6 +574,11 @@ def layout(texts, types):
 _NEXT_PUNCT = re.compile(r"[;{(]")
 
 
+_PF_STRUCT = re.compile(r"^(struct|union)\s+(\w+)\s*(\{.*\})", re.S)
+_ASM_WORD = re.compile(r"\basm\b|__asm")
+_EXTERN_STMT = re.compile(r"\bextern\b[^;{}]*;")
+
+
 def parse_file(text):
     s = strip_comments(text)
     defs, protos, types = [], {}, {}
@@ -544,7 +593,7 @@ def parse_file(text):
                 except (ValueError, RecursionError):
                     pass
             else:
-                m = re.match(r"^(struct|union)\s+(\w+)\s*(\{.*\})", stmt, re.S)
+                m = _PF_STRUCT.match(stmt)
                 if m:
                     st = type_size(m.group(1) + " " + m.group(3), types)
                     if st:
@@ -564,8 +613,8 @@ def parse_file(text):
                 cnt, var, names, texts = parse_params(ptxt)
                 defs.append(dict(name=name, ret=ret.strip(), void=is_void_ret(ret), n=cnt,
                                  var=var, pnames=names, ptexts=texts, body=body,
-                                 asm=bool(re.search(r"\basm\b|__asm", ret))))
-                for st in re.findall(r"\bextern\b[^;{}]*;", body):
+                                 asm=bool(_ASM_WORD.search(ret))))
+                for st in _EXTERN_STMT.findall(body):
                     add_protos(st[:-1], protos)
                 i = j + 1
                 cur_start = i
@@ -584,6 +633,9 @@ def parse_file(text):
     return s, defs, protos, types
 
 
+_HAS_LETTER = re.compile(r"[A-Za-z_]")
+
+
 def add_protos(stmt, protos):
     stmt = stmt.strip()
     if not stmt or stmt.startswith("typedef"):
@@ -592,7 +644,7 @@ def add_protos(stmt, protos):
     if not d:
         return
     name, ret, ptxt = d
-    if "=" in ret or not re.search(r"[A-Za-z_]", ret):
+    if "=" in ret or not _HAS_LETTER.search(ret):
         return
     cnt, var, _names, _t = parse_params(ptxt)
     protos[name] = dict(n=cnt, var=var, void=is_void_ret(ret), ret=ret.strip())
@@ -625,6 +677,15 @@ def find_calls(body):
         args = [] if a == "" else split_top(a)
         calls.append(dict(name=name, k=len(args), args=args, pos=m.start()))
     return calls
+
+
+def def_calls(d):
+    """find_calls(d["body"]), computed once per definition.  Index() fills
+    d["calls"] for every definition it parses, so a cached index carries it."""
+    c = d.get("calls")
+    if c is None:
+        c = d["calls"] = find_calls(d["body"])
+    return c
 
 
 # ----------------------------------------------------------------- headers
@@ -664,70 +725,113 @@ def is_sdk(path):
 # the index of matched C
 # ---------------------------------------------------------------------------
 
+_TAKEN = re.compile(r"\b((?:func|sub|ov\d+_func)_[0-9A-Fa-f]{8}|[A-Z][A-Za-z0-9_]*)\b(?!\s*\()")
+_ASSIGN = re.compile(r"=[^;]*")
+_WORD = re.compile(r"\b[A-Za-z_]\w*\b")
+_MACRO_DEF = re.compile(r"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)")
+_INLINE = re.compile(r"\binline\b|__inline")
+
+
+def _file_record(path, text):
+    """Everything one source file contributes to the index, or None when its
+    declarations nest too deep to parse.  Nothing here looks at another file,
+    so a record can be cached under the file's stamp."""
+    h = header(text)
+    region = h["region"] or ("twl" if "/twl" in path else "arm9")
+    try:
+        stripped, defs, protos, types = parse_file(text)
+    except RecursionError:
+        return None
+    for d in defs:
+        d["file"] = path
+        d["region"] = region
+        if d["name"] == h["function"] and h["address"]:
+            d["addr"] = int(h["address"], 16)
+        else:
+            d["addr"] = h["syms"].get(d["name"], (addr_of_name(d["name"]),))[0]
+        # the ISA as the source states it: the header's isa: line for the file's own
+        # function, the symbols: row for any other definition it carries
+        if d["name"] == h["function"] and h["isa"]:
+            d["isa"] = "thumb" if h["isa"].startswith("thumb") else "arm"
+        elif d["name"] in h["syms"]:
+            d["isa"] = h["syms"][d["name"]][1]
+        else:
+            d["isa"] = None
+        d["thumb"] = (d["isa"] or "thumb") == "thumb"
+        if d["asm"]:
+            d["taken"] = []
+        else:
+            d["calls"] = find_calls(d["body"])
+            d["taken"] = [m.group(1) for m in _TAKEN.finditer(d["body"])]
+    rest = stripped
+    for d in defs:
+        rest = rest.replace(d["body"], "")
+    taken_rest = [nm for m in _ASSIGN.finditer(rest) for nm in _WORD.findall(m.group(0))]
+    macros = set(_MACRO_DEF.findall(text))
+    return dict(path=path, h=h, region=region, defs=defs, protos=protos,
+                types=types, macros=macros, taken_rest=taken_rest)
+
+
 class Index:
     def __init__(self, root=ROOT, overrides=None, snapshot=None):
         """overrides: {repo-relative path: text} read instead of the working tree.
         snapshot: {repo-relative path: text} that IS the tree (every .c under
         src/matched at some commit, see git_snapshot()); the working tree is
-        not read at all."""
+        not read at all.
+
+        The working tree is read through build/cache/regargs_index.pkl: only
+        the files whose stamp changed since the last run are parsed again.
+        The cross-file maps are rebuilt on every run."""
         self.root = root
         overrides = overrides or {}
         self.files = []
         self.defs = {}           # (region, name) -> def
         self.by_addr = {}        # (region, addr & ~1) -> def
         self.sym_region = {}     # addr & ~1 -> Counter of regions symbols: rows tag it with
-        paths = []
+        records = []
         if snapshot is not None:
-            overrides = snapshot
-            paths = list(snapshot)
+            for path in sorted(snapshot):
+                records.append(_file_record(path, snapshot[path]))
         else:
             base = os.path.join(root, *MATCHED.split("/"))
-            for dp, _dn, fn in os.walk(base):
-                for f in fn:
-                    if f.endswith(".c"):
-                        paths.append(os.path.relpath(os.path.join(dp, f), root).replace("\\", "/"))
-        paths.sort()
-        for path in paths:
-            if path in overrides:
-                text = overrides[path]
+            tree = stampcache.walk_files(base, (".c",))
+            prefix = MATCHED + "/"
+            cached = [(prefix + t[0], t[1], t[2], t[3]) for t in tree
+                      if prefix + t[0] not in overrides]
+            rel_of = {t[1]: t[0] for t in cached}
+
+            def parse(abspath):
+                rel = rel_of[abspath]
+                with open(abspath, encoding="utf-8", errors="replace") as fh:
+                    return _file_record(rel, fh.read())
+
+            if os.path.abspath(root) == os.path.abspath(ROOT):
+                got = stampcache.Cache("regargs_index", owners=[__file__]).sync(
+                    cached, parse, key=lambda t: t[0])
             else:
-                with open(os.path.join(root, path), encoding="utf-8", errors="replace") as fh:
-                    text = fh.read()
-            h = header(text)
-            region = h["region"] or ("twl" if "/twl" in path else "arm9")
-            try:
-                stripped, defs, protos, types = parse_file(text)
-            except RecursionError:
+                got = {t[0]: parse(t[1]) for t in cached}
+            for t in tree:
+                rel = prefix + t[0]
+                if rel in overrides:
+                    records.append(_file_record(rel, overrides[rel]))
+                else:
+                    records.append(got[rel])
+        for fi in records:
+            if fi is None:
                 continue
-            for d in defs:
-                d["file"] = path
-                d["region"] = region
-                if d["name"] == h["function"] and h["address"]:
-                    d["addr"] = int(h["address"], 16)
-                else:
-                    d["addr"] = h["syms"].get(d["name"], (addr_of_name(d["name"]),))[0]
-                # the ISA as the source states it: the header's isa: line for the file's own
-                # function, the symbols: row for any other definition it carries
-                if d["name"] == h["function"] and h["isa"]:
-                    d["isa"] = "thumb" if h["isa"].startswith("thumb") else "arm"
-                elif d["name"] in h["syms"]:
-                    d["isa"] = h["syms"][d["name"]][1]
-                else:
-                    d["isa"] = None
-                d["thumb"] = (d["isa"] or "thumb") == "thumb"
+            h, region = fi["h"], fi["region"]
+            for d in fi["defs"]:
                 key = (region, d["name"])
                 if key not in self.defs or d["name"] == h["function"]:
                     self.defs[key] = d
-                if d.get("addr") and not re.search(r"\binline\b|__inline", d["ret"]):
+                if d.get("addr") and not _INLINE.search(d["ret"]):
                     ak = (region, d["addr"] & ~1)
                     if ak not in self.by_addr or d["name"] == h["function"]:
                         self.by_addr[ak] = d
             for _nm, (a, _isa, reg) in h["syms"].items():
                 if reg:
                     self.sym_region.setdefault(a & ~1, collections.Counter())[reg] += 1
-            macros = set(re.findall(r"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)", text))
-            self.files.append(dict(path=path, h=h, region=region, defs=defs, protos=protos,
-                                   types=types, macros=macros, stripped=stripped))
+            self.files.append(fi)
 
     def resolve(self, fi, name):
         if name in fi["macros"]:
@@ -1909,7 +2013,7 @@ def broad_rows(ix, sc, scope, thunks, callers_of):
                 keep.update((f["path"], dd["name"]) for f, dd, _c in lst)
         callers = [(fi, d) for fi, d in callers if (fi["path"], d["name"]) in keep]
     for fi, d in callers:
-        calls = find_calls(d["body"])
+        calls = def_calls(d)
         if not calls:
             continue
         bytarget = collections.defaultdict(list)
@@ -1998,22 +2102,18 @@ def scan(ix, files=None):
         for d in fi["defs"]:
             if d["asm"]:
                 continue
-            for c in find_calls(d["body"]):
+            for c in def_calls(d):
                 cd = ix.resolve(fi, c["name"])
                 if cd:
                     callers_of[(cd["region"], cd["name"])].append((fi, d, c))
-            for m in re.finditer(r"\b((?:func|sub|ov\d+_func)_[0-9A-Fa-f]{8}|[A-Z][A-Za-z0-9_]*)\b(?!\s*\()", d["body"]):
-                cd = ix.resolve(fi, m.group(1))
-                if cd:
-                    addr_taken[(cd["region"], cd["name"])] += 1
-        s = fi["stripped"]
-        for d in fi["defs"]:
-            s = s.replace(d["body"], "")
-        for m in re.finditer(r"=[^;]*", s):
-            for nm in re.findall(r"\b[A-Za-z_]\w*\b", m.group(0)):
+            for nm in d["taken"]:
                 cd = ix.resolve(fi, nm)
                 if cd:
                     addr_taken[(cd["region"], cd["name"])] += 1
+        for nm in fi["taken_rest"]:
+            cd = ix.resolve(fi, nm)
+            if cd:
+                addr_taken[(cd["region"], cd["name"])] += 1
 
     th = find_thunks(ix, sc, scope)
     for t in th.values():
