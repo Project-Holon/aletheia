@@ -49,7 +49,7 @@ struct Sub02007084Ctrl;
 struct Sub02008700Obj;
 extern void func_0201C41C(void *arg);
 extern void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
-extern void func_02010794(int a0);
+extern void func_02010794(u32 a0);
 extern void func_020107CC(void);
 extern void func_020312CC(int a0, void *a1, int a2);
 extern struct SaveCtrl *func_02006F20(int heap);
