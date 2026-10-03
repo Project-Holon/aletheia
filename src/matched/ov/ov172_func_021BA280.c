@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void *func_02030734(void *a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 
 void func_021BA280(void *a, void *b)
 {
-    char *v = func_02030734(b, 0x98, 1, (void *)0x021C7228, 0xcf);
+    char *v = func_02030734((u32)b, 0x98, 1, (void *)0x021C7228, 0xcf);
 
     v[0x36] = 0;
     v[0x37] = 3;

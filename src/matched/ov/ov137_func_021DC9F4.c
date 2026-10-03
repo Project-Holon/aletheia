@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020307B0(void *);
-extern void *func_02030734(u16,u32,int,const void *,int);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_02082BCC(void *,int,u32);
 struct BigObj;
 struct Blk37;
@@ -42,7 +42,7 @@ int func_021DC9F4(u32 *p)
     if(mode==1) {
         func_02012944((void *)p[4]);
         q=func_0200CA1C((void *)p[4]);
-        p[7]=(u32)func_02030734(4,40,0,d_021E2260,328);
+        p[7]=(u32)func_02030734(4,40,0,(const char *)d_021E2260,328);
         func_02082BCC((void *)p[7],0,40);
         r=(void *)func_02012934((void *)p[4]);
         *(void **)p[7]=r;

@@ -48,7 +48,8 @@ typedef struct {
 } Entry;
 
 extern void *func_0200846C(int a0);
-extern void func_020084A0(Info *p);
+struct Sub0200852CObj;
+extern void func_020084A0(struct Sub0200852CObj *p);
 extern void func_020084D4(Info *p, void *name);
 extern void func_02008560(Info *p, u32 v);
 extern void func_02008568(Info *p, u32 v);
@@ -61,7 +62,7 @@ Info *func_021F72C4(Entry *e)
     Info *info;
 
     info = func_0200846C(0x48);
-    func_020084A0(info);
+    func_020084A0((struct Sub0200852CObj *)info);
     func_020084D4(info, e->name);
     func_02008560(info, e->f124);
     func_02008568(info, e->f125);

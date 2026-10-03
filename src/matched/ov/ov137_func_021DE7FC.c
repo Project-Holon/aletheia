@@ -52,7 +52,7 @@ extern void *func_02047CFC(u16,u16,u16);
 struct Ctx;
 extern u16 func_02039338(void);
 extern u32 func_02030CB0(u32);
-extern void *func_02030734(u16,u32,int,const void *,int);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern const u16 d_021E1FA0[][5];
@@ -84,7 +84,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
         if(*(u32 *)(q+12)&(1<<i)) {if(i==player) break;n++;}
     }
     *(int *)(s+0x40)=d_021E1FA0[*(int *)(q+8)][n]<<12;
-    r=func_02030734(0x8072,func_02030CB0(32),0,d_021E22B8,0x4ec);
+    r=func_02030734(0x8072,func_02030CB0(32),0,(const char *)d_021E22B8,0x4ec);
     *(void **)(p+0xd94)=r;
     *(void **)(p+0xd98)=func_02030CBC(32,r);
     func_021E0DE8(p);func_021E0F20(p);func_021E104C(p);func_021E11B4(p);func_021E13BC(p);func_021E1488(p);

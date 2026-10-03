@@ -17,13 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { void *f0; u32 f4; void *f8; u32 fC, f10, f14, f18; } Obj;
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *func_02049EB4(u8, u8, u8, void *, u16);
 extern void func_021C5AAC(u32, u32, const u8 *);
 extern const char d_021C6144[];
 Obj *func_021C59F4(void *p, u32 n, const u8 *q, u32 heap)
 {
-    Obj *o = func_02030734(heap, 28, 1, d_021C6144, 104);
+    Obj *o = func_02030734((u16)heap, 28, 1, d_021C6144, 104);
     o->f0 = p;
     o->f4 = n;
     o->f10 = q[0];

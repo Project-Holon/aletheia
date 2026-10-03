@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const char d_021C7EEC[];
-extern void *func_02030734(u16, unsigned, unsigned, const char *, unsigned);
+extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void func_02082AC0(unsigned, void *, unsigned);
 typedef unsigned int   u32;
 struct Sub02008F80Obj;
@@ -44,7 +44,7 @@ void *func_021C409C(void *a, unsigned heap)
     u8 *p;
     u16 i;
     i = 0;
-    p = func_02030734(heap, 0x34, 0, d_021C7EEC, 0x147);
+    p = func_02030734((u16)heap, 0x34, 0, d_021C7EEC, 0x147);
     func_02082AC0(0, p, 0x34);
     *(u16 *)p = i;
     *(unsigned *)(p + 4) = func_02008F80(a);

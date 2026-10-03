@@ -13,11 +13,11 @@
  *   func_02017E1C  0x02017E1C  thumb
  */
 
-extern int func_02017E1C(int, int, int);
+extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);
 
 unsigned short func_021B7448(int *p)
 {
     int *q = *(int **)p;
 
-    return func_02017E1C(*(int *)q, *(unsigned char *)((char *)q + 0x1b) + 0x36, 0);
+    return func_02017E1C((void *)*(int *)q, *(unsigned char *)((char *)q + 0x1b) + 0x36, 0);
 }

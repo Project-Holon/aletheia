@@ -43,7 +43,7 @@ extern void func_02082BCC(void *,int,u32);
 extern void func_02183ED4(int);
 extern void func_02183F30(void);
 extern u32 func_02030CB0(u32);
-extern void *func_02030734(u16,u32,int,const char *,u32);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 struct Ctx;
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void *func_020056A0(u32,u32,u32);
@@ -71,7 +71,7 @@ enum Result func_02183B60(void *obj)
     *(int *)((unsigned)p+0x14c)=73;
     func_02183ED4(73);
     func_02183F30();
-    *(void **)(p+0x140)=func_02030734(*(int *)((unsigned)p+0x14c),func_02030CB0(5),0,d_02184A20,0x21d);
+    *(void **)(p+0x140)=func_02030734((u16)*(int *)((unsigned)p+0x14c),func_02030CB0(5),0,d_02184A20,0x21d);
     *(void **)((unsigned)p+0x144)=func_02030CBC(5,*(void **)(p+0x140));
     *(void **)((unsigned)p+0x148)=func_020056A0((u32)func_02183F40,(u32)p,1);
     func_0218414C((char *)p+0xe4,*(int *)((unsigned)p+0x14c));

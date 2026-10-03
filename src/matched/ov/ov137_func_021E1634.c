@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: following 021E168C is already matched separately.
  * symbols:
  *   func_020493D4 0x020493D4 arm

@@ -23,11 +23,11 @@ typedef unsigned int u32;
 typedef signed int s32;
 
 extern int func_021F6B34(int v);
-extern int func_0201AA18(void *party);
+extern u32 func_0201AA18(void *party);
 
 int func_021F6BA4(void *party, void *save, int box, int slot)
 {
-    if (func_021F6B34(box) != 0 && func_0201AA18(party) < 2) {
+    if (func_021F6B34(box) != 0 && (int)func_0201AA18(party) < 2) {
         return 0;
     }
     return 1;

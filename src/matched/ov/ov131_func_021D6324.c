@@ -52,7 +52,8 @@ extern void func_02017E40(void *,u32,const void *);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern void func_020307B0(void *);
 extern u32 func_020173E8(void);
-extern void func_02017550(void *);
+struct Sav;
+extern void func_02017550(struct Sav *p);
 extern u32 func_02005728(u32 range);
 typedef unsigned long long u64;
 extern void func_02017600(void *obj,u16 species,u16 level,u64 id);
@@ -106,7 +107,7 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                     n=func_020173E8();
                     base=*(u8 **)c;
                     off=i*n;
-                    func_02017550(base+off);
+                    func_02017550((struct Sav *)(base+off));
                     if(func_02005728(3)!=0) {
                         func_02017600(base+off,i+1,0x32,(u64)-1);
                         SetB(base+off,d_021DC144);

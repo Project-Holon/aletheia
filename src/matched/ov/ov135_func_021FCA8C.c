@@ -35,7 +35,7 @@ struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045924(struct Strbuf *o, const u16 *src);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern void func_02045808(struct U16Vec *vec);
 
@@ -51,7 +51,7 @@ void func_021FCA8C(void *bank, Pane2 *pane, void *name, void *mon, Pane2 *pane2,
     t0 = func_02045EC0(bank, 0x37);
     func_02045924(s0, name);
     t1 = func_02045EC0(bank, 0xC2);
-    func_02017E1C(mon, 0x8D, s1);
+    func_02017E1C(mon, 0x8D, (u32)s1);
     func_021F91A0(pane->win0, t0, 0, 0, 0, 0x3C40, g);
     func_021F91A0(pane->win1, s0, 0, 0, 0, 0x440, g);
     func_021F91A0(pane2->win0, t1, 0, 0, 0, 0x3C40, g);

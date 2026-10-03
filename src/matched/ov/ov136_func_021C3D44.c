@@ -24,7 +24,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082AC0(unsigned, void *, unsigned);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_02008F08(unsigned);
-extern unsigned func_02017E1C(void *, unsigned, void *);
+extern unsigned func_02017E1C(void *, unsigned, unsigned);
 void *func_021C3D44(void *a, void *b, unsigned heap)
 {
     u8 *p;
@@ -33,6 +33,6 @@ void *func_021C3D44(void *a, void *b, unsigned heap)
     *(u16 *)p = 0;
     *(void **)(p + 0x10) = func_02012EBC(a);
     *(void **)(p + 0x14) = func_02008F08((u16)heap);
-    func_02017E1C(b, 0xA7, *(void **)(p + 0x14));
+    func_02017E1C(b, 0xA7, (u32)*(void **)(p + 0x14));
     return p;
 }

@@ -24,7 +24,7 @@ extern int func_02012EBC(int);
 extern u8 *func_021D5BA0(int);
 typedef unsigned int   u32;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern int func_02030734(int,int,int,const char *,u16);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_0200E8E0(void *obj, u32 value);
@@ -51,7 +51,7 @@ void func_021D75D0(int a)
         return;
     }
     *(u8 *)(a+0xae)=1;
-    x=func_02030734(*(u16 *)a,0x3000,0,d_021DAB78,0x34a);
+    x=(int)func_02030734(*(u16 *)a,0x3000,0,d_021DAB78,0x34a);
     *(int *)(a+0x40)=x;
     func_020072CC(b,4,*(u16 *)a,x,0x3000);
     func_02082D44(p,(void *)x,0x2600);

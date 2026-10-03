@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 struct Sub020090B0Obj;
 struct Sub02009210Obj;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern int func_02030734(int,int,int,const char *,u16);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_0200E8E0(int,int);
@@ -54,7 +54,7 @@ void func_021D76F0(int a)
         return;
     }
     *(u8 *)(a+0xae)=1;
-    x=func_02030734(*(u16 *)a,0x6800,0,d_021DAB78,0x37d);
+    x=(int)func_02030734(*(u16 *)a,0x6800,0,d_021DAB78,0x37d);
     *(int *)(a+0x3c)=x;
     func_020072CC(b,7,*(u16 *)a,*(int *)(a+0x3c),0x6800);
     func_02082D44(p,*(void **)(a+0x3c),0x6200);
