@@ -47,7 +47,7 @@ typedef unsigned int u32;
 typedef struct { u32 v[4]; } Display;
 extern u32 data_021D58B0[], data_021D5740[];
 extern const Display data_021D5770;
-extern void func_0203064C(void *, u32, u32);
+extern void func_0203064C(u32, u32, u32);
 extern void *func_0203159C(void *, u32, u32);
 extern void func_02082BCC(void *, int, u32);
 extern void func_0204363C(u32);
@@ -86,7 +86,7 @@ int func_021D5370(void *owner, void *unused, char *args)
 {
     char *p;
     Display display;
-    func_0203064C((void *)1, 31, 0x18000);
+    func_0203064C(1, 31, 0x18000);
     p = func_0203159C(owner, 0x3a8, 31);
     func_02082BCC(p, 0, 0x3a8);
     *(u16 *)(p + 0xc) = 31;

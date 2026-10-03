@@ -30,7 +30,7 @@
 struct Obj0203159C;
 extern unsigned char ov067_id[],ov072_id[];
 extern int func_02034AC4(int);
-extern void func_0203064C(void *,unsigned,unsigned);
+extern void func_0203064C(unsigned,unsigned,unsigned);
 extern char *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,int);
 extern void *func_021BC930(int,int);
@@ -49,7 +49,7 @@ int func_021BBD80(struct Obj0203159C *obj,int unused1,void *config)
     char *p;
     func_02034AC4((int)ov067_id);
     func_02034AC4((int)ov072_id);
-    func_0203064C((void *)1,119,3<<16);
+    func_0203064C(1,119,3<<16);
     p=func_0203159C(obj,620,119);
     func_02082BCC(p,0,620);
     *(void **)(p+0x14)=config;

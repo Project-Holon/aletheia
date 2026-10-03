@@ -20,15 +20,16 @@ struct Sub24;
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02008468(void);
 extern void func_02082D44(const void *, void *, int);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int);
 void func_021DB294(int index, int unused, void *dest, char *ctx, int owner)
 {
     void *record;
     record = func_02012950(*(void **)(ctx + 8), index);
     func_02082D44(dest, record, func_02008468());
-    if (owner == func_020399A8()) {
-        if (index != func_0203D1A4(func_020399A8()))
+    if (owner == (int)func_020399A8()) {
+        if (index != func_0203D1A4((int)func_020399A8()))
             *(int *)(ctx + 0x13c) = 1;
     }
 }
