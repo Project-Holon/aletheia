@@ -36,7 +36,7 @@ typedef struct Quad { u16 v[4]; } Quad;
 typedef struct Pos { short x; short y; } Pos;
 typedef struct Row { Pos pos[6]; int val[2]; } Row;
 typedef struct Res { Obj *owner; void *h; void *e[6]; } Res;
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 typedef unsigned char  u8;
 struct Actor;
 struct Bank;
@@ -62,7 +62,7 @@ void func_02204698(Obj *p, int a, int b)
     Row *row;
     Quad quad;
 
-    r = func_02030734((p->heap & 0x7fff) | 0x8000, 0x20, 0, d_0220AEB0, 0xc53);
+    r = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 0x20, 0, d_0220AEB0, 0xc53);
     quad = d_0220A53C;
     r->owner = p;
     r->h = func_0204B100(6, 0, p->heap);

@@ -30,7 +30,7 @@ typedef struct {
 } State;
 
 extern int func_0201134C(int);
-extern int *func_02030734(u16 a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 extern void *func_02030DA8(void *owner, void *fn, void *p, unsigned a3);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE930(void *p);
@@ -41,7 +41,7 @@ int func_021FC3D8(int a, State *s)
     int v = func_0201134C(a);
     int *p;
 
-    p = func_02030734((s->h238 & 0x7fff) | 0x8000, 0xc, 0, d_0220AE68, 0x1250);
+    p = func_02030734((u16)((s->h238 & 0x7fff) | 0x8000), 0xc, 0, d_0220AE68, 0x1250);
     p[0] = (int)s;
     p[1] = v;
     p[2] = 0;

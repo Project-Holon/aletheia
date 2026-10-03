@@ -50,7 +50,7 @@ typedef struct Obj {
     int a274;
 } Obj;
 typedef struct Res { Obj *owner; int v; } Res;
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Ctx;
 extern u32 func_02030CB0(u32 idx);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
@@ -97,7 +97,7 @@ Obj *func_022020A0(int a, int b, int c, int d, int e, int f, int g, int h, u16 h
     p->a5c = func_02045B38(0, 2, 12, p->heap);
     p->a70 = -1;
     func_02202248(p);
-    r = func_02030734((p->heap & 0x7fff) | 0x8000, 8, 0, d_0220AEB0, 0x3cc);
+    r = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 8, 0, d_0220AEB0, 0x3cc);
     r->owner = p;
     r->v = g;
     func_0220684C(p, func_02030DA8(p->h0, func_02204BAC, r, 0), 0);

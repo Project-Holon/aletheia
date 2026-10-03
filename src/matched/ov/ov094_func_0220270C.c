@@ -147,7 +147,7 @@ extern void func_022043C0(char *, int, int, int, int);
 extern void func_02204960(char *, int, int, int, int, int, int, int);
 extern int func_0202173C(void *, u16, u16, s16, u8, u8, u16, void *);
 extern int func_02021848(void *, u16, u16, s16, u8, u8, u16, void *);
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_0220684C(char *, void *, void (*)(void *));
 extern void func_021F8A78(void);

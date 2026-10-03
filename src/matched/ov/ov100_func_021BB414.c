@@ -24,7 +24,7 @@ typedef unsigned short u16;
 extern void func_0203064C(int, int, int);
 extern int func_0203159C(int, int, int);
 extern void func_02082BCC(int, int, int);
-extern int func_02030734(int, int, int, int, int);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0203D0D0(void);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_021BA780(int);
@@ -41,7 +41,7 @@ int func_021BB414(int a, int b, int c)
     *(u16 *)(a + 0x278) = 0x1f;
     *(int *)(a + 0x24c) = *(int *)(*(int *)(a + 0x244) + 0x1c);
     *(int *)(a + 0xcb4) =
-        func_02030734(*(u16 *)(a + 0x278), 0x200, 0, 0x021BB8AC, 0xb07);
+        (int)func_02030734(*(u16 *)(a + 0x278), 0x200, 0, (const char *)0x021BB8AC, 0xb07);
     func_021BA780(a);
     func_0203D0D0();
     func_0207D63C(0x04000050, 0x10, 3, 9, 0xe);

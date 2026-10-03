@@ -40,7 +40,7 @@ typedef struct { int v[23]; } Rec;
 extern char d_0220AE68[];
 extern int func_021FCD14(State *, int, int *);
 extern int func_021F8710(void);
-extern Rec *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern int func_020515CC(int *, int, int, int);
 extern void func_021FD1CC(void *p);
@@ -60,7 +60,7 @@ void func_021FDD60(State *s, Rec *r, int slot, int arg)
         count = func_021FCD14(s, 16, targets);
         if (count != 0) {
             for (i = 0; i < count; i++) {
-                p = func_02030734((s->heap & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x1c0e);
+                p = func_02030734((u16)((s->heap & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c0e);
                 *p = *r;
                 p->v[1] = targets[i];
                 p->v[2] = targets[i];
@@ -89,7 +89,7 @@ void func_021FDD60(State *s, Rec *r, int slot, int arg)
         }
         if (n != 0) {
             for (i = 0; i < n; i++) {
-                p = func_02030734((s->heap & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x1c45);
+                p = func_02030734((u16)((s->heap & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c45);
                 *p = *r;
                 p->v[1] = keys[i];
                 p->v[2] = keys[i];
@@ -98,7 +98,7 @@ void func_021FDD60(State *s, Rec *r, int slot, int arg)
             }
         }
     } else {
-        p = func_02030734((s->heap & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x1c56);
+        p = func_02030734((u16)((s->heap & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x1c56);
         *p = *r;
         if (func_020515CC(s->objects[slot], arg, (int)func_021FD1CC, (int)p) == -1)
             func_020307B0(p);

@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_0220AE68[];
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
 extern int func_020515CC(int *, int, void (*)(void), void *);
@@ -32,7 +32,7 @@ int func_021FA884(void *a, char *s)
     int *p;
     int idx;
     int x;
-    p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x8a2);
+    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x8a2);
     idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     x = func_0201134C(a);
     p[0] = (int)a;

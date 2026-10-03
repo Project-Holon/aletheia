@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * witness: arm9 func_02051788 filed as src/matched/arm9/func_02051788.c.
  * trailing: 021FAC94 and 021FACA0 are tail-call stubs; not filed while ARM9 blocks.
  * symbols:
@@ -29,7 +29,7 @@ typedef struct { int x, y, z; } Vec;
 typedef struct { u32 v[8]; } Desc;
 extern char d_0220AE68[];
 extern const Vec d_02209DA8, d_02209D9C;
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
 extern int func_020515CC(int *, int, void (*)(void), void *);
@@ -44,7 +44,7 @@ int func_021FAB0C(void *a, char *s)
     int *p;
     int idx;
     int x;
-    p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x92d);
+    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x92d);
     idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     x = func_0201134C(a);
     p[0] = (int)a;

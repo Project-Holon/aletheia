@@ -31,7 +31,7 @@ typedef signed short s16;
 
 extern char d_0220AEB0[];
 
-extern int *func_02030734(u16 heap, unsigned int size, unsigned int clear, const char *file, unsigned int line);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, unsigned int a3);
 extern void func_0220684C(void *o, void *task, void (*fn)(void *, void *));
@@ -42,7 +42,7 @@ void func_022025D8(char *o, int flag)
 {
     int *p;
 
-    p = func_02030734((*(u16 *)(o + 0x240) & 0x7fff) | 0x8000, 4, 0, d_0220AEB0, 0x4F7);
+    p = func_02030734((u16)((*(u16 *)(o + 0x240) & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x4F7);
     if (flag == 1)
         func_0202173C(*(void **)(o + 0x64), 0xA, 0xFFFF, 1, 0, 0x10, 0, *(void **)o);
     else

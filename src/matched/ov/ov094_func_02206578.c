@@ -34,7 +34,7 @@ typedef struct {
 } Ctx;
 
 extern unsigned int func_0203630C(void);
-extern Ctx *func_02030734(u16 heap, int size, int clear, char *file, int line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_0220684C(char *p, void *h, void *cb);
 extern void func_0220663C(void);
@@ -52,7 +52,7 @@ int func_02206578(char *s, int a, int b)
         *(int *)(s + 0x70) = a | 0x8000;
     else
         *(int *)(s + 0x70) = a;
-    c = func_02030734((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000, 0x10, 0, d_0220AEB0, 0x1440);
+    c = func_02030734((u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000), 0x10, 0, d_0220AEB0, 0x1440);
     flag = 0;
     if ((0x10000 & b) == 0)
         flag = 1;

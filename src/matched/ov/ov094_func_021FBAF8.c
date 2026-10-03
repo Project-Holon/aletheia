@@ -25,7 +25,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char d_0220AE68[];
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0201134C(void *);
 extern int func_021FCF2C(int, int);
 extern u32 func_0207C768(u32 a, u32 b);
@@ -45,7 +45,7 @@ int func_021FBAF8(void *a, char *s)
     int diff;
     float f;
     float g;
-    p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x38, 0, d_0220AE68, 0xf17);
+    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0xf17);
     p[0] = (int)s;
     p[1] = func_0201134C(a);
     p[2] = func_0201134C(a);

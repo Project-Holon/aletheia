@@ -117,7 +117,7 @@ extern void func_021FF3F4(void *obj, Vec *out, int idx);
 extern void func_021FE1B8(Vec *v, const Vec *ofs);
 extern void func_021FD8CC(void);
 extern char *func_02011324(int vm);
-extern Obj *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern void func_02051A2C(void *p, Obj *o);
 extern void func_02051A24(void *p, void (*fn)(void));
@@ -264,7 +264,7 @@ void func_021FD1CC(void *p)
     b.y += r->ofs.y;
     if (r->kind != 0) {
         s = func_02011324(r->vm);
-        *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x60, 0, d_0220AE68, 0x194a);
+        *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
         o = *(Obj **)(s + 0x1f4 + *(int *)(s + 0x234) * 4);
         func_02051A2C(p, o);
         func_02051A24(p, func_021FD8CC);

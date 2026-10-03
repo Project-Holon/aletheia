@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-extern int func_0201AA18(int);
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 
 void func_021F6A28(int *p)
@@ -35,11 +35,11 @@ void func_021F6A28(int *p)
         b = s[0];
     }
     for (i = 0; i < 3; i++) {
-        if (func_0201AA18(a) > i)
+        if (func_0201AA18((void *)a) > i)
             p[0xf8 / 4 + i] = (int)func_0201AB28((void *)a, i);
         else
             p[0xf8 / 4 + i] = 0;
-        if (func_0201AA18(b) > i)
+        if (func_0201AA18((void *)b) > i)
             p[0x104 / 4 + i] = (int)func_0201AB28((void *)b, i);
         else
             p[0x104 / 4 + i] = 0;

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * note: the two zero arguments of func_0204E720 sit in r6 because the call is written in
  *   both arms of the if (the arms are cross-jumped and the shared zero is hoisted).
  * trailing: 022026FC..0220270C is an unlabelled getter (mode bits 15..16 of +0x68 != 0).
@@ -28,7 +28,7 @@ typedef struct Obj {
     char pad2[0x240 - 0x6c];
     u16 heap;
 } Obj;
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern int func_0207D55C(u32);
 typedef signed int     s32;
 extern void func_0204E720(u32 a, s32 b, s32 c, s32 d);
@@ -42,7 +42,7 @@ extern const char d_0220AEB0[];
 void func_0220266C(Obj *p)
 {
     Obj **q;
-    q = func_02030734((p->heap & 0x7fff) | 0x8000, 4, 0, d_0220AEB0, 0x50c);
+    q = func_02030734((u16)((p->heap & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
     if (func_0207D55C(0x0400106c) <= 0)
         func_0204E720(2, 0x10, 0, 0);
     else

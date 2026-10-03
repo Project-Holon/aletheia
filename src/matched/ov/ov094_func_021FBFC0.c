@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { unsigned low : 10; unsigned bit10 : 1; unsigned high : 21; } Flags;
 extern char d_0220AE68[];
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_0201134C(void *);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, int);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
@@ -66,13 +66,13 @@ int func_021FBFC0(void *a, char *s)
             }
             func_021FE410(s, 0x7f000, 0x6b000, 10);
             if (!((Flags *)s)->bit10) {
-                p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 4, 0, d_0220AE68, 0x10f9);
+                p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 4, 0, d_0220AE68, 0x10f9);
                 p[0] = (int)s;
                 func_021F896C(func_02030DA8(*(void **)(s + 8), func_021FE8D8, p, 0), 0, 0);
             }
         } else {
             for (i = 0; i < n; i++) {
-                p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x20, 0, d_0220AE68, 0x1104);
+                p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x20, 0, d_0220AE68, 0x1104);
                 p[0] = (int)s;
                 p[1] = buf[i];
                 p[2] = x;

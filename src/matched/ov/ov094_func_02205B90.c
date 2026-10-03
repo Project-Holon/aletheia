@@ -42,7 +42,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B6F4(void *, u8, u32);
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
 extern void func_0220684C(void *, void *, void *);
 extern void func_02204A88(int a0, struct Ctx *c);
@@ -71,7 +71,7 @@ void func_02205B90(char *p, int n)
     func_0204B92C(*(void **)(p + 0x214), 1);
     func_0204B878(*(void **)(p + 0x214), 14);
     func_0204B6F4(*(void **)(p + 0x214), a.v[index], 0);
-    q = func_02030734((*(u16 *)(p + 0x240) & 0x7fff) | 0x8000, 4, 0, d_0220AEB0, 0x11ec);
+    q = func_02030734((u16)((*(u16 *)(p + 0x240) & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x11ec);
     q[0] = p;
     func_0220684C(p, func_02030DA8(*(void **)p, (u32)func_02204A88, (u32)q, 0), (void *)func_02204AEC);
     ((Bits *)(p + 0x68))->count++;

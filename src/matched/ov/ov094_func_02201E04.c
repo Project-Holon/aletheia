@@ -24,7 +24,7 @@ typedef unsigned int u32;
 typedef struct { int x, y, z; } Vec;
 typedef struct { void *owner; Vec start; int idx, mode; Vec a, b, delta; int n1, n2, zero, s2, s3; } Job;
 extern char d_0220AE88[];
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
@@ -42,7 +42,7 @@ void func_02201E04(char *o, int idx, u32 mode, Vec *v, Vec *w, int s1, int s2, i
                    void (*f1)(void *, void *), void (*f2)(void *))
 {
     Job *p;
-    p = func_02030734((*(u16 *)(o + 0x80) & 0x7fff) | 0x8000, 0x50, 0, d_0220AE88, 0x197);
+    p = func_02030734((u16)((*(u16 *)(o + 0x80) & 0x7fff) | 0x8000), 0x50, 0, d_0220AE88, 0x197);
     p->owner = o;
     p->idx = idx;
     p->start.x = v->x;

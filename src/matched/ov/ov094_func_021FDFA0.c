@@ -32,7 +32,7 @@ typedef struct { int x, y, z; } Vec;
 typedef struct { u32 v[8]; } Desc;
 extern char d_0220AE68[];
 extern const Vec d_02209E10, d_02209DB4;
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *);
 extern u32 func_0201134C(void *);
 extern int func_020515CC(int *, int, void (*)(void), void *);
@@ -56,7 +56,7 @@ int func_021FDFA0(void *a, char *s, int mode)
     idx = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     x = func_0201134C(a);
     flags = 0;
-    *(int **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x40, 0, d_0220AE68, 0x1c79);
+    *(int **)(s + 0x1f4 + *(int *)(s + 0x234) * 4) = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x40, 0, d_0220AE68, 0x1c79);
     p = *(int **)(s + 0x1f4 + *(int *)(s + 0x234) * 4);
     *(int *)(s + 0x234) += 1;
     p[0] = func_0201134C(a);

@@ -43,7 +43,7 @@ extern void *func_021F86C4(void);
 extern int func_021F9824(void *);
 extern u8 func_02015EF4(char *p);
 extern u32 func_0203F0A8(void);
-extern int *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u16 func_02015EEC(char *p);
 extern void func_02016028(void *, u32);
 extern void *func_02030DA8(void *, void (*)(void *, int *), void *, u32);
@@ -72,7 +72,7 @@ void func_02201718(int i)
     draw = func_0203F0A8();
     if ((u32)(((u64)draw * n) >> 32) != 0) return;
     ((Flags *)(p + 0x54 + off))->count = 3;
-    q = func_02030734((*(u16 *)(p + 0x540) & 0x7fff) | 0x8000, 12, 1, d_0220AE7C, 0xd5e);
+    q = func_02030734((u16)((*(u16 *)(p + 0x540) & 0x7fff) | 0x8000), 12, 1, d_0220AE7C, 0xd5e);
     q[1] = i;
     if (func_02015EEC(*(void **)(e + off)) > 1) func_02016028(*(void **)(e + off), 1);
     *(void **)(p + off + 0x30) = func_02030DA8(*(void **)p, func_02201304, q, 0);
