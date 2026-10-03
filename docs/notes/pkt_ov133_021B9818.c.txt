@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded: R3 wave61 matched EXACT; duplicate only the p[0x1847] store in the if/else to retain the branch to next. See src/matched/ov/ov133_func_021B9818.c.
  * extent: unlabelled 100-byte follower in handed 021B9784 extent.
  * checks: 1 no callees; 2 same-region 9028 shares 1434 table, no twin; 3 unsigned index same 96/25 as u16/int/enum; 4 duplicated tails (return/goto) 112/43 worse; 5 refreshed directory and 765C/9028 neighbours, no matching twin; no stack object. Permuter skipped: sole redundant branch shifts tail by 2 bytes and pool padding by 2.
  * residual: 96 versus 100 bytes, 25 differing bytes from missing b at 021B985E and resulting pool shift; body otherwise agrees.

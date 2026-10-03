@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched SDK sqrt/Atan and B404/BG signatures plus ov133/ov112 callers; 2 95AC is the closest float/Atan twin, no multiply twin; 3 const p gives 324 different bytes, int angle remains 317; 4 direct rounded 64-bit SDK multiply remains 317, declaration/double-offset idiom restores frame; 5 refreshed idiom directory and 7F54/8140/8254/94C0/ov132 FAE4C/ov112 660C neighbours, no rescue; next hypothesis is distance/handle spill home typing.
- * residual: 644/640 bytes, 317 different bytes, all 51 relocations resolved; 12 one runs. Permuter baseline agrees, 300 candidates; best 640/640 with 393 different bytes rejected because tmp1 reads a before assignment.
+ * checks: 1 matched SDK sqrt/Atan and ARM9 BG/B404 signatures plus own ov133/ov112 callers reread; 2 95AC closest twin, no multiply twin; 3 const p first CCERR then DIFF27 with cast, mutable p restored6; 4 unsigned modular sum before inline FX_Mul restores640 extent and shrinks317 to6; two scheduling variants exhausted; 5 fresh idiom directory, stack-object/spill and FX_Mul idioms plus current ov133/ov112 neighbours reread; prior permuter300 rejected undefined read, not repeated; retry exhausted.
+ * residual: DIFF6, compiled640/original640, 51/51 resolved; distance/handle spills at sp4/sp8 swapped. Ten retry one runs, including one CCERR.
  * symbols:
  *   func_021B765C 0x021B765C thumb ov133
  *   func_021BA184 0x021BA184 thumb ov133
@@ -63,9 +63,10 @@ void func_021B918C(u8 *p)
     Pos pos;
     int a,xbase;
     unsigned b;
-    long distance,radius;
     u8 *entry;
-    int handle;
+    u8 *handle;
+    int distance;
+    long radius;
     u32 *xy;
     s16 y,x;
     int angle;
@@ -73,6 +74,7 @@ void func_021B918C(u8 *p)
     long fy;
     int k,value,d;
     unsigned initial;
+    unsigned long sum;
     initial=(unsigned)(48.0f+(2.0f/3.0f)*(float)*(int *)(p+16));
     a=0x182c;
     func_021B765C(p,*(u16 *)(p+a),0,*(int *)(p+16)+72,initial);
@@ -83,7 +85,7 @@ void func_021B918C(u8 *p)
         a=0x1884;
         do {
             xy=func_021BA228(entry);
-            handle=(int)func_021BA218(entry);
+            handle=func_021BA218(entry);
             x=xy[0]-128;y=xy[1]-80;
             distance=func_0207C7B4(fx((int)((unsigned)(x*x)+(unsigned)(y*y))));
             fxX=ff(x);
@@ -91,14 +93,18 @@ void func_021B918C(u8 *p)
             angle=func_0207CFB8(fy,(int)fxX);
             func_021F4EA4(*(int *)((u32)p+b),(int)handle,&v);
             radius=fx(*(int *)(p+16));
+            sum=(unsigned long)distance;
+            sum+=(unsigned long)radius;
             k=(angle>>4)*2;
-            v.x=xbase+(long)(((long long)table[k+1]*(long)((unsigned long)distance+(unsigned long)radius)+0x800LL)>>12);
+            v.x=xbase+mul(table[k+1],(long)sum);
             d=*(int *)(p+16);
             if((2.0f/3.0f)*(float)d>0.0f)
                 radius=(int)(0.5f+4096.0f*((2.0f/3.0f)*(float)d));
             else
                 radius=(int)(4096.0f*((2.0f/3.0f)*(float)d)-0.5f);
-            v.y=0x50000+(long)(((long long)table[k]*(long)((unsigned long)distance+(unsigned long)radius)+0x800LL)>>12);
+            sum=(unsigned long)distance;
+            sum+=(unsigned long)radius;
+            v.y=0x50000+mul(table[k],(long)sum);
             func_021F4E8C(*(int *)(p+a),(int)handle,&v);
             entry=func_021BA208(entry);
         } while(entry);

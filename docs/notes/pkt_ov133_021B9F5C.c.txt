@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded: R3 wave61 matched EXACT; pointer-add timer stores plus unsigned integer-add guard preserve four offset slots. See src/matched/ov/ov133_func_021B9F5C.c.
  * checks: 1 own B878 is two args with u16 value; B404 twin takes Pos plus flag; 2 9DE8 literal offsets and unsigned index measured DIFF259/292B; 3 short offset locals unchanged, enum and unsigned guard offsets worsen, const base cannot describe writes; 4 dead-store, multiply-high and address-type idioms tried; 5 fresh directory/twins checked, declared-struct-local read, Pos already materializes r7; next hypothesis separate getter/setter inline offset homes; permuter inapplicable: best is 24 bytes short.
  * residual: DIFF259, compiled292 versus original316; four timer-offset homes collapse to two and guard byte is reused in decrement arm.
  * symbols:

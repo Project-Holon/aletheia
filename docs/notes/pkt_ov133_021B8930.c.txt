@@ -7,7 +7,8 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * lever: Assign mode = 8 after the sort call; the compiler hoists its saved-register assignment between the r0 and r1 argument setups.
  * checks: 1 8BB4/9D54/765C arities verified; 2 matched/pending ov133 callers agree; 3 unsigned-long phase and long mode both DIFF4; 4 early-return/assignment-argument/volatile idioms tested; 5 fresh idiom listing and neighbours reread, stack pair already matches; permuter 300 baseline DIFF4 unchanged; next lever would be inline wrapper argument binding.
  * volatile: 0x021B89AC stores A4; 0x021B89B0 rereads that word for func_021B9D54.
  * symbols:
@@ -48,7 +49,8 @@ int func_021B8930(u8 *p)
     mode = func_021F50F4(index);
     if (mode == 7) mode = 6;
     if (mode == *(int *)(p + 0xA4)) {
-        func_021B9028(p, mode = 8, start);
+        func_021B9028(p, 8, start);
+        mode = 8;
     } else func_021B9028(p, mode, start);
     *(int *)(p + 0xA4) = mode;
     func_021B9D54(p, *(volatile int *)(p + 0xA4));

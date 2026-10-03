@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own 450F0 takes seven and 41EE4 three; FD6A4/45730 returns and BA0C8 live ctx/tag retained; 2 ov133 8140/8A30 and B10 9F5C note agree, no new leaf ABI; 3 const p worsens462, Context fields shrink422, enum flag unchanged; 4 enum-on and shared brightness scheduling unchanged, small-constant/struct/subword idioms reviewed; 5 fresh unfiltered idioms and ov133/ov112 neighbours reread; permuter300 baseline agrees422, best622/1224 rejected: tmp4 is read after goto skips assignment. Next hypothesis inline field accessor separates constant webs.
- * residual: DIFF422, compiled1228/original1224,74/79 relocations; constant-one hoist and brightness/shared-tail scheduling. ARM9 blockers 0201F73C/0201C6EC/0201C6B4/0201C4E4 plus ov1339818; no leaves filed.
+ * checks: retry 1 own 450F0/4989C seven args, 41EE4 three, 45730 u8 result, live FD6A4/BA0C8 preserved; own matched Thumb F73C/C6EC/C6B4/C4E4 correct stale ARM hints and resolve79/79; 2 8140/940C/9C08/9F5C twins and 9818 reread; 3 signed channel382, const brightness helper382, int mode/busy382; 4 flag-store inline unchanged430, brightness field-pointer inline shrinks382, duplicated counter arms684; field-pointer and constant-web idioms read; 5 directory and same-region/sibling neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted.
+ * residual: DIFF382, compiled1224/original1224,79/79 relocations; constant-one hoist at +01FA and field-address scheduling at +037A shift tail. No ARM9 blockers remain, no leaves filed. Lever: per-arm brightness(&p->brightness) helper retains mode-offset reuse and restores brightness tail length.
  * prototype: FD6A4 returns live r0; BA0C8 takes visibly loaded context/tag despite empty body; 45730 result is passed straight to 41B6C.
  * symbols:
  *   func_020061E4 0x020061E4 thumb
@@ -41,20 +41,20 @@
  *   func_0204152C 0x0204152C arm
  *   func_020450F0 0x020450F0 arm
  *   func_021B9C90 0x021B9C90 thumb ov133
- *   func_0201F73C 0x0201F73C arm
+ *   func_0201F73C 0x0201F73C thumb
  *   func_021BA0C8 0x021BA0C8 thumb ov133
  *   func_0204047C 0x0204047C arm
  *   func_0204989C 0x0204989C arm
  *   func_02041B6C 0x02041B6C arm
- *   func_0201C6EC 0x0201C6EC arm
+ *   func_0201C6EC 0x0201C6EC thumb
  *   func_020452E8 0x020452E8 arm
  *   func_021BA20C 0x021BA20C thumb ov133
  *   func_021B9CBC 0x021B9CBC thumb ov133
- *   func_0201C6B4 0x0201C6B4 arm
+ *   func_0201C6B4 0x0201C6B4 thumb
  *   func_02045334 0x02045334 arm
  *   func_02045374 0x02045374 arm
  *   func_02045730 0x02045730 arm
- *   func_0201C4E4 0x0201C4E4 arm
+ *   func_0201C4E4 0x0201C4E4 thumb
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0204B3DC 0x0204B3DC arm
  */
@@ -92,6 +92,11 @@ extern void func_02045334(void *),func_02045374(void *);
 extern u8 func_02045730(void *);
 extern u32 func_0200FB24(void);
 extern void func_0204B3DC(void *,u32);
+static inline void brightness(u8 *value)
+{
+    func_02041EE4(6,0,128-*value);
+    func_02041EE4(5,0,*value-128);
+}
 int func_021B63BC(Context *p)
 {
     void *desc;
@@ -149,7 +154,7 @@ int func_021B63BC(Context *p)
     p->flag.bytes.counter++; if(p->flag.bytes.counter>1) p->flag.bytes.counter=0;
     func_02041EE4(3,1,1); func_02041EE4(3,5,1);
     if(p->mode==0) {
-        if(p->brightness<128) { p->brightness+=8; goto brightness; }
+        if(p->brightness<128) { p->brightness+=8; brightness(&p->brightness); }
         else if(p->flag.word==0) {
             p->flag.word=1; func_0204152C(7,0);
             W(0x18ec)=func_020450F0(7,1,19,30,4,14,1);
@@ -163,13 +168,9 @@ int func_021B63BC(Context *p)
             func_021BA0C8((u8 *)p,4); func_0204989C(46,13,7,0,0,0,H(0)); func_02041B6C(7);
             p->busy=0; func_0201C6EC(P(0x18e8)); func_020452E8(P(0x18ec)); W(0x18ec)=0; func_021BA0C8((u8 *)p,6);
         } else if(p->brightness!=0) {
-            func_021BA0C8((u8 *)p,p->brightness+96); p->brightness-=8; goto brightness;
+            func_021BA0C8((u8 *)p,p->brightness+96); p->brightness-=8; brightness(&p->brightness);
         }
     }
-    goto brightness_done;
-brightness:
-    func_02041EE4(6,0,128-p->brightness); func_02041EE4(5,0,p->brightness-128);
-brightness_done:
     func_021BA0C8((u8 *)p,8);
     if(p->busy==0 && W(0x0c)==1) {
         if(P(0x38)!=0 && H(0x18d4)!=*(u16 *)func_021BA20C(P(0x38))) {

@@ -1,0 +1,68 @@
+/*
+ * function: func_021FAB70
+ * address: 0x021FAB70
+ * packet: pkt_ov135_021FAB70
+ * region: ov135
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0202CAE4 0x0202CAE4 thumb
+ *   func_0202CF84 0x0202CF84 thumb
+ *   func_021F9260 0x021F9260 thumb ov135
+ *   func_021F87E0 0x021F87E0 thumb ov135
+ *   func_021FB2F0 0x021FB2F0 thumb ov135
+ *   func_021F9EEC 0x021F9EEC thumb ov135
+ *   func_021FBF04 0x021FBF04 thumb ov135
+ *   func_021FBEB8 0x021FBEB8 thumb ov135
+ *   func_0202CB4C 0x0202CB4C thumb
+ *   func_0204B878 0x0204B878 arm
+ *   func_021F4FF4 0x021F4FF4 thumb ov135
+ *   func_0202CC58 0x0202CC58 thumb
+ *   func_0202CD64 0x0202CD64 thumb
+ *   tbl_02203220 0x02203220 data a1
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_0202CAE4(void *, int, int, int, int);
+extern u32 func_0202CF84(void *, u32);
+extern void func_021F9260(void *, u32);
+extern int func_021F87E0(void **, void *, int);
+extern void func_021FB2F0(void *, int, int);
+extern int func_021F9EEC(u32, u32);
+extern void func_021FBF04(void *, void *, void *, int, u32);
+extern void func_021FBEB8(void *, void *, void *, u32, void *);
+extern void func_0202CB4C(void *, int, int, int);
+extern void func_0204B878(u32, int);
+extern void func_021F4FF4(u32, u32, u32);
+extern void func_0202CC58(void *, u32);
+extern void func_0202CD64(void *, u32, s8, s8, u8);
+typedef struct { u8 x; u8 y; } CurPos;
+extern const CurPos tbl_02203220[];
+void func_021FAB70(u8 *p)
+{
+    func_0202CAE4(*(void **)(p + 24), 0, 96, 29, 1);
+    func_0202CF84(*(void **)(p + 24), 0);
+    func_021F9260(p, 2);
+    if (*(int *)(p + 92) == 1)
+        *(int *)(p + 88) = func_021F87E0((void **)(p + 48), *(void **)(p + 32), 1);
+    else if (*(int *)(p + 92) == 0)
+        *(int *)(p + 88) = func_021F87E0((void **)(p + 48), *(void **)(p + 32), 0);
+    func_021FB2F0(p, 0, *(int *)(p + 88));
+    *(s16 *)(p + 86) = 0;
+    func_021FBF04(*(void **)(p + 24), *(void **)(p + 52), (*(void ***)p)[4], *(s16 *)(p + 86), func_021F9EEC(*(int *)(p + 88), 4));
+    func_021FBEB8(*(void **)(p + 24), *(void **)(p + 32), (*(void ***)p)[14], 74, p + 124);
+    func_0202CB4C(*(void **)(p + 24), 0, 32, 0);
+    func_0204B878(*(u32 *)(p + 8), 6);
+    *(u8 *)(p + 122) = 0;
+    *(int *)(p + 68) = 0;
+    func_021F4FF4(*(u32 *)(p + 8), tbl_02203220[*(int *)(p + 68)].x, tbl_02203220[*(int *)(p + 68)].y);
+    func_0202CC58(*(void **)(p + 24), 0);
+    func_0202CD64(*(void **)(p + 24), 0, -4, 0, 4);
+    *(int *)(p + 72) = 34;
+}

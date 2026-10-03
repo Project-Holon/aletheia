@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 vector/scale arities and BA24C full-word forwarding verified; 2 own ov133 twins and ov112 7ECC agree; 3 const pointers and long progress both DIFF433; 4 split-offset/halfword/lerp/address idioms read, two manual scheduling variants exhausted; 5 fresh idiom listing, own and ov112 neighbours reread, Vec locals already direct structs; permuter300 baseline DIFF433 size816 agreed, safe final DIFF41 size828; next lever separate per-loop source and lerp spill lifetimes.
+ * residual: DIFF24, compiled828/original828, 62/62 resolved; lerp operand registers and source/progress spill homes differ. Eight retry one runs; one malformed CLI invocation made no compile.
+ * checks: 1 BA240 word getter/BA24C halfword store and matched ov133 vector/scale callers reread; 2 8140/8254/8444 agree; 3 mutable p unchanged24, int BA250 return worsened407, u16 restored; 4 declaration reorder shrank41 to24, lerp helper and int progress unchanged24, scheduling variants exhausted; 5 fresh idiom directory and stack-object idiom plus current ov133/ov112 neighbours reread; prior permuter300 rejected, not repeated; retry exhausted.
  * ABI: 021BA24C stores r1 with strh and returns (021BA24C/24E); original
  *      021B8DBC forwards the full timer without a truncation, so its extern
  *      parameter is int here rather than the u16 used by constant callers.
@@ -54,23 +55,27 @@ extern void func_021BA24C(u8 *,int);
 extern void func_021BA148(void *,u8 *);
 extern void func_021BA1D8(u8 *,void *);
 extern void func_021BA22C(u8 *,const Pair *);
-void func_021B8C6C(const u8 *p)
+static inline int lerp(int progress,int source,int target)
+{
+    return source+progress*(target-source)/10;
+}
+void func_021B8C6C(u8 *p)
 {
     Vec a,b,c;
     int offA;
-    s16 scale;
     int offC,offD;
     unsigned int managerA;
     unsigned long managerB;
     u8 *managerC;
-    int nextList;
     u8 *entry,*old,*sprite;
     const Pair *source,*target;
+    s16 scale;
+    int nextList;
     int timer;
     u16 remaining;
     int offB;
     s16 newscale;
-    long progress;
+    int progress;
     int x,y;
     Pair *tmp;
     entry=func_021BA184(*(void **)(p+0x1828));
@@ -94,10 +99,10 @@ void func_021B8C6C(const u8 *p)
                 func_021F4EB4(*(int *)(p+offA),(int)sprite,newscale,newscale);
                 func_021F4EA4(*(int *)(p+offB),(int)sprite,&a);
                 progress=10-(u16)timer;
-                x=source->x+progress*(target->x-source->x)/10;
+                x=lerp(progress,source->x,target->x);
                 if(x>0) a.x=(int)(0.5f+(float)(x<<12));
                 else a.x=(int)((float)(x<<12)-0.5f);
-                y=source->y+progress*(target->y-source->y)/10;
+                y=lerp(progress,source->y,target->y);
                 if(0<y) a.y=(int)(0.5f+(float)(y<<12));
                 else a.y=(int)((float)(y<<12)-0.5f);
                 a.z=0x46000;
@@ -133,10 +138,10 @@ void func_021B8C6C(const u8 *p)
                 if(remaining) {
                     func_021F4EA4(*(int *)(p+0x1884),(int)sprite,&b);
                     progress=10-remaining;
-                    x=source->x+progress*(target->x-source->x)/10;
+                    x=lerp(progress,source->x,target->x);
                     if(x>0) b.x=(int)(0.5f+(float)(x<<12));
                     else b.x=(int)((float)(x<<12)-0.5f);
-                    y=source->y+progress*(target->y-source->y)/10;
+                    y=lerp(progress,source->y,target->y);
                     if(y>0) b.y=(int)(0.5f+(float)(y<<12));
                     else b.y=(int)((float)(y<<12)-0.5f);
                     func_021F4E8C(*(int *)managerC,(int)sprite,&b);

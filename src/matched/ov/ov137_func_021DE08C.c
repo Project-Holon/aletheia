@@ -1,0 +1,74 @@
+/*
+ * function: func_021DE08C
+ * address: 0x021DE08C
+ * packet: pkt_ov137_021DE08C
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021DE5C0 0x021DE5C0 thumb ov137
+ *   func_021DE4B4 0x021DE4B4 thumb ov137
+ *   func_021DE55C 0x021DE55C thumb ov137
+ *   func_021DCF50 0x021DCF50 thumb ov137
+ *   func_02184180 0x02184180 thumb ov022
+ *   func_0201FEF4 0x0201FEF4 thumb
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_02039338 0x02039338 arm
+ *   func_0201CE0C 0x0201CE0C thumb
+ */
+typedef unsigned char u8;
+extern void func_021DE5C0(u8 *);
+extern void func_021DE4B4(char *,int,int);
+extern int func_021DE55C(char *);
+extern void *func_021DCF50(void *);
+extern void *func_02184180(void *,int);
+extern void func_0201FEF4(void *);
+extern void func_0201F02C(void *,int,void *);
+extern int func_02039338(void);
+extern void func_0201CE0C(void *);
+void func_021DE08C(char *p,int state,int player) {
+    switch(state) {
+    case 2:
+        func_021DE5C0((u8 *)p);
+        break;
+    case 13:
+        if (*(void **)(p+0xe8)) {
+            func_0201FEF4(*(void **)(p+0xe8));
+            *(void **)(p+0xe8)=0;
+        }
+        break;
+    case 25:
+        func_021DE4B4(p,12,0);
+        if (*(void **)(p+0xe8)) {
+            func_0201FEF4(*(void **)(p+0xe8));
+            *(void **)(p+0xe8)=0;
+        }
+        break;
+    case 19:
+        if (*(u8 *)(p+0x4810)==1) return;
+        func_0201F02C(*(void **)(p+0x3c),0,func_02184180(func_021DCF50(p),player));
+        if (player==func_02039338()) return;
+        if (*(void **)(p+0xe8)) {
+            func_0201FEF4(*(void **)(p+0xe8));
+            *(void **)(p+0xe8)=0;
+        }
+        if (func_02039338()==0)
+            *(unsigned *)(*(char **)(p+0x10)+0x30)&=player^0xffff;
+        break;
+    case 27:
+        if (!func_021DE55C(p)) func_0201CE0C(*(void **)(p+0xf0));
+        if (*(void **)(p+0xe8)) {
+            func_0201FEF4(*(void **)(p+0xe8));
+            *(void **)(p+0xe8)=0;
+        }
+        break;
+    case 7:
+    case 8:
+        break;
+    default:
+        return;
+    }
+    *(int *)(p+0x118)=state;
+}

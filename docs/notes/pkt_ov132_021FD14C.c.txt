@@ -9,7 +9,7 @@
  * isa: thumb
  * status: DIFF
  * followers: unlabelled leaves begin at 021FD208 and 021FD218.
- * checks: 1 allocator five args, CpuCopy source/dest/size, sender eight; caller CAA8 consumes live return; 2 D350/D22C and FC644 allocation confirm fields; 3 scalar address q and SDK const-source prototype both compiled unchanged; 4 declaration/const/register idioms read; 5 refreshed directory and FC848/D2B8/D350/ov133 neighbours read. Next: m/n width, within existing retry budget.
+ * checks: retry 1 own allocator/sender/size bodies and SDK copy callers reread; 2 D350/D2B8 twins reread; 3 m int, u32* q plus cast (one initial CCERR) compile DIFF6; 4 q-before-s declaration and reusing q for first size compile DIFF6, allocator-tie/inline idioms read; 5 directory and neighbours refreshed. Permuter skipped: omitted followers at D208/D218. Retry exhausted, original best retained.
  * residual: 188-byte lead, 6 bytes: allocation buffer q and q+4 s use r6/r4 instead of r4/r6. Both allowed order variants exhausted. Permuter omitted because the 224-byte extent includes followers.
  * symbols:
  *   func_020307B0 0x020307B0 arm

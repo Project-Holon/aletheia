@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callee bodies/twin confirm arity; ABF0/B294 live r0 retained; 2 ov112 021F44F8 descriptor/archive twin; 3 const p 232 bytes differ, Context heap 32 unchanged, u16 z 619; 4 enum zero idiom shrank 619 to 32, scalar enum externs unchanged; 5 refreshed full idiom list and ov133 6E74/ov112 44F8; permuter 300 baseline agrees 680/32, no improvement.
+ * checks: retry 1 own 490F4/49658/498F4/A6C8/AF28/ABF0/B294/409B4 bodies plus 133/112 callers reread, live r0 preserved; 2 ov112 44F8 twin reread; 3 narrow scalar externs32, signed-long scalar externs32, const p232; 4 distinct enum-returning zero inline32; 5 directory/neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original32 best retained.
  * residue: 680/680 bytes, all 33 relocations resolved; scalar zero arguments use adds from r6 instead of movs #0 at BA..27C.
  * prototype: ABF0 and B294 return live r0 from forwarding calls despite legacy void declarations; preserve caller's observed result.
  * symbols:

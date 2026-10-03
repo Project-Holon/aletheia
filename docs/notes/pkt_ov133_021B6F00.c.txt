@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own arities and 47250 forwarding body checked, 473EC trailing inputs unused, return/live DE0/F4B4C ABI retained; 2 ov1338140/8A30 and ov112 twins agree; 3 Context fields shrink478 to329/correct1128, const Context CCERR at final 7368 call, unsigned key unchanged; 4 byte Vec buffers unchanged329, named callback return fixes frame but1124/453; 5 fresh unfiltered idioms/neighbours reread incl declared-struct/call-result; permuter300 baseline329/1128 but two unresolved versus fixed one, rejected; best313 adds volatile marker also rejected. Next hypothesis inline Vec setter preserves sp-base stores.
- * residual: DIFF329, compiled1128/original1128,50/51 resolved; extra saved r3/frame8 and scalar stack homes, pointer-relative Vec stores fold to sp-relative. ARM9 data020A8148 remains unresolved.
+ * checks: 1 ARM9 matched callee units and 47250/6E964 forwarding bodies plus own ov133/ov112 arities reread; 2 8140/8A30 and ov112 neighbours agree; 3 unsigned-long key and long callback return each unchanged329; 4 inline Vec setter and scalar declaration reorder unchanged329, scheduling variants exhausted; 5 fresh idiom directory, stack-object idiom and current ov133/ov112 neighbours reread; prior permuter300 already ran and was rejected, not repeated; retry exhausted.
+ * residual: DIFF329, compiled1128/original1128, 50/51 resolved; extra saved r3/frame8, scalar stack homes and Vec addressing; ARM9 data020A8148 remains unresolved. Five retry one runs.
  * prototype: 473EC legacy trailing inputs unused; 47250 forwards only resource pointer. DE0/F4B4C preserve original visibly live r0/r2 arguments despite legacy declarations.
  * symbols:
  *   func_0200A644 0x0200A644 thumb
@@ -87,8 +87,12 @@ extern u32 func_0204EFC8(void *,u32,u32,u32,u32,u8,u8);
 extern int func_0204F428(void *,u32,u16,u16,Vec *,u8,u32,u32);
 extern void func_0204F720(void *,u32,u32 *);
 extern void func_021B7368(void *,int),func_021B7A18(u8 *),func_021B765C(u8 *,u16,s16,int,u16);
-extern int (*g_020A8148)(u32,int,int);
+extern long (*g_020A8148)(u32,int,int);
 extern u32 d_021BA3E0;
+static inline void set(Vec *v,int x,int y,int z)
+{
+    v->x=x;v->y=y;v->z=z;
+}
 void func_021B6F00(Context *ctx)
 {
     u8 *p = (u8 *)ctx;
@@ -97,9 +101,9 @@ void func_021B6F00(Context *ctx)
     u8 *manager,*table,*resource,*texture,*entry;
     u16 *colors;
     int *tex;
-    u32 a,b,size;
+    u32 b,a,size;
     int flags;
-    u32 key;
+    unsigned long key;
     u16 dims[2],otherdims[2];
     int origin[3],position[3],marker[3];
     Saved *saved;
@@ -154,12 +158,12 @@ void func_021B6F00(Context *ctx)
     *(void **)(p+0x1824) = func_021BA0CC(*(u16 *)p,9);
     *(void **)(p+0x1828) = func_021BA0CC(*(u16 *)p,4);
     for (i=0;i<14;i++) {
-        ((Vec *)origin)->x=0; ((Vec *)origin)->y=0; ((Vec *)origin)->z=0;
+        set((Vec *)origin,0,0,0);
         entry = func_021BA19C(*(u16 *)p,ctx->manager,(u8 *)&ctx->records[i],(Vec *)origin);
         func_021BA100(*(void **)(p+0x181c),entry);
         func_021F4EE8((int)ctx->manager,func_021BA218(entry),0);
     }
-    ((Vec *)position)->x=0; ((Vec *)position)->y=0; ((Vec *)position)->z=0;
+    set((Vec *)position,0,0,0);
     *(u16 *)(p+0x50)=0;
     flags=func_021F4F70((int *)func_021F4F54(table,*(u16 *)(p+0x50)));
     func_0204EDD0(flags,&otherdims[1],&otherdims[0]);
@@ -175,7 +179,7 @@ void func_021B6F00(Context *ctx)
     func_021F4B4C(resource);
     *(u32 *)(p+0x58)=func_0204EFC8(ctx->resourceManager,46,25,2,34,32,32);
     for(k=0;k<14;k++) {
-        ((Vec *)marker)->x=0; ((Vec *)marker)->y=0; ((Vec *)marker)->z=0;
+        set((Vec *)marker,0,0,0);
         ctx->markers[k]=func_0204F428(ctx->resourceManager,*(u32 *)(p+0x58),4096,4096,(Vec *)marker,31,0,0);
         func_0204F720(ctx->resourceManager,ctx->markers[k],&d_021BA3E0);
     }

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callee arities/stack widths confirmed; 2 ov133 7458/7A18/8254 twins provide no scheduling fix; 3 const parameter worsened, const byte pointer/cast retained four-byte residue; 4 typed Managers far fields unchanged, enum offset worsened; 5 refreshed full idiom listing and current ov133 neighbours.
- * residue: 240/240 bytes, four concrete bytes; manager-offset ldr and Vec.z stack store swap at +98/+9A. Permuter300 baseline agreed at 240/4 and found no improvement.
+ * checks: 1 BA188 halfword getter, BA19C four arguments and own matched 7458/ov133 callers reread; 2 8140/8254/8444 agree; 3 const Context worsened225/244 bytes, u16 BA188 return unchanged4/240; 4 Vec inline setter and named y scheduling both worsened, scheduling variants exhausted; 5 fresh idiom directory and current ov133/ov112 neighbours reread; prior permuter300 baseline4 flat, not repeated; retry exhausted.
+ * residual: DIFF4, compiled240/original240, 17/17 resolved; manager-offset ldr and Vec.z store swap at +98/+9A. Six retry one runs.
  * symbols:
  *   func_021B7458 0x021B7458 thumb ov133
  *   func_021BA188 0x021BA188 thumb ov133
@@ -29,7 +29,7 @@ typedef struct { u16 id; u16 pad; int a,b,c,d; } Record;
 typedef struct { u8 prefix[0xa8]; u16 count,pad; Record records[]; } Context;
 typedef struct { u8 prefix[0x1820]; void *manager; u8 gap[0x60]; void *display; } Managers;
 extern void func_021B7458(void *, int *);
-extern int func_021BA188(void *);
+extern u16 func_021BA188(void *);
 extern u8 *func_021BA19C(u16, void *, u8 *, Vec *);
 extern void func_021BA100(void *, u8 *);
 extern void func_021BA21C(u8 *, int *);
