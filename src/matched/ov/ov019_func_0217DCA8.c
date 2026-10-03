@@ -53,12 +53,14 @@ typedef struct {
     u32 f134[4];
 } Work;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int a);
 extern int func_0203D1B4(void);
 extern void func_02034714(void *a, int b, void *c);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Link;
+extern void func_02039C68(struct Link *a, u32 b, u32 c);
+extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02008554(void *a);
 extern int func_02008550(void *a);
 extern int func_02008530(void *a);
@@ -87,7 +89,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
     int a;
     int x;
 
-    me = func_0203D1A4(func_020399A8());
+    me = func_0203D1A4((int)func_020399A8());
     if (w == 0)
         func_02034714(d_021807E4, 0, d_021807E4);
 
@@ -98,20 +100,20 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
 
     switch (*state) {
     case 0:
-        func_02039C68(func_020399A8(), 0xd, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0xd, 0x14);
         (*state)++;
         break;
     case 1:
-        if (func_02039CB4(func_020399A8(), 0xd, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xd, 0x14) == 1)
             (*state)++;
         break;
     case 2:
         func_02174B40(ctx);
-        func_02039C68(func_020399A8(), 0xe, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0xe, 0x14);
         (*state)++;
         break;
     case 3:
-        if (func_02039CB4(func_020399A8(), 0xe, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xe, 0x14) == 1)
             (*state)++;
         break;
     case 4:
@@ -132,11 +134,11 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
         }
         break;
     case 6:
-        func_02039C68(func_020399A8(), 0xf, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0xf, 0x14);
         (*state)++;
         break;
     case 7:
-        if (func_02039CB4(func_020399A8(), 0xf, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0xf, 0x14) == 1)
             (*state)++;
         break;
     case 8:
@@ -151,7 +153,7 @@ int func_0217DCA8(void *ctx, u8 *obj, int a2, u8 *state)
         x = func_0200ED48(func_02012EBC(func_020120F4((*(int **)ctx)[3])));
         n = func_0203D1B4();
         for (i = 0; i < n; i++) {
-            if (w->ents[i].f26 == 1 && i != func_0203D1A4(func_020399A8()))
+            if (w->ents[i].f26 == 1 && i != func_0203D1A4((int)func_020399A8()))
                 func_0200ED54(x, func_02008530(&w->ents[i]));
         }
         func_02175094(w, 1);

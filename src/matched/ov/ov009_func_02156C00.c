@@ -26,7 +26,7 @@ extern u8 *g_021A8264;
 extern u8 d_021A1C60[];
 extern void func_02156BD8(u32);
 extern void *func_0203D798(void);
-extern u32 func_0203D7C8(u32, u32, void *, u32);
+extern void *func_0203D7C8(u32, u32, const char *, u16);
 extern void func_021770EC(u8, u32, u32);
 
 void func_02156C00(u32 a)
@@ -36,7 +36,7 @@ void func_02156C00(u32 a)
     if (*(u32 *)(g_021A8264 + a * 4 + 0x174) == 0) {
         u32 n = 0x1000;
         *(u32 *)(g_021A8264 + a * 4 + 0x174) =
-            func_0203D7C8(*(u16 *)(p + 0x56), n, d_021A1C60, 0xb74);
+            (u32)func_0203D7C8(*(u16 *)(p + 0x56), n, (const char *)d_021A1C60, 0xb74);
         func_021770EC(a, *(u32 *)(g_021A8264 + a * 4 + 0x174), n);
     }
 }

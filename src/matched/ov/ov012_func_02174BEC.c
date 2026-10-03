@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 extern void func_02082D44(void *src, void *dst, u32 n);
 
@@ -26,7 +27,7 @@ void func_02174BEC(u32 a, u32 b, void *c, u8 *d)
 {
     u8 *w = *(u8 **)(d + 0x355C);
 
-    if (a == func_0203D1A4(func_020399A8())) {
+    if (a == func_0203D1A4((u32)func_020399A8())) {
         return;
     }
     if (w == 0 || *(int *)w == 0) {

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Runs func_0200E06C, then func_0200E124, then the initialiser.
  *
@@ -19,13 +19,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_0200E06C(u8 *p, u32 a);
-extern void func_0200E124(u8 *p, u32 a);
+extern void func_0200E06C(char *p);
+extern void func_0200E124(u32 *p, u32 a);
 extern void func_0200E024(void *obj);
 
 void func_0200E18C(u8 *p, u32 a)
 {
-    func_0200E06C(p, a);
-    func_0200E124(p, a);
+    func_0200E06C((char *)p);
+    func_0200E124((u32 *)p, a);
     func_0200E024(p);
 }

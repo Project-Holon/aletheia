@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0203064C  0x0203064C  arm
@@ -15,7 +15,7 @@
  *   func_020306F0  0x020306F0  arm
  */
 
-extern void func_0203064C(int a, int b, int c);
+extern void func_0203064C(unsigned int a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 extern u32 func_02011F24(void);
 extern void func_020306F0(int a);
