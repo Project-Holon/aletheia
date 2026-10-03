@@ -21,10 +21,11 @@ typedef unsigned int   u32;
 
 struct Sub { u8 pad00[0x2c]; u8 b2c; u8 pad2[0x3c - 0x2d]; u8 b3c; };
 struct Obj { struct Sub * volatile p; };
-extern u32 func_02072894(u32 a, u32 b, u32 c);
+struct SNDTrackInfo;
+extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
-int func_02073108(struct Obj *o, u32 v, u32 w)
+int func_02073108(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     if (o->p == 0) return 0;
-    return func_02072894(o->p->b3c, v, w);
+    return func_02072894(o->p->b3c, trackNo, trackInfo);
 }

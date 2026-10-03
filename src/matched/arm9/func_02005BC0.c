@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Closest C for the console-init body: shut the console down, arm the two
  * handlers, take the 0x1a-byte record block from the console object, then
@@ -54,7 +54,9 @@ extern void  func_02005FF4(void);
 extern u8   *func_02005C3C(void);
 extern void  func_02072758(void);
 extern u32 func_020727B4(void);
-extern int   func_02073108(u8 *a, int b, u8 *c);
+struct Obj;
+struct SNDTrackInfo;
+extern int   func_02073108(struct Obj *o, int trackNo, struct SNDTrackInfo *trackInfo);
 
 void func_02005BC0(void)
 {
@@ -68,7 +70,7 @@ void func_02005BC0(void)
     p = func_02005C3C();
     *(u16 *)g020AA260 = 0;
     for (i = 0; i < 0x10; i++) {
-        if (func_02073108(p, i, g020AA414 + i * 0x1a) == 1) {
+        if (func_02073108((struct Obj *)p, i, (struct SNDTrackInfo *)(g020AA414 + i * 0x1a)) == 1) {
             *(u16 *)g020AA260 |= (u16)(1 << i);
         }
     }

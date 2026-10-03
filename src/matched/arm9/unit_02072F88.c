@@ -54,7 +54,8 @@ extern void func_02089438(u8, u32, u32);
 extern void func_02089454(u8, u32, u32);
 extern void func_02089470(u8, u32, u32);
 extern void func_020893B8(u8, u32);
-extern u32 func_02072894(u32 a, u32 b, u32 c);
+struct SNDTrackInfo;
+extern int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
 void func_02072F88(struct Obj *o, u32 v)
 {

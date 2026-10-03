@@ -29,9 +29,11 @@ typedef unsigned int   u32;
 
 extern s8  g_0214BAC0[];
 extern u8  g_0214BB00[];
-extern u32 func_0208A0A4(u8 *, u32, u32, u32);
+struct SNDDriverInfo;
+struct SNDTrackInfo;
+extern int func_0208A0A4(struct SNDDriverInfo *, int playerNo, int trackNo, struct SNDTrackInfo *trackInfo);
 
-u32 func_02072894(u32 a, u32 b, u32 c)
+int func_02072894(int playerNo, int trackNo, struct SNDTrackInfo *trackInfo)
 {
     s8 idx = g_0214BAC0[0];
     u8 *p;
@@ -39,5 +41,5 @@ u32 func_02072894(u32 a, u32 b, u32 c)
     if (idx < 0) p = 0;
     else         p = g_0214BB00 + idx * 0x11E0;
     if (p == 0) return 0;
-    return func_0208A0A4(p, a, b, c);
+    return func_0208A0A4((struct SNDDriverInfo *)p, playerNo, trackNo, trackInfo);
 }
