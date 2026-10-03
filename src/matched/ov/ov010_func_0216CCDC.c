@@ -23,8 +23,9 @@
  */
 
 typedef unsigned int   u32;
+typedef unsigned short u16;
 extern u32 func_02030CB0(u32 idx);
-extern int func_02030734(int, int, int, char *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern int func_02030CBC(int, int);
 extern int func_020490F4(int, int);
 extern void func_0216D4DC(void *, int);
@@ -38,7 +39,7 @@ void func_0216CCDC(char *a, int b, int c, int d, int e, int f)
     *(short *)(a + 0xa) = b;
     *(int *)(a + 0x30) = c;
     *(int *)(a + 0x3c) = d;
-    t = func_02030734(b, func_02030CB0(*(unsigned short *)(a + 4)), 0, d_02172B48, 0x109);
+    t = (int)func_02030734(b, func_02030CB0(*(unsigned short *)(a + 4)), 0, d_02172B48, 0x109);
     h = *(unsigned short *)(a + 4);
     *(int *)(a + 0x1c) = t;
     *(int *)(a + 0x20) = func_02030CBC(h, t);

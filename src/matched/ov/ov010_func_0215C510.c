@@ -30,7 +30,7 @@ struct Party;
 struct PartyMon;
 extern void *func_02012934(const struct BigObj *p);
 extern int func_0201AA14(void *a);
-extern int func_0201AA18(void *a);
+extern u32 func_0201AA18(void *p);
 struct Spec;
 extern void *func_0215C40C(void *a, struct Spec *s);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
@@ -44,7 +44,7 @@ int func_0215C510(void *a, void *b)
     void *r5;
 
     r6 = func_02012934(a);
-    if (func_0201AA14(r6) <= func_0201AA18(r6))
+    if (func_0201AA14(r6) <= (int)func_0201AA18(r6))
         return 0;
     r5 = func_0215C40C(a, b);
     func_0201A98C(r6, r5);

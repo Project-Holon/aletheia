@@ -56,7 +56,7 @@ extern u16 func_02159B10(void *c, void *vm);
 extern void *func_02012934(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern int func_0201AA14(void *party);
-extern int func_0201AA18(void *party);
+extern u32 func_0201AA18(void *party);
 extern void *func_020173F0(u32 species, u32 level, u64 id, u32 heap);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -94,7 +94,7 @@ int func_0215C2D0(void *c, void *vm)
     res = func_02159AE8(c, vm);
     species = func_02159B10(c, vm);
     form = func_02159B10(c, vm);
-    if (func_0201AA14(party) <= func_0201AA18(party)) {
+    if (func_0201AA14(party) <= (int)func_0201AA18(party)) {
         *res = 0;
         return 0;
     }

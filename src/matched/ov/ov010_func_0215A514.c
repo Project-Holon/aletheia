@@ -17,7 +17,7 @@
  *   d_021728E0     0x021728E0  data  ov010  a4
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern int func_02158F54(int);
 extern int func_020120F4(int);
 extern int func_02012964(int);
@@ -25,7 +25,7 @@ extern int d_021728E0;
 
 void *func_0215A514(int a, int heap)
 {
-    int *p = (int *)func_02030734(heap, 0x110, 1, &d_021728E0, 0x78);
+    int *p = (int *)func_02030734(heap, 0x110, 1, (const char *)&d_021728E0, 0x78);
 
     p[0] = a;
     p[1] = func_02158F54(a);

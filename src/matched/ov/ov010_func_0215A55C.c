@@ -16,14 +16,14 @@
  */
 typedef struct { int w[4]; } S16;
 typedef struct { unsigned short id; S16 r; } T;
-extern void *func_02030734(unsigned int, unsigned int, int, const void *, unsigned short);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern unsigned int func_02158F6C(void *);
 extern int d_021728E0;
 void *func_0215A55C(const S16 *src, int v)
 {
     T *p;
     const S16 *s;
-    p = (T *)func_02030734((unsigned short)((v & 0x7fff) | 0x8000), 0x24, 1, &d_021728E0, 0x94);
+    p = (T *)func_02030734((unsigned short)((v & 0x7fff) | 0x8000), 0x24, 1, (const char *)&d_021728E0, 0x94);
     s = src;
     p->id = v;
     p->r = *s;

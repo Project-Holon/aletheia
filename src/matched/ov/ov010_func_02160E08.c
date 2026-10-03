@@ -85,7 +85,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200CA1C(void *sys);
 extern u32 func_0200CA38(struct Blk37 *p);
-extern int func_0201AA18(void *party);
+extern u32 func_0201AA18(void *party);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *party, u32 i);
@@ -151,7 +151,7 @@ Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
             s->kind = kind;
             if (s->kind == 2) {
                 party = func_02012934(sys);
-                for (i = 0; i < func_0201AA18(party); i++) {
+                for (i = 0; i < (int)func_0201AA18(party); i++) {
                     mon = func_0201AB28(party, i);
                     if (func_02017E1C(mon, 0xA9, 0) && func_0201897C(mon) && func_02017E1C(mon, 0x4C, 0) == 0) {
                         s->slot = i;
@@ -160,7 +160,7 @@ Setup *func_02160E08(Work *w, int kind, int mode, Src *src)
                 }
             } else if (s->kind == 1) {
                 party = func_02012934(sys);
-                for (i = 0; i < func_0201AA18(party); i++) {
+                for (i = 0; i < (int)func_0201AA18(party); i++) {
                     mon = func_0201AB28(party, i);
                     if (func_02017E1C(mon, 0xA9, 0) && func_02017E1C(mon, 0x4C, 0) == 0) {
                         s->slot = i;

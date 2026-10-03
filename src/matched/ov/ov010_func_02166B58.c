@@ -29,7 +29,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int   func_02017E1C(u32 obj, int key, int off);
+extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 extern void *func_020144DC(u32 a0, u32 a1);
 struct Evt;
 extern void func_02012374(struct Evt *evt, struct Evt **out);
@@ -50,7 +50,7 @@ u32 func_02166B58(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02017E1C(args[3], 0x4C, 0) == 0 || func_02017E1C(args[3], 3, 0) == 1) {
+        if (func_02017E1C((void *)args[3], 0x4C, 0) == 0 || func_02017E1C((void *)args[3], 3, 0) == 1) {
             *mode = 7;
         } else {
             *mode = 1;
@@ -79,7 +79,7 @@ u32 func_02166B58(void *obj, u32 *mode, u32 *args)
         break;
     case 6:
         func_02012374(obj, func_021BE92C(a0, a2, 0, 0, 1, 0, 0));
-        func_0216559C(func_02017E1C(args[3], 5, 0));
+        func_0216559C(func_02017E1C((void *)args[3], 5, 0));
         *mode = 7;
         break;
     case 7:

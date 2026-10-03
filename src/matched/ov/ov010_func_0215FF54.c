@@ -44,7 +44,7 @@ extern u16 func_0200C468(const u8 *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *func_020124E8();
 extern void func_02082BCC();
-extern u32 *func_02030734();
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0(void *map);
 extern void func_020355D8(u8 v);
@@ -100,7 +100,7 @@ struct Desc *func_0215FF54(int a0, int a1, u16 a2)
     p->field = a1;
     p->id = a2;
     p->f18 = 0;
-    p->sub = (struct Sub *)func_02030734(4, 0x40, 0, d_02172960, 0xc2);
+    p->sub = (struct Sub *)func_02030734(4, 0x40, 0, (const char *)d_02172960, 0xc2);
     func_02082BCC(p->sub, 0, 0x40);
     p->sub->owner = p->owner;
     p->sub->field = p->field;

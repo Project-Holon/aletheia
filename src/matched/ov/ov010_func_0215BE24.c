@@ -47,7 +47,7 @@ struct Sub0200852CObj;
 struct U16Vec;
 extern u8 *func_02012944(void *p);
 extern int func_0215B4AC(void *a0, u32 a1, void **a2);
-extern u32 func_02017E1C(void *mon, u32 id, void *arg);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_02008530(const struct Sub0200852CObj *obj);
 extern u16 func_0215A5CC(void *a0);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
@@ -84,7 +84,7 @@ int func_0215BE24(void *c, void *vm)
     a = func_020457B0(16, heap);
     b = func_020457B0(16, heap);
     if (a != 0 && b != 0) {
-        func_02017E1C(mon, 0x8D, a);
+        func_02017E1C(mon, 0x8D, (u32)a);
         func_02008500(player, b);
         if (func_0204589C(a, b) == 0) {
             func_02045808(a);

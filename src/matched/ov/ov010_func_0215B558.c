@@ -24,15 +24,15 @@ typedef short s16;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10();
 extern int func_0215B4AC();
-extern int func_02017E1C(int, int, int);
+extern u32 func_02017E1C(void *, u32, u32);
 int func_0215B558(int a0, int a1)
 {
     u16 *p = func_02159AE8((void *)a0, (void *)a1);
     u16 *q = func_02159AE8((void *)a0, (void *)a1);
     int obj;
     if (func_0215B4AC(a1, func_02159B10(a0, a1), &obj) == 1) {
-        *p = func_02017E1C(obj, 0xAE, 0);
-        *q = func_02017E1C(obj, 0xAF, 0);
+        *p = func_02017E1C((void *)obj, 0xAE, 0);
+        *q = func_02017E1C((void *)obj, 0xAF, 0);
     } else {
         *p = 0;
         *q = 0;

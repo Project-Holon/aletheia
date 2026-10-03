@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201AA18();
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int func_0202F488();
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -32,7 +32,7 @@ int func_0216BE20(int a, int b, int e, int d, u16 *out)
     int i;
     void *obj;
 
-    n = func_0201AA18(a);
+    n = func_0201AA18((void *)a);
     found = 0;
     *out = 0;
     for (i = 0; i < n; i++) {

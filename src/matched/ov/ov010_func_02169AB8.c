@@ -140,7 +140,7 @@ extern u32 func_02008DF0(void *p, int i);
 extern void *func_020056BC(void);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, u16 heap);
 extern void func_02012DAC(void *p);
-extern int func_02012DD0(void *p);
+extern int func_02012DD0(u8 *p);
 extern void func_0202F038(u8 *p);
 extern void func_020061E4(u32 a);
 extern void *func_0201EC64(u32 heap);

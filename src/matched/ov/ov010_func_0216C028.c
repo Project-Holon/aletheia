@@ -27,7 +27,7 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern void func_02082BCC(void *, int, int);
 extern int func_020457B0(int, unsigned short);
 extern void func_02045838(int, int);
-extern int func_02017E1C(int, int, int);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern char d_02172A60[];
 
 int *func_0216C028(unsigned short a0, int a1, int a2, int a3, int s0)
@@ -40,9 +40,9 @@ int *func_0216C028(unsigned short a0, int a1, int a2, int a3, int s0)
     p[10] = s0;
     if (a1) {
         int t;
-        *(short *)((char *)p + 4) = func_02017E1C(a1, 5, 0);
-        t = func_02017E1C(a1, 0x6f, 0);
-        *(short *)((char *)p + 6) = (func_02017E1C(a1, 0x6e, 0) << 8) | t;
+        *(short *)((char *)p + 4) = func_02017E1C((void *)a1, 5, 0);
+        t = func_02017E1C((void *)a1, 0x6f, 0);
+        *(short *)((char *)p + 6) = (func_02017E1C((void *)a1, 0x6e, 0) << 8) | t;
     }
     p[8] = func_020457B0(0xb, a0);
     if (a3)

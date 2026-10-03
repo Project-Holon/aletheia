@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0200CA1C(void *a);
-extern int func_0201AA18();
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 struct Blk37;
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -42,7 +42,7 @@ void func_0216A390(int a0, int a1)
 
     l4 = func_0200CA1C((void *)a0);
     found = 0;
-    n = func_0201AA18(a1);
+    n = func_0201AA18((void *)a1);
     for (i = 0; i < n; i++) {
         e = func_0201AB28((void *)a1, i);
         v = func_02017E1C(e, 5, 0);

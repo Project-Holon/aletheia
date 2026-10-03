@@ -20,7 +20,7 @@
  *   d_021728CC     0x021728CC  data  ov010  a4
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int func_020120F4(int);
 typedef unsigned int   u32;
 struct BigObj;
@@ -35,7 +35,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
 {
     int t8 = func_020120F4(a);
     void *t12 = func_02012934((void *)t8);
-    char *p = (char *)func_02030734(4, 0x98, 1, &d_021728CC, 0x11d);
+    char *p = (char *)func_02030734(4, 0x98, 1, (const char *)&d_021728CC, 0x11d);
     int r;
     int *q;
 

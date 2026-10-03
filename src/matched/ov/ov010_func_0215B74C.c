@@ -25,7 +25,7 @@ typedef short s16;
 extern int func_02159B10();
 extern int func_02011330();
 extern int func_0215B4AC();
-extern int func_02017E1C(int, int, int);
+extern u32 func_02017E1C(void *, u32, u32);
 extern int func_02017E40(int, int, int);
 int func_0215B74C(int a0, int a1)
 {
@@ -37,10 +37,10 @@ int func_0215B74C(int a0, int a1)
     if (func_0215B4AC(a1, a, &obj) == 0) {
         return 0;
     }
-    if (func_02017E1C(obj, 0x4C, 0) == 1) {
+    if (func_02017E1C((void *)obj, 0x4C, 0) == 1) {
         return 0;
     }
-    v = func_02017E1C(obj, 9, 0);
+    v = func_02017E1C((void *)obj, 9, 0);
     switch (mode) {
     case 0:
         if ((u32)b > 0xFF) {

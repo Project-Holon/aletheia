@@ -27,7 +27,8 @@ extern int func_02045B38(int, int, int, int);
 extern void func_02082BCC(void *, int, int);
 extern void *func_0216880C(u32 group, u32 heap);
 extern int func_02045EC0(int, int);
-extern void func_02045A38(int, void *, int);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *, u16 *, u32);
 extern void func_02045808(int);
 extern void func_02045C04(int);
 
@@ -52,7 +53,7 @@ u16 *func_021688BC(Blk *a, int b, int c)
     a->f1a = b * 3;
     a->f4 = *r;
     t = func_02045EC0(h, b);
-    func_02045A38(t, a->f8, 16);
+    func_02045A38((struct U16Vec *)t, (u16 *)a->f8, 16);
     func_02045808(t);
     func_02045C04(h);
     return r;

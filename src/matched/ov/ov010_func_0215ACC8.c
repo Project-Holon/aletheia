@@ -21,7 +21,8 @@
 extern void *func_0215A5E4(void *a0);
 extern int func_02012EBC(void *);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
-extern int func_020071EC(int);
+struct Sub020071E4Ctrl;
+extern unsigned char func_020071EC(const struct Sub020071E4Ctrl *ctrl);
 extern int func_020071E4(int);
 extern void func_0200723C(int, unsigned *, unsigned *);
 
@@ -40,7 +41,7 @@ int func_0215ACC8(int a, int b)
     r5 = func_02159AE8((void *)a, (void *)b);
     s2 = 0;
     s1 = 0;
-    *r7 = func_020071EC(r4);
+    *r7 = func_020071EC((const struct Sub020071E4Ctrl *)r4);
     *m = func_020071E4(r4);
     func_0200723C(r4, &s1, &s2);
     if (s1 * 3 < s2) {

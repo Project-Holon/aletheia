@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern char *func_02159B10(void *, void *);
 extern int func_0215B4AC(void *, void *, void *);
-extern u32 func_02017E1C(void *, void *, int);
+extern u32 func_02017E1C(void *, u32, u32);
 
 int func_0215BCE8(void *a0, void *a1)
 {
@@ -36,7 +36,7 @@ int func_0215BCE8(void *a0, void *a1)
     k = func_02159B10(a0, a1);
     p = func_02159B10(a0, a1);
     if (func_0215B4AC(a1, k, &v) == 1) {
-        *out = func_02017E1C(v, p + 0x36, 0);
+        *out = func_02017E1C(v, (u32)(p + 0x36), 0);
     } else {
         *out = 0;
     }

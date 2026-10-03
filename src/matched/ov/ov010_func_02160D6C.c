@@ -29,7 +29,7 @@ struct Ctx;
 
 typedef struct T { void *a; void *b; u8 *c; u16 h; } T;
 
-extern T *func_02030734();
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern u8 d_02172978[];
 extern void func_02082BCC();
 extern void *func_020120F4(const struct Ctx *p);
@@ -46,7 +46,7 @@ T *func_02160D6C(int *a0, int a1)
     void *sys;
     int s;
 
-    p = func_02030734(4, 0x10, 0, d_02172978, 0x49b);
+    p = func_02030734(4, 0x10, 0, (const char *)d_02172978, 0x49b);
     func_02082BCC(p, 0, 0x10);
     sys = func_020120F4((const struct Ctx *)*(int *)a0[6]);
     p->a = sys;
