@@ -59,7 +59,7 @@ struct WordSet;
 extern u32 func_020279E8(struct TaskMenu *m);
 extern u8 func_02027A04(const u8 *p);
 extern void func_021BB1AC(Obj *o);
-extern int func_021B619C(unsigned int a, int b, u16 c);
+extern int func_021B619C(int a, int b, unsigned int id);
 extern void func_021B7D20(struct Obj *o, int x);
 extern unsigned int func_02012F08(void *p);
 extern void func_0200C278(unsigned int a, unsigned int b);

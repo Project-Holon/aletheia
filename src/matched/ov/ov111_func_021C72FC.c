@@ -112,21 +112,21 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern int func_020275E4(void);
-extern int func_02027624(void);
-extern int func_02027628(void);
-extern int func_0202762C(void);
+extern u32 func_020275E4(void);
+extern u32 func_02027624(void);
+extern u32 func_02027628(void);
+extern u32 func_0202762C(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
 extern void func_02049658(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
 extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
 extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
-extern void func_02049BDC(void *arc, int id, int a, int b, int c, int d, int heap);
-extern void func_02049B40(int a, int b, int c, int d, int e, int heap);
-extern void func_020413B0(int a, int b, int c, int d, int e, int f);
-extern void func_020409B4(int a);
-extern void func_0201F57C(int a, int b, int c, int heap);
-extern void func_0201F554(int a, int b, int c, int heap);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020409B4(u32 index);
+extern void func_0201F57C(u32 a, u32 b, u32 c, u32 d);
+extern void func_0201F554(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02049F78(void *arc, int id, Res **out, int heap);
 
 void func_021C72FC(Work *p)

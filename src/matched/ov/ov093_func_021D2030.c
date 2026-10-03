@@ -30,7 +30,7 @@ typedef struct {
 extern u32 func_021CD9E0(void *s);
 extern int func_021B8590(u32 v);
 extern u32 func_021D2000(Seq *s, u32 k, u32 b);
-extern void func_021EA0A0(void *win, u32 a, u32 b, u32 c, u32 d, u32 e, u8 f);
+extern void func_021EA0A0(u32 *p, u32 a1, u32 a2, u32 a3, u32 s5, u32 s6, u8 s7);
 extern int func_021EA0E4(void *win);
 int func_021D2030(Seq *s, int *state, const u32 *a)
 {

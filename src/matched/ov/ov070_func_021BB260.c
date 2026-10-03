@@ -39,7 +39,7 @@ extern void func_0201EFA4(int, int, int, int, int, int);
 extern void func_0201F250(int, int, int);
 extern void func_021BB6E0(u8 *p, u32 *obj, u32 str, u16 x, s16 y, u16 color);
 extern void func_021BB724(u32 *);
-extern int func_021B619C(unsigned int a, int b, u16 c);
+extern int func_021B619C(int a, int b, unsigned int id);
 
 void func_021BB260(u8 *p, int val)
 {

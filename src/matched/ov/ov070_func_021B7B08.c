@@ -37,7 +37,7 @@ typedef struct Obj {
 } Obj;
 
 extern void func_021BB0F8(Obj *o);
-extern int func_021B619C(unsigned int a, int b, u16 c);
+extern int func_021B619C(int a, int b, unsigned int id);
 extern void func_02045CAC(void *arc, unsigned int entry, unsigned int dst);
 typedef unsigned int   u32;
 struct WordSet;

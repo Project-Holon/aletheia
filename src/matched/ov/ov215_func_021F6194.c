@@ -23,8 +23,11 @@
  *   func_0201CCE4 0x0201CCE4 thumb
  */
 typedef unsigned short u16;
-extern unsigned func_02045770(void *);
-extern void func_02043B5C(unsigned,unsigned);
+typedef unsigned char  u8;
+struct CharBuf;
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *buf, u8 value);
 typedef unsigned int   u32;
 struct MsgBank;
 struct Rec3;

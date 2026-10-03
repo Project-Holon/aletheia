@@ -11,5 +11,6 @@
  *   func_021F9754 0x021F9754 thumb ov132
  */
 typedef unsigned char u8;
-extern void func_021F9754(char *,int,int);
+typedef unsigned int   u32;
+extern void func_021F9754(char *p, u32 i, int v);
 void func_021F9730(char *p,int value){if(!**(int **)(p+0x30))func_021F9754(p,*(u8 *)(p+0xa),value);else{*(int *)(p+0x15c)=1;*(int *)(p+0x160)=value;}}

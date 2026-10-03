@@ -39,11 +39,11 @@ extern int func_02156B8C(void);
 extern u8 func_021C23C0(int);
 extern void func_021BA874(struct Work *, int);
 extern void func_021BAAB8(char *, int, int);
-extern struct S *func_021C23B8(int);
+extern int func_021C23B8(int i);
 extern void func_021C2810(struct S *, char *);
 extern void func_021C18C8(char *, int, int);
-extern void *func_020362DC(void);
-extern void func_021BA828(void *);
+extern u32 func_020362DC(void);
+extern void func_021BA828(char *p);
 static inline int Step(int *dst, int old)
 {
     int n;

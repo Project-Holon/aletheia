@@ -29,7 +29,7 @@ struct S020315D4;
 struct TaskMenu;
 extern void func_02028148(u8 *p);
 extern void func_02027858(struct TaskMenu *m);
-extern void func_021D7898(void *);
+extern void func_021D7898(char *p);
 extern void func_021D5FC4(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(void *);

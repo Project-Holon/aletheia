@@ -38,17 +38,18 @@ static inline void init_offset(Off *value)
     *value -= 0x88;
 }
 extern void *func_021B86B8(void ***);
-extern u8 func_021B904C(void *,int);
-extern u16 func_021BA004(void *,int);
+struct Q1;
+extern u8 func_021B904C(u8 *p, int k);
+extern u16 func_021BA004(char *p, int i);
 extern char *func_021B9AEC(char *,int);
 extern u8 *func_021B990C(void *,u32,u8);
 extern int func_021D5B68(void *);
-extern u32 func_021B99B8(void *,u32);
+extern int func_021B99B8(void *pp, unsigned int b);
 extern u32 func_0202A298(u32,u32,u32);
-extern int func_021D59B4(void *,int);
-extern u32 func_021D7B60(void *,int);
-extern int func_021D5B48(void *);
-extern u32 func_021B9B94(void *);
+extern int func_021D59B4(u8 *p, int k);
+extern u32 func_021D7B60(void *p, u32 b);
+extern int func_021D5B48(u8 *p);
+extern u8 func_021B9B94(struct Q1 *p);
 extern u8 func_021B9B98(char *);
 extern const u16 d_021EFF78[4];
 int func_021CE8F0(const u8 *p,u16 *out)

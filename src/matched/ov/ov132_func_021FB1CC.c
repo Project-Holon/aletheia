@@ -17,7 +17,8 @@
  */
 
 extern void func_021F9D80(char *p);
-extern void func_021F9AD8(void *, int, int);
+typedef unsigned char  u8;
+extern void func_021F9AD8(char *p, int mode, u8 slot);
 
 int func_021FB1CC(int a, char **pp)
 {

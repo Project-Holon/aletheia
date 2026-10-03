@@ -32,7 +32,7 @@ extern int func_021B7250(int *);
 extern int func_021B6480(int *);
 extern int func_021B884C(int *);
 extern int func_021B86A0(u8 *);
-extern void func_021B8C3C(u8 *,int *,int);
+extern void func_021B8C3C(u8 *p, const void *a, int color);
 extern void func_021B8624(u8 *);
 extern int func_021B8614(u8 *);
 extern void func_021B7F1C(u8 *,void *,int,int,s16);

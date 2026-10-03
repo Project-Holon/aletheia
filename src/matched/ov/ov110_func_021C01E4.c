@@ -16,7 +16,7 @@
  *   func_02034A5C 0x02034A5C arm
  *   ov067_id 0x43 data
  */
-extern void func_021C05B0(void *);
+extern void func_021C05B0(char *p);
 struct PrintSys;
 struct Rec;
 struct S020314B8;

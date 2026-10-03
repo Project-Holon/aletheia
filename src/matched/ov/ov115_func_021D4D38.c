@@ -45,7 +45,7 @@ extern void func_0203FC28(void *);
 extern void func_021D4FA4(void *,u32);
 extern void func_021D5214(void *,u32);
 extern void func_021D57D0(void *);
-extern void func_021D5598(void *);
+extern void func_021D5598(u8 *p);
 extern void func_021D4E58(void *,u32);
 extern void func_021D50BC(void *,u32);
 extern void func_021D532C(void *);

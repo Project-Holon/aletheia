@@ -28,14 +28,16 @@ typedef unsigned int u32;
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 extern int func_021B8D8C(void *, void *, u8);
 extern u8 func_021C7F68(void *, u16, u8 *);
-extern int func_021B9934(char *, int);
+typedef signed int     s32;
+struct Slot;
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5BDC(u8 *, u32);
 extern int func_021C5418(u8 *, u8 *, int);
 extern u8 func_021D69AC(u8 *, int);
-extern int func_0203EFC8(const void *, const void *, u32);
+extern s32 func_0203EFC8(const u8 *a, const u8 *b, u32 n);
 extern int func_021C6F34(u8 *, u8 *, int);
 extern int func_021D62C4(u8 *, int);
-extern void func_021C5620(u8 *, u8 *, int, void *);
+extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
 extern void func_021CD64C(void *, u8, ...);
 int func_021CA5CC(const u8 *p, const struct Cmd *q)
 {

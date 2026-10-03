@@ -28,19 +28,20 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 *func_021B9920(void *, int, int);
-extern u8 func_021D5440(void *);
+struct S;
+extern u8 *func_021B9920(void *p, u32 i, u8 j);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8CE8(void *, u8, int);
 extern int func_021D1DF4(void *);
 extern void func_021EAF18(void *, int, int);
-extern int func_021B9F70(void *, int);
+extern int func_021B9F70(u8 *p, int i);
 extern void func_021EAF50(void *, int);
 extern void func_021EA614(void *, void *);
-extern int func_021EA710(void *);
+extern int func_021EA710(u32 *p);
 extern u8 func_021B8BEC(u8 *, u32, u8);
-extern void func_021EA488(void *, int, int, int);
-extern int func_021EA4C4(void *);
-extern void func_021CDECC(void *);
+extern void func_021EA488(struct S *s, u8 a, u8 b, u8 c);
+extern int func_021EA4C4(struct S *s);
+extern void func_021CDECC(u8 *p);
 static inline void message(u8 *p, int code, u32 value, u32 id)
 {
     func_021EAF18(p + 0x58, 1, code);
