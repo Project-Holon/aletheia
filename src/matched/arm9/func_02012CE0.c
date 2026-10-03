@@ -56,7 +56,8 @@ extern void func_020087E8(u32 h, u32 v);
 extern void func_02008860(u32 h, u32 v);
 extern u32  func_02012964(void *p);
 extern void func_0200EE64(u32 a, u32 b);
-extern u32  func_020071CC(u32 h, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *h, u32 id);
 extern void func_0200BE54(u32 h, u32 v);
 extern u32  func_020127B8(void *p);
 extern u32  func_020127C4(void *p);
@@ -84,7 +85,7 @@ void func_02012CE0(u8 *p)
     func_02008860(*(u32 *)p, v);
 
     v = func_02012964(p);
-    func_0200EE64(v, func_020071CC(*(u32 *)p, 0x29));
+    func_0200EE64(v, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x29));
 
     func_0200BE54(*(u32 *)p, func_020127B8(p));
 

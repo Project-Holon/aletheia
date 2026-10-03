@@ -10,8 +10,9 @@
  * status:   EXACT
  */
 
-extern void *func_020071CC(int a, int b);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, unsigned int id);
 void *func_02012F2C(int *p)
 {
-    return func_020071CC(*p, 0x26);
+    return func_020071CC((struct Sub020071CCCtrl *)*p, 0x26);
 }

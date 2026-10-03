@@ -68,7 +68,7 @@ extern void func_0201691C(void *a0, struct Obj_0201691C *a1);
 extern int func_02016C38(int a0);
 extern void  func_02021F64(int a, int b, u16 c, int d, u16 e);
 extern int   func_020056A0(int fn, int arg, int n);
-extern int   func_02030734(u16 heap, int size, int kind, int file, int line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern int   func_02030DA8(int owner, int fn, int arg, int n);
 extern void  func_020307B0(int p);
 extern void  func_02082A60(int a, int b, int c);
@@ -79,7 +79,7 @@ void func_020160D4(char *a0, char *a1, u16 a2, int a3)
 
     o = (char *)func_02030734(
             (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
-            0x2c, 1, (int)data_020A72CC, 0x761);
+            0x2c, 1, (const char *)data_020A72CC, 0x761);
 
     *(char **)(o + 0x20) = a0;
     *(int *)(o + 0x28) = (*(int *)(a0 + 8) != 0);
@@ -89,14 +89,14 @@ void func_020160D4(char *a0, char *a1, u16 a2, int a3)
 
     *(char **)(o + 4) = (char *)func_02030734(
             (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
-            0x10, 0, (int)data_020A72CC, 0x769);
+            0x10, 0, (const char *)data_020A72CC, 0x769);
 
     **(int **)(o + 4) = *(int *)(a1 + 0xc0);
     *(int *)(*(char **)(o + 4) + 4) = 0;
     *(int *)(*(char **)(o + 4) + 8) = *(int *)(a1 + 0xdc);
-    *(int *)(*(char **)(o + 4) + 0xc) = func_02030734(
+    *(int *)(*(char **)(o + 4) + 0xc) = (int)func_02030734(
             (u16)(((u16)*(int *)(a1 + 0x14c) & 0x7fff) | 0x8000),
-            *(int *)(a1 + 0xdc), 0, (int)data_020A72CC, 0x76e);
+            *(int *)(a1 + 0xdc), 0, (const char *)data_020A72CC, 0x76e);
 
     func_02021F64(*(int *)(a1 + 0xd4),
                   *(int *)(*(char **)(o + 4) + 0xc),

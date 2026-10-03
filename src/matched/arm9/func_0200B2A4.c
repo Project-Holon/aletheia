@@ -24,25 +24,26 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_0200B1F8(int a0);
-extern int  func_0201AA18(int a1);
+struct Rec1E;
+extern void func_0200B1F8(struct Rec1E *p);
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern int  func_02017E1C(int obj, int key, int off);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0200B254(int a0, int field, u8 idx, int value);
 
 void func_0200B2A4(int a0, int a1)
 {
     int i;
 
-    func_0200B1F8(a0);
-    for (i = 0; i < func_0201AA18(a1); i++) {
+    func_0200B1F8((struct Rec1E *)a0);
+    for (i = 0; i < (int)func_0201AA18((void *)a1); i++) {
         int obj = (int)func_0201AB28((void *)a1, i);
 
-        if (func_02017E1C(obj, 0xa9, 0) != 0) {
-            func_0200B254(a0, 0, i, func_02017E1C(obj, 5, 0));
-            func_0200B254(a0, 1, i, func_02017E1C(obj, 0x6f, 0));
-            func_0200B254(a0, 2, i, func_02017E1C(obj, 6, 0) != 0);
-            func_0200B254(a0, 3, i, func_02017E1C(obj, 0x6e, 0));
+        if (func_02017E1C((void *)obj, 0xa9, 0) != 0) {
+            func_0200B254(a0, 0, i, func_02017E1C((void *)obj, 5, 0));
+            func_0200B254(a0, 1, i, func_02017E1C((void *)obj, 0x6f, 0));
+            func_0200B254(a0, 2, i, func_02017E1C((void *)obj, 6, 0) != 0);
+            func_0200B254(a0, 3, i, func_02017E1C((void *)obj, 0x6e, 0));
         }
     }
 }

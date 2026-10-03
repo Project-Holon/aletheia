@@ -6,7 +6,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02017E1C   0x02017E1C  thumb
@@ -51,7 +51,7 @@ struct Rec0200E7BC {
     u32 f1c;
 };
 
-extern u32  func_02017E1C(void *mon, u32 id, void *buf);
+extern u32  func_02017E1C(void *mon, u32 id, u32 buf);
 struct MsgData;
 extern void func_02045F5C(struct MsgData *msg, u32 msgIndex, u16 *str, u32 maxLen);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
@@ -67,7 +67,7 @@ void func_0200E7BC(struct Rec0200E7BC *o, int idx, void *mon)
     o[idx].f00 = func_02017E1C(mon, 0, 0);
     o[idx].f1c = func_02017E1C(mon, 7, 0);
     if (func_02017E1C(mon, 0x75, 0) != 0) {
-        func_02017E1C(mon, 0x74, o[idx].name);
+        func_02017E1C(mon, 0x74, (u32)o[idx].name);
     } else {
         u16 buf[12];
 

@@ -74,7 +74,7 @@ extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void  MI_CpuFill8(void *dst, u8 v, u32 size);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017D30(struct Sav *p);
-extern u32   func_02017E1C(void *mon, u32 id, void *buf);
+extern u32   func_02017E1C(void *mon, u32 id, u32 buf);
 extern void func_02045A38(struct U16Vec *vec, u16 *out, u32 n);
 extern u16   func_02045A98(void);
 extern u32 func_02017D70(struct Sav *p, u32 f);
@@ -106,9 +106,9 @@ void func_0200EA3C(struct Rec *rec, void *party, struct Date *date, u32 heap)
             e->f32[2] = func_02017E1C(mon, 0x38, 0);
             e->f32[3] = func_02017E1C(mon, 0x39, 0);
             if (buf != 0) {
-                func_02017E1C(mon, 0x73, buf);
+                func_02017E1C(mon, 0x73, (u32)buf);
                 func_02045A38(buf, e->name, 11);
-                func_02017E1C(mon, 0x8d, buf);
+                func_02017E1C(mon, 0x8d, (u32)buf);
                 func_02045A38(buf, e->ot, 8);
             } else {
                 e->name[0] = func_02045A98();

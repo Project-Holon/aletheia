@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   sub_02017550  0x02017550  thumb
@@ -26,11 +26,14 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void sub_02017550(u8 *p);
+struct Sav;
+extern void sub_02017550(struct Sav *p);
 extern u32 sub_0201AA18(void *p);
 extern void *sub_0201AB28(void *p, u32 idx);
 extern void *sub_020185F4(void *p);
-extern void sub_0200BAD4(u8 *a0, u32 i, u32 j, void *v);
+struct Grp330;
+struct Ent88;
+extern void sub_0200BAD4(struct Grp330 *p, u32 g, u32 i, const struct Ent88 *src);
 
 void func_0200BB58(u8 *a0, u8 *a1)
 {
@@ -38,8 +41,8 @@ void func_0200BB58(u8 *a0, u8 *a1)
     u32 k = 0;
 
     for (i = 0; i < 6; i++)
-        sub_02017550(a0 + i * 0x88);
+        sub_02017550((struct Sav *)(a0 + i * 0x88));
 
     for (i = 0; i < (u32)sub_0201AA18(a1); i++)
-        sub_0200BAD4(a0, k, i, sub_020185F4(sub_0201AB28(a1, i)));
+        sub_0200BAD4((struct Grp330 *)a0, k, i, sub_020185F4(sub_0201AB28(a1, i)));
 }

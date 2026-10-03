@@ -103,7 +103,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern char  g_020A728C[];
-extern void *func_02030734(int heap, int size, int flag, void *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_020070A4(void);
 extern u8    func_0202E888(void);
 extern u32   func_02008854(u32 h);
@@ -120,7 +120,8 @@ extern void *func_0216237C(int heap);
 extern void  func_021623DC(void *p);
 extern u32   func_02012FE4(u32 h);
 extern u32   func_02159B48(int heap);
-extern u32   func_020071CC(u32 h, u32 id);
+struct Sub020071CCCtrl;
+extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern u32   func_0216CC58(int heap, u32 n, u32 c);
 extern u32   func_02028844(void *p, int heap);
 extern u32   func_02014428(int heap);
@@ -129,7 +130,7 @@ extern u32   func_0200873C(u32 h);
 extern u32   func_02007AA4(int heap, u32 h);
 extern u32   func_020097C4(int heap);
 extern void  func_0200BDE4(void *p);
-extern void  func_02161D98(void *p);
+extern void  func_02161D98(char *p);
 extern u32   func_0200857C(int heap);
 extern u32   func_020071E4(u32 h);
 extern u32   func_0215E31C(int heap);
@@ -172,12 +173,12 @@ void *func_020124F4(u16 heap)
     func_021623DC(obj);
     *(u32 *)(p + 0x1AC) = func_02012FE4(*(u32 *)p);
     *(u32 *)(p + 0x1B0) = func_02159B48(heap);
-    *(u32 *)(p + 0x1A8) = func_0216CC58(heap, 0x40, func_020071CC(*(u32 *)p, 0x33));
+    *(u32 *)(p + 0x1A8) = func_0216CC58(heap, 0x40, (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x33));
     *(u32 *)(p + 0x1B4) = func_02028844(p, heap);
     *(u32 *)(p + 0x1B8) = func_02014428(heap);
     *(u32 *)(p + 0x18C) = func_02008254(heap);
-    *(u32 *)(p + 0x190) = func_020071CC(*(u32 *)p, 0x19);
-    *(u32 *)(p + 0x194) = func_020071CC(*(u32 *)p, 0x1A);
+    *(u32 *)(p + 0x190) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x19);
+    *(u32 *)(p + 0x194) = (u32)func_020071CC((struct Sub020071CCCtrl *)*(u32 *)p, 0x1A);
     *(u32 *)(p + 0x198) = func_0200873C(*(u32 *)p);
     *(u32 *)(p + 0x19C) = func_02007AA4(heap, *(u32 *)p);
     *(u32 *)(p + 0x1A0) = func_020097C4(heap);
@@ -187,7 +188,7 @@ void *func_020124F4(u16 heap)
     }
 
     for (i = 0; i < 2; i++) {
-        func_02161D98(p + 0x214 + i * 0x1E8);
+        func_02161D98((char *)(p + 0x214 + i * 0x1E8));
     }
 
     *(u32 *)(p + 0x6AC) = func_0200857C(heap);

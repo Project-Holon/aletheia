@@ -78,7 +78,7 @@ extern void func_02013360(void *a, void *b, u32 c);
 extern void func_0201333C(void *a, void *b, u16 c);
 extern u32  func_0201A920(u16 a);
 extern void func_0201AC2C(u32 a, ...);
-extern u32  func_0201AA18(u32 a);
+extern u32  func_0201AA18(void *p);
 extern u32  func_0201AA14(u32 a);
 extern u32 func_0201293C(const struct BigObj *p);
 extern int  func_020076D0(u32 s, u32 *a, u32 *b);
@@ -102,7 +102,7 @@ void func_0201347C(u8 *a0, void *a1, u32 a2, u32 a3, u32 a4, u16 a5)
     }
     *(u32 *)(a0 + 4) = a4;
     *(u32 *)a0 = 0;
-    t = func_0201AA18(*(u32 *)(a0 + 0x24));
+    t = func_0201AA18((void *)*(u32 *)(a0 + 0x24));
     if (t != func_0201AA14(*(u32 *)(a0 + 0x24))) {
         return;
     }

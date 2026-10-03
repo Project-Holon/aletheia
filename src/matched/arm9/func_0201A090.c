@@ -45,7 +45,7 @@ typedef unsigned int   u32;
 
 extern u32 func_0201AA50(void *p);
 extern int   func_0200AE54(void *rules, u32 k);
-extern int   func_0201AA18(void *party);
+extern u32   func_0201AA18(void *party);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int   func_02019FD0(void *rules, void *mon, u32 *mask);
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
@@ -78,7 +78,7 @@ int func_0201A090(void *rules, void *party, u32 *mask)
         *mask |= 1;
         err = 4;
     }
-    for (i = 0; i < func_0201AA18(party); i++) {
+    for (i = 0; i < (int)func_0201AA18(party); i++) {
         mon = func_0201AB28(party, i);
         if (func_02019FD0(rules, mon, mask) == 0)
             err = 5;

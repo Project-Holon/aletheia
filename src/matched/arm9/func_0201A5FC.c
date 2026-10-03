@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int   func_0200AE54(void *a0, int k);
-extern int   func_0201AA18(void *a1);
+extern u32 func_0201AA18(void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_0201A26C(void *a0, u32 a1);
@@ -65,7 +65,7 @@ int func_0201A5FC(void *a0, void *a1, u8 *a2, char *a3, u32 *a4)
         if (a2[i] == 0)
             continue;
         n = (u8)(a2[i] - 1);
-        if ((int)n >= func_0201AA18(a1))
+        if ((int)n >= (int)func_0201AA18(a1))
             continue;
         p = func_0201AB28(a1, n);
         v18 = func_02017E1C(p, 5, 0);

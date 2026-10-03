@@ -73,7 +73,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-typedef struct {
+typedef struct Entry {
     u16 w0[8];
     u32 b0 : 7;
     u32 b1 : 10;
@@ -104,7 +104,7 @@ extern Entry *sub_0200ACD0(Entry *base, s32 n, u32 key);
 extern void   sub_0200AC14(Entry *dst, const void *src, u32 a2, u32 a3,
                            u32 p0, u8 p1, u8 p2, u32 p3, u16 p4, u8 p5, u8 p6, u8 p7);
 extern u8     sub_0200AB50(Entry *list, s32 n, Entry *dst);
-extern s32    sub_0200ABE0(Entry *base, s32 n, Entry *other);
+extern s32    sub_0200ABE0(u8 *base, s32 n, u8 *other);
 extern void   sub_0200AD00(Entry *base, s32 n, Entry *ref);
 
 u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u32 a3,
@@ -122,7 +122,7 @@ u8 sub_0200AA68(Rec *r, const void *src, u16 a2, u32 a3,
     {
     ((Flags *)&r->f348)->b0 = sub_0200AB50(r->entries, 30, &tmp);
     }
-    if (sub_0200ABE0(r->entries, 30, &tmp) != 0) {
+    if (sub_0200ABE0((u8 *)r->entries, 30, (u8 *)&tmp) != 0) {
         sub_0200AD00(r->entries, 30, &tmp);
     }
     {
