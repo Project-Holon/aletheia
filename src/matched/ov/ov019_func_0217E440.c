@@ -57,10 +57,12 @@ int func_02174DF0(u8 *p);
 void *func_02012934(const struct BigObj *p);
 void func_0201AC2C(void *h, int v);
 void func_0201A2A8(int a, int v);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D1A4(int a);
-void func_02039C68(int a, int b, int c);
-int func_02039CB4(int a, int b, int c);
+struct Link;
+void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 u32 func_0203D378(void);
 
 int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
@@ -70,7 +72,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
     void *h;
 
     p = *(u8 **)(w + 0x355C);
-    idx = func_0203D1A4(func_020399A8());
+    idx = func_0203D1A4((int)func_020399A8());
     if (func_0217BB20(w) == 1) {
         func_0217F074(w);
         return 1;
@@ -95,11 +97,11 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
         func_02175240(p, 1);
         func_0217FE38(p);
         func_02175208(p);
-        func_02039C68(func_020399A8(), 0x14, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0x14, 0x14);
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 0x14, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x14, 0x14) == 1)
             (*state)++;
         break;
     case 3:
@@ -111,11 +113,11 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 5:
-        func_02039C68(func_020399A8(), 0x10, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0x10, 0x14);
         (*state)++;
         break;
     case 6:
-        if (func_02039CB4(func_020399A8(), 0x10, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x10, 0x14) == 1)
             (*state)++;
         break;
     case 7:

@@ -21,14 +21,16 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern u32 func_020399A8(void);
-extern u32 func_02039CB4(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D4544(u8 *p);
 
 void func_021D4520(u8 *p)
 {
-    if (func_02039CB4(func_020399A8(), 0x11, 8) != 0) {
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 8) != 0) {
         func_021D8E84(p, (int)func_021D4544);
     }
 }

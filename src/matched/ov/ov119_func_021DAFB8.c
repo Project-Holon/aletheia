@@ -26,7 +26,9 @@ extern void func_021D8E84(void *,int),func_021DAF68(void *),func_021D9434(void *
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_02039C68(void *,unsigned,unsigned),func_02045CAC(int,int,int);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned,unsigned);
+extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *),func_021E1030(void *);
 void func_021DAFB8(char *p) {
  u8 b;
@@ -34,7 +36,7 @@ void func_021DAFB8(char *p) {
   b=4;
   if(func_0203D3A8(func_020399A8(),0xc00,1,&b)) {
    func_02045CAC(*(int *)(p+0x720),136,*(int *)(p+0x738));func_021E1024(p);func_021E1030(p);
-   func_02039C68(func_020399A8(),26,8);func_021D8E84(p,(int)func_021DAF68);
+   func_02039C68((struct Link *)func_020399A8(),26,8);func_021D8E84(p,(int)func_021DAF68);
   }
  } else {*(int *)(*(char **)(p+8)+8)=3;func_021D8E84(p,(int)func_021D9434);}
 }

@@ -32,8 +32,10 @@ extern void func_021BA874(char *p, int id);
 extern void func_021BA978(char *p, int a, int b, int c);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(char *p);
-extern int func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 
 int func_021BCECC(char *p, int v)
 {
@@ -46,7 +48,7 @@ int func_021BCECC(char *p, int v)
     } else {
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
-        func_02039C68(func_020399A8(), 0x1B, 0xA);
+        func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
         *(u32 *)(p + 0x1CC) = 0x49;
     }
     return v;

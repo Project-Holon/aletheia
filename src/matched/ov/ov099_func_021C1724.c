@@ -16,15 +16,17 @@
  *   func_021BA928 0x021BA928 thumb ov099
  *   func_021BA828 0x021BA828 thumb ov099
  */
-extern int func_020399A8(void);
-extern int func_02039CB4(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern int func_021BA928(char *);
 extern void func_021BA828(char *);
 int func_021C1724(char *p, int ret)
 {
-    if (func_02039CB4(func_020399A8(), 16, 10) == 0) return ret;
+    if (func_02039CB4((struct Link *)func_020399A8(), 16, 10) == 0) return ret;
     func_0203D7B0(0);
     func_0203D7BC(1);
     if (func_021BA928(p) != 0) {

@@ -14,7 +14,8 @@
  */
 extern int func_02012EBC(int);
 extern int func_02012E7C(int,int);
-extern void func_0200734C(int,int);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *,unsigned int);
 extern int func_02009210(int);
 extern void func_020090F8(int,unsigned char);
 typedef unsigned char  u8;
@@ -24,7 +25,7 @@ void func_021D758C(int a)
 {
     int b = func_02012EBC(*(int *)(a+0x2c));
     if(func_02012E7C(*(int *)(a+0x2c),4)==2) {
-        func_0200734C(b,4);
+        func_0200734C((struct Sub02007324Ctrl *)b,4);
         func_020090F8(func_02009210(b),1);
         func_021D6EE0(a,(int)func_021D7560,0x333);
     }

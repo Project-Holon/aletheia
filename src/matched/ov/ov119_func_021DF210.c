@@ -23,9 +23,11 @@
  *   func_021D9434 0x021D9434 thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned func_0203D1A4(unsigned);
-extern unsigned func_02039CB4(unsigned, unsigned, unsigned);
+struct Link;
+extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 typedef unsigned int   u32;
 struct MsgBank;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
@@ -43,14 +45,14 @@ void func_021DF210(char *p)
 {
     unsigned a, b;
     volatile int v; /* memory-resident on purpose: the original keeps v in [sp] and reads it uninitialised on the fall-through path; a plain local takes r7 */
-    a = func_0203D1A4(func_020399A8());
+    a = func_0203D1A4((unsigned)func_020399A8());
     b = 1 - a;
     if (!func_021D8A24(p)) {
         a = 0;
         b = 1;
     }
     if (func_021D8A24(p)) {
-        if (!func_02039CB4(func_020399A8(), 0x1A, 8)) {
+        if (!func_02039CB4((struct Link *)func_020399A8(), 0x1A, 8)) {
             func_021DD24C(p);
             return;
         }
