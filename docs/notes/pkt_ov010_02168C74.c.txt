@@ -1,4 +1,3 @@
-/* NOTE: DIFF, 2 instructions. switch(*b){case 0: ...break; case 1: ...return 1;} return 0 reproduces everything except the case-1 tail: original emits 'strh r1,[r0]; add sp,#0x14; movs r0,#1; pop', ours emits 'add sp,#0x14; strh r1,[r0]; movs r0,#1; pop'. Tried u16/int/outer-scope v, ternary, volatile store pointer, if-chain instead of switch (the latter breaks the branch layout). */
 /*
  * function: func_02168C74
  * address:  0x02168C74
@@ -9,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * residue: 4 concrete bytes; compiled126, listing128 (padding excluded).
+ * Final strh and add sp trade places. Enum Result return removes the old volatile.
+ * Inline finish helper and enum value retain4; const C causes CCERR because constructor receives mutable output members.
+ * permuter: once budget300 types, baseline agreed4/126, best unchanged; consumed in w75 R8.
+ * checks: 1 constructor9 args and12374/307B0 arities checked; 2 68BF0 constructor confirms C fields; 3 const C CCERR, enum value unchanged4; 4 enum-return/epilogue idioms read; 5 neighbours and idioms reread, stack frame is outgoing args, no declared stack object. Next hypothesis: distinct output-pointer payload type, no scheduling sweep.
  *
  * symbols:
  *   func_02167EF4  0x02167EF4  thumb
@@ -23,7 +27,7 @@ typedef struct {
     int f0;
     int f4;
     int f8;
-    volatile u16 *fc;
+    u16 *fc;
     int f10;
     int f14;
     int f18;
@@ -39,7 +43,9 @@ extern int func_02167EF4(int, int, int, int, int, int *, int *, int *, int);
 extern void func_02012374(int, int);
 extern void func_020307B0(int);
 
-int func_02168C74(int a, int *b, C *c)
+typedef enum { NO, YES } Result;
+
+Result func_02168C74(int a, int *b, C *c)
 {
     int r0 = c->f0;
     int v;
@@ -58,7 +64,7 @@ int func_02168C74(int a, int *b, C *c)
         else
             v = 1;
         *c->fc = v;
-        return 1;
+        return YES;
     }
-    return 0;
+    return NO;
 }

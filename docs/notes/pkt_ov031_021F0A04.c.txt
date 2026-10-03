@@ -1,45 +1,16 @@
 /*
  * function: func_021F0A04
- * address:  0x021F0A04
- * packet:   pkt_ov031_021F0A04
- * region:   ov031
+ * address: 0x021F0A04
+ * packet: pkt_ov031_021F0A04
+ * region: ov031
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 callees: func_02082D44 (dst,src,n), func_0202DD24 (3 args, matched), func_02045770 (1 arg), func_02043814 (2), func_02045334 (1), func_021BBC2C (ptr,int), func_021F07AC (o,ptr,b): arities fit, no shift; 2 no twin (ov021 func_021BBC58 shares only 21BBC2C); 3 const/int-vs-u16 params: no change (a,b must stay int, no extension in the original); 4 docs/idioms an-inline-wrappers-arguments-are-evaluated-last-to-first tried with a static inline Copy(dst,src,n) and swapped (src,dst,n): no change; 5 n/a
- *
- * 18 bytes wrong, all in the first 0x24 bytes. Everything after the
- * func_02041B6C call is byte-identical (the +0x4C handle block needs the
- * nested inline call form with no `h` local; the two-call pointer local
- * `h = o->h` makes the compiler reuse r5 and swaps r4/r5).
- *
- * Original head:
- *   adds r5,r0 ; adds r4,r2 ; movs r0,#6 ; adds r6,r1 ; str r3,[sp] ; blx 204162C
- *   adds r3,r0            ; base kept in r3
- *   movs r2,#0xe0
- *   adds r0,r4 ; muls r0,r2,r0 ; lsls r1,r0,#1        ; b*0xE0*2 first (src)
- *   adds r0,r6 ; muls r0,r2,r0 ; lsls r0,r0,#1        ; then a*0xE0*2 (dst)
- *   adds r0,r3,r0 ; adds r1,r3,r1 ; adds r2,#0xe0 ; blx 2082D44
- * Ours interleaves the two muls (r3 = b copy), keeps base in r1 and copies
- * a into r6 before b into r4. Tried: pointer temps src/dst, int offset temps,
- * `&base[i]`, (u8 *) byte offsets with << 1 and * 2, swapped argument order,
- * inline wrapper: none reproduces the sequential b-then-a offsets with base
- * in r3.
- *
- * Retry lane R2 (claude-opus-5-5), still 18 bytes: all of these compile to the
- * same interleaved head: typedef u16 Row[0xE0] with base[a]/&base[a] (70 B
- * off, 0x1C0 built as 7<<6 and muls), (u8 *) or u8 base with a*0x1C0 (70),
- * u32 integer sums `off + (u32)base` either order (70), int/u32 offset locals
- * in index or byte units assigned b-first or a-first (18/70), a static inline
- * RowOfs(n) / RowP(base, n) returning the row (18), SDK-style inline
- * MI_CpuCopy16(const void *src, ...) wrapper (18), an inline taking (a, b) or
- * (b, a) that calls func_0204162C itself (18), `0xE0 * a` operand order
- * (18), `size` local and 0xE0 * sizeof(u16) (18). permuter --types 300: no
- * candidate below baseline. The original's shape needs b's scaled offset
- * computed into r1 before a's multiply reuses r0, which no spelling reached.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * checks: 1 refreshed own matched callees and ov031 callers, SDK copy(3), swap(3), handle(1/2/1), ov021 getter(2), 07AC(3); 2 no full twin; 3 const copy-source qualifier unchanged18, b enum unchanged15; 4 enum halfword offsets 15/154 then enum byte offsets with explicit <<=1 EXACT*154; 5 refreshed directory/neighbours. Old types permuter300 not repeated; supersedes exhausted DIFF18.
+ * lever: enum byte-offset locals, product by 0xE0 then separate <<= 1, recover sequential source/destination scaling and entry copies; integer offsets and enum halfword indexes do not.
+ * extent: 154 instruction bytes followed by two zero alignment bytes; func_021F0AA0 is separately matched.
  * symbols:
  *   func_021F0A04  0x021F0A04  thumb
  *   func_0204162C  0x0204162C  arm
@@ -57,6 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
+typedef enum { RowZero } RowOffset;
 
 typedef struct {
     char pad[0x4C];
@@ -67,7 +39,7 @@ typedef struct {
 } O;
 
 extern u16 *func_0204162C(u8 bg);
-extern void func_02082D44(void *dst, void *src, int n);
+extern void func_02082D44(void *dst, const void *src, int n);
 extern void func_02041B6C(int);
 extern void func_0202DD24(int, int, int);
 extern u32 func_02045770(u32);
@@ -81,10 +53,16 @@ void func_021F0A04(O *o, int a, int b, void *c, int d)
     u16 *base;
     u16 *src;
     u16 *dst;
+    RowOffset sourceOffset;
+    RowOffset destOffset;
 
     base = func_0204162C(6);
-    src = base + b * 0xE0;
-    dst = base + a * 0xE0;
+    sourceOffset = b * 0xE0;
+    sourceOffset <<= 1;
+    destOffset = a * 0xE0;
+    destOffset <<= 1;
+    src = (u16 *)((u32)base + sourceOffset);
+    dst = (u16 *)((u32)base + destOffset);
     func_02082D44(dst, src, 0x1C0);
     func_02041B6C(6);
     if (o->k[a] == 0 && o->k[b] == 0) {

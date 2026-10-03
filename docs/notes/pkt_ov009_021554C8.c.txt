@@ -1,25 +1,3 @@
-=== 2026-09-28 lane B2: func_021554C8, ov009, DIFF 14 bytes (size 384/384)
-
-Per-frame driver of the ov009 work block's state (+0x754), cases 0-3 falling
-through.  Best source below: size right, 28 of 30 relocations resolve.
-Residue, registers only, two spots:
- 1. Case 2 request block (u16 a, u16 b, char buf[0x54] at sp+0xc).  Original
-    keeps &req in r5 across func_02087C88 (add r5,sp,#0xc hoisted above the
-    strb to +0x7A9; strh r4,[r5]; strh r4,[r5,#2]; later adds r0,r5,#0).
-    Compiled rematerialises add r0,sp,#0xc at each use.
- 2. Case 6 store of 0x3EF to +0x758: original value r0, base r2, offset r1;
-    compiled value r2, base r1, offset r0.
-Tried, all still 14: a Req *rp local; an inline ReqInit(Req *); two separate
-locals (char buf[0x54]; u16 hdr[2]); an inline setter for +0x758.
-Fixed along the way: `w100 ? 0x20 : 0` must be `flag = 0; m = w100; if (m)
-flag = 0x20;` (one read reused for both stack args); the two &d_021A8264
-arguments in case 4 come from their own pool word, so they need a second
-extern name at the same address (d_021A8264_obj), else they CSE with r5.
-Permuter, budget 300: best bytes-out=14, no progress.
-Even when byte-correct it caps at MATCH: 0x02155C24 and 0x02155C6C are
-unlabelled ov009 leaves (sole-ref/code refuses them).
-
---- best source ---
 /*
  * function: func_021554C8
  * address:  0x021554C8
@@ -30,6 +8,9 @@ unlabelled ov009 leaves (sole-ref/code refuses them).
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 own SDK bodies confirm arities and pointer payloads, info layout from02087C88, login first arg u16*; 2 ov009 neighbours no stack/scheduling twin; 3 unsigned m/flag/w758 unchanged14, actual pointer/prototype types unchanged14; 4 cast-buffer idiom tested172/15; 5 idioms/neighbours rechecked, actual OSOwnerInfo plus name[2] still14. Prior permuter300 best14 consumed, not repeated.
+ * renewed pass: 5 runs, best DIFF14/384B,28/30 sites resolved; early cast pointer172, late15, separate typed info14, unsigned locals14, proper pointer callees14. Remaining case2 name address rematerialisation and case6 store register rotation. Unresolved overlay leaves02155C24 and02155C6C, none filed while DIFF.
+ * Prior unsuccessful shapes: Req*local, inline ReqInit, separate char buffer/header and inline far setter. Preserve separate flag assignment and m load; data-global alias d_021A8264_obj prevents unwanted CSE of its pool word.
  *
  * Per-frame driver of the ov009 work block's state word (+0x754), cases
  * 0-3 falling through into each other; everything but state 6 ends in
@@ -66,9 +47,9 @@ typedef unsigned short u16;
 
 typedef struct {
     char pad0[0x100];
-    int w100;
+    void *w100;
     char pad104[0x108 - 0x104];
-    int w108;
+    void *w108;
     char x10C[0x754 - 0x10C];
     int state;
     int w758;
@@ -85,22 +66,26 @@ typedef struct {
 } Req;
 
 typedef void (*Fn)(void);
+typedef struct {
+    u8 language, favoriteColor, month, day;
+    u16 nickName[11], nickNameLength, comment[27], commentLength;
+} OSOwnerInfo;
 
 extern G *d_021A8264;
 extern char d_021A8264_obj[];
 extern char d_021A1C6C[];
 void *func_0203D798(void);
-void func_0205C6AC(void *p, int a, int b, int c);
+void func_0205C6AC(void *p, u16 a, u16 b, u16 c);
 void func_0205C758(void);
 int func_0205C88C(void);
 int func_0205CA20(void);
 void func_0205C8E0(void);
-void func_0216AB20(int a, int b, char *c, int d, int e, int f, int g);
-void func_02087C88(void *p);
-void func_0216B0E0(Req *r, int a, Fn cb, int b);
+void func_0216AB20(void *a, int b, char *c, int d, int e, void *f, int g);
+void func_02087C88(OSOwnerInfo *p);
+int func_0216B0E0(u16 *r, int a, Fn cb, void *b);
 void func_0216AE88(void);
-int func_0216B1E0(int a, Fn b, int c, Fn d, void *e, Fn f, void *g);
-void func_0203C9AC(int a, int b, int c, int d);
+int func_0216B1E0(int a, Fn b, void *c, Fn d, void *e, Fn f, void *g);
+void func_0203C9AC(int a, unsigned int b, unsigned int c, unsigned int d);
 void func_02168994(Fn f, int a);
 void func_02155374(int v);
 int func_02155F58(void);
@@ -110,17 +95,12 @@ void func_02155C24(void);
 void func_02155C28(void);
 void func_02155C6C(void);
 
-static inline void ReqInit(Req *r)
-{
-    r->a = 0;
-    r->b = 0;
-    func_02087C88(r->buf);
-}
-
 void func_021554C8(void)
 {
-    Req req;
-    int m, flag;
+    u16 name[2];
+    OSOwnerInfo info;
+    void *m;
+    int flag;
 
     switch (d_021A8264->state) {
     case 0:
@@ -148,8 +128,10 @@ void func_021554C8(void)
             flag = 0x20;
         func_0216AB20(d_021A8264->w108, 0x2FC6, d_021A1C6C, 0, 0, m, flag);
         d_021A8264->b7A9 = 1;
-        ReqInit(&req);
-        func_0216B0E0(&req, 0, func_02155B98, 0);
+        name[0] = 0;
+        name[1] = 0;
+        func_02087C88(&info);
+        func_0216B0E0(name, 0, func_02155B98, 0);
         func_02155374(3);
     case 3:
         func_0216AE88();

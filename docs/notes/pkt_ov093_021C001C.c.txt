@@ -6,9 +6,13 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: pending
- * checks: 1 C03D8 forwards entry r2 (3 args); other arities re-derived from callees; 2 BDE48/CF470 confirm one-word Slot, no full twin; 3 d int/u8/u16/s16 same frame, const p/a with casts same DIFF6; 4 one-word return/pass aggregate and declaration-order idioms read, struct Slot same DIFF6; 5 idiom directory and matched neighbours reread, no address-taken stack object. Next hypothesis: named aggregate temporary for D6314/E8B80. Permuter 300 types: no improvement. Residue only push/sub and both epilogues, 560/560 bytes, 6 differing bytes.
+ * status: EXACT
+ * checks: Named union Slot temporary restores the original frame (560B); existing ARM9 matches are explicitly Thumb. one and required tu --suggest-split both EXACT, all34 references resolved; the singleton range is viable. Shard verification and manifest check clean. No owner leaf attempted; prior permuter300 was not repeated.
+ * lever: Naming the one-word union result before passing it restores the original frame.
+ * Symbol hints retain the Thumb ISA of the two already-matched ARM9 callees.
  * symbols:
+ *   func_0201BEB8 0x0201BEB8 thumb
+ *   func_0201C314 0x0201C314 thumb
  *   func_021C03D8 0x021C03D8 thumb ov093
  *   func_021D62A8 0x021D62A8 thumb ov093
  *   func_021C0274 0x021C0274 thumb ov093
@@ -72,6 +76,7 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
     int mode;
     int changed = 0;
     int reason;
+    union Slot move;
     func_021C03D8(p, a, c);
     mode = func_021D62A8(a);
     if (mode == 2) {
@@ -91,7 +96,10 @@ int func_021C001C(u8 *p, u8 *a, u16 c, u16 d)
     if (reason) goto done;
     if (func_021D5BB0(a, 6)) { reason = 7; goto done; }
     if (func_021D5BB0(a, 4)) { reason = 6; goto done; }
-    if (func_021D62C4(a, 13) && c != 165 && c == func_021E8B80(func_021D6314(a, 13))) { reason = 9; goto done; }
+    if (func_021D62C4(a, 13) && c != 165) {
+        move = func_021D6314(a, 13);
+        if (c == func_021E8B80(move)) { reason = 9; goto done; }
+    }
     if (func_021D62C4(a, 15) && func_0201BEB8(c, 12)) { reason = 13; goto done; }
     if (func_021EF948(2) && func_0201BEB8(c, 9)) { reason = 20; goto done; }
     if (c != 165) {

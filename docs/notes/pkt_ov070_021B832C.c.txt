@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded: wave75 R28 filed ov070_func_021B832C.c EXACT; callee
+ *   func_021BA9C0(unsigned char *, int *, int) consumes j in r2. Adding
+ *   that missing third argument fixes every register byte; shard verified.
  * checks:   1 callees func_021B8280 (p, u8*) and func_021BA9C0 (p, int*) already match as arity; 2 no twin in ov070 matched; 3 int/long/u8/short widths for i, j, c all tried (11 to 52 bytes, none better than 8); 4 idioms long-index, arithmetic loop-carried, no-code self-assignment read, none moved it; 5 n/a (no later neighbour of this shape)
  *
  * Residue (8 concrete bytes, register colouring only, everything else identical

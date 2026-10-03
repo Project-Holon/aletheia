@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * checks: superseded by the verified EXACT source and shard of this packet.
+ * status:   EXACT
  * symbols:
  *   func_020124E4  0x020124E4  thumb
  *   func_02012138  0x02012138  thumb
@@ -32,17 +33,8 @@
  *   func_021804F8  0x021804F8  thumb  ov018
  *   d_021839E0     0x021839E0  data  a2
  *
- * DIFF, 2 bytes (lane B9, 8 runs + permuter budget 300, no gain):
- * everything matches except case 11's first test. The original loads
- * c->f9C into r1 (ldr r1,[r0]; cmp r1,#1 at +0x1E8) where this C loads
- * into r0. Tried without effect: a named int local, an int* local to
- * &c->f9C, switch (c->f9C) { case 1: }, f9C/fA0 as int[2], and a
- * function-level local shared with case 1's switch value. The 0x58 pair
- * needs the u16 *h local (without it the ldrh pair is addressed from
- * c each time, 25 bytes off). Table rows are one u16[5][5] at
- * 0x021839E0 (sole-ref/self per row); the sibling func_0218261C
- * (EXACT*) indexes the six rows just before it from 0x021839A4.
- *
+ * lever: func_021804F8 reads the live r1 as its second argument.
+ * The f9C comparison value is forwarded unchanged on the taken arm.
  * Addresses are Black-image addresses.
  */
 
@@ -86,7 +78,7 @@ extern void  func_0217F3C4(u8 *, int);
 extern int   func_0217F40C(u8 *);
 extern int   func_0217F420();
 extern void  func_0217FE38(u8 *, Outer *);
-extern void *func_021804F8(void *);
+extern void *func_021804F8(void *, int);
 
 int func_021823A8(void *a, int *state, Outer *c)
 {
@@ -186,7 +178,7 @@ int func_021823A8(void *a, int *state, Outer *c)
     case 11:
         func_0217FE38(v, c);
         if (c->f9C == 1) {
-            func_0201235C(a, func_021804F8(sub));
+            func_0201235C(a, func_021804F8(sub, c->f9C));
             return 0;
         }
         if (c->fA0 == 0) {

@@ -2,16 +2,16 @@
  * function: func_021B8EA0
  * address:  0x021B8EA0
  * packet:   pkt_ov067_021B8EA0
- * hint:     the 1 stored to [sp] lives in callee-saved r6, so it is a value used again later: spell it and its later use through one local (try an enum type, the constant-folding idiom), not a fresh literal
+ * new pass: pointer-to-direction inline setup unchanged DIFF14; shared _Bool one unchanged DIFF14; early zero return guard worse DIFF33, reverted. Prior permuter300 consumed and not repeated.
  * region:   ov067
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021B8434 takes 5 (own file; stack word at [sp]), func_021B841C takes 2 and returns int (body read); 2 twin ov067_func_021B8DF0 (same 841C/8434 tail) used for the call shape; 3 function has only s: callee params b/c/d as int/u8/u16/u32, lim int, f70 int, local decl order swapped, named `one` for the 1, separate step local, ternary min, inverted lim guard: no change or worse; 4 an-argument-bound-through-an-inline-wrapper tried (four wrapper shapes incl. f70 inside): no change; 5 re-listed idioms (396), nothing new fits; retry R1: 1 arities re-derived from ov067_func_021B8434.c (5, u32 stack word) and twin 021B8DF0 (841C (s, int)); 3 v as s8 / short no change; 5 ls -t idioms again, a-narrow-spilled-parameter / an-s8-local idioms read, no fit
+ * checks: 1 own 8434 confirms five args and own 841C two/int return; 2 ov067 8DF0/8C08/8E90 refreshed; 3 own callee widths u8/u8/u16/u32 checked against twin's caller width exception, prior s8/short direction attempts retained, shared _Bool one unchanged DIFF14; 4 pointer-to-direction inline setup unchanged DIFF14, early zero guard worse DIFF33 reverted; 5 fresh idioms/neighbours, narrow-spill and s8-local idioms read, no stack object. W75 three fixed runs; prior permuter300 consumed, not repeated. Next: original memory-resident direction source shape.
  *
- * Residual (256 bytes, same size): only the call to func_021B8434 at +0xD8.
+ * Residual DIFF14 (256 bytes, same size, four relocations resolved): call setup at +0xD8.
  * The original materialises the stack word first (`movs r6,#1; str r6,[sp];
  * lsls r2,r4,#24; ldr r1,[sp,#4]; ...`), this C sets up r2/r1 first and stores
  * [sp] last (`lsls r2,r4,#24; movs r6,#1; ldr r1,[sp,#4]; ... str r6,[sp]`).
@@ -68,6 +68,7 @@ int func_021B8EA0(struct S *s)
     u32 d;
     int v;
     u32 lim;
+    _Bool one;
 
     if ((s->f85 < 0 && s->f90 > s->f8c) || (s->f85 > 0 && s->f90 < s->f8c))
         return 0;
@@ -91,9 +92,10 @@ int func_021B8EA0(struct S *s)
     if (lim != 0) {
         if (lim < d)
             d = lim;
-        func_021B8434(s, v, d, 3, 1);
-        s->f70 = 1;
-        return 1;
+        one = 1;
+        func_021B8434(s, v, d, 3, one);
+        s->f70 = one;
+        return one;
     }
     return 0;
 }

@@ -1,29 +1,42 @@
 /*
- * function: func_021B3018   (ov013, ARM, 76 B)
- * status:   DIFF, 6 bytes (one instruction scheduled a slot early), lane S23
- *
- * Every byte matches except the pool load of d_021B3C50: the original puts
- * `ldr r0,[pool]` AFTER `str r2,[r1,#4]` (the d_021B4C2C[1] = 0 store) and
- * before the `str r2,[r1]`; ours hoists it above the [r1,#4] store.
- * Tried: plain statement order, chained assignments on either pair, a local
- * pointer q = d_021B3C50 assigned before the stores (this one inverts the
- * diff: load lands one slot too early instead of correct).  No spelling found
- * that puts it between the first and second store.
+ * function: func_021B3018
+ * address: 0x021B3018
+ * packet: pkt_ov013_021B3018
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * checks: 1 no calls; 2 initializer neighbours share the three globals;
+ *   3 enum/narrow zero local both DIFF6; 4 pool-load scheduling idiom fits;
+ *   5 latest neighbours/idioms no new twin; no stack-object residue.
+ * residual: 76/76 bytes DIFF6, Cfg base load hoisted above index-zero store.
+ * trials: full structs DIFF8, mixed array/struct DIFF6, integer Cfg address
+ *   DIFF11, enum zero DIFF6, u16 zero DIFF6; old chains/local pointer consumed.
+ * permuter: budget300 types, emitted baseline DIFF6 agrees with fixed one;
+ *   best DIFF6; consumed once in renewed pass, do not repeat.
+ * next: distinct aggregate representation for the two-word Cfg clear.
+ * symbols:
+ *   d_021B4C38 0x021B4C38 data a4
+ *   d_021B4C2C 0x021B4C2C data a4
+ *   d_021B3C50 0x021B3C50 data a4
  */
-
-extern int d_021B4C38[];
+typedef struct { int thr, idx, cnt; } Stat;
+typedef struct { int active, level, limit, pad; } Cfg;
+typedef enum { ZERO = 0 } Zero;
+extern int d_021B4C38[4];
 extern int d_021B4C2C[];
 extern int d_021B3C50[];
-
 void func_021B3018(void)
 {
     int i;
-
-    for (i = 0; i < 4; i++)
-        d_021B4C38[i] = 0x1000000;
-    d_021B4C2C[1] = 0;
-    d_021B4C2C[0] = 0;
-    d_021B3C50[0] = 0;
-    d_021B3C50[1] = 0;
-    d_021B4C2C[2] = 0;
+    unsigned short z;
+    for (i = 0; i < 4; i++) d_021B4C38[i] = 0x1000000;
+    z = ZERO;
+    d_021B4C2C[1] = z;
+    d_021B4C2C[0] = z;
+    d_021B3C50[0] = z;
+    d_021B3C50[1] = z;
+    d_021B4C2C[2] = z;
 }

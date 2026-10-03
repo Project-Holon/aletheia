@@ -1,130 +1,98 @@
-func_021B3084 (0x021B3084, ov013, ARM, 460 bytes incl. pool) -- DIFF near miss
-================================================================================
-
-Voice-activity style level gate.  a1 >> 8 is stored as the current level
-(Cfg d_021B3C50, .data) and optionally written through the u8 *out; the last
-four `val`s sit in a ring d_021B4C38[4] indexed by Stat d_021B4C2C.idx (bss,
-d_021B4C2C = {thr, idx, cnt}, the ring immediately after it).  The level is
-sqrt(sum(ring) / 4) through the SQRT unit (CP_SetSqrt32 / CP_WaitSqrt /
-reg_CP_SQRT_RESULT), computed three times: loops 1 and 3 count with a signed
-index (blt), loop 2 with an unsigned one (blo), so two inline helpers.
-Returns 0/1 while idle (1 = triggered: thr = level*3/2, idx = 0, active = 1),
-2/3 while active (3 = `cnt` exceeded Cfg.limit: active = cnt = idx = 0).
-
-Best source: 460/460 bytes, all three relocations resolve (sole-ref).  Only
-one six-instruction block differs, in the triggered arm:
-
-    original                          compiled
-    ldr r1, [r1]        ; sqrt result ldr ip, [r1]
-    mov lr, #1          ; ret         ldr r1, =d_021B3C50   (hoisted)
-    add r1, r1, r1, lsl #1            add ip, ip, ip, lsl #1
-    lsr r1, r1, #1                    lsr ip, ip, #1
-    str r1, [r2]        ; thr         mov lr, #1
-    ldr r1, =d_021B3C50               str ip, [r2]
-
-The result register is the whole story: the original reuses r1 (the dead
-SQRT_RESULT address), which pins the Cfg address load after the store; here
-the value gets ip and the post-allocation scheduler hoists the pool load.
-
-Levers that mattered (each verified): Cfg/Stat as struct objects rather than
-int arrays keeps the store order A.active, C.cnt, C.idx and the A.limit load
-after the C.cnt store (arrays let the compiler reorder both); `if (Level() <=
-thr) {...} else cnt = 0;` polarity; `++cnt > limit`; the first Level() bound
-to a local before the `a1 != 0 &&` test; `s32 i` declared before `u32 sum`.
-
-Tried without effect on the block: `ret = 1` first in the arm; `ret =
-active = 1`; `lvl = Level2(); ret = 1; thr = lvl*3/2`; volatile Cfg.
-Tried and worse: per-arm returns instead of `ret` (fixes this block but
-moves a1>>8 to r4 and the ring pool up front); `ret = 0` before the test;
-the ring folded into Stat as hist[4]; the second loop written out in the
-body; permuter.py 300 compiles (no improvement).
-
-Lane R2 (9 runs), the same 17 bytes each time: the result read
-non-volatile as the SDK's CP_GetSqrtResultImm32 does (`*(u32 *)0x040002B4`,
-in every Level or only in Level2); the SDK nesting `return
-CP_GetSqrtResult32();` with the wait inside the getter (all three levels,
-or only Level2); binding Level2() to `a1` (the dead r1 parameter) or to
-`lvl` before the `* 3 / 2`. The result register stays ip.  To compile this
-note, expand Level2 as Level with `u32 i` and add a header with
-`d_021B3C50`, `d_021B4C38`, `d_021B4C2C` as `data a4`.
-
-    typedef unsigned char u8;
-    typedef unsigned short u16;
-    typedef unsigned int u32;
-    typedef int s32;
-
-    #define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
-    #define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
-    #define reg_CP_SQRT_PARAM   (*(u32 *)0x040002B8)
-
-    static inline void CP_SetSqrt32(u32 param)
-    {
-        reg_CP_SQRTCNT = 0;
-        reg_CP_SQRT_PARAM = param;
-    }
-
-    static inline void CP_WaitSqrt(void)
-    {
-        while (reg_CP_SQRTCNT & 0x8000) {
-        }
-    }
-
-    typedef struct { s32 active; u32 level; s32 limit; u32 pad; } Cfg;
-    extern Cfg d_021B3C50;                 /* data ov013 */
-    extern u32 d_021B4C38[4];              /* data ov013 */
-    typedef struct { u32 thr; u32 idx; s32 cnt; } Stat;
-    extern Stat d_021B4C2C;                /* data ov013 */
-
-    static inline u32 Level(void)
-    {
-        s32 i;
-        u32 sum;
-
-        sum = 0;
-        for (i = 0; i < 4; i++)
-            sum += d_021B4C38[i];
-        CP_SetSqrt32(sum / 4);
-        CP_WaitSqrt();
-        return reg_CP_SQRT_RESULT;
-    }
-
-    static inline u32 Level2(void)       /* same, u32 i */
-    { ... }
-
-    int func_021B3084(u32 val, u32 a1, u8 *out)
-    {
-        int ret;
-        u32 lvl;
-
-        d_021B3C50.level = a1 >> 8;
-        if (out)
-            *out = a1 >> 8;
-        if (d_021B3C50.active == 0) {
-            lvl = Level();
-            if (a1 != 0 && a1 >= lvl * 2) {
-                d_021B4C2C.thr = Level2() * 3 / 2;
-                d_021B4C2C.idx = 0;
-                d_021B3C50.active = 1;
-                ret = 1;
-            } else {
-                ret = 0;
-            }
-            d_021B4C38[d_021B4C2C.idx] = val;
-            d_021B4C2C.idx = (d_021B4C2C.idx + 1) & 3;
-        } else {
-            d_021B4C38[d_021B4C2C.idx] = val;
-            d_021B4C2C.idx = (d_021B4C2C.idx + 1) & 3;
-            if (Level() <= d_021B4C2C.thr) {
-                if (++d_021B4C2C.cnt > d_021B3C50.limit) {
-                    d_021B3C50.active = 0;
-                    d_021B4C2C.cnt = 0;
-                    d_021B4C2C.idx = 0;
-                    return 3;
-                }
-            } else {
+/*
+ * function: func_021B3084
+ * address: 0x021B3084
+ * packet: pkt_ov013_021B3084
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * checks: 1 no callees; 2 neighbouring initializer confirms Cfg/Stat globals;
+ *   3 enum ret, unsigned-long Level2 return, int result temporary all DIFF17;
+ *   4 unsigned active-store address DIFF17; SDK CNT enum constant is zero;
+ *   5 re-read ov013 neighbours/idioms: no new twin; no stack object residue.
+ * residual: 460/460 bytes, DIFF17 at +0xC4..+0xD8; result in ip instead of r1.
+ * history: prior int-ret/helper nesting/nonvolatile result/argument reuse tests
+ *   failed; earlier permuter budget300 consumed, not repeated this pass.
+ * next: enum or distinct-long sum type in the unsigned helper; no sweep run.
+ * volatile: SQRTCNT at 0x021B30E0/021B3134/021B31D8 polls busy;
+ *   SQRT_RESULT is hardware result at 0x040002B4.
+ * symbols:
+ *   d_021B3C50 0x021B3C50 data a4
+ *   d_021B4C38 0x021B4C38 data a4
+ *   d_021B4C2C 0x021B4C2C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int s32;
+typedef enum { SQRT_MODE_32 = 0, SQRT_MODE_64 = 1 } SqrtMode;
+typedef enum { RET_IDLE, RET_TRIGGERED, RET_ACTIVE, RET_DONE } Ret;
+typedef struct { s32 active; u32 level; s32 limit; u32 pad; } Cfg;
+typedef struct { u32 thr; u32 idx; s32 cnt; } Stat;
+extern Cfg d_021B3C50;
+extern u32 d_021B4C38[4];
+extern Stat d_021B4C2C;
+static inline void CP_SetSqrt32(u32 param)
+{
+    *(volatile u16 *)0x040002B0 = SQRT_MODE_32;
+    *(u32 *)0x040002B8 = param;
+}
+static inline void CP_WaitSqrt(void)
+{
+    while (*(volatile u16 *)0x040002B0 & 0x8000) {}
+}
+static inline u32 Level(void)
+{
+    s32 i;
+    u32 sum;
+    sum = 0;
+    for (i = 0; i < 4; i++) sum += d_021B4C38[i];
+    CP_SetSqrt32(sum / 4);
+    CP_WaitSqrt();
+    return *(volatile u32 *)0x040002B4;
+}
+static inline u32 Level2(void)
+{
+    u32 i;
+    u32 sum;
+    int result;
+    sum = 0;
+    for (i = 0; i < 4; i++) sum += d_021B4C38[i];
+    CP_SetSqrt32(sum / 4);
+    CP_WaitSqrt();
+    result = *(volatile u32 *)0x040002B4;
+    return (u32)result;
+}
+int func_021B3084(u32 val, u32 a1, u8 *out)
+{
+    Ret ret;
+    u32 lvl;
+    d_021B3C50.level = a1 >> 8;
+    if (out) *out = a1 >> 8;
+    if (d_021B3C50.active == 0) {
+        lvl = Level();
+        if (a1 != 0 && a1 >= lvl * 2) {
+            d_021B4C2C.thr = Level2() * 3 / 2;
+            d_021B4C2C.idx = 0;
+            *(s32 *)(u32)&d_021B3C50 = 1;
+            ret = RET_TRIGGERED;
+        } else ret = RET_IDLE;
+        d_021B4C38[d_021B4C2C.idx] = val;
+        d_021B4C2C.idx = (d_021B4C2C.idx + 1) & 3;
+    } else {
+        d_021B4C38[d_021B4C2C.idx] = val;
+        d_021B4C2C.idx = (d_021B4C2C.idx + 1) & 3;
+        if (Level() <= d_021B4C2C.thr) {
+            if (++d_021B4C2C.cnt > d_021B3C50.limit) {
+                d_021B3C50.active = 0;
                 d_021B4C2C.cnt = 0;
+                d_021B4C2C.idx = 0;
+                return 3;
             }
-            ret = 2;
-        }
-        return ret;
+        } else d_021B4C2C.cnt = 0;
+        ret = RET_ACTIVE;
     }
+    return ret;
+}

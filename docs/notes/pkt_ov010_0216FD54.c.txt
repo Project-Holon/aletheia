@@ -9,14 +9,21 @@
  * isa:      thumb
  * status:   DIFF
  *
- * Near miss (DIFF, 172 vs 176 B). Semantics: reads two 12-byte-stride table
- * entries (d_021726A0[a->2].w and [a->0].w, >>3 unsigned), allocates two
- * buffers, runs func_0216FC74 then the tile deswizzle func_0216FCA0, and
- * DMA-copies (wi*A/8)<<5 bytes. Blocker: allocation. The image spills the raw
- * table value A (sp+0x14) and keeps wi in r6; every spelling gives A in r6 and
- * wi spilled, and the compiler hoists the second ldrh early where the image
- * loads it after the first store sequence (str r2, str r3, str r1). Also its
- * callee func_0216FCA0 is itself parked (docs/notes/pkt_ov010_0216FCA0.c.txt).
+ * DIFF, 159 concrete bytes, 172/176 bytes, all 12 relocations resolved.
+ * checks: 1,2,3,4,5
+ * Two 12-byte-stride table entries, two allocations, conversion and DMA.
+ * Narrow table/dimension locals retain values bounded by observed shifts.
+ * Own func_0216FC74 body proves six arguments, first pointer, fourth u16;
+ * the a+14 pointer load remains after the second allocation.
+ * Seven fixed one runs: const table, enum width and const/narrow entry
+ * checks did not improve; narrow locals improved 161 to 159.
+ * Reasonable archive checks found no earlier permuter run. once300
+ * --types --jobs 1 baseline agreed at 159/172; search is now consumed.
+ * Its 110/176 candidate was rejected: c/d narrowing and the narrowed
+ * whole shift changed values; a+14 read was hoisted across allocation.
+ * Ported safe temporary/block mutations validated at 159/172, so keep
+ * this simpler spelling. Raw table A and width register/stack homes still
+ * differ from the image; the compiler also hoists the second table load.
  *
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
@@ -49,7 +56,7 @@ typedef struct {
 extern TE d_021726A0[];
 
 extern void *func_02043678(int a, int b, int c, u16 d);
-extern void func_0216FC74(int a, int b, int c, u16 d, void *e, int f);
+extern void func_0216FC74(void *a, int b, int c, u16 d, void *e, void *f);
 extern void func_0216FCA0(void *a, void *b);
 extern void *func_020437D4(void *p);
 extern void func_0207F7A0(void);
@@ -58,11 +65,11 @@ extern void func_0207F7FC(void *p, int src, int n);
 extern void func_0207F9B4(void);
 extern void func_020437AC(void *p);
 
-void func_0216FD54(char *a, int b, int c, int d, u16 e, u16 f)
+void func_0216FD54(char *a, void *b, int c, int d, u16 e, u16 f)
 {
-    int hi;
-    int wi;
-    int A;
+    unsigned short hi;
+    unsigned short wi;
+    unsigned short A;
     void *buf;
     void *tmp;
     void *vram;
@@ -74,7 +81,7 @@ void func_0216FD54(char *a, int b, int c, int d, u16 e, u16 f)
     hi = (u32)A >> 3;
     tmp = func_02043678(wi = (u32)d_021726A0[*(u16 *)a].w >> 3, hi, 0x20, f);
     buf = func_02043678(wi, hi, 0x20, f);
-    func_0216FC74(b, c, d, e, buf, *(int *)(a + 0x14));
+    func_0216FC74(b, c, d, e, buf, *(void **)(a + 0x14));
     func_0216FCA0(buf, tmp);
     vram = func_020437D4(tmp);
     off = (u16)*(int *)(a + 4) << 3;

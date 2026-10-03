@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee signatures rederived, 761EC returns u8; A08 reads r0/r1 and forwards two args; 2 7EE0/7AC4/7BB4 and ov011 readers refreshed; 3 u8 sel/next flat720; c/d are mutated, no readonly const parameter; 4 explicit state7/8 if arms flat; 5 new idiom listing and byte-colour/stack neighbours refreshed.
+ * checks: 1 refreshed 761EC/75B14 own bodies and A08 listing (r0/r1 forwarded); 2 refreshed ov071 7EE0/7AC4/7BB4 plus ov011; 3 unsigned state flat720, u8 t inserts truncation and grows1156/725; c/d/state are mutable; 4 state7/8 guard simplification1148/717 rejected because A08 may change aliased state; 5 idiom listing and own neighbours refreshed; next state/D front-end colouring, no new safe scheduling lever.
  * runs: 4 iteration + 1 arity check + permuter(300); emitted baseline 1152 bytes; volatile-add(state) output rejected.
  * residual: R3 1152/1160 (-8),720 concrete bytes,51/60 relocs; state/D r5/r6 allocation swap and merged branches persist. Earlier permuter300 spent; no rerun.
- * retry: Wave59 R3: 3 fixed-flag runs; earlier permuter300 remains spent.
+ * retry: Wave75 R29 renewed pass: 3 fixed-flag runs; best retained1152/720; earlier permuter300 remains spent.
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02158344 0x02158344 thumb ov010
@@ -171,4 +171,3 @@ int func_021B739C(int a,int *state,C *c,D *d)
  }
  return 0;
 }
-

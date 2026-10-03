@@ -8,10 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov092 bodies and ARM9 callers rederive loader31348 four args in id/descriptor order; 2 9C34/9C80/9CA4/9AA0 refreshed, no full twin; 3 const s with explicit mutable API casts improves519 to517; 4 wrapping switch in busy!=1 gives1028/941, rejected; 5 idiom listing and distinct-return-label guidance refreshed.
- * residual: R3 best1032/1024 (+8),517 concrete bytes,70/73 relocs; return layout/loop spills and three unattested descriptors remain. Prior permuter300 spent before loader correction; no rerun.
+ * checks: 1 own ov092 callees and full ARM9 0201B2B0 body re-read; getter returns u16 result on every path, u16 extern compiled flat474; 2 no full twin, 9A14/9C34/9CA4/9C80 refreshed; 3 busy enum flat517, enum flag431 but1032 and only70/73relocs, enum output lvalue475; 4 false case6 busy guard removed (1024/474), separate busy labels1028/497 rejected, case4 party block flat474; 5 fresh idioms/neighbours reviewed; next pass needs separate case4 species/slot locals instead of sharing address-taken case0 slot; two scheduling variants spent.
+ * residual: Wave75 R30 DIFF 1024/1024,474 concrete bytes,73/73 resolved. Return/flag layout and case4 loop spills remain; descriptors now resolve at correct layout. Prior permuter300 remains spent.
  * search: permuter300 spent before loader order correction; byte baseline507 agreed, reloc baseline4 unresolved vs one3. Best722 had tmp/tmp1 assigned before case labels (unreachable); reject. Earlier1020/507 and1032/437 spellings had swapped loader args; do not restore.
- * retry: Wave59 R3: 2 fixed-flag runs; previous permuter300 remains spent.
+ * renewed: Wave75 R30 7 fixed-flag runs; substantive decoded case6 correction improves517 to474 and fixes size/descriptor relocations. No permuter repeated.
+ * ABI: 0201B2B0 full body returns its u16 result (zero or EvoRow.target) after cleanup; caller stores full word, compares zero, then stores halfword. u16 extern preserves those returned bits and emitted no caller truncation.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02012934 0x02012934 thumb
@@ -141,12 +142,12 @@ extern void func_02005E30(u32);
 extern int func_02005E50(void);
 extern void func_02005D28(void);
 extern u8 func_02012984(void *);
-extern u32 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
+extern u16 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
 extern void *func_02030734(u32, u32, int, const u8 *, u16);
 extern void func_020307B0(void *);
 int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
 {
-    u32 busy;
+    Flag busy;
     void *party;
     u8 *buf;
     void *dex, *save, *bank;
@@ -241,7 +242,8 @@ int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
         }
         ++*step;
         break;
-    case 4:
+    case 4: {
+        void *party;
         if (!(*(u32 *)((u8 *)(r)+( 68)))) {
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 5 && (*(u16 *)((u8 *)(r)+( 58)))) {
                 if (!(*(u32 *)((u8 *)(r)+( 72)))) { func_02005E30(30); (*(u32 *)((u8 *)(r)+( 72))) = 1; break; }
@@ -274,6 +276,7 @@ int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
             }
         } else *step = 6;
         break;
+    }
     case 5:
         if (busy == 1) return 0;
         func_020307B0((*(void **)((u8 *)(r)+( 52))));
@@ -282,7 +285,6 @@ int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
         else ++*step;
         break;
     case 6:
-        if (busy == 1) return 0;
         return 1;
     default: return 1;
     }

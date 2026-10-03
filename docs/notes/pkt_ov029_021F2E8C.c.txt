@@ -1,27 +1,17 @@
 /*
  * function: func_021F2E8C
- * address:  0x021F2E8C
- * packet:   pkt_ov029_021F2E8C
- * region:   ov029
+ * address: 0x021F2E8C
+ * packet: pkt_ov029_021F2E8C
+ * region: ov029
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 func_0202173C takes 8 (void *, u16, u16, s16, u8, u8, u16, void *) per its own matched file and the ov029 callers, returns int; 2 twins ov029_func_021F0F28/021F0EB0/021F0E70 give the prototype (no change on its own, 30 B); 3 c as int/unsigned/u8 local, zero local, s16 step local, ctx local, index local: int c is the only shrink (30 -> 23 B); 4 inline wrappers (an-inline-wrappers-arguments-are-evaluated-last-to-first) for the lookup or the whole call: 23-45 B; 5 n/a
- *
- * Best: same size (96), 23 bytes differ, all in the argument set-up after the
- * func_0204B918 call; everything else is byte-identical. The original is
- *   lsls r2,r0,#2 ; ldr r0,=tbl ; movs r1,#0 ; ldr r0,[r0,r2] ; str r1,[sp] ; ...
- *   ldr r0,[r4,#0x10] ; movs r3,#8 ; str r0,[sp,#0xc] ; ... ; movs r1,#8 ; ... subs r3,#0x80
- * This C gives the index in r1 (not r2), so the zero cannot take r1 until the
- * table load and `movs r3,#8` fills the pool-load slot instead. Without the
- * `int c` local the index lands in r2 but `movs r1,#0` is scheduled before it
- * (30 B). Retry lane R2 (claude-opus-5-5): declaration scope (top/block),
- * separate index local, zero/step/ctx locals, explicit casts, `8 - 0x80`,
- * static inline lookup and call wrappers, and permuter --types 300 on this
- * spelling: none below 23.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 freshly read own 0202173C(8), 0204B98C(1), 0204B918(1); caller uses live r0 after tail forwarder so int return retained; 2 ov029 0E70/0EB0/0F28 confirm call prototype, no full twin; 3 const p with cast-clear 24/96, typed five-field context 23/96, const table and unsigned c 23/96; 4 enum zero 46/104, named-zero/inline-wrapper idioms read; 5 directory and ov029/ov028/ov030 neighbours refreshed, no new twin.
+ * residual: DIFF 96/96, 23 concrete bytes, all 4 relocations resolved. Index/table load/zero argument setup after 0204B918 retains different colours and scheduling.
+ * prior: Old types permuter 300 consumed, not repeated. Earlier scope/index/zero/step/ctx/casts and inline call/lookup wrappers did not beat 23; c local improved previous 30.
+ * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
  * symbols:
  *   func_0204B98C  0x0204B98C  arm
  *   func_0204B918  0x0204B918  arm
@@ -36,11 +26,11 @@ typedef signed   short s16;
 extern int func_0204B98C(int a);
 extern int func_0204B918(int a);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
-extern unsigned int d_021F3224[];
+extern const unsigned int d_021F3224[];
 
 int func_021F2E8C(int *p)
 {
-    int c;
+    unsigned int c;
     if (p[0] == 0)
         return 1;
     if (func_0204B98C(p[2]) == 0) {

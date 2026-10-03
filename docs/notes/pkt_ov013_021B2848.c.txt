@@ -1,4 +1,6 @@
-pkt_ov013_021B2848: DIFF, 9 bytes-words differ, same size (76 B). Not filed.
+Wave 75 R20: EXACT, return 0 (int return rather than void) settles every register.
+Filed src/matched/ov/ov013_func_021B2848.c; prior evidence retained below.
+pkt_ov013_021B2848: formerly DIFF, 9 bytes-words differ, same size (76 B).
 
 Shape is right; only register allocation of the temporaries differs.
 Original: r2 (dead after strb n) is reused for the first load of the global byte,

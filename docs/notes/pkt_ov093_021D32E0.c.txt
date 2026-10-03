@@ -7,16 +7,19 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched 021B8D8C proves 3 arguments; all sites resolve;
- * 2 021D324C/021D3630 provide prototypes but no two-object twin;
- * 3 const a/c unchanged; int locals worse (29); u16 x/y unchanged (22);
- * 4 scheduling and truncated-load idioms consulted; no additional lever;
- * 5 current idiom names and matched 021D3 neighbours rechecked; no stack
- * object residue (only scalar loads at entry). One 300-types permuter
- * improved 22 to 13; no uninitialized reads, signature changes, volatility,
- * or narrowed address/index values accepted. Next hypothesis: inline
- * descriptor loader to isolate the four initial field conversions.
- * residual: 364 bytes, 13 concrete bytes differ at entry (+0006..+0026).
+ * residual: 364 bytes, thirteen concrete bytes differ at +0006..+0026;
+ * descriptor conversion scheduling only; body from +0028 agrees.
+ * checks: 1 B8D8C/B9934 own matched files and D324C/D3630 callers prove
+ * arities; B9934 pointer return and D66D0 pointer argument corrected,
+ * all 21 sites resolve; 2 no two-object state-machine twin in neighbours;
+ * 3 u/v int expands frame and worsens, c const/nonconst unchanged;
+ * 4 declaration/init order, const-descriptor and truncated/masked-local
+ * idioms read; 5 current directory/D324C/D3630 reread, scalar homes only.
+ * renewed pass: six runs; stopped after three nonshrinking changes;
+ * init-order and inline descriptor loader were the two scheduling variants.
+ * Best y/v/x/u initializer order retained with pointer prototypes.
+ * permuter: prior 300 --types consumed (22 to 13); not repeated.
+ * Next: typed descriptor storage without changing scalar conversion order.
  * symbols:
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093
@@ -33,19 +36,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021B8D8C(void *, void *, u32);
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *, int);
 extern int func_021B9A24(u32, u32);
 extern u32 func_021CD9E0(u8 *);
-extern void func_021D66D0(int, u32);
+extern void func_021D66D0(void *, u32);
 extern void func_021EA768(u32, int, int);
 extern int func_021EA778(u32, int);
 extern void func_021EA7A8(u32, int);
 extern int func_021EA7B8(u32, int);
 extern u32 d_021F3B64[];
-int func_021D32E0(const u32 *a, int *b, const u32 *c)
+int func_021D32E0(const u32 *a, int *b, u32 *c)
 {
     u32 u, v, x, y;
-    int s, t, p, q;
+    int s, t;
+    u8 *p, *q;
     y = (u16)c[3];
     v = (u8)c[1];
     x = (u16)c[2];

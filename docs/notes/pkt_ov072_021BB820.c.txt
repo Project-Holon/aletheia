@@ -23,6 +23,7 @@
  * range at the (0xf,5) call (the stack zeros of the last three handle calls
  * as a separate value), which no type change above reached.
  *
+ * renewed: Wave75 R29, 3 iteration + 2 check runs. Enum stack-zero72 bytes and enum palette-size74 worse; loop-init after first call flat68. Const BG table CCERR repaired with readonly callee prototype, then flat68. Own arm9 unit_02049B40 and sub_02049658/498F4 re-read (6/7 args, u16 final heap); fresh ov070/071 callers and idioms. Earlier permuter300 remains consumed; best C retained.
  * Graphics init; the seven 0x28-byte BG entries at d_021BBC28 are the
  * ones func_021BB968 tears down.
  *

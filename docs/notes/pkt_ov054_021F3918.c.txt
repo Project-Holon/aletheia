@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT* (superseded by src/matched/ov/ov054_func_021F3918.c)
+ * resolution: Wave75 R26 inline random-call addition EXACT* run01, padding2;
+ *             named result local was the cause, commutative operand idiom applies.
  * residue: one byte at +0x1A; adds r1,r0,r1 instead of adds r1,r1,r0.
  * checks: 1 full callee reads r0 only, full-word argument/result; 2 sibling ov053_func_021F3A38 pending same random-range shape; 3 signed extern and unsigned result each compiled unchanged, two checks exhausted; 4 commutative operand idiom read, two manual scheduling variants unchanged; 5 fresh idiom directory and sibling re-read, no stack-object residue. Next hypothesis: distinct loaded-bound local, scheduling cap exhausted (do not repeat).
  * runs: 3 manual (two nonshrinking), 2 check3; zero permuter.

@@ -1,33 +1,55 @@
-func_021B074C (ov013, ARM, 172 B): DIFF, 18 bytes, pure scheduling / register choice.
-
-Structure is right (same size, all 7 relocations resolve). Original inside the found branch:
-  mla r0,r4,r0,r1 ; ldr r6,=g_021B3C84 ; mov r2,#0 ; ldr r1,[r6,#0x20] ; str r2,[r3,r4,lsl #2] ; sub r1,r1,#1 ; str r1,[r6,#0x20]
-with the pointer-array base in r3 (loaded at function entry). Ours puts the base in r2 and
-schedules mov r1,#0 / ldr r6 / str / ldr f20.
-
-Tried (all same 18 or worse):
-  arr[i]=0; f20--;            (18 bytes, this file)
-  f20--; arr[i]=0;            (26 bytes)
-  n=f20; arr[i]=0; f20=n-1;   (18 bytes)
-  local struct St *st = &g_021B3C84 (worse, 91 bytes, hoists the pool load)
-
-C used (loop over 3 slots, unsigned i, break after handling):
-
-  for (i = 0; i < 3; i++) {
-      if (g_021B3CB0[i] == p) {
-          g_021B3CB0[i] = 0;
-          g_021B3C84.f20--;
-          func_021B1A48(&g_021B3CBC[i]);   /* slot stride 0x94 */
-          func_021B1720(i);
-          func_021B133C(i);
-          g_021B3C84.f4 &= ~p->f8;
-          break;
-      }
-  }
-  if (g_021B3C84.f20 == 0) {
-      g_021B3C84.f14 = 1;
-      func_021B3018();
-      g_021B3C84.f4 = 0;
-  }
-
-Symbols: g_021B3CB0 0x021B3CB0 (ptr[3]), g_021B3CBC 0x021B3CBC (slots), g_021B3C84 0x021B3C84 (state).
+/*
+ * function: func_021B074C
+ * address: 0x021B074C
+ * packet: pkt_ov013_021B074C
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Remove request from its slot; clear mask and shut down an empty session.
+ * residual: DIFF 172/172 bytes, 18 concrete bytes differ; all seven relocations resolved.
+ * evidence: const request parameter, inline clearSlot and enum zero each stayed 18; long counter stayed 18 and u32 array representation gave 20. Remaining slot/global load/store scheduling and loop colouring.
+ * permuter: first typed budget-300 pass emitted baseline/best 18; no improvement. Search consumed.
+ * checks: 1 own callee sources/assembly confirm 1A48(char*), 1720(u32), 133C(u32), 3018(void); 2 same-overlay session neighbours, no exact twin; 3 const request/long counter 18, word array 20; 4 inline/enum-zero/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * symbols:
+ *   d_021B3CB0 0x021B3CB0 data ov013 a4
+ *   d_021B3CBC 0x021B3CBC data ov013 a4
+ *   d_021B3C84 0x021B3C84 data ov013 a4
+ *   func_021B1A48 0x021B1A48 arm ov013
+ *   func_021B1720 0x021B1720 arm ov013
+ *   func_021B133C 0x021B133C arm ov013
+ *   func_021B3018 0x021B3018 arm ov013
+ */
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef struct { u8 pad0[8]; u32 f8; } Req;
+typedef struct { u8 pad0[4]; u32 f4; u8 pad8[12]; int f14; u8 pad18[8]; int f20; } Ctx;
+extern Req *d_021B3CB0[3];
+extern char d_021B3CBC[];
+extern Ctx d_021B3C84;
+extern void func_021B1A48(char *p);
+extern void func_021B1720(u32 i);
+extern void func_021B133C(u32 i);
+extern void func_021B3018(void);
+void func_021B074C(const Req *p)
+{
+    u32 i;
+    for(i=0;i<3;i++) {
+        if(d_021B3CB0[i]==p) {
+            d_021B3CB0[i]=0;
+            d_021B3C84.f20--;
+            func_021B1A48(d_021B3CBC+i*0x94);
+            func_021B1720(i);
+            func_021B133C(i);
+            d_021B3C84.f4 &= ~p->f8;
+            break;
+        }
+    }
+    if(d_021B3C84.f20==0) {
+        d_021B3C84.f14=1;
+        func_021B3018();
+        d_021B3C84.f4=0;
+    }
+}

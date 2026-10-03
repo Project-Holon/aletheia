@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 arities rederived from matched ov091 bodies and 8180/9788/BA0A8 callers; BBAF8 is three; B99E4 caller truncates index to u8; 2 no full twin, B99E4/B9E20 refreshed; 3 u32 flag flat122; 4 enum-zero-before-first-read and scalar-struct n each flat; 5 idiom directory and stack/zero neighbours refreshed.
+ * checks: 1 fresh own B8F68/B8FC4/B714/B7E8/BAF8/B4A0/B43C/B99E4/B9E20/C350 plus 0215EA14 and ARM9 getter interfaces; 2 no complete twin, BBE74/BE874 refreshed; 3 byte zero and unsigned long n each compiled flat122; 4 grouped Four blocks and enum zero before both HP reads with zero passed to both compiled flat122; 5 fresh idioms and stack/zero neighbours reviewed. Next hypothesis is a genuine address-taken n/zero helper-local; no additional scheduling variants allowed this pass.
  * residual: R3 1508/1508,122 concrete bytes,86/86 relocs; n/zero register web and frame36 vs40 persist. Earlier permuter96 spent; no rerun.
- * retry: Wave59 R3: 4 fixed-flag runs; previous search retained.
+ * renewed: Wave75 R30 4 fixed-flag runs, all 1508/1508 and122 concrete; original best retained. Prior permuter96 remains spent; no search repeated.
  * symbols:
  *   func_021B8F68 0x021B8F68 thumb ov091
  *   func_021B8FC4 0x021B8FC4 thumb ov091

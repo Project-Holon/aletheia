@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (historical; resolved EXACT in wave75)
+ * Resolved: duplicate c->f0c stores in the second state's inner arms,
+ * then cross-jump the tails. See src/matched/ov/ov010_func_02161484.c.
  *
  * 7 bytes wrong (same size). The second block (f08 == 2, f68 == 2) is
  * `if (E00 == 1) { E04 }` then v = 0. The original lays the E04 arm out with

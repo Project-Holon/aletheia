@@ -8,18 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- *
- * near miss (6 runs): every instruction right except register allocation of
- * the 0x02185C4C result. The original spills it to [sp,#4] (push {r4-r7,lr},
- * sub sp,#0x24) and keeps r7 for the two short-lived temporaries (the
- * 0x0200BE48 result across the 0x02012FCC call, and the 0x02012138 result);
- * this C keeps the result in r7 and spills both temporaries to [sp,#4] and
- * [sp,#8] (push {r3-r7,lr}, sub sp,#0x28). No change from: one shared
- * local for both temporaries, the 0x0200BE48 result inlined as an argument,
- * ret declared first or last, and the tail from 0x0200BE48 on as a
- * static inline helper. Also capped at MATCH regardless: 0x02013DD0 is an
- * unlabelled arm9 leaf with no witness (see ov018_func_0217EC7C.c).
- *
+ * checks: 1 callees re-derived, 021A3238 consumes live 02188CB4 result; 2 neighbours no matching twin; 3 unsigned-long return handle and pointer-typed h DIFF22; 4 inline/frame idioms checked; 5 idioms/neighbours refreshed, declared Rec required by aggregate copy.
+ * Safe residual: 220 bytes, DIFF22; return value held in r7 instead of
+ * [sp,#4], pushing two short-lived values into spill slots and expanding frame.
+ * Runs: 4 + permuter300; emitted baseline DIFF22 agrees with fixed one,
+ * no candidate improved. Return-passing finish inline also unchanged.
+ * ARM9 02013DD0 now has its own matched witness; no evidence blocker remains.
+ * The 021A3238 extern returns int despite the old void forwarder declaration:
+ * caller compares r0; forwarded target 021A3A20 returns int 0/1.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
@@ -44,51 +40,44 @@
  *   func_0217BCDC  0x0217BCDC  thumb  ov018
  *   func_02158344  0x02158344  thumb  ov010
  */
-
+typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 typedef unsigned long long u64;
-
-typedef struct Rec {
-    int f00;
-    u16 f04;
-    u16 f06;
-    int f08[5];
-} Rec;
-
+typedef struct { int f00; u16 f04, f06; int f08[5]; } Rec;
 void *func_020120F4(void *p);
-int func_0201210C(void *p);
+void *func_0201210C(void *p);
 Rec *func_020128DC(void *p);
 int func_02013DD0(int v);
 void func_02014204(Rec *r, int v);
 void *func_02012EBC(void *p);
-void *func_0200BE48(void *p);
+u16 *func_0200BE48(void *p);
 void *func_02012FCC(void *p);
-u64 func_0200BFA4(void *p, void *x, int n);
-void *func_02012138(void *p);
+u64 func_0200BFA4(u8 *p, void *x, u32 n);
+u32 func_02012138(void *p);
 void func_0202648C(void);
 int func_02026454(void *p);
 void func_02026484(void *p);
-void func_02012B78(void *p, int v);
-void func_02012B64(void *p, int v);
-void func_02012B8C(void *p, int v);
-void func_02012B4C(void *p, int v);
-int func_02185C4C(void *p, int a1, Rec *r);
-void func_02188CB4(int v);
-int func_021A3238(void);
-void func_0217BCDC(int a, void *b, int c, int d, int e);
-int func_02158344(void *p);
-
-static inline void helper(void *a, void *r4, int r6)
+void func_02012B78(void *p, u8 v);
+void func_02012B64(void *p, u8 v);
+void func_02012B8C(void *p, u8 v);
+void func_02012B4C(void *p, u8 v);
+void *func_02185C4C(void *p, void *a1, Rec *r);
+void *func_02188CB4(void *v);
+int func_021A3238(void *v);
+void func_0217BCDC(u8 *a, void *b, int c, u8 d, u8 e);
+int func_02158344(u32 p);
+static inline void *finish(void *a, void *r4, void *r6, void *ret)
 {
-    void *r7;
-
-    func_0200BFA4(func_0200BE48(func_02012EBC(r4)), func_02012FCC(r4), 1);
-    r7 = func_02012138(a);
+    u16 *t;
+    void *h;
+    t = func_0200BE48(func_02012EBC(r4));
+    func_0200BFA4((u8 *)t, func_02012FCC(r4), 1);
+    h = (void *)func_02012138(a);
     func_0202648C();
-    if (func_02026454(r7) == 0)
-        func_02026484(r7);
-    func_02188CB4(r6);
-    if (func_021A3238() == 0)
+    if (func_02026454(h) == 0)
+        func_02026484(h);
+    if (func_021A3238(func_02188CB4(r6)) == 0)
         func_0217BCDC(0, a, 0, 0, 0);
     func_02012B78(r4, 0);
     if (func_02158344(func_02012138(a)) == 0) {
@@ -96,21 +85,19 @@ static inline void helper(void *a, void *r4, int r6)
         func_02012B8C(r4, 0);
         func_02012B4C(r4, 1);
     }
+    return ret;
 }
-
-int func_02185214(void *a)
+void *func_02185214(void *a)
 {
-    int ret;
     void *r4;
-    int r6;
+    void *r6;
     Rec s;
-
+    void *ret;
     r4 = func_020120F4(a);
     r6 = func_0201210C(a);
     s = *func_020128DC(r4);
     if (func_02013DD0(s.f04) == 1)
         func_02014204(&s, s.f04);
     ret = func_02185C4C(a, r6, &s);
-    helper(a, r4, r6);
-    return ret;
+    return finish(a, r4, r6, ret);
 }

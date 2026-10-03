@@ -1,4 +1,6 @@
-/* DIFF near miss, ov010 0x02161D18; last run left a small register/slot allocation diff, see below */
+/* Resolved EXACT* in wave75: c and d are u8, as in the matched caller
+ * ov010_func_02161B90.c; see src/matched/ov/ov010_func_02161D18.c.
+ * Historical candidate below retained for evidence. */
 /*
  * function: func_02161D18
  * address:  0x02161D18

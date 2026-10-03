@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * New pass R24: inline add_delta with out-delta remains 190 bytes / DIFF 90;
+ * enum-typed two-byte offset fixes prologue but yields 184 / DIFF 148;
+ * using that enum offset for the update too yields 184 / DIFF 150. No gain.
+ * checks: 1 own 021A2640/26C4's legacy trailing arguments are unused in
+ * their full forwarding target 021A2C28 (only reads pointer+4), two args kept;
+ * 2 matched twins 021EF2D8/3E0 re-read; 3 long x unchanged 190 / DIFF 90;
+ * 4 enum-offset and inline-load hypotheses tried; 5 fresh idiom listing,
+ * stack-object idiom read, v remains declared s16[2], no new twin;
+ * prior permuter searches consumed, none repeated. Best old C retained.
  *
  * DIFF: original pushes {r3-r7,lr} with no sub sp (uses r7 for a hoisted
  * constant 2); compiled pushes {r3-r6,lr} + sub sp,#4 and hoists movs r2,#0 /

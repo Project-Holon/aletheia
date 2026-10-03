@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 CD6F0 arity 11 and BA9C8 arity 5 from own matched callers; 2 matched 6AAC/6C5C/6DD0/7050 and own 7CB4/8070/81DC twins confirm call widths; 3 const p worsened 69 to 73 bytes, unsigned t and widened CD6F0 stack flags unchanged; 4 indexed-base and pointer grouping idioms used, remaining call-setup scheduling; 5 idioms relisted and ov093 twins reread, no stack aggregate. Single --types permuter 300 gave no improvement; next hypothesis is const q rather than const p.
- * residual: 600/600 bytes, 69 concrete bytes differ, 21/21 relocations resolved. Log scratchpad/production-01a0ef95/w21-B3/7E18-final.log.
+ * checks: 1 all callee arities rederived from own sources and matched ov093 callers, CD6F0=11 and BA9C8=5; 2 7CB4/8070/81DC twins confirm call widths and q fields; 3 renewed const q and structured Q pointer both compile unchanged600/69, t:u8 inserts truncation and worsens604/565 (B6818 returns0/1); prior const p=73 and unsigned t unchanged; 4 const-record stack-store and u16-accessor scheduling idioms read, no safe improvement; 5 directory refreshed and current 7CB4 reread, no new matching twin or stack aggregate. Prior --types permuter300 consumed and not repeated. Next lever is call-site inline grouping while retaining the two distinct B6994 paths.
+ * residual: 600/600 bytes, 69 concrete bytes differ, 21/21 relocations resolved. Renewed logs scratchpad/overlay-newpass-20261003-w75/R11/021B7E18-{constq,structuredq,narrowt}.log; best C remains the recorded baseline.
  * symbols:
  *   func_021B6818 0x021B6818 thumb ov093
  *   func_021D4270 0x021D4270 thumb ov093

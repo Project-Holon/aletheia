@@ -1,122 +1,125 @@
 /*
  * function: func_021AF494
- * address:  0x021AF494
- * packet:   pkt_ov013_021AF494
- * region:   ov013
+ * address: 0x021AF494
+ * packet: pkt_ov013_021AF494
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * IMA ADPCM encoder: n s16 samples to n/2 bytes, low nibble first, with
- * the predictor and step index carried in *st (the decoder is
- * func_021AF340). Index table (s8[16]) at 0x021B3A0C, step table
- * (s16[89]) at 0x021B3A1C.
- *
- * DIFF, 76 of 102 instructions differ (lane B10): same size, same
- * instruction selection and control flow; register allocation and the
- * second nibble's load order differ. Original: count n/2 in r8, the first
- * sample's register reused for its code (sample r5 -> code r5, diff in
- * sl), second nibble loads sample, pred, then step; this source puts
- * count in r5, reuses the sample register for diff, and loads step, pred,
- * sample. Tried without effect: all 120 declaration orders of the helper's
- * locals (76-88), outer declaration order, s16 sample parameter, *src++
- * arguments, non-const tables, int return / int lo,hi, else-if clamps
- * (worse, 100), the body as a macro with function-scope locals (different
- * allocation, not closer). The count local (vs n / 2 in the condition)
- * was the one lever that helped (prologue now matches).
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * IMA ADPCM encoder: two s16 samples per output byte, low nibble first.
+ * residual: DIFF 404/404 bytes, 186 concrete bytes differ; both table relocations resolved.
+ * evidence: a separate np = pred + diff reduced 247 to 201; pointer sample and unsigned-long count remained 201; n reuse gave 223. Signed-long index stayed 201; u8 code gave 396 bytes/142 and was rejected for size.
+ * permuter: first typed budget-300 pass emitted baseline 201, best 186; declaration order, a dead initialized shift temp and s16 lo retained. Fresh one verified 186; lo is 0..15 and all temporaries initialize before use.
+ * prior evidence: all 120 helper declaration orders were already consumed (76-88 instruction mismatches), not repeated; outer order, s16 parameter, src++ arguments, nonconst tables, int return/results and macro spelling were already tried. Else-if clamps gave 100 instruction mismatches.
+ * checks: 1 no out-of-line calls; 2 own-overlay decoders/wrappers confirm state/table types, no exact encoder twin; 3 long idx 201, u8 code 396/142 rejected; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
  */
-
 typedef unsigned char u8;
 typedef signed char s8;
 typedef short s16;
 typedef unsigned int u32;
-
-typedef struct AdpcmState {
-    s16 pred;
-    u8 index;
+typedef struct AdpcmState
+{
+  s16 pred;
+  u8 index;
 } AdpcmState;
-
 extern const s8 d_021B3A0C[16];
 extern const s16 d_021B3A1C[89];
-
-static inline u8 AdpcmEncodeSample(AdpcmState *st, s16 sample)
+inline static u8 AdpcmEncodeSample(AdpcmState *st, s16 sample)
 {
-    int idx;
-    int pred;
-    int code;
-    int diff;
-    int step;
-
-    idx = st->index;
-    pred = st->pred;
-    step = d_021B3A1C[idx];
-    diff = sample - pred;
-    if (diff < 0) {
-        code = 8;
-        diff = -diff;
-    } else {
-        code = 0;
-    }
-    if (diff >= step) {
-        code |= 4;
-        diff -= step;
-    }
-    if (diff >= step >> 1) {
-        code |= 2;
-        diff -= step >> 1;
-    }
-    if (diff >= step >> 2) {
-        code |= 1;
-    }
-    diff = step >> 3;
-    if (code & 4) {
-        diff += step;
-    }
-    if (code & 2) {
-        diff += step >> 1;
-    }
-    if (code & 1) {
-        diff += step >> 2;
-    }
-    if (code & 8) {
-        diff = -diff;
-    }
-    pred += diff;
-    if (pred < -32768) {
-        pred = -32768;
-    }
-    if (pred > 32767) {
-        pred = 32767;
-    }
-    idx += d_021B3A0C[code];
-    if (idx < 0) {
-        idx = 0;
-    } else if (idx > 88) {
-        idx = 88;
-    }
-    st->pred = (s16)pred;
-    st->index = idx;
-    return code;
+  int idx;
+  int pred;
+  int code;
+  int diff;
+  int step;
+  int np;
+  idx = st->index;
+  pred = st->pred;
+  step = d_021B3A1C[idx];
+  diff = sample - pred;
+  if (diff < 0)
+  {
+    code = 8;
+    diff = -diff;
+  }
+  else
+  {
+    code = 0;
+  }
+  if (diff >= step)
+  {
+    code |= 4;
+    diff -= step;
+  }
+  if (diff >= (step >> 1))
+  {
+    code |= 2;
+    diff -= step >> 1;
+  }
+  if (diff >= (step >> 2))
+  {
+    code |= 1;
+  }
+  diff = step >> 3;
+  if (code & 4)
+  {
+    diff += step;
+  }
+  if (code & 2)
+  {
+    diff += step >> 1;
+  }
+  if (code & 1)
+  {
+    diff += step >> 2;
+  }
+  if (code & 8)
+  {
+    diff = -diff;
+  }
+  np = pred + diff;
+  if (np < (-32768))
+  {
+    np = -32768;
+  }
+  if (np > 32767)
+  {
+    np = 32767;
+  }
+  idx += d_021B3A0C[code];
+  if (idx < 0)
+  {
+    idx = 0;
+  }
+  else
+    if (idx > 88)
+  {
+    idx = 88;
+  }
+  st->pred = (s16) np;
+  st->index = idx;
+  return code;
 }
 
 void func_021AF494(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
 {
-    u32 i;
-    u32 count;
-    u8 lo;
-    u8 hi;
+  u32 i;
+  u8 hi;
+  s16 lo;
+  u32 count;
+  u8 tmp;
+  count = n / 2;
+  for (i = 0; i < count; i++)
+  {
+    lo = AdpcmEncodeSample(st, src[0]);
+    hi = AdpcmEncodeSample(st, src[1]);
+    src += 2;
+    tmp = (u8) (hi << 4);
+    *(dst++) = lo | ((u8) (hi << 4));
+  }
 
-    count = n / 2;
-    for (i = 0; i < count; i++) {
-        lo = AdpcmEncodeSample(st, src[0]);
-        hi = AdpcmEncodeSample(st, src[1]);
-        src += 2;
-        *dst++ = lo | (u8)(hi << 4);
-    }
 }

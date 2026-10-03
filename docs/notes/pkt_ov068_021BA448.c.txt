@@ -11,6 +11,14 @@
  * status:   DIFF
  * checks:   1 arity from matched files (func_021BA9DC (p) and func_021BA194 (p, int, int *) from their ov068 matched files; ov067 021B63D0/6470/6448 (int) and 021B65A8 (int,int) from their callers; 020355C4/020355D8 from ov068_func_021BA03C, EXACT this lane); 2 no twin (no other ov068 handler with this case-8 sound pick); 3 sound id u16 (best, 5 bytes), int (4 bytes short, 245-byte shifted diff), flag/f10 store order in case 8, snd local, (u16) cast of the ternary: no gain; 4 cross-jump idioms read (a-labelled-function-and-the-unlabelled-store-and-return-address-leaf..., an-argument-bound-through-an-inline-wrapper...): a static inline sound helper tried, no gain; 5 re-listed docs/idioms (ls -t), nothing new fits; retry R1: 1 every other matched caller (ov064/065/067/068/069) declares func_020061E4 with one 32-bit parameter, so u16 here is only a lever; 2 ov068_func_021BA7C0 shares 021BA194/020355C4/D8/020061E4 but has no two-path sound call; 3 sound id int/unprototyped/u16 local/inline u16 return measured (above); 4 cross-jump idioms (a-shared-bl-b-tail..., a-call-before-a-goto..., a-flag-dispatch-four-bytes-short...) read: the if/else arm order they suggest does not unmerge it; 5 ls -t docs/idioms again, nothing new
  * runs:     12 + 2x permuter (permuter on this draft and on the int-param draft, seed 7: no candidate beat either)
+ *   wave75 R28: 5 one calls (3 iteration, 2 check-3), no sweeps/permuter.
+ *   Renewed checks: 1 own files/callers re-derived all arities, including
+ *   BA190 one, BA9DC one, BA194 three, BB508 two, sound one; 2 no twin
+ *   retains two case-8 sound calls; 3 enum sound formal/local and one-site
+ *   int call cast give 504 bytes / 245-byte shifted DIFF; enum fC and flag
+ *   each retain 508 bytes / 5-byte DIFF; 4 cross-jump idioms still fit but
+ *   their existing levers were consumed; 5 idiom directory refreshed.
+ *   Best stays this draft. Both prior permuter searches remain consumed.
  * residue:  508 vs 492 bytes of code (the extent's 492 plus the 16-byte pool at
  *   0x021BA634, which the listing labels as a phantom func_021BA634), 5 bytes differ, all in
  *   case 8. The image keeps two separate calls:
@@ -26,8 +34,9 @@
  *   4..11, the nested r != 0 { r == 6 } else layout for 6470/6448, the ternary sound id.
  *   Data: d_021BB550 prints "ov068 hint contested" (another overlay starts an object
  *   there); recheck its evidence once the function matches.
- *   Next: a different parameter type for func_020061E4 (u8 id with a narrowing store?) or an
- *   inline that returns the id, so the two calls no longer end identically.
+ *   Next: source-level asymmetry between the two call paths supported by
+ *   image evidence, without invented aliases; integer and enum parameter
+ *   webs alone cannot preserve separate calls without the truncation pair.
  *   Retry (lane R1, 9 runs): the image's case 8 has no truncation pair AND no cross-jump;
  *   every spelling gives one or the other. Pair, not merged (this draft's 5 bytes): u16
  *   param with the ternary, a u16 snd = ternary, a static inline u16 SndId(p) returning

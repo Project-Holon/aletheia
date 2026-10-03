@@ -8,11 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callees and 02051C88 caller confirm arities; 2 8C4C/8DF0
- * confirm Ent and bitfields; 3 signed long r retained five bytes; 4 typed
- * shifted bases, integer addition and array-member view did not improve;
- * 5 idioms relisted and matched neighbours reread. Next: callee inline
- * source shape for the redundant ready/table test, not further ordering.
+ * checks: 1 own 841C/8404/9190/91BC/91D0/9228/92F0 confirm arities; 2 narrowed ov067 twins 8C4C/8DF0/8B74 and neighbouring declarations refreshed; 3 unsigned r gives 7 and changes signed guards, rejected; const table retained; 4 typed byte-base field access worse 995/+4, scalar and field-base inline getters unchanged 5; 5 idioms and neighbours refreshed, no stack object. Earlier permuter300 consumed, not repeated. Next: original inline caller source for the redundant test.
  * retry: wave59 R1, seven fixed runs; best unchanged at five bytes.
  * Earlier wave58 permuter300 baseline/best five bytes; not repeated.
  * residual: 5 concrete bytes, size delta 0; offsets 0134..013A fold base+4 into the indexed field load; all 27 relocations resolved.
@@ -62,6 +58,10 @@ extern void func_021B9228(struct S *,int,s8);
 extern void func_020061E4(u32);
 extern void func_02041EE4(u32,u32,int);
 extern const u8 d_021B94F8[];
+static inline u32 second(const void *fieldbase, u32 offset)
+{
+ return *(const u32 *)((const char *)fieldbase+offset);
+}
 int func_021B8460(struct S *s)
 {
  int r,n,v,a;
@@ -91,7 +91,7 @@ int func_021B8460(struct S *s)
  if(s->f69==0) {
   if(s->f68==0) {
    r=func_02035BA4(s->f2c);
-   if(r!=-1 && *(u32 *)((char *)s->f1c+4+r*8)==0 && s->ready==1 && *(u32 *)((char *)s->f1c+4+r*8)==0 &&
+   if(r!=-1 && second((const char *)s->f1c+4,(u32)r*8)==0 && s->ready==1 && second((const char *)s->f1c+4,(u32)r*8)==0 &&
      ((s->f85<0 && s->f87<r)||(s->f85>0 && s->f87>r))) {
     s->ready=0;
     n=func_021B841C(s,s->f67);
@@ -186,4 +186,3 @@ int func_021B8460(struct S *s)
  s->f69--;
  return 1;
 }
-

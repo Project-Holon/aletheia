@@ -1,34 +1,15 @@
 /*
  * function: func_021B2BE0
- * address:  0x021B2BE0
- * packet:   pkt_ov013_021B2BE0
- * region:   ov013
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF (364 of 372 bytes)
- *
- * Near miss, parked after 9 runs. Every instruction up to the tail
- * matches in shape; three things remain:
- *  1. the original's switch default jumps to a lone `b common` (+0x6C ->
- *     +0x88) instead of straight to the common tail (4 bytes);
- *  2. the original re-reads ev->type (`ldr r0,[r7]`) after `node->fc = r`
- *     (4 bytes); here the compiler forwards the stored value, so it must
- *     know node == &g.active at the tail;
- *  3. register roles: original r=r4, node=r5, the zero constant r6; here
- *     the zero gets r4 and r/node r5/r6 by declaration order.
- * Found: the second error test is a switch with three stacked cases;
- * `r == -3 || r == -2 || r == -1` compiles to an add/cmp range check
- * instead of the original's conditional cmpne chain.
- * Tried without effect: node assigned after the switch, `default: break`,
- * fc as int, `ev->node->fc = r`, no node local (loses the r5 CSE).
- * Untried: the tail (279C .. return 1) as an inlined static helper taking
- * node as a parameter, which may explain both 1 and 2; and for 3, the
- * zero as a named local (docs/idioms/a-zero-stored-passed-and-returned-
- * is-a-named-local.md): r6 is stored, passed to func_021B26DC and
- * returned, exactly that idiom's shape.
- *
+ * address: 0x021B2BE0
+ * packet: pkt_ov013_021B2BE0
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Wave 75 R20 renewed pass: DIFF 208 concrete bytes, compiled 364 versus 372 (-8 bytes), all 10 relocations resolve. Inline common tail, raw signed scalar node store, named zero and const packet retain missing branch trampoline/reload plus register rotation; enum zero is 368/229. One declaration reorder was 364/210, restored order is 364/208. First recorded permuter 300 is consumed; no improvement. Its baseline reported 200/unresolved2, but emitted source one (r6) gives 208/10 resolved, so search scores were not accepted.
+ * checks: 1 matched 2894/279C/26DC and tick declarations read, arities 2/2/1/0; 2 matched 2AA0 common event tail inspected; 3 enum/unsigned zero and const packet compiled, no improvement; 4 named-zero and inline allocation idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis shared Node/Event alias representation and branch join structure, no repeat permuter
  * symbols:
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   g_021B4BD0     0x021B4BD0  data  a4
@@ -36,6 +17,7 @@
  *   func_021B279C  0x021B279C  arm  ov013
  *   func_021B26DC  0x021B26DC  arm  ov013
  *   func_020870D0  0x020870D0  arm
+
  */
 
 struct Node {
@@ -90,19 +72,37 @@ extern int func_021B279C(struct Pkt *pkt, struct Node *node);
 extern void func_021B26DC(int on);
 extern unsigned long long func_020870D0(void);
 
-int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
+typedef enum { Zero=0 } ZeroType;
+static inline int finish(const struct Pkt *pkt,struct Event *ev,struct Node *node,int r,unsigned int z)
+{
+    ev->type = func_021B279C((struct Pkt *)pkt, node);
+    ev->node = node;
+    *(int *)((unsigned int)node+12) = r;
+    if (ev->type == 10) {
+        func_021B26DC(1);
+        g_021B4BD0.f8 = func_020870D0();
+    } else {
+        func_021B26DC(z);
+        g_021B4BD0.f8 = z;
+    }
+    return 1;
+}
+
+int func_021B2BE0(const struct Pkt *pkt, struct Event *ev)
 {
     struct Node *node;
     int r;
+    unsigned int z;
+    z=0;
 
     if (g_021B4BE0.active.state == 2) {
         if (g_021B4BE0.active.f4 == pkt->f8) {
             node = &g_021B4BE0.active;
-            r = func_021B2894(node, pkt);
+            r = func_021B2894(node, (struct Pkt *)pkt);
             switch (r) {
             case -2:
                 ev->type = 0xC;
-                ev->node = 0;
+                ev->node = (struct Node *)z;
                 return 1;
             case -3:
             case -1:
@@ -110,7 +110,7 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             }
         } else {
             func_021B26DC(1);
-            return 0;
+            return z;
         }
     } else {
         if (!(g_021B4BD0.f4 & (pkt->f8 != 0 ? 1 << pkt->f8 : 1)))
@@ -118,8 +118,8 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
         g_021B4BE0.active.f4 = pkt->f8;
         g_021B4BE0.active.state = 2;
         node = &g_021B4BE0.active;
-        g_021B4BE0.active.fc = 0;
-        r = func_021B2894(node, pkt);
+        g_021B4BE0.active.fc = z;
+        r = func_021B2894(node, (struct Pkt *)pkt);
         switch (r) {
         case -3:
         case -2:
@@ -128,15 +128,5 @@ int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
             return 0;
         }
     }
-    ev->type = func_021B279C(pkt, node);
-    ev->node = node;
-    node->fc = r;
-    if (ev->type == 10) {
-        func_021B26DC(1);
-        g_021B4BD0.f8 = func_020870D0();
-    } else {
-        func_021B26DC(0);
-        g_021B4BD0.f8 = 0;
-    }
-    return 1;
+    return finish(pkt,ev,node,r,z);
 }

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * blocker: Twelve stack-offset bytes differ in the 546-byte lead; 21/33
- *   relocations resolve. The remaining handed extent is alignment plus twelve
+ * blocker: Twelve stack-offset bytes differ in the 546-byte lead; 33/33
+ *   relocations now resolve. The remaining handed extent is alignment plus twelve
  *   unlabelled bx-pc off-image veneers (021CAF18..021CAFC8, target 0689CB49).
  *   No follower C or unit was created. See B3/acf4-c4b.log for the complete diff.
  * checks:
@@ -29,6 +29,19 @@
  *   the 740-byte extent against the 546-byte lead and its twelve veneers.
  * lever: Record ids[index] fixes the case-9 byte-address instruction order;
  *   n and case-4 j still use the opposite stack slots to the original.
+ * fresh-pass: R13 compiled separate first-loop index, function-scope j,
+ *   and u16 n; all remain DIFF 12, stopping after three nonshrinking changes.
+ * fresh-checks: 1: Own CAA24/CB174/B9934 bodies and all call setups reread;
+ *   corrected B9934 pointer return and CB174 wide third parameter compile
+ *   unchanged. Original CAA24 call preserves its existing u16 move setup.
+ *   2: Pending CAA58 and matched B8D8C/CB1D4 twins reread in full.
+ *   3: u16 n and const q with mutable callee casts each remain DIFF 12.
+ *   4: Separate-index, function/block-scope and stack-order idioms reread;
+ *   two manual scheduling variants consumed; no forced stack object added.
+ *   5: Full idiom directory and three twins refreshed, no further rescue.
+ *   Five fresh compiles; no check exceeded two. Permuter remains skipped
+ *   under the 546-byte lead / 740-byte follower-extent exception.
+ *   Best C retains n/j's sp+14/sp+18 swap; scope variant only swaps n/i.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
@@ -64,8 +77,8 @@ extern u8 func_021CAA24(u8 *, u8 *, u8 *, int, u16);
 extern u8 *func_021B98A4(void *, u8);
 extern u32 func_021D78AC(u32);
 extern u8 func_021B8C38(u32, u32);
-extern u8 *func_021CB174(u8 *, int, u8);
-extern int func_021B9934(char *, int);
+extern void *func_021CB174(u8 *, u32, int);
+extern u8 *func_021B9934(char *, int);
 extern u8 func_021CB1D4(u8 *, u8 *, u8 *, u32);
 extern void func_021CAF18(void *, void *);
 extern void func_021CAF28(void *, void *);

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded: wave75 R28 filed ov070_func_021BB690.c EXACT; const char *p,
+ *   expand q as p+off at the first getter call and keep q for the setter.
+ *   First bounded permuter (300 cap, stopped at 8) found expand(q x1).
  * checks:   1 func_0204B454/B404 take (handle, buf, 0xFFFF) per func_021C0980; 2 no twin; 3 const/int/unsigned tried, declaration order permuted (all 24), off/q statement order; 4 none fits; 5 n/a
  *
  * DIFF: five bytes, a register swap. The original keeps i*4 in r6 and p+i*4 in r5 (adds r5,r7,r6);

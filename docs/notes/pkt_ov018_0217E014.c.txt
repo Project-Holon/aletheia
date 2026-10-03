@@ -8,25 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 matched callees have arities 1/3/3/2; 2 ov018 neighbours share Layout/callees but no twin; 3 const p gives 49, u8 sel gives 228 B; 4 enum sel/count remain 47; 5 reassigned second parameter remains 47, declared Layout already used; once-only permuter 300 baseline 47/224 and winner fixed-one 47/224; no further sweep proposed.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0204B404  0x0204B404  arm
  *   func_0204B6F4  0x0204B6F4  arm
  *   func_0204B3DC  0x0204B3DC  arm
  *
- * DIFF, 47 concrete bytes (lane B5, 20 runs). Everything from +0x54 to the
- * end is byte-identical; the residual is the prologue and first loop's
- * register allocation only. The original keeps sel's zero in r0 (str [sp],
- * then the three slot strb from the same r0), holds &l.slot in r2 across the
- * first loop, i in r3 and the constant 1 in r4. This source puts n's zero
- * (r5) into the slot stores, &l.slot in r4, i in r2 and 1 in r0.
- * Tried without gain: sel = 0 before the slot stores (the compiler then
- * reloads sel from [sp] for the strb, 197 B); a chained
- * slot = sel store (208 B); a separate first-loop counter (47 B, same);
- * a u8 *s = l.slot cursor (48 B); a Work struct for p (47 B, same);
- * zeroing the slots in a loop (207-213 B). Separate u8 slot[3] / Pos locals
- * instead of the Layout struct lose the reload of slot[i] after the call
- * and spill p (172 B).
+ * DIFF, 47 concrete bytes at 224 B. Fresh enum sel/count, enum-linked
+ * early zero, const pointer, narrow sel and reused second parameter tests
+ * did not improve the first-loop allocation. Permuter budget 300 consumed;
+ * emitted baseline and winner both agree with fixed one at 47/224.
  */
 
 typedef unsigned char u8;
@@ -51,7 +43,7 @@ void func_0217E014(u8 *p)
 {
     void *act;
     int cur;
-    int sel;
+    enum Sel { SEL_ZERO } sel;
     int max;
     int n;
     int i;

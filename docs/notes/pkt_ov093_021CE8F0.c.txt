@@ -5,17 +5,12 @@
  * region: ov093
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 B990C reads three arguments; D59B4 forwards selector r1;
- * 2 no twin uses d_021EFF78; 3 two compiles: const p/u16 k and u32 entry
- * both 384 bytes/359 concrete bytes out; 4 enum offset and stack-object
- * idioms read, six homes still CSE; 5 fresh idiom listing and CE7D4/CECB4
- * neighbours read, no matching six-home object. Next: inline enum homes.
- * residual: 384 compiled versus 420 original; all 20 relocations resolved.
- * The six original stack homes are merged despite distinct enum types or
- * an enum-field aggregate; the latter restores the 0x38-byte frame.
- * permuter: not required for this 36-byte size delta; no pass consumed.
+ * status: EXACT
+ * lever: Six ordinary int offsets each receive 0x19a then 0x112;
+ * a cached row pointer preserves their distinct stack homes and r5 base.
+ * Reverse declarations and a full-word k local restore the spill order.
  * symbols:
  *   func_021B86B8 0x021B86B8 thumb ov093
  *   func_021B904C 0x021B904C thumb ov093
@@ -58,12 +53,16 @@ extern u8 func_021B9B98(char *);
 extern const u16 d_021EFF78[4];
 int func_021CE8F0(const u8 *p,u16 *out)
 {
-    u32 key, id, count, i;
-    u16 k;
-    int result, a, b;
     u32 entry;
+    int result;
+    u32 count;
+    u32 k;
+    u32 key;
+    u32 id, i;
+    int a, b;
     u8 *mon;
-    struct Offsets offsets;
+    u8 *row;
+    int skip,ok0,ok1,ok2,ok3,invalid;
     if ((u32)func_021B86B8(*(void ****)p) != 1) goto fail;
     id = func_021B904C(*(void **)p,0);
     k = func_021BA004(*(void **)p,id);
@@ -78,35 +77,36 @@ int func_021CE8F0(const u8 *p,u16 *out)
         }
     }
     result = -1;
-    init_offset(&offsets.invalid);
-    init_offset(&offsets.ok3);
-    init_offset(&offsets.ok2);
-    init_offset(&offsets.ok1);
-    init_offset(&offsets.ok0);
-    init_offset(&offsets.skip);
+    invalid=0x19a; invalid=0x112;
+    ok3=0x19a; ok3=0x112;
+    ok2=0x19a; ok2=0x112;
+    ok1=0x19a; ok1=0x112;
+    ok0=0x19a; ok0=0x112;
+    skip=0x19a; skip=0x112;
     for (i=0;i<4;i++) {
-        if (!p[offsets.skip+i]) {
+        row = (u8 *)p + i;
+        if (!row[skip]) {
             key = d_021EFF78[i];
             if (func_0202A298(k,key,*(u16 *)(p+0x19a))) {
                 switch (key - 0x11) {
                 case 1:
                     a = func_021D59B4(mon,13);
-                    if ((u32)a <= func_021D7B60(mon,2)) { result = i; ((u8 *)p)[offsets.ok0+i] = 1; }
+                    if ((u32)a <= func_021D7B60(mon,2)) { result = i; row[ok0] = 1; }
                     break;
                 case 0:
-                    if (!func_021D5B48(mon)) { result = i; ((u8 *)p)[offsets.ok1+i] = 1; }
+                    if (!func_021D5B48(mon)) { result = i; row[ok1] = 1; }
                     break;
                 case 2:
-                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((char *)entry) == 1) { result = i; ((u8 *)p)[offsets.ok2+i] = 1; }
+                    if (func_021B9B94((void *)entry) > 1 && func_021B9B98((char *)entry) == 1) { result = i; row[ok2] = 1; }
                     break;
                 case 3:
                     if (func_021B9B94((void *)entry) > 1 && func_021B9B98((char *)entry) == 1) {
                         b = func_021D59B4(mon,13);
-                        if ((u32)b <= func_021D7B60(mon,2)) { result = i; ((u8 *)p)[offsets.ok3+i] = 1; }
+                        if ((u32)b <= func_021D7B60(mon,2)) { result = i; row[ok3] = 1; }
                     }
                     break;
                 }
-            } else ((u8 *)p)[offsets.invalid+i] = 1;
+            } else row[invalid] = 1;
         }
     }
     if (result >= 0) { *out = d_021EFF78[result]; return 1; }

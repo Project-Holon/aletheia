@@ -7,17 +7,18 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: defined C compiles 512 bytes against 508, all 17 relocations resolved.
+ * residual: defined C compiles 508/508 bytes, 454 concrete bytes differ, all 17 relocations resolved.
  * Original +0x77c != 0 branches from 0x021BBDA6 to 0x021BBF22, bypassing
  * the only saved-count store: str r0,[sp,#0xc] at 0x021BBDC0. The load at
- * 0x021BBF46 is unconditional. Retain saved=0 instead of reading an unset local.
+ * 0x021BBF46 is unconditional. Retain the defined saved=0 else-path rather than an unset local.
  * func_021BB570 calls func_021BBD80 (which clears +0x77c) immediately before
  * this function. That proves its path only: func_021BAEF8 calls BBD80 in
  * state 4, falls through to state 5, then result 3 in state 6 returns to
  * state 5 without repeating the reset. No all-path zero-flag precondition.
  * Best permuter300 mutation volatile-add(saved) is rejected; it has no
  * original volatile evidence. No unchecked or behavior-changing C is filed.
- * checks: 1 callee arities from own files/callers and C4614 show, not the cause; 2 BBC44 structure and BB570/BAEF8 reset paths read; 3 a:u8 compiled unchanged at 512 bytes, restored int and unsigned loop indices; 4 allocation/stack-store idioms read, initialization has no safe matching spelling; 5 idiom directory and current ov093 twins refreshed, sp+0xc is a scalar count rather than an address-taken aggregate; permuter300 --types rejected volatile-add(saved); next lever requires proof of an all-path entry invariant.
+ * checks: 1 all arities rederived from own files/callers, BBF88/BBF98 Thumb-to-ARM veneers reread, BC610 fourth argument retained because original explicitly supplies6; 2 refreshed BBC44/BBD80 and BB570/BAEF8 reset paths give no all-entry invariant; 3 prior a:u8 unchanged512, renewed scalar-in-struct saved unchanged512/471; 4 moving saved=0 to p->init!=0 arm safely shrinks512/471 to508/454, scalar slot remains, stack-order and declared-struct idioms read; 5 directory and BBC44/BBD80 refreshed, saved is not address-taken. Prior permuter300 consumed and volatile mutation rejected, not repeated. Next lever requires proof of an all-path entry invariant before removing the defined fallback; otherwise allocation remains the safe target.
+ * renewed: scratchpad/overlay-newpass-20261003-w75/R11/021BBD8C-savedinit.log; the best C below puts the fallback zero only on the branch that bypasses BBF88. Capturing the entry flag and selecting saved-or-zero at the final comparison preserves defined reads but worsens536/521 (latesaved.log); no eager-fallback removal justified by this trial.
  * symbols:
  *   func_021BB920 0x021BB920 thumb ov093
  *   func_021D74E4 0x021D74E4 thumb ov093
@@ -61,12 +62,13 @@ extern void func_021C6158(S *, u8 *);
 u32 func_021BBD8C(S *p, int a)
 {
     u32 i;
-    u32 saved = 0;
+    u32 saved;
     u32 *out = p->out;
     p->state = 0;
     out[0] = 0;
     out[1] = 0;
-    if (p->init == 0) {
+    if (p->init != 0) saved = 0;
+    else {
         func_021BB920(p->a);
         func_021D74E4();
         saved = func_021BBF88((u8 *)p + 0x3e0, 0);

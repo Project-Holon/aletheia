@@ -9,11 +9,13 @@
  * isa:      thumb
  * status:   MATCH
  *
- * blocker: byte-correct; two callees are unlabelled Thumb leaves with no
- *   witness outside this range. 0x0215631C (ov009, `*(g_021A8264+0x76c)=0`,
- *   referenced only by this function's pool word) and 0x021AF18C (ov013,
- *   a setter `*(g+0x1984)=r0`, only caller the bl here). Seeding both into
- *   layout/function_starts.txt (thumb) lets sole-ref/code resolve them.
+ * blocker: byte-correct; two code witnesses remain unresolved. Existing
+ *   unit src/matched/ov/ov009_func_021562EC.c contains 0215631C and02156330,
+ *   but its function: header lists only021562EC, so its shard cannot attest
+ *   0215631C. Owner correction: one comma-separated function: value listing
+ *   func_021562EC, func_0215631C, func_02156330, then verify that unit shard.
+ *   021AF18C (ov013) is an unlabelled setter; no leaf filed while the existing
+ *   unit metadata blocker remains. No ARM9 blocker.
  *   The old note had the switch mapping wrong: 0,1,5,default -> 4; 2 -> 1;
  *   3 -> 2; 4 -> 3, and case 5 needs its own arm (the table's lone `b`).
  *
@@ -30,10 +32,10 @@ typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
 extern void func_0215631C(void);
-extern void func_021AEF6C(u32, u32, u32);
+extern void func_021AEF6C(void *, int, int);
 extern void func_021AF18C(void (*)(void));
 
-void func_02156344(u32 a)
+void func_02156344(void *a)
 {
     u32 v;
     *(u16 *)(g_021A8264 + 0x794) = 1;

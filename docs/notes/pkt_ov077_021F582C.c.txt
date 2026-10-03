@@ -31,8 +31,7 @@
  * and loads 0x3008 from the pool in the loop; the prologue up to +0x36
  * (register setup, block-scoped `trans = {0,0,0}` / `scale = d_021F5A58`) is
  * exact. Runs: 6 + 1x7 sweep + permuter (300, best rejected: size change)
- * + 2 idiom checks. Next to try: G3_Translate taking a `const VecFx32 *`,
- * or s/t spelled inside the TexCoord calls.
+ * + 2 idiom checks. Wave75 R29 renewed pass: pointer-based G3_Translate556/403 improves scalar baseline556/406 by3 bytes and is retained; rows-first564/450 worse, unsigned cols556/393 with three wrong unsigned-div relocations rejected. Prototypes refreshed from ov058 and own ov077 grid neighbours; new idiom listing and offset enum/struct idioms refreshed. Prior permuter300 remains spent. Next safe lever: s/t inside TexCoord calls.
  */
 
 typedef unsigned char u8;
@@ -81,11 +80,11 @@ extern void func_0207AF1C(MtxFx33 *m, fx32 s, fx32 c);
 extern void func_0207AF38(MtxFx33 *m, fx32 s, fx32 c);
 extern void func_0207D934(const MtxFx33 *m);
 
-static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
+static inline void G3_Translate(const VecFx32 *v)
 {
-    REG_MTX_TRANS = (u32)x;
-    REG_MTX_TRANS = (u32)y;
-    REG_MTX_TRANS = (u32)z;
+    REG_MTX_TRANS = (u32)v->x;
+    REG_MTX_TRANS = (u32)v->y;
+    REG_MTX_TRANS = (u32)v->z;
 }
 
 static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
@@ -143,7 +142,7 @@ void func_021F582C(u8 *w)
             trans = e->pos;
             s = ((i % cols) * cw) << 12;
             t = ((i / cols) * ch) << 12;
-            G3_Translate(trans.x, trans.y, trans.z);
+            G3_Translate(&trans);
             G3_Scale(scale.x, scale.y, scale.z);
             func_0207AF1C(&m, d_020A1B38[(e->rotX >> 4) * 2], d_020A1B38[(e->rotX >> 4) * 2 + 1]);
             func_0207D934(&m);

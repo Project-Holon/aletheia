@@ -1,13 +1,3 @@
-pkt_ov018_0217C1D0: DIFF, same size (164 bytes), instruction scheduling only.
-Everything structural matches (36-byte S copied from d_0218362C with nested
-tail T reached through T *t = &s.t, bitfield B for the *p shift pairs with (u16)
-casts, T x passed by value on the stack, e = d_0218360C[p->e]).
-Remaining diffs: original spills a2 before loading o->f4 (str r2; ldr r0,[r5,#4];
-str r3) where ours loads first; original loads o->f8 early (before strh [r6,#4])
-and reloads c=[sp,#8] just before the call, ours loads c early. Tried: u16 a2/a3
-params (worse), e computed after the calls (worse), calls inlined into the final
-call (SIZE 160). Source below is the closest.
-
 /*
  * function: func_0217C1D0
  * address:  0x0217C1D0
@@ -17,7 +7,10 @@ call (SIZE 160). Source below is the closest.
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * checks: superseded by the verified EXACT source and shard of this packet.
+ * status:   EXACT
+ * lever: const pointer parameters, u16 argument homes and u16 c/result
+ * preserve the original spill and field-load scheduling together.
  *
  * symbols:
  *   func_02188C7C  0x02188C7C  thumb  ov021
@@ -64,17 +57,17 @@ typedef struct {
 } O;
 
 extern int func_02188C7C();
-extern int func_02188C9C();
+extern u16 func_02188C9C(int);
 extern void func_0216CE60();
-extern int func_0202A188();
+extern u32 func_0202A188(int, u16, u16, u16);
 extern const E d_0218360C[];
 extern const S d_0218362C;
 
-void func_0217C1D0(O *o, B *p, int a2, int a3, T x)
+void func_0217C1D0(const O *o, const B *p, u16 a2, u16 a3, T x)
 {
     const E *e;
     int v;
-    int c;
+    u16 c;
     S s;
     T *t;
 

@@ -1,46 +1,51 @@
 /*
- * function: func_021AEC74   address: 0x021AEC74   region: ov013   thumb   80 bytes
- * verdict: DIFF (27 concrete bytes), same size, all relocations resolve.
- *
- * Original: push {r4, lr}; p = G[0x1A1C] held in r4; if p == 0 { p = func_021B1F2C(); if !p return 0 }
- * (p==0 path reuses r0, only the p!=0 path emits `adds r0, r4, #0`); func_021B20B0(p, 0);
- * nonzero -> func_021B1F54(p); G[0x1A1C] = 0 with the zero in r0 doubling as the return value;
- * zero -> G[0x1A1C] = p, return 1.
- *
- * Ours: push {r3, r4, r5, lr}; p in r5 and a hoisted zero in r4 (three uses of 0), copy of p
- * to r0 at the merge point. Tried, none shrank the diff: p as a local loaded once; reload of
- * G->f1A1C in the else arm; `return (int)(G->f = 0)`; an `int r = 0` local; struct-typed G
- * versus u8* G; success arm first. The zero-live-across-call trick that closed
- * func_021746A8/func_021746FC (a named `int z` used as store value, call args and return)
- * is not available because the original keeps no zero across the call.
- *
- * Callers: func_021AEE14 (matched) calls this with one ignored argument.
+ * function: func_021AEC74
+ * address: 0x021AEC74
+ * packet: pkt_ov013_021AEC74
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched func_021B1F2C forwards unsigned i, func_021B20B0 takes 2 and func_021B1F54 takes 1; 2 matched 021AECC4/021AEDEC/021AEE14/021AF13C read, no twin; 3 enum mode argument and signed payload local both compiled DIFF24, no narrowing evidence for i; 4 enum-zero/enum-return/hidden-input idioms read; 5 fresh idiom listing and ov013 neighbours reread, no stack object residue. Next hypothesis: duplicated per-path check call, unrun.
+ * Renewed wave75: corrected input i removes 3 original byte differences;
+ * remaining 24 bytes are zero hoist, p register and merge-path shape.
+ * Enum zero/return and integer field/local types were unchanged DIFF24.
+ * Permuter baseline emitted and fixed-one confirmed DIFF24, 80B, 4/4 resolved;
+ * once-300 --types search best remained DIFF24 with no winning mutations.
+ * Final clean pointer spelling reconfirmed DIFF24; no volatile or assumptions.
+ * symbols:
+ *   d_021B3C80 0x021B3C80 data ov013 a4
+ *   func_021B1F2C 0x021B1F2C arm ov013
+ *   func_021B20B0 0x021B20B0 arm ov013
+ *   func_021B1F54 0x021B1F54 arm ov013
  */
-
 typedef unsigned char u8;
+struct Node;
 
 struct W {
     u8 pad[0x1A1C];
-    void *f1A1C;
+    struct Node *f1A1C;
 };
 
 extern struct W *d_021B3C80;
 
-extern void *func_021B1F2C(void);
-extern int func_021B20B0(void *p, int x);
-extern void func_021B1F54(void *p);
+extern struct Node *func_021B1F2C(unsigned int i);
+extern int func_021B20B0(int p, int x);
+extern int func_021B1F54(struct Node *p);
 
-int func_021AEC74(void)
+int func_021AEC74(unsigned int i)
 {
-    void *p = d_021B3C80->f1A1C;
+    struct Node *p = d_021B3C80->f1A1C;
 
     if (p == 0) {
-        p = func_021B1F2C();
+        p = func_021B1F2C(i);
         if (p == 0) {
             return 0;
         }
     }
-    if (func_021B20B0(p, 0) != 0) {
+    if (func_021B20B0((int)p, 0) != 0) {
         func_021B1F54(p);
         d_021B3C80->f1A1C = 0;
         return 0;

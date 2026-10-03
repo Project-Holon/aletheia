@@ -1,0 +1,75 @@
+/*
+ * function: func_021CC9AC
+ * address: 0x021CC9AC
+ * packet: pkt_ov093_021CC9AC
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 no callees; 2 wrapper C88A4 forwards (char*,int,int), CCA74 confirms 10/9/13 header and record size bits; 3 size unsigned-long and b unsigned-long each196/137 unchanged, p is mutable; 4 bitfield-base/record-field/register tie idioms read; 5 fresh unfiltered idiom listing and CCA74 neighbour refreshed; no stack object.
+ * residual: 196/200 bytes,137 concrete bytes; retained p/key/size register colouring differs. Both table relocations unresolved at shifted +AC/+B0; the corrected200/140 spelling resolves2/2 sole-ref at +B0/+B4, so this is code-shape fallout rather than a table provenance gap.
+ * fresh-pass: 6 one runs. Corrected old pending zero-fill (original strb zero, not i) and moved off load after size rounding. Header increment rereads off after record writes; paired const byte-record table and nested guards retain196/137.
+ * permuter: archive/legacy scratch search found no prior consumed run. Macro-free196/137 emitted baseline agrees. Once300 consumed wave75 R14 (2026-10-03): best200/107 adds volatile(p), rejected; valid pre-search C retained. Do not repeat.
+ * proof: table has59 byte pairs; size0 fails, nonzero rounds to4 (max256); offset field9 bits and append limit500; byte-zero loop and field stores preserve original order and masked widths.
+ * symbols:
+ *   tbl_021EFE9C  0x021EFE9C  data  ov093
+ *   tbl_021EFE9D  0x021EFE9D  data  ov093
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct Hdr021CC9AC {
+    u32 lo : 10;
+    u32 off : 9;
+    u32 hi : 13;
+} Hdr021CC9AC;
+
+typedef struct Rec021CC9AC {
+    u32 key : 8;
+    u32 b : 5;
+    u32 size : 10;
+    u32 f23 : 1;
+    u32 f24 : 1;
+    u32 f25 : 1;
+    u32 f26 : 1;
+    u32 f27 : 5;
+} Rec021CC9AC;
+
+struct TablePair { u8 key, size; };
+extern const struct TablePair tbl_021EFE9C[0x3b];
+
+void *func_021CC9AC(void *vp, int key, unsigned long b)
+{
+    Hdr021CC9AC *p = (Hdr021CC9AC *)vp;
+    u32 i;
+    unsigned long size = 0;
+    u32 off;
+    Rec021CC9AC *r;
+
+    for (i = 0; i < 0x3b; i++) {
+        if (key == tbl_021EFE9C[i].key) {
+            size = tbl_021EFE9C[i].size;
+            break;
+        }
+    }
+    if (size != 0) {
+    while (size & 3)
+        size++;
+    off = p->off;
+    if (off + size <= 500) {
+    for (i = 0; i < size; i++)
+        ((u8 *)p)[4 + p->off + i] = 0;
+    r = (Rec021CC9AC *)((u8 *)p + 4 + off);
+    r->key = key;
+    r->size = size;
+    r->b = b;
+    r->f23 = 0;
+    r->f26 = 1;
+    p->off = p->off + size;
+    return (u8 *)p + 4 + off;
+    }
+    }
+    return 0;
+}

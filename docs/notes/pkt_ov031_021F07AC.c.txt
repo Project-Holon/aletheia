@@ -1,29 +1,17 @@
 /*
  * function: func_021F07AC
- * address:  0x021F07AC
- * packet:   pkt_ov031_021F07AC
- * hint:     declare e `const u8 *` (check 3's const pointer lever)
- * region:   ov031
+ * address: 0x021F07AC
+ * packet: pkt_ov031_021F07AC
+ * region: ov031
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 arities read from matched callers/callees (func_0201C724 7 with s16 x/y, func_0202DC60 5, func_020413B0 6 u8, func_0202DCC4 2); 2 no twin (ov031 func_021F0054/021F0680 give the Obj layout at 0x40-0x7C); 3 k as u8/u16/s16/int/u32, c int/u32/u8, off int/u16/u32, k copied to an int/u32/u8 local (first or last declared): none moved it; 4 no-code self-assignment (k = k, c = c at five points) and dying-local idioms: no change; 5 re-read ov031 neighbours, nothing new. permuter --types 300: no candidate beat the baseline. Big lane R1: `const u8 *e` (hint) no change (24 lines); offset sweep: c = 0 before off, if/else and ternary c with &pal[off], (u8 *)pal + off * 2, off *= sizeof(u16) all 24 lines (the shift still sinks); off = k * 0xE0 * 2, (k * 0xE0) << 1, k * 0xE0 * sizeof(u16) with a byte pointer fold to 7<<6 (504 B); `u16 *dst = pal + k * 0xE0;` before the flag is the only spelling that leaves `lsls #1` in the first block with the add in the join block, as the original has it, but pal then moves to r2 and the flag load takes r0 (504 B, 242 lines; dst after the flag 29 lines; dst via a separate off, &pal[], void *dst, dst declared first: 504 B); permuter --types 300 on the dst form: best 496 B, worse.
- *
- * Best: 500 bytes against 500, 24 lines differ, all 27 relocations resolve.
- * Residue (a) the prologue copies k into r6 and the flag c = e[0x20] ? 2 : 0 lives
- * in r5 (later reused for k*4); every compile has k in r5 and c in r6, so each of
- * the ~20 k uses differs by one register; (b) the original scales the copy offset
- * (`muls k*0xE0; lsls #1`) in the block before the flag branch, every compile sinks
- * the `lsls #1` into the join block. Tried for (b): off as its own statement,
- * off <<= 1 / off *= 2 with a byte pointer, &pal[off], a dst pointer local (pal moves
- * to r2, 504 bytes), k * 0x1C0 (folds to 7<<6), c as a ternary.
- * What fixed the rest (165 -> 24 lines): p->b[k] stored in each arm (shares the
- * tail with r1), `case 0: return;` written after case 5 (its epilogue follows the
- * case bodies), and p->w40 read into a local before the func_0201C724 call (the
- * [sp,#0x10] spill).
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 freshly read own callees/confirmed callers, 0201C724(7), 0202DC60(5), 020413B0(6), 0202DCC4(2), all 27 sites resolved in best; 2 0054/0680 give object layout, no full twin; 3 enum k/enum flag/enum offset each 29/500; const e initially CCERR from const third call argument then const third extern compiles unchanged 29/500; 4 enum byte offset explicit shift (winning A04 lever) worsens 467/504 and loses data witness; 5 full idiom directory and ov031 neighbours refreshed.
+ * residual: DIFF 500/500, 29 concrete bytes (old note counted 24 instruction lines), all 27 relocations resolved. k uses r5 instead of original r6, flag uses r6 instead of r5; offset shift sinks across flag branch.
+ * prior: Both old types permuter searches at 300 consumed, not repeated. Previous width/local-copy/self-assignment forms unchanged; dst-local form moved shift but gave 504 and pal r2. Preserve per-arm b[k] store, case0 return after case5 and w40 local before print.
+ * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   func_02082D44  0x02082D44  arm
@@ -79,7 +67,7 @@ extern void func_0202DC9C(u32 o, int i, u32 a1);
 extern u32 func_02045770(u32 a);
 extern void func_02043B5C(u32 v, u32 a);
 extern void func_02045334(u32 a);
-extern void func_0202DC60(u32 a, u32 b, void *c, u32 d, void *e);
+extern void func_0202DC60(u32 a, u32 b, const void *c, u32 d, void *e);
 extern void *func_02045EC0(u32 h, u32 idx);
 extern void func_02045374(u32 a);
 extern int func_02045730(u32 a);
@@ -89,7 +77,7 @@ extern void *func_020457B0(u32 size, u32 heap);
 extern void func_02045924(void *dst, const void *src);
 extern const Pair d_021F1040;
 
-void func_021F07AC(struct Obj *p, u8 *e, u8 k)
+void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
 {
     u16 *pal;
     int c;

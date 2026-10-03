@@ -2,13 +2,16 @@
 /*
  * function: func_021625FC
  * address:  0x021625FC
- * packet:   pkt_021625FC
+ * packet:   pkt_ov010_021625FC
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded: src/matched/ov/ov010_func_021625FC.c is EXACT* in wave75,
+ * 150 bytes plus two alignment bytes; explicit callee widths followed by
+ * const source parameter closed all bytes. See R5/5fc-r4.log and shard.
  *
  * symbols:
  *   func_021625CC  0x021625CC  thumb

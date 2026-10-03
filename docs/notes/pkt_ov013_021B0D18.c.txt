@@ -1,32 +1,16 @@
 /*
  * function: func_021B0D18
- * address:  0x021B0D18
- * packet:   pkt_ov013_021B0D18
- * region:   ov013
+ * address: 0x021B0D18
+ * packet: pkt_ov013_021B0D18
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * DIFF, 12 bytes (3 instructions), everything else byte-identical and all
- * 12 relocations resolve. Only the `G.f8` block schedules differently: the
- * original keeps `ldrbne; orrne; strbne r0,[r8,#5]; strne r5,[r4,#8]`, this
- * C hoists the `strne r5,[r4,#8]` above the orr. The next `G.f14` block,
- * written the same way, matches. Tried without effect: nesting the
- * d_021B3C24 test, swapping the two statements, int-typed f8, volatile f8
- * (and f14), and permuter.py (300 compiles, no improvement). An if-chain
- * instead of the switch is worse (the switch is right). Register order
- * needed the declaration order p, f, x, sq, mode.
- *
- * Lane R2 (10 runs), no change to the 10 bytes: f5 as a union with a
- * `u8 hi : 1` bitfield set in the f8 block only or in every `|= 0x80` (and
- * read as a bitfield too: 175 bytes out); f computed through a u32 cast of
- * &d_021B42C0 (no change); f as &d_021B42C0.fr[idx] or a ternary of two
- * &fr[] (384/479 out); a volatile u8 access to f->f5, or a volatile u32
- * store to f8, in the f8 block only. Even with f5 volatile the f8 store
- * moves between the ldrb and the orr, so the swap is not an alias question.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * volatile: SQRTCNT polls at 021B0D90; SQRT result/parameter are hardware registers at 040002B4/040002B8.
+ * Wave 75 R20 renewed pass: DIFF 10 concrete bytes, compiled 544/544; all 12 relocations resolve. Only +012C/+0130/+0134 store/RMW scheduling differs. Inline reset helper, enum flag and signed x did not improve. Earlier 300-candidate permuter was consumed and was not repeated. Corrected callee types from current matched bodies; 3084 third argument is a byte output pointer.
+ * checks: 1 matched 3278/3604/04A8/1688 bodies read, 3084 pending body reads output pointer; 2 no matching f8 twin, f14 block already matches; 3 enum f8 and signed x compiled, no change (one CCERR corrected enum pointer); 4 inline and named-field idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis a reset expression with a real field dependency, no repeat permuter
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4
@@ -40,6 +24,7 @@
  *   func_021B1588  0x021B1588  arm  ov013
  *   func_021B1688  0x021B1688  arm  ov013
  *   func_02080D24  0x02080D24  arm
+
  */
 
 typedef unsigned char u8;
@@ -68,6 +53,7 @@ typedef struct {
     int f8D4;
 } Ctx42C0;
 
+typedef enum { FlagClear=0, FlagSet=1 } Flag;
 typedef struct {
     u32 f0;
     u32 f4;
@@ -90,19 +76,23 @@ extern u32 d_021B3C24;
 extern u8 d_021B3C94[];
 extern u8 d_021B60D8;
 
-extern u32 func_021B3278(void *p, u32 n);
-extern void func_021B3604(void *p, u32 n, u32 sq);
-extern int func_021B3084(u32 x, u32 sq, int z);
-extern void func_021B04A8(void *a, void *b, u32 n, void *c, int mode);
-extern void func_021B1588(void *dst, void *src, u32 n);
-extern void func_021B1688(void *dst, void *src, u32 n);
+typedef struct AdpcmHdr { short pred; u8 index; u8 zero; } AdpcmHdr;
+typedef struct AdpcmState { short pred; u8 index; } AdpcmState;
+extern int func_021B3278(short *p, u32 n);
+extern void func_021B3604(short *p, u32 n, u32 sq);
+extern int func_021B3084(u32 x, u32 sq, u8 *z);
+extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
+extern void func_021B1588(u8 *dst, short *src, u32 n);
+extern void func_021B1688(u8 *dst, short *src, u32 n);
 extern int func_02080D24(u32 x);
+
+static inline void signal_reset(Frame *f,u32 *flag) { f->f5 |= 0x80; *flag=0; }
 
 Frame *func_021B0D18(void)
 {
     u8 *p;
     Frame *f;
-    u32 x;
+    int x;
     u32 sq;
     int mode;
     u32 diff;
@@ -121,7 +111,7 @@ Frame *func_021B0D18(void)
     if (mode >= 2)
         p += 4;
 
-    x = func_021B3278(p, d_021B3C84.f24);
+    x = func_021B3278((short *)p, d_021B3C84.f24);
     reg_SQRTCNT = 0;
     reg_SQRT_PARAM = x;
     while (reg_SQRTCNT & 0x8000)
@@ -129,7 +119,7 @@ Frame *func_021B0D18(void)
     sq = reg_SQRT_RESULT;
 
     if (d_021B3C84.f18 != 0)
-        func_021B3604(p, d_021B3C84.f24, sq);
+        func_021B3604((short *)p, d_021B3C84.f24, sq);
 
     f->f5 = mode;
     if (d_021B3C24 != 0) {
@@ -146,8 +136,7 @@ Frame *func_021B0D18(void)
         }
     }
     if (d_021B3C24 == 0 && d_021B3C84.f8 != 0) {
-        f->f5 |= 0x80;
-        d_021B3C84.f8 = 0;
+        signal_reset(f,&d_021B3C84.f8);
     }
     if (d_021B3C84.f14 != 0) {
         f->f5 |= 0x80;
@@ -159,11 +148,11 @@ Frame *func_021B0D18(void)
             d_021B3C84.f10 = 0;
             d_021B3C84.f12 = 0;
         }
-        func_021B04A8(p - 4, p, d_021B3C84.f24 >> 1, d_021B3C94, mode);
+        func_021B04A8((AdpcmHdr *)(p - 4), p, d_021B3C84.f24 >> 1, (AdpcmState *)d_021B3C94, mode);
     } else if (mode == 1) {
-        func_021B1588(p, p, d_021B3C84.f24 >> 1);
+        func_021B1588(p, (short *)p, d_021B3C84.f24 >> 1);
     } else if (mode == 0) {
-        func_021B1688(p, p, d_021B3C84.f24 >> 1);
+        func_021B1688(p, (short *)p, d_021B3C84.f24 >> 1);
     }
 
     d_021B42C0.f8CC = d_021B3C84.f4;

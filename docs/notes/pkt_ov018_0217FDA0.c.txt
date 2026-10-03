@@ -1,23 +1,29 @@
-DIFF, ov018 func_0217FDA0 (152 bytes, thumb). Best C compiles to 144 bytes.
-
-Everything but one shape is right. The original spills the stack argument f
-([sp,#0x1c]) into a local slot: "ldr r0,[sp,#0x1c]; str r0,[sp]" right after
-the store of e to c+4, then reloads [sp] as the second argument of both
-func_02167A14 and func_021583EC, yet re-reads the parameter slot [sp,#0x1c]
-(lsls/lsrs #24) for the byte store at c+0x40. So the compiler holds a local
-distinct from f. Tried without success (all give 144 bytes, the parameter slot
-is simply reloaded, no spill): int loc = f at the top; loc assigned after the
-e store; loc = f with a dead self-assignment; loc = *(&f); struct-by-value
-parameter (148 bytes); u8 f parameter (152 bytes but byte load from the slot,
-wrong shape).
-Tail: "b[0x93f] &= ~0x30" gives movs #0xcf; ands, whereas "b[0x93f] = b[0x93f] &
-~0x30" gives the original "movs r0,#0x30; ... bics r2,r0".
-Callee func_02008494 is an unlabelled arm9 thumb stub (ldr r3,[pc,#4]; movs
-r2,#0x20; bx r3; .word 0x02082D44), so even a byte-correct body would cap at
-MATCH on that call (Ilias's leaf).
-
-Best C (args: a, b=obj, c=out, d, e, f, g u16 = stack halfword):
-
+/*
+ * function: func_0217FDA0
+ * address: 0x0217FDA0
+ * packet: pkt_ov018_0217FDA0
+ * region: ov018
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * checks: superseded by the verified EXACT source and shard of this packet.
+ * status: EXACT
+ * lever: enum local keeps the distinct full-word spill of f; its narrowed
+ * byte value remains live in r1 and is forwarded to func_0217F5F0.
+ * symbols:
+ *   func_02167A14 0x02167A14 thumb ov010
+ *   func_0217F5F0 0x0217F5F0 thumb ov018
+ *   func_020120F4 0x020120F4 thumb
+ *   func_021583EC 0x021583EC thumb ov010
+ *   func_02008494 0x02008494 thumb
+ *   func_02175B14 0x02175B14 thumb ov011
+ *   func_02175B34 0x02175B34 thumb ov011
+ *   func_02082D44 0x02082D44 arm
+ *   func_0217F2B4 0x0217F2B4 thumb ov018
+ *   func_02174E14 0x02174E14 thumb ov011
+ *   func_02175368 0x02175368 thumb ov011
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 int func_02167A14(int a, int b);
@@ -34,7 +40,7 @@ void func_02175368(u8 *a);
 
 void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
 {
-    int loc;
+    enum Local { LOCAL_ZERO } loc;
 
     *(u16 *)c = g;
     *(int *)(c + 4) = e;
@@ -42,7 +48,7 @@ void func_0217FDA0(int a, u8 *b, u8 *c, int d, int e, int f, u16 g)
     *(int *)(c + 8) = func_02167A14(*(int *)(b + 8), loc);
     *(int *)(c + 0xc) = d;
     c[0x40] = (u8)f;
-    c[0x42] = func_0217F5F0(b, 0);
+    c[0x42] = func_0217F5F0(b, (u8)f);
     func_02008494(func_021583EC(func_020120F4(a), loc), c + 0x78);
     if (func_02175B14(b + 0x1ac) == 1) {
         func_02082D44(func_02175B34(b + 0x1ac), c + 0x44, 0x34);

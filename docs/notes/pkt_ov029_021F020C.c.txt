@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * New pass R24: inline pair out-writer and enum return value retain 140 / DIFF 63;
+ * inline by-value pair introduces duplicate frame stores, 148 / DIFF 130.
+ * checks: 1 own 021F2B9C takes pointer,row,col and returns u32; return bits
+ * consumed as int unchanged; 2 matched 021F1010 re-read; 3 long a/b unchanged;
+ * 4 raw byte-offset table reads tested per coordinate-pair idiom;
+ * 5 fresh idiom listing and declared-struct stack-object idiom read, no new twin;
+ * earlier permuter searches consumed and not repeated. Best old C retained.
  * checks:   1 func_021F2B9C takes (p, x, y) returns int; 2 twin ov029_func_021F1010 (const Pair t = d; ((int *)&t)[i % 2]): same 144-byte result here; 3 a/b as short, unsigned short in both spellings (no change or worse), early `return ret` (no change); 4 aggregate-assignment, an-eight-byte-pair-copy, a-two-word-const-table-copied-to-the-stack-is-a-pair-assignment: the ldm shape comes from the pair's register allocation, see below; 5 n/a; permuter --types 600 + 2x2500 on the u64 and param-reuse spellings: best candidates read t before assigning it or add volatile locals, none value-preserving, none kept
  *
  * residual (lane R1, 2026-09-29): same size, 140 = 140 bytes, 63 concrete bytes, all register

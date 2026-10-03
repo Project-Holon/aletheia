@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded: src/pending/ov/ov010_func_021666B8.c is byte-correct MATCH.
+ * checks: Duplicate the store in each if/else arm to keep branchy flag
+ * materialisation. Only ID 0xCB is unresolved: func_02012444 r1 consumer
+ * is absent from OVERLAY_ID_CONSUMERS; ov203 data hint resolves sole-ref.
  *
  * Two-state step of a task: state 0 starts func_02012444 with overlay 203
  * and a data block, state 1 hands the work record's flag and fields to

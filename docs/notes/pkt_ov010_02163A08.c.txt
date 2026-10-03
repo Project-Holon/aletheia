@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: six concrete register bytes differ, x/y colour r5/r6 is swapped; compiled 54 versus listed 56 (two-byte alignment).
- * checks: 1 getters 0216D91C/0216D924 read only r0 and return a byte; 2 02163D04 confirms one-argument u32 getters, no rectangle twin; 3 u16 coordinates and const source each retain six-byte swap (two compiles); 4 typed rectangle versus halfword array retains same swap; 5 re-listed idioms and ov010/ov021 neighbours, distinct width/height locals already inert, no stack object; next hypothesis is inline clamp or parameter-local reassignment, no sweep run.
- * budgets: carried iteration3 closed(two nonshrinks), check3 2/2, check4 1/2, check1/2/5 readonly, scheduling1/2,total6. Incremental once300 --types permuter spent; no manual/check/iteration reset.
- * permuter: c99 baseline and best both DIFF6/54, no closing mutation; terminal exit1, scratchpad/overlay-goal-20261001-w50/R1/perm-a08.log. Fresh getter bodies read one pointer and return ldrb; own matched caller 02163C04 forwards full word coordinates, low16 output stores do not prove a caller-domain restriction.
+ * blocker: six concrete bytes exchange x/y in r5/r6; 54 code bytes plus two alignment bytes.
+ * checks: 1 own matched getters read one integer address and return int byte values, compiled their declarations; 2 ov010 02163C04 confirms full-word coordinate arguments, no rectangle twin; 3 enum and long coordinates retain DIFF6; 4 inline clamp and parameter reassignment retain/worsen it; 5 re-listed idioms and ov010/ov021 neighbours, no stack object.
+ * attempted: inline clamp DIFF6; parameter reassignment DIFF38/64; full-word coordinates DIFF6; signed getters, enum coordinates, long coordinates and integer object parameter each DIFF6. Seven fixed compiles this pass.
+ * permuter: consumed once300 --types in wave50 R1, not repeated. No manual sweep run; next hypothesis would be a two-coordinate record argument helper.
  * symbols:
  *   func_0216D91C 0x0216D91C thumb ov010
  *   func_0216D924 0x0216D924 thumb ov010
@@ -20,19 +20,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_0216D91C(const void *p);
-extern u32 func_0216D924(const void *p);
+extern int func_0216D91C(int p);
+extern int func_0216D924(int p);
 typedef struct { s16 x0, y0, x1, y1; } Rect;
-void func_02163A08(const void *p, u16 x, u16 y, Rect *out)
+static inline s16 clamp(s16 v) { if (v < 0) v = 0; return v; }
+void func_02163A08(int p, int x, int y, Rect *out)
 {
     s16 w;
     s16 h;
-    w = func_0216D91C(p) - 1;
-    if (w < 0) w = 0;
+    w = clamp(func_0216D91C(p) - 1);
     out->x1 = x + w;
     out->x0 = x;
-    h = func_0216D924(p) - 1;
-    if (h < 0) h = 0;
+    h = clamp(func_0216D924(p) - 1);
     out->y0 = y - h;
     out->y1 = y;
 }

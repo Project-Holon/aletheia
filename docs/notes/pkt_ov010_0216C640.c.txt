@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * checks: superseded by fixed-flag EXACT verdict after matched-callee arity audit.
+ * lever: The result of func_021CBD08 remains live in r2 and is the third argument of func_0216E8CC.
  *
  * DIFF: original keeps the call result in r2 (adds r2,r0) and loads the 0x7CC offset into r0;
  * ours loads the offset into r1 and stores r0. Tried a local, a struct field, unsigned char.
@@ -24,7 +26,7 @@ typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
 extern void func_0200B400(int);
 extern int func_021CBD08(void *, int);
 extern void func_0216CAD4(void *, int, int);
-extern void func_0216E8CC(int, int);
+extern int func_0216E8CC(int, int, int);
 
 void func_0216C640(S *a, int b, int c)
 {
@@ -36,5 +38,5 @@ void func_0216C640(S *a, int b, int c)
         func_0216CAD4(a, b, c);
         return;
     }
-    func_0216E8CC(b, c);
+    func_0216E8CC(b, c, t);
 }

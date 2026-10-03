@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * renewal: Wave75 R26 3 iteration + 1 check3; guarded first-candidate seeding grows436/DIFF259; boolean enum remains428/DIFF14; enum k grows440/DIFF345; enum-first/const s+cursor flat14. Three nonshrinks stop, two scheduling variants consumed; earlier permuter300 remains spent, no rerun.
  * note: Best fixed-flag run04 is 428B, 14 concrete byte differences,
  *       all 27 relocations resolved. Six bytes are cursor/k spill offsets:
  *       original cursor sp+8, k sp+C; C gives cursor sp+C, k sp+8.
@@ -19,8 +20,8 @@
  *       invented initialized fields. Vec's three word fields are proven by
  *       the vector callees. Original halfword call truncations require u16
  *       extern parameters although legacy ov039 callers declare u8.
- * checks: 1 own matched callees/forwarding bodies confirm arities, vector outputs and return registers; show 021F3DE4 confirms no internal narrowing; 2 matched 021F3A34 shares four records, cur+21EC and d_021F4CA0, no minimum twin; 3 const s/cursor compiled unchanged DIFF14, 1/2 compiles; 4 enum and function/block spill idioms read, two scheduling variants already used; 5 refreshed idiom directory and ov038/039 neighbours, struct-local idiom read, no new fix; next hypothesis guarded first-candidate loop peeling, not run.
- * budget: 5 iteration compiles; first nonshrink run02, 4 runs since it,
+ * checks: 1 renewed own callee/forwarding signatures and matched vector callers confirm outputs; 2 3A34/404C/48C0 and scoped pending refreshed, no minimum twin; 3 const s/cursor with enum first DIFF14 unchanged, 1 compile; 4 boolean enum flat, explicit first seeding and word enum k grow, two manual scheduling variants consumed; 5 fresh unfiltered idioms and scoped neighbours, declared-stack-struct read. Next hypothesis first-candidate loop peeling, not run.
+ * prior-budget: 5 iteration compiles; first nonshrink run02, 4 runs since it,
  *         current consecutive nonshrinks 1, stopped on semantic uncertainty;
  *         two scheduling variants exhausted. Checks 1/2/4/5 readonly (0/2),
  *         check3 1/2. Once-300 --types permuter exhausted, no improvement:
@@ -72,7 +73,7 @@ extern void func_021A3038(u32, Vec *);
 extern void func_02028B18(void *, u32, u32);
 extern const Vec d_021F4CA0[];
 
-void func_021F4A18(void *a, u8 *s)
+void func_021F4A18(void *a, const u8 *s)
 {
     void *h;
     int time;
@@ -80,11 +81,11 @@ void func_021F4A18(void *a, u8 *s)
     long best;
     int chosen;
     int anim;
-    int first;
+    enum { FIRST_FALSE, FIRST_TRUE } first;
     void *sound;
     int obj2;
     u8 k;
-    u8 *cursor;
+    const u8 *cursor;
     int i;
     Index index;
     u8 j;
@@ -117,7 +118,7 @@ void func_021F4A18(void *a, u8 *s)
         func_021A3038(func_02188CB4(a), &player);
         func_0207CA00(&v, &player, &difference);
         d = func_0207CBD0(&difference);
-        if (!(first == 0 && best <= d)) {
+        if (first || best > d) {
             best = d;
             chosen = j;
             anim = cursor[0x21EC] + 1;

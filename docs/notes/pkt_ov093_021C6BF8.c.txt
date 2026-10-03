@@ -18,6 +18,16 @@
  * u32 h with casts and p = p / h = h self-assignments did not change the colouring. Sweep to run: permuter over local
  * declaration order plus a merged h/r variable.
  *
+ * fresh-pass: W75 R13, 4 fixed-flag runs. D5F14's own matched body returns
+ *   u8: corrected extern, still DIFF 12. Signed h with preserved u16 uses
+ *   regresses to 192 B; context struct field retains DIFF 12. Narrow bool
+ *   result and D7930 return check retain DIFF 12. Three nonshrinking changes.
+ * checks: 1 own D5F14/D7930 bodies and C2D10/C6A9C prototypes reread;
+ *   2 both twins reread, no u16-sum twin; 3 signed h and byte result compiled;
+ *   4 byte-colour and flag-lifetime idioms read, no rescue;
+ *   5 idioms relisted and matched twins refreshed; no stack object residue.
+ * permuter: consumed prior 300/2500 searches not repeated. Next lever must
+ *   explain p/h coalescing without declaration-order or self-move sweeps.
  * symbols:
  *   sub_0201BD28  0x0201BD28  thumb
  *   sub_0201C284  0x0201C284  thumb
@@ -44,7 +54,7 @@ extern void func_021D70F0(u8 *p, int k);
 extern int func_021D775C(int key);
 extern void func_021D7540(int line);
 extern void func_021D75A8(int key, u32 val);
-extern int func_021D5F14(u8 *p);
+extern u8 func_021D5F14(u8 *p);
 extern int func_021D7930(u8 v);
 extern int func_021B911C(int a, int b);
 extern u32 sub_0201BD28(u16 id, u32 field);

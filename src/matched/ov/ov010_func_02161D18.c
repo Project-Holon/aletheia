@@ -1,0 +1,35 @@
+/*
+ * function: func_02161D18
+ * address: 0x02161D18
+ * packet: pkt_ov010_02161D18
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * Padding: two zero alignment bytes after the 74-byte function.
+ * Lever: c and d are u8, as in matched caller ov010_func_02161B90.c;
+ * this puts the c home store before r0 is assigned b for the first call.
+ * symbols:
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012984 0x02012984 thumb
+ *   func_02169100 0x02169100 thumb ov010
+ *   func_02169110 0x02169110 thumb ov010
+ *   func_02161C84 0x02161C84 thumb ov010
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern int func_020120F4(int);
+extern int func_02012984(int);
+extern int func_02169100(int);
+extern int func_02169110(int);
+extern void func_02161C84(int, int, int, u8, u32, u8, u8, int);
+void func_02161D18(int a, int b, u8 c, u8 d)
+{
+    int r4 = func_020120F4(b);
+    int r6 = func_02169100(r4);
+    int r7 = func_02169110(r4);
+    int r0 = func_02012984(r4);
+    func_02161C84(a, b, c, d, 0, (u8)r6, (u8)r7, r0);
+}

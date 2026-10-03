@@ -7,28 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 756 B C lead, 245 concrete byte differences, 42/46
- * relocations resolved; original handed772 includes16B non-C veneer.
- * budget: carried0; current5 one calls (3 iteration, 2 check3), manual
- * variants2/2 used; consecutive nonshrinking2/runs-from-first2 against
- * retained best before checks; no sweeps, TU or shard verifies.
- * permuter: skipped because full extent holds unlabelled CE7C4..CE7D4
- * follower, whose whole-extent score is not the C lead's score.
- * recovery: literal original AddFile payload recovered by root from
- * runtime timestamp2026-10-01T22:25:51.648Z; LF SHA256
- * 118f9a2acaf1ea7cb063c716624a46ec659e1c651bf61c8e53bb7b4f8673b393.
- * Only extern CF43C return u32->u8 differs in the checked C; its complete
- * ldrb body proves0..255. Original760/305; manual752/409 and752/381;
- * check3a748/379; recovered-baseline check3b756/245 is retained best.
- * checks: 1 own arities and complete forwarding targets audited, veneer target CB08 takes one pointer; 2 matched own prototypes and CEA94/CE3C8 twins read; 3 CF43C byte-return trials compiled748/379 and756/245, p/st mutable so const unjustified; 4 narrow-result/shared-tail/pointer-spill/aggregate idioms read; 5 fresh unfiltered500-entry listing and CE3C8/DBE70 refreshed, spill is one saved pointer rather than callee stack aggregate; next hand tail or pointer-alias reorder forbidden by manual cap2.
- * unresolved: E979C, CF43C, E9954 are unlabelled ov093 calls, CE7C4 is
- * a fixed non-C Thumb-to-ARM veneer; no unhanded implementations filed.
- * veneer: 78 47 c0 46 00 c0 9f e5 1c ff 2f e1 09 cb 89 06;
- * forwards to ov0950689CB08 Thumb (target word0689CB09), whose matched
- * read-only body conditionally decrements p[6]. No SDK/ARM9/ov095 C.
- * register residue: original saves count pointer at E6AA and reloads
- * it at E72C; compiler keeps it r5, hoists zero r7 and uses r6 for1A6,
- * shifting loop and common increment/commit/return branch layout.
+ * checks: 1 own/matched callee arities rederived, CF43C complete byte return, fixed CE7C4 veneer target ov095 CB08 takes one pointer; 2 CE3C8/CEA94 state twins and CF470/CE150/CE0BC own interfaces read; 3 unsigned-long state pointer and restored u32 pointer each756/253, p/st mutable so const unjustified; 4 narrow-result/shared-tail/pointer-spill/aggregate idioms read; 5 fresh unfiltered idiom listing and CE3C8 neighbour refreshed; spill is one pointer, not a callee stack aggregate.
+ * residual: original772 includes16B non-C CE7C4..CE7D4 veneer; C lead756, compiled756,253 concrete bytes,44/46 relocations resolved. Previously245 with42/46; newly witnessed CE8F0/CF43C calls expose8 more concrete mismatches.
+ * fresh-pass: 5 one runs: full-word countdown address756/253; increment label beside case7 yields748/298; shared state commit756/371; state pointer unsigned-long/restored u32 unchanged756/253. Manual scheduling cap2 consumed; retained prior best C below, freshly verified.
+ * permuter: skipped under canonical follower-extent exception: the handed extent includes the fixed Thumb-to-ARM veneer omitted from this C branch. No search consumed or repeated.
+ * unresolved: E979C and E9954 ov093 code targets lack outside witnesses. CE7C4 fixed veneer resolves; its target word0689CB09 names matched ov0950689CB08, conditionally decrementing p[6]. No unhanded leaf/SDK/ARM9 code filed.
+ * register residue: original saves countdown pointer at E6AA and reloads E72C; compiler keeps r5, hoists zero r7 and holds1A6 in r6, shortening loop and shifting shared increment/commit/return branches.
+ * recovery: retained literal prior recovery body (LF SHA256118f9a2acaf1ea7cb063c716624a46ec659e1c651bf61c8e53bb7b4f8673b393 before CF43C return-width correction); old manual trials752/409,752/381,748/379 do not supersede it.
  * symbols:
  *   func_021B990C 0x021B990C thumb ov093
  *   func_021D8434 0x021D8434 thumb ov093
@@ -64,10 +49,7 @@
  *   func_021CEA94 0x021CEA94 thumb ov093
  *   func_021CEEB8 0x021CEEB8 thumb ov093
  *   func_021CF078 0x021CF078 thumb ov093
- * proof: State dispatch compares the complete unsigned word <=8;
- * byte selectors admit 0..255, scaling fits. Countdown pointer assigned
- * before all reads. Byte stores wrap modulo 256, state increments modulo
- * 2^32. Trailing CE7C4 veneer excluded; no veneer implementation.
+ * proof: full unsigned state dispatch <=8; byte selectors0..255; countdown assigned before reads; byte/state additions wrap at their original widths; fixed veneer is omitted from C.
  */
 typedef unsigned char u8;
 typedef unsigned int u32;

@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 matched B8 forwarder and twin 02174374 prove hidden x argument; 2 matched DA8/63D8/5E30/6424/5D7C prototypes re-read, no complete twin; 3 u8 flag DIFF228/196, const b CCERR consumes second check; 4 enum flag and chained assignment DIFF224/88; 5 idioms/neighbours refreshed, stack-byte-array idiom read, stack access already right. Next hypothesis: original field representation for s+907. No sweep.
+ * Renewed pass: safe baseline below DIFF224/88 (4B long), all nine
+ * relocations resolved. Three iteration runs and two check3 calls; no more
+ * manual scheduling variants. Once300 types permuter baseline agrees.
+ * Best mutant DIFF220/112 rejected: volatile flag/y and x_=x before x was
+ * initialized. Never rerun this search; log and rejected C in wave75/R17.
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
@@ -32,7 +38,7 @@ struct Rec {
 };
 
 extern int func_02026478(int);
-extern int func_020127B8(void);
+extern int func_020127B8(int);
 extern int func_020399A8(void);
 extern int func_0203D1A4(int);
 extern int func_02175DA8(u8 *);
@@ -51,7 +57,7 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
     int r6;
 
     x = func_02026478(*(int *)(s + 4));
-    y = func_020127B8();
+    y = func_020127B8(x);
     buf[1] = 0;
     flag = 0;
     buf[0] = 0;

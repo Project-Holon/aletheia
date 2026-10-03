@@ -1,4 +1,3 @@
-/* NOTE: DIFF: original keeps a copy of the list pointer in r5 (push r4-r6) and reuses r1 as the id and later as the base; compiler folds the cursor into the parameter register (push r3-r5). Cursor local, base local, duplicated zero check all tried */
 /*
  * function: func_02158B6C
  * address:  0x02158B6C
@@ -10,47 +9,63 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * checks: 1 own 0201296C one arg and 020143CC two args restored; 2 matched 02158B00 takes const list; 3 const list and u32 id compiled with no change; 4 inline parser and narrow-width idioms tried; 5 matched neighbours re-read; permuter 300 consumed, baseline129 agrees, validated best40.
+ * blocker: DIFF 40/144: bounded temp/call-result mutations keep branch layout, first-loop cursor register still wrong. Header restored on emitted candidate before final validation.
  * symbols:
  *   func_0201296C  0x0201296C  thumb
  *   func_020143CC  0x020143CC  thumb
  */
-
-typedef unsigned char  u8;
+typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned int   u32;
-
-extern int func_0201296C(void);
-extern u16 *func_020143CC(int);
-
-#define RD16(p) ((u16)((p)[0] + ((p)[1] << 8)))
-
-u16 func_02158B6C(int a, u8 *list, u32 key)
+typedef unsigned int u32;
+extern u32 func_0201296C(const void *);
+extern u16 *func_020143CC(u32, u32);
+inline static u16 RD16(const u8 *p)
 {
-    u8 *p = list;
-    u8 *base;
-    u8 *q;
-    int h;
-    for (;; p += 6) {
-        u16 id = RD16(p);
-        if (id == 0)
-            return 0xFFFF;
-        if (key == id) {
-            key = p[2] + (p[3] << 8) + (p[4] << 16) + (p[5] << 24);
-            base = p + 6;
-            break;
-        }
+  return (u16) (p[0] + (p[1] << 8));
+}
+
+u16 func_02158B6C(const void *a, const u8 *list, u32 key)
+{
+  const u8 *p = list;
+  const u8 *base;
+  const u8 *q;
+  u32 h;
+  const u8 *tmp;
+  int pad;
+  u16 tmp1;
+  u32 tmp2;
+  for (;; p += 6)
+  {
+    u32 id = RD16(p);
+    if (id == 0)
+      return 0xFFFF;
+    if (key == id)
+    {
+      key = ((p[2] + (p[3] << 8)) + (p[4] << 16)) + (p[5] << 24);
+      tmp = p + 6;
+      base = tmp;
+      break;
     }
-    if (key == 0)
-        return 0xFFFF;
-    q = base + key;
-    h = func_0201296C();
-    for (;; q += 6) {
-        u16 id = RD16(q);
-        if (id == 0)
-            return 0xFFFF;
-        if (id == 0)
-            return 0xFFFF;
-        if (RD16(q + 2) == *func_020143CC(h))
-            return RD16(q + 4);
-    }
+  }
+
+  if (key == 0)
+    return 0xFFFF;
+  tmp2 = func_0201296C(a);
+  q = base + key;
+  h = tmp2;
+  for (;; q += 6)
+  {
+    u16 val;
+    u16 id = RD16(q);
+    if (id == 0)
+      return 0xFFFF;
+    if (id == 0)
+      return 0xFFFF;
+    tmp1 = RD16(q + 2);
+    val = tmp1;
+    if (val == (*func_020143CC(h, id)))
+      return RD16(q + 4);
+  }
+
 }

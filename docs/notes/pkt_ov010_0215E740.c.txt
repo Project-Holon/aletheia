@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (historical; resolved EXACT in wave75)
+ * Resolved: c is a u16 slot in the function and both receiving externs;
+ * selected w is u8. See src/matched/ov/ov010_func_0215E740.c.
  *
  * symbols:
  *   func_0200D478  0x0200D478  thumb

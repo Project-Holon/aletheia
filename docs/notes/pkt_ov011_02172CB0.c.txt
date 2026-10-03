@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 matched E40 getter takes h, CBAC three fullword arguments, D10C body ignores legacy trailing parameters; 2 allocation/prototypes and typed Param/Work twin 02172BC0 re-read; 3 unsigned state and mutable template unchanged DIFF196/59, const b iteration CCERR; 4 large aggregate loop alignment idiom fits existing T70; 5 refreshed ov011 neighbours/idioms, no local stack aggregate. Next hypothesis: typed request/source aggregate representation; no sweep.
+ * Renewed pass: three iteration runs and two check3 compiles, safe baseline
+ * DIFF196/59 below, h passed to E40. Once300 types search consumed this wave;
+ * see scratchpad/overlay-newpass-20261003-w75/R17/perm-02172CB0.log.
+ * Best mutant DIFF192/65 rejected: tmp=c[0x8fd] is between case0's break
+ * and the case1 label; dispatch to case1 bypasses initialization.
  *
  * Near miss (DIFF, 196 vs 192 B, 59 bytes differ). Semantics are right (state machine on *a:
  * 0 allocs a 0x70 struct copied from d_021768C8, registers callback func_02173568;
@@ -43,7 +49,7 @@ extern char d_02177000[];
 extern const T70 d_021768C8;
 
 extern int func_02026478(int a);
-extern int func_02012E40(void);
+extern int func_02012E40(int);
 extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
 extern int func_02158590(int a);
 extern void func_0203CBAC(void *a, void *b, void *c);
@@ -59,7 +65,7 @@ int func_02172CB0(int *a, u8 *b, u8 *c)
     int v;
 
     h = func_02026478(*(int *)(b + 4));
-    if (func_02012E40() == 1)
+    if (func_02012E40(h) == 1)
         return 0;
     switch (*a) {
     case 0:

@@ -1,24 +1,115 @@
-=== 2026-09-28 tree_ov010_4 ===
-func_0216F948 (waza_oshie.c, relearnable move list), 344 bytes incl. pool.
-Settled by the bytes: species u16 at sp+0x10, form u8 at sp+0xC, level u8 at
-sp+8, tbl at sp+0x14 (declare tbl, species, form, level in that order), `n = 0`
-AFTER the four-move loop (gives j=r4, n=r6 and the image's prologue exactly),
-i in ip, out in r7, the terminator test as the pointer inline with the `end`
-accumulator (func_02018328's), u16 moves[4] at sp+0x38.
-Open: the image frame is 0x40 with eight 4-byte entry copies:
-  0x18 cur = tbl[i]; 0x34 t (terminator); 0x30 e (level, a dead store: the
-  compare uses the register loaded from cur); 0x1C a, stored once, reloaded,
-  and 0x2C b stored from those registers INSIDE the 4-move loop (loop head is
-  the b store), read b.move each iteration; 0x20 c after the `n != 0` guard,
-  0x28 d = c inside the list loop the same way; 0x24 f for out[n] = f.move.
-Grid (w4 base, 64 cells): {explicit a/b in loop, inline Known(struct) with
-b = a, explicit a + Learn_Move(a), inline Known + Learn_Move} x the same four
-for the list chain x {explicit e, Learn_Level(cur)} x {explicit f,
-Learn_Move(cur)}. Every cell folds the a->b (and c->d) chain into one copy;
-frames 0x28..0x38, best 151 bytes out (explicit a/b, inline ListedM, explicit
-e, Learn_Move(cur)), filed. The natural all-explicit form is 170 (frame 0x38).
-Idea not tried: an inline returning the struct by value (a hidden return slot
-could be the extra copy per pair).
-Tried after: an identity inline returning the struct (`Learn_Copy(a).move` in
-each loop, explicit first copy): 144 out, frame 0x38, now filed; applied to one
-chain only 167/172; `cur = Learn_At(tbl, i)` returning tbl[i]: 170.
+/*
+ * function: func_0216F948
+ * address:  0x0216F948
+ * packet:   pkt_ov010_0216F948
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF, 144 concrete bytes, 328/344 bytes, all 9 relocations resolved.
+ * checks: 1,2,3,4,5
+ * Image frame 0x40 versus compiled 0x38: eight four-byte learnset copies,
+ * including before-loop and per-iteration pairs, collapse into six slots.
+ * Own/matched-caller evidence confirms GetMon 3, alloc 5, learnset 3,
+ * free 1 arguments. No matching stack-copy twin was found.
+ * By-value Know/List helpers, nested copy accessor, const identity and
+ * enum counters gave 182/296, 151/328, 156/332 and 241/324 respectively.
+ * Five fixed one runs. Relevant aggregate/inline/stack idioms were read.
+ * Best extent is 16 bytes short; the within-eight-byte permuter gate does
+ * not apply. Earlier manual sweeps are not claimed as a permuter run.
+ *
+ * symbols:
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_0201ADD0  0x0201ADD0  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   d_02172B74     0x02172B74  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Learn { u16 move; u16 level; };
+
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void func_0201ADD0(u16 species, u16 form, void *dest);
+extern void func_020307B0(void *m);
+extern const char d_02172B74[];
+
+static inline int Learn_IsEnd(const struct Learn *t)
+{
+    int end = 0;
+    if (t->move == 0xFFFF && t->level == 0xFFFF)
+        end = 1;
+    return end;
+}
+
+static inline struct Learn Learn_Copy(struct Learn l)
+{
+    return l;
+}
+
+u16 *func_0216F948(void *mon, u32 heap)
+{
+    u16 moves[4];
+    struct Learn t;
+    struct Learn e;
+    struct Learn f;
+    struct Learn c;
+    struct Learn a;
+    struct Learn cur;
+    struct Learn *tbl;
+    u16 species;
+    u8 form;
+    u8 level;
+    u16 *out;
+    u8 n;
+    u8 i;
+    u8 j;
+
+    species = func_02017E1C(mon, 5, 0);
+    form = func_02017E1C(mon, 0x6F, 0);
+    level = func_02017E1C(mon, 0x9E, 0);
+    for (j = 0; j < 4; j++)
+        moves[j] = func_02017E1C(mon, 0x36 + j, 0);
+    n = 0;
+    tbl = func_02030734(heap, 0x68, 0, d_02172B74, 0x55);
+    out = func_02030734(heap, 0x34, 0, d_02172B74, 0x56);
+    func_0201ADD0(species, form, tbl);
+
+    for (i = 0; i < 26; i++) {
+        cur = tbl[i];
+        t = cur;
+        if (Learn_IsEnd(&t)) {
+            out[n] = 0xFFFF;
+            break;
+        }
+        e = cur;
+        if (e.level > level)
+            continue;
+        a = cur;
+        for (j = 0; j < 4; j++) {
+            if (moves[j] == Learn_Copy(a).move)
+                break;
+        }
+        if (j != 4)
+            continue;
+        c = cur;
+        for (j = 0; j < n; j++) {
+            if (out[j] == Learn_Copy(c).move)
+                break;
+        }
+        if (j != n)
+            continue;
+        f = cur;
+        out[n] = f.move;
+        n++;
+    }
+    func_020307B0(tbl);
+    return out;
+}

@@ -6,9 +6,11 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * residual: 244 compiled bytes versus 248; first count spill/load and
- * counter-zero scheduling remain different. Every relocation resolves.
+ * status: EXACT
+ * resolved: R13 declares C7F68's proven normalized byte return as u8 and
+ * keeps n as u8, restoring the count spill/reload: 248 bytes EXACT.
+ * Source is now src/matched/ov/ov093_func_021CA5CC.c; shard verified.
+ * Historical residual was 244/248 bytes with count reload/scheduling drift.
  * checks: 1 callee arities from matched bodies; 2 same-overlay callers and
  * C3810 normalization twin read; 3 u8/enum/aggregate count tested, const p
  * compiled unchanged (first const attempt CCERR, then valid casts);
@@ -16,8 +18,9 @@
  * checked; no new twin covers the initial count reload.
  * permuter: 300 candidates; best copy(i->i_) guards on old i after increment
  * and changes loop behavior, so rejected. No valid improvement.
- * next: investigate original count object or inline return representation;
- * do not force the extra reload with a volatile local.
+ * lever: docs/idioms/a-u8-returning-callee-is-declared-u8-so-the-count-spills-and-reloads.md.
+ * C7F68's matched body returns normalized u8 j despite its int declaration.
+ * Two fresh matching runs and one successful sequential shard verification.
  * symbols:
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021C7F68 0x021C7F68 thumb ov093
@@ -36,7 +39,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
 extern int func_021B8D8C(void *, void *, u8);
-extern int func_021C7F68(void *, u16, u8 *);
+extern u8 func_021C7F68(void *, u16, u8 *);
 extern int func_021B9934(char *, int);
 extern int func_021D5BDC(u8 *, u32);
 extern int func_021C5418(u8 *, u8 *, int);
@@ -45,11 +48,11 @@ extern int func_0203EFC8(const void *, const void *, u32);
 extern int func_021C6F34(u8 *, u8 *, int);
 extern int func_021D62C4(u8 *, int);
 extern void func_021C5620(u8 *, u8 *, int, void *);
-extern void func_021CD64C(void *, u32, ...);
+extern void func_021CD64C(void *, u8, ...);
 int func_021CA5CC(const u8 *p, const struct Cmd *q)
 {
     u8 buf[8];
-    u32 n;
+    u8 n;
     u8 i;
     u8 *a;
     int changed;

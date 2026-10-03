@@ -1,110 +1,108 @@
 /*
  * function: func_021B01FC
- * address:  0x021B01FC
- * packet:   pkt_ov013_021B01FC
- * region:   ov013
+ * address: 0x021B01FC
+ * packet: pkt_ov013_021B01FC
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * 2-bit ADPCM encoder: n s16 samples to n/4 bytes, low pair first, with
- * the predictor and step index carried in *st (the decoder is
- * func_021AFFE4). Index table (s8[4]) at 0x021B3A00, step table
- * (s16[89]) at 0x021B3A1C.
- *
- * DIFF, 119 of 144 instructions differ (lane B2, 13 runs): same size,
- * frame, control flow and instruction selection; the rest is register
- * allocation and scheduling. Original: loop invariants min r4, max lr
- * (= r4 lsr 17), step table r5, index table ip, with the pool ordered
- * step table first; sample, then code, in r2; samples 2-4 load pred and
- * sample before the forwarded index (and sb, r7, #0xff) and load the step
- * after the subs. This source: min lr, max ip, index table r2 (pool index
- * table first), step table r4, sample/code r5, and the forwarded index and
- * the step load hoisted above the pred/sample loads. Levers that helped:
- * accumulating b per sample (vs four u8 locals: fixes the frame, no spill),
- * *src++ per call, a separate np = pred + step (gives the original's
- * add r8, r6, r8). Tried without effect: pred read before index, extern
- * declaration order, step load after the sign test (fewer stars but moves
- * the add), step = step + pred / pred + step, final byte as
- * *dst++ = b | (...), a j-loop over the four pairs (not unrolled, 252 B).
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Two-bit ADPCM encoder: four s16 samples per output byte, low pair first.
+ * residual: DIFF 576/576 bytes, 272 concrete bytes differ; both table relocations resolved.
+ * evidence: reusing the int sample parameter for encoded code gave 273, versus 279 for pointer helper/long count; s16 reused parameter gave 274. Long index and nonconst source stayed 273.
+ * permuter: first typed budget-300 pass emitted baseline 273 and best 272; initialized temporaries for the second/final sample and commuted final OR retained. Fresh one verified 272. Calls and src increments remain sequential; code values are 0..3, so u8 intermediates preserve values.
+ * prior evidence: accumulated byte, src++ calls and separate np preserve size/frame; pred-read and extern order, step-load placement, add spelling and final OR already tried. A four-sample j-loop was 252 bytes and not unrolled.
+ * checks: 1 no out-of-line calls; 2 exact own-overlay decoder/wrappers confirm state/table types, no exact encoder twin; 3 long idx/nonconst src both 273; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
  * symbols:
  *   d_021B3A00     0x021B3A00  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2
  */
-
 typedef unsigned char u8;
 typedef signed char s8;
 typedef short s16;
 typedef unsigned int u32;
-
-typedef struct AdpcmState {
-    s16 pred;
-    u8 index;
+typedef struct AdpcmState
+{
+  s16 pred;
+  u8 index;
 } AdpcmState;
-
 extern const s16 d_021B3A1C[89];
 extern const s8 d_021B3A00[4];
-
-static inline u8 Adpcm2EncodeSample(AdpcmState *st, s16 sample)
+inline static u8 Adpcm2EncodeSample(AdpcmState *st, int sample)
 {
-    int idx;
-    int pred;
-    int code;
-    int diff;
-    int step;
-    int np;
-
-    pred = st->pred;
-    idx = st->index;
-    step = d_021B3A1C[idx];
-    diff = sample - pred;
-    if (diff < 0) {
-        code = 2;
-        diff = -diff;
-    } else {
-        code = 0;
-    }
-    if (diff >= step) {
-        code |= 1;
-    }
-    if (!(code & 1)) {
-        step = 0;
-    }
-    if (code & 2) {
-        step = -step;
-    }
-    np = pred + step;
-    if (np < -32768) {
-        np = -32768;
-    }
-    if (np > 32767) {
-        np = 32767;
-    }
-    idx += d_021B3A00[code];
-    if (idx < 0) {
-        idx = 0;
-    } else if (idx > 88) {
-        idx = 88;
-    }
-    st->pred = (s16)np;
-    st->index = idx;
-    return code;
+  int idx;
+  int pred;
+  int diff;
+  int step;
+  int np;
+  pred = st->pred;
+  idx = st->index;
+  step = d_021B3A1C[idx];
+  diff = sample - pred;
+  if (diff < 0)
+  {
+    sample = 2;
+    diff = -diff;
+  }
+  else
+  {
+    sample = 0;
+  }
+  if (diff >= step)
+  {
+    sample |= 1;
+  }
+  if (!(sample & 1))
+  {
+    step = 0;
+  }
+  if (sample & 2)
+  {
+    step = -step;
+  }
+  np = pred + step;
+  if (np < (-32768))
+  {
+    np = -32768;
+  }
+  if (np > 32767)
+  {
+    np = 32767;
+  }
+  idx += d_021B3A00[sample];
+  if (idx < 0)
+  {
+    idx = 0;
+  }
+  else
+    if (idx > 88)
+  {
+    idx = 88;
+  }
+  st->pred = (s16) np;
+  st->index = idx;
+  return sample;
 }
 
 void func_021B01FC(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
 {
-    u32 i;
-    u32 count;
-    u8 b;
+  u32 i;
+  u32 count;
+  u8 b;
+  u8 tmp;
+  u8 tmp1;
+  u8 tmp2;
+  count = n / 4;
+  for (i = 0; i < count; i++)
+  {
+    b = Adpcm2EncodeSample(st, *(src++));
+    tmp2 = Adpcm2EncodeSample(st, *(src++));
+    tmp1 = tmp2 << 2;
+    b |= (u8) tmp1;
+    b |= (u8) (Adpcm2EncodeSample(st, *(src++)) << 4);
+    tmp = (u8) (Adpcm2EncodeSample(st, *(src++)) << 6);
+    *(dst++) = tmp | b;
+  }
 
-    count = n / 4;
-    for (i = 0; i < count; i++) {
-        b = Adpcm2EncodeSample(st, *src++);
-        b |= (u8)(Adpcm2EncodeSample(st, *src++) << 2);
-        b |= (u8)(Adpcm2EncodeSample(st, *src++) << 4);
-        *dst++ = b | (u8)(Adpcm2EncodeSample(st, *src++) << 6);
-    }
 }

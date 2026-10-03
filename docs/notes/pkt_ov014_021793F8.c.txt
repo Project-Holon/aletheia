@@ -1,33 +1,25 @@
 /*
  * function: func_021793F8
- * address:  0x021793F8
- * packet:   pkt_ov014_021793F8
- * region:   ov014
+ * address: 0x021793F8
+ * packet: pkt_ov014_021793F8
+ * region: ov014
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * isa:      thumb
- * status:   DIFF (28 bytes, same size 100)
- *
- * Everything matches through the ternary (write `state != 2 ? 0 : cnt - 1`
- * to get the original beq polarity) except the tail.  The original, after
- * `cmp state,#2; bne L`, does `adds r2,#0x20; ldrb r1,[r0,r2]` (offset
- * register reused in place, so dead afterwards) and the shared exit L
- * reloads the 0x1EBE pool word (`ldr r1,[pc]; movs r2,#1; strh r2,[r0,r1]`).
- * Ours keeps the offset register live (`adds r1,r2,#0; adds r1,#0x20`) and
- * stores through it.  Tried: struct with named fields (worse), u16 store,
- * nested-if with return, two separate `cnt = 1` arms (worse).  The source
- * probably reaches the final store through a different pointer expression
- * than the flag read.
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: final counter store uses unsigned address arithmetic rather than
+ *   pointer arithmetic, so its offset is reloaded independently of the flag.
+ * symbols:
+ *   g_021797A8 0x021797A8 data ov014 a4
+ *   func_02178138 0x02178138 thumb ov014
+ *   func_0217863C 0x0217863C thumb ov014
  */
-
 typedef unsigned char u8;
 typedef short s16;
-
 extern u8 *g_021797A8;
-
-extern void func_02178138(int state);
+extern void func_02178138(int);
 extern int func_0217863C(void);
-
 void func_021793F8(void)
 {
     if (g_021797A8 != 0 && *(s16 *)(g_021797A8 + 0x1EBE) > 0) {
@@ -35,10 +27,9 @@ void func_021793F8(void)
             (*(int *)(g_021797A8 + 0x1E70) != 2) ? 0 : *(s16 *)(g_021797A8 + 0x1EBE) - 1;
         if (*(s16 *)(g_021797A8 + 0x1EBE) == 0) {
             if (*(int *)(g_021797A8 + 0x1E70) == 2 && g_021797A8[0x1EDE] == 0) {
-                if (func_0217863C() == 0)
-                    func_02178138(9);
+                if (func_0217863C() == 0) func_02178138(9);
             } else {
-                *(s16 *)(g_021797A8 + 0x1EBE) = 1;
+                *(s16 *)((unsigned int)g_021797A8 + 0x1EBE) = 1;
             }
         }
     }

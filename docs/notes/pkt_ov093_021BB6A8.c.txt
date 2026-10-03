@@ -9,10 +9,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021EEB64 returns the record pointer (r2 in the original is its result) and takes (u32, u32 *out); func_021BB830 one arg; arities agree; 2 twins ov093_func_021BAE60/021BB0A0 use the same 12-byte record array at +0x14 (no loop twin); 3 tried j/cnt as int (blt, worse) and u32, cnt hoisted vs re-read, u32 v temp, s++ vs s[j], comma increment, j-before-cnt: none moved the register colouring; 4 an-arithmetic-loop-carried-definition-colours-last (t = s + 1; s = t) no change, assign-the-loop-counter-before-the-bound (the pool zero already matches); 5 re-read matched neighbours, nothing new. Sweep left for the big lane: permuter over the inner loop's locals.
+ * checks:   1 own EEB64 reads two arguments, returns record pointer, BB830 takes1; 2 refreshed BAE60/BB0A0 confirm the 12-byte record array at +0x14, no loop twin; 3 renewed const P/const E pointers compile unchanged108/26 after fixing BB830 extern constness, prior signed counters and const source unchanged/worse; 4 integer-valued walking cursor gives108/51 with s=r3, j=r1, cnt=r2 rather than original s=r2, j=r0, cnt=r1; one-word struct copy with walking source worsens116/105 and enlarges frame; pointer/declaration and long-index idioms read; 5 full idiom directory and current twins refreshed, no aggregate. Earlier permuter300 and600 plus720-order sweep consumed and not repeated. Next fresh-wave lever is full-width unsigned long j/cnt instead of unsigned int, whose distinct compiler type can change colours without narrowing.
  * checks (big lane R2): 1 unchanged; 2 no loop twin found; 3 const u32 *s, *(s + j), a D *d = &p->d[i] local (54 bytes): no gain; 4 walking source (`*s; s++`, `*s++`, `j++, s++`, s++ last): 51 bytes and 2 bytes short (the original reloads p from [sp] twice; the walking form loads it once and colours j=r1, cnt=r2, s=r3); a 720-order sweep of the six declarations on the walking form: best 50; an inline Copy(p, i, s, cnt) helper with `*s++` puts s in r2 as the original does (38 bytes) but j lands in r1 and cnt in r4; 5 idioms re-listed. Permuter --types 300 on this spelling and 600 on the walking one: nothing better (its best adds a return value). Residue as below, 26 bytes.
  *
- * Residual (best C, 6 concrete mismatches, same size 112): the original walks
+ * Residual (best C, 108/112 bytes, 26 concrete bytes differ): the original walks
  * the source with `ldr r6,[r2]; adds r2,#4` (r2 = pointer from func_021EEB64,
  * r1 = cnt, r0 = j) and gets the store address from `lsls r4,r0,#2`; the
  * struct-typed C below has the same frame, the same pool zero (`ldr r0,[pc]`
@@ -20,6 +20,7 @@
  * (indexed source, `s[j]`). Writing the source as a walking pointer
  * (`*s; s++`, every spelling tried) gives the right load but colours the
  * inner loop r3 = s, r1 = j, r2 = cnt instead (29 mismatches).
+ * Renewed baseline verified108/112 and26 in scratchpad/overlay-newpass-20261003-w75/R11/021BB6A8-baseline.log; the older same-size description was inaccurate. The const-pointer CCERR preceded its repaired DIFF; the repair log replaced that scratch log, but both runs count.
  *
  * symbols:
  *   func_021BB830  0x021BB830  thumb  ov093

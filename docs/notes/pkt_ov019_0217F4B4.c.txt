@@ -8,25 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 matched callees arities 2/3; 2 0217F388 confirms const Ent and table layout; 3 unsigned long key/counter remain 14; 4 ternary loop condition fixes entry branch; 5 no new twin, no stack object; once-only permuter 300 baseline 14/300, emitted source fixed-one 14/300; no further sweep proposed.
  *
- * DIFF note (lane B6, 13 runs). Every instruction but two spots matches:
- *  1. Loop entry. The original enters the pointer-search loop with
- *     `movs r0,#0; ldr r2,=d_021805A4; b test` (test at the bottom,
- *     `adds r0,#1; cmp r0,#8; blo body`). Every spelling tried compiles
- *     rotated, with no entry branch (2 bytes short, all later offsets
- *     shift): for/while, u32/int/(u32)i, u8/u16 (adds truncation), i = 0
- *     hoisted to the top, bound in a local, if+do/while, top-of-body
- *     `if (i >= 8)` test (keeps an entry cmp), Ent pointer, `continue`
- *     arms. Matched loops with the `b test` shape (ov019 0217B098,
- *     ov020 021861F4, ov010 02159E8C) all call something in the body;
- *     this body has no call, which may be what lets the compiler rotate.
- *  2. case -2: the original loads st[3] into r1 (key's register) and reads
- *     e->p before e->b (`ldr r0,[r1,r2]; adds r1,r1,r2; ldrb r1,[r1,#4]`);
- *     `e = &d_021805A4[st[3]]; key = e->p[e->b - 1].f4` gives the same ops
- *     in r2/r0/r1 order.
- * Resolved already: u32 i (blo), `tbl[i].p == (const Pair *)key` for the
- * `cmp r3, r1` operand order, d_021805A4 one symbol (+4 addend for .b).
- *
+ * DIFF, 14 concrete bytes at 300 B, all 7 relocations resolved.
+ * The ternary loop condition fixes the formerly missing entry branch.
+ * Remaining residue is case -2's st[3]/table/pair register allocation.
+ * Separate pairs local and unsigned long key/counter did not close it.
+ * Permuter budget 300 consumed; fixed-one emitted source confirms 14/300.
  * symbols:
  *   func_0217F310  0x0217F310  thumb  ov019
  *   func_02034714  0x02034714  arm
@@ -66,6 +54,7 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
     u32 key;
     u32 i;
     const Ent *e;
+    const Pair *pairs;
 
     *hit = 0;
     *flag = 0;
@@ -77,7 +66,8 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
         if (st[3] == 0)
             return key;
         e = &d_021805A4[st[3]];
-        key = e->p[e->b - 1].f4;
+        pairs = e->p;
+        key = pairs[e->b - 1].f4;
         break;
     case 0x64:
         return d_021803A0[st[0]][st[1]][st[2]];
@@ -95,7 +85,7 @@ int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
         }
     }
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; (i < 8) ? 1 : 0; i++) {
         if (d_021805A4[i].p == (const Pair *)key) {
             *hit = 1;
             return i;

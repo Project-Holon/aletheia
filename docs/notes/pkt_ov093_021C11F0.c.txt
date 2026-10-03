@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF (704 bytes; 56 concrete bytes differ; 33/33 references resolved)
- * checks: 1 full own bodies and original outgoing slots retain ABI (parent-approved partial aggregate); 2 no complete twin, C11A4 supplies eight full arguments; 3 const d 56, long i/j 700B/592, count/flag widths previously counted; 4 spill/scope/flag/scalar-width idioms read, scheduling cap reached; 5 fresh unfiltered listing and own neighbours reread, declared-struct lever lacks stack scratch object. Permuter300 --types flat56; next hypothesis would be a signed32 enum count/flag, not a declaration permutation. Normal streak3 since best06,7 runs since first nonshrinking03; run09 is a confirmed rejected over-budget third scheduling variant; two permitted variants are consumed for all resumptions/retries. Parked/check/permuter input is best06 only.
+ * checks: 1 re-derived own matched callee bodies and original outgoing slots retain all observed arguments, including C5798 extras and the documented partial aggregate. 2 refreshed C11A4 forwards all eight full arguments; no complete twin. 3 corrected own C1194 u8 return, C0CB4 Q pointer and C1CCC return/out type remain56; signed32 enum count/flag56, _Bool flag712B/430, one-word Flag parameter56. 4 spill/scope/flag/enum idioms read; scheduling variants stay consumed. 5 fresh idiom listing and own neighbours read; no address-taken scratch object in the residue. Prior permuter300 is consumed and not repeated. Remaining residue is count/index spill-home exchange and flag stack-store scheduling.
  *
  * ABI: all eight arguments copied from matched func_021C11A4. Parameters c
  * and f are unused in the original. The fifth and sixth words are pointers
@@ -86,11 +86,11 @@ extern void func_021C14C0(void *, u8 *, u16, int);
 extern void func_021C14D0(void *, u8 *, u16, int);
 extern u32 func_021C0D70(u8 *);
 extern int func_021C0C38(u8 *, u8 *, u8 **, u16 *, int *, u8 *);
-extern int func_021C0CB4(u8 *, u8 *, u8 **);
+extern u32 func_021C0CB4(u8 *, const struct Q *, u32 *);
 extern int func_021C0CE8(u8 *, const struct Q *, u32 *, u16 *, u32 *, u8 *, u8 *);
 extern u16 func_021C4104(u8 *, u32, u8 *, u16, int, u8, u16 *);
 extern int func_021C1184(u8 *);
-extern int func_021C1194(u8 *);
+extern u8 func_021C1194(u8 *);
 extern void func_021C1198(u8 *, int);
 extern void func_021C15E8(u8 *, u8 *, u8 *, u16 *);
 extern void func_021C1788(u8 *, u32, u8 *, u32, u32 *);
@@ -99,7 +99,7 @@ extern void func_021C5840(u8 *, u32, int *, u8 **, int);
 extern void func_021C59C4(u8 *, u32, u8 **, u8 *, int);
 extern void func_021C1828(u8 *, u32, u8 *, u8 *, u8 *, u16);
 extern void func_021C16F8(u8 *, u8 *, int);
-extern void func_021C1CCC(u8 *, u8 *, u8 *, u8 *);
+extern int func_021C1CCC(u8 *, u8 *, u8 *, u16 *);
 extern void func_021C1DCC(u8 *, u8 *, u32, u8 *, u32);
 extern void func_021C1880(u8 *, u8 *, u32, u32, u32, int);
 extern void func_021C4218(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
@@ -126,7 +126,7 @@ u32 func_021C11F0(u8 *p, u32 b, u32 c, u8 *d, u32 a, u32 e, u32 f, u32 g)
         }
     }
     if (func_021C1184((u8 *)e)) {
-        int all = (u8)func_021C0CB4(p, d, ptr_021F3B38);
+        int all = (u8)func_021C0CB4(p, (const struct Q *)d, (u32 *)ptr_021F3B38);
         for (i = 0; i < all; i++) {
             func_021C15E8(p, (u8 *)b, ptr_021F3B38[i], (u16 *)a);
         }
@@ -159,7 +159,7 @@ u32 func_021C11F0(u8 *p, u32 b, u32 c, u8 *d, u32 a, u32 e, u32 f, u32 g)
         {
             int j;
             for (j = 0; j < count; j++) {
-                func_021C1CCC(p, (u8 *)a, (u8 *)b, ptr_021F3B38[j]);
+                func_021C1CCC(p, (u8 *)a, (u8 *)b, (u16 *)ptr_021F3B38[j]);
                 func_021C1DCC(p, (u8 *)a, b, ptr_021F3B38[j], half_021F3B26[j]);
                 func_021C1880(p, (u8 *)a, b, (u32)ptr_021F3B38[j], half_021F3B26[j], 0);
                 func_021C4218(p, (u8 *)b, ptr_021F3B38[j], (u8 *)a, word_021F3B2C[j],

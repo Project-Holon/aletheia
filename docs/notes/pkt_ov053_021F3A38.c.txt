@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT* (superseded by src/matched/ov/ov053_func_021F3A38.c)
+ * resolution: Wave75 R26 inline random-call addition EXACT* run01, padding2;
+ *             named result local was the cause, commutative operand idiom applies.
  * residue: +0x1A adds r1,r1,r0 versus adds r1,r0,r1; one concrete byte.
  * budget: 3 iteration runs, stopped after two nonshrinking changes;
  *         2 ordering variants used; check3 2/2 used; no permuter.

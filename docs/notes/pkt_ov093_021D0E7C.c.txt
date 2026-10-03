@@ -5,22 +5,13 @@
  * region: ov093
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: DIFF
- * residue: best run 2 compiled 444/432 bytes, 286 concrete bytes differ;
- * shared D8/DC stores and state assignments fail to cross-jump as original.
- * checks: 1 argument setup matches through +009A; matched callee arities
- * retained, CE08C return overridden because caller compares r0; 2 refreshed
- * D0D50/D0E74 unit confirms separate order[6]/pair[2], no state-machine twin;
- * 3 u8 param restores early spill; const pointer and byte n/count compile
- * unchanged (one discarded-qualifier CCERR corrected with explicit casts);
- * 4 shared-exit, shared-tail, narrow-parameter and byte-count idioms read;
- * 5 refreshed idioms/neighbours and stack-storage idiom, array bases match.
- * next: nested state-0 helper/inline shape to cross-jump D8/DC stores.
- * no sweeps; permuter not required for best 12-byte delta, no follower.
- * behavior: run 5 next-state experiment rejected for uninitialized next
- * on zero-n fallback; restored run 2 before parking.
- * volatile: count at 021D0EB2 store is reread by 021D0EB6 and 021D0ECC.
+ * status: EXACT
+ * lever: the state-0 fallbacks and single-mon path set state 4, not 6;
+ * duplicating the state-4 assignment inside both fallback arms preserves
+ * the late cross-jump of D8/DC stores. Factoring it outside adds 12 bytes.
+ * volatile: count at 021D0EB2 is reread at 021D0EB6 and 021D0ECC.
  * symbols:
  *   func_021D0C78 0x021D0C78 thumb ov093
  *   func_021D0980 0x021D0980 thumb ov093
@@ -92,7 +83,7 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
                         func_021D8394(p + 0x124, 0, order[0]);
                         *(u8 **)(p + 0xD8) = p + 0x124;
                         *(int *)(p + 0xDC) = 4;
-                        *state = 6;
+                        *state = 4;
                         break;
                     }
                 }
@@ -105,18 +96,19 @@ int func_021D0E7C(u8 *p, int *state, u8 param)
                 if (func_021D102C(p) != 0 && (mode = func_021D1058(p, p + 0x124)) != 0) {
                     *(int *)(p + 0xDC) = mode;
                     *(u8 **)(p + 0xD8) = p + 0x124;
+                    *state = 4;
                 } else {
                     func_021D83C4(p + 0x124);
                     *(u8 **)(p + 0xD8) = p + 0x124;
                     *(int *)(p + 0xDC) = 4;
+                    *state = 4;
                 }
-                *state = 4;
             }
         } else {
             func_021D8434(p + 0x124);
             *(u8 **)(p + 0xD8) = p + 0x124;
             *(int *)(p + 0xDC) = 4;
-            *state = 6;
+            *state = 4;
         }
         break;
     case 1:

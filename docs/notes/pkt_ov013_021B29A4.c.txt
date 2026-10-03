@@ -1,44 +1,31 @@
 /*
- * function: func_021B29A4   (ov013, ARM, 124 B)
- * status:   DIFF, 12 bytes (register allocation only), lane S23
- *
- * Closest C (relocations all resolve, structure matches): a 2D signed-byte
- * table lookup t[obj[3]][i], t chosen by d_021B60D8[4] == 1.  What is wrong:
- * the original keeps the 0xb multiplier register as the mla destination
- * (mla r1,r3,r1,r2) so the later -1 is a fresh `mvn r1,#0` and -2 is r1-1;
- * ours puts the mla result in r2 and derives -1 as (11 - 12), -2 as (11 - 13).
- * Tried: 1D index t[cur*11+i], 2D array, array-of-struct rows, ternary vs
- * if-assign table pick, local for obj[3], row pointer local, s8 vs int result,
- * switch (v) (worse, +34 bytes).  None changed the mla destination.
- */
+ * function: func_021B29A4
+ * address: 0x021B29A4
+ * packet: pkt_ov013_021B29A4
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Wave 75 R20 renewed pass: DIFF 12 concrete bytes, compiled 124/124. Integer table base and inline lookup match old residue; enum stride worsens to 18, const q/int result leave 12. MLA still lands in table register, and -1/-2 derive from 11. First recorded permuter 300 is consumed: emitted baseline agrees, no improvement.
+ * checks: 1 no external callees; 2 matched 2894 same 11-column lookup inspected, table contents/signed byte width confirmed; 3 const q/int v and enum stride compiled; 4 multiply-sum and integer-base idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis per-arm indexed helper, no repeat permuter
+ * symbols:
+ *   d_021B60D8 0x021B60D8 data ov013 a4
+ *   d_021B3B40 0x021B3B40 data ov013 a1
+ *   d_021B3B84 0x021B3B84 data ov013 a1
 
+ */
 typedef unsigned char u8;
 typedef signed char s8;
-
+typedef unsigned int u32;
 extern int d_021B60D8[];
-typedef struct { s8 a[11]; } R;
-extern R d_021B3B40[];
-extern R d_021B3B84[];
-
-int func_021B29A4(int *obj, u8 *q)
-{
-    unsigned int i;
-    s8 v;
-    R *t;
-
-    i = q[6];
-    if (q[4] == 0)
-        i += 5;
-    if (i >= 11)
-        i = -1;
-    if ((int)i < 0)
-        return -1;
-    t = (d_021B60D8[4] == 1) ? d_021B3B40 : d_021B3B84;
-    v = t[obj[3]].a[i];
-    if (v == -1)
-        return 1;
-    if (v == -2)
-        return 0;
-    obj[3] = v;
-    return 1;
+extern s8 d_021B3B40[],d_021B3B84[];
+static inline s8 lookup(u32 t,int row,u32 col) { return *(s8 *)(row*11+t+col); }
+int func_021B29A4(int *obj,const u8 *q) {
+ u32 i; int v; u32 t;
+ i=q[6]; if(q[4]==0)i+=5; if(i>=11)i=-1; if((int)i<0)return -1;
+ t=d_021B60D8[4]==1?(u32)d_021B3B40:(u32)d_021B3B84;
+ v=lookup(t,obj[3],i);
+ if(v==-1)return 1; if(v==-2)return 0; obj[3]=v; return 1;
 }

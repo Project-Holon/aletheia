@@ -1,72 +1,63 @@
 /*
  * function: func_021F3E6C
- * address:  0x021F3E6C
- * packet:   pkt_ov048_021F3E6C
- * region:   ov048
+ * address: 0x021F3E6C
+ * packet: pkt_ov048_021F3E6C
+ * region: ov048
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 callees checked (func_0201EFA4 6 args, func_0201F230 3, func_021F3D38 4); 2 twin func_021F4058 is EXACT with the same struct shape (there the arg-3 `movs r2,#3` lands right); 3 struct vs int[7], s.d/s.e order, temp for the [p+0x1c]+0x18 load: no change; 4 none fits; 5 n/a
- * retry (lane R4, 2026-09-29), all still the same 8 bytes: func_021F3D38's b as u16/u8,
- *   its second parameter as void * with &s; a named 2 (`n`/`two`, int and u16, set at the
- *   top, reassigned before s.d, used for some or all of the call's 2s); a named 1 for
- *   every 1; buf as u32[4]; stores through `S *q = &s`, through an int[7] or an int *
- *   into it, and buf folded into the struct as its first member; every single-statement
- *   move of the seven field stores (best is the current order, 8; the rest 8-36); s.d
- *   before the calls (87); s (or s and buf) in a nested block (18), buf alone in one
- *   (8); permuter --types 300 compiles: nothing below 8. The
- *   original keeps the seven stores strictly in source order and fills the first load
- *   slot with `movs r2,#1`; ours lets `str r6` (the 2 already live in r6) jump the
- *   queue, so the lever is whatever stops the store floating, not the value.
- *
- * DIFF: 8 concrete bytes, all one scheduling slip. Original: ldr r0,[r1,#0x2c]; movs r2,#1;
- * str r0,[sp,#0x1c]; ... movs r0,#0x26; str r6,[sp,#0x24]; str r0,[sp,#0x28]; ldr r0,[r5,#0x1c].
- * Compiled: str r6,[sp,#0x24] is hoisted up beside the first store (r6 already holds 2 from the
- * first func_0201EFA4 call's stack arg) and `movs r2,#1` (arg 3 of func_021F3D38) lands after
- * the [sp,#0x28] store. In func_021F4058 (no live 2) the same code matches.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 WordSet own units and SDK RTCDate/RTCResult rederived, F3D38 four args; 2 matched 4058 same message fields but lacks live2; 3 const p DIFF8 unchanged; 4 enum d and two inline argument/field variants DIFF8 unchanged; 5 fresh idioms and scoped 048 neighbours, declared-stack-struct read. Next hypothesis would inline the WordSet call wrappers with proven SDK parameter enums, not run.
+ * runs: Wave75 R26 3 iteration + 1 check3; all124 bytes,DIFF8,8/8 relocs; three nonshrinks stop.
+ * residual: live2 field store floats before mov r2,#1; two manual scheduling variants consumed. Earlier once-300 --types permuter remains spent; no rerun.
+ * history: Earlier note tried widths for F3D38, named1/2 constants, word buffer, struct pointer/int array, store orders, nested blocks and permuter300; best8 retained. Current inline spelling retains the same best8 with proven RTCDate/WordSet types.
  * symbols:
- *   func_0201EC64  0x0201EC64  thumb
- *   func_02088864  0x02088864  arm
- *   func_0201EFA4  0x0201EFA4  thumb
- *   func_0201F230  0x0201F230  thumb
- *   func_0201ED04  0x0201ED04  thumb
- *   func_021F3D38  0x021F3D38  thumb
- *   d_021F50C0     0x021F50C0  data  a4
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_02088864 0x02088864 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F230 0x0201F230 thumb
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_021F3D38 0x021F3D38 thumb ov048
+ *   d_021F50C0 0x021F50C0 data a4
  */
-
-typedef unsigned char  u8;
+typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned int   u32;
-
-extern void *func_0201EC64(int);
-extern void func_02088864(void *);
-extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
-extern void func_0201F230(void *, u32, u32);
-extern void func_0201ED04(void *);
-extern void func_021F3D38(int *p, int unused, int b, int *c);
+typedef unsigned int u32;
+typedef enum { KIND_ONE = 1, KIND_TWO = 2 } Kind;
+typedef struct { u16 a; int b,c; Kind d; int e,f,g; } Message;
+typedef enum { RTC_SUCCESS } RTCResult;
+typedef enum { RTC_SUNDAY, RTC_WEEK_MAX = 7 } RTCWeek;
+typedef struct { unsigned long year, month, day; RTCWeek week; } RTCDate;
+struct WordSet;
+extern struct WordSet *func_0201EC64(u32);
+extern RTCResult func_02088864(RTCDate *);
+extern void func_0201EFA4(struct WordSet *,u32,u32,u32,u32,u32);
+extern void func_0201F230(struct WordSet *,u32,u32);
+extern void func_0201ED04(struct WordSet *);
+extern void func_021F3D38(const int *,int,int,int *);
 extern u8 d_021F50C0[];
-
-void func_021F3E6C(int *p)
+static inline void fill_message(const int *p, Message *s, struct WordSet *h, Kind b, Kind d)
 {
-    struct { u16 a; int b, c, d, e, f, g; } s;
-    int buf[4];
-    void *h;
-
-    h = func_0201EC64(*(u16 *)p);
-    func_02088864(buf);
-    func_0201EFA4(h, 2, buf[0], 2, 2, 1);
-    func_0201F230(h, 0, buf[1]);
-    func_0201EFA4(h, 1, buf[2], 2, 0, 1);
-    s.a = *(u16 *)(d_021F50C0 + 4);
-    s.b = *(int *)(d_021F50C0 + 0x2c);
-    s.c = *(int *)(d_021F50C0 + 0x48);
-    s.d = 2;
-    s.e = 0x26;
-    s.f = *(int *)(p[7] + 0x18);
-    s.g = (int)h;
-    func_021F3D38(p, (int)&s, 1, 0);
+    s->a=*(u16 *)(d_021F50C0+4);
+    s->b=*(int *)(d_021F50C0+0x2c);
+    s->c=*(int *)(d_021F50C0+0x48);
+    s->d=d;
+    s->e=0x26;
+    s->f=*(int *)(p[7]+0x18);
+    s->g=(int)h;
+    func_021F3D38(p,(int)s,b,0);
+}
+void func_021F3E6C(const int *p)
+{
+    Message s;
+    RTCDate buf;
+    struct WordSet *h;
+    h=func_0201EC64(*(u16 *)p);
+    func_02088864(&buf);
+    func_0201EFA4(h,2,buf.year,2,2,1);
+    func_0201F230(h,0,buf.month);
+    func_0201EFA4(h,1,buf.day,2,0,1);
+    fill_message(p,&s,h,KIND_ONE,KIND_TWO);
     func_0201ED04(h);
 }

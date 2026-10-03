@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded: src/matched/ov/ov010_func_021667E0.c is EXACT (wave75).
+ * checks: The copy of func_0216666C's returned task into r1 passes that
+ * task as func_0215897C's second argument; the matched callee reads it.
  *
  * Runs func_0216666C on the record of `b`; when it answers non-zero,
  * calls func_0215897C on the first lookup. Always returns 1.

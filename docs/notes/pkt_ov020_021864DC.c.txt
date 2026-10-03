@@ -1,5 +1,13 @@
 /*
- * function: func_021864DC   address: 0x021864DC   region: ov020   isa: thumb
+ * function: func_021864DC
+ * address: 0x021864DC
+ * packet: pkt_ov020_021864DC
+ * region: ov020
+ * isa: thumb
+ * checks: superseded by verified EXACT* src/matched/ov/ov020_func_021864DC.c;
+ * inline full-width unsigned bit-clear helper and raw unsigned base arithmetic.
+ * Permuter --types budget 300 consumed this pass: baseline 68/68 DIFF 62,
+ * 25 compiles found expand(mask) and expand(q) EXACT*; fixed one confirms 66 code bytes.
  * status:   DIFF (compiled 74 bytes vs 68; register and constant handling)
  *
  * The original hoists the constant 2 out of the loop into a spill slot

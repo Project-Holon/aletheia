@@ -1,35 +1,15 @@
 /*
  * function: func_021B07F8
- * address:  0x021B07F8
- * packet:   pkt_ov013_021B07F8
- * region:   ov013
+ * address: 0x021B07F8
+ * packet: pkt_ov013_021B07F8
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * Build one TCV packet in one of the two buffers 0x460 bytes apart
- * at 0x021B42C0 (chosen by bit 0 of +0x8C4): magic 'TCV_', size
- * byte 0x40, sequence from G.f0++, timestamp tick / 0x40, payload copied
- * from src to +0x10 or +0xC depending on G.f1C.
- *
- * DIFF, 24 of 67 instructions (45 bytes) differ (lane B2, 20 runs): same
- * size; the remaining difference is a register permutation. Original:
- * loop counter, table base and the 0x40 divisor share r4; the found flag,
- * the buffer offset and the header pointer share r5. This source puts the
- * counter, found flag and base in ip/lr and swaps r4 and r5 for the
- * header and the divisor (and so schedules the second 3C84 pool load
- * after the offset instead of before it). Levers that helped: v = 0 at the
- * top (gives the early mov r5, #0 shared by both early returns), the loop
- * as (i < 3) ? 1 : 0, the copy as an if/else with a call in each arm (the
- * original's blt/b pair), and the divisor read back from hdr->f4 right
- * after its store: a literal / 64, a u32 or u8 local or an inline helper
- * all strength-reduce to lsr/orr, and a signed dividend calls _ll_sdiv;
- * only the read-back keeps the _ll_udiv call with mov r2, r4. Tried
- * without effect on the permutation: one variable for found and the header
- * pointer, i reused as the divisor, declaration order.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Wave 75 R20 renewed pass: DIFF 40 concrete bytes, compiled 268/268. Named guard temporary and while loop improved the old 45-byte register permutation. Enum counter was 48; u16 counter was 276 bytes. The first recorded 300-candidate permuter is consumed; its 40-byte candidate passed fixed one (07F8-r6.log).
+ * checks: 1 memcpy/tick declarations from matched 021B0904, arities 3/0; 2 021B0904 shares globals/callees, no exact builder twin; 3 enum/u16/unsigned long counter and const byte source tested, u16 adds truncation; 4 reused-variable and enum-zero idioms read; 5 directory and ov013 neighbours rechecked, no stack object; next hypothesis inline search/helper boundaries, no repeat permuter
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3CB0     0x021B3CB0  data  ov013  a4
@@ -37,86 +17,102 @@
  *   func_02082B0C  0x02082B0C  arm
  *   func_020870D0  0x020870D0  arm
  *   _ll_udiv       0x0209C00C  arm
- */
 
+ */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-
-typedef struct {
-    u16 f0;
-    u8 pad2[0x1A];
-    int f1C;
-    int f20;
-    u32 f24;
+typedef struct
+{
+  u16 f0;
+  u8 pad2[0x1A];
+  int f1C;
+  int f20;
+  u32 f24;
 } Ctx3C84;
-
-typedef struct {
-    u8 pad0[0x8c0];
-    int f8C0;
-    u32 f8C4;
-    u32 f8C8;
-    u32 f8CC;
-    int f8D0;
-    int f8D4;
+typedef struct
+{
+  u8 pad0[0x8c0];
+  int f8C0;
+  u32 f8C4;
+  u32 f8C8;
+  u32 f8CC;
+  int f8D0;
+  int f8D4;
 } Ctx42C0;
-
-typedef struct {
-    u8 pad0[0xC];
-    int fC;
+typedef struct
+{
+  u8 pad0[0xC];
+  int fC;
 } Req;
-
-typedef struct {
-    u32 magic;
-    u8 f4;
-    u8 pad5;
-    u16 f6;
-    u32 f8;
+typedef struct
+{
+  u32 magic;
+  u8 f4;
+  u8 pad5;
+  u16 f6;
+  u32 f8;
 } PacketHeader;
-
 extern Ctx3C84 d_021B3C84;
-extern Req *d_021B3CB0[3];
+extern Req * const d_021B3CB0[3];
 extern Ctx42C0 d_021B42C0;
-
 extern void func_02082B0C(const void *src, void *dst, u32 n);
 extern u64 func_020870D0(void);
-
-int func_021B07F8(const void *src, u32 n)
+int func_021B07F8(const u8 *src, u32 n)
 {
-    u32 i;
-    PacketHeader *hdr;
-    u16 seq;
+  PacketHeader *hdr;
+  u32 i;
+  enum
+  {
+    NotFound = 0,
+    Found = 1
+  } found;
+  u16 seq;
+  int tmp;
+  tmp = n != d_021B3C84.f24;
+  found = NotFound;
+  if (tmp)
+  {
+    return 0;
+  }
+  if (d_021B3C84.f20 == 0)
+  {
+    return 0;
+  }
+  {
+    i = 0;
+    while ((i < 3) ? (1) : (0))
+    {
+      if ((0 != d_021B3CB0[i]) && (d_021B3CB0[i]->fC == 2))
+      {
+        found = Found;
+        break;
+      }
+      i++;
+    }
 
-    hdr = 0;
-    if (n != d_021B3C84.f24) {
-        return 0;
-    }
-    if (d_021B3C84.f20 == 0) {
-        return 0;
-    }
-    for (i = 0; (i < 3) ? 1 : 0; i++) {
-        if (d_021B3CB0[i] != 0 && d_021B3CB0[i]->fC == 2) {
-            hdr = (PacketHeader *)1;
-            break;
-        }
-    }
-    if (hdr == 0) {
-        return 0;
-    }
-    hdr = (PacketHeader *)((u8 *)&d_021B42C0 + ((d_021B42C0.f8C4 & 1) ? 0 : 0x460));
-    hdr->magic = 0x5F564354;
-    if (d_021B3C84.f1C >= 2) {
-        func_02082B0C(src, (u8 *)hdr + 0x10, n);
-    } else {
-        func_02082B0C(src, (u8 *)hdr + 0xC, n);
-    }
-    hdr->f4 = 0x40;
-    i = hdr->f4;
-    seq = d_021B3C84.f0;
-    d_021B3C84.f0 = seq + 1;
-    hdr->f6 = seq;
-    hdr->f8 = (u32)(func_020870D0() / i);
-    d_021B42C0.f8C4++;
-    return 1;
+  }
+  if (found == NotFound)
+  {
+    return 0;
+  }
+  hdr = (PacketHeader *) (((u8 *) (&d_021B42C0)) + ((d_021B42C0.f8C4 & 1) ? (0) : (0x460)));
+  hdr->magic = 0x5F564354;
+  if (d_021B3C84.f1C >= 2)
+  {
+    func_02082B0C(src, ((u8 *) hdr) + 0x10, n);
+  }
+  else
+  {
+    func_02082B0C(src, ((u8 *) hdr) + 0xC, n);
+  }
+  hdr->f4 = 0x40;
+  i = hdr->f4;
+  seq = d_021B3C84.f0;
+  d_021B3C84.f0 = d_021B3C84.f0 + 1;
+  hdr->f6 = seq;
+  hdr->f8 = (u32) (func_020870D0() / i);
+  d_021B42C0.f8C4++;
+  return 1;
 }

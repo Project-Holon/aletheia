@@ -7,13 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   MATCH
+ * checks: current pending source supersedes old DIFF. Correct switch mapping:2->1,3->2,4->3,others->4; own ov013021AEF6C takes pointer,int,int. Existing ov009021562EC unit omits0215631C/02156330 from function: header; fix owner metadata then verify. Other remaining leaf021AF18C is unlabelled ov013 setter. No leaves filed while unit blocker remains.
  *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_0215631C  0x0215631C  thumb  ov009
- *   func_021AEF6C  0x021AEF6C  thumb  ov009
- *   func_021AF18C  0x021AF18C  thumb  ov009
+ *   func_021AEF6C  0x021AEF6C  thumb  ov013
+ *   func_021AF18C  0x021AF18C  thumb  ov013
  */
 
 typedef unsigned char  u8;
@@ -22,33 +23,31 @@ typedef unsigned int   u32;
 
 extern u8 *g_021A8264;
 extern void func_0215631C(void);
-extern void func_021AEF6C(u32, u32, u32);
+extern void func_021AEF6C(void *, int, int);
 extern void func_021AF18C(void (*)(void));
 
-void func_02156344(u32 a)
+void func_02156344(void *a)
 {
-    u8 *g;
-    u32 v = 1;
+    u32 v;
     *(u16 *)(g_021A8264 + 0x794) = 1;
     *(u32 *)(g_021A8264 + 0x790) = 1;
     *(u16 *)(g_021A8264 + 0x796) = 1;
-    g = g_021A8264;
-    if (*(u32 *)(g + 0x76c) == 0) {
-        switch (*(u32 *)(g + 0x77c)) {
-        case 0:
-        case 1:
-            break;
+    if (*(u32 *)(g_021A8264 + 0x76c) == 0) {
+        v = 1;
+        switch (*(u32 *)(g_021A8264 + 0x77c)) {
         case 2:
-            v = 2;
+            v = 1;
             break;
         case 3:
-            v = 3;
+            v = 2;
             break;
         case 4:
-            goto d;
+            v = 3;
+            break;
         case 5:
+            v = 4;
+            break;
         default:
-        d:
             v = 4;
             break;
         }

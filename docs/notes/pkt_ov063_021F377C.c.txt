@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 D89C reads two, B7A84 reads five; 06148 return forwards to 061F8, corrected; 2 matched 36C0/3758/376C confirm context; 3 SDK const vector inputs compiled with no change; 4 fixed-float and multiply/add idioms read, explicit empty states restore table; 5 same-overlay neighbours/idioms refreshed. Next: direction/Cell stack layout and grouped interpolation vector stores.
- * runs: 3 iteration + 1 combined arity/const check
- * residual: 1402 concrete bytes; compiled 1516, original code/pool ends 021F3D74 (1528, delta -12); handed 1572 includes trailing rodata. B3D0/B388 forwarded overlay leaves unresolved; caller still DIFF.
+ * checks: 1 own B7A84/B7D50 and narrowed ov010/ov021 callers confirm arities; 2 matched 36C0/3758/376C and neighbours refreshed; 3 unsigned table Cell and signed local Cell reduce DIFF1166 to 730, raw halfword buffer worse 1466/+24, const vector inputs retained; 4 grouped vector stores and reversed stack-local declarations tried (two scheduling variants), stack-object/fixed-float idioms read; 5 fresh idioms and neighbours, no new twin. Next: original height spill and frame layout; leave ov021 blockers to Ilias.
+ * runs: W75 five fixed one runs plus baseline explain and first permuter300; prior four fixed runs retained as history, not repeated.
+ * residual: 730 concrete bytes; compiled 1528, original code/pool ends 021F3D74 (1528, delta 0); handed 1572 includes trailing rodata. Relocations 77/79: ov021 B3D0/B388 unresolved and Ilias-owned, not filed.
+ * search: macro-free emitted baseline agrees DIFF730/1528. Permuter300 best DIFF663 rejected: tmp2 = s->scene lies after case0 break and is bypassed by case1; tmp = s->delta.y lies after case4 break and is bypassed by case5. Both cases read uninitialized temporaries. Search consumed; do not repeat.
  * symbols:
  *   func_0219E764 0x0219E764 thumb ov021
  *   func_0207CDB8 0x0207CDB8 arm
@@ -65,7 +66,8 @@ typedef unsigned int u32;
 typedef long long s64;
 typedef struct {int x,y,z;} Vec;
 typedef struct {s16 x,y,z;} SmallVec;
-typedef struct {s16 a,b,c,d;} Cell;
+typedef struct {u16 a,b,c,d;} Cell;
+typedef struct {u16 a,b; s16 c; u16 d;} LocalCell;
 typedef struct {u32 state;int scene,entity;void *obj;int model,map,player;u32 pad1c;Vec start,end;SmallVec dir;u16 pad3e;int step,count;Vec oldpos,oldlook,delta,lookdelta;Cell cell;int f80;} S;
 extern void func_0219E764(int,SmallVec *);
 extern void func_0207CDB8(SmallVec *,SmallVec *);
@@ -112,10 +114,11 @@ extern void func_0216DB04(int);
 static inline int fxmul(int a,int b) {return (int)(((s64)a*b+2048)>>12);}
 void func_021F377C(int unused,S *s)
 {
- int n,terrain,height,valid,i,bound,length,scale,y,z;
- Cell cell;
+ int n,terrain,height,valid,i,bound,scale,y,z;
+ Vec origin,delta,point,pos,look,finalpos;
  SmallVec dir;
- Vec finalpos,look,pos,point,delta,origin;
+ LocalCell cell;
+ int length;
  switch(s->state) {
  case 0:
   func_0219E764(s->model,&dir);dir.y=0;func_0207CDB8(&dir,&dir);
@@ -131,10 +134,10 @@ void func_021F377C(int unused,S *s)
   cell.a=s->cell.a;cell.b=s->cell.b;cell.c=s->cell.c;cell.d=s->cell.d;
   height=func_021B7D50(terrain,&s->cell);
   valid=0;
-  if(!(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)) valid=1;
+  if(!(func_021AB0F8(func_021BB3C4(s->scene,(Cell *)&cell))&1)) valid=1;
   cell.c+=2;if(cell.c>height) cell.c=height;
   bound=(u16)(height+cell.c);
-  for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4(s->scene,&cell))&1)break;s->cell.a=cell.a;s->cell.b=cell.b;s->cell.c=cell.c;s->cell.d=cell.d;valid=1;}
+  for(i=0;i<bound;i++) {cell.c--;if(func_021AB0F8(func_021BB3C4(s->scene,(Cell *)&cell))&1)break;s->cell.a=cell.a;s->cell.b=cell.b;s->cell.c=cell.c;s->cell.d=cell.d;valid=1;}
   if(!valid) {s->state=9;return;}
   func_021B7D38(terrain,&s->cell,&s->end);
   func_0207CA00(&s->end,&s->start,&delta);length=func_0207CBD0(&delta);func_0207CCA4(&delta,&delta);
@@ -162,7 +165,7 @@ void func_021F377C(int unused,S *s)
   else {
    if(s->step>0) n=(int)(0.5f+(float)(s->step<<12));else n=(int)((float)(s->step<<12)-0.5f);
    scale=fxmul(n,0x8000);
-   point.z=s->start.z+fxmul(s->dir.z,scale);point.y=s->start.y+fxmul(s->dir.y,scale);point.x=s->start.x+fxmul(s->dir.x,scale);
+   z=s->start.z+fxmul(s->dir.z,scale);y=s->start.y+fxmul(s->dir.y,scale);point.x=s->start.x+fxmul(s->dir.x,scale);point.y=y;point.z=z;
    if(s->step%2==0)func_021AC528(s->model,s->map);
   }
   if(s->obj!=0)func_021A3044(s->obj,&point);else func_0216D89C(s->model,&point);
@@ -186,5 +189,4 @@ void func_021F377C(int unused,S *s)
  case 2:case 3:case 6:case 7:case 9:break;
  }
 }
-
 

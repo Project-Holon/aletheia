@@ -7,7 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * Superseded by src/matched/ov/ov011_func_021756B0.c: the existing ternary
+ * loop-condition idiom preserves the entry branch and matches all32B.
  * checks: 1 n/a no callees or forwarded arguments; 2 no same-table twin, neighbouring 021756D0 has identical rotation residue; 3 mutable table no change, enum counter with unsigned bound 36B/29-byte DIFF; 4 enum and while-loop idioms read, enum iteration 36B/29-byte DIFF and goto 32B/27-byte DIFF; 5 idiom names and ov011 neighbours re-read, no stack object. Next hypothesis would be an evidence-backed original source type or loop-front-end shape; no sweep performed.
  * Best: run1 below, 32 compiled bytes, 27 concrete bytes differ, ABS32 table resolved sole-ref.
  * Original initial movs r3,#0; ldr r2,=table; b test is folded to ldr r2; movs r3; loop body.
@@ -29,6 +31,6 @@ extern const u16 d_02176B08[];
 int func_021756B0(int value)
 {
     unsigned int i;
-    for (i = 0; i < 162; i++) if (value == d_02176B08[i]) return 1;
+    for (i = 0; (i < 162) ? 1 : 0; i++) if (value == d_02176B08[i]) return 1;
     return 0;
 }

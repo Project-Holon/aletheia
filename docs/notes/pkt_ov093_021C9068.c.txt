@@ -23,6 +23,16 @@
  *   uninitialised reads, volatile or changed control flow accepted.
  * lever: scalar declaration order fixes spills; inline &p->work prevents
  *   its address and msg address from hoisting outside the outer loop.
+ * fresh-pass: W75 R13, 4 fixed-flag runs. Inner-scope work pointer hoists
+ *   and regresses to DIFF 65; enum arg unchanged at 18; redundant second
+ *   work assignment hoists and gives 64. Three nonshrinking changes stopped
+ *   iteration. Correct pointer return for B9934 keeps DIFF 18.
+ * checks: 1 own B9934/C5620/C56A8/C99A0 bodies reread, pointer return compiled;
+ *   2 C8E58/C8FA4 refreshed; 3 full-width enum arg compiled unchanged,
+ *   prior const checks retained; 4 subrecord/typed-pointer/second-assignment
+ *   idioms read; 5 idioms relisted, neighbours refreshed, Slot storage agrees.
+ * permuter: prior 300-candidate pass consumed and not repeated. No arg
+ *   narrowing accepted: original forwards the full word into the veneer.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021C5A1C 0x021C5A1C thumb ov093
@@ -58,7 +68,7 @@ struct Context {
     u8 gapc[0x1ae4 - 12];
     struct Msg work;
 };
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *, u8);
 extern void func_021C5A1C(u8 *, u8 *);
 extern void func_021C5A34(u8 *, u8 *);
 extern int func_021D5B7C(void *);

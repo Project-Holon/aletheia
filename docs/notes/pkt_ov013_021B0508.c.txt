@@ -1,37 +1,19 @@
 /*
  * function: func_021B0508
- * address:  0x021B0508
- * packet:   pkt_ov013_021B0508
- * region:   ov013
+ * address: 0x021B0508
+ * packet: pkt_ov013_021B0508
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * Initialise the TCV session state: G(0x021B3C84).f0 = func_02087170(),
- * mode +0x1C = 0 or 4 from d_021B60D8.f10, +0xC from the (a, b) byte pair
- * at 0x021B3AD0[mode], clear the six counters at 0x021B42C0+0x8C0, then
- * reset the three slots (0x021B3CB0[i] = 0, func_021B16E4(i),
- * func_021B19BC(&slot[i], i, -1)).
- *
- * DIFF, 12 of 62 instructions (45 bytes) differ (lane B2, 14 runs): same
- * size, every relocation resolved; one basic block is scheduled
- * differently. Original: after the f10 load it places mov sb, #0 (the
- * zero later used for the 42C0 stores, the loop counter and the NULL
- * store), stores +0x1C through the base still in r2, then loads the pair
- * table into r2 and reloads the 3C84 base into r1 after the byte loads;
- * 0x440 goes to r4. This source reloads the base into r1 and the table
- * into r0 before the +0x1C store, emits mov sb, #0 after the byte loads,
- * and puts 0x440 in r2. Levers that helped: the loop condition as
- * (i < 3) ? 1 : 0 (the original enters the loop at its bottom test;
- * see a-loop-entered-by-a-branch-to-its-bottom-test-has-a-ternary-
- * condition), a Pair pointer local (one pool word for the table, not
- * two). Tried without effect: mode as a ternary stored straight to +0x1C
- * and re-read, the +0xC value in a temporary before the 0x440 store, if/else
- * for the mode (worse, 59), i = 0 at the top (worse, 58) or just before
- * the mode test (same), an asm block (worse, 68).
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Initialize TCV session state, six counters and three request slots.
+ * residual: DIFF 248/248 bytes, 45 concrete bytes differ; all 13 relocations resolved.
+ * evidence: pairValue inline preserved 45; delayed f24 through reused k gave 46, enum zero/counter initialization gave 86; enum mode and long counter stayed 45. Callee 021B19BC corrected to char*, int, int from its matched source.
+ * permuter: first typed budget-300 pass emitted baseline/best 45; no improvement. Search consumed.
+ * prior evidence: ternary loop condition and Pair pointer fix loop rotation/pool count. Mode if/else gave 59, early i=0 gave 58 or tied; temporary value and stored ternary mode did not help. Remaining f1C/table/zero/0x440 scheduling is one basic block.
+ * checks: 1 own callee definitions/assembly rechecked, 021B19BC has three arguments; 2 same-overlay session neighbours, no exact twin; 3 enum mode/long counter both 45; 4 inline-argument/enum-zero/store-order idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3C24     0x021B3C24  data  ov013  a4
@@ -47,7 +29,6 @@
  *   func_021B12FC  0x021B12FC  arm  ov013
  *   func_021B3364  0x021B3364  arm  ov013
  */
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -99,10 +80,16 @@ extern Slot d_021B3CBC[3];
 extern u16 func_02087170(void);
 extern void func_021B3250(void);
 extern void func_021B16E4(u32 i);
-extern void func_021B19BC(Slot *p, u32 i, int a2);
+extern void func_021B19BC(char *p, int i, int a2);
 extern void func_021B12FC(void);
 extern void func_021B3364(void);
 
+static inline u32 pairValue(u32 k)
+{
+    const Pair *p;
+    p = &d_021B3AD0[k];
+    return p->a * 0x44 + p->b + 0xC;
+}
 int func_021B0508(void)
 {
     u32 i;
@@ -119,8 +106,7 @@ int func_021B0508(void)
     }
     d_021B3C84.f1C = k;
     d_021B3C84.f24 = 0x440;
-    pair = &d_021B3AD0[k];
-    d_021B3C84.fC = pair->a * 0x44 + pair->b + 0xC;
+    d_021B3C84.fC = pairValue(k);
     d_021B42C0.f8C0 = 0;
     d_021B42C0.f8C4 = 0;
     d_021B42C0.f8CC = 0;
@@ -131,7 +117,7 @@ int func_021B0508(void)
     for (i = 0; (i < 3) ? 1 : 0; i++) {
         d_021B3CB0[i] = 0;
         func_021B16E4(i);
-        func_021B19BC(&d_021B3CBC[i], i, -1);
+        func_021B19BC((char *)&d_021B3CBC[i], i, -1);
     }
     func_021B12FC();
     func_021B3364();

@@ -1,0 +1,43 @@
+/*
+ * function: func_02162D90
+ * address: 0x02162D90
+ * packet: pkt_ov010_02162D90
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * lever: const source pointer schedules fa between the signed load and output store.
+ * following: two-byte alignment padding at 0x02162DFE.
+ * symbols:
+ *   func_02162C54 0x02162C54 thumb ov010
+ *   func_02162AA4 0x02162AA4 thumb ov010
+ *   func_0201441C 0x0201441C thumb
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef short s16;
+struct Sub { u16 f0; u16 f2; s16 f4; u16 f6; u16 f8; u16 fa; };
+struct Box { u16 pad0[4]; struct Sub s; };
+struct Out { u16 f0; u8 f2; u8 f3; s16 f4; u16 f6; };
+extern int func_02162C54(const struct Box *b);
+extern u16 func_02162AA4(int q, int m, int a, int b, u16 n);
+extern u8 func_0201441C(int m);
+void func_02162D90(const struct Box *b, int q, struct Out *o)
+{
+    const struct Sub *s = &b->s;
+    int m = func_02162C54(b);
+    u16 fa;
+    o->f0 = b->s.f0;
+    o->f2 = 1;
+    o->f3 = func_0201441C(m);
+    o->f4 = s->f4;
+    fa = s->fa;
+    o->f6 = s->f2;
+    if (s->f8 > 1) {
+        o->f4 = o->f4 + (s16)func_02162AA4(q, m, 1, fa, s->f8);
+    } else if (s->f6 > 1) {
+        o->f6 = o->f6 + func_02162AA4(q, m, 1, fa, s->f6);
+    }
+}

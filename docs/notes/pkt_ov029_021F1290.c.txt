@@ -1,35 +1,17 @@
 /*
  * function: func_021F1290
- * address:  0x021F1290
- * packet:   pkt_ov029_021F1290
- * region:   ov029
+ * address: 0x021F1290
+ * packet: pkt_ov029_021F1290
+ * region: ov029
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 func_021F0C70 takes 4 (h,c,x,y), func_021F0D14 4 (x,y,&A,&B), returns int; 2 no twin; 3 c as u16, t as u8 (93 B), idx types no change; 4 a-subscript-over-a-pointer-sum-associates-the-way-it-is-parenthesised: (tbl + c*5)[t], *(tbl + c*5 + t), t + c*5 all 25-26 B; the-accumulator-of-a-commutative-chain-is-its-second-operand: either | order identical; 5 n/a
- *
- * Best (retry lane R2, claude-opus-5-5): 172 bytes, same size, 25 bytes differ
- * (was 49). What closed 24 bytes: the byte table is two-dimensional
- * (`d_021F323C[c][t]`, row 5; the original adds the row base before the ldrb),
- * the row pointer local is gone (`buf[bb * 32 + aa]` directly: buf now spills
- * to [sp,#4] and k to [sp,#8] as in the original), `s = ...; s = s << 12;` as
- * two statements, the declaration order the permuter found (A first, tbl
- * after j), and buf assigned through an initialised `tmp` local (without it,
- * 30 B).
- * Residue, all in the loop preheader and inner body:
- *   original: ldr r2,=tbl ; mov ip,r1 ; movs r1,#0 ; str r1,[sp,#8] ; c*5 in r1 ;
- *             adds r1,r2,r1 ; ldrb r0,[r1,r0] ; lsls r7,r4,#2 (w*4) ; lsls r6,r0,#12
- *   this C:   w*4 into r6 first, c*5 into r2, ldrb r1,[r0,r1], then k=0, s<<12 into r7;
- *             inner `adds r1,r7,#0 ; ... orrs r1,r0` where the original has
- *             `adds r1,r0,#0 ; orrs r1,r6`.
- * Putting `<< 12` (or the whole lookup) inside the inner loop so LICM hoists it
- * does put k=0 ahead of the lookup, as in the original, but hoists w*4 above it
- * too and spills c: 176 B (116 differ), either operand order of the `|`.
- * permuter --types: 300 from the 49 B spelling reached this one; 600 more
- * (seed 7) from this one found nothing below 25.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 freshly read 021F0C70(4) and 021F0D14(4), 0204162C(1); 2 021F0C00/EFF58 callers and table layout, no full twin; 3 s u16 gives 86/172, unsigned s 25/172, enum s 27/172; enum k 97/176, unsigned c 25/172; 4 enum/commutative/stack-local idioms read; 5 directory and ov029/ov028/ov030 neighbours refreshed, no new twin.
+ * residual: DIFF 172/172, 25 concrete bytes, all 6 relocations resolved. Loop preheader k-zero, table lookup/w*4 order and inner OR register colours remain.
+ * prior: Old 300-candidate types search reached 25 from 49, then an old 600-candidate seed7 search was also consumed; neither repeated. Preserve tmp initialization, 2-D byte table, copied six-word table and direct buf[bb*32+aa]. LICM whole lookup previously gave 116/176; pointer/subscript and OR orders 25-26.
+ * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   func_021F0D14  0x021F0D14  thumb  ov029
@@ -42,6 +24,7 @@
 typedef struct {
     int v[6];
 } S13Tbl;
+typedef enum { CounterZero } Counter;
 
 extern int func_0204162C(int);
 extern void func_021F0D14(int, int, int *, int *);
@@ -56,7 +39,7 @@ void func_021F1290(int h, int x, int y, int w)
     unsigned short *buf;
     int aa;
     int B;
-    int c;
+    unsigned int c;
     int t;
     int s;
     int bb;

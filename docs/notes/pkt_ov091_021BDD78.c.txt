@@ -7,10 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * residual: DIFF 20 concrete bytes at 1340/1340, 82/82 relocations resolved; s2 and s4 exchange sp+0xC/sp+4 throughout their stores, comparisons, and sums.
- * budget: 6 iterations; stopped at 3 consecutive nongains; 5 runs since first nongain r2; manual ordering 2/2; checks 0,0,2,0,0; once-300 permuter complete.
- * checks: 1 own callee interfaces and caller narrowing verified, all 82 relocations resolved; 2 BBE74/BE874/BE9BC read, no six-stat twin; 3 heap u16 gives 1336/1298, const a CCERR on mutable callees; 4 declaration/accumulator/byte-width idioms read, HP u16 and EV u8 add truncations; 5 fresh unfiltered idioms and ov090/ov091/ov092 neighbours checked, no new lever; next mixed EV-width sweep unavailable (check 3 exhausted).
+ * status: MATCH
+ * residual: MATCH 1340/1340,81/82 resolved; zero concrete byte differences.
+ * blocker: ARM9 02020F34 lacks an outside witness; Ilias owns it. No leaf attempted.
+ * renewed: wave75 R30 direct s2/s4 declaration swap fixes all 20 bytes; one and TU agree.
+ * checks: 1 own ARM9 getter interfaces and BE9BC re-read; 2 no additional twin; 3 direct spill-slot declaration correction; 4 spill-order idiom; 5 fresh neighbours. TU suggest-split has no cut for 02020F34. Prior permuter remains spent.
  * permuter: temp(tmp=v > 0) only in final stat block; decl-order(s5<->s1); no type/signature change, all reads assigned before use.
  * ABI: heap is narrowed before 02020F34; its extern uses u16 to retain that caller truncation.
  * symbols:
@@ -42,9 +43,9 @@ int func_021BDD78(void *a, u32 id, u32 slot, u32 heap)
   u32 hp;
   int i;
   long s1;
-  long s4;
-  long s3;
   long s2;
+  long s3;
+  long s4;
   long s5;
   long s0;
   int flag;

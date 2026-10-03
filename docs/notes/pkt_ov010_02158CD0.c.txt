@@ -1,4 +1,3 @@
-/* NOTE: DIFF: with per-field d[i].x indexing registers match (o3 in r7) but base pool word is reloaded per field; with a local base pointer or an e=&t[i] local the allocation changes (o3 to r6/stack) */
 /*
  * function: func_02158CD0
  * address:  0x02158CD0
@@ -10,11 +9,13 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * checks: 1 matched 02013AD0 confirms helper arity/halfword fields; 2 no same-table twin; 3 const table118 but uncertain mutability, u16 v worse154, direct global accesses188B; 4 table/pointer idioms read; 5 neighbours and idioms re-read, old best restored; permuter300 consumed, baseline126 agrees, decl-order mutant128 rejected.
+ * blocker: DIFF126, compiled160/original168; base/index fold and output-pointer allocation. Table pool witness remains unresolved until codegen matches.
  * symbols:
  *   func_02034714  0x02034714  arm
  *   func_02013B5C  0x02013B5C  thumb
  *   func_02013B68  0x02013B68  thumb
- *   d_021701A8     0x021701A8  data  ov010
+ *   d_021701A8     0x021701A8  data  a4
  *   d_02172898     0x02172898  data  ov010  a1
  */
 

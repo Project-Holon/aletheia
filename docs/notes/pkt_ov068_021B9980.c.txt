@@ -2,7 +2,7 @@
  * function: func_021B9980
  * address:  0x021B9980
  * packet:   pkt_ov068_021B9980
- * hint:     lane B9's two levers (second enum zero, inline wrapper) measured by lane R1: no change; the copies start at func_02049DF4's r2, the first call after BDC with a non-constant r3 (p + 0x58): look there
+ * hint:     renewed wave75 R28 also ruled out nominal enum argument/zero separation and DF4's true u32 fourth parameter; inspect the surviving r5 zero lifetime after BDC, without repeating old enum/wrapper/permuter searches
  * region:   ov068
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -11,6 +11,14 @@
  * status:   DIFF
  * checks:   1 arity from the callees' own arm9 files (sub_02049658/sub_020498F4 and func_02049BDC take 7 with a u16 heap, sub_02049B68 takes 6, func_02049DF4 takes 5) and from the caller ov068 func_021B9850 (func_021B9980(p, a), heap 0x1c from 021B95A0); 2 no twin with this zero shape (ov069_func_021B98AC passes heap as the constant 0x80; ov067_func_021B6DC0 and ov018_func_0217D918 load bg templates but not this zero web); 3 heap u16 (param and callee params) no change, z as u8/u16/s16 no change or worse, int callee params no change; 4 an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-folded applied (10 -> 8 bytes), a-constant-built-as-movs-then-adds-or-subs-one-is-an-enum-local read, neither covers the mixed zeros; 5 re-listed docs/idioms (ls -t), nothing new fits
  * runs:     7 + 1x4 + permuter
+ *   wave75 R28: 5 one calls (3 iteration, 2 check-3), no sweeps/permuter.
+ *   Renewed checks: 1 own callee files confirm 658/8F4/BDC seven, B68 six,
+ *   DF4 five (fourth u32, fifth u16), F34 four; 2 same overlay-69 initializer
+ *   still lacks this mixed zero web; 3 distinct enum formal types and local
+ *   cz keep 8 bytes, DF4 scalar u32 keeps 8, const p initially CCERR then
+ *   corrected casts give 12; 4 zero-rematerialisation and enum-web idioms
+ *   checked, no new applicable spelling; 5 idiom directory refreshed.
+ *   Best stays this 492-byte draft / 8-byte DIFF. Old permuter consumed.
  * residue:  492 vs 492 bytes, 8 bytes differ. The image keeps a zero in r5 (enum z) for the
  *   stack zeros and for the final func_020450F0(0,0,0,..) / func_02040588(4,0), but writes a
  *   fresh movs rX,#0 for r2 of func_02049DF4 (+0x10C) and r3 of the late B68/658/8F4 calls
@@ -20,8 +28,9 @@
  *   Tried: id local in the loop (437 -> 10 bytes), enum z (10 -> 8), z only in the final
  *   group (10), z only in the middle group (8), z assigned at the top (worse); permuter
  *   --types 300 best 8, no improvement.
- *   Next: a second enum zero for the late group, or the late calls behind a static inline
- *   wrapper so their literal 0s stay constants outside the z web.
+ *   Next: an evidence-backed lifetime boundary that keeps r5 for stack zeros
+ *   while preventing its use as the late register-zero source; nominal enum
+ *   splitting and inline wrappers are already exhausted.
  *   Retry (lane R1, 6 runs + 0 sweeps, all still the same 4 sites / 8 bytes): both levers
  *   above measured: the five late calls (DF4 and B68/658/8F4/658) inside a static inline
  *   taking (h, p, heap, z); a second enum zero z2 = Z0 for every z use after BDC, assigned

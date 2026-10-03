@@ -2,7 +2,11 @@
  * function: func_021756D0
  * address:  0x021756D0
  * region:   ov011  (thumb, dsi/1.1p1, -O4,p)
- * status:   DIFF (14 concrete bytes, loop shape only)
+ * status:   EXACT*
+ * packet: pkt_ov011_021756D0
+ * checks: 1 no callees; 2 neighbouring B0 shares loop shape; 3 old widths recorded; 4 ternary condition EXACT*; 5 existing matched F0 follower confirmed.
+ * Superseded by src/matched/ov/ov011_func_021756D0.c: ternary loop
+ * condition reproduces all32 lead bytes; existing F0 follower remains separate.
  *
  * 28-entry u16 table search. The original keeps the loop un-rotated:
  *
@@ -35,7 +39,7 @@ int func_021756D0(u32 x)
 {
     u32 i;
 
-    for (i = 0; i < 0x1c; i++) {
+    for (i = 0; (i < 0x1c) ? 1 : 0; i++) {
         if (x == tbl_02176AD0[i]) {
             return 1;
         }

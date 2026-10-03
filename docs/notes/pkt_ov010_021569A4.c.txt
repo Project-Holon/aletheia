@@ -1,14 +1,83 @@
-=== 2026-09-28 tree_ov010_4 ===
-Filed source (src/pending/ov010_func_021569A4.c) is 2 bytes out: the image loads
-w->party into r6 (the register m then takes), 1.1p1 uses r3.
-Flat at 2: a Party *p local (declared first or last), an inline getter over Work
-or Party, `*(members + idx)`, int idx, int tie, a u16 `cur` local for the score.
-Worse: m assigned before the counters (17), a u16 *score pointer (57), int max (35).
-Other compilers on the filed source: ../2.0/sp2 8 out, ../1.2/sp2 and ../1.2/base 33.
-Earlier lanes: declaration order (120 permutations), init order, permuter seed 8701 flat.
-=== 2026-09-28 tree_ov010_4 (relaunch) ===
-Still 2 bytes (w->party in r3, image r6). Flat at 2: do/while loop, a Party *p
-local, `m = (Member *)w->party; m = ((Party *)m)->members[idx]` (one variable
-reused). Worse: `((Member **)w->party)[idx + 1]` (9), ternary return (8), the
-score read inline through w->party each time (62), p and m assigned before the
-counters (17).
+/*
+ * function: func_021569A4
+ * address:  0x021569A4
+ * packet:   pkt_ov010_021569A4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 n/a no callees or argument setup; 2 56954/56978 confirm member/party shape, no exact twin; 3 const Work/Member/Party flat2; 4 dying-pointer allocator and const-struct idioms read; 5 refreshed all idioms and matched 56954/56978, no new lever; next hypothesis distinct pointer payload type rather than consumed declaration-order sweep.
+ * Wave 75 fresh pass: const Work, integer member address, const Member and const Party pointee all flat2/72 B. Old seed8701 consumed; never rerun.
+ * Prior recorded evidence (retained):
+ * === 2026-09-28 tree_ov010_4 ===
+ * Filed source (src/pending/ov010_func_021569A4.c) is 2 bytes out: the image loads
+ * w->party into r6 (the register m then takes), 1.1p1 uses r3.
+ * Flat at 2: a Party *p local (declared first or last), an inline getter over Work
+ * or Party, `*(members + idx)`, int idx, int tie, a u16 `cur` local for the score.
+ * Worse: m assigned before the counters (17), a u16 *score pointer (57), int max (35).
+ * Other compilers on the filed source: ../2.0/sp2 8 out, ../1.2/sp2 and ../1.2/base 33.
+ * Earlier lanes: declaration order (120 permutations), init order, permuter seed 8701 flat.
+ * === 2026-09-28 tree_ov010_4 (relaunch) ===
+ * Still 2 bytes (w->party in r3, image r6). Flat at 2: do/while loop, a Party *p
+ * local, `m = (Member *)w->party; m = ((Party *)m)->members[idx]` (one variable
+ * reused). Worse: `((Member **)w->party)[idx + 1]` (9), ternary return (8), the
+ * score read inline through w->party each time (62), p and m assigned before the
+ * counters (17).
+ *
+ * Index of the member's best score slot, or 4 on a tie for the best.
+ *
+ * DIFF, 2 bytes: the w->party temporary lands in r3, the original uses r6
+ * (the register m then takes). Declaration order (120), init order, body
+ * order, pointer spellings, parameter width and permuter seed 8701 are flat;
+ * see docs/notes/pkt_ov010_021569A4.c.txt.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef short s16;
+
+typedef struct Member {
+    u8 pad00[0x4A];
+    u16 total;          /* 0x4A */
+    u16 score[4];       /* 0x4C */
+} Member;
+
+typedef struct Party {
+    u32 f00;
+    Member *members[4]; /* 0x04 */
+} Party;
+
+typedef struct Work {
+    u8 pad00[0x30];
+    Party *party;       /* 0x30 */
+} Work;
+
+u8 func_021569A4(Work *w, u8 idx)
+{
+    u8 best;
+    u8 i;
+    u8 max;
+    u8 tie;
+    Member *m;
+
+    max = 0;
+    best = 0;
+    tie = 0;
+    m = w->party->members[idx];
+    for (i = 0; i < 4; i++) {
+        if (max < m->score[i]) {
+            tie = 0;
+            best = i;
+            max = m->score[i];
+        } else if (max == m->score[i]) {
+            tie = 1;
+        }
+    }
+    if (tie == 1)
+        best = 4;
+    return best;
+}

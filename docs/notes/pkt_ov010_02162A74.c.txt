@@ -9,8 +9,10 @@
  * isa: thumb
  * status: DIFF
  * blocker: 17 concrete bytes differ; compiled 42 versus listed 48 bytes.
- * checks: 1 no calls, fifth slot read ldrh; 2 own caller 0215B214 passes full int index without truncation and trailing u16s; u32 index/raw wrapping record address compiled c99 DIFF17/42 in remaining check2 slot; 3 prior const Ctx and u16 index both DIFF17, cap spent; 4 prior nested payload helper/raw first store same residue; 5 fresh idiom listing and ov010/ov021 neighbours give no closing twin, no stack object. No new scheduling variant or sweep.
- * budgets: carried iteration3 closed(two nonshrinks), check2 1/2, check3 2/2, check4 1/2, check1/5 readonly, total7; incremental check2 1=>2/2,total8. Once300 --types permuter now spent; no reset.
+ * checks: 1 no calls, fifth slot ldrh; 2 matched caller 0215B214 passes full-word index and trailing u16 payloads; 3 word a/b input widths compiled unchanged DIFF17, old const Ctx/u16 index unchanged; 4 integer-address payload helper/raw record base each DIFF20 versus original typed best17; 5 fresh idiom listing and matched ov010/ov021 neighbours, no closing twin or stack aggregate. No new sweep proposed; consumed once300 search not repeated.
+ * newpass: word a/b input widths preserve original full-word stores/shifts,
+ * DIFF17/42; integer-address inline payload helper and raw integer record
+ * base each DIFF20/44. Three nonshrinking hypotheses, original best retained.
  * permuter: best DIFF11/46 rejected: type:ret-var(r) changes void to Rec* and returns uninitialized r when either guard fails. Keep verified DIFF17/42. Logs scratchpad/overlay-goal-20261001-w50/R1/a74-check2-r8.log and perm-a74.log, terminal exits1.
  * domain: full unsigned comparison against n and modulo32 record address preserve all index bits; no array-size or initialized-record assumption.
  */

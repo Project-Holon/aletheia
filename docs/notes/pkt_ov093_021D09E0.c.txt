@@ -7,19 +7,23 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: compiled 302 of 304 extent bytes; nine concrete bytes differ.
- * Entry stores count after copying target/order instead of before; first
- * outer-loop latch loads count before storing the incremented index. The
- * entire remaining body and all ten relocations agree; two trailing zeros.
- * checks: 1 matched callees/callers prove arities 1,2,1,1,2,2,1,1,1,2;
- *   2 neighbour 021D0644 supplies signed type/kind and accessor widths; no
- *   full sorting twin; 3 count u8/u16/u32/int, const p, wide i, type/n/kind
- *   widths tried; signed type/kind restore spills; 4 declaration-order,
- *   block-scope, narrow-result and struct-stack idioms read; 5 directory
- *   and neighbours reread, array offsets agree so struct substitution does
- *   not address residue. One 300-budget types permuter used; best mutant
- *   adds volatile(kind), rejected. Next hypothesis: prototype scheduling.
+ * residual: 302/304 bytes, nine concrete bytes differ; count home-store at
+ * entry and count reload at first loop latch reorder; two trailing zeros.
+ * checks: 1 matched D57FC proves pointer argument; B9C00 u32 index and
+ * D54C0 int index corrected; explicit Thumb ARM9 symbols resolve all ten
+ * sites, prototypes alone unchanged; 2 D0644/D0D50/CFBF0 prove byte count
+ * and pointer target, no sorting twin; 3 byte count/pointer target,
+ * separate sort index, copied bound and p const/nonconst unchanged;
+ * 4 narrow-parameter home/spill, separate-index, declared-stack-object,
+ * masked-local and truncated-load idioms read; 5 directory/neighbours
+ * reread, scores array offsets agree and no new stack-shape lever.
+ * renewed pass: six runs; stopped after three nonshrinking changes.
+ * permuter: prior 300 --types consumed; best volatile(kind) mutant rejected;
+ * search not repeated. Next: front-end count homing/enum-bound hypothesis.
  * symbols:
+ *   func_0201C314 0x0201C314 thumb
+ *   func_0201C1C8 0x0201C1C8 thumb
+ *   func_0201C1D8 0x0201C1D8 thumb
  *   func_021D57FC 0x021D57FC thumb ov093
  *   func_021B9C00 0x021B9C00 thumb ov093
  *   func_021D5B68 0x021D5B68 thumb ov093
@@ -31,17 +35,17 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u16 func_021D57FC(int);
-extern void *func_021B9C00(void *, u8);
+extern u16 func_021D57FC(void *);
+extern void *func_021B9C00(void *, u32);
 extern int func_021D5B68(void *);
 extern u8 func_021D5448(void *);
 extern u8 func_021D5584(void *, u32);
-extern u16 func_021D54C0(void *, u8);
+extern u16 func_021D54C0(void *, int);
 extern int func_0201C314(u32);
 extern u8 func_0201C1C8(u32);
 extern u16 func_0201C1D8(u32);
 extern int func_021D799C(int, int);
-void func_021D09E0(const u8 *p, u8 *order, int count, int target)
+void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
 {
     u16 scores[6];
     int type;

@@ -9,14 +9,22 @@
  * isa:      thumb
  * status:   DIFF
  *
- * Near miss (DIFF, 184 vs 180 B). Semantics recovered: 8x8-tile deswizzle,
- * dst[i] = src[(r/t + w*(q/8))*d + (q%8)*t + r%t] with q=i/(w*t), r=i%(w*t),
- * w/h/t = (u32)(x<<13)>>16 of three accessors, d = raw func_02043994.
- * Blocker: allocation. The image keeps w*t spilled at sp+0x10 (stored once
- * before the loop, reloaded at the loop top), q in r4, i in r5, rem in r7, and
- * the stack order src 0x18, dst 0x14, total 0xc, w 8, d 4; every spelling tried
- * (stride local before the loop, inline w*t, declaration order src,dst,stride,
- * total,w,d,h,t,i,q,r) puts stride in r7 and i in r4.
+ * DIFF, 17 concrete bytes, 180/180 bytes, all 9 relocations resolved.
+ * checks: 1,2,3,4,5
+ * Tile deswizzle: q=i/(w*t), r=i%(w*t), with halfword width/height returns
+ * and byte depth proven by callee bodies. Preserve signed quotient/remainder.
+ * Address grouping, enum/inline index and const/type checks were flat or
+ * CCERR. No fixed twin; aggregate/dead-store/stack idioms were consulted.
+ * Eight fixed one runs including validation of the bounded-search winner.
+ * Reasonable wave-3/S29 and legacy archive checks found no previous
+ * permuter run. once300 --types --jobs 1 --lang c99 baseline matched 96/184.
+ * Permuter 300 completed; its harmless blocks/pad/temp/index expansion
+ * gives 17/180 and fixed one agrees. This search is now consumed.
+ * Residue: spill-slot order, reversed quotient/remainder helper scheduling
+ * and a multiply register at +96. No manual sweep reopened after search.
+ * Division by zero remains possible from the observed accessor bits;
+ * this DIFF retains the old C arithmetic candidate, without a proved
+ * runtime-helper spelling for the admitted zero-divisor path.
  *
  * symbols:
  *   func_020437DC  0x020437DC  arm
@@ -25,39 +33,49 @@
  *   func_020437D4  0x020437D4  arm
  *   _s32_div_f     0x0209C0A4  arm
  */
-
 typedef unsigned char u8;
 typedef unsigned int u32;
-
-extern u32 func_020437DC(void *p);
-extern u32 func_020437E4(void *p);
-extern int func_02043994(void *p);
-extern u8 *func_020437D4(void *p);
+typedef unsigned short u16;
+extern u16 func_020437DC(const void *p);
+extern u16 func_020437E4(const void *p);
+extern u8 func_02043994(void *p);
+extern u8 *func_020437D4(const void *p);
 extern int _s32_div_f(int a, int b);
-
 void func_0216FCA0(void *a, void *b)
 {
-    u8 *src;
-    u8 *dst;
-    int total;
-    int w;
-    int d;
-    int h;
-    int t;
-    int i;
-    int q;
-    int r;
-
-    w = (u32)(func_020437DC(a) << 13) >> 16;
-    h = (u32)(func_020437E4(a) << 13) >> 16;
+  u8 *src;
+  u8 *dst;
+  int total;
+  int w;
+  int d;
+  int h;
+  int t;
+  int i;
+  int q;
+  int r;
+  u16 pad;
+  int tmp;
+  w = ((u32) (func_020437DC(a) << 13)) >> 16;
+  h = ((u32) (func_020437E4(a) << 13)) >> 16;
+  if (1)
+  {
     d = func_02043994(a);
-    t = (u32)(d << 13) >> 16;
+    t = ((u32) (d << 13)) >> 16;
     src = func_020437D4(a);
-    dst = func_020437D4(b);
-    total = w * h * d;
-    for (i = 0; i < total; i++) {
-        q = i / (w * t);
-        r = i % (w * t);
-        dst[i] = src[(r / t + w * (q / 8)) * d + (q % 8) * t + r % t];
+  }
+  dst = func_020437D4(b);
+  total = (w * h) * d;
+  for (i = 0; i < ((w * h) * d); i++)
+  {
+    q = i / (w * t);
+    r = i;
+    do
+    {
+      r = r % (w * t);
+      tmp = i / (w * t);
+      dst[i] = src[((((r / t) + (w * ((i / (w * t)) / 8))) * d) + ((tmp % 8) * t)) + (r % t)];
     }
+    while (0);
+  }
+
 }

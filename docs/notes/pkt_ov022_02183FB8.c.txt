@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * New pass R24: three targeted inline address-helper spellings (plain,
+ * enum offset, explicit offset parameter) all retain the 5-byte r0/r1 swap.
+ * checks: 1 matched own 0217357C reads four args; image explicitly narrows
+ * only the fourth, so third stays wide; 2 matched twin 02183E48 re-read;
+ * 3 unsigned long x/y unchanged; 4 unsigned-long raw base preserves split
+ * offset but unchanged; 5 fresh idiom listing/neighbours, no new twin;
+ * no permuter repeat (already consumed, and follower at 0218401C).
+ * Best remains 100-byte lead, DIFF 5 with all five relocations resolved.
  *
  * DIFF: 3 instructions at +0x4A..+0x50 (one-argument address of the far
  * field): the original loads a from [sp] first and the pool word 0x2830

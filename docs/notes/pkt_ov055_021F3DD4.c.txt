@@ -8,8 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 callees' arities match (func_0216D5F8 returns u16; func_021641E8/F8 return s16 by their bodies, no change); 2 no twin; 3 64-compile width grid (d u16/int, func_021642A4 param int/u16, 021641E8/F8 return int/short and param int/u16, 0216D410 arg int/u16, 0216D5F8 return u16/int) all 26 or worse; 4 const/self-assignment (o = o; d = d; at every statement boundary, 60 compiles) flat; 5 re-read ov055_func_021F3F9C (fixed by callee widths, if/else vs ternary, u8 local): ternary for the d + 2 choice (67), one ternary guard for the f10 range test (54), u8 d (61), u8 h14, s16 sx/sy, x/y declaration order, swapped == operands all 26 or worse
- * residue:  26 bytes, one register swap only: the original homes o in r4 and d in r5, this C gives o = r5, d = r4; every other instruction is identical. Reading o->f10 inside each arm (not through a local h taken before the d <= 1 test) fixed the ldr r1,[o,#0x10] placement after cmp (28 -> 26). Flat: d0 split from d, a param reused as d, (short) casts in place of sx/sy, else-if chains, permuter --types 300 (baseline 26 = best). Next: an inline helper for the phase-one choice of d, or a permuter anneal run with a larger budget.
+ * checks: 1 own 642A4/E8/F8 and narrowed ov010 callers confirm arity; 2 refreshed ov054/055/056 no twin (4174/41F0 callers retained); 3 D5F8 pointer parameter re-derived from ov010 618E0/619B8/61B1C, void pointer payload unchanged 26; old width grids not repeated; 4 phase-choice inline and reversed-binding outer inline unchanged 26, allocator-tie idiom read; 5 fresh idioms/neighbours, no stack object. Prior permuter300 consumed and not repeated. Next: deeper source-shape evidence for the pointer/direction register tie.
+ * residue: 26 bytes, size delta 0, all 10 relocations resolved: the original homes o in r4 and d in r5, this C gives o = r5, d = r4. Reading o->f10 inside each arm fixed the load placement (28 -> 26). Earlier d0 split, parameter reuse, cast and branch-shape attempts and permuter300 (baseline 26 = best) consumed. W75 three fixed runs, phase-choice inline, reversed binding inline and re-derived pointer payload all unchanged 26; no repeated search.
  *
  * symbols:
  *   func_0216D5F8  0x0216D5F8  thumb  ov010
@@ -40,7 +40,7 @@ typedef struct O {
     u16 h16;
 } O;
 
-extern u16 func_0216D5F8(int);
+extern u16 func_0216D5F8(void *);
 extern int func_0216D83C(int);
 extern int func_0216D86C(int);
 extern u16 func_021642A4(int);
@@ -49,15 +49,8 @@ extern int func_021641E8(int);
 extern int func_021641F8(int);
 extern void func_0216D410(int, int);
 
-void func_021F3DD4(O *o, int a)
+static inline u16 choose(O *o, u16 d)
 {
-    u16 d;
-    int x, y;
-    short sx, sy;
-
-    d = func_0216D5F8(a);
-    x = func_0216D83C(o->fc);
-    y = func_0216D86C(o->fc);
     if (o->h14 != 0) {
         d = o->h16;
     } else {
@@ -70,6 +63,17 @@ void func_021F3DD4(O *o, int a)
             d = func_021642A4(d);
         }
     }
+    return d;
+}
+static inline void work(void *a, O *o)
+{
+    u16 d;
+    int x, y;
+    short sx, sy;
+    d = func_0216D5F8(a);
+    x = func_0216D83C(o->fc);
+    y = func_0216D86C(o->fc);
+    d = choose(o, d);
     sx = x + func_021641E8(d);
     sy = y + func_021641F8(d);
     if (d <= 1) {
@@ -82,4 +86,8 @@ void func_021F3DD4(O *o, int a)
     func_0216D410(o->fc, (u16)(o->ha + d));
     o->h14 = 1;
     o->h16 = d;
+}
+void func_021F3DD4(O *o, void *a)
+{
+    work(a, o);
 }

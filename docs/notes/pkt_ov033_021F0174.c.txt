@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 rederived own callees/primary matched callers, EFF48 three args/u32 out, EFEEC two args/int record, sound two/four args; 2 fresh 000C D4 allocation/EFF48/05A4 const data, no full twin; 3 u8 bestKind worsens1080/539, int bestKind unchanged161; const p/width enabled inapplicable stores preserve full word; 4 enum-zero and stack/dead-store idioms; 5 fresh 0124/05A4/neighbours/full directory; two scheduling variants exhausted.
- * residual: DIFF 1072/1072, 161 concrete bytes; all 24 relocations resolved. Earlier kind initialization/declaration grouping and enum-kind schedule variants1076/807; enum kind at original site unchanged161; sound tail still agrees.
- * permuter: once, budget 300, types, jobs 1; baseline 172 agreed. Safe decl-order(score<->allowSound) plus temp(func_02013E7C(tile)) gave 161, confirmed by one and ported.
- * next: best-record versus map/sys/old-record spill slots and bestKind zero register web remain.
+ * checks: 1 fresh own EFF48(3), EFEEC(2), EFF40(1), sound(1/2/4), context helpers(1), 02013E7C returns full-word bool; tile narrow extern preserved for observed caller truncation; 2 000C allocation D4/EFF48/05A4 layouts, no full twin; 3 u32 distance and int enabled each unchanged 161/1072; 4 block-scope record locals 192/1072, grouped best Rec 202/1072, inline saveRecord 580/1076; enum/stack/dead-store idioms read; 5 full directory and ov033/ov032/ov034 neighbours refreshed.
+ * residual: DIFF 1072/1072, 161 concrete bytes, all 24 relocations resolved. Map/sys/old-record versus best-record spill slots, bestKind zero web and later schedules remain; sound tail still agrees.
+ * prior: Old types permuter 300 consumed, not repeated. Its accepted score<->allowSound declaration order plus 02013E7C(tile) temporary improved 172 to 161. Previous kind enum/scope/grouping/initialization attempts failed; two fresh manual scheduling variants consumed.
+ * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
  * symbols:
  *   func_02024ABC 0x02024ABC thumb
  *   func_02188C80 0x02188C80 thumb ov021
@@ -34,6 +34,7 @@
  *   func_021F0AC4 0x021F0AC4 thumb ov033
  *   d_021F0DC8 0x021F0DC8 data a4
  */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
@@ -68,7 +69,7 @@ static inline Flag permit(Obj *p)
     if (p->f94 == 0) { p->f94=1; return One; }
     return One;
 }
-void func_021F0174(Obj *p, u32 enabled)
+void func_021F0174(Obj *p, int enabled)
 {
     Rec rec;
     Other *bestB;

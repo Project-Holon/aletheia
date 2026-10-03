@@ -7,7 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * checks: 1 hidden func_020127C4 argument verified from matched forwarder/twin; 2 twin 02174CCC; 3 no remaining codegen residue; 4 hidden-r0 argument idiom; 5 all four authorized ov010 forwarding leaves filed and verified.
+ * Superseded by src/matched/ov/ov011_func_02174C38.c: hidden h argument
+ * fixes r1 guard; four ov010 leaf shards resolve every relocation.
  *
  * DIFF: 2 bytes only, at +000E/+0010: original 'ldrb r1,[r5,r4]; cmp r1,#0' for the
  * if (p[0x908] != 0) guard, compiled as r0. Tried: local copy, struct member,
@@ -17,16 +20,16 @@
  *   func_02026478  0x02026478  thumb
  *   func_020127C4  0x020127C4  thumb
  *   func_02174734  0x02174734  thumb ov011
- *   func_02162024  0x02162024  thumb
+ *   func_02162024  0x02162024  thumb ov010
  *   func_021747A8  0x021747A8  thumb ov011
- *   func_02162038  0x02162038  thumb
- *   func_0216202C  0x0216202C  thumb
+ *   func_02162038  0x02162038  thumb ov010
+ *   func_0216202C  0x0216202C  thumb ov010
  *   func_021747F4  0x021747F4  thumb ov011
- *   func_02162040  0x02162040  thumb
+ *   func_02162040  0x02162040  thumb ov010
  */
 
 int func_02026478(int a);
-int func_020127C4(void);
+int func_020127C4(int h);
 int func_02174734(void *p, int b, int c);
 int func_02162024(void *p, int i, void *o);
 int func_021747A8(void *a, int b);
@@ -40,10 +43,11 @@ void func_02174C38(unsigned char *p)
     int b1[2];
     int b2[2];
     unsigned char i;
+    int h;
 
-    func_02026478(*(int *)(p + 4));
+    h = func_02026478(*(int *)(p + 4));
     if (p[0x908] != 0) {
-        if (func_02174734(p, p[0x908], func_020127C4()) == 1) {
+        if (func_02174734(p, p[0x908], func_020127C4(h)) == 1) {
             p[0x908] = 0;
         }
     }

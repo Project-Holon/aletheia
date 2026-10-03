@@ -1,22 +1,64 @@
-DIFF (same size, 136 B) func_02178F8C @ 0x02178F8C, ov014, thumb, dsi/1.1p1 -O4,p
-Callees all resolve: func_0217814C, func_02178138, func_02178F1C (ov014 labels).
-Pool: g_021797A8 (data a4), offsets 0x1EAE/0x1EB0/0x1E70.
-
-Only the scheduling of the top differs. Original: ldrh a (r2), ldrh b (r5), THEN the
-pool word &g_021797A8 into r0 (reusing m's register), offset 0x1EAE into r4, base
-reloaded with ldr r1,[r0]; t in r3. Ours hoists the pool load above both ldrh into
-r2, puts a in r1, t in r4, offset in r3. Same for every spelling tried:
- - u32 vs u16 locals a, b
- - a local `g = g_021797A8` vs direct g_021797A8 at every use
- - `t` loaded once vs re-read in the else-if
-The output was byte-identical across all three, so the source shape of the g reads is
-not the lever. Untried: a struct-typed message pointer, or a differently ordered
-early-exit (the m[2] != 0 test).
-
-C used (best):
-  a = *(u16*)(m+8); b = *(u16*)(m+0xA);
-  if (*(u16*)(g+0x1EAE) > b) { *(u16*)(g+0x1EAE) = b; t = 1<<(a-1); *(u16*)(g+0x1EB0) = t; }
-  else if (*(u16*)(g+0x1EAE) == b) { t = (u16)(1<<(a-1)) | *(u16*)(g+0x1EB0); *(u16*)(g+0x1EB0) = t; }
-  r = func_02178F1C(a+1);
-  if (r == 0x18 && *(u32*)(g+0x1E70) != 9) { func_02178138(7); return; }
-  if (r != 2) func_02178138(9);
+/*
+ * function: func_02178F8C
+ * address: 0x02178F8C
+ * packet: pkt_ov014_02178F8C
+ * region: ov014
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched own callees confirm int error/state, u16 channel argument;
+ *   2 no body twin in ov014 neighbours; 3 u16 t and const Msg both DIFF101;
+ *   4 unsigned field addresses DIFF101, shared-store goto worse 144B/DIFF107;
+ *   5 re-read ov014 neighbours/idioms: no twin; no stack-object residue.
+ * residual: fresh 136/132 bytes DIFF101; global base hoists before Msg fields,
+ *   register webs swap; store block is not tail-merged, moving later bytes.
+ * history: prior raw m and cached g, u16/u32 locals, t reloads unchanged;
+ *   old note reported 136B extent, current listing extent is 132B.
+ * permuter: first budget300 types; emitted baseline DIFF101/136B agrees;
+ *   best DIFF104/136B rejected: copy(r->r_@10) reads r before assignment.
+ * next: integer-spelled loaded work base; two-field message substructure.
+ * symbols:
+ *   g_021797A8 0x021797A8 data ov014 a4
+ *   func_0217814C 0x0217814C thumb ov014
+ *   func_02178138 0x02178138 thumb ov014
+ *   func_02178F1C 0x02178F1C thumb ov014
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u16 f0, err, f4, f6, channel, level; } Msg;
+extern u8 *g_021797A8;
+extern void func_0217814C(int);
+extern void func_02178138(int);
+extern int func_02178F1C(u16);
+void func_02178F8C(const Msg *m)
+{
+    u32 a;
+    u32 b;
+    u32 t;
+    int r;
+    if (m->err != 0) {
+        func_0217814C(m->err);
+        func_02178138(9);
+        return;
+    }
+    a = m->channel;
+    b = m->level;
+    t = *(u16 *)((u32)g_021797A8+0x1EAE);
+    if (t > b) {
+        *(u16 *)((u32)g_021797A8+0x1EAE) = b;
+        t = 1 << (a-1);
+        *(u16 *)((u32)g_021797A8+0x1EB0) = t;
+    } else if (t == b) {
+        t = (u16)(1 << (a-1)) | *(u16 *)((u32)g_021797A8+0x1EB0);
+        *(u16 *)((u32)g_021797A8+0x1EB0) = t;
+    }
+    r = func_02178F1C(a+1);
+    if (r == 0x18 && *(u32 *)((u32)g_021797A8+0x1E70) != 9) {
+        func_02178138(7);
+        return;
+    }
+    if (r != 2) func_02178138(9);
+}

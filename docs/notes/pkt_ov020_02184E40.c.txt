@@ -1,4 +1,13 @@
 /*
+ * function: func_02184E40
+ * address:  0x02184E40
+ * packet:   pkt_ov020_02184E40
+ * region:   ov020
+ * status:   EXACT
+ * checks: superseded by src/matched/ov/ov020_func_02184E40.c; inline vector setter fixes third-word register, ARM9 02014184 witness resolves call.
+ * The prior residual and its consumed declaration searches follow for evidence.
+ */
+/*
  * function: func_02184E40   address: 0x02184E40   region: ov020   isa: thumb
  * status:   DIFF (2 instructions, +0040 and +0044: the third copied word is
  *           held in r0 by the compiler, the original holds it in r2)

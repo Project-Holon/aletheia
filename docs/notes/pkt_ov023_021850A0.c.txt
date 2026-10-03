@@ -7,7 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   superseded by EXACT src/matched/ov/ov023_func_021850A0.c
+ * New pass: returning the activation flag from a static inline full-tail
+ * helper and assigning that result to k fixes the case-8 r1 flag store.
+ * The helper taking &k and the helper accepting its flag value stayed DIFF 2;
+ * three fresh substantive runs; no repeat of the recorded permuter searches.
  * checks:   1 every callee's arity from its own file (021852B4, 021861C4, 021864C4, 02186888/C8,
  *           0204B878 u16, 02035C08/BA4 return int per matched callers), 0218506C from ov023_func_02185EA0;
  *           2 no twin (021864C4/02185DE8 give Rec/Ent); 3 flag k as u8/int/u16/short/signed char/u32/char

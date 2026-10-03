@@ -1,37 +1,31 @@
-func_021B1588 (ov013, ARM, 172 B): DIFF, 26 concrete bytes, lane S21.
+/*
+ * function: func_021B1588
+ * address: 0x021B1588
+ * packet: pkt_ov013_021B1588
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Wave 75 R20 renewed pass: DIFF 26 concrete bytes, compiled 172/172. Mask and clip/segment registers remain swapped. Inline encode/clip helpers, reused clip/segment local, u8 mask and const source/table gave no gain. Narrow inline return cost four bytes, so return is int. Dropping contested overlay data hint resolves the table. First recorded permuter 300 is consumed: baseline agrees, no improvement.
+ * checks: 1 no external callees, inline signed segment search matches load widths; 2 1688 neighbouring encoder has no matching mu-law segment loop; 3 u8 mask and const source/table compiled, no change; 4 inline allocation and reused-variable idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis scalar mask helper variable identity, no repeat permuter
+ * symbols:
+ *   d_021B3C28 0x021B3C28 data a4
 
-G.711 mu-law encoder (S16 -> u8): s = pcm >> 2; sign -> mask 0x7f/0xff and s = -s; clip 8159;
-+0x21 bias; segment search over an 8-word table at 0x021B3C28; out = ((seg<<4)|((s>>(seg+1))&0xf)) ^ mask,
-or 0x7f ^ mask when seg >= 8.
-
-Byte-shape is right once the segment search is a `static inline` helper that walks the table with
-`*tab++` and returns `size` when not found (that gives the post-increment `ldr r8,[fp],#4` and the
-`mov r5,#8` at loop exit). The bias is applied twice in the original (add sb,sl,#0x21 in the search and
-again before the shift), so the original does NOT add it into s: the search and the shift each use s+0x21.
-What is left is a pure register swap: the original allocates the in-loop clip constant (0x1FDF) to r5 and
-mask to r6, with seg reusing r5; the compiler picks constant=r6, mask/seg=r5 instead. Declaration
-order of mask/seg (inside/outside loop, either order), `s += 0x21` versus `s + 0x21`, ternary clip, and
-swapping the order of `s = -s` / `mask = 0x7f` all leave the same 26 bytes.
-
-Best C:
-
-extern int d_021B3C28[8];
-static inline int seg_search(int v, int *tab, int size)
-{ int i; for (i = 0; i < size; i++) if (v <= *tab++) return i; return size; }
-
-void func_021B1588(unsigned char *dst, short *src, unsigned int n)
-{
-    unsigned int i;
-    int mask;
-    int seg;
-
-    for (i = 0; i < n; i++) {
-        int s = src[i] >> 2;
-
-        if (s < 0) { mask = 0x7f; s = -s; } else mask = 0xff;
-        if (s > 8159) s = 8159;
-        seg = seg_search(s + 0x21, d_021B3C28, 8);
-        if (seg >= 8) dst[i] = 0x7f ^ mask;
-        else dst[i] = (((seg << 4) | (((s + 0x21) >> (seg + 1)) & 0xf))) ^ mask;
-    }
+ */
+extern const int d_021B3C28[8];
+static inline int seg_search(int v,const int *tab,int size) { int i; for(i=0;i<size;i++) if(v<=*tab++)return i; return size; }
+static inline int clip(int s) { if(s>8159)s=8159; return s; }
+static inline int encode(short sample) {
+ int s,seg; unsigned char mask;
+ s=sample>>2;
+ if(s<0){mask=0x7f;s=-s;}else mask=0xff;
+ seg=8159; if(s>seg)s=seg;
+ seg=seg_search(s+0x21,d_021B3C28,8);
+ if(seg>=8)return 0x7f^mask;
+ return ((seg<<4)|(((s+0x21)>>(seg+1))&0xf))^mask;
+}
+void func_021B1588(unsigned char *dst,const short *src,unsigned int n) {
+ unsigned int i; for(i=0;i<n;i++) dst[i]=encode(src[i]);
 }

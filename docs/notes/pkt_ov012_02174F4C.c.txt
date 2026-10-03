@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 matched func_0203D1A4 reads Link and returns masked byte; forwarded helper result restored, 02008494 now EXACT with resolving call; 2 matched ov012 02175240/02175280 and ov010 02167518/0216F0AC read, no constructor twin; 3 u8 index/return and matched u16 heap arguments both unchanged DIFF7; 4 enum-offset, separate-loop-index, cast-CSE and struct-local idioms read; 5 fresh idiom directory and neighbours reread, residue is scalar spills without explicit stack object. Next hypothesis: a named byte-offset for the n*4 CSE, unrun.
+ * Renewed wave75: forwarded Link input, enum index and separate loop counter
+ * unchanged DIFF7; u8 index/return and u16 heap checks also unchanged.
+ * Clean wide index and matched heap widths reconfirmed 272B DIFF7 with
+ * every relocation resolved. Prior once-300 permuter below not repeated.
  *
  * Allocates and initialises a 0x170-byte object from heap 0x41
  * ("colosseum.c" allocations, lines 53 and 56).
@@ -21,10 +26,8 @@
  * ~110 bytes); permuter.py --budget 300 found nothing better. Getting
  * f27 as `(a3 != 1)` rather than `(a3 == 1) ? 0 : 1`, and reaching the
  * slots through a `Slot *s = p->slot` base, took it from 127 to 7 bytes.
- * Second blocker once bytes match: func_02008494 is an unlabelled arm9
- * Thumb thunk (MI_CpuCopy8 with size 0x20, bytes 01 4B 20 22 18 47 C0 46
- * + pool 0x02082D44) with no witness, so the bl stays wildcarded (MATCH
- * cap); the same thunk blocks src/pending/ov/ov175_func_021D9A9C.c.
+ * The old ARM9 blocker is resolved: pkt_02008494 is now EXACT, and
+ * the current caller's +0xB8 call resolves as label. No owner blocker remains.
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -70,16 +73,16 @@ typedef struct Obj {
     u8    pad158[0x18];
 } Obj;
 
-extern void  func_020399A8(void);
-extern u32   func_0203D1A4(void);
+extern u32   func_020399A8(void);
+extern u32   func_0203D1A4(u32 link);
 extern void *func_02030734(int heap, int size, int a, const char *file, int line);
-extern void *func_02167518(int a, u32 b, int heap, int d);
+extern void *func_02167518(int a, u32 b, u16 heap, int d);
 extern void *func_0201A920(int heap);
 extern void *func_02012934(u32 a0);
 extern void  func_0201AC2C(void *a, void *b);
 extern void  func_02008494(u32 src, void *dst);
 extern void  func_02087C6C(void *p);
-extern void  func_0216F40C(void *a, u32 b, int c, int d, int heap);
+extern void  func_0216F40C(void *a, u32 b, int c, int d, u16 heap);
 
 extern char str_02175630[];
 
@@ -90,8 +93,7 @@ Obj *func_02174F4C(u32 a0, u32 a1, u32 a2, int a3)
     u32 n;
     Slot *s;
 
-    func_020399A8();
-    n = func_0203D1A4();
+    n = func_0203D1A4(func_020399A8());
     p = func_02030734(0x41, sizeof(Obj), 1, str_02175630, 0x35);
     p->f0 = func_02167518(4, a1, 0x41, 0);
     for (i = 0; i < 4; i++) {

@@ -1,0 +1,47 @@
+/*
+ * function: func_021591B4
+ * address:  0x021591B4
+ * packet:   pkt_ov010_021591B4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * volatile: 0x021591F2 re-reads idx after the store at 0x021591EC.
+ *
+ * symbols:
+ *   func_02159198  0x02159198  thumb  ov010
+ *   d_021705F0     0x021705F0  data  ov010
+ */
+
+typedef int (*Fn)(int *, int *);
+
+struct S { int _0, _4, _8; int c; int idx; int n; };
+
+extern int func_02159198(int);
+extern Fn d_021705F0[];
+
+int func_021591B4(int a, int b, struct S *p)
+{
+    int *pc = &p->c;
+    int *pi = &p->idx;
+    do {
+        Fn fn = d_021705F0[p->idx];
+        if (fn == 0)
+            return 1;
+        if (func_02159198(p->idx)) {
+            if (fn((int *)p, pc)) {
+                (*pi)++;
+                p->c = 0;
+            } else {
+                return 0;
+            }
+        } else {
+            (*pi)++;
+            p->c = 0;
+        }
+    } while (*(volatile int *)&p->idx < p->n);
+    return 1;
+}
+

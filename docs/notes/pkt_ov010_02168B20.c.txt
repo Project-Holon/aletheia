@@ -1,4 +1,3 @@
-/* NOTE: DIFF. switch(t) over 6 cases matches structurally, callee func_02168B18 filed EXACT. Remaining: original loads the state word into r1 BEFORE the spill 'str r0,[sp]' of the func_02012138 result (so case 4 reuses r1 as t+1); ours stores first and loads into r0, shifting the jump-table register and the case-4 tail (b b6a vs adds r0,r1,#1). */
 /*
  * function: func_02168B20
  * address:  0x02168B20
@@ -8,8 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * checks: resolved by fresh w75 R8 pass; matched source and shard are authoritative.
  *
+ * lever: 02026454 reads the live 02012138 result in r0 in cases 0 and 1.
  * symbols:
  *   func_0201210C  0x0201210C  thumb
  *   func_02188CCC  0x02188CCC  thumb ov021
@@ -25,27 +26,29 @@
 extern int func_0201210C(int);
 extern int func_02188CCC(int);
 extern int func_02012138(int);
-extern int func_02026454(void);
+extern int func_02026454(int);
 extern void func_02026400(int);
 extern void func_02012158(int, int);
 extern void func_020121CC(int);
 extern void func_021A0F7C(int, int, void *, int *);
 extern void func_02168B18(int *);
 
+typedef enum { ST_0, ST_1, ST_2, ST_3, ST_4, ST_5 } State;
+
 int func_02168B20(int a, int *b, int *c)
 {
     int s = c[2];
     int x = func_02188CCC(func_0201210C(s));
     int y = func_02012138(s);
-    int t = *b;
+    State t = (State)*b;
     switch (t) {
     case 0:
-        if (func_02026454() != 0)
+        if (func_02026454(y) != 0)
             func_02026400(y);
         (*b)++;
         break;
     case 1:
-        if (func_02026454() != 0)
+        if (func_02026454(y) != 0)
             break;
         func_02012158(s, 0);
         (*b)++;

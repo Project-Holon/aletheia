@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 rederived all 14 arities from own sources or matched callers; 2 BC220 aggregate return, no full twin; 3 const inline actionId restored 12 bytes, const q unchanged30, narrow special/n improves27, enum i0 worse632; 4 const-array and stack-order idioms read; 5 fresh directory and BC220/BC8EC/BC948 reread. Two scheduling variants exhausted; next hypothesis is block-scope i0/j versus function-scope i.
- * residual: 612/612,27 concrete bytes; spill offsets and switch table ordering. Prior Permuter300 emitted baseline392 disagreed with one395; best rejected for uninitialized t/tmp1 and narrowed index, not repeated on retry. Retry7 is valid best; const inline array parameter preserves the original second action read.
+ * checks: 1 rederived all14 arities from own sources or matched ov093 callers; 2 BC220 proves aggregate return, no full twin, original jump table rederived from PC021BC72A; 3 enum special and u8 return each compile unchanged612/4, prior const inline actionId and narrow locals retained; 4 block-scoped i0/j unchanged612/27, corrected switch gives612/24, declaration order i0/j/n/special/count/i plus source order7/5/1 gives612/4; 5 full directory refreshed, BC220/BC568 and current accessors reread, no new twin or stack object. Two scheduling variants consumed in renewed pass. Prior permuter300 consumed (emitted baseline392 disagreed with one395; best had uninitialized t/tmp1 and narrowed index), not repeated. Next fresh-wave lever is count/i0 initialization order, within that wave's scheduling cap.
+ * residual: 612/612,4 concrete bytes,18/18 relocations resolved; only +0010/+0012 swap str r0,[sp,#0x1c] and movs r7,#0. Original kind6 rank1, kind0 key=0x01002000, kind8 skips the key write; corrected all three old transcription errors. Best log scratchpad/overlay-newpass-20261003-w75/R11/021BC610-decl.log; const inline array parameter preserves the original second action read.
  * symbols:
  *   func_021BB85C 0x021BB85C thumb ov093
  *   func_021BB8A8 0x021BB8A8 thumb ov093
@@ -54,9 +54,12 @@ u32 func_021BC610(u8 *p, const u8 *q, E *out)
 {
     u8 *mon;
     u32 lock;
+    u8 i0;
+    u8 j;
+    u8 n;
+    u8 special;
+    u8 count;
     u8 i;
-    u8 special, n;
-    u8 j, i0, count;
     u32 value, speed, rank;
     u8 *side;
     u8 monIndex, t;
@@ -105,12 +108,13 @@ u32 func_021BC610(u8 *p, const u8 *q, E *out)
             break;
         case 3: rank = 3; break;
         case 2: rank = 2; break;
-        case 1: rank = 1; break;
-        case 5: rank = 0; break;
-        case 6: rank = 0; break;
+        case 6: rank = 1; break;
         case 7: rank = 0; break;
-        case 8: e->key = 0x01002000; continue;
-        case 0: default: rank = 0; break;
+        case 5: rank = 0; break;
+        case 1: rank = 0; break;
+        case 0: e->key = 0x01002000; continue;
+        case 8: continue;
+        default: rank = 0; break;
         }
         if (e->b.kind == 1) {
             speed = func_021BC8EC(p, actionId(out, i), mon);

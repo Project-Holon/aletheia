@@ -1,33 +1,23 @@
 /*
  * function: func_021CF3B8
- * address:  0x021CF3B8
- * packet:   pkt_ov093_021CF3B8
- * region:   ov093
+ * address: 0x021CF3B8
+ * packet: pkt_ov093_021CF3B8
+ * region: ov093
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 func_021B8FF4 takes *p (u8 *), returns u8; func_021B90BC takes (ptr, byte), no result read; no arity change;
- *           2 no twin sharing both callees (Grep ov093_*.c for func_021B90BC: none); 3 i as u32/int/u8/u16/s16 no change,
- *             const p not relevant (no store/load reorder), value local u32/u16 no change; 4 register-colouring only, none of
- *             the idioms fits (element-pointer idiom tried as a = ...+i, *a);
- *             5 re-read idioms after the sweep, nothing new.
- *           Residue: 4 bytes, all register colouring. Original: r3 = p+0x1a0 (base), r2 = ldrh value, r0 = 0 for the strh.
- *           Compiled: r2 = base, r0 = ldrh value (reuses the dying r0 offset), strh reuses r0. Swept (8 compiles): local
- *           pointer inside/outside the ifs, element pointer, indexed twice inline, struct with u16 arr[3], early returns,
- *           parameter width. Next sweep would be a permuter run over the statement order.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: func_021B90BC consumes the live r2 halfword as its third argument;
+ * its matched body forwards it to func_02007E50.
  * symbols:
- *   func_021B8FF4  0x021B8FF4  thumb  ov093
- *   func_021B90BC  0x021B90BC  thumb  ov093
+ *   func_021B8FF4 0x021B8FF4 thumb ov093
+ *   func_021B90BC 0x021B90BC thumb ov093
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
-
 extern u8 func_021B8FF4(u8 *p);
-extern void func_021B90BC(u8 *p, u32 v);
-
+extern void func_021B90BC(u8 *p, u8 k, u32 v);
 void func_021CF3B8(u8 *p, u32 i)
 {
     if (p[0x1aa] == 0) {
@@ -36,7 +26,7 @@ void func_021CF3B8(u8 *p, u32 i)
             u32 v = a[i];
             if (v != 0) {
                 a[i] = 0;
-                func_021B90BC(*(u8 **)p, p[0x1a6]);
+                func_021B90BC(*(u8 **)p, p[0x1a6], v);
             }
         }
     }

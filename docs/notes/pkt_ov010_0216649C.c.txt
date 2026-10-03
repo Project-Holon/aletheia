@@ -8,6 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded: src/matched/ov/ov010_func_0216649C.c is EXACT (wave75).
+ * lever: switch over the caller result, case 0 returns zero and default
+ * breaks to the lookup; a scalar full-word return preserves the payload.
  * checks: 1 own matched callee takes p and two u32 outputs, writes both on every path; fresh unchanged one confirms both relocation witnesses; 2 no ov010 twin, unsigned32 raw scaled table address compiled to same DIFF24/48 without assuming table bounds; 3 prior pointer return/const DIFF24, cap spent; 4 return/goto and table idioms, enum Boolean return cannot represent pointers; 5 fresh idiom directory/neighbours reread, scalar output slots exact, no struct/array residue. Ordering2/2 remains exhausted.
  * residual: 48 bytes compiled, 24 concrete bytes differ; both relocations resolve.
  * evidence: table words at 02171EF4 onward are overlay addresses (02171ED6,02171EB8,...), hence pointer entries. Original zero-return arm precedes success, compiler hoists success ahead of zero; success load/constant scheduling also differs.

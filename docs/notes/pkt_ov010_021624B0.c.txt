@@ -1,14 +1,22 @@
-/* DIFF near miss, ov010 0x021624B0; last run left a small register/slot allocation diff, see below */
 /*
  * function: func_021624B0
  * address:  0x021624B0
- * packet:   pkt_021624B0
+ * packet:   pkt_ov010_021624B0
  * region:   ov010
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * blocker: 102 concrete bytes differ in 128/128 bytes; frame/register and
+ * header-counter/store scheduling differ (target 126 instructions + padding).
+ * checks: 1 callee own 020493D4/0204944C prototypes confirm ArcFile and word arguments, corrected compile unchanged102; 2 own 0216242C caller and fresh ov010 neighbours no closing twin; 3 unsigned offset, const header, integer data cursor all102; enum20 stride also102; 4 struct/store and logical-record idioms read, clean permuter port113/130; 5 fresh idiom listing and ov010/ov021 neighbours, no stack object. No new sweep proposed.
+ * search: once300 --types baseline102/128; best55/126 rejected for
+ * copy(a->a_@8): a_=a before a is assigned, and type:ret-var(a).
+ * Corrected assignment order plus void return yields DIFF113/130.
+ * Original134/129-byte diff superseded by this valid128/102 spelling.
+ * evidence: scratchpad/overlay-newpass-20261003-w75/R5/4b0-*.log;
+ * emitted baseline agreed with fixed one; search spent, never repeat.
  *
  * symbols:
  *   func_02013ECC  0x02013ECC  thumb
@@ -18,6 +26,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+struct ArcFile;
 
 typedef struct {
     u8 n[4];
@@ -26,7 +35,7 @@ typedef struct {
 
 typedef struct {
     int pad0;
-    int f4;
+    struct ArcFile *f4;
     u8 pad8[0xA];
     u16 c12;
     u16 c14;
@@ -48,33 +57,35 @@ typedef struct {
 } O;
 
 extern int func_02013ECC(int);
-extern int func_020493D4(int, int);
-extern void func_0204944C(int, int, int, int, int *);
+extern unsigned func_020493D4(struct ArcFile *, unsigned);
+extern void func_0204944C(struct ArcFile *, unsigned, unsigned, unsigned, void *);
 
 void func_021624B0(O *o, int x)
 {
     int a;
-    int r;
-    char *d;
-    int off;
+    unsigned r;
+    unsigned d;
+    unsigned off;
+    const H *h;
 
     a = func_02013ECC(x);
     r = func_020493D4(o->f4, a);
     func_0204944C(o->f4, a, 0, r, &o->size);
-    d = (char *)&o->hdr + 4;
+    h = &o->hdr;
+    d = (unsigned)h + 4;
     off = 0;
-    o->p120 = (char *)&o->hdr + o->size;
-    o->c12 = o->hdr.n[0];
-    off += o->hdr.n[0] * 0x14;
-    o->p1C = d;
-    o->p20 = d + off;
-    off += o->hdr.n[1] * 0x24;
-    o->c14 = o->hdr.n[1];
-    o->p24 = d + off;
-    o->c16 = o->hdr.n[2];
-    off += o->hdr.n[2] * 0x14;
-    o->p28 = d + off;
-    o->c18 = o->hdr.n[3];
+    o->p120 = (char *)h + o->size;
+    o->c12 = h->n[0];
+    off += h->n[0] * 0x14;
+    o->p1C = (char *)d;
+    o->p20 = (char *)(d + off);
+    off += h->n[1] * 0x24;
+    o->c14 = h->n[1];
+    o->p24 = (char *)(d + off);
+    o->c16 = h->n[2];
+    off += h->n[2] * 0x14;
+    o->p28 = (char *)(d + off);
+    o->c18 = h->n[3];
     o->c2C = o->c12;
     o->c2E = o->c14;
     o->c30 = o->c16;

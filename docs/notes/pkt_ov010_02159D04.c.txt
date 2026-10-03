@@ -7,63 +7,90 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF (38 bytes, register allocation only: original d->r7, src(b+8)->r6, off(0x71c)->r4; ours d->r7, src->r4, off->r6)
+ * status:   DIFF
  *
+ * checks: 1 SDK copy/fill three args proven; 2 legacy note has better11 baseline; 3 nonconst source worse, u16 zone unchanged; 4 enum offset yielded30, no new idiom; 5 neighbours and idioms re-read, no new twin; permuter300 consumed, emitted baseline11 agrees, no improvement.
+ * blocker: DIFF 11/100 register rotation only. Fresh enum-offset/width hypotheses failed; legacy best restored. Do not repeat historical 120 declaration permutations or this 300-run permuter.
  * symbols:
- *   func_02082A90  0x02082A90  arm
  *   func_02082A48  0x02082A48  arm
+ *   func_02082A90  0x02082A90  arm
+ *
+ * The map-matrix decoder: unpack one a/0/0/9 sub-file into the runtime matrix
+ * object.  The file is { u16 mode; u16 pad; u16 width; u16 height; } followed
+ * by width*height u32 cells, and, when mode == 1 only, a second block of the
+ * same length.  Block one is copied verbatim into the object's u32 cell grid
+ * at +0x71C; those cells are a/0/0/8 sub-file indices.  Block two, when it
+ * exists, is narrowed cell by cell into the u16 grid at +0x14 and holds one
+ * zone id per cell; when it does not exist the same grid is filled with the
+ * caller's single zone id instead, which is what makes mode the "this matrix
+ * spans several zones" flag.
+ *
+ * Both grids are fixed 900-entry arrays (30 x 30, the cap func_02159C0C
+ * enforces), so 0x14 + 900 * 2 lands exactly on 0x71C.
+ *
+ * func_02082A48 takes the fill value first and the destination second, which
+ * is why r7 (the zone id) is still live at the call and r1 already points at
+ * the grid.
+ *
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_02159D04.c \
+ *       --func func_02159D04 --addr 0x02159D04 --region ov010 --cc 1.1p1 --thumb
  */
 
-typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned int u32;
+typedef unsigned int   u32;
 
-typedef struct Dst {
-    u16 f00;
-    u16 f02;
-    u32 f04;
-    u16 f08;
-    u16 f0a;
-    u16 f0c;
-    u16 pad0e;
-    u32 f10;
-    u16 tiles[0x384];
-    u32 pal[1];
-} Dst;
-
-typedef struct Src {
-    u16 f00;
+struct MatrixFile {
+    u16 mode;
     u16 pad02;
-    u16 w;
-    u16 h;
-    u32 data[1];
-} Src;
+    u16 width;
+    u16 height;
+    u32 cells[];
+};
 
-extern void func_02082A90(void *, void *, int);
-extern void func_02082A48(int, void *, int);
+struct MapMatrix {
+    u16 field00;
+    u16 zone_id;
+    u32 matrix_id;
+    u16 width;
+    u16 height;
+    u16 mode;
+    u16 pad0e;
+    u32 count;
+    u16 zone_grid[900];
+    u32 map_grid[900];
+};
 
-void func_02159D04(Dst *a, Src *b, u32 c, int d)
+extern void func_02082A48(u32 value, void *dst, u32 size);
+extern void func_02082A90(const void *src, void *dst, u32 size);
+
+void func_02159D04(struct MapMatrix *dst, const struct MatrixFile *src,
+                   u32 matrix_id, u16 zone_id)
 {
-    int off = 0x71c;
-    u16 w = b->w;
-    u16 h = b->h;
     u32 n;
-    u16 *p;
-    a->f04 = c;
-    n = h * w;
-    a->f0a = h;
-    a->f0c = b->f00;
-    a->f10 = n;
-    a->f02 = d;
-    a->f08 = w;
-    func_02082A90(b->data, (u8 *)a + off, n * 4);
-    p = a->tiles;
-    if (a->f0c == 1) {
-        u32 *s2 = b->data + a->f10;
-        u32 i;
-        for (i = 0; i < a->f10; i++)
-            p[i] = s2[i];
+    const u32 *cells;
+    const u32 *second;
+    u32 i;
+    u16 *zone_grid;
+
+    dst->matrix_id = matrix_id;
+    n = src->width * src->height;
+    dst->height = src->height;
+    dst->count = n;
+    dst->mode = src->mode;
+    dst->zone_id = zone_id;
+    dst->width = src->width;
+    cells = src->cells;
+    func_02082A90(cells, dst->map_grid, n * 4);
+
+    zone_grid = dst->zone_grid;
+    if (dst->mode == 1) {
+        second = cells + dst->count;
+        for (i = 0; i < dst->count; i++)
+            zone_grid[i] = (u16)second[i];
     } else {
-        func_02082A48(d, p, off - 0x14);
+        func_02082A48(zone_id, zone_grid, 0x708);
     }
 }

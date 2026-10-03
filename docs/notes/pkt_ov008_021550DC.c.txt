@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 own ARM9 unit confirms accessor pointer returns/const pointer args and 4-arg launcher; 2 ov001/ov004 siblings agree on arity, no new ov008 twin; 3 unsigned state and const table retain11; 4 no-code self-assignment idiom retains11; 5 neighbours/idioms rechecked, no stack-object residue. Prior permuter300 consumed, not repeated.
+ * renewed pass: 4 runs; swapped-signature inline wrapper, st=st, unsigned state, proper pointer-return prototypes and const table all retain DIFF11/96B. Both scheduling levers consumed.
  *
  * near miss: DIFF 11 bytes: only the r5/r6 swap (original r6=state ptr, r5=object; ours r5=state, r6=object); switch/if forms, statement order, struct forms tried.
  * lane R1 (2026-09-28), 20 more runs, all still the same 11-byte swap: local copies of either or both
@@ -25,20 +27,20 @@
  *   d_0215513C     0x0215513C  data  ov008  a4
  */
 
-int func_020120F4(int h);
-void func_020120B4(int h, int a, void *t, int *q);
-int func_020120F0(int h);
+void *func_020120F4(const void *h);
+void func_020120B4(void *h, unsigned int a, void *t, void *q);
+unsigned int func_020120F0(const void *h);
 extern char d_0215513C[];
 
 int func_021550DC(int u, int *st, int *o)
 {
-    int h = o[0];
+    void *h = (void *)o[0];
     int *q;
 
     switch (*st) {
     case 0:
         q = o + 4;
-        o[4] = func_020120F4(h);
+        o[4] = (int)func_020120F4(h);
         q[2] = o[2];
         q[1] = o[1];
         q[3] = *(int *)(o[2] + 0x48);

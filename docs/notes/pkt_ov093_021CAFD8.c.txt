@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 348/348 bytes, 22 concrete bytes differ in the array-zero loop
- * at +0x96..+0xAA. All 18 relocations resolve; all subsequent code matches.
+ * residual: 348/348 bytes, 14 concrete bytes differ: r4/r5 count/index swap
+ * from +0x96 through +0xEA. All 18 relocations resolve; the later tail matches.
  * checks: 1 call setups match, no arity residue in zero loop; 2 no twin using
  * CB134/CB144/CB154/CB164 in ov093 matched/pending; 3 int count with u8 wrap
  * and signed/unsigned handle array both compiled unchanged, no pointer-field
@@ -19,6 +19,16 @@
  * permuter: best DIFF 7 changes members[i]=count (zero) to members[i]=i;
  * rejected as behavior-changing. Porting only temp(indices[i]) and declaration
  * order restores DIFF 22. No volatile, uninitialized reads or flags changes.
+ * fresh-pass: W75 R13, 5 fixed-flag runs. Inline Clear separates j from i
+ *   and improves 22 to 14. Returning the helper zero, byte count, wide index
+ *   with explicit u8 wrap, and long count retain DIFF 14. Three consecutive
+ *   nonshrinking changes stopped iteration. Best valid Clear spelling below.
+ * checks: 1 matched B8778/B8D8C/D5B68 bodies reread, all veneer setup args
+ *   agree; 2 no matched/pending four-veneer twin; 3 long count unchanged;
+ *   4 copy-zero/hoisted-zero/long-index idioms read; 5 relisted idioms and
+ *   CB214/CB274/CBFA0 refreshed; stack array offsets already agree.
+ * permuter: prior 300-candidate search consumed, not repeated. Next lever
+ *   must distinguish the long-lived count web from the reused loop index.
  * symbols:
  *   func_021D7F00 0x021D7F00 thumb ov093
  *   func_021CB134 0x021CB134 thumb ov093
@@ -52,6 +62,14 @@ extern u8 func_021B8778(void *, int, u8 *);
 extern void *func_021B98A4(void *, u8);
 extern int func_021D59B4(void *, int);
 extern u32 func_021D78AC(u32);
+static inline void Clear(int *members)
+{
+    u8 j;
+    int zero;
+    j = 0;
+    zero = j;
+    for (; j < 3; j++) members[j] = zero;
+}
 int func_021CAFD8(u8 *p, u32 mode, void *m, u16 *item, u8 self, void *out)
 {
     void *previous;
@@ -76,9 +94,8 @@ int func_021CAFD8(u8 *p, u32 mode, void *m, u16 *item, u8 self, void *out)
     if (func_0201BEB8(*item, 11)) target = 0x600 | position;
     else { kind += 0xF5; target = kind | position; }
     n = func_021B8778(*(void **)(p + 4), target, indices);
-    i = 0;
-    count = i;
-    for (; i < 3; i++) members[i] = count;
+    Clear(members);
+    count = 0;
     for (i = count; i < n; i++) {
         tmp = indices[i];
         members[count] = (int)func_021B98A4(*(void **)(p + 8), tmp);

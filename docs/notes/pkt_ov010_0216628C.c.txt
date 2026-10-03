@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: Fresh enum kind run remains DIFF8/128; ARM9 0200E184 has no
+ * outside witness. Stop under user owner-blocker exclusion; retain prior
+ * recorded scheduling variants without repeating them or permuting.
  *
  * Maps the slot's kind (0..3, via the 0x0200E184 thunk) to a new kind,
  * asks func_0200E164 for a free slot, and moves the word at obj[slot]
@@ -70,4 +73,5 @@ int func_0216628C(u32 *obj, u32 slot)
  * original: lsls r0,r7,#2; lsls r1,r6,#2; ldr r0,[r4,r0]; cmp r5,#3; str r0,[r4,r1]
  * compiled: lsls r0,r7,#2; ldr r1,[r4,r0]; lsls r0,r6,#2; str r1,[r4,r0]; cmp r5,#3
  * Tried: temp var, pointer temps, split if/else, int slot/dst, k3 flag. The unlabelled thunk
- * func_0200E184 is now filed (pkt_ov010_0200E184) so the call site resolves. */
+ * Fresh wave75 verdict contradicts the earlier claim that func_0200E184
+ * was filed: it is unresolved ARM9 evidence. Ilias owns that blocker. */

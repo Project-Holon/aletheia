@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF (11 bytes: switch dispatch index lands in r0, original r1; body otherwise identical)
+ * status:   DIFF (historical; resolved EXACT* in wave75)
+ * Resolved: func_02012A30 takes saved p; accessor returns are forwarded.
+ * See src/matched/ov/ov010_func_0215DE58.c for the verified C.
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb

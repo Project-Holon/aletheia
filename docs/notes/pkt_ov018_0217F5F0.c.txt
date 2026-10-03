@@ -1,20 +1,22 @@
 /*
- * function: func_0217F5F0   address: 0x0217F5F0 (ov018, thumb, 88 bytes)
- * verdict: DIFF, 78 vs 88 bytes ... SIZE-equal not reached; best variant below is 78 bytes.
- *
- * Blocker: the original has, at +0x2A..+0x2E, `ldr r0,[pc]; cmp r1,r0 (r0=0xFFFF); b end`
- * i.e. a compare of the u16 field against 0xFFFF whose result is dead (both paths
- * join at `ldrb [r2,#0x1a]; lsls 28; lsrs 28`). Every C spelling tried folds it away:
- *   - empty `if (h == 0xFFFF) {}`; `(void)(h == 0xFFFF);`
- *   - `if (h == 0xFFFF) return e->f1A; return e->f1A;`
- *   - `return (u8)e->f1A` in the second arm (also folds)
- *   - `return ((u8*)e)[0x1A] & 0xF` in the second arm: keeps the branch but 96 bytes
- *     (it does put h in r1 and e in r2, as the original has).
- * The original also keeps `h` in r1 and the entry pointer in r2 (mine: pointer r1).
- * Everything else (callee order, chained 2026478 -> 2012950(idx) -> 2008550, 3/4 returns,
- * 0x1c-byte entries at +0x8c, current entry at +0x70) is right.
+ * function: func_0217F5F0
+ * address: 0x0217F5F0
+ * packet: pkt_ov018_0217F5F0
+ * region: ov018
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * checks: superseded by the verified EXACT source and shard of this packet.
+ * status: EXACT
+ * lever: a switch with empty sentinel and default arms retains the dead
+ * comparison before the shared bitfield return.
+ * symbols:
+ *   func_02026478 0x02026478 thumb
+ *   func_02012B58 0x02012B58 thumb
+ *   func_02012950 0x02012950 thumb
+ *   func_02008550 0x02008550 thumb
  */
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 
@@ -29,34 +31,38 @@ typedef struct {
     void *f04;
     u8 pad8[0x70 - 8];
     Ent cur;
-    Ent arr[1];
+    Ent arr[];
 } Ov018Obj;
 
 void *func_02026478(void *);
-int func_02012B58(void);
+int func_02012B58(void *);
 void *func_02012950(void *, int);
 int func_02008550(void *);
 
 int func_0217F5F0(Ov018Obj *p, int idx)
 {
     Ent *e;
-    u16 h;
+    enum Guard { ZERO, INVALID = 0xFFFF } h;
 
-    func_02026478(p->f04);
-    if (idx == func_02012B58()) {
+    void *sub;
+
+    sub = func_02026478(p->f04);
+    if (idx == func_02012B58(sub)) {
         e = &p->cur;
     } else {
         e = &p->arr[idx];
     }
     h = e->f18;
-    if (h != 0) {
-        if (h == 0xFFFF) {
-            return e->f1A;
+    switch (h) {
+    case 0:
+        if (func_02008550(func_02012950(func_02026478(p->f04), idx)) == 0) {
+            return 3;
         }
-        return ((u8 *)e)[0x1A] & 0xF;
+        return 4;
+    case 0xFFFF:
+        break;
+    default:
+        break;
     }
-    if (func_02008550(func_02012950(func_02026478(p->f04), idx)) == 0) {
-        return 3;
-    }
-    return 4;
+    return e->f1A;
 }

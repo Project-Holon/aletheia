@@ -7,15 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF (6 bytes-wise lines: first temp is r1 in original, r0 in ours; everything else identical)
- *
- * Lane R2 (13 runs plus a 300-compile permuter run that found nothing): the
- * w->q guard temp stays r0 under every spelling tried: a `Q *q = w->q`
- * local, split early returns, `(q = w->q) == 0 ||`, `flag == 0`, an unused
- * second parameter (w, int). An inline IsOn(w) helper does not fold (~135
- * bytes out); `w->q->flag == 1` on a Q-resident bitfield, with or without a
- * second bit as in ov012_func_02172E48.c, adds a cmp (~127 bytes out). The
- * r1 choice is not explained by anything that reaches the first 0x16 bytes.
+ * status: EXACT
+ * checks: closed EXACT in wave75 by restoring the matched callee's omitted live-r0 input; no further DIFF checks required.
+ * Lever: func_02173840 reads the entry Work pointer still live in r0;
+ * the guard uses r1 only when that input is explicitly forwarded.
  * symbols:
  *   func_02173840  0x02173840  thumb  ov012
  *   func_02174268  0x02174268  thumb  ov012
@@ -47,7 +42,7 @@ typedef struct {
     Q *q;
 } Work;
 
-extern int func_02173840(void);
+extern int func_02173840(u8 *w);
 extern int func_02174268(Work *w);
 extern void func_02167590(int a, int b);
 extern int func_0216786C(int a, void *b);
@@ -59,7 +54,7 @@ extern void func_02175144(Q *q);
 void func_0217303C(Work *w)
 {
     if (w->q != 0 && ((Sub *)((u8 *)w->q + 0xC8))->flag) {
-    if (func_02173840() == 1) {
+    if (func_02173840((u8 *)w) == 1) {
         if (func_02174268(w) == 0) {
             func_02167590(w->head->f0c, w->q->f0);
             if (w->q->f16F == 0) {

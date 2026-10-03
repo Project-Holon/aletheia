@@ -1,0 +1,191 @@
+/*
+ * function: func_021B99E8
+ * address: 0x021B99E8
+ * packet: pkt_ov072_021B99E8
+ * region: ov072
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * note: Point objects scoped to their use-site blocks; inner out word declared before o1/o2.
+ * note: Pool words prove the case-7 sounds are 0x648 and 0x649, correcting the old note.
+ * symbols:
+ *   func_021BA040 0x021BA040 thumb ov072
+ *   func_021BB0E0 0x021BB0E0 thumb ov072
+ *   func_021BA3BC 0x021BA3BC thumb ov072
+ *   func_021BA3EC 0x021BA3EC thumb ov072
+ *   func_021BB6AC 0x021BB6AC thumb ov072
+ *   func_021BB6DC 0x021BB6DC thumb ov072
+ *   func_021BA69C 0x021BA69C thumb ov072
+ *   func_021BB19C 0x021BB19C thumb ov072
+ *   func_021BA6A8 0x021BA6A8 thumb ov072
+ *   func_021BA450 0x021BA450 thumb ov072
+ *   func_021BA488 0x021BA488 thumb ov072
+ *   func_021BA6C8 0x021BA6C8 thumb ov072
+ *   func_021BA3E8 0x021BA3E8 thumb ov072
+ *   func_021BA774 0x021BA774 thumb ov072
+ *   func_021B995C 0x021B995C thumb ov072
+ *   func_021BB220 0x021BB220 thumb ov072
+ *   func_021BA7A4 0x021BA7A4 thumb ov072
+ *   func_021BA3F4 0x021BA3F4 thumb ov072
+ *   func_021BB5AC 0x021BB5AC thumb ov072
+ *   func_021BB3D0 0x021BB3D0 thumb ov072
+ *   func_021BB5B4 0x021BB5B4 thumb ov072
+ *   func_021BA7D4 0x021BA7D4 thumb ov072
+ *   func_021BA48C 0x021BA48C thumb ov072
+ *   func_021B9F50 0x021B9F50 thumb ov072
+ *   func_021BA0E4 0x021BA0E4 thumb ov072
+ *   func_021BA5AC 0x021BA5AC thumb ov072
+ *   func_021BAFA8 0x021BAFA8 thumb ov072
+ *   func_021BB548 0x021BB548 thumb ov072
+ *   func_021BB5EC 0x021BB5EC thumb ov072
+ *   func_021BA028 0x021BA028 thumb ov072
+ *   func_021BB0B4 0x021BB0B4 thumb ov072
+ *   func_021BB190 0x021BB190 thumb ov072
+ *   func_021BB0DC 0x021BB0DC thumb ov072
+ *   func_021B99AC 0x021B99AC thumb ov072
+ *   func_020355C4 0x020355C4 arm
+ *   d_021BBB78 0x021BBB78 data ov072 a4
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef long long s64;
+typedef struct { int x,y; } Pos;
+typedef struct { int x,y,z; } Vec;
+extern const Pos d_021BBB78;
+extern int func_021BA040(int *);
+extern int func_021BB0E0(void *);
+extern void func_021BA3BC(char *,int *);
+extern int func_021BA3EC(char *);
+extern int func_021BB6AC(u32 *,Vec *,u32 *);
+extern void func_021BB6DC(int *);
+extern void func_021BA69C(char *,int *);
+extern void func_021BB19C(u32 *,const u32 *);
+extern void func_021BA6A8(char *,const int *);
+extern void func_021BA450(int *,int *);
+extern int func_021BA488(int *);
+extern int func_021BA6C8(void *,void *);
+extern int func_021BA3E8(int *);
+extern int func_021BA774(int,int);
+extern void func_020061E4(u32);
+extern void func_021B995C(int *,int);
+extern int func_020355C4(void);
+extern void func_021BB220(u32 *,void *);
+extern void func_021BA7A4(char *,void *);
+extern void func_021BA3F4(void *,int,Pos *);
+extern void func_021BB5AC(void *,int);
+extern void func_021BB3D0(void **);
+extern void func_021BB5B4(u32 *,u32);
+extern void func_021BA7D4(char *);
+extern void func_021BA48C(int *,int);
+extern void func_021B9F50(int *,void *);
+extern void func_021BA0E4(void *,void *);
+extern void func_021BA5AC(void *);
+extern void func_021BAFA8(void *,void *);
+extern void func_021BB548(u32 *);
+extern void func_021BB5EC(void *);
+extern int func_021BA028(char *);
+extern void func_021BB0B4(void *,int,const Pos *,const Pos *);
+extern void func_021BB190(char *,int *);
+extern int func_021BB0DC(void *);
+extern void func_021B99AC(int *,int *);
+#define W(k) (*(int *)(p+(k)))
+#define R(k) ((void *)(p+(k)))
+int func_021B99E8(int *a,int unused,char *p)
+{
+    u8 moved;
+    int w,mask,t;
+    moved=0;
+    if (func_021BA040((int *)R(0x14)) == 0) {
+        if (W(0x138)!=0 && func_021BB0E0(R(0x78))==0) {
+            Vec v;
+            Pos pos,delta={0,0};
+            u32 out;
+            Pos o1,o2;
+            func_021BA3BC(R(0x38),&pos.x);
+            mask=func_021BA3EC(R(0x38));
+            if (pos.y<16 && (mask&0x40)) { delta.y-=4; moved=1; }
+            if (pos.y<=168 && pos.y>136 && (mask&0x80)) { delta.y+=4; moved=1; }
+            if (pos.x<16 && (mask&0x20)) { delta.x-=4; moved=1; }
+            if (pos.x>240 && (mask&0x10)) { delta.x+=4; moved=1; }
+            if (func_021BB0E0(R(0x78))==0 && func_021BB6AC(R(0xf4),&v,&out)) {
+                delta.x=-(int)(((s64)v.x*4096+2048)>>12)>>12;
+                delta.y=-(int)(((s64)v.y*4096+2048)>>12)>>12;
+                func_021BB6DC(R(0xf4)); moved=1;
+            }
+            if (moved != 0) {
+                func_021BA69C(R(0x50),&o1.x);
+                func_021BB19C(R(0x78),(const u32 *)&delta);
+                delta.x*=-1; delta.y*=-1;
+                func_021BA6A8(R(0x50),&delta.x);
+                func_021BA69C(R(0x50),&o2.x);
+                func_021BA450(R(0x38),&o2.x);
+            }
+        }
+        if (moved==0 && func_021BB0E0(R(0x78))==0) {
+            if (*(int *)W(0x130)==0 || *(int *)W(0x130)==2) {
+                w=func_021BA488(R(0x38));
+                t=func_021BA6C8(R(0x50),R(0x38));
+                if (w!=0 && w==t && func_021BA3E8(R(0x38))!=0 && func_021BA774(w,12)!=0) {
+                    *(int *)(W(0x130)+4)=2;
+                    *(unsigned short *)(W(0x130)+8)=func_021BA774(w,0);
+                    *(int *)(W(0x130)+12)=func_021BA774(w,13);
+                    *(int *)(W(0x130)+16)=func_021BA774(w,14);
+                    func_020061E4(0x54c); func_021B995C(a,(int)func_021B99AC);
+                }
+            }
+            if (func_020355C4()==0) t=1; else t=func_021BA3E8(R(0x38));
+            if (t != 0) {
+                w=func_021BA6C8(R(0x50),R(0x38));
+                if (w!=W(0x134) && w!=0) {
+                    Pos o3;
+                    func_020061E4(0x548);
+                    func_021BB220(R(0xb0),(void *)w); func_021BA7A4(R(0x50),(void *)w);
+                    W(0x134)=w; func_021BA69C(R(0x50),&o3.x);
+                    func_021BA3F4(R(0x38),w,&o3);
+                    if (W(0x138)==0) func_021BB5AC(R(0xd4),w);
+                } else if (w==0 && W(0x134)!=0) {
+                    func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));
+                    func_021BA3F4(R(0x38),0,0); W(0x134)=0;
+                }
+            }
+        }
+        if (W(0x138)!=0) func_021BB5B4(R(0xd4),0);
+        func_021BA48C(R(0x38),moved ? 0 : 1);
+    }
+    func_021B9F50(R(0x14),R(0x78));
+    if (func_021BB0E0(R(0x78))==0) func_021BA0E4(R(0x38),R(0x50));
+    func_021BA5AC(R(0x50)); func_021BAFA8(R(0x78),R(0x50));
+    func_021BB548(R(0xd4)); func_021BB5EC(R(0xf4));
+    switch (func_021BA028(R(0x14))) {
+    case 0:
+        *(int *)(W(0x130)+4)=1; func_021B995C(a,(int)func_021B99AC); break;
+    case 1:
+        *(int *)(W(0x130)+4)=0; func_021B995C(a,(int)func_021B99AC); break;
+    case 7:
+        if (W(0x138)==0 && func_021BB0E0(R(0x78))==0) {
+            Pos o4;
+            func_021BA3BC(R(0x38),&o4.x);
+            func_021BB0B4(R(0x78),8192,&d_021BBB78,&o4);
+            func_020061E4(0x648);
+            if (W(0x134)!=0) {
+                func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));
+                func_021BA3F4(R(0x38),0,0); W(0x134)=0;
+            }
+            W(0x138)=1;
+        } else if (W(0x138)==1 && func_021BB0E0(R(0x78))==0) {
+            Pos o5;
+            func_021BB190(R(0x78),&o5.x); o5.x+=128; o5.y+=96;
+            func_021BB0B4(R(0x78),4096,&o5,&d_021BBB78);
+            func_020061E4(0x649);
+            if (W(0x134)!=0) {
+                func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));
+                func_021BA3F4(R(0x38),0,0); W(0x134)=0;
+            }
+            W(0x138)=0;
+        }
+        break;
+    }
+    return func_021BB0DC(R(0x78));
+}

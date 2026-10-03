@@ -9,25 +9,17 @@
  * isa:      thumb
  * status:   DIFF
  *
- * DIFF, 21 concrete bytes, same size (208), all 12 relocations resolved.
- * Everything else, including every register, matches.  The residue is three
- * scheduling swaps:
- *   +0x46  orig `movs r1,#0; str r0,[sp,#4]` (ldrsh offset, then v.x store),
- *          this C stores v.x first;
- *   +0xA4  the same swap for v.z / `movs r1,#2`;
- *   +0x66  orig loads p->z into r0 and moves obj into r0 last, this C moves
- *          obj into r0 first and loads p->z into r1.
- * Tried without effect (still 21): (s16)/u16/int helper-local for the
- * D7F4 argument, comma-expression store, v.x stores sunk, x*0x10000 /
- * 0x8000+(x<<16) / (8<<12) spellings, inline ToGrid/FromGrid helpers,
- * const Src *, Src embedded in an outer struct, u8 return from
- * func_0216E51C, declaration reorders; made worse: u16 x/y locals (+90),
- * int-parameter prototypes with casts (+65), axis inline helpers (+87),
- * ((x<<4)+8)<<12 (+111), all v stores at the end (+172).  permuter.py
- * (300 anneal, 300 random --types) found only volatile p plus a
- * mid-block temp, which CCERRs under match.py.
- * Next lever: parameter/field types (a u8 parameter was what fixed the
- * same kind of store-versus-argument swap in func_0216CB48).
+ * DIFF, 13 concrete bytes, 208/208 bytes, all 12 relocations resolved.
+ * checks: 1,2,3,4,5
+ * The const entry parameter restores the +46 and +A4 store/argument swaps.
+ * Remaining +66..72: image loads p->z into r0 and moves obj to r0 last;
+ * C moves obj first and loads p->z into r1. Types/struct storage, signed
+ * fields, long z, an inline argument helper and enum locals were tested.
+ * An inline helper combined with const remains 13. Eight fixed one runs.
+ * Prior permuter 300 anneal + 300 random --types was already consumed;
+ * its volatile/temp result was invalid. No repeat was run in this pass.
+ * Own callee bodies and caller truncations justify signed-short externs.
+ * No same-region matched twin fixes this last argument schedule.
  *
  * symbols:
  *   func_0216E51C  0x0216E51C  thumb  ov010
@@ -75,9 +67,9 @@ extern void func_0216D85C(void *obj, s16 v);
 extern void func_0216D874(void *obj, s16 v);
 extern void func_0216D89C(void *obj, const VecFx32 *v);
 
-void func_0216D0F8(void *obj, u8 *a1)
+void func_0216D0F8(void *obj, const u8 *a1)
 {
-    Src *p = (Src *)(a1 + 0x1c);
+    const Src *p = (const Src *)(a1 + 0x1c);
     VecFx32 v;
     s32 x;
     s32 y;

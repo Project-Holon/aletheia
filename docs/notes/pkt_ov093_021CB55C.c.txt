@@ -1,17 +1,17 @@
 /*
  * function: func_021CB55C
- * address:  0x021CB55C
- * packet:   pkt_ov093_021CB55C
- * region:   ov093
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- *
- * checks: 1 callees fit: func_0207C7B4 (FX_Sqrt) takes/returns one word, func_021D6B6C one pointer; the float helpers are the FX32_CONST macro (x*(1<<12) as u32 -> _ffltu, then _fadd(0.5f,v) / _fsub(v,0.5f) by x>0, _ffix); 2 twin is the arm9 FX32_CONST users (func_0201183C); 3 int vs u32 return of func_0207C7B4 no change, swapped product order (y*y)*sqrt no change, yy local no change; 4 none fits (register swap r1/r2 in one multiply); 5 n/a.
- * best C: 146 bytes vs 148, 5 bytes differ, all in the second product: original `adds r2,r5,#0; adds r1,r0,#0; muls r2,r5,r2; adds r0,r6,#0; muls r1,r2,r1; lsrs r1,r1,#0xc` (y*y in r2, sqrt copy in r1, result in r1) versus mine with y*y in r1, sqrt copy in r2, result in r2 then `lsrs r1,r2,#0xc`. Inlining t2 into the divisor expression took it from 28 differing bytes to 5. Sweep to run: declaration orders of x/y/t1/lim and where `lim` is read.
- *
+ * address: 0x021CB55C
+ * packet: pkt_ov093_021CB55C
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own D6B6C one-pointer body and SDK sqrt one-word interface rederived; float helper directions agree with the original unsigned FX32 conversion; 2 same-overlay callers/neighbour CB5F0 read, no new twin; 3 b/c u16 and y unsigned-long each146/5; 4 allocator multiply tie and table-field/long idioms read; 5 fresh unfiltered idiom listing and CB5F0 refreshed, no stack aggregate.
+ * residual: 146/148 bytes (two trailing alignment bytes), 2 concrete bytes at +76/+7A: product result uses r2 instead of r1; 14/14 relocations resolved.
+ * fresh-pass: 8 one runs. Named divisor scheduling variants146/8 and144/27 rejected; macro-free baseline146/5 agrees with emitted baseline. Once-only permuter300 consumed in wave75 R14 (2026-10-03), temp(FX32 conversion) and temp(sqrt) improve146/2; generated declarations ported to top and revalidated unchanged.
+ * proof: x/y and products retain full unsigned 32-bit wrap, float conversion and sqrt call order preserved, bounded result clamp unchanged. Do not repeat this permuter.
  * symbols:
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -21,21 +21,26 @@
  *   func_0207C7B4  0x0207C7B4  arm
  *   func_021D6B6C  0x021D6B6C  thumb  ov093
  */
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
-typedef signed char s8; typedef signed short s16; typedef signed int s32;
-
-#define FX32_CONST(x) ((int)(((x) > 0) ? ((x) * (1 << 12) + 0.5f) : ((x) * (1 << 12) - 0.5f)))
-
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
 extern int func_0207C7B4(int x);
 extern u32 func_021D6B6C(void *p);
-
 u32 func_021CB55C(void *p, u32 a, u32 b, u32 c)
 {
-    u32 x = 2 * c + 10;
-    u32 y = c + b + 10;
-    u32 t1 = (u32)(func_0207C7B4(FX32_CONST(x)) * (x * x)) >> 12;
-    u32 r = (a * t1) / ((u32)(func_0207C7B4(FX32_CONST(y)) * (y * y)) >> 12) + 1;
-    u32 lim = func_021D6B6C(p);
-    if (r > lim) r = lim;
-    return r;
+  int tmp, tmp1;
+  u32 r, lim;
+  u32 x = (2 * c) + 10;
+  u32 y = (c + b) + 10;
+  u32 t1 = ((u32) (func_0207C7B4((int) ((x > 0) ? ((x * (1 << 12)) + 0.5f) : ((x * (1 << 12)) - 0.5f))) * (x * x))) >> 12;
+  tmp = (int) ((y > 0) ? ((y * (1 << 12)) + 0.5f) : ((y * (1 << 12)) - 0.5f));
+  tmp1 = func_0207C7B4(tmp);
+  r = ((a * t1) / (((u32) (tmp1 * (y * y))) >> 12)) + 1;
+  lim = func_021D6B6C(p);
+  if (r > lim)
+    r = lim;
+  return r;
 }

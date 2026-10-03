@@ -7,10 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 rederived own callees, BB6AC Vec12/word out, B0B4 two-word const Pos; BA3EC live result/BA5AC live r0 override forwarders; 2 fresh BA69C/BA3BC, no full twin; 3 u32 moved unchanged32, const a/p inapplicable 995C/object writes; 4 struct stack/scope and initialized-array address-first idioms; 5 fresh own neighbours and full idiom directory; next all point locals in use-site blocks (two scheduling variants exhausted).
- * residual: DIFF 1100/1104, 32 concrete bytes; all 65 relocations resolved. Flat compound-literal variant1104/1013, explicit zeros restore all offsets but1096/1026; enum moved unchanged32. Prior permuter300 recorded, not repeated.
- * next: all point locals in later use-site blocks may preserve original initializer placement and reverse stack-object order.
+ * status: EXACT
+ * checks: 1 own callee signatures refreshed; 2 ov072 point-copy neighbours; 3 no readonly object parameter (object writes); 4 use-site stack scopes and declaration order; 5 refreshed neighbours/idioms; pool reads corrected both sounds.
+ * note: Point objects scoped to their use-site blocks; inner out word declared before o1/o2.
+ * note: Pool words prove the case-7 sounds are 0x648 and 0x649, correcting the old note.
  * symbols:
  *   func_021BA040 0x021BA040 thumb ov072
  *   func_021BB0E0 0x021BB0E0 thumb ov072
@@ -95,15 +95,15 @@ extern void func_021B99AC(int *,int *);
 #define R(k) ((void *)(p+(k)))
 int func_021B99E8(int *a,int unused,char *p)
 {
-    Pos o3,o4,o5;
     u8 moved;
     int w,mask,t;
     moved=0;
     if (func_021BA040((int *)R(0x14)) == 0) {
         if (W(0x138)!=0 && func_021BB0E0(R(0x78))==0) {
             Vec v;
-            Pos pos,delta={0,0},o1,o2;
+            Pos pos,delta={0,0};
             u32 out;
+            Pos o1,o2;
             func_021BA3BC(R(0x38),&pos.x);
             mask=func_021BA3EC(R(0x38));
             if (pos.y<16 && (mask&0x40)) { delta.y-=4; moved=1; }
@@ -140,6 +140,7 @@ int func_021B99E8(int *a,int unused,char *p)
             if (t != 0) {
                 w=func_021BA6C8(R(0x50),R(0x38));
                 if (w!=W(0x134) && w!=0) {
+                    Pos o3;
                     func_020061E4(0x548);
                     func_021BB220(R(0xb0),(void *)w); func_021BA7A4(R(0x50),(void *)w);
                     W(0x134)=w; func_021BA69C(R(0x50),&o3.x);
@@ -165,18 +166,20 @@ int func_021B99E8(int *a,int unused,char *p)
         *(int *)(W(0x130)+4)=0; func_021B995C(a,(int)func_021B99AC); break;
     case 7:
         if (W(0x138)==0 && func_021BB0E0(R(0x78))==0) {
+            Pos o4;
             func_021BA3BC(R(0x38),&o4.x);
             func_021BB0B4(R(0x78),8192,&d_021BBB78,&o4);
-            func_020061E4(0x548);
+            func_020061E4(0x648);
             if (W(0x134)!=0) {
                 func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));
                 func_021BA3F4(R(0x38),0,0); W(0x134)=0;
             }
             W(0x138)=1;
         } else if (W(0x138)==1 && func_021BB0E0(R(0x78))==0) {
+            Pos o5;
             func_021BB190(R(0x78),&o5.x); o5.x+=128; o5.y+=96;
             func_021BB0B4(R(0x78),4096,&o5,&d_021BBB78);
-            func_020061E4(0x648);
+            func_020061E4(0x649);
             if (W(0x134)!=0) {
                 func_021BB3D0(R(0xb0)); func_021BB5B4(R(0xd4),0); func_021BA7D4(R(0x50));
                 func_021BA3F4(R(0x38),0,0); W(0x134)=0;

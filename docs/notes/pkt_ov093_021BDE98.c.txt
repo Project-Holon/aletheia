@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own-source arities rederived, BE550 retains caller-loaded r3, veneers read; 2 CCE0/C62D8 no full twin; 3 u8 slot/prototypes worse1176, u32 flags and const a unchanged312; 4 struct-local/const idioms; 5 fresh neighbours and idioms reread. Two scheduling variants exhausted; next is Result cast-buffer versus scalar spill scopes.
- * residual: 1180/1184,312 concrete bytes; original move/finalMove register roles restored by delaying finalMove after category call; spill offsets and folded far-field pool remain. Prior Permuter300 baseline agreed but unsafe best rejected, not repeated.
+ * checks: 1 own matched bodies and veneers re-derived; BE550 retains the original caller-loaded fourth register. 2 refreshed BCCE0/C62D8 neighbours give no full twin. 3 category u8 plus own u16 callees improves 312 to 300; a typed Work parameter is identical300; earlier const a was312. 4 cast-buffer314, enum-category312, enum-offset556; declared-struct and far-offset idioms read. 5 fresh idiom listing and own neighbours read; Result at sp44 already agrees. Prior consumed permuters are not repeated. Remaining hypothesis is independent 0x854 pool provenance versus the compiler deriving it from 0x850; scheduling variants remain consumed.
+ * residual: 1180/1184,300 concrete bytes; original move/finalMove register roles restored by delaying finalMove after category call; spill offsets and folded far-field pool remain. Prior Permuter300 baseline agreed but unsafe best rejected, not repeated.
  * symbols:
  *   func_021D5C08 0x021D5C08 thumb ov093
  *   func_021BD1E0 0x021BD1E0 thumb ov093
@@ -84,7 +84,7 @@ extern void func_021C5604(u8 *, u8 *, int);
 extern void func_021C64B4(u8 *, u16, u8 *, void *);
 extern int func_021CA7F4(u8 *, u8 *, u32, const u8 *, void *);
 extern int func_021C07AC(u8 *, u8 *, u32, u32, int);
-extern void func_021C0450(u8 *, u8 *, u32, int);
+extern void func_021C0450(u8 *, u8 *, u16, int);
 extern void func_021BEBD8(u8 *, u8 *, int, int);
 extern int func_021BE3A8(u8 *, u8 *, u16 *);
 extern void func_021BE338(void *);
@@ -107,7 +107,7 @@ extern u8 func_021D5440(u8 *);
 extern void func_021BE398(void *, u32, u32, u32);
 extern int func_021BEAB4(u8 *, u8 *, u32, void *, void *);
 extern void func_021BE550(u8 *, u8 *, u32, void *);
-extern int func_021BEC58(u8 *, u8 *, u32, void *);
+extern int func_021BEC58(u8 *, u8 *, u16, void *);
 extern void func_021D6744(u8 *, u32, u32, u32, u32, u32);
 extern void func_021CD4B0(void *, u32, ...);
 extern u8 func_021D69AC(u8 *, int);
@@ -117,13 +117,13 @@ extern int func_021D5BB0(void *, u32);
 extern void func_021BFF60(u8 *, u8 *, int);
 extern void func_021BE994(u8 *, u8 *, u32, u32);
 extern void func_021E0394(u8 *, u32);
-extern void func_021BE400(u8 *, u32);
+extern void func_021BE400(u8 *, u16);
 void func_021BDE98(u8 *p, u8 *a, Action *action, u32 value)
 {
     Result r;
     u32 originalState;
     u8 f25, f26, redirected, called;
-    u32 category;
+    u8 category;
     u8 flag;
     u32 resultValue, slotValue, monId;
     u32 slot;

@@ -7,10 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 matched callee 021BE6E8 takes four int args and returns int; accessor return chain named; 2 ov064 384C/3BD8 and ov065 37DC confirm chain/types, no predicate twin; 3 enum and u16 locals each unchanged four-byte swap; 4 enum Boolean and named constant argument idioms read, passing existing zero/flag locals unchanged; 5 fresh idiom listing and matched neighbours reread, stack-object check n/a because no stack object. Next hypothesis: _Bool local type; scheduling variants exhausted.
- * Residue: compiled 42 bytes versus listing extent 44 (two zero padding bytes); four concrete bytes differ: original +14 movs r4,#0 then +16 movs r5,#1, compiled reversed. All relocations resolve.
- * Budget: iteration 3, scheduling 2/2, check3 2/2, check4 1/2; no permuter.
+ * status: EXACT*
+ * checks: 1 own BE6E8 confirms four args/int return and matched accessor chain confirms pointer forwarding; 2 ov064/065 callers refreshed; 3 _Bool zero/flag retained, 4 two initialisation-order variants stayed DIFF4, 5 idioms/neighbours refreshed. W75 three fixed runs, baseline explain, first permuter300 reached EXACT* at candidate102; fixed one and shard verify confirmed it.
+ * lever: initialise flag after the callee result has been captured; the
+ * saved zero is then materialised before the saved one. The trailing
+ * halfword at 021F3BD6 is zero alignment padding.
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -24,14 +25,16 @@ extern int func_021BE6E8(int a, int b, int c, int d);
 
 int func_021F3BAC(void *p)
 {
-    unsigned short zero;
-    unsigned short flag;
+    _Bool zero;
+    _Bool flag;
     int v;
     int s;
+    int tmp;
     s = func_02188D2C(func_0201210C(func_020124E4(p)));
-    flag = 1;
     zero = 0;
-    v = func_021BE6E8(s, zero, flag, zero);
+    tmp = func_021BE6E8(s, zero, 1, zero);
+    v = tmp;
+    flag = 1;
     if (v < 0x5000)
         flag = zero;
     return flag;

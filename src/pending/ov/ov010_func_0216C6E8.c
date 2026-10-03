@@ -7,7 +7,74 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   MATCH
+ * blocker: ARM9 0x02045CAC at +0080 has no outside witness. Ilias-owned
+ * unit_02045C44.c omits func_02045CAC from function:. Singleton TU split
+ * leaves this caller OUT. No overlay leaves filed.
+ * blocker: C below copied from ov122_func_021D5004.c, previously verified
+ * EXACT 344 bytes through the ov070 blocker evidence; not recompiled here.
+ * typedef unsigned char u8;
+ * typedef unsigned short u16;
+ * typedef unsigned int u32;
+ * struct MsgEntry { u32 off; u16 len; u16 pad_06; };
+ * struct MsgFile {
+ *     u16 langCount; u16 count; u32 unk_04; u32 unk_08; u32 langOff[1];
+ * };
+ * struct MsgBank {
+ *     const struct MsgFile *file;
+ *     void *base;
+ *     struct MsgEntry cache;
+ *     u32 origin;
+ *     void *stream;
+ *     u16 heapId;
+ *     u8 langIndex;
+ *     u8 resident;
+ * };
+ * extern char g_020A7E8C[];
+ * extern void *sub_02030734(u32,u32,int,const char *,u16);
+ * extern void func_020307B0(void *);
+ * extern void func_020495F4(void *,u32,void *);
+ * extern void func_0204960C(void *,u32);
+ * extern void func_0204581C(void *);
+ * extern void func_02045A00(void *,const void *,u16);
+ * extern void func_02045E04(void *,u32);
+ * extern void func_02046180(struct MsgBank *);
+ * void func_02045CAC(struct MsgBank *bank,u32 index,void *dest)
+ * {
+ *     u32 size;
+ *     struct MsgEntry *e;
+ *     if (index >= bank->file->count) {
+ *         func_0204581C(dest);
+ *         return;
+ *     }
+ *     func_02046180(bank);
+ *     if (bank->resident == 0) {
+ *         u32 pos = bank->origin + bank->file->langOff[bank->langIndex];
+ *         func_0204960C(bank->stream,pos + (index * 8 + 4));
+ *         func_020495F4(bank->stream,8,&bank->cache);
+ *         e = &bank->cache;
+ *     } else {
+ *         e = (struct MsgEntry *)((u8 *)bank->base + 4) + index;
+ *     }
+ *     if (bank->resident == 0) {
+ *         void *buf;
+ *         size = e->len * 2;
+ *         buf = sub_02030734((u16)((bank->heapId & 0x7fff) | 0x8000),size,
+ *                            0,g_020A7E8C,0xd6);
+ *         if (buf != 0) {
+ *             func_0204960C(bank->stream,
+ *                           e->off + (bank->origin
+ *                               + bank->file->langOff[bank->langIndex]));
+ *             func_020495F4(bank->stream,size,buf);
+ *             func_02045A00(dest,buf,e->len);
+ *             func_020307B0(buf);
+ *         }
+ *     } else {
+ *         func_02045A00(dest,(u8 *)bank->base + e->off,e->len);
+ *     }
+ *     func_02045E04(dest,index);
+ * }
+ * lever: task, ctx, x, proc declaration order restores pointer spill slots.
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -43,17 +110,6 @@ typedef struct VecFx32 {
     fx32 z;
 } VecFx32;
 
-typedef struct Npc {
-    u16 name;           /* 0x00 */
-    u16 msg;            /* 0x02 */
-    u8 pad04[0x120 - 0x04];
-} Npc;
-
-typedef struct Data {
-    u8 pad00[0xA0];
-    Npc npcs[1];        /* 0xA0 */
-} Data;
-
 typedef struct Spawn {
     void *sys;          /* 0x00 */
     u8 pad04[4];
@@ -76,7 +132,7 @@ extern void func_02045CAC(void *bank, u32 index, void *buf);
 extern void func_02045C04(void *bank);
 extern void *func_0202435C(const u16 *src, u32 heap);
 extern void *func_02012964(void *ctx);
-extern void *func_0216DE94(void *p, u16 id);
+extern void *func_0216DE94(void *p, u32 id);
 extern void func_0216D88C(void *actor, VecFx32 *out);
 extern void *func_02188C58(void *proc);
 extern u32 func_0218EC2C(void *m);
@@ -85,15 +141,15 @@ extern void func_021B09EC(u8 dir, u32 *a, u32 *b);
 extern void *func_0219129C(void *x, u32 a, VecFx32 *pos, void *name, u32 c, u32 b);
 extern u32 func_0216C680(void *task, u32 *state, Spawn *work);
 
-void *func_0216C6E8(Data *d, void *sys, u32 idx, u16 id, u8 dir)
+void *func_0216C6E8(u8 *d, void *sys, u32 idx, u16 id, u8 dir)
 {
     VecFx32 ofs;
     u32 a;
     u32 b;
-    void *ctx;
-    void *proc;
-    void *x;
     void *task;
+    void *ctx;
+    void *x;
+    void *proc;
     Spawn *t;
     void *bank;
     void *m;
@@ -106,16 +162,16 @@ void *func_0216C6E8(Data *d, void *sys, u32 idx, u16 id, u8 dir)
     t = func_020124E8(task);
     t->sys = sys;
     t->id = id;
-    if (d->npcs[idx].name == 0xFFFF) {
+    if (*(u16 *)((u32)d + 0xA0 + idx * 0x120) == 0xFFFF) {
         t->name = func_020457B0(0x300, 4);
         bank = sub_02045B38(0, 2, 0xB8, 4);
-        n = d->npcs[idx].msg;
+        n = *(u16 *)((u32)d + 0xA2 + idx * 0x120);
         if (n >= 0x3AE)
             n = 0;
         func_02045CAC(bank, n, t->name);
         func_02045C04(bank);
     } else {
-        t->name = func_0202435C(&d->npcs[idx].name, 4);
+        t->name = func_0202435C((u16 *)((u32)d + 0xA0 + idx * 0x120), 4);
     }
     func_0216D88C(func_0216DE94(func_02012964(ctx), t->id), &t->pos);
     m = func_02188C58(proc);

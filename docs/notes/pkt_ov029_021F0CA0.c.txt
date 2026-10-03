@@ -7,24 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 n/a no callees; 2 ov029 021F0298/021F0300 confirm u16,u8,u8
- * inputs and 10-byte records; 3 unsigned full-width then caller narrow types
- * unchanged; 4 enum zero reduced 12 to 9 bytes, logical record order to 2;
- * 5 idioms and ov029 callers refreshed, sibling ov028/ov030 no twin; no
- * stack object. W57 R1 refreshed ov029 callers and relevant idioms; the
- * once-only --budget 300 --types permuter did not improve the baseline.
- * Further manual store ordering is barred by the shared scheduling cap.
- * budget: 3 iteration runs (two nonshrinking), check3 2/2, check4 2/2;
- * scheduling 2/2; W56 7 matching compiles; W57 one 300-candidate permuter
- * (29 CCERR, 271 DIFF including baseline) plus 2 fixed one validations.
- * All budgets carried; permuter exhausted. Best 24 bytes, DIFF 2.
- * residue: +0x0C and +0x0E strh r4,[r0,#4] / strh r2,[r0] swapped.
- * evidence: 021F0298/021F0300 use 10-byte records and u16,u8,u8 inputs.
- * All fields below are initialized, with no invented bounds or UB.
- * search: scratchpad/overlay-goal-20261001-w57/R1/permuter.log;
- * candidate sources/scores and all 51 terminal compiler exits retained
- * beside it. Best output is the unchanged baseline; no mutant accepted.
+ * status: EXACT
+ * checks: 1 no callees; 2 021F0298/021F0300 confirm 10-byte records and u16,u8,u8; 3 earlier caller-width tests recorded; 4 enum zero plus f2,f4,f0,f6 source store order now EXACT24, baseline order f2,f0,f4,f6 DIFF2; 5 refreshed directory/ov029 callers. Old once-only types permuter 300 was not repeated; supersedes exhausted DIFF2.
+ * lever: enum zero and f2,f4,f0,f6 logical store order recover the
+ * original scheduling; the previous f2,f0,f4,f6 order differed at two stores.
  */
 typedef struct { unsigned short f0, f2, f4, f6; unsigned char f8, f9; } Record;
 typedef enum { Zero } ZeroValue;
@@ -33,8 +19,8 @@ void func_021F0CA0(Record *p, unsigned short a, unsigned char b, unsigned char c
     ZeroValue z;
     z = Zero;
     p->f2 = b;
-    p->f0 = b * 2;
     p->f4 = z;
+    p->f0 = b * 2;
     p->f6 = a;
     p->f8 = c;
     p->f9 = 1;

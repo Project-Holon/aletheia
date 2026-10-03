@@ -1,32 +1,19 @@
 /*
  * function: func_021B0614
- * address:  0x021B0614
- * packet:   pkt_ov013_021B0614
- * region:   ov013
+ * address: 0x021B0614
+ * packet: pkt_ov013_021B0614
+ * region: ov013
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      arm
- * status:   DIFF
- *
- * Register request p in a free slot: refuse NULL, a full session
- * (+0x20 == 3) or a type other than 2/3; return 1 if already present;
- * else take the first empty 0x021B3CB0 entry, bump +0x20, OR p->f8 into
- * +4, set up the slot (func_021B19BC, func_021B16E4) and, for the first
- * type-2 request, restart the clock and clear the 42C0 counters.
- *
- * DIFF, 4 of 78 instructions (5 bytes) differ (lane B2, 7 runs plus a
- * 300-compile permuter run that found nothing): the first loop's counter
- * is r5 in the original (the same register as the second loop's counter,
- * which lives across the slot calls) and r2 here. Everything else,
- * including both unrotated loops ((i < 3) ? 1 : 0), is byte-exact. Tried
- * without effect: a separate variable for the first loop (either
- * declaration order), `register`, the first loop's return as a goto to
- * the shared return 1 (worse, 62).
- * Lane R2 (3 runs): the first loop as a static inline Contains(p) (290
- * bytes out, the helper's own counter reorders the prologue) and as
- * `i = 0; do {...} while (++i < 3);` (203 out, the loop is not rotated).
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * Register request in a free slot, restarting clock/counters for the first type-2 request.
+ * residual: DIFF 312/312 bytes, 3 concrete bytes differ; all eight relocations resolved. Only second-loop reset differs: original mov r5,#0, compiled sub r5,r5,#3.
+ * evidence: i -= 3 at the second loop retains the shared r5 web and improves 5 to 3. The first loop reaches i==3 unless it returns, so subtraction resets it to zero. i &= 0, self-assignment, and address-of-local reset returned 5; long i gave 5, enum i 7.
+ * checks: 1 own callee definitions/assembly rechecked, 021B19BC corrected to char*, int, int; 2 same-overlay request neighbours, no exact twin; 3 u16 i gave 328 bytes/211 rejected, const request on best gave 34; 4 shared-loop/no-code/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * permuter: prior budget-300 search already consumed without improvement, not repeated.
+ * prior evidence: separate first index/register keyword tied; first-loop goto gave 62, Contains inline 290 bytes-out, do/while 203 bytes-out.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3CB0     0x021B3CB0  data  ov013  a4
@@ -37,7 +24,6 @@
  *   func_021B19BC  0x021B19BC  arm  ov013
  *   func_021B3018  0x021B3018  arm  ov013
  */
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -84,7 +70,7 @@ extern Ctx42C0 d_021B42C0;
 
 extern u16 func_02087170(void);
 extern void func_021B16E4(u32 i);
-extern void func_021B19BC(Slot *p, u32 i, int a2);
+extern void func_021B19BC(char *p, int i, int a2);
 extern void func_021B3018(void);
 
 int func_021B0614(Req *p)
@@ -105,7 +91,7 @@ int func_021B0614(Req *p)
             return 1;
         }
     }
-    for (i = 0; (i < 3) ? 1 : 0; i++) {
+    for (i -= 3; (i < 3) ? 1 : 0; i++) {
         if (d_021B3CB0[i] == 0) {
             d_021B3CB0[i] = p;
             break;
@@ -113,7 +99,7 @@ int func_021B0614(Req *p)
     }
     d_021B3C84.f20++;
     d_021B3C84.f4 |= p->f8;
-    func_021B19BC(&d_021B3CBC[i], i, p->f5);
+    func_021B19BC((char *)&d_021B3CBC[i], i, p->f5);
     func_021B16E4(i);
     if (p->fC != 2) {
         return 1;

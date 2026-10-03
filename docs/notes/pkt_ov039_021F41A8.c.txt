@@ -8,10 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own/shared signatures rederived, BE674 j widened and F3E04 index u16; 2 3A34/4610 confirm Work, case6 byte is slot21F0 not cur21EC; 3 const a0 flat4 after casts (first CCERR counted); 4 index pinning235 then correct field4; 5 neighbours/idioms refreshed. Permuter temp(z)+expand(k) validated at2 with78/78 relocs.
+ * checks: 1 renewed own/shared signatures; BE674's third argument is wide, F3DE4/F3E04 use byte delta and halfword index; 2 refreshed 3A34/4610 Work fields, no new twin; 3 unsigned-long j reproduces DIFF2, word k grows1144/DIFF987; 4 enum/index/store hypotheses do not beat2; 5 fresh idioms and scoped neighbours, declared-stack-struct read. No next sweep justified; initial k and hold-store trade off.
  * runs: 3 iteration + 3 checks
  * residual: R3 best1128/1128,2 concrete bytes,78/78 relocs; initial BE674 r2 uses j in r6 instead of reloading k fromsp8. Source has valid initialized tileZ and no volatile. Keeping initial k restores four-byte hold-store/arg-setup swap.
  * retry: Wave59 R3: 10 fixed-flag runs plus permuter300 (baseline4; AST unresolved4 vs one0; candidate one2/0 validated).
+ * renewal: Wave75 R26: 3 iteration + 2 check3 compiles; enum j/initial k, hold cast, comma call all DIFF4; long j DIFF2. Old best C retained; prior permuter remains spent, no rerun. Three nonshrinks stop this pass.
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -261,4 +262,3 @@ int func_021F41A8(const void *a0,u32 *state)
  func_02072F34(func_02006138(sound),volume);
  return 0;
 }
-

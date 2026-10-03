@@ -8,11 +8,12 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * checks: 1 no calls, all codec/state operations inline; 2 exact 4/2-bit decoders and wrappers prove state/arity, no exact encoder twin; 3 const src 588 vs nonconst 591, s16/int sample tied, u8 code 1296 B/1075 diff and s16 step 1320 B/614 diff; 4 inline/byte-colour idioms read, no further fit; 5 directory and ov013 neighbours reread, scalar frame has no addressed stack object; next hypothesis would be codec result/store scheduling, no sweep run.
- * budget: iteration 4 runs, stop after 3 consecutive nonshrinking changes (runs 2-4); check 3 2/2 compiles, other checks 0/2; manual reorder/scheduling 1/2; sweeps 0/3; once-300 typed permuter spent, validation 1; no carried history.
- * residual: 1320/1320 B, 588 concrete bytes differ, both data relocations resolve sole-ref; pool order, register colours and inline return/state-store scheduling differ.
- * permuter: 300 compiles, best DIFF 1320 B/588 diff; reorder(+1) and temp for src[4] returned 588 diff in fresh one, so original best spelling retained.
- * 3-bit ADPCM encoder, eight samples per three output bytes, high bits first.
+ * Three-bit ADPCM encoder: eight s16 samples per three output bytes, high bits first.
+ * residual: DIFF 1320/1320 bytes, 531 concrete bytes differ; both table relocations resolved.
+ * evidence: reusing the int sample parameter for the encoded code reduced old 588 to 534; nonconst source on this spelling reduced 534 to 531. Pointer helper gave 588, long count stayed 534, updating pred directly gave 623; long pred stayed 534.
+ * permuter: prior wave54 typed budget-300 search already consumed, best 588; reorder(+1) and src[4] temp validated at 588. No repeated search.
+ * prior evidence: on the older spelling const src gave 588 versus nonconst 591, s16/int sample tied, u8 sample gave 1296/1075 and s16 step gave 1320/614. The improved helper changes the const comparison.
+ * checks: 1 no out-of-line calls; 2 own-overlay decoders/wrappers confirm state/table types, no exact encoder twin; 3 long pred 534, nonconst src 531; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2
@@ -27,11 +28,10 @@ typedef struct AdpcmState {
 } AdpcmState;
 extern const s8 d_021B3A04[8];
 extern const s16 d_021B3A1C[89];
-static inline u8 Adpcm3EncodeSample(AdpcmState *st, s16 sample)
+static inline u8 Adpcm3EncodeSample(AdpcmState *st, int sample)
 {
     int idx;
     int pred;
-    int code;
     int diff;
     int step;
     int np;
@@ -40,29 +40,29 @@ static inline u8 Adpcm3EncodeSample(AdpcmState *st, s16 sample)
     step = d_021B3A1C[idx];
     diff = sample - pred;
     if (diff < 0) {
-        code = 4;
+        sample = 4;
         diff = -diff;
-    } else code = 0;
+    } else sample = 0;
     if (diff >= step) {
-        code |= 2;
+        sample |= 2;
         diff -= step;
     }
-    if (diff >= (step >> 1)) code |= 1;
+    if (diff >= (step >> 1)) sample |= 1;
     diff = step >> 2;
-    if (code & 2) diff += step;
-    if (code & 1) diff += step >> 1;
-    if (code & 4) diff = -diff;
+    if (sample & 2) diff += step;
+    if (sample & 1) diff += step >> 1;
+    if (sample & 4) diff = -diff;
     np = pred + diff;
     if (np < -32768) np = -32768;
     if (np > 32767) np = 32767;
-    idx += d_021B3A04[code];
+    idx += d_021B3A04[sample];
     if (idx < 0) idx = 0;
     else if (idx > 88) idx = 88;
     st->pred = (s16)np;
     st->index = idx;
-    return code;
+    return sample;
 }
-void func_021AFABC(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
+void func_021AFABC(u8 *dst, s16 *src, u32 n, AdpcmState *st)
 {
     u32 i;
     u32 count;

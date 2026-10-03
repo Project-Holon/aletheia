@@ -4,6 +4,10 @@
  * packet:   pkt_ov010_02162D2C
  * region:   ov010
  * status:   DIFF (24 bytes, same size)
+ * superseded: src/matched/ov/ov010_func_02162D2C.c is EXACT* in wave75,
+ * 98 bytes plus two alignment bytes; form Sub pointer before coordinate
+ * loads and keep x0 as s16. Once300 search closed after nine candidates;
+ * its reordered/cast candidate validated by fixed one and scoped shard.
  *
  * Near miss. Register allocation and shift scheduling only: the original
  * computes x = pos[0] >> 12 first (r3), loads pos[1], pos[2] into r2, r1,

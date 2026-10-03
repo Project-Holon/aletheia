@@ -7,7 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (35 concrete bytes; compiled 166 versus original 164)
+ * checks: 1 own matched callees confirm 2/2/3/3 inputs; 2 no six-stat twin, neighbors read; 3 enum declaration/assignment zero 35, u16 zero 36; 4 enum-zero and inline idioms tested; 5 refreshed idioms and B558/B74C, no closer twin; next explicit zero live-range boundary.
+ * search: wave75 once-only permuter --budget 300 --types consumed; emitted baseline agrees with one DIFF35/166; best DIFF71/164 rejected because expand(sum x1) adds tmp2 twice.
+ * attempts: enum zero initializer/assignment 35; non-inline zero_sum 144 with real call; inline total 45/164; u16 zero 36. Best legal fixed-flag spelling retained.
  * note: two zeros (arg 0 in r7, initial sum in r4) not reproduced; compiler merges both into one register (frame and register numbering differ)
  *
  * symbols:
@@ -22,17 +25,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern int func_02159AE8();
-extern int func_02159B10();
-extern int func_0215B4AC();
-extern int func_02017E1C(int, int, int);
-int func_0215B5BC(int a0, int a1)
+extern u16 *func_02159AE8(void *, void *);
+extern u32 func_02159B10(void *, void *);
+extern int func_0215B4AC(void *, u32, void **);
+extern u32 func_02017E1C(void *, u32, u32);
+typedef enum { ZERO } Zero;
+int func_0215B5BC(void *a0, void *a1)
 {
     u16 *out = (u16 *)func_02159AE8(a0, a1);
     int idx = func_02159B10(a0, a1);
-    int z = 0;
+    Zero z;
     u16 sum;
-    int obj;
+    void *obj;
+    z = ZERO;
     sum = 0;
     if (func_0215B4AC(a1, idx, &obj) == 1) {
         sum = z + (u16)func_02017E1C(obj, 0xD, z);

@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 all callee arities re-derived, third 02191674 arg u16 matches caller truncation; 2 neighbours no exact twin; 3 u8 mask unchanged, u16 palette adds shifts; 4 long index/enum palette/const Tiles/dead mode reuse unchanged; 5 neighbours and idioms refreshed, no stack aggregate in residue.
+ * Renewed pass R23: 6 runs; safe best DIFF99, compiled332/original340.
+ * Palette remains wide: matched callee has u16 fifth arg, but original
+ * passes pal<<6 without truncation; narrow prototype/local adds shift pair.
+ * No new permuter: earlier note records a consumed 300-candidate search.
  *
  * DIFF note (lane B6, 8 runs + one 300-compile permuter pass that only
  * found semantics-changing reorders). Everything through the
@@ -78,7 +83,7 @@ void func_0217F640(Self *self, u32 a1, u32 mask, int mode, int msg)
 {
     u32 h = func_02188C54(a1);
     void *s;
-    int i;
+    long i;
     int flag;
 
     if (self->win2804 == 0)

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 BA178 and D4D84 shown to read 3 arguments; 2 no matched twin declares those callees, own 969C confirms common accessors and B9B54/9634 sources reread; 3 const a with u16 k worsened 468/306 to 472/324; 4 block scope shrank 472 to 468 bytes, two declaration-order variants and temporary extraction failed; 5 idioms relisted and ov093 neighbours reread, no local stack aggregate. Single --types permuter 300 output rejected for assignment after break and u8 scaled-offset truncation; safe port compiled unchanged. Next hypothesis enum second-loop counter to preserve its duplicated guard.
- * residual: 468/468 bytes, 306 concrete bytes differ, 21/21 relocations resolved. Final copied B9B54 own-source prototype confirmed unchanged in scratchpad/production-01a0ef95/w21-B3/9460-final.log; safe mutation port log 9460-port.log.
+ * checks: 1 all arities rederived from own matched accessors or ov093 callers, BA178/D4D84 take3 and B9B54 takes2; 2 969C and B9B54/9634 sources confirm full-word payloads but no complete loop twin; 3 enum second-loop counter compiles unchanged468/306, widening k:u8 to int worsens468/316; prior const a with u16 k=472/324; 4 shared function-scope loop counter and reordered declarations compile unchanged468/306, enum-zero and stack-order idioms read; 5 directory refreshed and current 969C reread, no new aggregate. Prior --types permuter300 consumed, rejected assignment after break and truncated scaled offset, not repeated. Next lever is an inline per-record accessor's local lifetime rather than another flat declaration sweep.
+ * residual: 468/468 bytes, 306 concrete bytes differ, 21/21 relocations resolved. Renewed logs scratchpad/overlay-newpass-20261003-w75/R11/021B9460-{enum,sharedloops,widek}.log; best C remains the recorded baseline.
  * symbols:
  *   func_021BA178 0x021BA178 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
