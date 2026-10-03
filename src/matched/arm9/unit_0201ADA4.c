@@ -31,18 +31,19 @@
 
 typedef unsigned int u32;
 
-extern void *sub_0201AFD4(void *a, void *b);
-extern void *func_02049578(void *handle, void *x);
+struct ArcFile;
+extern u32 sub_0201AFD4(u32 a, int b);
+extern u32 func_02049578(struct ArcFile *handle, u32 x);
 extern void *func_0204960C(void *handle, void *x);
 struct ArcFile;
 extern void func_020495F4(struct ArcFile *arc, u32 size, void *dst);
 extern void *g_0214652C;
 
-void sub_0201ADA4(void *a, void *b, void *c)
+void sub_0201ADA4(u32 a, int b, void *c)
 {
-    void *r = sub_0201AFD4(a, b);
+    u32 r = sub_0201AFD4(a, b);
 
     r = func_02049578(g_0214652C, r);
-    r = func_0204960C(g_0214652C, r);
+    func_0204960C(g_0214652C, (void *)r);
     func_020495F4(g_0214652C, 0x3C, c);
 }

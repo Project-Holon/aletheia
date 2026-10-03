@@ -67,7 +67,7 @@ extern void func_021C3C78(u32 *m, S *s);
 extern void func_021C3C88(u32 *m, S *s);
 extern void func_021C3D1C(u32 *m, S *s, u32 heap);
 extern void func_021C3DA8(u32 *m, S *s);
-extern void func_021C3DE4(u32 *m, S *s, u32 heap);
+extern void func_021C3DE4(u32 *m, u32 *s, u32 heap);
 extern void func_021C3E38(S *s, u32 heap);
 extern void func_021C3E64(u32 *m, S *s);
 extern void func_021C3F60(u32 *m, S *s);
@@ -105,7 +105,7 @@ void func_021C38F4(u16 heap, void *b, void *c, u32 m0, u32 m1, void *mon)
     func_021C3C88(m, &s);
     func_021C3D1C(m, &s, heap);
     func_021C3DA8(m, &s);
-    func_021C3DE4(m, &s, heap);
+    func_021C3DE4(m, (u32 *)&s, heap);
     func_021C3E38(&s, heap);
     func_021C3E64(m, &s);
     func_021C3F60(m, &s);
