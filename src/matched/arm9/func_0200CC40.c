@@ -49,7 +49,7 @@ struct FormCount {
 extern const struct FormCount func_0200CA98_Table[];
 extern u32 func_0200C7F4(u16 id);
 extern u32 func_0200C7C0(u16 id);
-extern void *func_0201ADE4(u32 a, u16 b, u16 c);
+extern void *func_0201ADE4(u32 a, int b, u32 c);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *p);
@@ -112,7 +112,7 @@ void func_0200CC40(u8 *p, u16 id, u32 *out1, u32 *out2, u32 *outForm, u16 a5)
             *out2 = 1;
         }
     }
-    h = func_0201ADE4(id, *outForm, a5);
+    h = func_0201ADE4(id, (u16)*outForm, a5);
     if (func_0201AE1C(h, 0x14) == 0xFF) {
         *out1 = 2;
     }

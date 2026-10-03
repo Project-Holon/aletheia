@@ -54,9 +54,11 @@ extern u16 func_0217EE34(int i);
 typedef unsigned int   u32;
 extern void func_0217F210(u8 *p, int a, u32 b);
 extern u32 func_0217F1EC(u8 *p);
-extern int func_020399A8(void);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *a, u32 b, u32 c);
+extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern void func_0217422C(u8 *a, int b, int c);
 extern int func_02174268(u8 *a);
 extern void func_0217BAF0(u8 *a, int b, int c);
@@ -82,12 +84,12 @@ int func_0217D890(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 2:
         if (b->b1 == 0)
-            func_02039C68(func_020399A8(), 0xb, 0x14);
+            func_02039C68((struct Link *)func_020399A8(), 0xb, 0x14);
         (*d)++;
         break;
     case 3:
         if (b->b1 == 0) {
-            if (func_02039CB4(func_020399A8(), 0xb, 0x14) == 1)
+            if (func_02039CB4((struct Link *)func_020399A8(), 0xb, 0x14) == 1)
                 (*d)++;
         } else {
             (*d)++;

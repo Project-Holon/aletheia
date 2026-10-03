@@ -21,17 +21,19 @@
 
 typedef unsigned short u16;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1E8(int a, int b);
 extern int func_0203D378(int a);
-extern void func_02039C68(int a, int b, int c);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern void func_021BA874(void *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(void *p);
 
 int func_021BC228(char *p, int r)
 {
-    if (func_0203D378(func_0203D1E8(func_020399A8(), 0)) != 0) {
+    if (func_0203D378(func_0203D1E8((int)func_020399A8(), 0)) != 0) {
         *(int *)(p + 0x135C) = 3;
         func_021BA874(p, *(u16 *)(p + 0x242) - 1);
         func_021BAAB8(p, 0x60, 0);
@@ -40,7 +42,7 @@ int func_021BC228(char *p, int r)
         *(int *)(p + 0x135C) = 4;
         func_021BAAB8(p, 0x4C, 0);
         func_021BC090(p);
-        func_02039C68(func_020399A8(), 0x1B, 0xA);
+        func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
         *(int *)(p + 0x1CC) = 0x49;
     }
     return r;
