@@ -1,0 +1,22 @@
+/*
+ * function: func_021B9BAC
+ * address: 0x021B9BAC
+ * packet: pkt_ov110_021B9BAC
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204A600 0x0204A600 arm
+ *   func_021BCA84 0x021BCA84 thumb ov110
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_021BADE8 0x021BADE8 thumb ov110
+ */
+struct PrintSys;
+extern void func_0204A600(void);
+extern void func_021BCA84(unsigned char *);
+extern unsigned int func_0201C4E4(struct PrintSys *);
+extern void func_021BADE8(unsigned char *);
+void func_021B9BAC(int a,unsigned char *b) { func_0204A600(); if(*(void **)(b+0x64)) func_021BCA84(*(void **)(b+0x64)); if(*(void **)(b+0x7c)) { func_0201C4E4(*(struct PrintSys **)(b+0x7c)); func_021BADE8(b); } }

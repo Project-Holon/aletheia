@@ -1,0 +1,22 @@
+/*
+ * function: func_021B694C
+ * address: 0x021B694C
+ * packet: pkt_ov098_021B694C
+ * region: ov098
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_021B6148 0x021B6148 thumb ov098
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_021B6B8C 0x021B6B8C thumb ov098
+ *   func_02045808 0x02045808 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02045EC0(void *,u32); extern u32 func_021B6148(u8 *); extern void func_0201F02C(void *,u32,void *); extern void func_0201F250(void *,void *,void *); extern void func_021B6B8C(int,int); extern void func_02045808(void *);
+void func_021B694C(u8 *p,u8 *q) { void *r; u32 t; r=func_02045EC0(*(void **)(p+32),3); t=func_021B6148(q); func_0201F02C(*(void **)(p+48),0,(void *)t); func_0201F250(*(void **)(p+48),*(void **)(p+44),r); func_021B6B8C((int)p,0); func_02045808(r); }

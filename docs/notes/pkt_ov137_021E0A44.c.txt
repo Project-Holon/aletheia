@@ -12,6 +12,8 @@
  * residual: 33 concrete bytes at 208/208, table setup and count/key register colouring.
  * permuter: mandatory 300 once; baseline33/208 but unresolved1 versus fixed-one resolved1/1, emitted attestation disagreed; best9 used volatile-add(base), rejected.
  * bounds: the two five-word scratch arrays fill sp4..sp2b; table row stride is ten bytes.
+ * retry: exhausted; 4 iteration + 2 checks. Long i/key each DIFF33; named row DIFF182; enum count DIFF182; sort-block key/value DIFF59. Original best retained, prior permuter300 not repeated.
+ * retry-checks: 1 no calls; 2 DEE4C/E0BC0 own matched neighbours reread; 3 enum count compiled; 4 block-colouring/initializer idioms read and local sort scope compiled; 5 directory refreshed, arrays fit observed five-word stack slots, no declared struct local.
  * symbols:
  *   d_021E1FDC 0x021E1FDC data a2
  */

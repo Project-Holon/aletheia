@@ -1,0 +1,22 @@
+/*
+ * function: func_021B6E8C
+ * address: 0x021B6E8C
+ * packet: pkt_ov101_021B6E8C
+ * region: ov101
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   d_021B753C 0x021B753C data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void func_02082BCC(void *,int,u32);
+extern const char d_021B753C[];
+void *func_021B6E8C(u32 heap,u8 *p) { void *q; q=func_02030734(heap,4,0,d_021B753C,0x49b); func_02082BCC(q,0,4); *(u32 *)q=**(u32 **)(p+16); return q; }

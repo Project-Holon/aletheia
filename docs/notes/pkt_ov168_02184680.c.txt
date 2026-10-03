@@ -14,6 +14,8 @@
  * residual: 256/256 bytes, 8 differing entry bytes: y reload belongs before callback pool load, entry copy and zero argument setup. All later concrete bytes agree.
  * blocker: Both func_0203F5FC sites lack an ARM9 witness; Ilias owns the unit. Callback func_02184780 resolves sole-ref.
  * checks: 1 DA8 takes 4, EE8 takes 1, B550 takes 3, sine takes u16; 2 own DA8/DC8/B550 files and ov168 84600/84780 twins read; 3 long y and pointer DA8 payload each compiled with no change, short/unsigned/enum y iteration did not improve; 4 FX multiply, float conversion and stack-parameter idioms read; 5 idiom directory and neighbours refreshed, no local stack aggregate; once-only macro-free permuter baseline agreed (256/256, 8 bytes, 2 unresolved), 300 candidates found no improvement. A named y temporary would be the next scheduling hypothesis; compile budget stopped.
+ * retry: exhausted; 4 iteration + 1 check. Named y and task-creation inline each DIFF8; u16 x added a branch difference (DIFF9); const pointer bindings DIFF8. Original best retained; earlier permuter300 not repeated.
+ * retry-checks: 1 own DA8/DC8/EE8/B550 bodies and sine blocker C reread; widened B550 coordinate preserves absent original truncation. 2 84600 and pending84780 reread; 3 const owner/sprite/entry bindings compiled; 4 inline argument-order and pointer-tie idioms read, two scheduling variants spent; 5 directory and neighbours refreshed, scalar frame only. ARM9 witnesses remain Ilias-owned.
  * symbols:
  *   func_02030DA8 0x02030DA8 arm
  *   func_02030EE8 0x02030EE8 arm

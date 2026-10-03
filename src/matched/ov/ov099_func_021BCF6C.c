@@ -1,0 +1,34 @@
+/*
+ * unit: yes
+ * function: func_021BCF6C, func_021BCF8C, func_021BCF98
+ * address: 0x021BCF6C
+ * packet: pkt_ov099_021BCF6C
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020362DC 0x020362DC arm
+ *   func_021BC06C 0x021BC06C thumb ov099
+ */
+typedef unsigned int u32;
+extern u32 func_020362DC(void);
+extern void func_021BC06C(char *);
+int func_021BCF6C(char *p, int ret)
+{
+    if (func_020362DC() != 0) {
+        func_021BC06C(p);
+        *(u32 *)(p + 0x1CC) = 0x7C;
+    }
+    return ret;
+}
+int func_021BCF8C(char *p, int ret)
+{
+    *(u32 *)(p + 0x1CC) = 0x60;
+    return ret;
+}
+int func_021BCF98(char *p, int ret)
+{
+    return ret;
+}

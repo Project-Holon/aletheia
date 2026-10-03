@@ -1,0 +1,75 @@
+/*
+ * function: func_021B7C90
+ * address: 0x021B7C90
+ * packet: pkt_ov173_021B7C90
+ * region: ov173
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 272/272 bytes, 37 concrete bytes differ; global p/row register swap and late constant register. Two ARM9 020260E4 calls also unresolved (unit_020260E0.c omits this entry).
+ * checks: 1 own 7EB0/7ADC/7FD0 and ARM9 callees read, retained visibly loaded third 7ADC arg; 2 7DA0 twin and 7C7C neighbour read; 3 long row same37, const pointer CCERR then casts268/230, u8 pointer and short row each272/37; 4 const/read-only and long-index idioms read; 5 fresh directory and neighbours reread, no stack object exists. Next hypothesis: isolate decrement pointer reload without changing return signature.
+ * permuter: once300 --types, macro-free baseline agrees272/37; best272/9 rejected because it changes void return to int and adds return old. No invalid mutation retained.
+ * abi: 7ADC receives a visibly loaded third argument; retain it and narrow its index to u8 at this caller's truncation.
+ * symbols:
+ *   func_021B7EB0 0x021B7EB0 thumb ov173
+ *   func_020061E4 0x020061E4 thumb
+ *   func_020260E4 0x020260E4 thumb
+ *   func_021B7438 0x021B7438 thumb ov173
+ *   func_021B71C4 0x021B71C4 thumb ov173
+ *   func_021B70D8 0x021B70D8 thumb ov173
+ *   func_021B7F64 0x021B7F64 thumb ov173
+ *   func_021B7FD0 0x021B7FD0 thumb ov173
+ *   func_021B7ADC 0x021B7ADC thumb ov173
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021B7EB0(char *,int);
+extern void func_020061E4(u32);
+extern void func_020260E4(void *,u8);
+extern u16 func_021B7438(char **);
+extern void func_021B71C4(char *,int);
+extern void func_021B70D8(char *);
+extern void func_021B7F64(char *);
+extern void func_021B7FD0(u8 *,int);
+extern void func_021B7ADC(u8 *,u8,u32);
+void func_021B7C90(u8 *p,int row,int old)
+{
+    int zero;
+    zero=0;
+    func_021B7EB0((char *)p,0);
+    if(row<=3) {
+        func_020061E4(0x54c);
+        *(u16 *)(*(char **)p+0x14)=row;
+        if(*(u16 *)(*(char **)p+0x16)+*(u16 *)(*(char **)p+0x14)<*(u8 *)(p+0x1b8)) func_021B71C4((char *)p,func_021B7438((char **)p));
+        else func_021B71C4((char *)p,zero-2);
+    } else if(row==6) {
+        if(old==3 && *(u16 *)(*(char **)p+0x16)+4<*(u8 *)(p+0x1b8)) {
+            func_020061E4(0x54c);
+            func_020260E4(*(void **)(p+0x1c8),3);
+            row=3;
+            *(u16 *)(*(char **)p+0x16)=*(u16 *)(*(char **)p+0x16)+1;
+            func_021B70D8((char *)p);
+            func_021B71C4((char *)p,func_021B7438((char **)p));
+            func_021B7F64((char *)p);
+            func_021B7FD0((u8 *)p,1);
+        } else if(old==0) {
+            if(*(u16 *)(*(char **)p+0x16)!=0) {
+                func_020061E4(0x54c);
+                *(u16 *)(*(char **)p+0x16)=*(u16 *)(*(char **)p+0x16)-1;
+                func_021B70D8((char *)p);
+                func_021B71C4((char *)p,func_021B7438((char **)p));
+                func_021B7F64((char *)p);
+                func_021B7FD0((u8 *)p,-1);
+            }
+            row=0;
+            func_020260E4(*(void **)(p+0x1c8),0);
+        } else {
+            row=3;
+            func_020260E4(*(void **)(p+0x1c8),3);
+        }
+    } else func_020061E4(0x54c);
+    func_021B7ADC((u8 *)p,row,3);
+}

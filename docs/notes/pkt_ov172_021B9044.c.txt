@@ -7,13 +7,21 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 arities from owned callees and matched ov172 callers; legacy
- *   void wrappers return live r0 as original and ov172_021BA9EC use it;
- *   2 BA9EC supplies related state/arity evidence, no exact twin; 3 const
- *   table input unchanged79B; 4 register/stack idioms read; 5 refreshed
- *   idioms and neighbours, struct-local idiom read. Permuter300 baseline
- *   confirmed1330B/79B; volatile-cap winner rejected; clean winner1328B/31B
- *   verified. Next: current/cap/max allocation around unsigned division.
+ * retry: exhausted; six runs (four iteration, two checks), best remains
+ *   1328B with 31 concrete bytes differing. Iteration: int current 31B,
+ *   current declared first 84B/1330B, unsigned long max 31B; stopped after
+ *   three consecutive nonshrinking changes. Both declaration variants used.
+ * checks: 1 re-derived all callees from own full bodies and matched BA9EC;
+ *   B9580/B97AC listings read both ctx and q; B8B48/35C60 legacy void bodies
+ *   return live r0 consumed by original, B8B5C retains caller-loaded inputs;
+ *   2 full BA9EC state machine supplies related arity/types, no exact twin;
+ *   3 cap u16 (BA254 returns u16) unchanged31B, current stays full word;
+ *   4 declaration-position, spill-slot and stack-order idioms read;
+ *   current moved to tail else block unchanged31B; 5 refreshed unfiltered
+ *   idiom directory and full BA2C4/BA8C4 neighbours; scalar spills only,
+ *   no address-taken local object. Prior permuter300 not repeated; prior
+ *   baseline1330B/79B and clean winner1328B/31B were verified, volatile-cap
+ *   winner rejected. Next: current/cap/max colours around unsigned division.
  * symbols:
  *   func_021BE00C 0x021BE00C thumb ov172
  *   func_021BE02C 0x021BE02C thumb ov172

@@ -16,6 +16,8 @@
  * initial loop setup scheduling, and +00CA addition operand order.
  * permuter: macro-free emitted baseline agrees (17, 300/300); 300 types
  * candidates, best unchanged; one search only. Runs: 6 + 2 checks + permuter.
+ * retry: exhausted, 4 iteration + 2 checks; original DIFF17 retained. Fill at first function declaration worsened to28; reversed sum operands, long/u32 rowoff and fill at last function declaration each DIFF17. Earlier permuter300 not repeated.
+ * retry-checks: 1 own 07A18/17DBC/17E88/17DE4/ADE4/AE1C/AE14 bodies reread, SDK fill has caller-observed three arguments; ADE4 narrow species/form retained for original truncation pairs. 2 DD25C/DEF98/DEDD8/DEFF8 neighbours reread; 3 u32 rowoff compiled; 4 function/block spill and local declaration order idioms read, two declaration variants spent; 5 directory and neighbours refreshed, no aggregate stack local.
  * symbols:
  *   func_02007A18 0x02007A18 thumb
  *   func_02017DBC 0x02017DBC thumb

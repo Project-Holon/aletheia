@@ -1,0 +1,19 @@
+/*
+ * function: func_021B67A4
+ * address: 0x021B67A4
+ * packet: pkt_ov098_021B67A4
+ * region: ov098
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0207D55C 0x0207D55C arm
+ *   func_0204E720 0x0204E720 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_0207D55C(unsigned short *p);
+extern void func_0204E720(u32,int,int,int);
+void func_021B67A4(int a) { if (func_0207D55C((unsigned short *)0x0400006c) <= 0) func_0204E720(3,16,0,a); else func_0204E720(12,16,0,a); }

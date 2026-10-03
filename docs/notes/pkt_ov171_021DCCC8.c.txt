@@ -7,8 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 352/352 bytes; 81 concrete bytes out, mainly spill-slot ordering
+ * residual: 352/352 bytes; 77 concrete bytes out, mainly spill-slot ordering
  *   and late address construction. ARM9 0200ED14 also lacks an external witness.
+ * retry: exhausted; 6 iteration + 1 check runs, baseline81 to best77/352B.
+ *   Top-level base/records improved; row-base and inline wrapper worsened;
+ *   unsigned long offset tied77; signed k check worsened79. Prior permuter300
+ *   not repeated. Two declaration/scheduling variants spent.
+ * retry-checks: 1 all owned callees reread; ED14 listing confirms 3args, owner
+ *   ARM9 witness missing; 2 DD774/E684 neighbours reread, no twin; 3 signed k
+ *   compiled; 4 local stack/inline idioms read, variants already spent;
+ *   5 directory/neighbours refreshed, no stack aggregate in this function.
  * checks: 1 ED14 reads 3 arguments and tail-calls EC98; EC98/EC2C const source prototypes no change; 2 no ov171 twin; 3 unsigned offset no change; 4 local stack order and separate-loop-local idioms tried; 5 idiom directory and neighbours rechecked, no new twin; permuter 300 no improvement, emitted baseline confirmed 81/352. Next hypothesis: separate allocation-loop and record-loop counter scopes.
  * symbols:
  *   func_020457B0 0x020457B0 arm
@@ -44,6 +52,8 @@ extern void func_0200ECF0(char *, unsigned, int, void *);
 extern void func_020072A4(char *, unsigned);
 
 void func_021DCCC8(char *p) {
+    char *base;
+    char *records;
     u16 i, j;
     for (i = 0; i < 15; i++) {
         for (j = 0; j < 6; j++) {
@@ -52,17 +62,16 @@ void func_021DCCC8(char *p) {
         }
     }
     if (*(u16 *)(*(char **)p + 4) == 0) {
-        char *records = func_02012F68(**(void ***)p);
+        records = func_02012F68(**(void ***)p);
         *(u16 *)(p + 0xc4) = func_0200EC14(records);
         func_0200EC98(records, p + 0xb4);
         for (j = 0; j < *(u16 *)(p + 0xc4); j++)
             func_0200EC2C(records, j, p + 0xc + j * 0x1c);
         ((State *)p)->count = 1;
     } else {
-        char *base = func_02012EBC(**(void ***)p);
-        char *records;
         u16 k;
-        unsigned offset;
+        unsigned long offset;
+        base = func_02012EBC(**(void ***)p);
         if (func_0200725C(base, 8, 0x8c) == 1) {
             records = func_020073D8(base, 8, 0);
             if (records) {

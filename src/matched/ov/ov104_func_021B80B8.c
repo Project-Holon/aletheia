@@ -1,0 +1,22 @@
+/*
+ * function: func_021B80B8
+ * address: 0x021B80B8
+ * packet: pkt_ov104_021B80B8
+ * region: ov104
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,u8);
+extern void func_02045334(void *);
+void func_021B80B8(u8 *p) { func_02043B5C(func_02045770(*(void **)p),*(u16 *)(p+0x10)); func_02045334(*(void **)p); }

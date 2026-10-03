@@ -1,0 +1,41 @@
+/*
+ * function: func_021DBA00
+ * address: 0x021DBA00
+ * packet: pkt_ov175_021DBA00
+ * region: ov175
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own DD044/3F028/82D44 prototypes checked; 2 BB54/BBAC/BB00/DB72C no exact twin; 3 const Field pointer compiled unchanged; 4 aggregate/declaration/stack idioms read; 5 refreshed neighbours and idioms. Best 252/256, 50 concrete bytes. Permuter budget300 once; emitted baseline agrees with one; best narrows unbounded j to u8, rejected. Next: nested union Blob payload shape.
+ * symbols:
+ *   func_021DD044 0x021DD044 thumb ov175
+ *   func_0203F028 0x0203F028 arm
+ *   func_02082D44 0x02082D44 arm
+ *   d_021E2F7C 0x021E2F7C data a4
+ *   d_021E2F8C 0x021E2F8C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned long u32;
+struct Field { const char *name;u32 type;u32 payload[2]; };
+extern int func_021DD044(int);
+extern int func_0203F028(const char *,const char *);
+extern void func_02082D44(const void *,void *,unsigned long);
+extern const char d_021E2F7C[],d_021E2F8C[];
+void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
+{
+    int i,j;
+    const struct Field *f;
+    for(i=0;i<count;i++) {
+        for(j=0;j<n;j++) {
+            f=&fields[i][j];
+            if(func_0203F028(f->name,(const char *)func_021DD044(0x25))==0) *(u32 *)(p+8)=f->payload[0];
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x26))==0) *(u32 *)(p+12)=f->payload[0];
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x24))==0) *(u32 *)(p+16)=f->payload[0];
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x28))==0) *(u32 *)(p+4)=f->payload[0];
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x27))==0) *(u32 *)p=f->payload[0];
+            else if(func_0203F028(f->name,d_021E2F7C)==0) *(u32 *)(p+20)=f->payload[0];
+            else if(func_0203F028(f->name,d_021E2F8C)==0) func_02082D44((void *)f->payload[0],p+24,f->payload[1]);
+        }
+    }
+}

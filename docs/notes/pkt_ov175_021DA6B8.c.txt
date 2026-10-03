@@ -1,0 +1,220 @@
+/*
+ * function: func_021DA6B8
+ * address: 0x021DA6B8
+ * packet: pkt_ov175_021DA6B8
+ * region: ov175
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 all callee bodies/register setup checked; DC2C0 r0 is read despite void, DCE24/DCE08 retain caller-loaded diagnostic r2, AE54 has eight inputs; 2 5E24 confirms DC2C0/DC2D8, no full state-machine twin; 3 const char and const Obj parameters compiled unchanged after byte-offset corrections; 4 const-load/register-constant idioms checked, no rescue; 5 latest idiom directory and ov174/175/176 callers/neighbours re-read, no stack-object residue.
+ * residual: 1776/1780 bytes, 1107 concrete bytes differ, 83/83 sites resolved.
+ *   Invariant state offset uses r5 rather than r6; record loads fall below getters;
+ *   short branch/tail merging in cases 6/10 accounts for the four-byte size gap.
+ * permuter: macro-free fixed-one baseline agrees; 300 candidates once.
+ *   Best 1780/1780, 334-byte DIFF uses volatile-add(p), rejected.
+ *   expand(old x1) candidate was also rejected: substitution retains the original
+ *   side-effecting postincrement and duplicates that increment in its comparison.
+ * next hypothesis: shared-tail shape of state 6/10; no further iteration this wave.
+ * symbols:
+ *   func_0203CA98 0x0203CA98 arm
+ *   func_0200FB24 0x0200FB24 thumb
+ *   func_020399A8 0x020399A8 arm
+ *   func_02039C68 0x02039C68 arm
+ *   func_02039CB4 0x02039CB4 arm
+ *   func_0203D378 0x0203D378 arm
+ *   func_0203D3A8 0x0203D3A8 arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_021DC2C0 0x021DC2C0 thumb ov175
+ *   func_021DC2D8 0x021DC2D8 thumb ov175
+ *   func_021DCE24 0x021DCE24 thumb ov175
+ *   func_021DCE08 0x021DCE08 thumb ov175
+ *   func_021DAE18 0x021DAE18 thumb ov175
+ *   func_021DAE54 0x021DAE54 thumb ov175
+ *   func_021DADB4 0x021DADB4 thumb ov175
+ *   func_021DADCC 0x021DADCC thumb ov175
+ *   func_021DAE00 0x021DAE00 thumb ov175
+ *   func_021DEE3C 0x021DEE3C arm ov175
+ *   func_021DF490 0x021DF490 arm ov175
+ *   func_021DF018 0x021DF018 arm ov175
+ *   func_021DF20C 0x021DF20C arm ov175
+ *   func_021DF224 0x021DF224 arm ov175
+ *   func_021DF1C8 0x021DF1C8 arm ov175
+ *   func_021DF09C 0x021DF09C arm ov175
+ *   func_021DF130 0x021DF130 arm ov175
+ *   func_021DEFDC 0x021DEFDC arm ov175
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+struct Entry; struct Link;
+typedef int (*RoundFn)(char *,char *,int,int);
+extern u32 func_0203CA98(void),func_0200FB24(void),func_0203D378(void);
+extern struct Entry *func_020399A8(void);
+extern void func_02039C68(struct Link *,u32,u32);
+extern u32 func_02039CB4(struct Link *,u32,u32);
+extern int func_0203D3A8(struct Entry *,u16,u16,u32);
+extern void func_02082D44(const void *,void *,u32);
+extern int func_021DC2C0(u32,void *);
+extern u32 func_021DC2D8(char *,u32 *);
+extern void func_021DCE24(char *,int,int),func_021DCE08(char *,u32,int);
+extern void func_021DAE18(char *);
+extern int func_021DAE54(char *,char *,char *,u32,RoundFn,int,int,int);
+extern void func_021DADB4(int,char *),func_021DADCC(int,char *),func_021DAE00(int,char *);
+extern int func_021DEE3C(int,int),func_021DF490(void *);
+extern int func_021DF018(void (*)(int,char *),int,char *);
+extern void *func_021DF20C(void),*func_021DF224(void);
+extern int func_021DF1C8(void *);
+extern int func_021DF09C(u32,void (*)(int,char *),int,char *);
+extern int func_021DF130(u32,u32,void (*)(int,char *),int,char *);
+extern int func_021DEFDC(void);
+typedef struct { char pad[0x1464]; char *record; } Obj;
+#define W(k) (*(u32 *)((char *)p+(k)))
+#define P(k) (p->record)
+int func_021DA6B8(const Obj *p,u32 *out) {
+    char *net;
+    int r;
+    u32 old;
+    if(out) *out=W(0x16c);
+    net=(char *)func_0203CA98();
+    if((u32)(*(u32 *)(net+12)-0x3f0)<=1) W(0x160)=1;
+    if(func_0200FB24()==1) {
+        if(*(u32 *)(net+4)==6 || *(u32 *)(net+4)==3) { func_021DAE18((char *)p); return 2; }
+    } else if(W(0x160)==0 && func_0200FB24()==2) { func_021DAE18((char *)p); return 2; }
+    if(W(0x160) && W(0x1ac) && !W(0x164) && W(0x12c)>7 && W(0x12c)<10) {
+        W(0x168)=0; W(0x12c)=6;
+    }
+    switch(W(0x12c)) {
+    case 0:
+        if(W(0x160)) W(0x12c)=4;
+        else { func_02039C68((struct Link *)func_020399A8(),4,36); W(0x12c)=1; }
+        break;
+    case 1:
+        if(W(0x160)) W(0x12c)=4;
+        else if(func_02039CB4((struct Link *)func_020399A8(),4,36) || W(0x160)) W(0x12c)=2;
+        break;
+    case 2:
+        if(W(0x160)) W(0x12c)=4;
+        else if(func_021DC2C0((u32)p,(char *)p+0x188) || W(0x160)) W(0x12c)=3;
+        break;
+    case 3:
+        if(W(0x160)) W(0x12c)=4;
+        else if(func_021DC2D8((char *)p,(u32 *)((char *)p+0x18c)) || W(0x160)) W(0x12c)=4;
+        break;
+    case 4:
+        W(0x134)=0; W(0x170)=1;
+        r=func_021DEE3C(0xb5f,0);
+        if(r) { func_021DCE24((char *)p+0x18,r,0x751); func_021DAE18((char *)p); return 2; }
+        W(0x12c)=5; break;
+    case 5:
+        r=func_021DF490(P(0x1464)+4);
+        if(r) { func_021DCE24((char *)p+0x18,r,0x761); func_021DAE18((char *)p); return 2; }
+        W(0x12c)=6; break;
+    case 6:
+        if(func_0203D378() || W(0x160)) {
+            W(0x134)++;
+            r=func_021DF018(func_021DADB4,100,(char *)p);
+            W(0x164)=1;
+            if(r) { func_021DCE24((char *)p+0x18,r,0x773); func_021DAE18((char *)p); return 2; }
+            W(0x1a0)=0; W(0x12c)=7;
+        } else W(0x12c)=8;
+        break;
+    case 7:
+        if(!W(0x134)) {
+            net=P(0x1464)+12; func_02082D44(func_021DF20C(),net,40); W(0x12c)=8;
+        } else {
+            old=W(0x1a0)++;
+            if(old>3600) { func_021DCE08((char *)p+0x18,1,0x78f); func_021DAE18((char *)p); return 2; }
+            func_021DEFDC();
+            if(W(0x15c)) { func_021DCE24((char *)p+0x18,W(0x15c),0x797); func_021DAE18((char *)p); return 2; }
+        }
+        break;
+    case 8:
+        if(W(0x160)) W(0x12c)=11;
+        else {
+            net=P(0x1464)+0x34; func_02082D44(func_021DF224(),net,40);
+            func_02039C68((struct Link *)func_020399A8(),1,36); W(0x12c)=9;
+        }
+        break;
+    case 9:
+        if(func_02039CB4((struct Link *)func_020399A8(),1,36) || W(0x160)) W(0x12c)=10;
+        break;
+    case 10:
+        if(func_0203D378() || W(0x160)) {
+            if(func_0203D3A8(func_020399A8(),0x2400,0x68,(u32)(P(0x1464)+4)) || W(0x160)) W(0x12c)=11;
+        } else if(W(0x138) || W(0x160)) {
+            W(0x138)=0; r=func_021DF1C8(P(0x1464)+0x74);
+            net=P(0x1464)+12; func_02082D44(func_021DF20C(),net,40);
+            if(r) { func_021DCE24((char *)p+0x18,r,0x7cd); func_021DAE18((char *)p); return 2; }
+            W(0x12c)=11;
+        }
+        break;
+    case 11:
+        W(0x134)++;
+        r=func_021DF09C(W(0x1a8),func_021DADCC,100,(char *)p);
+        if(r) { func_021DCE24((char *)p+0x18,r,0x7dd); func_021DAE18((char *)p); return 2; }
+        W(0x1a0)=0; W(0x12c)=12; break;
+    case 12:
+        if(!W(0x134)) W(0x12c)=13;
+        else {
+            old=W(0x1a0)++;
+            if(old>3600) { func_021DCE08((char *)p+0x18,1,0x7f2); func_021DAE18((char *)p); return 2; }
+            func_021DEFDC();
+            if(W(0x15c)) { func_021DCE24((char *)p+0x18,W(0x15c),0x7fa); func_021DAE18((char *)p); return 2; }
+        }
+        break;
+    case 13:
+        if(W(0x160)) W(0x12c)=19;
+        else { func_02039C68((struct Link *)func_020399A8(),2,36); W(0x12c)=14; }
+        break;
+    case 14:
+        if(func_02039CB4((struct Link *)func_020399A8(),2,36) || W(0x160)) W(0x12c)=15;
+        break;
+    case 15:
+        if(func_0203D378()) {
+            if(func_0203D3A8(func_020399A8(),0x2400,0x68,(u32)(P(0x1464)+4)) || W(0x160)) W(0x12c)=16;
+        } else if(W(0x138) || W(0x160)) {
+            if(!W(0x160)) W(0x168)=1;
+            W(0x138)=0; W(0x12c)=16;
+        }
+        break;
+    case 16:
+        if(!func_0203D378()) {
+            if(func_0203D3A8(func_020399A8(),0x2400,0x68,(u32)(P(0x1464)+4)) || W(0x160)) W(0x12c)=17;
+        } else if(W(0x138) || W(0x160)) {
+            if(!W(0x160)) W(0x168)=1;
+            W(0x138)=0; W(0x12c)=17;
+        }
+        break;
+    case 17:
+        func_02039C68((struct Link *)func_020399A8(),3,36); W(0x12c)=18; break;
+    case 18:
+        if(func_02039CB4((struct Link *)func_020399A8(),3,36) || W(0x160)) W(0x12c)=19;
+        break;
+    case 19:
+        r=func_021DAE54(P(0x1464)+4,P(0x1464)+0x6c,(char *)p+0x180,W(0x1a8),
+            *(RoundFn *)((char *)p+0x158),W(0x160),W(0x1ac),W(0x168));
+        if(r) { func_021DCE24((char *)p+0x18,r,0x86d); func_021DAE18((char *)p); return 2; }
+        W(0x12c)=20; break;
+    case 20:
+        W(0x134)++;
+        r=func_021DF130(*(u32 *)(P(0x1464)+8),W(0x1a8),func_021DAE00,100,(char *)p);
+        if(r) { func_021DCE24((char *)p+0x18,r,0x87c); func_021DAE18((char *)p); return 2; }
+        W(0x1a0)=0; W(0x12c)=21; break;
+    case 21:
+        if(!W(0x134)) W(0x12c)=22;
+        else {
+            old=W(0x1a0)++;
+            if(old>3600) { func_021DCE08((char *)p+0x18,1,0x890); func_021DAE18((char *)p); return 2; }
+            func_021DEFDC();
+            if(W(0x15c)) { func_021DCE24((char *)p+0x18,W(0x15c),0x898); func_021DAE18((char *)p); return 2; }
+        }
+        break;
+    case 22: W(0x16c)=1; func_021DAE18((char *)p); W(0x12c)=23; break;
+    case 23: func_02039C68((struct Link *)func_020399A8(),5,36); W(0x12c)=24; break;
+    case 24:
+        if(func_02039CB4((struct Link *)func_020399A8(),5,36) || W(0x160)) W(0x12c)=25;
+        break;
+    case 25: return 1;
+    }
+    return 0;
+}

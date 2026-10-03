@@ -7,6 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * retry: exhausted; 4 iteration + 2 check runs. Best165/620B retained.
+ *   Typed resource arrays worsened440/616B; u16 slot tied165; hoisted key
+ *   worsened170; const Row and block-local slot checks tied165. Two
+ *   declaration/scheduling variants spent; prior permuter300 not repeated.
+ * retry-checks: 1 own callees reread; D81C/D898 aggregate tails agree with
+ *   outgoing scalar word/halfword bits; D7C8 reads only first legacy arg;
+ *   DE290 forwards B294 live r0; 2 DE144/DE2D4/E684 reread, no twin;
+ *   3 const Row compiled; 4 local stack/struct-field idioms read and block
+ *   slot compiled; 5 idiom directory/neighbours refreshed, declared struct
+ *   stack local idiom reread, original struct copy retained.
  * checks: 1 callee arities and scalar stack-tail bits verified; 2 no ov171 twin;
  *   3 int counter worsened 440 to441; 4 declaration/register/struct idioms read;
  *   5 refreshed idioms/neighbours and stack-struct idiom; permuter300 baseline
