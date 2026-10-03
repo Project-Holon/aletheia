@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201296C(const void *);
+struct BigObj;
+extern u32 func_0201296C(const struct BigObj *p);
 extern u16 *func_020143CC(u32, u32);
 inline static u16 RD16(const u8 *p)
 {

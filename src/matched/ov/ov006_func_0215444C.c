@@ -50,12 +50,19 @@ typedef struct {
     void *f168;
 } O;
 
-void *func_020399A8(void);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Entry;
+struct Party;
+struct Rec44;
+struct Sub0200852CObj;
+struct Sub24;
+struct Entry *func_020399A8(void);
 unsigned char func_0203D1A4(void *p);
-void *func_02012950(void *a, unsigned int b);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 void *func_020084F4(void *p);
-unsigned char func_02008550(const void *a);
-void func_0201A948(void *a);
+u8 func_02008550(const struct Sub0200852CObj *obj);
+void func_0201A948(struct Party *p);
 void func_02013128(void *p, void *src, int i);
 
 void func_0215444C(O *a, void *b)

@@ -128,13 +128,16 @@ typedef struct IvMoves {
 } IvMoves;
 
 extern u32 func_020056EC(u32 n);
-extern void *func_02012944(void *p);
+struct Mon;
+struct MsgBank;
+struct U16Vec;
+extern u8 *func_02012944(void *p);
 extern u32 func_02008530(void *p);
 extern u16 *func_020084F4(void *p);
 extern u32 func_02008550(void *p);
 extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
 extern u32 func_020186C8(u32 a0, u16 a1, u8 a2, int a3, int a4, int a5);
-extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
+extern void func_02017588(struct Mon *p, u16 species, u16 level, unsigned long long id, u32 pow, unsigned long long rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02017FA8(void *p);
@@ -146,8 +149,8 @@ extern void func_020185C4(void *p);
 extern void func_0202F2AC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_020307B0(void *p);
 extern u16 func_02045A98(void);
-extern void *func_02045EC0(void *bank, u32 index);
-extern void func_02045808(void *s);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *vec);
 
 extern u32 d_02170068[];
 extern u8 d_0209DF08[];

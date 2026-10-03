@@ -20,9 +20,11 @@
  */
 extern void *func_0215A5F4(void *);
 extern void *func_0215A5DC(void *);
-extern void *func_020120F4(void *);
+typedef unsigned short u16;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
 extern void **func_02012ED0(void *);
-extern void *func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0216666C(void *, void *, void *);
 extern void func_0215897C(void *, void *);
 

@@ -25,8 +25,8 @@ extern int func_02158E7C(u16, int, int, u16, int, int);
 extern int func_021588D0(int);
 extern int func_02158BFC(int, int, int, int, int);
 extern int func_02011298(int);
-extern void func_02158CB4(int);
-extern void func_02158F18(int);
+extern int func_02158CB4(int a0);
+extern int func_02158F18(int a0);
 
 void func_02158A34(int a, int b, u16 c, int d)
 {

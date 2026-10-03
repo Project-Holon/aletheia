@@ -22,7 +22,8 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern int func_021591B4(int, int, TaskWork *);
+struct S;
+extern int func_021591B4(int a, int b, struct S *p);
 void *func_02159204(void *vm)
 {
     void *owner = func_0215A5F4(vm);

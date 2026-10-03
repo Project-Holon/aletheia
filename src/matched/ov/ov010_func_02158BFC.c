@@ -38,7 +38,7 @@ extern int func_02158D78(int, int);
 extern void func_0215A760(int, unsigned, unsigned);
 extern void func_0201127C(int *, int);
 extern int func_0201134C(int *);
-extern void func_02158E38(int *);
+extern void func_02158E38(void *a);
 extern int d_0217062C;
 extern int d_021705D8;
 

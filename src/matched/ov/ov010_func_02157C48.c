@@ -33,11 +33,12 @@ typedef struct Object {
     u32 n;
 } Object;
 
-extern void *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_02039CB4(void *, u32, u32);
 extern void func_02039C68(void *, u32, u32);
 extern void func_0203F328(u16 *, u32, u32);
-extern u32 func_020056EC(int);
+extern u32 func_020056EC(u32 range);
 extern void func_02157960(int, int, int);
 extern void func_02157AF0(int *);
 extern void func_02157B88(int *);

@@ -20,7 +20,8 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012844(void *);
 extern const u8 *func_02162450(void *);
-extern int func_02158B6C(void *, const u8 *, int);
+typedef unsigned short u16;
+extern u16 func_02158B6C(const void *a, const u8 *list, u32 key);
 extern void *func_02158768(void *, u32, u32, u32);
 void *func_02158B00(void *a, u32 b) {
     void *s = func_020120F4(a);

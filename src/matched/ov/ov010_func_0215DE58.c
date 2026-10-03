@@ -24,16 +24,20 @@
  */
 typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; } Ctx;
-extern void *func_020124E4(void *);
-extern void *func_020120F4(void *);
+struct BigObj;
+struct Ctx;
+struct IcaAnime;
+struct Obj;
+extern void *func_020124E4(struct Obj *p);
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_02012374(void *, u32);
-extern void func_02012A30(void *);
-extern void func_0215DE44(u32);
+extern u32 func_02012A30(const struct BigObj *p);
+extern void func_0215DE44(int a0);
 extern void func_0215DE0C(u32, void *);
 extern void *func_02012138(void *);
 extern int func_02026454(void *, u32);
 extern int func_0203CDBC(void);
-extern int func_020121CC(void *);
+extern u32 func_020121CC(struct IcaAnime *p);
 int func_0215DE58(void *a, u32 *st, Ctx *c)
 {
     void *p;

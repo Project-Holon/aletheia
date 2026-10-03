@@ -24,10 +24,11 @@ typedef unsigned int u32;
 struct Ent { u16 n; u8 v[4]; };
 extern struct Ent d_021711A8[];
 extern u16 d_021711C6[];
-extern u8 func_0200D478(void *a, u16 c);
+struct Blk38;
+extern u8 func_0200D478(struct Blk38 *p, u32 i);
 extern u32 func_020113D8(u32 b);
 extern u32 func_02005728(u32 n);
-extern void func_0215E7DC(void *a, u16 c, u8 v, u32 t);
+extern void func_0215E7DC(void *p, u32 i, u8 v, u32 n);
 void func_0215E740(void *a, u32 b, u16 c, int d)
 {
     struct Ent *e;

@@ -23,7 +23,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_02157960();
-extern void func_02157C48();
+struct Object;
+extern void func_02157C48(struct Object *p);
 
 void func_02157D0C(int *p)
 {

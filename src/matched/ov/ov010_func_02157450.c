@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Create the ov010 field-effect task: allocate it with func_0215739C as
  * its callback, pick the direction slot for effect kinds 4..23 (four kinds
@@ -68,7 +68,7 @@ typedef struct Work {
 
 extern u8 d_0217277C[];
 
-extern void func_0215739C(void);
+extern int func_0215739C(void *evt, u32 *state, struct Work *w);
 extern void func_02157650(int *p, int v);
 struct Ctx;
 struct Desc;

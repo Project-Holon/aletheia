@@ -35,11 +35,13 @@ typedef struct Ctx {
 } Ctx;
 extern u8 ov136_id[];
 extern void *func_020120F4(void *p);
-extern void *func_02012934(void *sv);
+typedef signed int     s32;
+struct BigObj;
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *a, u32 b);
-extern void func_02034A5C(u32 id);
-extern u32 func_021C3E00(void *p);
-extern int func_021C3E04(void *p, void *a);
+extern void func_02034A5C(s32 handle);
+extern u32 func_021C3E00(u32 *p);
+extern int func_021C3E04(u32 *p, void *q);
 int func_02161484(Ctx *c, void *p)
 {
     void *sv;

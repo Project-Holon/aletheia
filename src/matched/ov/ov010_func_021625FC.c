@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef short s16;
 typedef struct { u16 a, b; s16 c; u16 d; } B;
 typedef struct { int x, y, z; } A;
-extern u8 *func_021625CC(char *, unsigned);
+extern void *func_021625CC(char *p, unsigned i);
 extern void func_020140F8(int *);
 extern void func_02014110(int *, u16, s16, u16, int, unsigned, unsigned, unsigned);
 extern void func_02014134(int *, u16, s16, u16, int, u16, u16, s16);

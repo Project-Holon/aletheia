@@ -47,19 +47,21 @@ typedef struct Relearn {
 
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
-extern void *func_020120F4(void *sys);
-extern void *func_0201210C(void *sys);
+struct BigObj;
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02159AE8(void *c, void *vm);
 extern u32 func_02159B10(void *c, void *vm);
-extern void *func_02012934(void *a);
+extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
-extern void *func_02012944(void *a);
+extern u8 *func_02012944(void *p);
 extern void *func_0216F948(void *mon, u32 heap);
-extern Relearn *func_0216F918(u32 heap);
+extern void *func_0216F918(u32 heap);
 extern void *func_02030734(u32 heap, u32 size, int flags, const char *file, u16 line);
 extern void *func_02014808(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
 extern void func_0215897C(void *p, void *v);
-extern void func_0215C870(void);
+extern int func_0215C870(int a0, int a1);
 extern const char d_021728F0[];
 extern const u8 d_021B81D0[];
 extern u8 ov173_id[];
