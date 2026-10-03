@@ -3,8 +3,14 @@
  * address: 0x021F3FBC
  * packet: pkt_ov194_021F3FBC
  * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
  * status: DIFF
- * checks: 1 owned ARM9 resource callees confirm 5/7/4/5-argument arity and u16 heap slots; 2 peer 021F1440 supplies packed from a halfword and heap 30, no constructor twin; 3 u32 heap regressed to 776 bytes, u16 packed shrank 10 to 8 differing bytes; 4 narrow-spill, stack-slot and typed-copy idioms read, manual scheduling cap reached; 5 fresh idiom listing and 3EF0/42E8/51E4 neighbours re-read, stack-object idiom read; permuter 300 found no improvement (baseline 740/10 confirmed); next hypothesis heap entry reload scheduling.
+ * residual: 740 compiled bytes, 6 concrete bytes differ; final retry exhausted after 6 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Unsigned cast on packed high-byte shifts improves8 to6; remaining heap entry reload/prologue. Run4 long-packed replacement missed its CRLF-normalized target and repeated best6; it consumed a run.
+ * checks: 1 fresh resource callee bodies confirm5/7/4/5 args, pointer-result and payload exceptions preserved; 2 matched3EF0/42E8/51E4 signatures and stack aggregates reread; 3 short packed unchanged6, heap remainsu16; 4 narrow parameter/spill and stack-object idioms read; 5 fresh unfiltered idioms and neighbours, no new twin.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_020490F4 0x020490F4 arm
@@ -74,7 +80,7 @@ void func_021F3FBC(char *p,u32 kind,u32 species,u16 packed,u32 owner,void *ctx,v
     case 2:
         arc=32;cell=0;choice=d_021F5569[species];member=species+49;resA=65;resB=66;mode=species>=8?1:0;break;
     case 3:
-        extra=1;mode=(packed&0xff00)>>8;if(mode==2)extra=0;
+        extra=1;mode=((u32)packed&0xff00)>>8;if(mode==2)extra=0;
         arc=7;cell=func_0201BC3C();member=func_0201BABC(species,(u8)packed,mode,0);resA=func_0201BC40();resB=func_0201BCB4();
         dimx=30;dimy=20;compressed=1;break;
     case 4:case 5:arc=118;cell=9;member=8;resA=7;resB=6;choice=1;break;
@@ -93,7 +99,7 @@ void func_021F3FBC(char *p,u32 kind,u32 species,u16 packed,u32 owner,void *ctx,v
     case 0: if(species==0) func_021F51E4(*(void **)p,49,6,3,4,4,0,0,heap); else func_021F51E4(*(void **)p,49,9,3,4,4,0,0,heap);break;
     case 1:func_021F51E4(*(void **)p,49,6,3,4,4,0,0,heap);
     case 2:func_0204B6F4(*(void **)p,0,1);break;
-    case 3:func_0204B878(*(void **)p,1);func_0204B6F4(*(void **)p,func_0201BB5C(species,(u8)packed,(packed&0xff00)>>8,0),0);break;
+    case 3:func_0204B878(*(void **)p,1);func_0204B6F4(*(void **)p,func_0201BB5C(species,(u8)packed,((u32)packed&0xff00)>>8,0),0);break;
     case 5:func_0204B878(*(void **)p,5);func_0204B6F4(*(void **)p,0,1);break;
     case 4:func_0204B878(*(void **)p,2);func_0204B6F4(*(void **)p,0,1);break;
     }
@@ -115,5 +121,4 @@ void func_021F3FBC(char *p,u32 kind,u32 species,u16 packed,u32 owner,void *ctx,v
         *(void **)(p+56)=window;*(int *)(p+52)=1;
     }
 }
-
 

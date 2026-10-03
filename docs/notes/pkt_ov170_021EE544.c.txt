@@ -1,0 +1,25 @@
+/*
+ * function: func_021EE544
+ * address: 0x021EE544
+ * packet: pkt_ov170_021EE544
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own ov170 021EEFA4 confirms five arguments, four byte scalars; 2 no same-region data twin; 3 const p/q/dest/tables no change, integer-base/inline-field variants no improvement; 4 const-table and coordinate-byte-offset idioms checked; 5 idiom directory and current ov170/171 sources re-read, no new twin; next: record type evidence.
+ * residue: best run 1 has 35 concrete bytes different at 56/56 bytes; register/scheduling layout differs. Runs 2-4 have 42 wrong bytes at 52/56; latest only d_021F0188 lacks a witness because shifted pools land inside the compared range. No MATCH claimed.
+ * symbols:
+ *   d_021F0188 0x021F0188 data a1
+ *   d_021F0DCC 0x021F0DCC data a1
+ *   d_021F0370 0x021F0370 data a1
+ *   func_021EEFA4 0x021EEFA4 thumb ov170
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 d_021F0188[],d_021F0DCC[],d_021F0370[];
+extern void func_021EEFA4(char*,u8,u8,u8,u8);
+void func_021EE544(u8*p,u32 i){u8*q;if(i<30)q=d_021F0DCC;else{q=d_021F0370;i-=30;}q=(u8*)((u32)q+i*12);func_021EEFA4(*(char**)(p+44),q[0],q[1],d_021F0188[0],d_021F0188[1]);}
+

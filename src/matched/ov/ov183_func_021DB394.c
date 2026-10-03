@@ -1,0 +1,24 @@
+/*
+ * function: func_021DB394
+ * address: 0x021DB394
+ * packet: pkt_ov183_021DB394
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021FD71C 0x021FD71C thumb ov186
+ *   func_021FD854 0x021FD854 thumb ov186
+ *   func_021FD72C 0x021FD72C thumb ov186
+ *   func_0201C4E4 0x0201C4E4 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+struct PrintSys;
+extern void func_021FD71C(int),func_021FD854(char *);
+extern int func_021FD72C(int *);
+extern u32 func_0201C4E4(struct PrintSys *);
+int func_021DB394(int a,int b,int c,char *p) { func_021FD71C(*(int *)p); func_0201C4E4(*(struct PrintSys **)(p+12)); func_021FD854(*(char **)(p+20)); func_021FD854(*(char **)(p+24)); if(func_021FD72C(*(int **)p)) return 1; return 0; }

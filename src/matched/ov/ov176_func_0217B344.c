@@ -1,0 +1,20 @@
+/*
+ * function: func_0217B344
+ * address: 0x0217B344
+ * packet: pkt_ov176_0217B344
+ * region: ov176
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021E8A78 0x021E8A78 thumb ov177
+ *   func_02045C04 0x02045C04 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021E8A78(void *);
+extern void func_02045C04(void *),func_020307B0(void *);
+void func_0217B344(u8 *p) {func_021E8A78(*(void **)p);func_02045C04(*(void **)(p+12));func_020307B0(p);}

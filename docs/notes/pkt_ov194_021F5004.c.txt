@@ -3,8 +3,14 @@
  * address: 0x021F5004
  * packet: pkt_ov194_021F5004
  * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
  * status: DIFF
- * checks: 1 4D20/4F50 live-R0 forwarders need pointer returns; 4DA4 and 4F6C caller truncations require u16 indices; 2 matched 4F7C confirms int loops, u16 accessors, const key; 3 const text compiled unchanged at 312/32; 4 stack-order and separate-loop-index idioms read, manual scheduling cap reached; 5 fresh idiom listing and 4DA4/4F6C/4F7C/4D20/4F50 neighbours re-read, stack-object idiom read; permuter 300 improved to 312/24 via initialized found use and k/ok declaration swap, fixed one validated; next hypothesis remaining allocatedHeap/words and category/j spill slots plus grid/i register colours.
+ * residual: 312 compiled bytes, 8 concrete bytes differ; final retry exhausted after 7 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Two declaration variants improve24 to22 to8; spill slots now agree, remaining grid/i r4/r5 colouring. Enum guard worsens298; long i and char grid pointer unchanged8.
+ * checks: 1 fresh4D20/4F50 live-r0 pointer exceptions,4DA4/4F6C index truncations and4F60 tail-free target020307B0(1) confirmed; 2 matched26F0/4D78/4F7C witnesses read; 3 u16 heap unchanged8; 4 local stack order/block scope and long-index idioms read; 5 fresh unfiltered idioms,4F50/4D78/51E4 neighbours and declared-struct stack idiom.
  * symbols:
  *   func_021F4D20 0x021F4D20 thumb ov194
  *   func_021F4D34 0x021F4D34 thumb ov194
@@ -31,11 +37,13 @@ extern u16 func_02045A98(void);
 int func_021F5004(const u16 *text,u32 heap)
 {
     void *grids[4];
-    void *grid;
     int i,ok;
-    u32 allocatedHeap=(heap&0x7fff)|0x8000,category;
-    int pos,j;
     void *words;
+    int j;
+    int pos;
+    u32 category;
+    u32 allocatedHeap=(heap&0x7fff)|0x8000;
+    void *grid;
     int k,found;
     for(i=0;i<4;i++) grids[i]=func_021F4D20(i,(u16)allocatedHeap);
     words=func_021F4F50((u16)allocatedHeap);
@@ -59,5 +67,4 @@ int func_021F5004(const u16 *text,u32 heap)
     for(i=0;i<4;i++) func_021F4D34(grids[i]);
     return ok;
 }
-
 

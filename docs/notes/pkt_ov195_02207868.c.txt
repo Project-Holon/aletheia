@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matrix/vec/invsqrt callees and live heap setup read; 2 refreshed 06274/063E0/06604 show no full motion twin; 3 u8 flags 707B, fx32 locals 709B worse, writable p cannot be const; 4 real interleaved stack structs 705B, separate case flags 706B; 5 refreshed all 568 idioms and matched neighbours, declared-struct idiom read. Next lever: branch sharing without further declaration sweeps.
- * residual: 2364 compiled / 2340 listed; 705 concrete bytes, 35/35 relocations; runs 5 + macro-free baseline + permuter300. Permuter baseline agrees; 2340/1567 best has added volatile and is rejected.
- * extent: handed ends at shared epilogue 0220818C; pop 02208190, pools through 022081A0, next genuine 022081A4.
+ * checks: 1 own matrix/vec/invsqrt bodies and matched callers confirm signatures; original explicitly forwards heap in r1 to 08410; 2 06274/063E0/06604/0685C no complete motion twin; 3 Boolean first/second, Boolean done and _Bool smallH/smallV each DIFF597; after stop s16 first/second DIFF599; writable p retained; 4 case2 cursor cache DIFF600 and case3 shared done-zero DIFF597, scheduling cap used, branch/stack idioms read; 5 refreshed unfiltered idioms and matched neighbours, declared-stack-struct idiom read.
+ * residual: 2364 compiled/full extent; 597 concrete differences, 35/35 relocations resolved. Final retry exhausted: 7 one runs. Prior macro-free baseline-agreeing 300-candidate permuter not repeated; volatile winner rejected previously. Cached case2 cursor loads before guards and shared case3 done=0 improve prior705 to597.
+ * extent: handed2340 ends at 0220818C before pop02208190; pools through022081A0; next genuine022081A4. Full extent2364 proved by explicit show.
  * symbols:
  *   func_0207B640 0x0207B640 thumb
  *   func_0207BC08 0x0207BC08 arm
@@ -111,13 +111,15 @@ void func_02207868(char *p,u16 heap)
             func_0207BC08(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
         }
         if(func_02208410(p,heap)&&G(0x70)>=30){
-            if(H(0x5c)>=0&&H(0x5a)>=0){
-                *(u8 *)((u32)p+(u32)H(0x5c)*0x900+(u32)H(0x5a)*0x80+0x88)=0;
-                if(H(0x5a)-1<0){H(0x5a)=18;H(0x5c)--;}else H(0x5a)--;
+            j2=H(0x5a);i2=H(0x5c);
+            if(i2>=0&&j2>=0){
+                *(u8 *)((u32)p+(u32)i2*0x900+(u32)j2*0x80+0x88)=0;
+                if(j2-1<0){H(0x5a)=18;H(0x5c)--;}else H(0x5a)--;
             }
-            if(H(0x60)<18&&H(0x5e)<18){
-                *(u8 *)((u32)p+(u32)H(0x60)*0x900+(u32)H(0x5e)*0x80+0x88)=0;
-                if(H(0x5e)+1>=18){H(0x5e)=0;H(0x60)++;}else H(0x5e)++;
+            j2=H(0x5e);i2=H(0x60);
+            if(i2<18&&j2<18){
+                *(u8 *)((u32)p+(u32)i2*0x900+(u32)j2*0x80+0x88)=0;
+                if(j2+1>=18){H(0x5e)=0;H(0x60)++;}else H(0x5e)++;
             }
         }
         if(H(0x5c)<0&&H(0x60)>=18&&G(0x70)>=240){G(0x64)=3;G(0x70)=0;return;}
@@ -128,13 +130,13 @@ void func_02207868(char *p,u16 heap)
             q=p+0x74+i3*0x900+j3*0x80;
             angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
             if(Q(0x64)==2){
-                if(first||second){Q(0x30)=0;Q(0x64)=3;if(first)first=0;else second=0;done=0;}
+                if(first||second){Q(0x30)=0;Q(0x64)=3;if(first)first=0;else second=0;}
                 else{
                     func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
                     source3.x=Q(0x50);source3.y=0;source3.z=0;
                     func_0207BC08(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
-                    done=0;
                 }
+                done=0;
             }else if(Q(0x64)==3){
                 if(Q(0x30)==0){
                     func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);

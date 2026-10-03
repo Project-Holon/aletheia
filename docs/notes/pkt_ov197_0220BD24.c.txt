@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: compiled 508/508, 60 concrete bytes differ; case1 offset/color register homes, branch stack-store placement and enum width truncations.
- * checks: 1 CC70/CC58 two, CB4C four, CE50 seven with byte stack widths, BB98 two args/u16 result own show; 2 BBE4 table Config14 and BF40 byte palette twin; 3 const p iteration 61, signed-char/short color checks 512/224 worse; 4 enum-offset/shared-argument/byte-colour idioms read; 5 fresh idiom list and newly matched BBE4/BF40/C574 reread; permuter baseline DIFF60 agrees, 300 no improvement; next: struct-typed work parameter.
+ * checks: 1 matched callee files/callers confirm CC70/CC58 two, CB4C four, CE50 seven with u8 stack fields, BB98 two returning unsigned as C574; 2 BBE4 Config14 and BF40 u8 palette twins; 3 typed Work/unsigned-long i DIFF60, u8 dimension DIFF150/500, const Work DIFF61; 4 offset reassignment DIFF60, enum/narrow-stack/colour idioms read; 5 refreshed idiom directory and BBE4/BF40/C574 reread.
+ * residual: 508/508 bytes; 60 concrete differences in case1 offset/color homes and branch stack-store scheduling. Final retry exhausted: 6 one runs; prior emitted-baseline-agreeing 300-candidate permuter was not repeated.
  * symbols:
  *   func_0202CC70 0x0202CC70 thumb
  *   func_0202CB4C 0x0202CB4C thumb

@@ -8,7 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 sqrt(long), division(u32,u32), heap forwarded; 2 matched 06274/063E0 twins read; 3 long locals unchanged, no read-only pointer (writes); 4 hoisted long-long copy idiom read; 5 refreshed index and math neighbours, no stack aggregate; runs 6 + baseline + permuter300 (baseline970/294; best974/564 worse).
+ * residual: 974 compiled bytes, 31 concrete bytes differ; final retry exhausted after 7 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Declaration placement plus explicit signed64-bit dx copy improve294 to31; remaining j-zero hoist and2-byte extent delta. Unsigned copy rejected291 (also changed declarator placement), u8 q unchanged31 and u16 n33.
+ * checks: 1 fresh own SDK sqrt(long)1 and div(u32,u32)2, matched063E0 heapu16 and6E2C(2) confirmed; 2 matched06274/063E0 math/allocation shapes reread; 3 short heap regresses933, destination writable; 4 hoisted long-long copy and float rounding idioms read; 5 fresh unfiltered idioms and math neighbours, no stack aggregate.
  * symbols:
  *   func_02206E2C 0x02206E2C thumb ov195
  *   _ffltu 0x0209BE04 arm
@@ -41,8 +43,8 @@ void func_02206A5C(char *p,u16 heap)
 {
     u8 k,i,j,group,n;
     char *q;
-    long dx,dy,dz,lenxz,leny;
-    long long yy,zz;
+    long leny,dx,dz,dy,lenxz;
+    long long zz,xx,yy;
     float f,r;
     func_02206E2C(p,heap);
     *(u32 *)(p+0x28)=0;
@@ -70,8 +72,8 @@ void func_02206A5C(char *p,u16 heap)
             PW(0x60)=fxmul(PW(0x50),FX_SinCosTable_[(PW(0x4c)>>4)*2]);
             PW(0x5c)=PW(0x54);
             dx=(int)((u32)PW(0x58)-(u32)PW(0x68));dy=(int)((u32)PW(0x5c)-(u32)PW(0x6c));dz=(int)((u32)PW(0x60)-(u32)PW(0x70));
-            yy=dy;zz=dz;
-            lenxz=func_0207C7B4(fxmul(dx,dx)+fxmul64(zz,zz));
+            zz=dz;xx=dx;yy=dy;
+            lenxz=func_0207C7B4(fxmul64(xx,xx)+fxmul64(zz,zz));
             leny=func_0207C7B4(fxmul64(yy,yy));
             if(lenxz>4096){PW(0x40)=sub_0207C768(dx,lenxz);PW(0x48)=sub_0207C768(dz,lenxz);}
             else {PW(0x40)=dx;PW(0x48)=dz;}
@@ -80,5 +82,4 @@ void func_02206A5C(char *p,u16 heap)
         }
     }
 }
-
 

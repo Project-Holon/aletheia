@@ -1,0 +1,92 @@
+/*
+ * function: func_0220DA6C
+ * address: 0x0220DA6C
+ * packet: pkt_ov198_0220DA6C
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: compiled 424 vs 408; 268 concrete bytes, all 18 sites resolved.
+ * checks: 1 callee bodies/0201ED04 unit confirm arity and pointer payload; 2 C694/CCF0/D628/D9B4/11190 neighbours read; 3 wide widths and enum extraWidth no rescue, const p 268/424 best; 4 byte-local colour, spill and repeated-print idioms read; 5 current unfiltered idiom list and 11190 reread. Permuter not required: best size is +16. Next: inline print helper boundaries and width lifetime.
+ * symbols:
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045738 0x02045738 arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201D304 0x0201D304 thumb
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201EEF4 0x0201EEF4 thumb
+ *   d_02211B68 0x02211B68 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef enum Count { COUNT_ZERO=0, COUNT_BYTE=255 } Count;
+extern int func_022110D4(u8 *,int);
+extern void *func_02045EC0(void *,u32);
+extern void *func_020457B0(u32,u32);
+extern u32 func_02045738(void *);
+extern u32 func_02045770(void *);
+extern u32 func_0201D304(void *,u32,u32);
+extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
+extern void func_02045808(void *);
+extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
+extern void func_0201F250(void *,void *,void *);
+typedef struct { unsigned char low:7; unsigned char high:1; } Flags;
+typedef struct { unsigned char low:3; unsigned char middle:4; unsigned char high:1; } Bits;
+extern void func_0201EEF4(void *,u32,void *);
+extern u32 d_02211B68[];
+void func_0220DA6C(const u8 *p,int index)
+{
+    void *handle;
+    char *elem;
+    void *buf;
+    void *text;
+    void *extra;
+    void *context;
+    u8 extraWidth;
+    u8 width;
+    int gap;
+    u8 x;
+    handle=*(void **)(p+0x1F70);
+    elem=(char *)(p+4)+func_022110D4((u8 *)p,index)*0x4C;
+    buf=func_020457B0(12,*(u16 *)(*(char **)p+16));
+    text=func_02045EC0(*(void **)(p+0x1EA0),d_02211B68[index]);
+    extra=0;
+    func_0201EEF4(*(void **)(p+0x1EA4),0,*(void **)elem);
+    func_0201F250(*(void **)(p+0x1EA4),buf,text);
+    func_02045808(text);
+    if (((Flags *)(elem+0x16))->high==0 && ((Bits *)(elem+0x17))->high==0) {
+        if (((Bits *)(elem+0x17))->low==0) extra=func_02045EC0(*(void **)(p+0x1EA0),22);
+        else if (((Bits *)(elem+0x17))->low==1) extra=func_02045EC0(*(void **)(p+0x1EA0),23);
+    }
+    width=(u8)func_0201D304(buf,*(u32 *)(*(char **)p+12),0);
+    extraWidth=0;
+    if (extra==0) gap=0;
+    else {
+        extraWidth=(u8)func_0201D304(extra,*(u32 *)(*(char **)p+12),0);
+        gap=8;
+    }
+    x=(int)((func_02045738(handle)<<3)-width-extraWidth-gap)/2;
+    context=*(void **)(p+0x1EAC);
+    func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),x,7,(u32)buf,*(u32 *)(*(char **)p+12),0x3DC0);
+    *(u8 *)(p+0x1F74)=1;
+    func_02045808(buf);
+    if (extra!=0) {
+        if (((Bits *)(elem+0x17))->low==0) {
+            context=*(void **)(p+0x1EAC);
+            func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),(s16)(x+width+gap),8,(u32)extra,*(u32 *)(*(char **)p+12),0x2960);
+        } else {
+            context=*(void **)(p+0x1EAC);
+            func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),(s16)(x+width+gap),8,(u32)extra,*(u32 *)(*(char **)p+12),0x31A0);
+        }
+        *(u8 *)(p+0x1F74)=1;
+        func_02045808(extra);
+    }
+}

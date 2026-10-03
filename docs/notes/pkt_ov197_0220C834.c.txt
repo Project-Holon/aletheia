@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: compiled 224/224, four bytes at +0006/+0008: allocator tag stack store and size literal load trade places.
- * checks: 1 allocator 5 arguments/tag u16, all callee bodies read; 2 same-ov197 C980/CAAC context twins, no allocator twin; 3 const q iteration and signed allocator size/u16 heap checks unchanged; 4 enum-offset and narrow-stack idioms read; 5 fresh idiom list and CAAC/D11C neighbours read; permuter emitted baseline DIFF4 agrees, 300 candidates no improvement; next: allocator size passed through typed inline.
+ * checks: 1 own allocator/helper files and matched callers confirm all arities; allocator tag u16, caller truncates item index16; 2 C980/C574/CAAC share allocation/context without full twin; 3 const q already retained; u16 helper size/local size DIFF158/224 and helper-only size DIFF216/228; 4 typed helper and tag-first helper each DIFF4, scheduling cap used, enum and narrow-stack idioms read; 5 refreshed idiom directory and C980/C574/CAAC reread.
+ * residual: 224/224 bytes; 4 concrete differences at +0006/+0008, allocator tag stack store versus size literal load. Final retry exhausted: 5 one runs; prior baseline-agreeing 300-candidate permuter was not repeated.
  * symbols:
  *   sub_02030734 0x02030734 arm
  *   func_021F86D4 0x021F86D4 thumb ov094

@@ -9,7 +9,8 @@
  * isa: thumb
  * status: DIFF
  * residue: 52 bytes compiled; 13 concrete bytes differ in loop register allocation.
- * checks: 1 func_0201CE48 void(void*) from matched ov135 caller, call setup matches; 2 02202878 shares cleanup callee but no loop twin; 3 const u8* parameter and long counter both retain 13-byte delta; 4 named-pointer/integer-base/hoisted-zero idioms read, u32* element form regresses to 18 bytes; 5 refreshed idioms and matched neighbours, no new twin, no stack object in residue. Next: struct-record shape, no permutation sweep.
+ * checks: 1 CE48 own ARM9 unit and 02878 cleanup caller confirm one pointer; 2 02878 no loop twin; 3 historical const p/long i each DIFF13, retry u16 i DIFF39/56; 4 typed records DIFF46/48, pointer base and named zero each DIFF13, scheduling cap used; 5 refreshed full idiom listing and 02878 reread, no stack object.
+ * residual: 52/52 bytes; 13 concrete differences in loop register allocation. Final retry exhausted: 5 one runs plus required once-only 300-candidate permuter; emitted baseline DIFF13/52 agrees, best stays13.
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
  */

@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full own callee bodies/prototypes read, preserved live registers and 020272A4 wide r1 payload; 2 same-scene helpers and ov170 loader twins read; 3 int locals stays 16B, enum flag call worsens to 567B, a/s writable so no const; 4 Boolean-call and inline wrapper idioms read, print wrapper stays 16B, manual scheduling cap reached; 5 refreshed idioms/04DE0/04FC4 neighbours. Next lever: type of scene flag and merged print-tail load order, without new scheduling sweeps.
- * residual: full 46-case C; 2884 compiled / 2770 stale listing / 2884 true extent, 16 concrete bytes, 151/151 resolved; runs 11 + permuter300.
- * permuter: macro-free fixed one agrees in bytes/size; emitted baseline retains 16B but reports 1 unresolved (fixed one 0); 300 in 178s, no improvement, retained fixed-one C.
- * residue-sites: case 30 Boolean call branch, case 34 first argument versus table load, and case 39 choice-table load order; shared-tail jumps follow those schedules.
+ * residual: 2884 compiled bytes, 5 concrete bytes differ; final retry exhausted after 8 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Full46-case body improves16 to5 via full-word flag extern and ternary selected0/1; remaining case34 shared-print-tail jump and case39 choice load order. Unsignedlong words unchanged5; u8 scene pointer alone CCERR, consistent byte-pointer variant unchanged5.
+ * checks: 1 fresh own callee definitions and same-overlay callers confirm arities; unit355C4 setteru8 widened tou32 because caller sends only0/1 without truncation; caller-loaded forwarder args and272A4 wide-r1 payload preserved; 2 matched03FA0/05384/055BC/056E8 and loader twins read; 3 u16 keys (only bit2 used) regresses699, a/s writable so no const; 4 Boolean call/inline-wrapper and flag-ternary idioms read; 5 fresh unfiltered idioms and04DE0/04FC4/math neighbours.
+ * prior-permuter: macro-free fixed one agrees in bytes/size; emitted baseline retains 16B but reports 1 unresolved (fixed one 0); 300 in 178s, no improvement, retained fixed-one C.
  * extent: 02204B66 and 02204BB2 are internal shared tails; true end 02204C24 (2884B).
  * ownership: existing 27-entry peer shard preserved; root not yet in it.
  * symbols:
@@ -147,7 +147,7 @@ extern void func_02030D28(void *),func_02030DA4(void *);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern u8 func_020355C4(void);
-extern void func_020355D8(u8);
+extern void func_020355D8(u32);
 extern u32 func_020362DC(void);
 extern void func_0203D34C(u32,u32),func_0204E720(u32,int,int,int);
 extern int func_0204E804(void);
@@ -258,7 +258,7 @@ int func_022040E0(int unused0,int unused1,char *a,char *s)
     case 30:
         if(func_0204E804())break;
         B(0x1a)=B(0xfb);if(B(0x1a)==4)W(0x28)=36;else{H(0x18)=func_02017E1C(P(0x10),B(0x1a)+0x36,0);W(0x28)=31;}
-        if(!B(0xac))func_020355D8(1);else func_020355D8(0);break;
+        func_020355D8(B(0xac)?0:1);break;
     case 31:if(W(0x8c))W(0x28)=33;else{W(0x28)=32;func_022054E8(a,s,1);}break;
     case 32:W(0x88)=1;W(0x28)=33;break;
     case 33:func_02205384(s,W(0x7c),5,(u32)func_02205360,2,W(0x10),3,(u32)(s+0x18));W(0x28)=34;break;

@@ -7,9 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own40588 two wide args,40618 three,40804 one; 2 own35A8 and4C0C twins read, narrow40588 adds truncation; 3 constp24 andu16count20, two targeted checks; 4 SDK blend inline and repeatedconstant idioms read; 5 fresh full idiom listing and35A8 reread, no new twin; next try struct parameter to separate zero webs.
- * search: Macro-free permuter baseline20/488 agrees fixedone8; once-only300 best remains20/488, no winner.
- * runs: 8 fixed one calls plus permuter300; first-pass residual eligible for one retry.
+ * residual: 488 compiled bytes, 20 concrete bytes differ; final retry exhausted after 5 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Typed state pointer, enum layer and long scroll each retained20; first-state zero hoists ahead of SDK calls.
+ * checks: 1 fresh own40588(2),40618(3),unit407E8/40804(1),35A8(2) ABI confirmed; 2 matched4C0C/35A8 share SDK shapes; 3 short scroll compiles unchanged20, writable scene; 4 blend inline/enum, long colouring and struct-pointer idioms read; 5 fresh unfiltered idioms and4C0C neighbours, no new twin.
+ * prior-search: Macro-free permuter baseline20/488 agrees fixedone8; once-only300 best remains20/488, no winner.
  * volatile: Writes display registers 0x04000052 at021F340E/351E/34FE and0x04000050 at021F3590.
  * symbols:
  *   func_02040804 0x02040804 arm

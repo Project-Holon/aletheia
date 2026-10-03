@@ -7,14 +7,27 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * residue: 4 bytes differ: movs r2,#0 and subs r3,r1,#1 are reversed;
- * compiled 50 bytes versus 52-byte padded original extent.
- * checks: 1 no calls/arity sites; 2 same-region helpers reproduce loop but no threshold twin;
- * 3 u16 x adds narrowing, const p and unsigned count do not change best 4B residue;
- * 4 result-before-input/declaration-order idioms fix helpers, threshold reorders exhausted;
- * 5 reread live helpers/neighbour 021DEB74 and idiom directory: no same threshold twin;
- * next hypothesis: enum count or original separate inline bit-count helper, no sweep run.
+ * checks: final retry fixed one confirmed the matched source; prior DIFF superseded.
+ * status: EXACT*
+ * Lever: initialise count before bound, then carry bound through a plain copy bound_ after x is loaded.
+ * Direct bound use left a four-byte zero/subtraction scheduling swap; bounded permuter found the copy spelling.
+ * trailing: Two zero alignment bytes.
  */
-int func_021E16D8(const char *p) { unsigned int count; int bound; unsigned int x; bound=*(int *)(*(char **)(p+0xd8)+8)-1;x=*(unsigned short *)(*(char **)(p+0xdc)+0x42);count=0;while(x) { count+=x&1;x>>=1; }return (int)count>=bound; }
+int func_021E16D8(const char *p)
+{
+  unsigned int count;
+  int bound;
+  unsigned int x;
+  int bound_;
+  count = 0;
+  bound = (*((int *) ((*((char **) (p + 0xd8))) + 8))) - 1;
+  x = *((unsigned short *) ((*((char **) (p + 0xdc))) + 0x42));
+  bound_ = bound;
+  while (x)
+  {
+    count += x & 1;
+    x >>= 1;
+  }
 
+  return ((int) count) >= bound_;
+}

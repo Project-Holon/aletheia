@@ -8,7 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all float helpers resolved; 2 matched 06274/063E0 math and allocation twins; 3 short x/y worse (1784), pointer writes forbid readonly; 4 named floats avoid folding, compound inline add preserves operand order; 5 refreshed idioms/neighbours, no stack aggregate; runs 6 + baseline + permuter300; baseline1764/157 agrees, best1764/40 rejected for added volatile(top).
+ * residual: 1764 compiled bytes, 82 concrete bytes differ; final retry exhausted after 7 fixed one runs this wave (including checks/CCERR), prior300 permuter not repeated.
+ * lever: Two declaration variants improve157 to116 to82; remaining span/q register colouring. u8 q, long i and long x each unchanged82.
+ * checks: 1 all208 float/div relocations resolved, no game callee; matched063E0 confirms two args and heapu16; 2 matched06274/063E0 math/allocation twins reread; 3 u16 y regresses1509 and adds unwitnessed_ffltu, rejected; destination writable; 4 float quotient ROUND and compound-add idioms read; 5 fresh unfiltered idioms and math neighbours, no stack aggregate.
  * symbols:
  *   _fflt 0x0209BDBC arm
  *   _fmul 0x0209C77C arm
@@ -30,10 +32,11 @@ typedef struct {int x,y,z;} Vec;
 static inline float addFloat(float a,float b){a+=b;return a;}
 void func_02206E2C(char *p,u16 heap)
 {
-    int i,x,y;
+    int i,x;
     char *q;
     float left,top,offx,offy;
-    float span=2.022056818008423f,step=5.333333492279053f,zero=0.0f,two=2.0f;
+    int y;
+    float two=2.0f,span=2.022056818008423f,step=5.333333492279053f,zero=0.0f;
     *(int *)(p+0x1c)=0;*(int *)(p+0x20)=0;*(int *)(p+0x24)=0;
     *(u8 *)(p+0xa274)=18;
     left=-18.198511123657227f+SPAN/two;
@@ -67,5 +70,4 @@ void func_02206E2C(char *p,u16 heap)
         *(Vec *)(q+0x74)=*(Vec *)(q+0x68);
     }
 }
-
 

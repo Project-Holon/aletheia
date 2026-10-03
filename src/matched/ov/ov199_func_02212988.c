@@ -1,0 +1,83 @@
+/*
+ * function: func_02212988
+ * address: 0x02212988
+ * packet: pkt_ov199_02212988
+ * region: ov199
+ * compiler: 1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * ABI exception: AE14 and 084F4 empty callees preserve live pointer r0;
+ * caller consumes it after their BL, despite legacy void(void).
+ * symbols:
+ *   func_0201A948 0x0201A948 thumb
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0201A354 0x0201A354 thumb
+ *   func_0200AE14 0x0200AE14 thumb
+ *   func_0200B1D4 0x0200B1D4 thumb
+ *   func_0200B358 0x0200B358 thumb
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0201AC2C 0x0201AC2C thumb
+ *   func_0201A2A8 0x0201A2A8 thumb
+ *   func_020084F4 0x020084F4 thumb
+ *   func_02008550 0x02008550 thumb
+ *   func_02034714 0x02034714 arm
+ *   d_02213D04 0x02213D04 data a1 ov199
+ *   d_02213D00 0x02213D00 data a1 ov199
+ */
+typedef unsigned char u8;
+extern void func_0201A948(void *);
+extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned);
+extern void func_02082BCC(void *, int, unsigned);
+extern void *func_0201A354(int, int);
+extern void *func_0200AE14(void *);
+extern void *func_0200B1D4(void *, unsigned);
+extern void *func_0200B358(void *);
+extern void *func_02012EBC(void *);
+extern void func_0201AC2C(const void *, void *);
+extern void func_0201A2A8(void *, void *);
+extern void *func_020084F4(void *);
+extern u8 func_02008550(const void *);
+extern void func_02034714(const char *, int, const char *);
+extern const char d_02213D04[], d_02213D00[];
+u8 *func_02212988(int unused, unsigned heap, u8 *p)
+{
+    u8 *out;
+    u8 *row;
+    unsigned id;
+    func_0201A948(*(void **)(p + 0x30));
+    func_0201A948(*(void **)(p + 0x34));
+    out = func_02030734(heap, 0x24, 0, d_02213D04, 0x32f);
+    func_02082BCC(out, 0, 0x24);
+    if (*(unsigned *)(p + 0x1c) == 2 || *(unsigned *)(p + 0x1c) == 3) {
+        switch (*(unsigned *)(p + 8)) {
+        case 0: id = 15; break;
+        case 1: id = 16; break;
+        case 2: id = 17; break;
+        case 3: id = 18; break;
+        case 4: id = 19; break;
+        default: func_02034714(d_02213D00, 0, d_02213D00); break;
+        }
+        *(void **)out = func_0201A354(id, heap);
+    } else if (*(unsigned *)(p + 0x1c) == 0) {
+        *(void **)out = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 4))), 0));
+    } else if (*(unsigned *)(p + 0x1c) == 1) {
+        *(void **)out = func_0200AE14(func_0200B1D4(func_0200B358(func_02012EBC(*(void **)(p + 4))), 1));
+    } else {
+        func_02034714(d_02213D00, 0, d_02213D00);
+    }
+    *(void **)(out + 0x1c) = *(void **)(p + 0x30);
+    *(void **)(out + 0x14) = *(void **)(p + 4);
+    func_0201AC2C(*(u8 **)(p + 0x28) + 0xd4, *(void **)(p + 0x38));
+    func_0201A2A8(*(void **)out, *(void **)(p + 0x38));
+    *(void **)(out + 4) = *(void **)(p + 0x38);
+    row = *(u8 **)(p + 0x2c);
+    func_0201AC2C(row + 0xd4, *(void **)(p + 0x3c));
+    func_0201A2A8(*(void **)out, *(void **)(p + 0x3c));
+    *(void **)(out + 8) = func_020084F4(row);
+    *(void **)(out + 0x10) = *(void **)(p + 0x3c);
+    out[0xc] = func_02008550(row);
+    return out;
+}

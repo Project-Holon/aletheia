@@ -8,12 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 02048F60 takes 3; 020081DC takes 3, caller narrows index; 020307B0 takes 1. 2 ov197 neighbours BB1C/BB78/B814 no complete twin. 3 const p and byte mask each compiled DIFF17 unchanged. 4 address grouping, integer row base and byte-colour idioms read. 5 fresh unfiltered idioms listing and BB1C/BB78/BD14/B814 reread.
- * residual: 5 differing bytes at +006C,+006E,+0070: row-base add precedes count load and changes scratch operands; 240/240 bytes; all 6 relocations resolved.
- * permuter: once --budget 300 --jobs 1 --types; emitted baseline DIFF17 size240 agrees with one; safe initialized temporary/declaration winner DIFF5 validated by one.
- * next: retry may test named int row base / full-word unsigned column grouping; no further scheduling variants this pass.
- * budget: third manual declaration variant was inadvertently introduced during width change (DIFF17 to25), then immediately reverted; no later manual scheduling sweep.
- * Width: original narrows item index to u16 before 020081DC; extern preserves caller truncation despite owner u32 index.
+ * checks: 1 48F60/081DC/307B0 matched callers and owner unit confirm arities3/3/1; caller explicitly truncates item index16; 2 B814/BB1C/BB78 same tables but no complete twin; 3 historical const p/byte mask DIFF17; retry unsigned-long page and u32 index each DIFF5; 4 named int row base DIFF5 and count-before-row DIFF13, manual cap used; 5 refreshed idiom directory and B814/BB1C/BB78 reread.
+ * residual: 240/240 bytes; 5 concrete differences at +006C,+006E,+0070: row-base add precedes count load. Final retry exhausted: 5 one runs; prior 300-candidate permuter already yielded this validated best and was not repeated.
  * symbols:
  *   func_02048F60 0x02048F60 arm
  *   func_020081DC 0x020081DC thumb

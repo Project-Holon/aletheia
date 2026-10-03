@@ -1,0 +1,151 @@
+/*
+ * function: func_02211420
+ * address: 0x02211420
+ * packet: pkt_ov198_02211420
+ * region: ov198
+ * compiler: 1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * Residual: 912 bytes versus 1008; 683 concrete mismatches, merged scroll
+ * branches and wrong offset register lifetime. Latent ARM9 witness blocker
+ * 0202CF98 is defined in unit_0202CF84.c but absent from its function header.
+ * checks: 1 callee bodies confirm manager arities 1/2/3/4/5 and CD64 s8,s8,u8; 2 no six-state twin, matched 11034/F2DC read; 3 u16 offset compiled904/704 mismatch versus enum912/683, enum retained; 4 stack-buffer and enum-offset idioms read; 5 unfiltered idioms relisted, neighbours 11034 and ov199127F0 reread; next retry hypothesis separate signed coordinate locals/shared-scroll CFG; permuter not applicable: size delta96
+ * symbols:
+ *   func_0202C9B4 0x0202C9B4 thumb
+ *   func_0202CA3C 0x0202CA3C thumb
+ *   func_02030734 0x02030734 arm
+ *   func_022113B8 0x022113B8 thumb ov198
+ *   func_0202CAC4 0x0202CAC4 thumb
+ *   func_020307B0 0x020307B0 arm
+ *   func_0221139C 0x0221139C thumb ov198
+ *   func_0202CB4C 0x0202CB4C thumb
+ *   func_0202CD94 0x0202CD94 thumb
+ *   func_0202CD64 0x0202CD64 thumb
+ *   func_022113FC 0x022113FC thumb ov198
+ *   func_0202CF98 0x0202CF98 thumb
+ *   func_0202CE40 0x0202CE40 thumb
+ *   func_022110A4 0x022110A4 thumb ov198
+ *   func_0220F2DC 0x0220F2DC thumb ov198
+ *   func_0202CA0C 0x0202CA0C thumb
+ *   d_02212550 0x02212550 data a1 ov198
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef enum { state_offset = 0x1e98 } StateOffset;
+extern void *func_0202C9B4(unsigned, unsigned, unsigned);
+extern void func_0202CA3C(void *, unsigned, unsigned, unsigned, unsigned);
+extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
+extern void func_022113B8(u8 *, unsigned, unsigned);
+extern void func_0202CAC4(void *, unsigned, const void *);
+extern void func_020307B0(void *);
+extern void func_0221139C(u8 *, u8 *, unsigned);
+extern void func_0202CB4C(void *, unsigned, int, int);
+extern void func_0202CD94(void *);
+extern void func_0202CD64(void *, unsigned, s8, s8, u8);
+extern void func_022113FC(u8 *, unsigned, int);
+extern void func_0202CF98(void *, unsigned, s8 *, s8 *);
+extern unsigned func_0202CE40(void *, unsigned);
+extern void func_022110A4(u8 *, unsigned, unsigned);
+extern void func_0220F2DC(char *, int, int);
+extern void func_0202CA0C(void *);
+extern const char d_02212550[];
+int func_02211420(u8 *p)
+{
+    s8 stack[10];
+    u8 *tmp;
+    StateOffset offset = state_offset;
+    switch (p[offset]) {
+    case 0:
+        *(void **)(p + 0x2194) = func_0202C9B4(2, 4, *(u16 *)(*(u8 **)p + 0x10));
+        func_0202CA3C(*(void **)(p + 0x2194), 0, 5, 16, 6);
+        func_0202CA3C(*(void **)(p + 0x2194), 1, 6, 16, 6);
+        func_0202CA3C(*(void **)(p + 0x2194), 2, 5, 16, 6);
+        func_0202CA3C(*(void **)(p + 0x2194), 3, 6, 16, 6);
+        tmp = func_02030734((u16)((*(u16 *)(*(u8 **)p + 0x10) & 0x7fff) | 0x8000), 0xc0, 0, d_02212550, 0xb89);
+        func_022113B8(tmp, 5, p[0x2499]);
+        func_0202CAC4(*(void **)(p + 0x2194), 0, tmp);
+        func_022113B8(tmp, 6, p[0x2499]);
+        func_0202CAC4(*(void **)(p + 0x2194), 1, tmp);
+        func_022113B8(tmp, 5, p[0x249a]);
+        func_0202CAC4(*(void **)(p + 0x2194), 2, tmp);
+        func_022113B8(tmp, 6, p[0x249a]);
+        func_0202CAC4(*(void **)(p + 0x2194), 3, tmp);
+        func_020307B0(tmp);
+        func_0221139C((u8 *)&stack[9], (u8 *)&stack[8], p[0x2499]);
+        func_0202CB4C(*(void **)(p + 0x2194), 0, stack[9], stack[8]);
+        func_0202CB4C(*(void **)(p + 0x2194), 1, stack[9], stack[8]);
+        func_0221139C((u8 *)&stack[9], (u8 *)&stack[8], p[0x249a]);
+        func_0202CB4C(*(void **)(p + 0x2194), 2, stack[9], stack[8]);
+        func_0202CB4C(*(void **)(p + 0x2194), 3, stack[9], stack[8]);
+        func_0202CD94(*(void **)(p + 0x2194));
+advance:
+        p[offset]++;
+        break;
+    case 1:
+        if (p[0x2499] & 1) {
+            func_0202CD64(*(void **)(p + 0x2194), 0, 1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 1, 1, 0, 16);
+        } else {
+            func_0202CD64(*(void **)(p + 0x2194), 0, -1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 1, -1, 0, 16);
+        }
+        if (p[0x249a] & 1) {
+            func_0202CD64(*(void **)(p + 0x2194), 2, 1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 3, 1, 0, 16);
+        } else {
+            func_0202CD64(*(void **)(p + 0x2194), 2, -1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 3, -1, 0, 16);
+        }
+advance_scroll:
+        p[0x1e98]++;
+        break;
+    case 2:
+        func_0202CD94(*(void **)(p + 0x2194));
+        func_022113FC(p, p[0x2499], 0);
+        func_022113FC(p, p[0x249a], 0);
+        func_0202CF98(*(void **)(p + 0x2194), 0, &stack[7], &stack[6]);
+        func_0202CF98(*(void **)(p + 0x2194), 2, &stack[5], &stack[4]);
+        if (func_0202CE40(*(void **)(p + 0x2194), 0) != 0) break;
+        func_022110A4(p, p[0x2499], p[0x249a]);
+        func_0202CB4C(*(void **)(p + 0x2194), 0, stack[5], stack[4]);
+        func_0202CB4C(*(void **)(p + 0x2194), 1, stack[5], stack[4]);
+        func_0202CB4C(*(void **)(p + 0x2194), 2, stack[7], stack[6]);
+        func_0202CB4C(*(void **)(p + 0x2194), 3, stack[7], stack[6]);
+        func_0220F2DC((char *)p, p[0x2499], p[0x249a]);
+        goto advance;
+    case 3:
+        func_0202CD94(*(void **)(p + 0x2194));
+        if (p[0x2499] & 1) {
+            func_0202CD64(*(void **)(p + 0x2194), 0, -1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 1, -1, 0, 16);
+        } else {
+            func_0202CD64(*(void **)(p + 0x2194), 0, 1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 1, 1, 0, 16);
+        }
+        if (p[0x249a] & 1) {
+            func_0202CD64(*(void **)(p + 0x2194), 2, -1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 3, -1, 0, 16);
+        } else {
+            func_0202CD64(*(void **)(p + 0x2194), 2, 1, 0, 16);
+            func_0202CD64(*(void **)(p + 0x2194), 3, 1, 0, 16);
+        }
+        goto advance_scroll;
+    case 4:
+        func_0202CD94(*(void **)(p + 0x2194));
+        func_022113FC(p, p[0x2499], 1);
+        func_022113FC(p, p[0x249a], 1);
+        func_0202CF98(*(void **)(p + 0x2194), 0, &stack[3], &stack[2]);
+        func_0202CF98(*(void **)(p + 0x2194), 2, &stack[1], &stack[0]);
+        if (func_0202CE40(*(void **)(p + 0x2194), 0) == 0) goto advance;
+        break;
+    case 5:
+        func_0202CA0C(*(void **)(p + 0x2194));
+        *(void **)(p + 0x2194) = 0;
+        p[offset] = 0;
+        return 0;
+    }
+    return 1;
+}

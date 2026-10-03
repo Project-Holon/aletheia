@@ -1,0 +1,23 @@
+/*
+ * function: func_0217B7A0
+ * address: 0x0217B7A0
+ * packet: pkt_ov176_0217B7A0
+ * region: ov176
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0217B950 0x0217B950 thumb ov176
+ *   func_0217B964 0x0217B964 thumb ov176
+ *   func_0217B3C0 0x0217B3C0 thumb ov176
+ *   func_021E8AA0 0x021E8AA0 thumb ov177
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_0217B950(int *,int);
+extern int func_0217B964(u8 *);
+extern void func_0217B3C0(void);
+extern void func_021E8AA0(int *,int);
+void func_0217B7A0(int *p,int *state,u8 *q) {switch(*state) {case 0:func_0217B950((int *)q,22);*state=1;break;case 1:if(func_0217B964(q)==1) func_021E8AA0(p,(int)func_0217B3C0);break;}}
