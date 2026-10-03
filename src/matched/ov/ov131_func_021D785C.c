@@ -37,7 +37,7 @@ extern void *func_021D60A4(void *);
 extern void func_021D7A44(void *,int,int *,int *);
 extern void func_021D79A8(void *,void *,int);
 extern void func_021D7A1C(void *,void *,Vec *);
-extern void *func_02017270(void *,void *,u32,u32,u32,u32);
+extern void *func_02017270(void *a0, void *a1, u32 a2, u32 a3, u32 a4, u32 a5);
 extern void func_02015FD4(char *,int);
 extern void func_02015D80(u8 *,u16);
 extern void func_02015D30(void *,u32 *);

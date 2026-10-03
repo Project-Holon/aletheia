@@ -30,7 +30,7 @@ extern int func_021C8010(void *a, int c);
 extern int func_021C7F68(void *a, u16 k, u8 *buf);
 extern int func_021D78AC(int r);
 
-int func_021E3E84(int u, void *a, int c)
+int func_021E3E84(int u, void *a, int c, int *w)
 {
     u8 buf[16];
     void *q;

@@ -37,7 +37,7 @@ extern u32 func_021BF7F4(void *p);
 extern u32 func_021BF854(void *p);
 extern void func_021C0FF8(u32 a, u32 b);
 extern void func_021C0F78(u32 a, void *b);
-extern u32 func_021C11C8(u32 o, u8 k);
+extern u8 func_021C11C8(u8 *p, u8 key);
 extern u32 func_021C11DC(u32 o, u8 k);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void *func_020457B0(u32 size, u32 heap);
@@ -61,7 +61,7 @@ void func_021BF15C(char *p)
         return;
     }
     k = func_021BF7F4(p);
-    a = func_021C11C8(o, (u8)k);
+    a = func_021C11C8((u8 *)o, (u8)k);
     b = func_021BF854(p);
     c = func_021C11DC(o, (u8)k);
     x = func_02045EC0(*(void **)(p + 0xc), 0xd);
