@@ -1,0 +1,85 @@
+/*
+ * function: func_02183B60
+ * address: 0x02183B60
+ * packet: pkt_ov168_02183B60
+ * region: ov168
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * abi: 3159C's live allocator result is consumed; ED4's explicitly loaded heap argument retained; FC4 and 30734 narrowed at caller.
+ * symbols:
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02183ED4 0x02183ED4 thumb ov168
+ *   func_02183F30 0x02183F30 thumb ov168
+ *   func_02030CB0 0x02030CB0 arm
+ *   func_02030734 0x02030734 arm
+ *   func_02030CBC 0x02030CBC arm
+ *   func_020056A0 0x020056A0 thumb
+ *   func_0218414C 0x0218414C thumb ov168
+ *   func_021841F8 0x021841F8 thumb ov168
+ *   func_021842BC 0x021842BC thumb ov168
+ *   func_02183F6C 0x02183F6C thumb ov168
+ *   func_02183FC4 0x02183FC4 thumb ov168
+ *   func_02184398 0x02184398 thumb ov168
+ *   func_02183D0C 0x02183D0C thumb ov168
+ *   func_02183F40 0x02183F40 thumb ov168
+ *   func_021844C8 0x021844C8 thumb ov168
+ *   func_02183D4C 0x02183D4C thumb ov168
+ *   func_02005E30 0x02005E30 thumb
+ *   d_02184A20 0x02184A20 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum {OBJECT_SIZE=0x150} Size;
+extern const char d_02184A20[];
+extern void func_0203064C(void *,u32,u32);
+extern u8 *func_0203159C(void *,u32,u32);
+extern void func_02082BCC(void *,int,u32);
+extern void func_02183ED4(int);
+extern void func_02183F30(void);
+extern u32 func_02030CB0(u32);
+extern void *func_02030734(u16,u32,int,const char *,u32);
+extern void *func_02030CBC(u32,void *);
+extern void *func_020056A0(u32,u32,u32);
+extern void func_0218414C(char *,int);
+extern void func_021841F8(void *,int);
+extern void func_021842BC(void **,int);
+extern void func_02183F6C(int,u32);
+extern void func_02183FC4(char *,u16);
+extern void func_02184398(int *,int,int,int);
+extern void func_02183D0C(int *,int,int);
+extern void func_02183F40(void);
+extern void func_021844C8(void);
+extern void func_02183D4C(void);
+extern void func_02005E30(int);
+enum Result {DONE=1};
+enum Result func_02183B60(void *obj)
+{
+    u8 *p;
+    Size size;
+    int result=1;
+    func_0203064C((void *)1,73,0x70000);
+    size=OBJECT_SIZE;
+    p=func_0203159C(obj,size,73);
+    func_02082BCC(p,0,size);
+    *(int *)((unsigned)p+0x14c)=73;
+    func_02183ED4(73);
+    func_02183F30();
+    *(void **)(p+0x140)=func_02030734(*(int *)((unsigned)p+0x14c),func_02030CB0(5),0,d_02184A20,0x21d);
+    *(void **)((unsigned)p+0x144)=func_02030CBC(5,*(void **)(p+0x140));
+    *(void **)((unsigned)p+0x148)=func_020056A0((u32)func_02183F40,(u32)p,1);
+    func_0218414C((char *)p+0xe4,*(int *)((unsigned)p+0x14c));
+    func_021841F8(p+0xe4,*(int *)((unsigned)p+0x14c));
+    func_021842BC((void **)(p+0xe4),*(int *)((unsigned)p+0x14c));
+    func_02183F6C((int)p,*(u32 *)((unsigned)p+0x14c));
+    func_02183FC4((char *)p,*(int *)((unsigned)p+0x14c));
+    func_02184398((int *)(p+0xf8),*(int *)((unsigned)p+0x14c),(int)func_021844C8,(int)p);
+    func_02183D0C((int *)((unsigned)p+0x130),(int)p,(int)func_02183D4C);
+    func_02005E30(10);
+    return result;
+}

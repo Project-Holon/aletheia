@@ -7,14 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee arities verified; 2 ov137 resource neighbors, no twin;
- * 3 u8 index, long counter, const p compiled with no improvement;
- * 4 declaration-order and const-table idioms flat; 5 neighbors re-read, frame
- * matches and no stack-object residue; permuter baseline 200/200, 2 bytes,
- * 300 candidates flat. No sweep remains within this first-pass budget.
+ * checks: retry 1 own 12944 one pointer, 8550 byte return, 490F4 two args, A48C three, B100 three, A6C8 five, AC18 seven and AF28 four reread, caller's fourth AC18 truncation retained; 2 DD5AC/DD2E0 resource neighbours reread; 3 short v DIFF2; 4 integer arc, unsigned-long v and v-last declaration each DIFF2, allocator-tie/address idioms reread; 5 directory/neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original best retained.
  * residue: r4 instead of r5 for index at +0014/+0036; ARM9 data 020A1448
  * remains unresolved at +00B4. All other concrete bytes agree.
  * lever: named table pointer reproduces shared index address and +8 field.
+ * runs: retry 4 iteration + 1 check; earlier permuter300 not repeated.
  * symbols:
  * func_02012944 0x02012944 thumb
  * func_02008550 0x02008550 thumb

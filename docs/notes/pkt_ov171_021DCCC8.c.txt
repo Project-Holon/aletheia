@@ -1,0 +1,84 @@
+/*
+ * function: func_021DCCC8
+ * address: 0x021DCCC8
+ * packet: pkt_ov171_021DCCC8
+ * region: ov171
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 352/352 bytes; 81 concrete bytes out, mainly spill-slot ordering
+ *   and late address construction. ARM9 0200ED14 also lacks an external witness.
+ * checks: 1 ED14 reads 3 arguments and tail-calls EC98; EC98/EC2C const source prototypes no change; 2 no ov171 twin; 3 unsigned offset no change; 4 local stack order and separate-loop-local idioms tried; 5 idiom directory and neighbours rechecked, no new twin; permuter 300 no improvement, emitted baseline confirmed 81/352. Next hypothesis: separate allocation-loop and record-loop counter scopes.
+ * symbols:
+ *   func_020457B0 0x020457B0 arm
+ *   func_02012F68 0x02012F68 thumb
+ *   func_0200EC14 0x0200EC14 thumb
+ *   func_0200EC98 0x0200EC98 thumb
+ *   func_0200EC2C 0x0200EC2C thumb
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200725C 0x0200725C thumb
+ *   func_020073D8 0x020073D8 thumb
+ *   func_0200ECD0 0x0200ECD0 thumb
+ *   func_0200ECC4 0x0200ECC4 thumb
+ *   func_0200ED14 0x0200ED14 thumb
+ *   func_0200ECF0 0x0200ECF0 thumb
+ *   func_020072A4 0x020072A4 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct { char pad[0xb4]; char name[16]; } Group;
+typedef struct { char pad[0xc5f]; u8 count; } State;
+extern void *func_020457B0(unsigned, unsigned);
+extern char *func_02012F68(void *);
+extern int func_0200EC14(char *);
+extern void func_0200EC98(const char *, void *);
+extern void func_0200EC2C(const char *, int, void *);
+extern char *func_02012EBC(void *);
+extern unsigned func_0200725C(char *, unsigned, u8);
+extern char *func_020073D8(char *, unsigned, unsigned);
+extern int func_0200ECD0(char *, int);
+extern unsigned func_0200ECC4(char *, unsigned);
+extern void func_0200ED14(char *, int, void *);
+extern void func_0200ECF0(char *, unsigned, int, void *);
+extern void func_020072A4(char *, unsigned);
+
+void func_021DCCC8(char *p) {
+    u16 i, j;
+    for (i = 0; i < 15; i++) {
+        for (j = 0; j < 6; j++) {
+            *(void **)(p + i * 0xbc + j * 0x1c + 0xc) = func_020457B0(0x20, 0x8c);
+            *(void **)(p + i * 0xbc + j * 0x1c + 0x10) = func_020457B0(0x20, 0x8c);
+        }
+    }
+    if (*(u16 *)(*(char **)p + 4) == 0) {
+        char *records = func_02012F68(**(void ***)p);
+        *(u16 *)(p + 0xc4) = func_0200EC14(records);
+        func_0200EC98(records, p + 0xb4);
+        for (j = 0; j < *(u16 *)(p + 0xc4); j++)
+            func_0200EC2C(records, j, p + 0xc + j * 0x1c);
+        ((State *)p)->count = 1;
+    } else {
+        char *base = func_02012EBC(**(void ***)p);
+        char *records;
+        u16 k;
+        unsigned offset;
+        if (func_0200725C(base, 8, 0x8c) == 1) {
+            records = func_020073D8(base, 8, 0);
+            if (records) {
+                for (k = 0; k < 15; k++) {
+                    offset = k * 0xbc;
+                    *(u16 *)(p + offset + 0xc4) = func_0200ECD0(records, k);
+                    *(u16 *)(p + offset + 0xc6) = func_0200ECC4(records, k);
+                    func_0200ED14(records, k, ((Group *)(p + offset))->name);
+                    if (*(u16 *)(p + offset + 0xc4) != 0) {
+                        for (j = 0; j < *(u16 *)(p + offset + 0xc4); j++)
+                            func_0200ECF0(records, k, j, p + offset + 0xc + j * 0x1c);
+                        ((State *)p)->count++;
+                    }
+                }
+            }
+        }
+        func_020072A4(base, 8);
+    }
+}

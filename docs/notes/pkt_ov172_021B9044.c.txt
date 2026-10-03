@@ -1,0 +1,396 @@
+/*
+ * function: func_021B9044
+ * address: 0x021B9044
+ * packet: pkt_ov172_021B9044
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 arities from owned callees and matched ov172 callers; legacy
+ *   void wrappers return live r0 as original and ov172_021BA9EC use it;
+ *   2 BA9EC supplies related state/arity evidence, no exact twin; 3 const
+ *   table input unchanged79B; 4 register/stack idioms read; 5 refreshed
+ *   idioms and neighbours, struct-local idiom read. Permuter300 baseline
+ *   confirmed1330B/79B; volatile-cap winner rejected; clean winner1328B/31B
+ *   verified. Next: current/cap/max allocation around unsigned division.
+ * symbols:
+ *   func_021BE00C 0x021BE00C thumb ov172
+ *   func_021BE02C 0x021BE02C thumb ov172
+ *   func_0202208C 0x0202208C thumb
+ *   func_020221A4 0x020221A4 thumb
+ *   func_021BE030 0x021BE030 thumb ov172
+ *   func_0204B98C 0x0204B98C arm
+ *   func_021BDFDC 0x021BDFDC thumb ov172
+ *   func_021B7590 0x021B7590 thumb ov172
+ *   func_021B9580 0x021B9580 thumb ov172
+ *   func_021B9DF8 0x021B9DF8 thumb ov172
+ *   func_021B9F4C 0x021B9F4C thumb ov172
+ *   func_0203630C 0x0203630C arm
+ *   func_021BDFE4 0x021BDFE4 thumb ov172
+ *   func_021B8740 0x021B8740 thumb ov172
+ *   func_021B8B68 0x021B8B68 thumb ov172
+ *   func_021B8B5C 0x021B8B5C thumb ov172
+ *   func_021B97AC 0x021B97AC thumb ov172
+ *   func_021B9C9C 0x021B9C9C thumb ov172
+ *   func_021B9D04 0x021B9D04 thumb ov172
+ *   func_021BE054 0x021BE054 thumb ov172
+ *   func_021BE0B0 0x021BE0B0 thumb ov172
+ *   func_021B7578 0x021B7578 thumb ov172
+ *   func_021B7B80 0x021B7B80 thumb ov172
+ *   func_021B8084 0x021B8084 thumb ov172
+ *   func_021B9C1C 0x021B9C1C thumb ov172
+ *   func_02035C60 0x02035C60 arm
+ *   func_020362DC 0x020362DC arm
+ *   func_021B8B34 0x021B8B34 thumb ov172
+ *   func_021B8B48 0x021B8B48 thumb ov172
+ *   func_021BE34C 0x021BE34C thumb ov172
+ *   func_021B99B4 0x021B99B4 thumb ov172
+ *   func_021BA050 0x021BA050 thumb ov172
+ *   func_021BE044 0x021BE044 thumb ov172
+ *   func_02045770 0x02045770 arm
+ *   func_0201C6C4 0x0201C6C4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_021BE318 0x021BE318 thumb ov172
+ *   func_02061CA4 0x02061CA4 arm
+ *   func_021BA244 0x021BA244 thumb ov172
+ *   func_021B9E3C 0x021B9E3C thumb ov172
+ *   func_02043B5C 0x02043B5C arm
+ *   func_021B8B84 0x021B8B84 thumb ov172
+ *   func_021BA24C 0x021BA24C thumb ov172
+ *   func_021BA254 0x021BA254 thumb ov172
+ *   func_021BA248 0x021BA248 thumb ov172
+ *   _u32_div_f 0x0209C2B0 arm
+ *   func_021B9E5C 0x021B9E5C thumb ov172
+ *   func_0204B878 0x0204B878 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern u16 func_021BE00C(void *);
+extern u32 func_021BE02C(void *);
+extern void func_0202208C(u32, u32, u32, u32, u32, u32, u32);
+extern u32 func_020221A4(void);
+extern void func_021BE030(void *, u32);
+extern u32 func_0204B98C(u32);
+extern u32 func_021BDFDC(void *);
+extern int func_021B7590(void *, u32);
+extern void func_021B9580(void *, void *);
+extern int func_021B9DF8(void *, void *);
+extern int func_021B9F4C(int, int, int);
+extern u32 func_0203630C(void);
+extern u32 func_021BDFE4(void *);
+extern u32 func_021B8740(void *, u32, u8, u32);
+extern u8 func_021B8B68(void *, u32);
+extern u8 func_021B8B5C(void *, u32);
+extern void func_021B97AC(void *, void *);
+extern void func_021B9C9C(void *, void *);
+extern void func_021B9D04(int, int *);
+extern u8 func_021BE054(void *);
+extern void func_021BE0B0(void *, u32);
+extern void func_021B7578(void *, u32);
+extern void func_021B7B80(void *, u32);
+extern void func_021B8084(void *, u32);
+extern void func_021B9C1C(void *, void *, int);
+extern u32 func_02035C60(void);
+extern u32 func_020362DC(void);
+extern void func_021B8B34(void *, u32, u32);
+extern int func_021B8B48(void *, u32, u32);
+extern void func_021BE34C(void *);
+extern void func_021B99B4(void *, void *);
+extern void func_021BA050(void *);
+extern u32 func_021BE044(void *);
+extern u32 func_02045770(u32);
+extern u32 func_0201C6C4(u32, u32);
+extern void func_02045334(u32);
+extern void func_02045374(u32);
+extern void func_020409B4(u32);
+extern void func_021BE318(void *, u32);
+extern void func_02061CA4(u32, u32, void *, u32);
+extern u32 func_021BA244(void *);
+extern void func_021B9E3C(void *, void *);
+extern void func_02043B5C(u32, u32);
+extern u32 func_021B8B84(void *, u32);
+extern u16 func_021BA24C(void *);
+extern u16 func_021BA254(void *);
+extern u32 func_021BA248(void *);
+extern u32 _u32_div_f(u32, u32);
+extern void func_021B9E5C(int, char *, const s16 *, int, int, u16);
+extern void func_0204B878(u32, u16);
+int func_021B9044(void * const ctx, u8 *q)
+{
+  u32 heap;
+  u32 t;
+  u32 selected;
+  u32 last;
+  u32 palette;
+  u32 max;
+  int cap;
+  u32 current;
+  int *tmp;
+  heap = func_021BE00C(ctx);
+  switch (*((int *) q))
+  {
+    case 0:
+      if (func_021BE02C(ctx) == 1)
+      func_0202208C(0, 1, 1, 0, 6, 1, heap);
+    else
+      func_0202208C(4, 1, 1, 0, 6, 1, heap);
+      *((int *) q) = 1;
+      break;
+
+    case 1:
+      if (func_020221A4() == 1)
+      *((int *) q) = 5;
+      break;
+
+    case 2:
+      func_0202208C(4, 0, 0, 0, 6, 1, heap);
+      func_021BE030(ctx, 0);
+      *((int *) q) = 4;
+      break;
+
+    case 3:
+      if (((*((u32 *) (q + 4))) == 6) && (func_0204B98C(*((u32 *) (q + 0x9c))) == 1))
+      break;
+      t = func_021BDFDC(ctx);
+      if (((*((u32 *) (q + 8))) != 0) && (func_021B7590(ctx, t) != 1))
+      break;
+      func_0202208C(0, 0, 0, 0, 6, 1, heap);
+      func_021BE030(ctx, 1);
+      *((int *) q) = 4;
+      break;
+
+    case 4:
+      if (func_020221A4() == 1)
+    {
+      if ((*((u32 *) (q + 4))) == 6)
+        return 3;
+      return 4;
+    }
+      break;
+
+    case 5:
+      func_021B9580(ctx, q);
+      break;
+
+    case 6:
+      if (func_021B9DF8(ctx, q) != 0)
+      break;
+      if ((func_021B9F4C((int) ctx, (int) q, 1) == 1) || ((func_0203630C() & 0x101) != 0))
+    {
+      if (func_021B8740(ctx, func_021BDFE4(ctx), 6, 0) == 1)
+        *((int *) q) = 7;
+    }
+    else
+      *((int *) q) = 5;
+      break;
+
+    case 7:
+      if (func_021B9DF8(ctx, q) != 0)
+      break;
+      t = func_021BDFE4(ctx);
+      selected = func_021B8B68(ctx, t);
+      last = func_021B8B5C(ctx, t);
+      if ((func_021B9F4C((int) ctx, (int) q, 1) == 1) || ((func_0203630C() & 0x101) != 0))
+    {
+      if (selected != 255)
+      {
+        if (selected == last)
+        {
+          *((int *) q) = 8;
+          *((int *) (q + 4)) = 0;
+        }
+        else
+          *((int *) q) = 5;
+      }
+    }
+    else
+      *((int *) q) = 5;
+      break;
+
+    case 8:
+      func_021B97AC(ctx, q);
+      break;
+
+    case 9:
+      func_021B9C9C(ctx, q);
+      break;
+
+    case 10:
+      func_021B9D04((int) ctx, (int *) q);
+      break;
+
+    case 11:
+      if (func_021B8740(ctx, func_021BDFE4(ctx), 10, 0) == 1)
+      *((int *) q) = 12;
+
+    case 12:
+      if (func_021BE054(ctx) > 1)
+      break;
+      t = func_021BDFDC(ctx);
+      *((int *) (q + 4)) = 7;
+      *((int *) q) = 3;
+      func_021BE0B0(ctx, 1);
+      func_021B7578(ctx, t);
+      func_021B7B80(ctx, t);
+      *((int *) (q + 8)) = 1;
+      break;
+
+    case 13:
+      func_021B8084(ctx, func_021BDFE4(ctx));
+      func_021BE0B0(ctx, 1);
+      func_021B9C1C(ctx, q, 36);
+      *((int *) q) = 14;
+      func_021B7B80(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+      break;
+
+    case 14:
+      if ((func_02035C60() == 1) || ((func_020362DC() & 3) != 0))
+    {
+      tmp = (int *) (q + 4);
+      *tmp = 7;
+      *((int *) q) = 3;
+      func_021B7578(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+    }
+      break;
+
+    case 15:
+      if (func_021B8740(ctx, func_021BDFE4(ctx), 10, 0) != 1)
+      break;
+      t = func_021BDFDC(ctx);
+      func_021BE0B0(ctx, 1);
+      func_021B7B80(ctx, t);
+      *((int *) q) = 18;
+      break;
+
+    case 16:
+      func_021B8084(ctx, func_021BDFE4(ctx));
+      func_021B9C1C(ctx, q, 37);
+      *((int *) q) = 17;
+      *((u16 *) (q + 0x88)) = 0;
+      func_021BE0B0(ctx, 1);
+      func_021B7B80(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+      break;
+
+    case 17:
+      *((u16 *) (q + 0x88)) += 1;
+      if (((func_02035C60() == 1) || ((func_020362DC() & 3) != 0)) || ((*((u16 *) (q + 0x88))) >= 300))
+      *((int *) q) = 18;
+      break;
+
+    case 18:
+      func_021B8B34(ctx, func_021BDFE4(ctx), 47);
+      *((int *) q) = 19;
+      break;
+
+    case 19:
+      if (func_021B8B48(ctx, func_021BDFE4(ctx), 47) != 1)
+      break;
+      *((int *) (q + 4)) = 7;
+      *((int *) q) = 3;
+      func_021BE34C(ctx);
+      func_021BE0B0(ctx, 1);
+      func_021B7578(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+      break;
+
+    case 20:
+      func_021B8084(ctx, func_021BDFE4(ctx));
+      func_021B9C1C(ctx, q, 38);
+      *((int *) q) = 21;
+      func_021BE0B0(ctx, 1);
+      func_021B7B80(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+      break;
+
+    case 21:
+      if ((func_02035C60() == 1) || ((func_020362DC() & 3) != 0))
+    {
+      *((int *) (q + 4)) = 7;
+      *((int *) q) = 3;
+      func_021BE0B0(ctx, 1);
+      func_021B7578(ctx, func_021BDFDC(ctx));
+      *((int *) (q + 8)) = 1;
+    }
+      break;
+
+  }
+
+  func_021B99B4(ctx, q);
+  func_021BA050(*((void **) (q + 0x10)));
+  if ((*((u32 *) (q + 0x28))) == 1)
+  {
+    t = func_021BE044(ctx);
+    if (func_0201C6C4(t, func_02045770(*((u32 *) (q + 0x7c)))) == 0)
+    {
+      func_02045334(*((u32 *) (q + 0x7c)));
+      func_02045374(*((u32 *) (q + 0x7c)));
+      func_020409B4(4);
+      t = *((u32 *) (q + 0x84));
+      *((u32 *) (q + 0x28)) = 0;
+      if (t == 1)
+      {
+        *((u32 *) (q + 0x84)) = 0;
+        func_021BE318(ctx, *((u32 *) (q + 0x7c)));
+      }
+    }
+  }
+  if ((*((u32 *) (0x34 + q))) == 1)
+  {
+    q[0x38]++;
+    if (q[0x38] > 6)
+      *((u32 *) (q + 0x34)) = 0;
+    else
+      if ((((int) q[0x38]) % 12) < 6)
+    {
+      func_02061CA4(31, 32, q + 0x3a, 32);
+      goto paldone;
+    }
+    func_02061CA4(31, 32, q + 0x5a, 32);
+  }
+  paldone:
+  if ((((*((u32 *) (q + 0x8c))) == 0) && ((*((int *) q)) != 8)) && ((*((int *) q)) < 11))
+  {
+    if (func_021BA244(*((void **) (q + 0x10))) == 1)
+    {
+      func_021B9E3C(ctx, q);
+      *((u32 *) (q + 0x8c)) = 1;
+    }
+  }
+
+  if ((*((u32 *) (q + 0x8c))) == 1)
+  {
+    if (func_021BA244(*((void **) (q + 0x10))) == 0)
+    {
+      *((u32 *) (q + 0x8c)) = 0;
+      func_02043B5C(func_02045770(*((u32 *) (q + 0x2c))), 0);
+      func_02045334(*((u32 *) (q + 0x2c)));
+    }
+    else
+    {
+      palette = func_021B8B84(ctx, func_021BDFE4(ctx));
+      current = func_021BA24C(*((void **) (q + 0x10)));
+      cap = func_021BA254(*((void **) (q + 0x10)));
+      max = func_021BA248(*((void **) (q + 0x10)));
+      if (((int) current) > cap)
+        current = cap;
+      current = _u32_div_f(current * max, cap);
+      func_021B9E5C((int) ctx, (char *) q, (s16 *) (0x800 + palette), 3, current, max);
+    }
+  }
+  if (func_0204B98C(*((u32 *) (q + 0x98))) == 0)
+  {
+    if ((*((int *) q)) == 10)
+      func_0204B878(*((u32 *) (q + 0x98)), 15);
+    else
+      func_0204B878(*((u32 *) (q + 0x98)), 1);
+  }
+  return 1;
+}

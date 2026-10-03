@@ -1,0 +1,60 @@
+/*
+ * function: func_02184680
+ * address: 0x02184680
+ * packet: pkt_ov168_02184680
+ * region: ov168
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * abi: B550 coordinate extern widened to int because original has no final narrowing before either call.
+ * abi: DA8 third argument is an address; DA8/DC8 forward the full word unchanged to C44 and store it at node+0x10. Pointer and u32 extern variants both give 256 bytes / 8 differences.
+ * lever: inline fxmul keeps speed's high word live and reloads its low word between sine calls; direct products gave 128 differences.
+ * residual: 256/256 bytes, 8 differing entry bytes: y reload belongs before callback pool load, entry copy and zero argument setup. All later concrete bytes agree.
+ * blocker: Both func_0203F5FC sites lack an ARM9 witness; Ilias owns the unit. Callback func_02184780 resolves sole-ref.
+ * checks: 1 DA8 takes 4, EE8 takes 1, B550 takes 3, sine takes u16; 2 own DA8/DC8/B550 files and ov168 84600/84780 twins read; 3 long y and pointer DA8 payload each compiled with no change, short/unsigned/enum y iteration did not improve; 4 FX multiply, float conversion and stack-parameter idioms read; 5 idiom directory and neighbours refreshed, no local stack aggregate; once-only macro-free permuter baseline agreed (256/256, 8 bytes, 2 unresolved), 300 candidates found no improvement. A named y temporary would be the next scheduling hypothesis; compile budget stopped.
+ * symbols:
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_02030EE8 0x02030EE8 arm
+ *   func_02184780 0x02184780 thumb ov168
+ *   func_0203F5FC 0x0203F5FC arm
+ *   func_0204B550 0x0204B550 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ *   _ull_mul 0x0209C054 arm
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef long long s64;
+typedef struct {void *sprite;int wait,x,y,z,vx,vy,vz,angle,step,radius;void *task;} Motion;
+extern void *func_02030DA8(void *,u32,Motion *,u32);
+extern void *func_02030EE8(void *);
+extern void func_02184780(void *,void *);
+extern int func_0203F5FC(u16);
+extern void func_0204B550(void *,int,u32);
+static inline int fxmul(int a,int b)
+{
+    return (int)(((s64)a*b+2048)>>12);
+}
+void func_02184680(void *owner, void *sprite, Motion *entry, int x, int y, int speed, int angle, int radius, int wait)
+{
+    Motion *p;
+    entry->task=func_02030DA8(owner,(u32)func_02184780,entry,0);
+    p=func_02030EE8(entry->task);
+    p->sprite=sprite;
+    p->wait=wait;
+    p->x=(int)(x>0 ? (float)(x<<12)+0.5f : (float)(x<<12)-0.5f);
+    p->y=(int)(y>0 ? (float)(y<<12)+0.5f : (float)(y<<12)-0.5f);
+    p->z=0;
+    p->vx=fxmul(speed,func_0203F5FC(angle+90));
+    p->vy=-fxmul(speed,func_0203F5FC(angle));
+    p->vz=0;
+    p->angle=0;
+    p->step=6<<12;
+    p->radius=radius;
+    func_0204B550(p->sprite,x,0);
+    func_0204B550(p->sprite,y,1);
+}

@@ -1,0 +1,80 @@
+/*
+ * function: func_021EDC0C
+ * address: 0x021EDC0C
+ * packet: pkt_ov170_021EDC0C
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callees read 3/1/3/3/2/1/2/3 arguments; 2 no matching twin;
+ * 3 const pointer unchanged, u16 rowoff adds truncation; 4 spill-scope and
+ * commutative idioms read, two scheduling variants spent; 5 fresh neighbor
+ * and idiom reread found no new twin; no aggregate stack object here.
+ * residual: 300/300 bytes, 17 concrete bytes: x/rowoff/fill spill slots,
+ * initial loop setup scheduling, and +00CA addition operand order.
+ * permuter: macro-free emitted baseline agrees (17, 300/300); 300 types
+ * candidates, best unchanged; one search only. Runs: 6 + 2 checks + permuter.
+ * symbols:
+ *   func_02007A18 0x02007A18 thumb
+ *   func_02017DBC 0x02017DBC thumb
+ *   func_02017E88 0x02017E88 thumb
+ *   func_0201ADE4 0x0201ADE4 thumb
+ *   func_0201AE1C 0x0201AE1C thumb
+ *   func_0201AE14 0x0201AE14 thumb
+ *   func_02017DE4 0x02017DE4 thumb
+ *   func_02082A48 0x02082A48 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02007A18(void *,int,u32);
+extern int func_02017DBC(void *);
+extern u32 func_02017E88(void *,u32,u32);
+extern void *func_0201ADE4(u16,u16,u32);
+extern u32 func_0201AE1C(void *,u32);
+extern void func_0201AE14(void *),func_02017DE4(void *,int);
+extern void func_02082A48(u16,void *,int);
+void func_021EDC0C(char *const *p,int box,char *dst)
+{
+    void *mon;
+    int state;
+    u8 row,col,y;
+    int rowoff;
+    u8 x;
+    u8 k;
+    void *personal;
+    u32 species;
+    int color;
+    int limit;
+    x=11;
+    for(row=0;row<5;row++) {
+        y=10;
+        for(col=0;col<6;col++) {
+            rowoff=row*6;
+            limit=x+2;
+            mon=func_02007A18(*(void **)(*p+4),box,col+rowoff);
+            state=func_02017DBC(mon);
+            species=func_02017E88(mon,5,0);
+            if(func_02017E88(mon,169,0)!=0) {
+                u16 fill;
+                if(func_02017E88(mon,76,0)==0) {
+                    u16 form;
+                    form=func_02017E88(mon,111,0);
+                    personal=func_0201ADE4(species,form,76);
+                    color=(u16)func_0201AE1C(personal,33);
+                    func_0201AE14(personal);
+                } else color=species==490?1:8;
+                color=(u16)(color+16);
+                fill=(u16)((color<<8)|color);
+                for(k=x;k<limit;k++) {
+                    func_02082A48(fill,dst+((((y>>3)+((k>>3)*4))<<6)+((k&7)<<3)+(y&7)),2);
+                }
+            }
+            func_02017DE4(mon,state);
+            y+=2;
+        }
+        x+=2;
+    }
+}

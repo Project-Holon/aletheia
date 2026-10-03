@@ -1,0 +1,46 @@
+/*
+ * function: func_021E0A44
+ * address: 0x021E0A44
+ * packet: pkt_ov137_021E0A44
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 no calls, arity not applicable; 2 DEE4C table twin confirms unsigned byte address; 3 const parameter flat then unsigned table address shrank 182 to33 (2 runs); 4 stack-scope and initializer idioms reviewed, no new lever; 5 fresh full idiom list and DEE4C/E0BC0 neighbours reread, declared-stack-struct idiom inapplicable to integer arrays; next hypothesis long/int loop widths.
+ * residual: 33 concrete bytes at 208/208, table setup and count/key register colouring.
+ * permuter: mandatory 300 once; baseline33/208 but unresolved1 versus fixed-one resolved1/1, emitted attestation disagreed; best9 used volatile-add(base), rejected.
+ * bounds: the two five-word scratch arrays fill sp4..sp2b; table row stride is ten bytes.
+ * symbols:
+ *   d_021E1FDC 0x021E1FDC data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern const u16 d_021E1FDC[];
+void *func_021E0A44(const u8 *p)
+{
+    int distance[5],indices[5];
+    long count;
+    int angle,i,j,key,value,delta;
+    const u8 *base;
+    const u16 *table=d_021E1FDC;
+    count=*(int *)(p+0x30);
+    base=p+0x1a0;
+    angle=*(const u16 *)((unsigned)table+count*10+*(int *)(p+0x2c)*2)<<12;
+    i=0;
+    do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
+    for(i=0;i<count;i++) {
+        value=*(int *)(base+i*0xb4+0x15c);
+        delta=angle-value;
+        if(delta<0)delta=angle+0x168000-value;
+        distance[i]=delta/4096;
+    }
+    for(i=1;i<count;i++) {
+        key=indices[i];value=distance[key];
+        j=i-1;
+        while(j>=0 && distance[indices[j]]>value) {indices[j+1]=indices[j];j--;}
+        indices[j+1]=key;
+    }
+    return (void *)(base+0x140+indices[0]*0xb4);
+}

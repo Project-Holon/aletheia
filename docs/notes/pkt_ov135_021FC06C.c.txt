@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 final call arity 7 confirmed own body; 2 FCC40 twin shares interfaces; 3 u16 sixth argument and bool return unchanged; 4 enum return/local unchanged; 5 neighbours reread, no stack aggregate residue. Next hypothesis: final call flag enum types.
+ * checks: retry 1 own 2208C seven args and empty 0ADB4/185F0/084F4 bodies reread, caller-observed arguments/live r0 retained; own overlay bodies and 886C matched callers agree; 2 FCC40 twin reread; 3 const p CCERR (discarded qualifiers), long index DIFF4; 4 sixth argument enum and unsigned long plus fixed fade inline all DIFF4, enum-web/subword idioms reread; 5 directory and neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original best retained.
  * permuter: budget 300 with types, once; emitted baseline DIFF 4 bytes 264/264 agrees with one; best unchanged, exit 1.
  * residue: four concrete bytes at +DC,+DE,+F8; original rematerializes 1 in r0, compiler retains it in r4 across final call.
- * runs: 4 iteration + 3 checks + permuter.
+ * runs: retry 4 iteration + 2 checks (one CCERR); earlier first pass 4 iteration + 3 checks + permuter.
  * prototype: 020185F0 retains the mon argument r0 loaded by this caller; own ARM9 unit is bx lr, so the returned full-word payload remains mon.
  * symbols:
  *   func_0200ADB4 0x0200ADB4 thumb
