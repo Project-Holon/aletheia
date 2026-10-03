@@ -1,0 +1,18 @@
+/*
+ * function: func_021BCFF0
+ * address: 0x021BCFF0
+ * packet: pkt_ov110_021BCFF0
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02028230 0x02028230 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u32 func_02028230(u8 *);
+u32 func_021BCFF0(char *p,u32 index) { return func_02028230(*(u8 **)((u32)p+index*4+0x64)); }

@@ -6,8 +6,14 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 own DD044/3F028/82D44 prototypes checked; 2 BB54/BBAC/BB00/DB72C no exact twin; 3 const Field pointer compiled unchanged; 4 aggregate/declaration/stack idioms read; 5 refreshed neighbours and idioms. Best 252/256, 50 concrete bytes. Permuter budget300 once; emitted baseline agrees with one; best narrows unbounded j to u8, rejected. Next: nested union Blob payload shape.
+ * status: EXACT
+ * lever: a named pointer to the nested Blob union member preserves its
+ *   base-plus-eight address and the subsequent size load; flat payload and
+ *   nested direct access each gave 252 bytes / 50 differences, pointer EXACT.
+ * retry: three runs; prior permuter300 not repeated.
+ * superseded: residual closed by matched ov175_func_021DBA00.c, EXACT 256 bytes.
+ * checks: own DD044/3F028/SDK-copy arities re-derived; nested payload pointer
+ *   preserves original full-word accesses and unbounded signed loop counters.
  * symbols:
  *   func_021DD044 0x021DD044 thumb ov175
  *   func_0203F028 0x0203F028 arm
@@ -17,7 +23,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned long u32;
-struct Field { const char *name;u32 type;u32 payload[2]; };
+struct Blob { const void *data; u32 size; };
+union Payload { u32 value; struct Blob blob; };
+struct Field { const char *name;u32 type;union Payload payload; };
 extern int func_021DD044(int);
 extern int func_0203F028(const char *,const char *);
 extern void func_02082D44(const void *,void *,unsigned long);
@@ -29,13 +37,16 @@ void func_021DBA00(int count,struct Field **fields,u8 *p,int n)
     for(i=0;i<count;i++) {
         for(j=0;j<n;j++) {
             f=&fields[i][j];
-            if(func_0203F028(f->name,(const char *)func_021DD044(0x25))==0) *(u32 *)(p+8)=f->payload[0];
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x26))==0) *(u32 *)(p+12)=f->payload[0];
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x24))==0) *(u32 *)(p+16)=f->payload[0];
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x28))==0) *(u32 *)(p+4)=f->payload[0];
-            else if(func_0203F028(f->name,(const char *)func_021DD044(0x27))==0) *(u32 *)p=f->payload[0];
-            else if(func_0203F028(f->name,d_021E2F7C)==0) *(u32 *)(p+20)=f->payload[0];
-            else if(func_0203F028(f->name,d_021E2F8C)==0) func_02082D44((void *)f->payload[0],p+24,f->payload[1]);
+            if(func_0203F028(f->name,(const char *)func_021DD044(0x25))==0) *(u32 *)(p+8)=f->payload.value;
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x26))==0) *(u32 *)(p+12)=f->payload.value;
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x24))==0) *(u32 *)(p+16)=f->payload.value;
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x28))==0) *(u32 *)(p+4)=f->payload.value;
+            else if(func_0203F028(f->name,(const char *)func_021DD044(0x27))==0) *(u32 *)p=f->payload.value;
+            else if(func_0203F028(f->name,d_021E2F7C)==0) *(u32 *)(p+20)=f->payload.value;
+            else if(func_0203F028(f->name,d_021E2F8C)==0) {
+                const struct Blob *blob=&f->payload.blob;
+                func_02082D44(blob->data,p+24,blob->size);
+            }
         }
     }
 }

@@ -1,0 +1,19 @@
+/*
+ * function: func_021F51F4
+ * address: 0x021F51F4
+ * packet: pkt_ov112_021F51F4
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: MATCH
+ * blocker: callback ov112 021F546C has no outside witness; final retry exhausted in docs/notes/pkt_ov112_021F546C.c.txt (170 vs 172 bytes).
+ * symbols:
+ *   func_021F546C 0x021F546C thumb ov112
+ *   func_021F56BC 0x021F56BC thumb ov112
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void func_021F546C(u32,void *,void *);
+extern void func_021F56BC(void *,void (*)(u32,void *,void *));
+void func_021F51F4(void **p) { func_021F56BC(p[1],func_021F546C); }

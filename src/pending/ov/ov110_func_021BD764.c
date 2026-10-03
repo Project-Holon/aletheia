@@ -1,0 +1,52 @@
+/*
+ * function: func_021BD764
+ * address: 0x021BD764
+ * packet: pkt_ov110_021BD764
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: MATCH
+ * blocker: 0x02024224, Thumb ARM9, Ilias-owned unlabelled tail forwarder.
+ * No witness outside this caller; tu --suggest-split leaves it out.
+ * Scratch one verdict EXACT (12 bytes), fixed compiler/flags, no region:
+ * Blocker relocation: func_020355D8 0x020355D8 arm (matched).
+ * extern void func_020355D8(void *);
+ * void func_02024224(void *a,void *b) { func_020355D8(b); }
+ * The caller visibly loads both r0 and r1, so its extern retains both arguments.
+ * Extent remainder: two-byte zero alignment padding.
+ * symbols:
+ *   func_02024224 0x02024224 thumb
+ *   func_02051C6C 0x02051C6C arm
+ *   func_021B9B20 0x021B9B20 thumb ov110
+ *   func_02030DA4 0x02030DA4 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_021B95F4 0x021B95F4 thumb ov110
+ *   func_021BAF4C 0x021BAF4C thumb ov110
+ *   func_020315D4 0x020315D4 arm
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern void func_02024224(void *,void *);
+extern void func_02051C6C(void *);
+extern void func_021B9B20(u8 *);
+extern void func_02030DA4(void *);
+extern void func_020307B0(void *);
+extern void func_021B95F4(char *);
+extern void func_021BAF4C(unsigned);
+extern void func_020315D4(void *);
+void func_021BD764(u8 *p,void *a)
+{
+    func_02024224(*(void **)p,*(void **)(p+0x70));
+    func_02051C6C(*(void **)(p+0x44));
+    func_021B9B20(*(u8 **)(p+0x14));
+    func_02030DA4(*(void **)(p+0x7c));
+    func_020307B0(*(void **)(p+0x78));
+    func_021B95F4(*(char **)(p+0x18));
+    func_021BAF4C(*(u32 *)(p+0x1c));
+    func_020315D4(a);
+}

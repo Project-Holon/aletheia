@@ -8,7 +8,7 @@
  * isa: thumb
  * status: DIFF
  * residue: 62 compiled bytes versus 60 original; 28 concrete bytes differ after +0x20, early destination address formation and source-index register copy.
- * checks: 1 bitmap accessor takes one pointer, copy takes three arguments and reads r0/writes r1 (corrected const prototype unchanged); 2 ov106 021B8A28 confirms four u16 stack coordinates, no matching twin body; 3 integer bases and unsigned x/y/size unchanged in two targeted compiles; 4 named destination/shift-local idioms read, two scheduling variants exhausted; 5 refreshed idiom names and ov106 neighbour, no twin; stack-object check n/a because only scalar parameters/locals. Next hypothesis would be explicit tile-offset inline helper, not a permutation sweep.
+ * checks: 1 own bitmap getter one const pointer, SDK copy reads source r0/dest r1/length r2; signed length unchanged; 2 ov106021B8A28 confirms four u16 stack params; 3 inline helper full-width product and const source unchanged at62/60,28 bytes; 4 address/scheduling idioms read; 5 fresh full directory and matched neighbour reread. Retry exhausted after three nonshrinks; next useful evidence would be SDK inline types. Permuter300 baseline62/60,28 agreed; size60 candidate rejected for uninitialized s_ read and reversed getter order, not ported.
  * symbols:
  *   func_020437D4 0x020437D4 arm
  *   func_02082A90 0x02082A90 arm
@@ -18,5 +18,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *);
-extern void func_02082A90(const void *,void *,u32);
-void func_021B9298(const struct Bmp *a,const struct Bmp *b,u32 x,u32 y,u16 sx,u16 sy,u16 width,u16 height) { u32 d,s,size; d=(u32)func_020437D4(a); s=(u32)func_020437D4(b); x=x+width*y; y=sx+sy*width; size=width*height; func_02082A90((const void *)(d+32*x), (void *)(s+32*y),32*size); }
+extern void func_02082A90(const void *,void *,int);
+static inline void copy_tiles(const u8 *d,u8 *s,u32 x,u32 y,u16 sx,u16 sy,u32 width,u32 height)
+{
+    u32 dx,src,size;
+    dx=x+width*y;
+    src=sx+sy*width;
+    size=width*height;
+    func_02082A90(d+32*dx,s+32*src,32*size);
+}
+void func_021B9298(const struct Bmp *a,const struct Bmp *b,u32 x,u32 y,u16 sx,u16 sy,u16 width,u16 height)
+{
+    u8 *d,*s;
+    d=func_020437D4(a);
+    s=func_020437D4(b);
+    copy_tiles(d,s,x,y,sx,sy,width,height);
+}

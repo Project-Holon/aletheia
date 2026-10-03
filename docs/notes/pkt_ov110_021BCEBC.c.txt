@@ -1,0 +1,37 @@
+/*
+ * function: func_021BCEBC
+ * address: 0x021BCEBC
+ * packet: pkt_ov110_021BCEBC
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * Best: compiled 38 bytes, 6 concrete bytes differ in register allocation;
+ * original saves only r4, C saves r3/r4/r5. Original has 2-byte padding.
+ * checks: 1 both full callees shown, arities 1 and 2 correct, no unused argument;
+ * 2 owned wrappers and pending BAC0C checked, no same boolean twin;
+ * 3 unsigned p/result, const p/u8 result, and enum return compiled with no fix;
+ * 4 named zero passed and comparison-expression compiled, no fix; comparison
+ *   shares r4 correctly but merges return arms, 10 differing bytes at 36 bytes;
+ * 5 idioms and ov110 neighbours re-read, no stack object or new twin.
+ * Next hypothesis: Boolean materialisation preserving distinct outer return.
+ * symbols:
+ *   func_021BF6DC 0x021BF6DC thumb ov110
+ *   func_021BCFF0 0x021BCFF0 thumb ov110
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern u8 func_021BF6DC(u8 *);
+extern u32 func_021BCFF0(char *,u32);
+int func_021BCEBC(char *p)
+{
+    int result;
+    if (func_021BF6DC(*(u8 **)(p+4))==1) {
+        result=0;
+        if (func_021BCFF0(p,0)) result=1;
+        return result;
+    }
+    return 1;
+}

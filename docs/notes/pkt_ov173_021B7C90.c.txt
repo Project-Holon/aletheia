@@ -8,6 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * retry: exhausted; 4 iteration + 1 check runs, original DIFF37/272B retained.
+ *   Decrement pointer local, enum Row parameter, row self-assignment and
+ *   unsigned zero local each unchanged37. Prior permuter300 not repeated.
+ * retry-checks: 1 own 7EB0/7438/70D8/7F64/7FD0/7ADC, pending71C4 and ARM9
+ *   0616C/260E0 full bodies reread; 7ADC retains visible r2=3 and narrow r1;
+ *   2 pending7DA0 and matched7C7C reread; 3 unsigned zero compiled; 4 byte
+ *   colouring, dead-parameter and self-assignment idioms read; 5 directory
+ *   and neighbours refreshed, scalar locals only. ARM9 260E4 still unwitnessed.
  * residual: 272/272 bytes, 37 concrete bytes differ; global p/row register swap and late constant register. Two ARM9 020260E4 calls also unresolved (unit_020260E0.c omits this entry).
  * checks: 1 own 7EB0/7ADC/7FD0 and ARM9 callees read, retained visibly loaded third 7ADC arg; 2 7DA0 twin and 7C7C neighbour read; 3 long row same37, const pointer CCERR then casts268/230, u8 pointer and short row each272/37; 4 const/read-only and long-index idioms read; 5 fresh directory and neighbours reread, no stack object exists. Next hypothesis: isolate decrement pointer reload without changing return signature.
  * permuter: once300 --types, macro-free baseline agrees272/37; best272/9 rejected because it changes void return to int and adds return old. No invalid mutation retained.

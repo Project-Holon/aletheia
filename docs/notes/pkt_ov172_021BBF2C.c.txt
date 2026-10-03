@@ -10,7 +10,17 @@
  * status: DIFF
  * residue: 8 concrete bytes differ at 1724/1724 bytes; q/count spill homes 0x10/0x14 versus original 0x14/0x10.
  * lever: explicit case-6 exit guard and u8 byte stores restore control flow; u16 heap removes caller-only narrowing pairs.
- * checks: 1 callee arities copied from own matched files or same-overlay callers, four unlabelled leaves shown; no argument-register residue; 2 no controller twin, BD038/BD0C4/BD134/CE2C reread; 3 u16 and u32 count with explicit u8 increment compiled identically (DIFF8); p is written, so const p is unsupported; 4 byte-count/spill-order/scope idioms read, both manual scheduling variants exhausted; 5 unfiltered idiom listing and matched neighbours reread, scalar slots only (no struct/array object); once-only macro-free permuter --budget 300 --types baseline DIFF11 agrees, best DIFF8 validated by one; check 3 compile followed permuter; no further sweep.
+ * checks: 1 own callee prototypes and matched ov172 caller witnesses rederived;
+ * 02045770/0201C6C4/0204B878 own pointer prototypes compiled identically;
+ * unlabelled 8B7C/8C14/8C20/E0F0 shown, live caller inputs retained;
+ * 2 BD038/BD0C4/BD134/CE2C and pending C7FC read, no controller twin;
+ * 3 const base compiled unchanged (DIFF8); enum count with explicit u8
+ * increment also unchanged; p is written, so const p is unsupported;
+ * 4 scope/byte-count/inline-stack idioms read, case-scoped selection and
+ * block-scoped count unchanged; both scheduling variants exhausted;
+ * 5 fresh unfiltered idioms and C5E8/BB8F4/ov173 neighbours reread, scalar
+ * slots only, no aggregate residue. Earlier permuter once; no further sweep.
+ * Retry wave64 exhausted: 4 iteration runs + 2 check runs; best typed C retained.
  * volatile: halfword reloads 0x021BC1C6 and 0x021BC214 after increment stores
  * symbols:
  *   func_021BE00C 0x021BE00C thumb ov172
@@ -74,6 +84,8 @@ struct Actor;
 struct Descriptor;
 struct Cfg;
 struct Ctx;
+struct Obj;
+struct PrintSys;
 extern u16 func_021BE00C(u16 *);
 extern u32 func_021BE004(void *);
 extern u32 func_021BE02C(void *);
@@ -116,13 +128,13 @@ extern void func_0201F7A8(void *, u32);
 extern void func_020456F8(struct Descriptor *);
 extern u8 func_02045730(struct Descriptor *);
 extern void func_020409B4(u32);
-extern void func_0204B878(void *, u16);
+extern void func_0204B878(struct Obj *, u16);
 extern void func_020452E8(struct Descriptor *);
 extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
 extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
-extern u32 func_02045770(u32);
-extern u32 func_0201C6C4(u32, u32);
+extern void *func_02045770(struct Descriptor *);
+extern u32 func_0201C6C4(struct PrintSys *, void *);
 extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *);
 extern void func_02041B6C(u32);
@@ -385,7 +397,7 @@ int func_021BBF2C(void *ctx, char *p)
       if ((*((u32 *) (q + 0x44))) == 1)
       {
         sys = func_021BE044(ctx);
-        if (func_0201C6C4(sys, func_02045770(*((u32 *) (q + 0x54)))) == 0)
+        if (func_0201C6C4((struct PrintSys *)sys, func_02045770(*((struct Descriptor **) (q + 0x54)))) == 0)
         {
           h = *((u32 *) (q + 0x54));
           func_02045334((struct Descriptor *) h);
@@ -434,7 +446,7 @@ int func_021BBF2C(void *ctx, char *p)
   if ((*((u32 *) (p + 0x20))) == 1)
   {
     sys = func_021BE044(ctx);
-    if (func_0201C6C4(sys, func_02045770(*((u32 *) (p + 0x2c)))) == 0)
+    if (func_0201C6C4((struct PrintSys *)sys, func_02045770(*((struct Descriptor **) (p + 0x2c)))) == 0)
     {
       func_02045334(*((struct Descriptor **) (p + 0x2c)));
       func_02045374(*((struct Cfg **) (p + 0x2c)));
@@ -445,7 +457,7 @@ int func_021BBF2C(void *ctx, char *p)
   if ((*((u32 *) (p + 0x24))) == 1)
   {
     sys = func_021BE044(ctx);
-    if (func_0201C6C4(sys, func_02045770(*((u32 *) (p + 0x30)))) == 0)
+    if (func_0201C6C4((struct PrintSys *)sys, func_02045770(*((struct Descriptor **) (p + 0x30)))) == 0)
     {
       func_02045334(*((struct Descriptor **) (p + 0x30)));
       func_02045374(*((struct Cfg **) (p + 0x30)));

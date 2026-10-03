@@ -1,0 +1,19 @@
+/*
+ * function: func_021D5F7C
+ * address: 0x021D5F7C
+ * packet: pkt_ov115_021D5F7C
+ * region: ov115
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_0201F7A8 0x0201F7A8 thumb
+ *   func_020456F8 0x020456F8 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_021D5FC4 0x021D5FC4 thumb ov115
+ */
+typedef unsigned char u8;typedef unsigned int u32;
+extern void func_0201F7A8(void *,u32),func_020456F8(void *),func_02041B6C(u32);extern u32 func_021D5FC4(u32);
+void func_021D5F7C(u8 *p) { if(*(void **)(p+48)){func_0201F7A8(*(void **)(p+48),2);func_020456F8(*(void **)(p+48));func_02041B6C(func_021D5FC4(*(u32 *)(p+80)));} }

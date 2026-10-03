@@ -1,0 +1,29 @@
+/*
+ * function: func_021C1798
+ * address: 0x021C1798
+ * packet: pkt_ov110_021C1798
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * blocker: 56 bytes compiled, six concrete bytes differ: loop index r4/base r5 versus original index r5/base r4. All five relocations resolved.
+ * checks: 1 own callee body confirms single u32 index and other calls void/no-arg or clear(ptr,int,u32); 2 neighbouring 021C1738 uses same 44-byte table rows; 3 u8 counter adds narrowing, int counter with unsigned test retains six-byte swap; 4 named base, table const removal, long-index and integer-base idioms retain swap; 5 idiom list refreshed and 021C1738 reread, no stack object or newly applicable twin. Next hypothesis: object-row access instead of scalar address arithmetic, no sweep run.
+ * symbols:
+ *   func_020403F4 0x020403F4 arm
+ *   func_020450C8 0x020450C8 arm
+ *   func_0203F9B4 0x0203F9B4 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   d_021C3A74 0x021C3A74 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_020403F4(u32);
+extern void func_020450C8(void);
+extern void func_0203F9B4(void);
+extern void func_02082BCC(void *,int,u32);
+extern u32 d_021C3A74[];
+void func_021C1798(void *p) { u32 base; unsigned long i; base=(u32)d_021C3A74; for(i=0;i<6;i++) func_020403F4((u8)*(u32 *)(base+i*44)); func_020450C8(); func_0203F9B4(); func_02082BCC(p,0,4); }
+

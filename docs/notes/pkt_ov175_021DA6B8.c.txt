@@ -7,15 +7,22 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 all callee bodies/register setup checked; DC2C0 r0 is read despite void, DCE24/DCE08 retain caller-loaded diagnostic r2, AE54 has eight inputs; 2 5E24 confirms DC2C0/DC2D8, no full state-machine twin; 3 const char and const Obj parameters compiled unchanged after byte-offset corrections; 4 const-load/register-constant idioms checked, no rescue; 5 latest idiom directory and ov174/175/176 callers/neighbours re-read, no stack-object residue.
- * residual: 1776/1780 bytes, 1107 concrete bytes differ, 83/83 sites resolved.
- *   Invariant state offset uses r5 rather than r6; record loads fall below getters;
- *   short branch/tail merging in cases 6/10 accounts for the four-byte size gap.
- * permuter: macro-free fixed-one baseline agrees; 300 candidates once.
- *   Best 1780/1780, 334-byte DIFF uses volatile-add(p), rejected.
- *   expand(old x1) candidate was also rejected: substitution retains the original
- *   side-effecting postincrement and duplicates that increment in its comparison.
- * next hypothesis: shared-tail shape of state 6/10; no further iteration this wave.
+ * checks: 1 own matched callees and ARM SDK setup re-derived: AE54 eight inputs,
+ *   DF130 five, DF09C four, DF018 three; diagnostic r2 and DC2C0 live r0 retained;
+ *   corrected two read-only SDK shows from Thumb to ARM. 2 fresh 5E24/ADCC/AE54
+ *   witnesses confirm prototypes; no state-machine twin. 3 u32/unsigned long,
+ *   enum result, unsigned flag/timeout externs all compiled identical to best;
+ *   prior const Obj parameter remains. 4 inline wrapper/right-to-left idioms
+ *   restore copy setup; forwarding wrappers for AE54/DF130 compiled unchanged.
+ *   5 fresh unfiltered idioms, own neighbours and ov174/ov176 read; no stack object.
+ * retry: exhausted final retry, 5 iteration + 1 check compile; prior permuter300
+ *   not repeated. Best 1780/1780 bytes, 26 concrete differences, 83/83 resolved.
+ * lever: copy_session binds each destination before its getter, fixing the
+ *   invariant offset register and shared tails; baseline 1776 bytes/1107 DIFF.
+ * residual: AE54 +05A4..05C0 and DF130 +05EA..0600 argument-setup scheduling.
+ *   Two scheduling variants spent; full-word type variants did not shrink it.
+ * permuter: prior once-only 300 emitted baseline agreed. Added volatile and
+ *   side-effecting ExpandExpr postincrement candidates remain rejected.
  * symbols:
  *   func_0203CA98 0x0203CA98 arm
  *   func_0200FB24 0x0200FB24 thumb
@@ -70,6 +77,9 @@ extern int func_021DEFDC(void);
 typedef struct { char pad[0x1464]; char *record; } Obj;
 #define W(k) (*(u32 *)((char *)p+(k)))
 #define P(k) (p->record)
+static inline void copy_session(const void *src,void *dst) {
+    func_02082D44(src,dst,40);
+}
 int func_021DA6B8(const Obj *p,u32 *out) {
     char *net;
     int r;
@@ -120,7 +130,7 @@ int func_021DA6B8(const Obj *p,u32 *out) {
         break;
     case 7:
         if(!W(0x134)) {
-            net=P(0x1464)+12; func_02082D44(func_021DF20C(),net,40); W(0x12c)=8;
+            copy_session(func_021DF20C(),P(0x1464)+12); W(0x12c)=8;
         } else {
             old=W(0x1a0)++;
             if(old>3600) { func_021DCE08((char *)p+0x18,1,0x78f); func_021DAE18((char *)p); return 2; }
@@ -131,7 +141,7 @@ int func_021DA6B8(const Obj *p,u32 *out) {
     case 8:
         if(W(0x160)) W(0x12c)=11;
         else {
-            net=P(0x1464)+0x34; func_02082D44(func_021DF224(),net,40);
+            copy_session(func_021DF224(),P(0x1464)+0x34);
             func_02039C68((struct Link *)func_020399A8(),1,36); W(0x12c)=9;
         }
         break;
@@ -143,7 +153,7 @@ int func_021DA6B8(const Obj *p,u32 *out) {
             if(func_0203D3A8(func_020399A8(),0x2400,0x68,(u32)(P(0x1464)+4)) || W(0x160)) W(0x12c)=11;
         } else if(W(0x138) || W(0x160)) {
             W(0x138)=0; r=func_021DF1C8(P(0x1464)+0x74);
-            net=P(0x1464)+12; func_02082D44(func_021DF20C(),net,40);
+            copy_session(func_021DF20C(),P(0x1464)+12);
             if(r) { func_021DCE24((char *)p+0x18,r,0x7cd); func_021DAE18((char *)p); return 2; }
             W(0x12c)=11;
         }

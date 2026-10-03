@@ -8,6 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * retry: exhausted; 4 iteration + 1 check runs, original DIFF23/300B retained.
+ *   Unsigned range if-chain, long v and zero-arm inline wrapper each gave
+ *   DIFF257/292B; const q check retained DIFF23/300B. Permuter300 not repeated.
+ * retry-checks: 1 own ov175 and ov177 callees plus ARM9 DAC/DD0 reread;
+ *   callback 9064 supplied by matched8CF0/8FA8; 2 8CF0/8EC8/8FA8/9090
+ *   neighbours reread; 3 const q compiled; 4 cross-jump/shared-call idioms
+ *   read, two scheduling variants spent; 5 fresh full idiom directory,
+ *   neighbours refreshed; no aggregate local object. Case4 dispatch remains.
  * checks: 1 callee arities rederived, no unused argument setup; 2 ov175 7E18/8FA8/8CF0 twins preserve arities but no duplicate-callback rescue; 3 u32 result no change, enum if-chain 292/300; 4 cross-jump idioms read, goto-tail spelling 292/300; 5 idiom directory and matched neighbours reread, no new rescue; permuter baseline DIFF 300/300 23 bytes agrees, 300 candidates no improvement; next sweep none.
  * symbols:
  *   func_021E8738 0x021E8738 thumb ov177

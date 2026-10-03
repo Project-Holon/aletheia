@@ -1,0 +1,23 @@
+/*
+ * function: func_021BABAC
+ * address: 0x021BABAC
+ * packet: pkt_ov110_021BABAC
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021BF784 0x021BF784 thumb ov110
+ *   func_021C00AC 0x021C00AC thumb ov110
+ *   func_021C00FC 0x021C00FC thumb ov110
+ *   func_021B9CBC 0x021B9CBC thumb ov110
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern unsigned func_021BF784(u8 *);
+extern void func_021C00AC(u8 *,unsigned);
+extern int func_021C00FC(u8 *);
+extern void func_021B9CBC(u8 *);
+void func_021BABAC(int a,u8 *p) { u8 *q; q=*(u8 **)p; switch(*(int *)(p+0x14)) { case 0: func_021C00AC(*(u8 **)(q+0x5c),func_021BF784(*(u8 **)(q+0x18))); (*(int *)(p+0x14))++; break; case 1: if(func_021C00FC(*(u8 **)(q+0x5c))) func_021B9CBC(p); break; } }

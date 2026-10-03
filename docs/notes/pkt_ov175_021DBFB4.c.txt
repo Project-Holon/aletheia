@@ -6,8 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 own setter/shutdown arities checked; line r2 retained, E1464 reads4 full words; 2 DB478/BDAC twins read; 3 unsigned/long result and full-width SDK count unchanged; 4 pool-order idiom fits; 5 refreshed neighbours and idioms. Best480/480,3 pool bytes at+1d4/+1d8/+1dc: expected125c,126f,1256 versus1256,125c,126f. Permuter budget300 once, no improvement; emitted baseline matches fixed one. Next: nested async result switch; goto error variant moved body to tail and was worse.
+ * status: EXACT
+ * checks: 1 copied own SDK result/download signatures; 2 DB478/DBDAC twins read; 3 PC-slot audit corrected constants125c/126f/127b, EXACT; 4 pool-order idiom distinguished by identical loads; 5 refreshed neighbours and directory. Resolved prior DIFF note.
+ * lever: PC-relative pool audit binds source-line constants 125c/126f/127b to the success/cancel-error/timeout calls, fixing the prior three concrete pool bytes.
  * symbols:
  *   func_021E10CC 0x021E10CC arm ov175
  *   func_021E1464 0x021E1464 arm ov175
@@ -24,11 +25,12 @@
  * prototype: Setters retain caller-loaded line in r2; shutdown receives p where the caller visibly prepares r0.
  */
 typedef unsigned long u32;
-extern int func_021E10CC(u32,u32,int);
-extern int func_021E1464(const char *,u32,void *,u32);
+typedef struct DWCstAccUserData DWCstAccUserData;
+extern int func_021E10CC(int,DWCstAccUserData *,int);
+extern int func_021E1464(char *,void *,int,int *);
 extern void func_021E1414(void);
 extern int func_021E1434(void);
-extern int func_021E1454(void);
+extern u32 func_021E1454(void);
 extern int func_021E11F0(void);
 extern void func_021DCE40(char *,u32,int);
 extern void func_021DCE08(char *,u32,int);
@@ -41,11 +43,11 @@ int func_021DBFB4(char *p)
     long r;
     switch(*(u32 *)(p+0x12c)) {
     case 0:
-        r=func_021E10CC(0xb5f,*(u32 *)p,0);
+        r=func_021E10CC(0xb5f,*(DWCstAccUserData **)p,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1215);return 2;}
         *(u32 *)(p+0x12c)=1;break;
     case 1:
-        r=func_021E1464(d_021E2F1C,*(u32 *)(p+0x190),*(void **)(p+0x198),*(int *)(p+0x1464));
+        r=func_021E1464((char *)d_021E2F1C,*(void **)(p+0x190),*(int *)(p+0x198),*(int **)(p+0x1464));
         if(r!=0) {func_021DCE40(p+0x18,r,0x1223);return 2;}
         *(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=2;break;
     case 2:
@@ -59,17 +61,17 @@ int func_021DBFB4(char *p)
         if(r==0) {func_021DCE50(p+0x18,r,0x124f);*(u32 *)(p+0x12c)=4;}
         else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x1256);return 2;}
         else {
-            if(**(u32 **)(p+0x1464)==0)func_021DCE08(p+0x18,2,0x127b);
+            if(**(u32 **)(p+0x1464)==0)func_021DCE08(p+0x18,2,0x125c);
             func_021DB6A0(p);return 1;
         }
         break;
     case 4:
         r=func_021E11F0();
         if(r==0) {*(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=5;}
-        else {func_021DCE40(p+0x18,r,0x125c);func_021DB6A0(p);return 2;}
+        else {func_021DCE40(p+0x18,r,0x126f);func_021DB6A0(p);return 2;}
         break;
     case 5:
-        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x126f);func_021DB6A0(p);return 2;}
+        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x127b);func_021DB6A0(p);return 2;}
         func_021E1414();r=func_021E1434();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
         if(r==1)*(u32 *)(p+0x12c)=6;

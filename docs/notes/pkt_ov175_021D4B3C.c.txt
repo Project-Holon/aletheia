@@ -8,15 +8,22 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 copy8 reads only r0-r2, callee arities checked; 2 matched
- * 5908/7E18 and new 6460 prototypes, no change; 3 const record and u32
- * result no change; 4 pool-scheduler idiom fits, size temp/static linkage
- * no change; 5 fresh idiom listing and new 5908 char-buffer twin no change.
+ * checks: 1 own callee files and 5908/51BC witnesses rederive all arities;
+ * copy uses r0-r2, E8AA0 copies its full r1 payload to +0 then zeroes +4;
+ * own 02009EC8 pointer return/parameter prototype compiled identically;
+ * 2 matched 5908/51BC/6460 and fresh ov175 pending twins reread;
+ * 3 address payload pointer extern compiled identically to int (DIFF4);
+ * 4 inline argument/pool scheduler idioms read; copy wrapper shrank 8 to 4,
+ * callback wrapper unchanged, both scheduling variants spent;
+ * 5 fresh unfiltered idioms and neighbours reread, stack buffer shape
+ * agrees (declared struct idiom read). No further scheduling sweep allowed.
+ * Retry wave64 exhausted: 5 iteration runs + 2 check runs; u16 i added
+ * 4 bytes, unsigned callback payload did not improve it. Best run2 retained.
  * Permuter: emitted baseline agrees (1664 bytes, 8 concrete mismatches);
  * one --types --budget 300 --jobs 1 pass, best unchanged; no more sweeps.
- * Residue: copy argument moves at +01AC/+01AE swapped; callback pool
- * words +03DC/+03E0 (self and 021D5560) swapped. All 94 relocations resolve.
- * Next lever: call-argument types or the pool emission scheduler tie.
+ * Residue: 4 concrete bytes, 1664/1664; callback pool words +03DC/+03E0
+ * (self and 021D5560) swapped. All 94 relocations resolve.
+ * Lever: three-parameter inline copy wrapper fixes +01AC/+01AE argument order.
  * ABI: original passes the object in r0 to matched argument-free A36C
  * and A434. C1A0 and 9EEC leave their forwarding call's r0 live and this
  * caller tests it; their externs retain that result despite void bodies.
@@ -111,7 +118,7 @@ extern void func_021D4608(void),func_021D61A4(void),func_021D51BC(void),func_021
 extern void func_02156E30(int, int, int, int),func_02156ED0(void),func_02156F50(int);
 struct Big;
 extern void *func_02012EBC(struct Big *);
-extern void func_02009EC8(int);
+extern void *func_02009EC8(void *);
 extern int func_0201A918(void);
 extern void func_02082D44(const void *, void *, u32);
 extern u16 func_02045A98(void);
@@ -120,6 +127,10 @@ extern void func_02045A38(void *, void *, u32),func_02045808(void *),func_02045C
 extern int func_02025BEC(u32, u32, u32);
 extern u32 func_020245D4(void *, u32);
 extern void func_020242A4(void *, u32),func_020061E4(u32),func_02040588(u32, u32),func_0203064C(u32, u32, u32);
+static inline void copy_record(const void *src, void *dst, u32 size)
+{
+    func_02082D44(src, dst, size);
+}
 void func_021D4B3C(u32 sys, int *state, u32 *p)
 {
     u32 *ctx = (u32 *)p[16];
@@ -161,7 +172,7 @@ void func_021D4B3C(u32 sys, int *state, u32 *p)
     case 4:
         if (func_021DC1E4((char *)p[12], &record)) {
             r = (char *)ctx[6];
-            func_02082D44(record, r, func_0201A918() + 0xd4);
+            copy_record(record, r, func_0201A918() + 0xd4);
             bad = 0; fresh = 1;
             for (i = 0; i < 8; i++) if (((u16 *)r)[i] == func_02045A98()) fresh = 0;
             if (fresh) {
@@ -173,7 +184,7 @@ void func_021D4B3C(u32 sys, int *state, u32 *p)
             if ((u8)r[0x1c] >= 0x10) { r[0x1c] = (u8)r[0x1d] == 0 ? 0 : 8; bad++; }
             if (func_02025BEC((u8)r[0x18], (u8)r[0x19], (u8)r[0x1a]) == 0) { r[0x18] = 0; r[0x19] = 0; bad++; }
             if (func_020245D4(r + 0x38, 0x8057) == 0) { func_020242A4(r + 0x38, 1); bad++; }
-            if (bad == 0) func_02009EC8((int)func_02012EBC((struct Big *)*(u32 *)ctx[2]));
+            if (bad == 0) func_02009EC8(func_02012EBC((struct Big *)*(u32 *)ctx[2]));
             p[58] = 0; *state = 5;
         }
         flag = 1; break;

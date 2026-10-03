@@ -9,7 +9,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 CEAC reads r0; E6C0/CD98/CDBC no input. 2 no matched twin ov107. 3 enum zero unchanged (5 bytes), u32 base worsened (10 bytes). 4 declaration-order and enum-zero idioms no shrink. 5 refreshed neighbours and directory; no stack object residue or new applicable idiom.
+ * checks: 1 own CEAC int(int), E6C0 void(void), CD98/CDBC int(void) copied; 2 no matching twin, ov1070E40 State neighbour read; 3 u16/int named zero unchanged5 bytes; 4 named-zero/allocator-tie idioms read; 5 fresh full directory and matched neighbour reread. Retry exhausted; named zero and local pointer variants unchanged. Permuter skipped because listing48 includes two8-byte followers absent from selected32-byte branch. Next useful evidence is front-end register allocation, not another permutation.
  * residual: 5 differing bytes, consistent r4/r5 pointer/zero swap; all four relocations resolve.
  * followers: 021F1008 and 021F1010 tail-call stubs belong to this 48-byte TU.
  * symbols:
@@ -20,8 +20,7 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u8 pad[24];unsigned short low:11,flag:1,rest:4;} State;
-extern void func_0203CEAC(int),func_0203E6C0(void); extern int func_0203CD98(void),func_0203CDBC(void);
-void func_021F0FE8(State *p) { func_0203CEAC(0);func_0203E6C0();*(int *)((u8 *)p+4)=0;p->flag=0; }
+extern int func_0203CEAC(int); extern void func_0203E6C0(void); extern int func_0203CD98(void),func_0203CDBC(void);
+void func_021F0FE8(void *arg) { State *p=arg;int zero=0;func_0203CEAC(zero);func_0203E6C0();*(int *)((u8 *)p+4)=zero;p->flag=zero; }
 int func_021F1008(void){return func_0203CD98();}
 int func_021F1010(void){return func_0203CDBC();}
-

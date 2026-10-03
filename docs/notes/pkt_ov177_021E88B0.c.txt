@@ -1,0 +1,80 @@
+/*
+ * function: func_021E88B0
+ * address: 0x021E88B0
+ * packet: pkt_ov177_021E88B0
+ * region: ov177
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own allocator u32/u16 tag no change; F73C 4, FF30 4, CF8 2, D10 2; F878 fifth heap retained from caller slot; 2 ov17598E4 descriptor and ov177888C twin read; 3 const p reduced 63 to10, heap u16 worse208, width u16 no change; 4 declared Config stack idiom already used, const Desc no change10; 5 refreshed directory and ov176B7D8/CEAC/DEDC callers, stack object matches, residue only prologue; next targeted coordinate signedness hypothesis, no sweep.
+ * permuter: once, jobs1 budget300 types, baseline DIFF288/10 agrees with fixed one; no improvement; no type mutant adopted.
+ * residue: 10 concrete bytes in allocator prologue spill/copy and pool load order; remaining body and 15 relocations match.
+ * symbols:
+ *   d_021E8DD4 0x021E8DD4 data a1
+ *   d_021E8D68 0x021E8D68 data a4
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_0201F81C 0x0201F81C thumb
+ *   func_0201F878 0x0201F878 thumb
+ *   func_0201FF30 0x0201FF30 thumb
+ *   func_02020CF8 0x02020CF8 thumb
+ *   func_02020D10 0x02020D10 thumb
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef struct {u32 a,b,c,d;u16 count,rows;u32 rest[8];} Config;
+typedef struct {void *win;u32 mgr;void *win2;u8 flag,pad[3];void *menu;void *entries;u32 counter;} Work;
+typedef struct {u32 x0,x1,x2,x3,x4,x5,x6,x7;u16 a,b,c,d;int enabled;u16 kind,pad;} Desc;
+typedef struct Slot Slot;
+typedef struct Obj Obj;
+extern const char d_021E8DD4[];
+extern const Config d_021E8D68;
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void func_02082BCC(void *,int,unsigned);
+extern void *func_020450F0(u8,u8,u8,u8,u8,u8,u8);
+extern void func_0201F73C(void *,int,int,int);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern int func_02045730(void *);
+extern void func_020409B4(int);
+extern void *func_0201F81C(u32,u32);
+extern void func_0201F878(Slot *,u32,u32,u32,u32);
+extern Obj *func_0201FF30(Config *,u16,u16,u32);
+extern void func_02020CF8(void *,u32);
+extern void func_02020D10(void *,u32);
+Work *func_021E88B0(const Desc *p,u8 x,u8 y,u8 width,u8 height,u32 heap)
+{
+    Work *w;
+    u32 i;
+    void *win;
+    Config cfg;
+    u16 count;
+    w=func_02030734(heap,28,0,d_021E8DD4,0x1a2);
+    func_02082BCC(w,0,28);
+    w->mgr=p->x2;
+    w->counter=p->kind;
+    w->win=func_020450F0(p->a,x,y,width,height,p->b,1);
+    func_0201F73C(w->win,2,p->d,(u8)p->c);
+    win=w->win;
+    func_02045334(win);func_02045374(win);func_020409B4(func_02045730(win));
+    w->win2=w->win;w->flag=0;
+    w->entries=func_0201F81C(p->x7,heap);
+    for(i=0;i<p->x7;i++)func_0201F878(w->entries,p->x0,*(u32 *)((u32)p+i*4+0xc),i,heap);
+    cfg=d_021E8D68;
+    cfg.a=(u32)w->entries;count=p->x7;cfg.count=count;cfg.rows=count;
+    cfg.d=(u32)w->win;cfg.rest[4]=p->x0;cfg.rest[5]=(u32)&w->win2;cfg.rest[6]=p->x2;
+    cfg.rest[7]=p->x1;
+    w->menu=func_0201FF30(&cfg,0,p->pad,heap);
+    func_02020CF8(w->menu,heap);
+    if(p->enabled)func_02020D10(w->menu,0);else func_02020D10(w->menu,1);
+    return w;
+}

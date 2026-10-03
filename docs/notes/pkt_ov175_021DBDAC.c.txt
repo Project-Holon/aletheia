@@ -6,8 +6,10 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 own setter/shutdown prototypes checked; caller-loaded line r2 and case4 live entry r0 retained; E1540 reads4 full words; 2 DB478 twin read; 3 unsigned/long result and full-width SDK count unchanged; 4 pool-order and empty-arm idioms read; 5 refreshed neighbours/idioms. Best504-byte lead,3 pool bytes at+1ec/+1f0/+1f4: expected11a0,11be,11ca versus11ca,11a0,11be. Permuter skipped omitted16-byte follower021DBFA4 (reset+tailcall B6A8). Next: nested result switch; two scheduling variants exhausted.
+ * status: EXACT*
+ * checks: 1 copied own SDK/setter/shutdown prototypes; 2 DB478 twin read; 3 PC-slot audit corrected constants11a0/11be/11ca, EXACT*; 4 pool-order idiom distinguished by identical loads; 5 refreshed neighbours and directory. Resolved prior DIFF note; existing matched DBFA4 follower unchanged.
+ * lever: PC-relative slot audit binds error/cancel/timeout lines to 0x11a0,0x11be,0x11ca; fixing source constants removes three pool-byte mismatches.
+ * extent: existing matched ov175_func_021DBFA4.c covers the final16 bytes; keep this504-byte lead alone.
  * symbols:
  *   func_021E10CC 0x021E10CC arm ov175
  *   func_021E1540 0x021E1540 arm ov175
@@ -26,11 +28,12 @@
  * prototype: Setters retain caller-loaded line in r2; shutdown receives live entry r0 in case 4 despite its unused parameter.
  */
 typedef unsigned long u32;
-extern int func_021E10CC(u32,u32,int);
-extern int func_021E1540(const char *,u32,void *,u32);
+typedef struct DWCstAccUserData DWCstAccUserData;
+extern int func_021E10CC(int,DWCstAccUserData *,int);
+extern int func_021E1540(char *,int,void *,int);
 extern void func_021E1414(void);
 extern int func_021E1434(void);
-extern int func_021E1454(void);
+extern u32 func_021E1454(void);
 extern int func_021E11F0(void);
 extern void func_021DCE40(char *,u32,int);
 extern void func_021DCE08(char *,u32,int);
@@ -44,12 +47,12 @@ int func_021DBDAC(char *p)
     long r;
     switch(*(u32 *)(p+0x12c)) {
     case 0:
-        r=func_021E10CC(0xb5f,*(u32 *)p,0);
+        r=func_021E10CC(0xb5f,*(DWCstAccUserData **)p,0);
         if(r!=0) {func_021DCE40(p+0x18,r,0x1161);func_021DB6A0(p);return 2;}
         *(u32 *)(p+0x12c)=1;break;
     case 1:
         if(*(int *)(p+0x198)>=0x26)func_02034714(d_021E2EF8,0,d_021E2EF8);
-        r=func_021E1540(d_021E2F1C,**(u32 **)(p+0x1464),*(void **)(p+0x190),*(int *)(p+0x198));
+        r=func_021E1540((char *)d_021E2F1C,**(int **)(p+0x1464),*(void **)(p+0x190),*(int *)(p+0x198));
         if(r!=0) {func_021DCE40(p+0x18,r,0x116e);func_021DB6A0(p);return 2;}
         *(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=2;break;
     case 2:
@@ -61,7 +64,7 @@ int func_021DBDAC(char *p)
     case 3:
         r=func_021E1454();
         if(r==0) {func_021DCE50(p+0x18,r,0x1199);*(u32 *)(p+0x12c)=6;}
-        else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x11ca);return 2;}
+        else if(r!=1) {func_021DB6A0(p);func_021DCE50(p+0x18,r,0x11a0);return 2;}
         else *(u32 *)(p+0x12c)=4;
         break;
     case 4:
@@ -70,10 +73,10 @@ int func_021DBDAC(char *p)
     case 6:
         r=func_021E11F0();
         if(r==0) {*(u32 *)(p+0x1a0)=0;*(u32 *)(p+0x12c)=7;}
-        else {func_021DCE40(p+0x18,r,0x11a0);func_021DB6A0(p);return 2;}
+        else {func_021DCE40(p+0x18,r,0x11be);func_021DB6A0(p);return 2;}
         break;
     case 7:
-        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x11be);func_021DB6A0(p);return 2;}
+        if((*(u32 *)(p+0x1a0))++>0xe10) {func_021DCE08(p+0x18,1,0x11ca);func_021DB6A0(p);return 2;}
         func_021E1414();r=func_021E1434();
         if(r==0||r==4) {func_021DB6A0(p);return 2;}
         if(r==1)*(u32 *)(p+0x12c)=8;

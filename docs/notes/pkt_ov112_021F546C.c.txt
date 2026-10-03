@@ -7,13 +7,15 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 no ov112 twin; 3 const Input, enum/long/unsigned index and integer base compiled, no size improvement; 4 aggregate copy/index idioms read, no rescue; 5 idioms and neighbours rechecked, no local stack aggregate.
+ * checks: 1 n/a no callees; 2 no ov112 twin; 3 enum mode and nonconst Input compiled, neither fixes the index copy; 4 long-index and multiply-order idioms read, no rescue; 5 idioms and neighbours rechecked, no local stack aggregate. Prior const Input, enum/long/unsigned index and integer-base checks also failed.
+ * retry: wave64 final retry exhausted; enum mode 154-byte DIFF, reused p 153-byte DIFF, nonconst Input 157-byte DIFF; all 170 bytes.
  * residue: compiled 170 vs original 172; 153 concrete bytes differ after missing index copy shifts remaining layout.
  */
 typedef unsigned short u16;
 typedef struct { int x,y,z; } Vec;
 typedef struct { Vec a,b,c,d; u16 e,f; } Input;
 typedef struct { int pad[5]; int enabled; Vec a,b,c,d; u16 e,f; } Slot;
+typedef enum { M0=0, Mmax=0xffffffff } Mode;
 void func_021F546C(unsigned mode, const Input *in, char *p)
 {
     long index;
@@ -21,7 +23,8 @@ void func_021F546C(unsigned mode, const Input *in, char *p)
     Slot *s;
     if (mode >= 7) {
         index = mode-7;
-        s = (Slot *)(p + index*56);
+        p += index*56;
+        s = (Slot *)p;
         s->enabled=1;
         s->a=in->a;
         s->b=in->b;
@@ -49,5 +52,4 @@ void func_021F546C(unsigned mode, const Input *in, char *p)
         *(int *)(p+552)=1;
     }
 }
-
 

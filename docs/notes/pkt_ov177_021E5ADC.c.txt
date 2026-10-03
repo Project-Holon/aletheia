@@ -1,0 +1,86 @@
+/*
+ * function: func_021E5ADC
+ * address: 0x021E5ADC
+ * packet: pkt_ov177_021E5ADC
+ * region: ov177
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee arity/return and heap widths re-read; 2 6940/6BE8 callers and 7E3C width twin read; 3 signed x and caller Slot/other u16 tried (39 unchanged / 284 worse), p writes shown so cannot be const; 4 narrow heap callee and repeated print inline/declaration variants tried; 5 fresh idiom list and owned/caller neighbors re-read; permuter 300 baseline 322 B/39 differs agrees, best rejected (added return and s3 read before assignment).
+ * Residual: 322 B against 324 B listing, 39 concrete bytes differ; register
+ * rotation and the third print call's argument setup remain. All 26 relocs resolve.
+ * Print x is explicitly sign-truncated to 16 bits in the original caller.
+ * Heap is reloaded with ldrh at every allocator call; caller extern heap
+ * widths are u16 (the own ARM9 bodies declare the full-word payload u32).
+ * symbols:
+ *   func_02045B38 0x02045B38 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045738 0x02045738 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201D304 0x0201D304 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_0201C6FC 0x0201C6FC thumb
+ *   func_02045808 0x02045808 arm
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_02045C04 0x02045C04 arm
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned char u8;
+typedef struct { struct Descriptor *win; u8 shown; u8 pad[3]; } Slot;
+struct MsgBank; struct U16Vec; struct WordSet; struct Descriptor; struct StrObj; struct PrintSys; struct MsgRec;
+extern struct MsgBank *func_02045B38(u32, u32, u32, u16);
+extern struct WordSet *func_0201EC64(u16);
+extern struct U16Vec *func_020457B0(u32, u16);
+extern u8 func_02045738(struct Descriptor *);
+extern void *func_02045EC0(struct MsgBank *, u32);
+extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
+extern void func_0201F250(struct WordSet *, void *, void *);
+extern u32 func_0201D304(struct StrObj *, u32, u32);
+extern void *func_02045770(struct Descriptor *);
+extern void func_0201C6FC(struct PrintSys *, u32, s16, u32, void *, u32);
+extern void func_02045808(struct U16Vec *);
+extern void func_0201ED04(struct WordSet *);
+extern void func_02045C04(struct MsgRec *);
+static inline void print_slot(Slot *p, struct PrintSys *sys, u32 x, void *s, u32 style)
+{
+    func_0201C6FC(sys, (u32)func_02045770(p->win), (s16)x, 0, s, style);
+    p->shown = 1;
+}
+void func_021E5ADC(Slot *p, struct PrintSys *sys, int style, u32 value, u32 other, u16 heap)
+{
+    u32 x, length;
+    struct MsgBank *bank;
+    struct WordSet *fmt;
+    struct U16Vec *buf;
+    void *s1, *s2, *s3;
+    bank = func_02045B38(0, 2, 0xa3, heap);
+    fmt = func_0201EC64(heap);
+    buf = func_020457B0(0x20, heap);
+    x = (u16)(func_02045738(p->win) << 3);
+    s1 = func_02045EC0(bank, 2);
+    func_0201EFA4(fmt, 0, other, 8, 0, 1);
+    func_0201F250(fmt, buf, s1);
+    x -= (u16)func_0201D304((struct StrObj *)buf, style, 0);
+    print_slot(p, sys, x, buf, style);
+    func_02045808(s1);
+    s2 = func_02045EC0(bank, 0);
+    x -= (u16)func_0201D304(s2, style, 0);
+    print_slot(p, sys, x, s2, style);
+    func_02045808(s2);
+    s3 = func_02045EC0(bank, 1);
+    func_0201EFA4(fmt, 0, value, 8, 0, 1);
+    func_0201F250(fmt, buf, s3);
+    length = (u16)func_0201D304((struct StrObj *)buf, style, 0);
+    print_slot(p, sys, x - length, buf, style);
+    func_02045808(s3);
+    func_02045808(buf);
+    func_0201ED04(fmt);
+    func_02045C04((struct MsgRec *)bank);
+}
