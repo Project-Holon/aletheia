@@ -43,7 +43,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02034AC4(void *a0);
+extern int func_02034AC4(int handle);
 struct SaveCtrl;
 struct Sub02007084Ctrl;
 struct Sub02008700Obj;
@@ -79,8 +79,8 @@ void func_0200523C(void)
 {
     int v = 0xC;
 
-    func_02034AC4(ov010_id);
-    func_02034AC4(ov011_id);
+    func_02034AC4((int)ov010_id);
+    func_02034AC4((int)ov011_id);
     func_0201C41C(0);
     func_0203CB34(1, 0, 1, v);
     func_02010794(v);

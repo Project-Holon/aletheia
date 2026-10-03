@@ -70,7 +70,7 @@ extern u8 ov015_id[];
 extern void func_02034714(void *dst, u32 val, void *dst2);
 extern u8  *func_0203D7C8(void *heap, u32 size, u8 *file, u32 line);
 extern u32  func_0205D010(void);
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_0217963C(void (*cb)(const void *src));
 extern void func_0201045C(const void *src);
 
@@ -90,6 +90,6 @@ u8 *sub_02010360(int idx, void *heap)
     func_0217963C(func_0201045C);
     g_021461E0.f0 = p;
     *(u8 **)(p + 0x304) = g_021461E0.f4;
-    func_02034AC4(ov015_id);
+    func_02034AC4((int)ov015_id);
     return p;
 }

@@ -73,7 +73,7 @@ extern u8 *func_021C6D10(int n, int heap);
 extern void *func_021D317C(u32 heap);
 extern u32 func_02013CC8(u32 id);
 extern u32 func_02013CE0(u32 id);
-extern void func_02034AC4(const void *id);
+extern int func_02034AC4(int id);
 extern void func_02035660(u32 a);
 
 int func_021880C8(int unused, u8 *p)
@@ -95,7 +95,7 @@ int func_021880C8(int unused, u8 *p)
     *(void **)(p + 0x110) = func_02030CBC(0x20, *(void **)(p + 0x114));
     *(u8 **)(p + 0x134) = func_021C6D10(0xA, *(u16 *)p);
     *(void **)(p + 0x14C) = func_021D317C(*(u16 *)p);
-    func_02034AC4((func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1) ? abs_id_19 : abs_id_18);
+    func_02034AC4((func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1) ? (int)abs_id_19 : (int)abs_id_18);
     func_02035660(0x1E);
     return 1;
 }

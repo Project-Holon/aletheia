@@ -71,7 +71,7 @@ extern void func_02013128(Work *w, u32 a, int b);
 extern u16 func_02039338(void);
 extern void func_0203A424(int a, int b, int c, u16 d);
 extern int func_02039CB4(int a, int b, int c);
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_0203A574(int a, void *b, int c, int d);
 extern void func_02031348(u32 a, int b, void *c, Work *w);
 extern int func_0203CD98(void);
@@ -116,7 +116,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         break;
     case 2:
         if (func_02039CB4(func_020399A8(), 0x15, 2) == 1) {
-            func_02034AC4(ov093_id);
+            func_02034AC4((int)ov093_id);
             work->wFC = 1;
             func_0203A574(0x100, d_021F03C4, 9, 0);
             (*state)++;

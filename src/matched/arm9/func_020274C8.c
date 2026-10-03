@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * note:     wave 17 (overlay_id class): EXACT*. The pooled overlay-id site
  *           ov231_id (231) resolves as `overlay_id` (a layout overlay index,
  *           loaded by a pc-relative load of this function, reaching the id
@@ -31,7 +31,7 @@
 typedef unsigned int u32;
 
 extern char  ov231_id[];
-extern void  func_02034AC4(void *id);
+extern int   func_02034AC4(signed int id);
 extern int   func_021809D8(void);
 extern void  func_02034A5C(void *id);
 extern void  sub_020274F8(void);
@@ -41,7 +41,7 @@ void func_020274C8(void)
 {
     int r;
 
-    func_02034AC4(ov231_id);
+    func_02034AC4((int)ov231_id);
     r = func_021809D8();
     func_02034A5C(ov231_id);
     if (r == 0) {

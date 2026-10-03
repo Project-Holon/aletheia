@@ -25,14 +25,14 @@ typedef unsigned short u16;
 
 extern unsigned char abs_id_11[];
 extern int func_02157108(u16 a);
-extern void func_02034AC4(const void *id);
+extern int func_02034AC4(signed int id);
 extern void func_02034A5C(const void *id);
 extern void func_021B6100(void);
 
 void func_02156DFC(int a)
 {
     if (func_02157108(a) == 3) {
-        func_02034AC4(abs_id_11);
+        func_02034AC4((int)abs_id_11);
         func_021B6100();
         func_02034A5C(abs_id_11);
     }

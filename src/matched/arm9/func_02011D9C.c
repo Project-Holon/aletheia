@@ -59,7 +59,7 @@ typedef signed short s16;
 
 extern u32   func_02011F24(void);
 extern u8 ov230_id[];
-extern void  func_02034AC4(u8 *id);
+extern int func_02034AC4(int id);
 extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
@@ -98,7 +98,7 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
     size = func_02011F24();
     start = (u32)func_02011D28;
     base = 0xc35ffb;
-    func_02034AC4(ov230_id);
+    func_02034AC4((int)ov230_id);
     flag = 0;
     if (func_021882A0((void (*)(void))start, func_02011D40, 0) == ~(u32)func_02011D40)
         flag = 1;

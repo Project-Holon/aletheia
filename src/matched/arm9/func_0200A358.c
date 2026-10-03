@@ -57,7 +57,7 @@ typedef unsigned int  u32;
 extern void *sub_020071CC(int a, int b);
 extern int   sub_020071EC(int a);
 extern void  sub_0200A480(u8 *p);
-extern void  func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern void *func_021DFC20(u32 heap);
 extern u8 func_021DFE90(u8 *p);
@@ -86,7 +86,7 @@ void sub_0200A358(u8 *p, int a1, int a2, int a3)
         *(u32 *)(p + 4) = 1;
         return;
     }
-    func_02034AC4(ov_id_E4);
+    func_02034AC4((int)ov_id_E4);
     w = func_021DFC20(a3);
     *(u32 *)(p + 8) = (u32)w;
     *(u32 *)p = (u32)func_021DFEAC(w);

@@ -108,7 +108,7 @@ extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
 extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
 extern void  func_02012374(void *obj, void *out);
 extern void *func_020144DC(u32 a0, u32 a1);
-extern void  func_02034AC4(u32 id);
+extern int   func_02034AC4(signed int id);
 extern void  func_02034A5C(u32 id);
 extern u32   func_02012944(u32 a);
 extern void *func_02183B60(Self *self, int a, int b, u32 c);

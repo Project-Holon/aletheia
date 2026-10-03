@@ -82,7 +82,7 @@ struct SaveCtrl
   void *unk10;
   void *unk14[9];
 };
-extern void func_02034AC4(void *id);
+extern int func_02034AC4(int id);
 extern void func_02034A5C(void *id);
 typedef unsigned short u16;
 struct State;
@@ -119,7 +119,7 @@ struct SaveCtrl *func_02006F20(int heap)
     Slot i;
     u32 *flags;
 
-    func_02034AC4(ov228_id);
+    func_02034AC4((int)ov228_id);
     ov = func_021DFC20(heap);
     mode = func_021DFE90(ov);
     sub = func_021DFE98(ov);

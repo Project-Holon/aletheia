@@ -33,7 +33,7 @@ extern void *func_0215A5DC(void *a);
 struct Stream;
 extern u16 func_02011330(struct Stream *s);
 extern void func_02159144(int a);
-extern void func_02034AC4(void *a);
+extern int func_02034AC4(int a);
 extern int  func_021F5260(u32 a, u32 b, u32 c, void *d, void *e);
 extern void func_0215897C(void *a, int b);
 extern u8 ov_id_52[];
@@ -47,7 +47,7 @@ int func_02164910(void *s, void *q)
     u32 c = func_02011330(s);
     int r;
     func_02159144(7);
-    func_02034AC4(ov_id_52);
+    func_02034AC4((int)ov_id_52);
     r = func_021F5260(a, b, c, y, q);
     if (r == 0) {
         return 1;

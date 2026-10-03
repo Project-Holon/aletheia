@@ -26,7 +26,7 @@ extern char ov012_id[];
 
 void func_02012374(void *ctx, int v);
 void func_02034A5C(void *id);
-void func_02034AC4(void *id);
+int func_02034AC4(signed int id);
 int func_02161824(int a, int b);
 void func_02173744(int a);
 int func_02184360(int *p, int n);
@@ -44,7 +44,7 @@ int func_02184C78(void *ctx, int *st, int *p)
         break;
     case 1:
         func_02034A5C(ov011_id);
-        func_02034AC4(ov012_id);
+        func_02034AC4((int)ov012_id);
         func_02012374(ctx, func_02184360(p, 4));
         (*st)++;
         break;

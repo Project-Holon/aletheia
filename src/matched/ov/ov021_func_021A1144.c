@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef unsigned int   u32;
 
 extern unsigned char abs_id_1e[];
-extern void func_02034AC4(const void *);
+extern int func_02034AC4(signed int);
 extern u32 func_02188C80(u32);
 extern u32 func_020120F4(u32);
 extern u32 func_02012EBC(u32);
@@ -36,7 +36,7 @@ extern u32 func_021F00C8(u32, u32 *, u32);
 void func_021A1144(u32 *p)
 {
     u32 x;
-    func_02034AC4(abs_id_1e);
+    func_02034AC4((int)abs_id_1e);
     x = func_02009210(func_02012EBC(func_020120F4(func_02188C80(p[5]))));
     p[8] = func_021F00C8(x, p, func_02188C80(p[5]));
 }

@@ -68,7 +68,7 @@ extern int func_02012B38(int a);
 extern void func_0201447C(int a, int b);
 extern int func_02014554(int a, int b);
 extern void func_02012374(int a, int b);
-extern void func_02034AC4(u8 *id);
+extern int func_02034AC4(int id);
 extern void func_02034A5C(u8 *id);
 extern int func_02013D34(int a);
 extern int func_02026454(int a);
@@ -122,7 +122,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
         (*state)++;
         break;
     case 1:
-        func_02034AC4(ov230_id);
+        func_02034AC4((int)ov230_id);
         if (func_02013D34(*(u16 *)(p + 0x14)) == 1 && (u8)(func_02026454(w) + 0xff) <= 1) {
             func_02026400(w);
             *state = 2;
