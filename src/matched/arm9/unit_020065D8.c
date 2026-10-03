@@ -102,7 +102,8 @@ struct Sub02006544State {
 extern struct Sub02006544State sub_02006544_State;
 extern const char sub_02006674_File[];
 
-extern void  sub_02006948(struct Sub02006544Entry *e);
+struct Sub02006948;
+extern void  sub_02006948(struct Sub02006948 *e);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02072CC4(u32 handle);
 
@@ -114,7 +115,7 @@ void sub_020065D8(void)
         struct Sub02006544Entry *e = &sub_02006544_State.entries[i];
 
         if (e->unk00 == 1) {
-            sub_02006948(e);
+            sub_02006948((struct Sub02006948 *)e);
         }
     }
 }
@@ -136,7 +137,7 @@ void sub_020065FC(void)
                 b = 0;
             }
             if (a == 0 && b == 0) {
-                sub_02006948(e);
+                sub_02006948((struct Sub02006948 *)e);
             }
         }
     }

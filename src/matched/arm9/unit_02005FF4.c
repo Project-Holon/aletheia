@@ -86,7 +86,7 @@ extern void sub_02005F90(void);
 extern void sub_02006300(u32 a, int mode);
 extern int  sub_02006394(void);
 extern void func_020746B0(u32 a);
-extern int  func_020755A8(u32 *req, int a, int b, int c, u32 arg);
+extern u32  func_020755A8(u32 req, int a, int b, int c, u32 arg);
 extern void func_02072E9C(u32 *info);
 extern void func_02072F34(u32 *req, int level);
 extern void func_02085A38(u32 msec);
@@ -144,7 +144,7 @@ void sub_02005FF4(void)
         if (sub_02006394() == 1) {
             func_020746B0(0);
             sub_020059A0(sub_02005FF4_State.unk28);
-            func_020755A8(sub_0200590C(), 0, -1, -1,
+            func_020755A8((u32)sub_0200590C(), 0, -1, -1,
                           sub_02005FF4_State.unk28);
             func_02072F34(req, 0);
             sub_02005FF4_State.unk20 = 0;

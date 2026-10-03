@@ -82,7 +82,8 @@ struct Sub02006544State {
 extern struct Sub02006544State sub_02006544_State;
 
 extern void sub_020065D8(void);
-extern void sub_02006948(struct Sub02006544Entry *e);
+struct Sub02006948;
+extern void sub_02006948(struct Sub02006948 *e);
 extern void func_020307B0(void *p);
 
 void sub_020067A4(struct Sub02006544Entry *e);
@@ -128,7 +129,7 @@ u16 sub_02006768(void)
     cur = sub_02006544_State.cur;
     e = &sub_02006544_State.entries[cur];
     if (e->unk00 == 1) {
-        sub_02006948(e);
+        sub_02006948((struct Sub02006948 *)e);
     }
     if (sub_02006544_State.cur < sub_02006544_State.count - 1) {
         sub_02006544_State.cur = sub_02006544_State.cur + 1;
