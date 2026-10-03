@@ -43,7 +43,7 @@ typedef struct Obj {
 } Obj;
 
 extern void func_0200A094(void *list, u32 idx);
-extern u32 func_0200A348(void *list);
+extern u32 func_0200A348(struct Obj *list);
 typedef unsigned char  u8;
 extern u32 func_0200A0E4(u8 *p, u32 a);
 extern int func_0200A000(char *p, int idx, void *buf);

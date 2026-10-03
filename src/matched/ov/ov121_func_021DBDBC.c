@@ -17,5 +17,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0200A348(void *); extern int func_021DBF04(int *);
+struct Obj;
+extern u32 func_0200A348(struct Obj *); extern int func_021DBF04(int *);
 u32 func_021DBDBC(u32 p) { u32 i; u32 count=0; for (i=0;i<func_0200A348(*(void **)(p+12));i++) { if (func_021DBF04((int *)(p+40+i*220))) count++; } return count; }

@@ -37,7 +37,7 @@ extern void func_021DA2A8(u8 *p);
 extern void func_021DA280(u8 *p);
 extern void func_021DB528(char *,int);
 extern void func_021DB3E8(char *);
-extern u32 func_0200A348(void *);
+extern u32 func_0200A348(struct Obj *);
 extern void func_021DBEE4(void *);
 extern void func_020414EC(u32);
 extern void func_02041B6C(u32);
