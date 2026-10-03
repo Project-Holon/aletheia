@@ -32,7 +32,7 @@ extern void func_021B9838(int x);
 extern int func_0203CD98(void);
 extern void func_02156DC4(int a, int b);
 extern void func_020315D4(int x);
-extern void func_02034A5C(void *p);
+extern void func_02034A5C(int handle);
 extern unsigned char ov114_id[];
 
 int func_021DA5D0(int a, int b, int c, char *obj)
@@ -52,6 +52,6 @@ int func_021DA5D0(int a, int b, int c, char *obj)
     if (func_0203CD98())
         func_02156DC4(0, 0);
     func_020315D4(a);
-    func_02034A5C(ov114_id);
+    func_02034A5C((int)ov114_id);
     return 1;
 }

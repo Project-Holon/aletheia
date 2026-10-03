@@ -28,7 +28,7 @@ extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int handle);
 extern char ov067_id[];
 int func_021C01E4(void *p, int a, int b, char *q) {
     func_021C05B0(q);
@@ -39,6 +39,6 @@ int func_021C01E4(void *p, int a, int b, char *q) {
     func_0201D83C(*(void **)(q+0x58));
     func_020315D4(p);
     func_020306F0(0x51);
-    func_02034A5C(ov067_id);
+    func_02034A5C((int)ov067_id);
     return 1;
 }

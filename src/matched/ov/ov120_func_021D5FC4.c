@@ -58,7 +58,7 @@ extern void func_02040DA8(u32,u32,u32);
 extern void func_02040588(u32,u32);
 extern void func_020403F4(u8);
 extern void func_0203F9B4(void);
-extern void func_02034A5C(const void *);
+extern void func_02034A5C(int handle);
 void func_021D5FC4(u8 *p)
 {
     int i;
@@ -98,5 +98,5 @@ void func_021D5FC4(u8 *p)
     for(i=0;i<=7;i++) func_020403F4(i);
     func_0203F9B4();
     func_020307B0(p);
-    func_02034A5C(ov_id);
+    func_02034A5C((int)ov_id);
 }

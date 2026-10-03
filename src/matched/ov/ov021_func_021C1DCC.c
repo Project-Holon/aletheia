@@ -24,7 +24,7 @@ typedef unsigned char u8;
 
 extern unsigned char abs_id_4A[];
 int func_02034AC4(signed int id);
-void func_02034A5C(const void *id);
+void func_02034A5C(int id);
 int *func_021F54E0(int a);
 int func_021C1CB0(int a, char *b, u8 c);
 int func_020124E8(int a);
@@ -43,7 +43,7 @@ int func_021C1DCC(int a, char *b, int c, int d)
     q = func_021F54E0(c);
     r = func_021C1CB0(a, b, *q);
     if (r == 0) {
-        func_02034A5C(abs_id_4A);
+        func_02034A5C((int)abs_id_4A);
         return 0;
     }
     x = func_020124E8(r);
@@ -67,6 +67,6 @@ int func_021C1DCC(int a, char *b, int c, int d)
         s[4] = 1;
     else
         s[4] = 0;
-    func_02034A5C(abs_id_4A);
+    func_02034A5C((int)abs_id_4A);
     return r;
 }

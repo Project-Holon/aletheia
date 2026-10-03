@@ -49,7 +49,7 @@ extern u32 func_020082EC(int);
 extern int func_0216BFD4(int a, int b, int c, int d, int e, int f, int g);
 extern u32 func_02031324(int heap);
 extern int func_02034AC4(signed int id);
-extern void func_02034A5C(void *id);
+extern void func_02034A5C(int handle);
 extern struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1);
 extern int func_020069D4(int a0, int a1, int a2, int a3, int a5, int a6, int a7, int a8);
 extern u8 ov194_id[];
@@ -85,13 +85,13 @@ int func_021BC12C(int a0)
     n1 = d_021F557C;
     for (i = 0; i < n1; i++)
         buf[i] = d_021F558C[i];
-    func_02034A5C(id);
+    func_02034A5C((int)id);
 
     func_02034AC4((int)ov204_id);
     n2 = d_021BFD20;
     for (i = 0; i < n2; i++)
         buf[n1 + i] = d_021BFD30[i];
-    func_02034A5C(ov204_id);
+    func_02034A5C((int)ov204_id);
 
     *(u32 *)(w + 0x34) = (u32)func_02005A98(buf, n1 + n2);
     r = func_020069D4(0x23c, 0, 0x40, 0, 0, 0, 0, 0);

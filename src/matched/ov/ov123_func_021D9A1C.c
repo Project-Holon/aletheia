@@ -41,7 +41,7 @@ extern void func_020403F4(unsigned int);
 extern void func_02040588(unsigned int,unsigned int);
 extern void func_0203F9B4(void);
 extern void func_020307B0(void *);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int);
 void func_021D9A1C(u8 *p)
 {
     Counter i;
@@ -66,5 +66,5 @@ void func_021D9A1C(u8 *p)
     func_02040588(5,0);
     func_0203F9B4();
     func_020307B0(p);
-    func_02034A5C(ov_id);
+    func_02034A5C((int)ov_id);
 }

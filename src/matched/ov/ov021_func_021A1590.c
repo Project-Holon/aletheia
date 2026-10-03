@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 
 extern unsigned char abs_id_23[];
 extern void func_021EFF2C(u32);
-extern void func_02034A5C(const void *);
+extern void func_02034A5C(int handle);
 
 void func_021A1590(u32 *p)
 {
     func_021EFF2C(p[8]);
-    func_02034A5C(abs_id_23);
+    func_02034A5C((int)abs_id_23);
 }

@@ -44,7 +44,7 @@ extern void func_02040DA8(u32 idx, u32 count, u32 tile);
 extern void func_020403F4(u32 i);
 extern void func_02040588(unsigned int,unsigned int);
 extern void func_0203F9B4(void);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int);
 void func_021D5E8C(u8 *p)
 {
     Counter i;
@@ -63,5 +63,5 @@ void func_021D5E8C(u8 *p)
     func_02040DA8(1,1,0); func_02040DA8(6,1,0);
     func_020403F4(5); func_020403F4(4);
     func_02040588(5,0); func_0203F9B4(); func_020307B0(p);
-    func_02034A5C(ov_id);
+    func_02034A5C((int)ov_id);
 }

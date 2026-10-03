@@ -28,7 +28,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_020307B0(void *);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int);
 extern char ov114_id[];
 void func_021D6770(char *p)
 {
@@ -42,5 +42,5 @@ void func_021D6770(char *p)
     func_0201ED04(*(void **)(p + 0x3e8));
     func_02045C04(*(void **)(p + 0x3e4));
     func_020307B0(*(void **)(p + 0x3ac));
-    func_02034A5C(ov114_id);
+    func_02034A5C((int)ov114_id);
 }

@@ -21,13 +21,13 @@ typedef short s16;
 typedef unsigned int u32;
 extern void func_021BD764(u8 *,void *);
 extern void func_020306F0(int);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int);
 extern char ov067_id[];
 int func_021BD5A0(void *a,int b,int c,u8 *p)
 {
     func_021BD764(p,a);
     func_020306F0(41);
     func_020306F0(42);
-    func_02034A5C(ov067_id);
+    func_02034A5C((int)ov067_id);
     return 1;
 }

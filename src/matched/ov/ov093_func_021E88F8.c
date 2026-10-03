@@ -19,14 +19,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void sub_02034A5C(u8 *handle);
+extern void sub_02034A5C(int handle);
 extern u8 ov140_id[];
 extern int d_021F6380;
 
 void func_021E88F8(void)
 {
     if (d_021F6380 != 0) {
-        sub_02034A5C(ov140_id);
+        sub_02034A5C((int)ov140_id);
         d_021F6380 = 0;
     }
 }
