@@ -1,0 +1,20 @@
+/*
+ * function: func_0220B550, func_0220B558
+ * address: 0x0220B550
+ * packet: pkt_ov207_0220B550
+ * region: ov207
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * unit: yes
+ * symbols:
+ *   func_0204A648 0x0204A648 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_0204A648(void);
+void func_0220B550(void*p){func_0204A648();}
+u32 func_0220B558(u32*p){return *p;}

@@ -1,0 +1,196 @@
+/*
+ * function: func_02183D14
+ * address: 0x02183D14
+ * packet: pkt_ov219_02183D14
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee definitions/shows establish arities and narrow27120 arguments;2 own-region matched/pending search has no body twin,3C78 agrees two pointer parameters;3 signed choice worsened1486,u16 old unchanged1888B/1430;4 unsigned-switch/struct-slot idioms read,two scheduling variants worse;5 fresh unfiltered idiom listing and3C78 reread,no new twin. No manual reorder remains. Next hypothesis: correct cross-jumped state arms within a fresh retry budget.
+ * search: six iteration compiles stop after three nonshrinks;one check3 and emitted baseline agree with best full diff;mandatory once300 permuter terminal1 rejected despite1884B/948 score because assignments preceding case labels after break leave temporaries uninitialized;tmp10/tmp8 read choice/touch before assignment,ids=ids may read uninitialized. Best valid C is1888B,original1884B,1430 concrete bytes out.
+ * prototype: 35C60 leaves its forwarded result live in r0 and receives original live1;85580 retains live arc input in r1 despite its one-argument own definition;0947C caller passes full words without narrowing.
+ * symbols:
+ *   func_020362DC 0x020362DC arm
+ *   func_0203630C 0x0203630C arm
+ *   func_02035BA4 0x02035BA4 arm
+ *   func_02035CB8 0x02035CB8 arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_02035D20 0x02035D20 arm
+ *   func_02045B38 0x02045B38 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0202208C 0x0202208C thumb
+ *   func_020221A4 0x020221A4 thumb
+ *   func_02040588 0x02040588 arm
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_020200CC 0x020200CC thumb
+ *   func_0201FDA0 0x0201FDA0 thumb
+ *   func_0201FEBC 0x0201FEBC thumb
+ *   func_02025BE8 0x02025BE8 thumb
+ *   func_02025C44 0x02025C44 thumb
+ *   func_02025B94 0x02025B94 thumb
+ *   func_020061E4 0x020061E4 thumb
+ *   func_0200947C 0x0200947C thumb
+ *   func_02027120 0x02027120 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_02028230 0x02028230 thumb
+ *   func_02045C04 0x02045C04 arm
+ *   func_0201C6C4 0x0201C6C4 thumb
+ *   func_02185580 0x02185580 thumb ov219
+ *   func_021849A4 0x021849A4 thumb ov219
+ *   func_02184D70 0x02184D70 thumb ov219
+ *   func_02184EC0 0x02184EC0 thumb ov219
+ *   func_0218516C 0x0218516C thumb ov219
+ *   func_02185CF4 0x02185CF4 thumb ov219
+ *   func_02185074 0x02185074 thumb ov219
+ *   func_021850EC 0x021850EC thumb ov219
+ *   func_02185254 0x02185254 thumb ov219
+ *   func_02185310 0x02185310 thumb ov219
+ *   func_021856CC 0x021856CC thumb ov219
+ *   func_02184734 0x02184734 thumb ov219
+ *   func_02185794 0x02185794 thumb ov219
+ *   func_02184C2C 0x02184C2C thumb ov219
+ *   func_0218519C 0x0218519C thumb ov219
+ *   func_0218544C 0x0218544C thumb ov219
+ *   func_02184798 0x02184798 thumb ov219
+ *   func_0218532C 0x0218532C thumb ov219
+ *   func_02184C8C 0x02184C8C thumb ov219
+ *   func_02183CBC 0x02183CBC thumb ov219
+ *   func_02185934 0x02185934 thumb ov219
+ *   func_02185AC8 0x02185AC8 thumb ov219
+ *   func_02184CB0 0x02184CB0 thumb ov219
+ *   func_0218562C 0x0218562C thumb ov219
+ *   d_02185DE6 0x02185DE6 data a2
+ *   d_02185DB6 0x02185DB6 data a2
+ *   d_02185E98 0x02185E98 data a4
+ *   d_02185E28 0x02185E28 data a4
+ *   d_02185DB0 0x02185DB0 data a4
+ *   d_02185DC4 0x02185DC4 data a4
+ *   d_02185ECC 0x02185ECC data a4
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+struct WinDat;struct Src;struct Descriptor;struct PrintSys;struct Obj;struct MsgBank;struct CharBuf;
+extern const u8 d_02185DE6[],d_02185DB6[],d_02185DC4[];
+extern const struct WinDat d_02185DB0;
+extern const struct Src d_02185E98,d_02185ECC;
+extern const u8 d_02185E28[];
+extern u32 func_020362DC(void),func_0203630C(void);
+extern int func_02035BA4(const void *);
+extern u32 func_02035CB8(u32 *,u32 *),func_02035D20(u32 *,u32 *),func_02035C60(u32);
+extern void *func_02045B38(u32,u32,u16,u16),*func_020490F4(u32,u16);
+extern void func_02049238(void *),func_02185580(char *,void *),func_021849A4(char *,void *);
+extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32),func_02040588(u32,u32);
+extern u32 func_020221A4(void),func_0201C6B4(const struct PrintSys *);
+extern int func_020200CC(struct Obj *),func_02184D70(char *,int,int);
+extern void func_02184EC0(char *,const u8 *,const struct Src *,const u8 *),func_0218516C(char *);
+extern void *func_0201FDA0(const struct WinDat *,u16,u8,u8,u16);
+extern u32 func_0201FEBC(u8 *),func_02025BE8(void);
+extern int func_02185CF4(u32),func_02025C44(u32,u32 *,u32 *);
+extern u32 func_02025B94(u32);
+extern void func_02185074(char *,const u8 *,const struct Src *,u32),func_021850EC(char *,const u8 *,const struct Src *,u32,const u8 *,u32);
+extern void func_020061E4(u32),func_02185254(char *,u32,u32),func_02185310(char *);
+extern void func_0200947C(void *,void *,u32,u32),func_02027120(u8,u8);
+extern void func_021856CC(char *),func_02184734(char *),func_02185794(char *);
+extern struct CharBuf *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *,u8),func_02045334(struct Descriptor *);
+extern void func_02184C2C(char *,int),func_0218519C(char *),func_0218544C(char *),func_02184798(char *),func_02184C8C(char *,int),func_02183CBC(char *,int);
+extern int func_0218532C(char *,u32 *),func_02185934(char *,u32,u32),func_02185AC8(char *);
+extern u32 func_02028230(u8 *),func_0201C6C4(struct PrintSys *,void *);
+extern void func_02184CB0(char *),func_0218562C(char *),func_02045C04(struct MsgBank *);
+#define W(O) (*(u32 *)(p+(O)))
+#define H(O) (*(u16 *)(p+(O)))
+#define B(O) (*(u8 *)(p+(O)))
+#define P(O) (*(void **)(p+(O)))
+int func_02183D14(char *p,char *state)
+{
+    u32 result=0,choice,old,touch,index;
+    const u8 *ids;
+    u32 count;
+    void *arc,*print;
+    W(0xc354)=func_020362DC();
+    W(0xc358)=func_0203630C();
+    if(func_02035BA4(d_02185DE6)!=-1)W(0xc360)=func_02035CB8((u32 *)(p+0xc364),(u32 *)(p+0xc368));
+    else W(0xc360)=0;
+    if(W(0xc054)==1)W(0xc050)=func_02035C60(W(0xc054));
+    else W(0xc050)=func_02035D20((u32 *)(p+0xc058),(u32 *)(p+0xc05c));
+    switch(*(u32 *)state){
+    case 0:
+        P(0xc070)=func_02045B38(0,2,0xcf,*(u32 *)p);
+        arc=func_020490F4(0xc5,*(u32 *)p);
+        func_02185580(p,arc);func_021849A4(p,arc);func_02049238(arc);
+        W(0xc314)=0;func_0202208C(0,1,1,0,6,1,*(u32 *)p);
+        func_02040588(6,1);func_02040588(2,1);func_02040588(7,1);func_02040588(3,1);
+        *(u32 *)state=1;break;
+    case 1:if(func_020221A4()==1)*(u32 *)state=2;break;
+    case 2:if(func_02184D70(p,0,1)==1)*(u32 *)state=W(0xc33c)?16:3;break;
+    case 3:
+        if(func_02184D70(p,1,1)==1){func_02184EC0(p,d_02185DB6,&d_02185E98,d_02185E28);*(u32 *)state=4;}break;
+    case 4:
+        if(!func_0201C6B4(P(0xc080)))break;
+        choice=func_020200CC(P(0xc04c));if(choice==(u32)-1)break;func_0218516C(p);
+        switch(choice){case 0:*(u32 *)state=16;func_020061E4(0x551);break;case 1:*(u32 *)state=5;func_020061E4(0x551);break;
+        case 2:case (u32)-2:*(u32 *)state=20;func_020061E4(0x551);break;default:*(u32 *)state=16;func_020061E4(0x551);break;}break;
+    case 5:if(func_02184D70(p,2,1)==1){P(0xc054)=func_0201FDA0(&d_02185DB0,0x22,7,0,*(u32 *)p);*(u32 *)state=6;}break;
+    case 6:
+        choice=func_0201FEBC(P(0xc054));if(choice==0){if(W(0xc318)==1){W(0xc344)=func_02025BE8();*(u32 *)state=10;}else *(u32 *)state=7;}
+        else if(choice==(u32)-2)*(u32 *)state=3;break;
+    case 7:W(0xc344)=0;func_02185074(p,d_02185DC4,&d_02185ECC,0xe7);*(u32 *)state=8;break;
+    case 8:if(func_02184D70(p,3,1)==1)*(u32 *)state=9;break;
+    case 9:
+        if(!func_0201C6B4(P(0xc080)))break;choice=func_020200CC(P(0xc04c));if(choice==(u32)-1)break;func_0218516C(p);
+        if(choice!=(u32)-2){W(0xc344)=choice;if(func_02185CF4(choice)==1)*(u32 *)state=10;else{W(0xc348)=0;*(u32 *)state=13;}}
+        else *(u32 *)state=3;func_020061E4(0x551);break;
+    case 10:
+        W(0xc348)=0;func_02025C44(W(0xc344),(u32 *)&ids,&count);
+        func_021850EC(p,d_02185DC4,&d_02185ECC,func_02025B94(W(0xc344)),ids,count);*(u32 *)state=11;break;
+    case 11:if(func_02184D70(p,4,1)==1)*(u32 *)state=12;break;
+    case 12:
+        if(!func_0201C6B4(P(0xc080)))break;choice=func_020200CC(P(0xc04c));if(choice==(u32)-1)break;func_0218516C(p);
+        if(choice!=(u32)-2){W(0xc348)=choice;*(u32 *)state=13;func_020061E4(0x551);}
+        else{func_020061E4(0x54c);*(u32 *)state=W(0xc318)==1?3:7;}break;
+    case 13:func_02185254(p,W(0xc344),W(0xc348));*(u32 *)state=14;break;
+    case 14:if(func_02184D70(p,5,1)==1){P(0xc054)=func_0201FDA0(&d_02185DB0,0x22,7,0,*(u32 *)p);*(u32 *)state=15;}break;
+    case 15:
+        choice=func_0201FEBC(P(0xc054));if(choice==0){func_02185310(p);func_0200947C(P(0x10),P(0xc),W(0xc344),W(0xc348));
+            func_02027120(W(0xc344),W(0xc348));W(0xc33c)=W(0xc344);W(0xc340)=W(0xc348);*(u32 *)state=16;}
+        else if(choice==(u32)-2){func_02185310(p);*(u32 *)state=3;}break;
+    case 16:
+        if(W(0xc318)==1&&W(0xc34c)==0)H(0xc31c)=0;else H(0xc31c)=1;
+        func_021856CC(p);func_02184734(p);func_02185794(p);
+        func_02043B5C(func_02045770(P(0xc01c)),15);func_02045334(P(0xc01c));func_02184C2C(p,1);
+        if(W(0xc33c)!=0)func_0218519C(p);func_0218544C(p);W(0xc360)=0;W(0xc320)=1;*(u32 *)state=17;break;
+    case 17:
+        old=H(0xc350);if(!func_0201C6B4(P(0xc080)))break;
+        func_02184798(p);if(func_0218532C(p,&index))func_02184C2C(p,0);else func_02184C8C(p,0);
+        touch=W(0xc354);
+        if((touch&2)||(W(0xc320)&2)){func_02184C8C(p,0);func_02183CBC(p,1);func_020061E4(0x551);
+            func_02043B5C(func_02045770(P(0xc01c)),15);func_02045334(P(0xc01c));*(u32 *)state=19;break;}
+        if(((touch&0x400)||(W(0xc320)&0x400))&&W(0xc350)==0){W(0xc350)=1;func_02183CBC(p,0);func_0218544C(p);if(W(0xc350)==1)func_020061E4(0x551);break;}
+        else if(((touch&0x403)||(W(0xc320)&0x400))&&W(0xc350)==1){W(0xc350)=0;func_0218544C(p);break;}
+        else if(func_02185934(p,touch,W(0xc358))==1&&W(0xc350)==1){W(0xc350)=0;func_0218544C(p);}
+        if(old!=H(0xc350)){*(u32 *)state=18;func_020061E4(H(0xc350)==0?0x649:0x648);}break;
+    case 18:if(func_02185AC8(p)==1)*(u32 *)state=17;break;
+    case 19:
+        if(!func_02028230(P(0xc060)))break;
+        if(W(0xc33c)==0){W(0xc310)=2;*(u32 *)state=3;}else{func_02185310(p);*(u32 *)state=20;}
+        func_02184C8C(p,1);break;
+    case 20:W(0xc314)=0;func_0202208C(0,0,0,0,6,1,*(u32 *)p);*(u32 *)state=21;break;
+    case 21:if(func_020221A4()==1){W(0xc310)=1;result=1;func_02184CB0(p);func_0218562C(p);func_02045C04(P(0xc070));*(u32 *)state=0;}break;
+    }
+    print=P(0xc080);
+    if(B(0xc07c)&&!func_0201C6C4(print,func_02045770(P(0xc078)))){func_02045334(P(0xc078));B(0xc07c)=0;}
+    print=P(0xc080);
+    if(B(0xc048)&&!func_0201C6C4(print,func_02045770(P(0xc044)))){func_02045334(P(0xc044));B(0xc048)=0;}
+    print=P(0xc080);
+    if(B(0xc03c)&&!func_0201C6C4(print,func_02045770(P(0xc038)))){func_02045334(P(0xc038));B(0xc03c)=0;}
+    print=P(0xc080);
+    if(B(0xc030)&&!func_0201C6C4(print,func_02045770(P(0xc02c)))){func_02045334(P(0xc02c));B(0xc030)=0;}
+    print=P(0xc080);
+    if(B(0xc024)&&!func_0201C6C4(print,func_02045770(P(0xc020)))){func_02045334(P(0xc020));B(0xc024)=0;}
+    return result;
+}

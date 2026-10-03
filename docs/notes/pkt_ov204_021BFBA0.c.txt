@@ -1,0 +1,21 @@
+/*
+ * function: func_021BFBA0
+ * address: 0x021BFBA0
+ * packet: pkt_ov204_021BFBA0
+ * region: ov204
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own BFBC8 body confirms char*,u32, both original argument registers read; 2 twins BFB2C/BFA40 confirm same arity and word fields; 3 int local and const parameter compiled unchanged; 4 scalar and enum inline updates did not improve; 5 idioms relisted and matched neighbours reread, no stack object. Next sweep: none within canonical budget.
+ * residual: 40 bytes, 24 concrete differences; original retains incoming r0 for call while generated guard clobbers and restores it.
+ * symbols:
+ *   func_021BFBC8 0x021BFBC8 thumb ov204
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021BFBC8(char *,u32);
+int func_021BFBA0(char *p) { u32 n=*(u32 *)(p+0x28); if(*(u32 *)(p+0x1c)==3) n++; else n--; *(u32 *)(p+0x28)=n; func_021BFBC8(p,n); if(*(u32 *)(p+0x28)==60) return 1; return 0; }
+

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched bodies copied; BE63C now const record/u16 heap, same bytes; 2 BE7A8/BE920/BE938/BE7BC/BE63C reread, no constructor twin; 3 u16 entry heap fixes prologue, mutable cfg best, const cfg gives 705, short trig 652 and s64 trig/z worse; 4 inline FX_Mul idioms fit remaining math scheduling, two manual scheduling variants already exhausted; 5 full idiom directory and neighbours reread, frame scalar not aggregate. Once-300 permuter baseline emitted one agrees DIFF 652/848; best 427/852 rejected for uninitialized left, preassignment count read and late declaration. Next retry: inline FX_Mul/angle helpers.
+ * checks: 1 own allocator/trig/G3D and overlay bodies confirm ABI; 2 BE63C/BE7D8 and neighbours refreshed, no constructor twin; 3 const rec first CCERR then valid const-store spelling unchanged652; 4 inline FX_Mul and angle helpers both844B/686 worsen scheduling, two manual variants spent; 5 full unfiltered idiom directory and neighbours refreshed, scalar math spills. Final retry exhausted, best848B/DIFF652 retained; prior unsafe once300 not repeated.
  * residual: DIFF 652 concrete bytes, compiled 848 vs listing 852; ARM9 02048B9C/02048BB0 omitted in unit_02048AD0 function header, 020115EC omitted in unit_02011590; caller remains DIFF so no blockers filed.
  * ABI: empty SDK matrix entry reads r0; BE7BC returns live r0 from 02011510.
  * symbols:
@@ -152,5 +152,4 @@ u8 *func_021BE160(void *view,u8 *cfg,u16 heap)
     *(void **)(p+0x6c)=func_021BF7C0((char *)p,heap);
     return p;
 }
-
 

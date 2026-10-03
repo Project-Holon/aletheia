@@ -1,0 +1,53 @@
+/*
+ * function: func_021BA554
+ * address: 0x021BA554
+ * packet: pkt_ov218_021BA554
+ * region: ov218
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 actor accessor/unit bodies fix return and three-argument position calls; 2 ov218 A61C confirms Pair ABI, no two-loop twin; 3 long index and const p each unchanged; 4 inline short-parameter helper reproduces both raw-parameter recasts, shared Pair fixes frame; 5 full idiom listing and A61C/other ov218 callers reread.
+ * Two manual scheduling variants used; once-only permuter 300/jobs1/types unchanged, emitted baseline agrees at DIFF 200/200 with 9 concrete bytes.
+ * Residue is first loop's r4/r5 counter/item swap; second loop and all eight resolved relocations match. Retry hypothesis: helper declaration order.
+ * symbols:
+ *   func_0204B3F4 0x0204B3F4 arm
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ */
+typedef struct Pair {short x,y;} Pair;
+struct Row0 {char pad[0x294];void *item;};
+struct Row1 {char pad[0x2b0];void *item;};
+extern unsigned func_0204B3F4(void *);
+extern void func_0204B454(void *,Pair *,unsigned);
+extern void func_0204B404(void *,const Pair *,unsigned);
+extern void func_0204B3DC(void *,unsigned);
+static inline void scroll(const char *p,short delta,int space,Pair *pos)
+{
+    long i;
+    void *item;
+    int value;
+    for(i=0;i<7;i++){
+        if(space==0)item=((struct Row0 *)(p+i*4))->item;
+        else item=((struct Row1 *)(p+i*4))->item;
+        if(func_0204B3F4(item)){
+            func_0204B454(item,pos,space);
+            pos->y+=delta;
+            value=pos->y;
+            func_0204B404(item,pos,space);
+            if(space==0){
+                if(value<=-20 || value>=220)func_0204B3DC(item,0);
+            }else{
+                if(value<=-28 || value>=212)func_0204B3DC(item,0);
+            }
+        }
+    }
+}
+void func_021BA554(const char *p,int delta)
+{
+    Pair pos;
+    scroll(p,delta,0,&pos);
+    scroll(p,delta,1,&pos);
+}

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 ABI checked own matched bodies and B428/B55C show; 2 B048/B318/B260/ov2069DE0 read, no exact initializer twin; 3 const args 111 B out, u8/enum flag and enum fields 76 B out; 4 enum and bool-store idioms read; 5 fresh idiom listing and B048/ov2069DE0 re-read, no stack object. Once-only permuter baseline 76/264 agreed r1; valid reorder(-2) gave validated 6/264. No further manual sweeps.
+ * checks: 1 own ARM9/ov206/ov207 bodies and B428 show confirm live arity; 2 B048/B318/B260/B55C neighbours reread, no initializer twin; 3 unsigned flag and enum zero field compile unchanged6; 4 bool-store and enum-zero idioms read, two manual zero/flag changes worse76 or unchanged6; 5 full unfiltered idiom directory and matched neighbours refreshed, scalar frame. Final retry exhausted; prior once300 not repeated; best264B/DIFF6 retained.
  * residue: zero-field store and flag initialization schedule, six concrete bytes.
  * ABI: 0203159C leaves the allocated pointer in r0; this caller stores it although its matched declaration is void.
  * symbols:

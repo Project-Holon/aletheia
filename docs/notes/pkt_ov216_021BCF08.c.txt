@@ -1,0 +1,83 @@
+/*
+ * function: func_021BCF08
+ * address: 0x021BCF08
+ * packet: pkt_ov216_021BCF08
+ * region: ov216
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee own bodies/DA54 u16 c reviewed, full-word exception tried; 2 matched D07C/DA54 shared callees/table but no setup twin; 3 wide color/fill 334B, const p unchanged249B; 4 enum/spill idioms read; 5 fresh unfiltered idiom listing and D07C/DA54 reread, no stack object. Next hypothesis would be declaration/spill order.
+ * residue: 249 concrete bytes, compiled376 versus372; spill order, entry guard and reused-loop register allocation. ARM9 02045CAC also unresolved in Ilias unit_02045C44.c missing function header entry.
+ * permuter: once-only300 search baseline245/376 with4 unresolved disagreed fixed249/376 with3; AST emission changed baseline. Search consumed, output not accepted; fixed best retained.
+ * symbols:
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_021BDA54 0x021BDA54 thumb ov216
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   d_021BDD8A 0x021BDD8A data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { ENTRY_ZERO, ENTRY_MAX=4 } EntryIndex;
+struct MsgBank;
+struct CharBuf;
+struct Descriptor;
+struct Cfg;
+struct Four {u16 a;u8 b;u8 pad;};
+extern const struct Four d_021BDD8A[];
+extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void func_02043B5C(struct CharBuf *,u8);
+extern void func_021BDA54(char *,char *,u32,u16,u32,u16);
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Cfg *);
+extern u8 func_02045730(struct Descriptor *);
+extern void func_020409B4(u32);
+void func_021BCF08(const char *p)
+{
+    EntryIndex i;
+    int j,k=0;
+    u16 color;
+    u8 fill;
+    char *q,*base=(char *)p+0x15c;
+    struct Descriptor *d;
+    for(i=0;i<4;i++) {
+        func_02045CAC(*(struct MsgBank **)(p+0x130),i,*(void **)(p+0x13c));
+        fill=d_021BDD8A[i%2].b;
+        color=d_021BDD8A[i%2].a;
+        for(j=0;j<2;j++) {
+            q=(char *)((u32)base+(u32)j*128+(u32)i*16);
+            func_02043B5C(*(struct CharBuf **)(q+4),fill);
+            func_021BDA54((char *)p,q,k,k,*(u32 *)(p+0x13c),color);
+            d=*(struct Descriptor **)q;
+            func_02045334(d);
+            func_02045374((struct Cfg *)d);
+            func_020409B4(func_02045730(d));
+        }
+    }
+    func_02045CAC(*(struct MsgBank **)(p+0x130),7,*(void **)(p+0x13c));
+    for(k=0;k<2;k++) {
+        q=(char *)((u32)p+0x15c+(u32)k*128);
+        func_02043B5C(*(struct CharBuf **)(q+0x44),3);
+        func_021BDA54((char *)p,q+0x40,0,0,*(u32 *)(p+0x13c),0x3dc3);
+        d=*(struct Descriptor **)(q+0x40);
+        func_02045334(d);
+        func_02045374((struct Cfg *)d);
+        func_020409B4(func_02045730(d));
+    }
+    func_02045CAC(*(struct MsgBank **)(p+0x130),9,*(void **)(p+0x13c));
+    for(j=0;j<2;j++) {
+        q=(char *)((u32)p+0x15c+(u32)j*128);
+        func_02043B5C(*(struct CharBuf **)(q+0x64),3);
+        func_021BDA54((char *)p,q+0x60,0,0,*(u32 *)(p+0x13c),0x3dc3);
+        d=*(struct Descriptor **)(q+0x60);
+        func_02045334(d);
+        func_02045374((struct Cfg *)d);
+        func_020409B4(func_02045730(d));
+    }
+}

@@ -1,0 +1,100 @@
+/*
+ * function: func_021C2288
+ * address: 0x021C2288
+ * packet: pkt_ov217_021C2288
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own C253C takes void*,u8,u8,u16,u32, all33 resolved; 2 same-overlay matched/pending search found no caller twin, C253C reread; 3 long and enum start both 688/639 unchanged, full-word types preserve arithmetic; 4 declaration-order and per-loop index spill idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom directory and C253C/C1F44 neighbors reread, no new twin; macro-free once300 baseline688/639 agrees, valid temp(u16 z), left1 copy and independent idx/z reorder yields690/151, fixed one confirms; residual entry homing and one missing start copy shift first loop, small-arm flag store register swap; next retry parameter-homing/spill type hypothesis.
+ * symbols:
+ *   _fflt 0x0209BDBC arm
+ *   _fmul 0x0209C77C arm
+ *   _fsub 0x0209CB8C arm
+ *   _fadd 0x0209C95C arm
+ *   _fdiv 0x0209CE10 arm
+ *   _ffixu 0x0209C4C8 arm
+ *   func_021C253C 0x021C253C thumb ov217
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021C253C(void *, u8, u8, u16, u32);
+void func_021C2288(u32 p, int end1, int end2, int start, int bottom)
+{
+  int left1;
+  int delta1 = end1 - start;
+  int n1 = (delta1 - 4) / 8;
+  int n2;
+  int delta2;
+  int left2;
+  int idx;
+  float z;
+  int edge = end1 - 8;
+  int j;
+  u16 tmp;
+  int left1_;
+  left1 = end2 - 4;
+  z = 0.0f;
+  left1_ = left1;
+  idx = 0;
+  for (j = 0; j < n1; j++)
+  {
+    func_021C253C((void *) ((p + 0x28) + (idx * 24)), edge, left1_, (u16) z, 0);
+    edge -= 8;
+    idx++;
+    z += 1.0f;
+  }
+
+  if (n1 == 0)
+  {
+    if ((delta1 - 4) > 0)
+    {
+      tmp = (u16) z;
+      func_021C253C((void *) ((p + 0x28) + (idx * 24)), edge, left1_, tmp, 0);
+      if ((delta1 - 4) < 4)
+      {
+        *((u32 *) ((p + (idx * 24)) + 0x30)) = 1;
+        *((u16 *) ((p + (idx * 24)) + 0x34)) = 1;
+      }
+      z += ((2.0f * ((float) (delta1 - 4))) / 8.0f) - 1.0f;
+      idx++;
+    }
+  }
+  else
+  {
+    if (((delta1 - 4) % 8) != 0)
+    {
+      z -= 2.0f - ((2.0f * ((float) ((delta1 - 4) - (n1 * 8)))) / 8.0f);
+      func_021C253C((void *) ((p + 0x28) + (idx * 24)), start + 4, left1_, (u16) z, 0);
+      z += 1.0f;
+      idx++;
+    }
+  }
+  func_021C253C((void *) ((p + 0x28) + (idx * 24)), start - 4, end2 - 4, (u16) z, 2);
+  z += 1.0f;
+  idx++;
+  delta2 = bottom - end2;
+  n2 = (delta2 - 4) / 8;
+  left2 = start - 4;
+  edge = end2 + 4;
+  for (j = 0; j < n2; j++)
+  {
+    func_021C253C((void *) ((p + 0x28) + (idx * 24)), left2, edge, (u16) z, 1);
+    edge += 8;
+    z += 1.0f;
+    idx++;
+  }
+
+  if (((delta2 - 4) % 8) != 0)
+  {
+    z -= 2.0f - ((2.0f * ((float) ((delta2 - 4) - (n2 * 8)))) / 8.0f);
+    func_021C253C((void *) ((p + 0x28) + (idx * 24)), left2, bottom - 8, (u16) z, 1);
+    z += 1.0f;
+    idx++;
+  }
+  func_021C253C((void *) ((p + 0x28) + (idx * 24)), start - 4, bottom - 4, (u16) z, 3);
+  *((u8 *) (p + 0x298)) = idx + 1;
+}

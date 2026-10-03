@@ -1,0 +1,69 @@
+/*
+ * function: func_021B96CC
+ * address: 0x021B96CC
+ * packet: pkt_ov218_021B96CC
+ * region: ov218
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 SDK own units read: 49658/498F4 seven args last u16,49DF4 five args last u16 and raw word output pointer,49B68 six args,40B1C u8,const void *,u32,u32; 2 B9A80 matched twin reread and narrowed matched/pending searches found no rendering twin; 3 const p compiled338/8 unchanged; 4 declaration-order, u16 four-shifts, declared stack-struct idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom directory and B9A80 neighbor reread, no new twin; macro-free once300 baseline338/8 agrees, no improvement; residual tile/base r5/r6 swap, 2 bytes short; next retry allocator/type hypothesis.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_02049DF4 0x02049DF4 arm
+ *   func_02040B1C 0x02040B1C arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_02049238 0x02049238 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_020490F4(u32,u16);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern void *func_02049DF4(void *,u32,u32,u32,u16);
+extern void func_02040B1C(u8,const void *,u32,u32);
+extern void func_020307B0(void *);
+extern void func_02049238(void *);
+void func_021B96CC(char *p,u16 heap)
+{
+    void *arc,*b,*a,*acq2,*acq1;
+    int i;
+    arc=func_020490F4(0xc1,heap);
+    func_02049B68(arc,1,0,0,0xe0,heap);
+    func_02049B68(arc,1,4,0,0xe0,heap);
+    func_02049658(arc,12,4,0,0x200,0,heap);
+    func_020498F4(arc,6,7,0,0,0,heap);
+    func_020498F4(arc,13,4,0,0,0,heap);
+    acq1=func_02049DF4(arc,0,0,(u32)&a,heap);
+    func_020498F4(arc,5,3,0,0,0,heap);
+    acq2=func_02049DF4(arc,0,0,(u32)&b,heap);
+    func_02049658(arc,2,2,0,0,0,heap);
+    func_02049658(arc,2,6,0,0,0,heap);
+    for(i=0;i<130;i++) {
+        u8 *base;
+        int tile;
+        tile=129-i;
+        base=*(u8 **)((u8 *)(i<50?a:b)+0x14);
+        if (*(u32 *)(p+i*4+0x34)==0) {
+            u8 x,y;
+            u32 off;
+            x=(u8)(2*(3-tile%4));
+            y=(u8)(tile/4);
+            off=(u8)(x*4)+(y*32+32);
+            u8 *q=base+off;
+            q[0]=255;q[1]=255;q[2]=255;q[3]=255;
+            q[4]=255;q[5]=255;q[6]=255;q[7]=255;
+        }
+    }
+    func_02040B1C(7,*(void **)((u8 *)a+0x14),*(u32 *)((u8 *)a+0x10),0);
+    func_020307B0(acq1);
+    func_02040B1C(3,*(void **)((u8 *)b+0x14),*(u32 *)((u8 *)b+0x10),0);
+    func_020307B0(acq2);
+    func_02049238(arc);
+}

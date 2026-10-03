@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 callees rederived: 115C0 takes two, EA4C none; 2 only DB64 caller (u32 frames), no twin; 3 const ctx/u32 time unchanged; 4 allocation/loop idioms read, two scheduling variants spent; 5 idioms and ov203 neighbours reread, no twin; next separate scoped loop counters. 232 bytes/232, 54 concrete differences, unresolved ARM9 020115C0/0204EA4C. Bounded permuter baseline agreed at 54; best 49 changes advance use to entry-zero and rejected.
+ * checks: 1 own 1160C/11590/11B8C/47xx/48xx/BF858 bodies and EA4C show confirm ABI; 2 DB64 caller and DF18/DF24 neighbours reread, no closer twin; 3 unsigned-long time unchanged54; 4 loop-identity and scope idioms read, separate counters worsen60, inline event helper272B/247; 5 full unfiltered idiom directory and neighbours refreshed, scalar slots. Final retry exhausted, best232B/DIFF54; prior unsafe once300 not repeated.
  * symbols:
  *   func_0201160C 0x0201160C thumb
  *   func_021BF858 0x021BF858 thumb

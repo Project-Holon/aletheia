@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 accessor bank returns u8; loaders take four registers plus u16 stack key; 2 no ov208/209 twin, ARM9 callers confirm out pointers; 3 const p unchanged, u8 y/height reduces 19 to 12 bytes; 4 declaration order fixes register/spill map, two scheduling variants used; 5 unfiltered idiom list and matched ov208/209 neighbours reread, no twin.
+ * checks: 1 own accessors/loaders/callers and SDK copy verify 13 arities; 2 no ov208/209 tile-copy twin; 3 unsigned long row with explicit u16 truncation, unsigned long index and int row unchanged6/224, existing const p retained; 4 swapping declarations unchanged6/224 and early row init worsens19/224, two scheduling variants used; 5 fresh unfiltered idioms, own/sibling neighbours and aggregate-frame idiom reread. Final retry exhausted; prior once300 search not repeated.
  * Once-only permuter: emitted baseline DIFF 224/224, 12 bytes; 300 jobs=1 types yields DIFF 224/224, 6 bytes, validated by one.
  * Residue: row spill 0x18 versus original 0x10; screenOwner spill 0x10 versus original 0x18.
- * Next retry hypothesis: swap row/screenOwner storage declaration order; no further manual scheduling variant allowed this wave.
+ * Final retry: exhausted; best verified codegen retained.
  * symbols:
  *   func_02045748 0x02045748 arm
  *   func_02045750 0x02045750 arm
@@ -59,6 +59,7 @@ void func_021BD4F4(const char *p, unsigned index)
   void **entry;
   void *archive;
   void *tmp1;
+  u16 *tmp;
   (void) (&x);
   entry = (void **) ((p + 0x20) + (index * 8));
   width = func_02045748(*entry);
@@ -70,7 +71,7 @@ void func_021BD4F4(const char *p, unsigned index)
   tmp1 = func_02049EF4(archive, 69, 0, (u32) (&screen), 0x806b);
   row = 0;
   screenOwner = tmp1;
-  u16 *tmp = (u16 *) (screen + 12);
+  tmp = (u16 *) (screen + 12);
   tiles = tmp;
   chrOwner = func_02049DF4(archive, 57, 0, (u32) (&chr), 0x806b);
   src = *((char **) (chr + 20));

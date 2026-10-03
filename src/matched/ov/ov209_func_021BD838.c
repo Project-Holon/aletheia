@@ -1,0 +1,19 @@
+/*
+ * function: func_021BD838
+ * address: 0x021BD838
+ * packet: pkt_ov209_021BD838
+ * region: ov209
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B944 0x0204B944 arm
+ *   func_0204B8D4 0x0204B8D4 arm
+ *   func_0204A600 0x0204A600 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Actor;struct Obj;extern u32 func_0204B944(struct Actor *);extern void func_0204B8D4(struct Obj *,u32);extern void func_0204A600(void);
+void func_021BD838(char *p) {u32 i;for(i=0;i<60;i++) {if(*(void **)(p+i*4+0xa74)) {if(func_0204B944(*(struct Actor **)(p+i*4+0xa74))!=1) func_0204B8D4(*(struct Obj **)(p+i*4+0xa74),0x1000);}}func_0204A600();}

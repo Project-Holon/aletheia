@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 31330/31348/39CB4/network bodies and 02157170 show retain live inputs, pool words prove EFDAC/F03C4 argument swap corrected in run 8; 2 own 2E74/3134/33E4 and scoped pending neighbours reread, no state-machine twin; 3 const ctx worsens 607, signed status and enum bound do not improve 416, u8 j adds truncations and grows to 962; 4 enum guard/const scheduling/declared struct idioms read, two manual scheduling variants exhausted; 5 full idiom directory reread, scalar frame slots rather than aggregate. Once-300 permuter baseline agrees 416/954; best 179/950 rejected for added volatile and assignments before case labels (uninitialized tmp/tmp3). Next retry: inline copy/typed context loop.
- * residual: DIFF 416 concrete bytes, compiled 954 vs actual intended code end 02213C4A (950 bytes); cross-overlay loading proves ov093 data and ov213 descriptor, all three remain wildcarded until layout aligns.
+ * checks: 1 own 31330/31348/network bodies and 05D90 caller confirm ABI; 2 own 2E74/33E4/13814/13850 neighbours reread, no closer twin; 3 unsigned-long index unchanged408; 4 inline byte-copy helper improves416 to408, typed Context unchanged416, manual variants spent; 5 full unfiltered idiom directory and neighbours refreshed, scalar frame. Final retry exhausted, best946B/DIFF408; prior unsafe once300 not repeated.
+ * residual: DIFF408 concrete bytes, compiled946 vs intended code end02213C4A (950B); three correctly hinted cross-overlay data words remain wildcarded while layout differs. Inline Copy preserves per-byte source/output field reloads.
  * Extent ends in the following callback tables and source string; code ends 02213C4A.
  * ABI: 02031348 forwards the caller's four live registers through its legacy void wrapper.
  * symbols:
@@ -54,6 +54,7 @@ extern void func_0200FB38(void);
 extern unsigned func_0200FB24(void);
 extern unsigned func_02157170(unsigned,unsigned);
 extern const char ov213_id[],ov093_id[],d_021BB0B0[],d_021F03C4[],d_021EFDAC[];
+static inline void Copy(u8 *ctx,int slot,int index) { int j; for(j=0;j<6;j++) *(u8 *)((unsigned)*(u8 **)(ctx+8)+slot+j+0xa)=*(u8 *)((unsigned)*(u8 **)(ctx+4)+index*6+j+0xc8); }
 int func_02213894(void *unused,u32 *state,u8 *ctx,u32 *work)
 {
     unsigned status=func_02031330((void *)work[0]);
@@ -121,14 +122,10 @@ int func_02213894(void *unused,u32 *state,u8 *ctx,u32 *work)
         do {
             if((i&1)==side) {
                 if(side!=0)index=(i&2)+1;else index=i&2;
-                for(j=0;j<6;j++) {
-                    *(u8 *)((unsigned)*(u8 **)(ctx+8)+first+(i>>1)*16+j+0xa)=*(u8 *)((unsigned)*(u8 **)(ctx+4)+index*6+j+0xc8);
-                }
+                Copy(ctx,first+(i>>1)*16,index);
             } else {
                 if(side!=0)index=i&2;else index=(i&2)+1;
-                for(j=0;j<6;j++) {
-                    *(u8 *)((unsigned)*(u8 **)(ctx+8)+last+(i>>1)*16+j+0xa)=*(u8 *)((unsigned)*(u8 **)(ctx+4)+index*6+j+0xc8);
-                }
+                Copy(ctx,last+(i>>1)*16,index);
             }
         } while(++i<=bound);
         }
@@ -151,4 +148,3 @@ int func_02213894(void *unused,u32 *state,u8 *ctx,u32 *work)
     }
     return 0;
 }
-

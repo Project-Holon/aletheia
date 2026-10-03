@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own/caller prototypes and full SDK bodies confirm arity; 2 matched C10B8/C3514/C1920 twins read; 3 const u16 heap compiled unchanged; 4 initializer/struct-copy/declaration idioms applied; 5 fresh idiom index and matched neighbours reread; macro-free baseline 960 bytes/113 concrete agrees; once300 permuter unchanged; two manual variants exhausted.
+ * checks: 1 own ARM9/overlay bodies, SDK vec bodies and matched callers confirm ABI; 2 C10B8/C1920/C3514 neighbours reread; 3 enum moved and unsigned-long moved unchanged44; 4 Vec locals in one inner block after flags restore frame and shrink113 to44; moving moved into outer block unchanged44, two manual variants spent; 5 full unfiltered idiom directory and neighbours refreshed, declared-struct idiom read. Final retry exhausted, best960B/DIFF44; prior once300 not repeated.
+ * residual: DIFF44 concrete bytes, 960B and 51/51 resolved; moved and position-pointer register homes differ, plus two clamp branch targets.
  * symbols:
  *   func_021C0CCC 0x021C0CCC thumb ov208
  *   func_021C1D30 0x021C1D30 thumb ov208
@@ -68,7 +69,6 @@ void func_021C1450(u16 *heap,u8 *p,int key)
 {
     u32 x,y;
     struct Four c;
-    struct Vec3 target,current;
     int old,active,close,hit;
     register int moved;
     u32 mask;
@@ -87,11 +87,13 @@ void func_021C1450(u16 *heap,u8 *p,int key)
         return;
     }
     if(func_020355C4()==0){
-        struct Vec3 keyboard={0,0,0},automatic={0,0,0};
         old=p[0x79];
         moved=0;
         active=0;
         close=0;
+        {
+        struct Vec3 keyboard={0,0,0},automatic={0,0,0};
+        struct Vec3 target,current;
         func_0204B454((struct Actor *)W(0xcc),&c.pos,0);
         mask=func_0203630C();
         if((mask&0x10)||(mask&0x20)||(mask&0x40)||(mask&0x80)){
@@ -143,6 +145,7 @@ void func_021C1450(u16 *heap,u8 *p,int key)
             func_021C1D30(heap,p,key);
             func_021C2238(heap,p,key);
             if(p[0x79]!=255)func_020061E4(0x548);
+        }
         }
     }else if(func_02035D20(&x,&y)){
         p[0x79]=func_021C0D5C(heap,(char *)p,key,x,y);

@@ -1,0 +1,16 @@
+/*
+ * function: func_021BA750
+ * address: 0x021BA750
+ * packet: pkt_ov213_021BA750
+ * region: ov213
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021BA71C 0x021BA71C thumb ov213
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B800 0x0204B800 arm
+ */
+extern void *func_021BA71C(void *,int,int,unsigned short);extern void func_0204B3DC(void *,unsigned),func_0204B800(void *,unsigned);
+void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);func_0204B800(v,1);return v;}

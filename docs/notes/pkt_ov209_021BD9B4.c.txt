@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callees/callers fix arities, ABF0 live-r0 return; 2 no resource-constructor twin, DBA8 validates 36/6/6 arrays; 3 int/unsigned long counter unchanged476B305, u16 worse496B386; 4 base-before-index store unchanged476B305, named array bases worse472B357; 5 unfiltered idiom list and own/sibling neighbours re-read, no new twin. Once-only types permuter300 baseline agrees476B305 and finds no improvement.
+ * checks: 1 own callees/callers rederive 31 sites, BABC four u32 args; ABF0 live-r0 return despite own void forwarder; 2 DBA8 validates 36/6/6 arrays, no constructor twin; 3 long/int first unchanged305/476, u8 counter386/496; 4 named bases/offsets and multiply-defined derived offsets both357/472, two scheduling variants used; 5 fresh unfiltered idioms and own/sibling neighbours reread. Final retry exhausted; prior once300 search not repeated.
  * prototype: ABF0 returns live r0 to the caller, although its own matched forwarder is void.
  * symbols:
  *   func_020490F4 0x020490F4 arm
@@ -36,7 +36,7 @@ extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204ABF0(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);
 extern void func_02049238(void *);
-extern u32 func_0201BABC(u32, u32, u16, u32);
+extern u32 func_0201BABC(u32, u32, u32, u32);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern int func_0201BC40(void), func_0201BCB4(void), func_0201BC78(void), func_0201BCEC(void);
@@ -46,7 +46,7 @@ void func_021BD9B4(ResourceState *p)
 {
     unsigned i;
     void *arc;
-    unsigned first;
+    int first;
     for (i = 0; i < 36u; i++) p->chars[i] = -1;
     for (i = 0; i < 6u; i++) p->cells[i] = -1;
     for (i = 0; i < 6u; i++) p->anims[i] = -1;

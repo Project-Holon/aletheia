@@ -7,19 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 owner unit_020362BC proves func_020362DC(void), fade and menu
- * prototypes checked in their own matched bodies; 2 matched ov205 neighbours
- * B9A94/B9B20/B9928/B99E4/B9D58 read, no closer state-machine twin;
- * 3 State enum pointer and const context each compiled, both DIFF187/620B;
- * 4 hardware-inline, enum-zero, empty-switch-arm and tail-crossjump idioms
- * read; 5 unfiltered idiom index refreshed and matched neighbours reread.
- * residual: 620 vs624B; DIFF187,42/42 resolved. Case3 else branch differs;
- * case9 fade call cross-jumps onto case1 instead of retaining its own BL.
- * Program.render macro-free baseline agrees with fixed one DIFF187/620B.
- * permuter: one 300-candidate --types --jobs1 pass; internal best DIFF152
- * at624B rejected: tmp2=*state before case11 is bypassed, and tmp2++ loses
- * the state store. Preserve this valid fixed-flag C; no manual sweep next.
+ * status: EXACT
+ * checks: 1 own fade/menu/task bodies and caller prove ABI; 2 matched/pending ov205 neighbours reread; 3 no remaining type check needed after EXACT; 4 case3 early break and separate case9 fade calls reach EXACT624B; 5 full unfiltered idiom directory and neighbours refreshed. Final retry closed; earlier unsafe once300 not repeated.
+ * lever: Case3 early nonzero break restores the branch stub; case9 separate calls in if/else restore its independent fade BL. Fixed one EXACT, 624 bytes, 43/43 resolved.
  * volatile: DISPCNT 0x04000000 read at 021B9650 and written at 021B965A.
  * symbols:
  *   init 0x021B9E50 data a2
@@ -107,11 +97,12 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
     }
     case 2:if(!func_0204E804())*state=3;break;
     case 3:
-        if(*(u32 *)(p+64)==0){
+        if(*(u32 *)(p+64)!=0){ (*state)++; break; }
+        {
             func_020061E4(0x54c);func_021B99E4(p,3,0,0);
             obj=*(void **)(p+28);func_02045334(obj);func_02045374(obj);func_020409B4(func_02045730(obj));
             *(u32 *)(p+68)=4;*state=13;func_02012DAC(*(int *)(p+4));
-        }else (*state)++;
+        }
         break;
     case 4:
         if(*(u32 *)(p+64)==0){
@@ -151,8 +142,9 @@ int func_021B95F4(void *unused,State *state,const char *context,char *p)
         if(*(int *)(p+72)>120)(*state)++;
         (*(int *)(p+72))++;break;
     case 9:
-        if(func_020111E8()==21)mode=3;else mode=12;
-        func_0204E720(mode,0,16,0);(*state)++;break;
+        if(func_020111E8()==21){ func_0204E720(3,0,16,0); }
+        else { func_0204E720(12,0,16,0); }
+        (*state)++;break;
     case 10:
         if(!func_0204E804()){func_02043B5C(func_02045770(*(void **)(p+28)),15);(*state)++;}
         break;
