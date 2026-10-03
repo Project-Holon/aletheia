@@ -1,0 +1,77 @@
+/*
+ * function: func_021FF408
+ * address: 0x021FF408
+ * packet: pkt_ov186_021FF408
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * Layout: original fills 0x2c bytes of local config and allocates 0x5e4-byte context. Callback table occupies its final seven words.
+ * symbols:
+ *   ov125_id 0x0000007D data
+ *   func_02034AC4 0x02034AC4 arm
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02012944 0x02012944 thumb
+ *   func_0200853C 0x0200853C thumb
+ *   func_021D6660 0x021D6660 thumb ov125
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200D59C 0x0200D59C thumb
+ *   func_0200D5D0 0x0200D5D0 thumb
+ *   func_021FFB14 0x021FFB14 thumb ov186
+ *   func_02156DE0 0x02156DE0 thumb ov009
+ *   func_021FFACC 0x021FFACC thumb ov186
+ *   func_021FFAD8 0x021FFAD8 thumb ov186
+ *   func_021FFAE4 0x021FFAE4 thumb ov186
+ *   func_021FFAF0 0x021FFAF0 thumb ov186
+ *   func_021FFAFC 0x021FFAFC thumb ov186
+ *   func_021FFB08 0x021FFB08 thumb ov186
+ *   func_021FF8E0 0x021FF8E0 thumb ov186
+ *   func_021FFB80 0x021FFB80 thumb ov186
+ *   d_02200D8C 0x02200D8C data a1
+ */
+typedef unsigned long u32;
+typedef unsigned short u16;
+typedef struct {u32 value;u32 unused;void *owner;void *arg;void *context;void (*a)(char *);void (*b)(char *);void (*c)(char *);void (*d)(char *);void (*e)(char *);void (*f)(char *);} Config;
+extern int func_02034AC4(int);
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void func_02082BCC(void *,u32,u32);
+extern void *func_02012944(void *);
+extern u32 func_0200853C(const void *);
+extern void func_021D6660(char *,Config *);
+extern void *func_02012EBC(void *);
+extern void *func_0200D59C(u32);
+extern void func_0200D5D0(void *,void *);
+extern void *func_021FFB14(char *,void *,u32);
+extern void func_02156DE0(void *,void *);
+extern void func_021FFACC(char *),func_021FFAD8(char *),func_021FFAE4(char *),func_021FFAF0(char *),func_021FFAFC(char *),func_021FFB08(char *);
+extern void func_021FF8E0(void);
+extern int func_021FFB80(char *,int,int,int);
+extern const char d_02200D8C[];
+extern char ov125_id[];
+char *func_021FF408(void *owner,void *arg,u32 heap)
+{
+    char *p;
+    Config cfg;
+    func_02034AC4((int)ov125_id);
+    p=func_02030734(heap,0x5E4,0,d_02200D8C,0x97);
+    func_02082BCC(p,0,0x5E4);
+    *(void **)(p+0x5E0)=owner;
+    func_02082BCC(&cfg,0,0x2C);
+    cfg.owner=owner;
+    cfg.value=func_0200853C(func_02012944(owner));
+    cfg.arg=arg;
+    cfg.context=p;
+    cfg.a=func_021FFACC;cfg.b=func_021FFAD8;cfg.c=func_021FFAE4;
+    cfg.d=func_021FFAF0;cfg.e=func_021FFAFC;cfg.f=func_021FFB08;
+    func_021D6660(p,&cfg);
+    *(int *)(p+0x5A4)=1;
+    func_02012EBC(owner);
+    *(void **)(p+0x5A8)=func_0200D59C(heap);
+    func_0200D5D0(*(void **)(p+0x5A8),owner);
+    *(void **)(p+0x5AC)=func_021FFB14(p,(void *)func_021FF8E0,heap);
+    func_02156DE0((void *)func_021FFB80,p);
+    return p;
+}

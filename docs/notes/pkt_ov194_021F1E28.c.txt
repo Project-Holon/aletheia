@@ -1,0 +1,90 @@
+/*
+ * function: func_021F1E28
+ * address: 0x021F1E28
+ * packet: pkt_ov194_021F1E28
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 owncallees derived,1FB4showreadsonearg,4DBC/4F50live-r0 return exception; 2 3CD0windowconstructor no prologue twin; 3 countu16/s16/u32,constvoid/u16text nochange4,CCERRconstfixedcast; 4 narrow-home-store andfront-end-spill idiomsread; 5 freshlisting,3CD0reread,no newtwin.
+ * search: Macro-free emittedbaseline4/338 agreesfixedone; once-only300 --types noimprovement; no furthersearch.
+ * runs: 7 fixed one calls includingoneCCERR plus once-onlypermuter300; validDIFF4 at338/340,bodymatchesafterprologue.
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_021F4DBC 0x021F4DBC thumb ov194
+ *   func_021F4F50 0x021F4F50 thumb ov194
+ *   func_021F1998 0x021F1998 thumb ov194
+ *   func_020458F8 0x020458F8 arm
+ *   func_02045A98 0x02045A98 arm
+ *   func_02045A38 0x02045A38 arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B95C 0x0204B95C arm
+ *   func_021F1FB4 0x021F1FB4 thumb ov194
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct Vec {short x,y;} Vec;
+extern void func_02082BCC(void *,int,int);
+extern unsigned func_020450F0(unsigned,unsigned,unsigned,unsigned,u8,u8,u8);
+extern void func_02045334(void *),func_02045374(void *);
+extern u8 func_02045730(void *);
+extern void func_020409B4(unsigned);
+extern void *func_020457B0(unsigned,unsigned);
+extern unsigned func_021F4DBC(unsigned,unsigned),func_021F4F50(int);
+extern unsigned func_021F1998(void *,int);
+extern u16 func_020458F8(void *),func_02045A98(void);
+extern void func_02045A38(void *,u16 *,unsigned);
+extern void func_0204B878(void *,u16),func_0204B92C(void *,unsigned),func_0204B3DC(void *,unsigned);
+extern void func_0204B404(void *,const Vec *,unsigned),func_0204B95C(void *),func_021F1FB4(char *);
+void func_021F1E28(char *p,void *text,int count,void *a,void *b,void *slots,unsigned heap)
+{
+    Vec pos;
+    unsigned window;
+    int i;
+    int x;
+    func_02082BCC(p,0,0x94);
+    *(void **)(p+0x34)=a;
+    *(u16 *)(p+0x22)=count;
+    *(void **)(p+0x38)=b;
+    window=func_020450F0(0,8,2,24,2,15,1);
+    *(unsigned *)(p+0x40)=window;
+    func_02045334((void *)window);
+    func_02045374((void *)window);
+    func_020409B4(func_02045730((void *)window));
+    *(unsigned *)(p+0x2c)=*(unsigned *)(p+0x40);
+    *(u8 *)(p+0x30)=0;
+    *(void **)(p+0x3c)=func_020457B0(14,heap);
+    for(i=0;i<3;i++)*(unsigned *)(p+i*4+0x84)=func_021F4DBC(i,heap);
+    *(unsigned *)(p+0x90)=func_021F4F50(heap);
+    for(i=0;i<16;i++)*(unsigned *)(p+i*4+0x44)=func_021F1998(slots,i);
+    if(func_020458F8((void *)text)==0)*(u16 *)p=func_02045A98();
+    else {
+        func_02045A38((void *)text,(u16 *)p,count+1);
+        *(u16 *)(p+0x1e)=func_020458F8((void *)text);
+    }
+    pos.y=37;
+    x=64-(*(u16 *)(p+0x22)*14)/2;
+    if(x<0)x=0;
+    x+=64;
+    for(i=0;i<16;i++) {
+        pos.x=x+i*14;
+        func_0204B878(*(void **)(p+i*4+0x44),1);
+        func_0204B92C(*(void **)(p+i*4+0x44),1);
+        func_0204B404(*(void **)(p+i*4+0x44),&pos,0);
+        func_0204B3DC(*(void **)(p+i*4+0x44),1);
+    }
+    for(i=*(u16 *)(p+0x22);i<16;i++)func_0204B3DC(*(void **)(p+i*4+0x44),0);
+    func_0204B95C(*(void **)(p+*(u16 *)(p+0x1e)*4+0x44));
+    *(int *)(p+0x28)=1;
+    func_021F1FB4(p);
+}

@@ -1,0 +1,63 @@
+/*
+ * function: func_021FF54C
+ * address: 0x021FF54C
+ * packet: pkt_ov186_021FF54C
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own B68 is void(char *,int), no argument/return discrepancy; 2 task callbacks and neighbours confirm payload words, no selector twin; 3 const/int/u32/Pair and allocated State field all DIFF2, one State-offset typo corrected within check-3 budget; 4 whole Pair copy DIFF6, one-word aggregate unchanged; 5 fresh unfiltered idiom listing and 648/88C/9D0/A98 neighbours read. Next untried lever: named first-payload temporary.
+ * Residual: 252-byte lead versus 276-byte listing includes already filed 021FF648; only first payload load/store uses r1 instead of r2 (DIFF2), all 22 relocations resolve.
+ * Permuter: skipped because handed extent contains the separately matched 021FF648 follower, as canonical big procedure permits.
+ * Extent: separately filed func_021FF648 follows at +0xFC; it is excluded from this singleton.
+ * symbols:
+ *   func_02034714 0x02034714 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021FFB68 0x021FFB68 thumb ov186
+ *   d_02200D98 0x02200D98 data a1
+ *   func_021FF900 0x021FF900 thumb ov186
+ *   func_021FF938 0x021FF938 thumb ov186
+ *   func_021FF968 0x021FF968 thumb ov186
+ *   func_021FF99C 0x021FF99C thumb ov186
+ *   func_021FF9D0 0x021FF9D0 thumb ov186
+ *   func_021FFA14 0x021FFA14 thumb ov186
+ *   func_021FFA40 0x021FFA40 thumb ov186
+ *   func_021FFA6C 0x021FFA6C thumb ov186
+ *   func_021FFA98 0x021FFA98 thumb ov186
+ */
+extern void func_02034714(const char *,int,const char *);
+extern void func_02082BCC(void *,unsigned,unsigned);
+extern void func_021FFB68(char *,int);
+extern const char d_02200D98[];
+extern void func_021FF900(char *,int,char *);
+extern void func_021FF938(char *,int,char *);
+extern void func_021FF968(char *,int,char *);
+extern void func_021FF99C(char *,int,char *);
+extern void func_021FF9D0(char *,int,char *);
+extern void func_021FFA14(char *,int,char *);
+extern void func_021FFA40(char *,int,char *);
+extern void func_021FFA6C(char *,int,char *);
+extern void func_021FFA98(char *,int,char *);
+void func_021FF54C(char *p,int kind,const int *values)
+{
+    if(kind>=9)func_02034714(d_02200D98,0,d_02200D98);
+    if(values){
+        *(int *)(p+0x5B0)=values[0];
+        *(int *)(p+0x5B4)=values[1];
+    }
+    func_02082BCC(p+0x5B8,0,0x24);
+    switch(kind){
+    case 0:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF900);break;
+    case 1:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF938);break;
+    case 2:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF968);break;
+    case 3:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF99C);break;
+    case 4:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FF9D0);break;
+    case 5:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FFA14);break;
+    case 6:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FFA40);break;
+    case 7:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FFA6C);break;
+    case 8:func_021FFB68(*(char **)(p+0x5AC),(int)func_021FFA98);break;
+    default:func_02034714(d_02200D98,0,d_02200D98);break;
+    }
+}

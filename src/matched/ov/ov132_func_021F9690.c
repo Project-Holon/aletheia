@@ -1,0 +1,14 @@
+/*
+ * function: func_021F9690
+ * address: 0x021F9690
+ * packet: pkt_ov132_021F9690
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02006504 0x02006504 thumb
+ */
+extern void func_02006504(void);
+void func_021F9690(char *p){*(int *)(p+0x28)=0;func_02006504();}

@@ -7,8 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: compiled44 original44; 11 concrete bytes, halfword/c/d register rotation.
- * checks: 1 02082BCC reads r0/r1/r2, no stack inputs; 2 ov121 memset callers no initializer twin, no callers of021DE128; 3 short b adds truncation, unsigned c/d unchanged; 4 byte-signedness and vendor parameter-register-set idioms describe rotation, typed44-byte Init unchanged; 5 refreshed idiom directory and matched ov121 neighbours, no new twin. Next hypothesis logical record store order; no permutation sweep used.
+ * retry: exhausted final wave66 retry.
+ * permuter: wave66 once at budget300; macro-free baseline size44 and DIFF11 agrees with fixed one; no candidate improved it.
+ * residual: 44/44 bytes, 11 concrete bytes differ; incoming b/c/d/p homes rotate.
+ * checks: 1 clear helper reads pointer/fill/full-word length, own ov121 DE2A0 confirms three arguments; 2 fresh same-region callers have no initializer twin; 3 long c/d flat at DIFF11, int/u32 b added truncation and worsened to DIFF37; 4 logical halfword placement worsened to DIFF13 and parameter-register idiom fits remaining rotation; 5 unfiltered idiom listing and DE2A0/97C8/9828/986C neighbours re-read. Next named hypothesis: typed record member grouping, outside this exhausted retry.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  */

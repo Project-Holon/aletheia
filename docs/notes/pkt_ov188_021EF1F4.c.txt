@@ -1,0 +1,52 @@
+/*
+ * function: func_021EF1F4
+ * address: 0x021EF1F4
+ * packet: pkt_ov188_021EF1F4
+ * region: ov188
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 02008314 two-pointer copy; 2 matched ov188 021EEE78;
+ *   3 enum/int/u8 flag widths tested, original flag truncates as int;
+ *   4 bitfield/aggregate/flag idioms read; 5 fresh directory and neighbours.
+ *   Permuter300 baseline agreed34, winner clean port validated25/222 bytes;
+ *   two manual scheduling variants used. Next retry: nested block flag
+ *   declaration initializer or const source pointer (not tried).
+ * symbols:
+ *   func_02008314 0x02008314 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { B_FALSE, B_TRUE } Bool;
+typedef struct { u32 v[4]; } Four;
+typedef struct { u32 v[6]; } Six;
+typedef struct { u8 a:5; u8 b:3; } Flags32;
+typedef struct { u8 a:4; u8 b:3; u8 c:1; } Flags33;
+extern void func_02008314(void *,void *);
+int func_021EF1F4(char *s,char *d)
+{
+    int flag;
+    u16 *tmp;
+    Flags33 *tmp1;
+    void *tmp2;
+    *(Four *)(d+0x18)=*(Four *)(s+8);
+    *(Six *)d=*(Six *)(s+0x9c);
+    *(u16 *)(d+0x2c)=*(u16 *)(s+0x18);
+    *(u16 *)(d+0x2e)=*(u16 *)(s+0x1a);
+    ((Flags32 *)(d+0x32))->a=*(u32 *)s;
+    tmp1=(Flags33 *)(d+0x33);
+    tmp1->a=*(u32 *)(s+4);
+    flag=B_TRUE;
+    tmp=(u16 *)(d+0x30);
+    ((Flags33 *)(d+0x33))->b=*(u8 *)(s+0x22);
+    *tmp=*(u16 *)(s+0x86);
+    ((Flags32 *)(d+0x32))->b=*(u8 *)(s+0x21);
+    if (*(u8 *)(s+0x7f)==0) flag=B_FALSE;
+    tmp2=*(void **)(s+0x5c);
+    ((Flags33 *)(d+0x33))->c=flag;
+    func_02008314(tmp2,d+0x28);
+    return 1;
+}

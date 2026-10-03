@@ -1,0 +1,104 @@
+/*
+ * function: func_021F1BFC
+ * address: 0x021F1BFC
+ * packet: pkt_ov194_021F1BFC
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own1A1C five args, ownD58 seven scalar args, ownB404 three; 2 only43A0 sharesB404, no control-flow twin; 3 countu16 andconstrect nochange49; 4 volatile-two-locals anddeclared-struct idiomsread, manualcap2 reached; 5 freshidiomlisting and43A0 reread, nexttrycastbuffer4 storage.
+ * search: Macro-free baseline47/348 agreesfixedone; once-only300 permuter returnedvalid37/348, fixedoneagrees; nofurthermanuals.
+ * runs: 10 fixed one calls plus once-onlypermuter300; finalvalidDIFF37 at348 bytes.
+ * volatile: Field p+0x80 is separately reread at021F1C38 and021F1C3C before its update.
+ * symbols:
+ *   d_021F5780 0x021F5780 data a4
+ *   func_020355C4 0x020355C4 arm
+ *   func_021F1A1C 0x021F1A1C thumb ov194
+ *   func_021F1D58 0x021F1D58 thumb ov194
+ *   func_02040804 0x02040804 arm
+ *   func_0204B404 0x0204B404 arm
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef struct Vec
+{
+  short x;
+  short y;
+} Vec;
+extern unsigned d_021F5780;
+extern u8 func_020355C4(void);
+extern void func_021F1A1C(char *, int, const int *, int, int);
+extern int func_021F1D58(u16 *, u16 *, int, int, u8, u16, u16);
+extern unsigned func_02040804(unsigned);
+extern void func_0204B404(void *, const Vec *, unsigned);
+void func_021F1BFC(char *p, int selected, const int *rect)
+{
+  u16 step;
+  int i;
+  unsigned increment;
+  u8 bank;
+  unsigned count;
+  u16 *phase;
+  u16 *out;
+  Vec *position;
+  Vec pos;
+  void **tmp;
+  int tmp1;
+  if (*((int *) (0x98 + p)))
+  {
+    switch (*((int *) (p + 0x94)))
+    {
+      case 0:
+        break;
+
+      case 1:
+        step = (u16) d_021F5780;
+        bank = 2;
+        break;
+
+      case 2:
+        increment = (*((volatile u16 *) (p + 0x80))) + 1;
+        count = *((volatile u16 *) (p + 0x80));
+        bank = 3;
+        step = 6553;
+        *((volatile u16 *) (p + 0x80)) = increment;
+        if (count > 10)
+      {
+        if (func_020355C4() == 0)
+          func_021F1A1C(p, 1, rect, *((int *) (p + 0x9c)), selected);
+        else
+          func_021F1A1C(p, 0, rect, *((int *) (p + 0x9c)), selected);
+      }
+        break;
+
+    }
+
+    out = (u16 *) (p + 0x40);
+    phase = (u16 *) (p + 0x60);
+    for (i = 0; i < 16; i++)
+      func_021F1D58(((u16 *) (p + 0x40)) + i, ((u16 *) (p + 0x60)) + i, step, bank, i, *((u16 *) (p + (i * 2))), *((u16 *) ((p + (i * 2)) + 0x20)));
+
+  }
+  pos.x = *((u16 *) (p + 0xac));
+  pos.y = *((u16 *) (p + 0xae));
+  position = &pos;
+  tmp1 = pos.y;
+  tmp = (void **) (p + 0xa4);
+  pos.y = tmp1 - ((short) (func_02040804(2) * 8));
+  func_0204B404(*tmp, position, 0);
+  pos.x = *((u16 *) (p + 0xb0));
+  pos.y = *((u16 *) (p + 0xb2));
+  pos.y = pos.y - ((short) (func_02040804(2) * 8));
+  func_0204B404(*((void **) (p + 0xa8)), position, 0);
+  if (1)
+  {
+    if ((*((int *) (p + 0xa0))) != selected)
+    {
+      if (func_020355C4() == 0)
+        func_021F1A1C(p, 1, (int *) (p + 0x84), *((int *) (p + 0x9c)), selected);
+      else
+        func_021F1A1C(p, 0, (int *) (p + 0x84), *((int *) (p + 0x9c)), selected);
+    }
+  }
+}

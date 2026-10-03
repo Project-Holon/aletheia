@@ -1,0 +1,20 @@
+/*
+ * function: func_021C42FC
+ * address: 0x021C42FC
+ * packet: pkt_ov127_021C42FC
+ * region: ov127
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: trailing 2-byte alignment padding only.
+ * symbols:
+ *   func_0204AF28 0x0204AF28 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern int func_0204AF28(void *,u32,u32,u16);
+void func_021C42FC(char *p,u32 unused,u32 heap) { int i; for(i=16;i<18;i++) { *(u32 *)((u32)p+(u32)i*20+0x188)=func_0204AF28(*(void **)(p+0x2f8),(i-16)*2,(i-16)*2+1,(u16)heap); } }

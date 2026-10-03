@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own func_021E11D0 is void(char *,int); 2 ov183 callers confirm signature, no table twin; 3 State count at 0x328 closes final-loop constant difference, int j unchanged; 4 struct-field and local-copy idioms read; 5 fresh idiom listing and 1850/06D0/11D0 neighbours read, no further fitting twin; permuter 300 baseline 304/304 DIFF29, candidate DIFF28, native one validates evidence.
- * Residual: local table copy and row-index register colouring; final loop j r2 versus original r3. No owner blockers.
+ * retry: exhausted final wave66 retry.
+ * checks: 1 own 11D0 is void(char *,int), no hidden stack argument; 2 fresh 06D0/1850/11D0 confirm allocation and count field, no table twin; 3 long and enum j and unsigned-int row all flat at DIFF28; 4 cast-buffer storage and raw byte-offset row reads flat at DIFF28, struct/local-copy idioms re-read; 5 unfiltered idiom listing and same-region neighbours re-read. Next named hypothesis: distinct arithmetic row/column types, outside this exhausted retry.
+ * residual: 304/304 bytes, 28 concrete bytes differ; table-copy and row-index colours plus final j r2 versus original r3.
  * Permuter caveat: scorer omits region in resolve_relocations and reports one unresolved data site; one resolves d_021E3868 by sole-ref.
  * Bound: original copies six words to a 24-byte local, selects one of two three-word rows, and loops across its three columns.
  * symbols:

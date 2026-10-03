@@ -1,0 +1,141 @@
+/*
+ * function: func_021F1440
+ * address: 0x021F1440
+ * packet: pkt_ov194_021F1440
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee bodies/forwarding confirm all arities; 3159C return
+ *   widened from void because caller consumes r0. 2 same-overlay callers
+ *   and current 1E28 source read. 3 const q/enum category unchanged171;
+ *   4 enum/raw offsets and const idioms read; 5 fresh directory/neighbours.
+ *   Permuter300 emitted baseline217 disagrees with fixed one171; search
+ *   rejected. Best fixed compile592/588,171 bytes; two scheduling variants
+ *   used. Next retry: typed work object/local scope for register reuse.
+ * region-evidence: ov088 021BC230 loads ov194 with the same argument block;
+ *   +0x24 is its ov088 object. ov088 021BD374 reads that pointer's +4/+6;
+ *   ov021 at that address is an interior instruction requiring saved r5.
+ * symbols:
+ *   func_0200C104 0x0200C104 thumb
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0201D7EC 0x0201D7EC thumb
+ *   func_0201C450 0x0201C450 thumb
+ *   func_02045B38 0x02045B38 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_021F4AE4 0x021F4AE4 thumb ov194
+ *   func_021F4BEC 0x021F4BEC thumb ov194
+ *   func_02025538 0x02025538 thumb
+ *   func_021F1780 0x021F1780 thumb ov194
+ *   func_021F1888 0x021F1888 thumb ov194
+ *   func_021F4408 0x021F4408 thumb ov194
+ *   func_021F3FBC 0x021F3FBC thumb ov194
+ *   func_021F4D3C 0x021F4D3C thumb ov194
+ *   func_02045874 0x02045874 arm
+ *   func_020458F8 0x020458F8 arm
+ *   func_02045A90 0x02045A90 arm
+ *   func_021F5004 0x021F5004 thumb ov194
+ *   func_0204581C 0x0204581C arm
+ *   func_021F45EC 0x021F45EC thumb ov194
+ *   func_021F1E28 0x021F1E28 thumb ov194
+ *   func_021F3008 0x021F3008 thumb ov194
+ *   func_021F3CD0 0x021F3CD0 thumb ov194
+ *   func_021F3EB0 0x021F3EB0 thumb ov194
+ *   func_021F5304 0x021F5304 thumb ov194
+ *   func_021F3DE0 0x021F3DE0 thumb ov194
+ *   func_021F3E18 0x021F3E18 thumb ov194
+ *   func_021F3D70 0x021F3D70 thumb ov194
+ *   func_0203CD98 0x0203CD98 arm
+ *   func_0203D34C 0x0203D34C arm
+ *   func_021BD374 0x021BD374 thumb ov088
+ *   func_021F463C 0x021F463C thumb ov194
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { K2D4=0x2d4,K2A0=0x2a0 } Offset;
+typedef enum { CATEGORY_ZERO=0 } Category;
+struct U16Vec;
+struct Font;
+struct MsgBank;
+struct WordSet;
+struct Resources;
+extern u8 func_0200C104(void *,u32);
+extern void func_0203064C(void *,u32,u32);
+extern char *func_0203159C(void *,u32,u32);
+extern void func_02082BCC(void *,int,u32);
+extern struct Font *func_0201D7EC(int,int,int,int,u32);
+extern void *func_0201C450(u16,u32);
+extern struct MsgBank *func_02045B38(u32,u32,u32,u32);
+extern struct WordSet *func_0201EC64(u32);
+extern u8 *func_021F4AE4(u32,u16);
+extern void *func_021F4BEC(void *);
+extern void *func_02025538(u32,void *);
+extern void func_021F1780(int,u16),func_021F1888(char *,u32,u16);
+extern int func_021F4408(int,int);
+extern void func_021F3FBC(char *,u32,u32,u32,void *,void *,void *,void *,void *,u32);
+extern void *func_021F4D3C(u32);
+extern struct U16Vec *func_02045874(struct U16Vec *,u32);
+extern u16 func_020458F8(struct U16Vec *);
+extern u16 *func_02045A90(struct U16Vec *);
+extern int func_021F5004(u16 *,u32);
+extern void func_0204581C(struct U16Vec *);
+extern void func_021F45EC(u8 *,u32,u32);
+extern void func_021F1E28(char *,void *,u8,void *,void *,void *,u32);
+extern void func_021F3008(char *,int,void *,void *,void *,void *,u32);
+extern void func_021F3CD0(u8 *,int,int,int,int,u16);
+extern void func_021F3EB0(char *,int);
+extern struct Resources *func_021F5304(u16);
+extern void func_021F3DE0(char *,int,u32,u32,u16);
+extern void func_021F3E18(char *,int,void *),func_021F3D70(char *,int);
+extern int func_0203CD98(void);
+extern void func_0203D34C(u32,u32),func_021BD374(u8 *),func_021F463C(void);
+int func_021F1440(void *ctx,int unused,const char *q)
+{
+    char *p;
+    Category category=CATEGORY_ZERO;
+    void *owner;
+    u16 species;
+    if (*(void **)(q+0x28)) {
+        category=func_0200C104(*(void **)(q+0x28),*(u32 *)q);
+        if(category>=5) category=0;
+    }
+    func_0203064C((void *)1,30,0x70000);
+    p=func_0203159C(ctx,0x2d4,30);
+    func_02082BCC(p,0,0x2d4);
+    *(const char **)(p+0x2c4)=q;
+    *(void **)(p+0x2b0)=func_0201D7EC(23,0,1,0,30);
+    *(void **)(p+0x2b4)=func_0201C450(0x1000,30);
+    *(struct MsgBank **)(p+0x2b8)=func_02045B38(1,2,81,30);
+    *(struct WordSet **)(p+0x2bc)=func_0201EC64(30);
+    *(u8 **)p=func_021F4AE4(0,30);
+    *(void **)(p+0x2c0)=func_02025538(30,func_021F4BEC(*(void **)p));
+    func_021F1780((int)(p+0x64),30);
+    owner=func_021F4BEC(*(void **)p);
+    func_021F1888(p+4,(u32)owner,30);
+    species=*(u16 *)(q+4);
+    func_021F3FBC(p+0x264,func_021F4408(*(int *)q,species),species,*(u16 *)(q+6),owner,*(void **)(p+0x2b0),*(void **)(p+0x2b4),*(void **)(p+0x2b8),*(void **)(p+0x2c0),30);
+    *(void **)(p+0x22c)=func_021F4D3C(30);
+    *(struct U16Vec **)(p+0x2d0)=func_02045874(*(struct U16Vec **)(q+0x20),30);
+    if(func_020458F8(*(struct U16Vec **)(p+0x2d0))) {
+        if(func_020458F8(*(struct U16Vec **)(p+0x2d0))>*(u32 *)(q+0x18) || !func_021F5004(func_02045A90(*(struct U16Vec **)(p+0x2d0)),30))
+            func_0204581C(*(struct U16Vec **)(p+0x2d0));
+    }
+    func_021F45EC((u8 *)(p+0x2a0),(u32)p,(u32)func_021F463C);
+    func_021F1E28(p+0x68,*(void **)(p+0x2d0),*(u32 *)(q+0x18),*(void **)(p+0x2b0),*(void **)(p+0x2b4),p+4,30);
+    func_021F3008(p+0xfc,category,*(void **)(p+0x2b0),*(void **)(p+0x2b4),*(void **)(p+0x22c),p+4,30);
+    func_021F3CD0((u8 *)(p+0x230),*(int *)(p+0x2b0),*(int *)(p+0x2b8),*(int *)(p+0x2b4),*(int *)(p+0x2bc),30);
+    func_021F3EB0(p+0x254,30);
+    *(struct Resources **)(p+0x2cc)=func_021F5304(30);
+    if(*(u32 *)q==1) {
+        if(*(void **)(q+8)==0) func_021F3DE0(p+0x230,1,*(u16 *)(q+4),*(u16 *)(q+6),30);
+        else func_021F3E18(p+0x230,1,*(void **)(q+8));
+    } else func_021F3D70(p+0x230,*(int *)q);
+    if(func_0203CD98()) func_0203D34C(1,30);
+    if(*(u8 **)(*(char **)(p+0x2c4)+0x24)) func_021BD374(*(u8 **)(*(char **)(p+0x2c4)+0x24));
+    return 1;
+}

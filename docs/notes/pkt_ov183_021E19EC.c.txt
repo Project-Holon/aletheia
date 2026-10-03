@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched callees confirm arity, B878 takes u16; 2 1850 shares the record accesses, no matching callback twin; 3 const p and signed slot compiled flat; 4 stack/struct/guard idioms reviewed; 5 idiom directory and same-overlay neighbours re-read.
- * residual: 444/444 bytes, 383 concrete bytes differ; entry/register colouring and stack-slot order remain.
+ * checks: 1 own B878 reads pointer/u16, 1850 and FD860 typed records/Pair confirm full-word ABI, D20 owns two out pointers; 2 fresh 1850/1708 and sibling FD860 unit re-read; 3 unsigned-long index and const removal from typed Record pointer flat at DIFF425/440; 4 typed Record and corrected coordinate declaration order restore stack slots but guard and register rotation worsen versus saved DIFF383/444, split guards flat; 5 unfiltered idiom directory and matched neighbours re-read. Next named hypothesis: enum far-offset field, outside this exhausted retry.
+ * residual: 444/444 bytes, 383 concrete bytes differ; saved baseline remains best, entry/register rotation and stack-slot order remain.
  * permuter: once, budget 300; macro-free baseline agrees after resolved runtime sites; validated its behavior-preserving best with fixed one, DIFF.
- * retry: derive a typed Record pointer from 1850 before exploring enum far-field offsets; do not rerun the exhausted permuter.
+ * retry: exhausted final wave66 retry.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  *   func_020061E4 0x020061E4 thumb

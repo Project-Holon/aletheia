@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full FF698 reads three arguments, B98C returns a register pair; 2 pending 2C2C and ARM9 unit identify B98C ownership; 3 const p compiled flat after cast fix; 4 aggregate/nested-field/cast-buffer shapes flat; 5 directory and neighbouring 25E4/2910/2C2C re-read.
- * residual: 596/600 bytes, 439 concrete bytes differ; request copy is scalar rather than ldm/stm, case 9 is laid after case 8 rather than before case 6.
- * blocker: ARM9 0200B98C lacks an outside code-start witness at +011E. Do not file overlay leaves while ARM9 blocks.
+ * checks: 1 own FF698 and forwarding 74D8 read three and two arguments, FF54C/FF72C original bodies confirm Pair/message out pointers, full B938 unit reads three but caller retains the fourth live argument, B98C returns a register pair; 2 fresh 25E4/2910 and pending 2C2C confirm sibling ABI and Config copy; 3 enum state pointer flat at DIFF21, prior const p flat; 4 u64 request copy restores ldm/stm and moving case9 before6 restores layout, aligned array/array-member struct copies flat, early captured case0 argument flat; 5 fresh unfiltered idiom directory and same-region neighbours re-read, struct-local and Pair-copy idioms read. Next named hypothesis: typed far-field owner record, outside this exhausted retry.
+ * residual: 600/600 bytes, 21 concrete bytes differ; case0 Pair load/store scheduling at +003C..0046, timer zero store at +00A6..00AA, loop-index initialization versus ip copy at +012C..012E.
+ * blocker: ARM9 0200B98C lacks an outside code-start witness at +0120. Do not file overlay leaves while ARM9 blocks.
+ * retry: exhausted final wave66 retry; substantive codegen improvement retained, not concrete-correct MATCH.
  * arity: B938's matched unit declares three arguments; this caller explicitly supplies the fourth register, retained as full-word context.
  * permuter: once, budget 300; macro-free regenerated baseline was 596/600 with 450 bytes out versus fixed one's 439. Output rejected: temporaries before case labels are read uninitialized, and extra=self-extra reads an unset case-9 local.
  * blocker-symbols: func_0200B98C_Table 0x0209DDCC data a4
@@ -60,7 +61,9 @@
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef signed long long s64;
+typedef enum { STATE_ZERO=0, STATE_TWELVE=12 } State;
 typedef struct {u32 a,b;} Pair;
+typedef struct {u32 words[2];} Request;
 typedef struct {u32 fields[7];Pair request;} Arg;
 extern void func_021E2F98(Pair *),func_021E2E30(char *,int,int);
 extern void func_021FE784(int,int,int,int);extern int func_021FE7B0(int *);
@@ -73,8 +76,8 @@ extern void func_021FD170(int,int,int),func_021FD860(int,int,Pair *);
 extern u32 func_02035C60(void),func_02035D20(u32 *,u32 *);
 extern void func_020061E4(int),func_021E2E48(char *,char *,char *),func_021FD73C(int,int),func_021E2910(void);
 extern int func_021FD744(int);
-void func_021E26B8(int task,int *state,const char *p) {
-    char req[8];
+void func_021E26B8(int task,State *state,const char *p) {
+    u32 req[2];
     u32 msg;
     int extra;char *rec;
     u32 x,y;Pair click,cb;
@@ -82,12 +85,12 @@ void func_021E26B8(int task,int *state,const char *p) {
     u64 value;char *arg;
     switch(*state) {
     case 0:
-        func_021E2F98(&cb);*(Pair *)(p+0x4c)=cb;
-        func_021E2E30((char *)p+0x4c,(int)p,*(int *)(p+0x3c));*state=1;break;
+        func_021E2F98(&cb);arg=*(char **)(p+0x3c);*(Pair *)(p+0x4c)=cb;
+        func_021E2E30((char *)p+0x4c,(int)p,(int)arg);*state=1;break;
     case 1:func_021FE784(**(int **)(p+0x3c),2,3,0);*state=2;break;
     case 2:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=3;break;
     case 3:
-        func_02082BCC(req,0,8);*(Pair *)req=(*(Arg **)(p+0x3c))->request;
+        func_02082BCC(req,0,8);*(u64 *)req=*(u64 *)(*(char **)(p+0x3c)+0x1c);
         func_021FF54C(*(void **)(*(char **)(p+0x3c)+12),3,(Pair *)req);
         *(u32 *)(p+0x44)=0;*state=4;break;
     case 4:
@@ -110,14 +113,14 @@ void func_021E26B8(int task,int *state,const char *p) {
             } else {func_021FD170(*(int *)(p+8),*(int *)(*(char **)(p+0x3c)+8),339);*state=9;}
         } else {func_021FD170(*(int *)(p+8),*(int *)(*(char **)(p+0x3c)+8),msg);*state=9;}
         break;
-    case 6:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=7;break;
-    case 7:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=8;break;
-    case 8:func_021E2E48((char *)p+0x4c,(char *)p,*(char **)(p+0x3c));func_021FD73C(task,(int)func_021E2910);break;
     case 9:
         if(func_02035C60()) {
             func_02035D20(&x,&y);click.a=x;click.b=y;func_021FD860(*(int *)(p+0x34),1,&click);
             func_020061E4(0x703);*state=10;
         }break;
+    case 6:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=7;break;
+    case 7:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=8;break;
+    case 8:func_021E2E48((char *)p+0x4c,(char *)p,*(char **)(p+0x3c));func_021FD73C(task,(int)func_021E2910);break;
     case 10:func_021FE784(**(int **)(p+0x3c),2,3,1);*state=11;break;
     case 11:if(func_021FE7B0((int *)**(int **)(p+0x3c)))*state=12;break;
     case 12:func_021E2E48((char *)p+0x4c,(char *)p,*(char **)(p+0x3c));func_021FD744(task);break;

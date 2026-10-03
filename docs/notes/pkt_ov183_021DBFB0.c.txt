@@ -9,7 +9,7 @@
  * status: DIFF
  * abi: DD0AC/DD0F4 retain the two explicitly prepared original argument registers; 02035C60 returns a full word consumed by the original caller.
  * lever: bounded permuter's initialized pointer temporaries and declaration order reduce the residual to 167 bytes without reordering calls.
- * checks: 1=full FF72C/FF698 ABI inspected; 2=BC68/DC228 neighbours inspected, no exact twin; 3=signed/unsigned state unchanged, p/state are mutated so const parameter invalid; 4=declared-struct idiom's cast storage unchanged, aggregate representations and two manual scheduling variants exhausted; 5=fresh idiom directory and neighbours reread; 300-compile permuter baseline agreed and valid best independently compiled; next=aggregate-pointer-copy hypothesis.
+ * checks: 1=own FF72C/FF698, DC8EC, FD860 and FD744 signatures freshly read; full-width prototype refresh byte-identical. 2=BC68/DC228 and current siblings reread, no exact twin. 3=signed x through u32 pointer unchanged; p/state are mutated, const invalid. 4=aggregate-copy, declared-struct and int-out-pointer idioms read; Pair-pointer, nested Source and u64 aggregate unchanged. 5=fresh unfiltered idiom directory and neighbours reread. Prior 300-compile permuter not repeated; two manual scheduling variants exhausted. Final retry exhausted: 632 B/167 differing bytes; next=source-local aggregate storage hypothesis, not another pointer-copy sweep.
  * symbols:
  *   func_021DD0AC 0x021DD0AC thumb ov183
  *   func_021DD0F4 0x021DD0F4 thumb ov183
@@ -38,10 +38,11 @@ typedef struct
   u32 a;
   u32 b;
 } Pair;
+typedef struct { int x,y; } CoordPair;
 extern void func_021DD0AC(char *, char *);
 extern void func_021DD0F4(char *, char *);
 extern void func_021DCEE4(char *, char *);
-extern void func_021DC8EC(char *, int);
+extern void func_021DC8EC(char *, char *);
 extern void func_021DBD7C(void);
 extern void func_021FD170(void *, int, int);
 extern void func_021FE784(int, int, int, int);
@@ -50,10 +51,10 @@ extern void func_021FF54C(char *, int, Pair *);
 extern int func_021FF648(char *);
 extern int func_021FF72C(char *, int *);
 extern int func_021FF698(char *, char **, int *);
-extern void func_021FD860(int, int, int *);
+extern void func_021FD860(char *, u32, const CoordPair *);
 extern void func_021F9BA0(void *);
 extern void func_021FD73C(int *, int);
-extern void func_021FD744(int *);
+extern int func_021FD744(int);
 extern void func_02082BCC(void *, int, u32);
 extern void func_020061E4(int);
 extern int func_02035C60(void);
@@ -95,7 +96,7 @@ void func_021DBFB0(int *task, int *state, char *p)
       (*((int *) (p + 0xbc)))++;
       if (func_021FF648(*((char **) ((*((char **) (p + 0xd0))) + 0x24))) && ((*((u32 *) (p + 0xbc))) > 96))
     {
-      func_021FD860(*((int *) (p + 0xc)), 0, 0);
+      func_021FD860(*((char **) (p + 0xc)), 0, 0);
       *state = 5;
     }
       break;
@@ -138,7 +139,7 @@ void func_021DBFB0(int *task, int *state, char *p)
       func_02035D20(&x, &y);
       args[0] = x;
       args[1] = y;
-      func_021FD860(*((int *) (p + 0x10)), 1, args);
+      func_021FD860(*((char **) (p + 0x10)), 1, (const CoordPair *)args);
       func_020061E4(0x703);
       func_021F9BA0(*((void **) ((*((char **) (p + 0xd0))) + 0x14)));
       *state = 12;
@@ -155,7 +156,7 @@ void func_021DBFB0(int *task, int *state, char *p)
     {
       func_021DD0F4(p, *((char **) (p + 0xd0)));
       func_021DCEE4(p, *((char **) (p + 0xd0)));
-      func_021DC8EC(p, *((int *) (p + 0xd0)));
+      func_021DC8EC(p, *((char **) (p + 0xd0)));
       *state = 8;
     }
       break;
@@ -186,7 +187,7 @@ void func_021DBFB0(int *task, int *state, char *p)
 
     case 14:
       func_021DD0F4(p, *((char **) (p + 0xd0)));
-      func_021FD744(task);
+      func_021FD744((int)task);
       break;
 
   }

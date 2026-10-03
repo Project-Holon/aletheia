@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 arities and F838 pending body read, F838 int/char extern unchanged; 2 DE084 sprite twin and pending CBD8/F838 read; 3 enum/long count unchanged, p is written so cannot be const; 4 stack declaration/scope variants tried (two scheduling variants used), struct-local idiom read; 5 fresh idiom directory and DE084/F838 reread; permuter 300 macro-free baseline 400 B/14 differs agrees, no improvement.
+ * checks: 1=own sprite/resource helper arities freshly checked; B294 pointer result retained because caller consumes r0; 16/16 resolved. 2=matched F620/DE084 and current siblings reread. 3=pointer/enum owner unchanged, long j worsens body; count must stay signed full-width because original accepts negative counts; p mutated so const invalid. 4=stack-order, enum and byte-count idioms read; moving count declaration worsens homes. 5=fresh unfiltered idiom directory and neighbours reread. Prior 300-compile permuter not repeated. Final retry exhausted: 400 B/14 differing bytes, count sp18 versus sp28 rotates scratch homes; next=full-width count type class, no narrowing or declaration sweep.
  * Residual: 400 B, 14 concrete spill-slot offset bytes differ, all 16 relocs resolve.
  * B294's original caller saves r0; extern returns the preserved result.
  * symbols:

@@ -1,0 +1,73 @@
+/*
+ * function: func_021FF72C
+ * address: 0x021FF72C
+ * packet: pkt_ov186_021FF72C
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: DIFF 26 bytes, compiled 352/352; first-arm result=1 cross-jump layout differs; 6/7 relocations resolved, ARM9 0x0200FB4C unresolved.
+ * checks: 1 own ov125 event reader/ack and ARM9 bodies confirm arity; 2 ov186 siblings and ov125 unit read, no decoder twin; 3 enum result and const event pointer each compiled DIFF 28; 4 goto-tail idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom listing and matched siblings reread. Next untried: named first-arm output temporary.
+ * permuter: once, jobs 1/types/budget 300; baseline agrees DIFF 28,352/352; hoist-up(result,-1) winner ported and validated DIFF 26 without changing behavior.
+ * symbols:
+ *   func_021D72EC 0x021D72EC thumb ov125
+ *   func_021D72F8 0x021D72F8 thumb ov125
+ *   func_02006210 0x02006210 thumb
+ *   func_0200FB4C 0x0200FB4C thumb
+ */
+extern int func_021D72EC(char *,int **);
+extern void func_021D72F8(char *);
+extern void func_02006210(void);
+extern void func_0200FB4C(int);
+int func_021FF72C(char *p,int *out)
+{
+    const int *event;
+    int result;
+    if(func_021D72EC(p,(int **)&event)){
+        result=1;
+        if(event[1]==0){
+            if(event[3]){
+                if(out)*out=event[3]+283;
+                result=1;
+            }
+        }else if(event[1]==1){
+            if(event[3]==7){
+                result=1;
+                if(out)*out=event[3]+298;
+            }
+        }else if(event[1]==2){
+            switch(event[2]){
+            case 21000:
+                if(event[3]){if(out)*out=event[3]+230;result=2;}
+                break;
+            case 21001:
+                if(event[3]){if(out)*out=event[3]+237;result=2;}
+                break;
+            case 22000:
+                if(event[3]){
+                    switch(event[3]){
+                    case 150:func_02006210();func_0200FB4C(65);result=3;break;
+                    case 151:func_02006210();func_0200FB4C(66);result=3;break;
+                    case 152:func_02006210();func_0200FB4C(68);result=3;break;
+                    case 153:func_02006210();func_0200FB4C(67);result=3;break;
+                    default:if(out)*out=event[3]+261;result=2;break;
+                    }
+                }
+                break;
+            case 22001:
+                if(event[3]){if(out)*out=event[3]+269;result=2;}
+                break;
+            case 22002:
+                if(event[3]){if(out)*out=event[3]+274;result=1;}
+                break;
+            case 22003:result=0;break;
+            }
+        }
+        func_021D72F8(p);
+        if(result==3)*(int *)(p+0x5DC)=1;
+        return result;
+    }
+    return 0;
+}

@@ -1,0 +1,21 @@
+/*
+ * function: func_021C8850
+ * address: 0x021C8850
+ * packet: pkt_ov128_021C8850
+ * region: ov128
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B98C 0x0204B98C arm
+ *   func_0204B8F4 0x0204B8F4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct Actor;struct Obj;
+extern u32 func_0204B98C(struct Actor *);
+extern u32 func_0204B8F4(struct Obj *);
+int func_021C8850(u8 *p) {u32 n;if(func_0204B98C(*(struct Actor **)(p+416))==0)return 1;n=func_0204B8F4(*(struct Obj **)(p+416));if(n-*(u32 *)(p+424)>=2) *(u32 *)(p+424)=n;return 0;}

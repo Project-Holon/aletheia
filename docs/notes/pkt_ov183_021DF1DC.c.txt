@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callees read, FCDAC truncates index u16, FCE50 matched unit; 2 FE98 Config twin and fresh neighbours; 3 unsigned font/archive and const source/choices each unchanged; 4 declaration-order and spill-scope idioms; 5 fresh idioms and FE98/owned neighbours, two manual variants used. Permuter 300 baseline 428/13 agrees; validated initialized temporary + decl-order improves to 428/8. No further manual scheduling variants permitted.
+ * checks: 1=own ARM9 text helpers and fresh FC8C8 const Config/u16 heap signature checked; FC8C8 correction byte-identical; 25/25 resolved. 2=matched FE98/F620 and current FC8C8 constructor reread. 3=enum first font, opaque name pointer and long first font unchanged; source/choices already const, p mutated. 4=declared-struct, enum and stack-order idioms read; font/name declaration swap worsens all homes. 5=fresh unfiltered idiom directory and neighbours reread. Prior 300-compile permuter not repeated. Final retry exhausted: 428 B/8 differing bytes, first-font/name sp20/sp10 swapped; next=font-handle type class, no declaration sweep.
  * symbols:
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
@@ -43,7 +43,7 @@ extern int func_021FC20C(char *),func_021FC214(char *);
 extern void func_02082BCC(void *,int,int);
 extern void *func_0201EC64(u32);
 extern struct Item *func_0201F81C(u32,u32);
-extern void *func_021FC8C8(struct Config *,u32);
+extern void *func_021FC8C8(const struct Config *,u16);
 extern void *func_020457B0(u32,u32),*func_02045EC0(void *,u32);
 extern void *func_02043678(u32,u32,u32,u32);
 extern void func_02043B5C(void *,u8);

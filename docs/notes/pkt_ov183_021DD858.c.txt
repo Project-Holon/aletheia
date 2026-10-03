@@ -9,7 +9,7 @@
  * status: DIFF
  * residual: 10 concrete bytes, select/numeric spill homes in the 468-byte lead.
  * tail: 021DDA2C is a 672-byte larger follower, separately matched and verified.
- * checks: 1 DAC4/DAD8 own unit returns u16 with two full-word inputs, no register/arity residue; 2 DD684 and DDA2C are formatter twins; 3 short select unchanged at 10, const q worsened to 15; 4 inline formatter and DDA2C declaration/field-base spelling unchanged at 10, scheduling cap used; 5 fresh idiom listing and ov183/ov186 neighbours re-read, stack Triple address already correct; permuter skipped because listing extent contains omitted separately matched DDA2C follower; next retry: selector and numeric local scope order.
+ * checks: 1=own accessor unit DABC u16 return/pointer correction byte-identical; DE02C two arguments from matched DDE2C; 27/27 resolved. 2=matched DDA2C/DDE2C/DE084 and current sibling helpers reread. 3=enum selector, numeric enum, long index and bounded u8 selector unchanged; p mutated so const invalid. 4=declared-struct and enum idioms reread. 5=fresh unfiltered idiom directory and neighbours reread. Permuter skipped: handed 1140 B extent includes separately matched 672 B follower DDA2C, preserved. Final retry exhausted: lead 468 B/10 differing bytes, selector/number1/number2 spill rotation; next=distinct full-width numeric type classes.
  * symbols:
  *   func_021FC20C 0x021FC20C thumb ov186
  *   func_021FC214 0x021FC214 thumb ov186
@@ -34,6 +34,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef enum { SELECT_ZERO=0 } Select;
 struct Record{u8 a,b,c,d;int value;};
 struct Triple{int a,b,c;};
 extern const struct Record d_021E3400[];
@@ -46,11 +47,13 @@ extern u16 func_0200DAC4(void *,unsigned),func_0200DAD8(void *,unsigned);
 extern void *func_02045EC0(int,int),*func_020457B0(unsigned,u16);
 extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned),func_0201F250(void *,void *,void *),func_02045808(void *);
 extern void func_021FC7C4(char *,void *,void *,u16);
-extern int func_0200DABC(int),func_021FC124(int,int,struct Triple *);
+extern u16 func_0200DABC(void *);
+extern int func_021FC124(int,int,struct Triple *);
 extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
 void func_021DD858(char *p,char *q)
 {
- int first,second,third,index,select,v;
+ int first,second,third,index,v;
+ Select select;
  const struct Record *rec;
  char *slot;
  void *obj;
@@ -96,7 +99,7 @@ void func_021DD858(char *p,char *q)
   func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
   func_02045808(obj);
  }
- v=func_0200DABC(*(int *)(q+0x10));
+ v=func_0200DABC(*(void **)(q+0x10));
  func_021FC124(*(int *)(q+8),13,&triple);
  func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
 }
