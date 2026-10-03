@@ -15,7 +15,7 @@
 
 extern int func_02059374(unsigned long long friendkey, unsigned long gamecode, int method);
 
-asm void DWC_CheckFriendKey(void)
+asm int DWC_CheckFriendKey(void *data, unsigned long long friendKey)
 {
     mov	r3, r0
     mov	r0, r1
