@@ -7,10 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 full callee bodies preserve consumed returns from legacy void tail forwarders 9C98/BB844/BBA64 and the loaded r0 input to 9CC8; 2 ov22595A0 proves record offsets, no exact shared-callee twin; 3 u16 done regresses to572B/413 concrete, enum-to-u32 store casts leave576B/66 unchanged; 4 enum folding/shared-tail/empty-arm idioms read, two manual scheduling variants exhausted; 5 fresh full idiom listing and ov2249788/ov22595A0/98FC re-read; next hypothesis repeat shared tails instead of direct gotos on retry.
- * residual: best DIFF576B/66 concrete; original lead576B plus separately matched callback98FC2B and alignment98FE2B in580B extent.
- * permuter: skipped because the extent includes separately matched follower021B98FC omitted from this branch, per canonical exception.
+ * status: EXACT*
+ * lever: repeat shared constructor/store tails in their arms and keep done as int; enum done adds truncation pairs (584B/404 concrete).
+ * trailing: separately matched callback021B98FC (2B) and two alignment bytes at021B98FE; lead576B.
+ * attempts: four one calls in final retry; direct-goto enum baseline DIFF66/576, repeated tails enum DIFF404/584, wide store casts unchanged, repeated tails int EXACT*576.
  * symbols:
  *   func_0204E804 0x0204E804 arm
  *   func_0204E720 0x0204E720 arm
@@ -64,7 +64,7 @@ extern char *func_021BB854(char *,char *);
 extern void func_021B9E60(char *);
 int func_021B96BC(void *a,u32 *state,void *unused,char *p)
 {
- Flag done;
+ int done;
  u32 count;
  u16 id,i,item,selected;
  switch(*state) {
@@ -85,12 +85,12 @@ int func_021B96BC(void *a,u32 *state,void *unused,char *p)
      if(*(u32 *)(p+0x18)==2) {
       *(u32 *)(p+0x10)=1;
       *(u16 *)(p+0x20)=0; *(u16 *)(p+0x22)=0;
-start1:
       *(char **)(p+0x2c)=func_021BB6E0(p+0x20,*(char **)(p+8));
      } else if(*(u32 *)(p+0x18)==3) {
       *(u32 *)(p+0x10)=2; *(u32 *)(p+0x30)=1;
       *(u16 *)(p+0x34)=done;
-      goto fill236;
+      *(u16 *)(p+0x36)=done; *(u16 *)(p+0x38)=done;
+      *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
      }
     }
    }
@@ -103,15 +103,13 @@ innerDone:
    } else {
     func_021BB7F4(*(char **)(p+0x2c));
     if(*(u32 *)(p+0x24)==0) {
-start0:
      *(u32 *)(p+0x10)=done;
      *(char **)(p+0x1c)=func_021BB2B4(p+0x14,*(char **)(p+8));
     } else {
      *(u32 *)(p+0x10)=2; *(u32 *)(p+0x30)=0;
      *(u16 *)(p+0x34)=*(u16 *)(p+0x28);
-     fill236:
      *(u16 *)(p+0x36)=done; *(u16 *)(p+0x38)=done;
-     goto start2;
+     *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
     }
    }
    break;
@@ -119,8 +117,8 @@ start0:
    if(func_021BBA64(*(char **)(p+0x44))) {
     func_021BBA14(*(char **)(p+0x44));
     if(*(u32 *)(p+0x3c)==0) {
-     if(*(u32 *)(p+0x30)==0) { *(u32 *)(p+0x10)=1; goto start1; }
-     else if(*(u32 *)(p+0x30)==1) goto start0;
+     if(*(u32 *)(p+0x30)==0) { *(u32 *)(p+0x10)=1; *(char **)(p+0x2c)=func_021BB6E0(p+0x20,*(char **)(p+8)); }
+     else if(*(u32 *)(p+0x30)==1) { *(u32 *)(p+0x10)=done; *(char **)(p+0x1c)=func_021BB2B4(p+0x14,*(char **)(p+8)); }
     } else {
      *(u32 *)(p+0x10)=3;
      id=*(u16 *)(p+0x40);
@@ -145,7 +143,6 @@ start0:
     func_021BBAE8(*(void **)(p+0x74));
     if(*(u32 *)(p+0x70)==0) {
      *(u32 *)(p+0x10)=2;
-start2:
      *(char **)(p+0x44)=func_021BB854(p+0x30,*(char **)(p+8));
     }
    }

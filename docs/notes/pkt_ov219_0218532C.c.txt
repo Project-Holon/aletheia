@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own bodies 5D08(int*) and 5D64(int*,int*) re-read; 2 no matching search twin, adjacent menu/display bodies re-read; 3 const p worsens 122B, s16 x bounds unchanged 119B; 4 struct-spill/const/assignment-slot idioms read, no fix; 5 full idiom directory and own nearest neighbors refreshed; stack object diagnostic read. Permuter once300 baseline confirmed 119B; safe winning expand(row), delta split and order/block changes validated 101B. Next hypothesis: distinct initial and wrapped primary y bounds, within next retry scheduling cap.
+ * checks: 1 own 5D08(int*) and 5D64(int*,int*) bodies and call use rederived; 2 matched own/sibling neighbors and pending 8544C caller searched, no coordinate-window twin; 3 fresh long primary bounds DIFF102 and separate s16 initial bounds DIFF102 versus best101; 4 stack-object, split-spill, scope and signed-index idioms read; 5 complete idiom directory and neighbors refreshed.
+ * retry: FINAL exhausted; 5 fixed one runs this retry. Distinct initial/wrapped bounds unchanged101; selected-load scheduling102. Prior once300 consumed, not repeated; best validated101/288 preserved.
  * residual: compiled 288/288 bytes, 101 concrete bytes; all three calls resolved. Permuter winner keeps all locals initialized and full-width row arithmetic.
  * symbols:
  *   func_02185D08 0x02185D08 thumb ov219

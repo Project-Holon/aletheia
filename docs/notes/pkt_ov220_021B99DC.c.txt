@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 owners fix all arities/live actor return; 2 ov2209B64 resource Param/prototypes; 3 narrow species/form/gender no change, const p25 vs17; 4 struct/spill order idioms; 5 directory and ov220 neighbours reread no exact twin; next local-scope hypothesis (manual scheduling cap used). Bounded300 baseline17 agrees, valid candidate6 confirmed fixed one.
+ * checks: 1 all own callee bodies and matched 9B64 caller rederive arities/live actor return; 2 resource Param and own/sibling neighbors re-read, no closer twin; 3 u32 gender and species unchanged6; 4 declaration/scope/spill and declared-object idioms read; 5 complete directory and neighbors refreshed.
+ * retry: FINAL exhausted; 5 fixed one runs this retry. Swap coordinate/gender declarations14; loop-local gender plus later coordinates17. Prior once300 consumed, not repeated; best validated6/324 preserved; only coordinate pointer and gender slots sp10/sp20 swapped.
  * prototype: 0204B294's live r0 is the actor stored and passed to 0204B878, despite its own void declaration.
  * symbols:
  * func_020490F4 0x020490F4 arm
@@ -124,7 +125,6 @@ void func_021B99DC(char *p)
     func_02049238(owner);
   }
 }
-
 
 
 

@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no calls or relocations; 2 own matched 84734 coordinate and 85AC8 mode/context bodies re-read, no movement twin; 3 u16 pressed/held and int sx/sy with explicit u16 truncation unchanged 388B; const p cannot express original stores; 4 nested-if/crossjump/typed-base/narrow-parameter idioms read, no fix; 5 full idiom directory and same-overlay neighbors refreshed; no address-taken stack object. Permuter once300 baseline confirmed 408/404 388B; winning temporaries and scheduling ported without its uninitialized factor read, validated 404/404 171B. Next retry hypothesis: initial parameter homes and step-local coloring, within manual scheduling cap.
+ * checks: 1 no calls or relocations; 2 own/sibling coordinate and mode neighbors re-read, no movement twin; 3 u16 steps and u16 slow snapshot unchanged171, original modular coordinate updates retained; 4 narrow-width, declaration/scope and shared-tail idioms read; 5 complete directory and neighbors refreshed, no address-taken stack object.
+ * retry: FINAL exhausted; 5 fixed one runs this retry. Move slow snapshot after early return worsens389/408; declaration reordering357/404. Prior once300 consumed, not repeated; best validated171/404 preserved.
  * residual: compiled 404/404 bytes, 171 concrete bytes, no calls. All coordinate updates retain modular word arithmetic; snapshots use observed signed halfwords. Unsafe permuter empty-if factor read rejected before validation.
  */
 typedef unsigned short u16;

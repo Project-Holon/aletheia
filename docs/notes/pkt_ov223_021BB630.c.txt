@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own BB520 reads int color and three halfword output addresses; own61CA4 takes four full-word payloads; 2 new EXACT BB844 and BB7A4 re-read; 3 post-stop const p removed persistent row CSE and restored368/372B, offset u32 unchanged329; 4 distinct arithmetic types, struct-pointer-field recomputation, struct-sp and stack-order idioms read; 5 fresh unfiltered idiom listing and BB844 full source re-read; original BB682 first counter store followed by BB684/BB6AC second store sets16, retained both stores; once-only permuter budget300 baseline325 differs from fixed-one329 by unresolved table relocation, output200/372 rejected also for narrowing color product to u16; widened candidate verified328/368 but not retained because baseline disagreement; next retry hypothesis scoped inline transition helper preserving per-use base/offset reloads
+ * checks: 1 own BB520 and61CA4 bodies rederived; 2 BB844/BB7A4 palette twins re-read; 3 p u32 compiled360/315 farther in size, enum active and int weight unchanged368/329; 4 address-u32/recomputation/arithmetic/scope/struct-sp idioms read; 5 full fresh idiom listing and palette neighbours checked; original double counter store retained. Final retry exhausted.
  * volatile: original 021BB65E/021BB678 and 021BB690/021BB6A8 independently reload the transition field at p+offset+0xD6.
+ * retry: six one calls; integer initial kind address and scoped inline transition unchanged368/329; p u32 360/315 rejected for farther extent; enum active/int weight unchanged; prior once300 search not repeated.
  * symbols:
  *   func_021BB520 0x021BB520 thumb ov223
  *   func_02061CA4 0x02061CA4 arm

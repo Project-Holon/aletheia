@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all callees read in full; live getter/result widths and original sign/truncation pairs retained; 2 matched 021BA01C/BA068/BA0D8/97F4 neighbours reread, no exact text twin; 3 const p: first CCERR corrected then 43->22, cap 2 used; 4 const-record/scope/print/spill idioms read; 5 unfiltered idiom directory and neighbours reread. Permuter baseline22 agrees, 300 compiles best22; no improvement. Next hypothesis: separate per-print narrow coordinate/context locals (no manual sweep reopened).
+ * checks: 1 all own callee bodies re-read, original narrow argument truncations and wide D304 result retained; 2 BA01C/BA068/BA0D8/97F4 and sibling neighbors re-read; 3 u32 y and width unchanged22, prior const p rescue retained; 4 per-print/context, narrow-accessor and stack-store idioms read; 5 complete directory and neighbors refreshed.
+ * retry: FINAL exhausted; 5 fixed one runs this retry. Separate per-print x locals and moved final getter unchanged22. Prior once300 consumed, not repeated; best validated22/820 preserved; only outgoing argument scheduling at +228 and +2C2..2D2.
  * prototype: 021B9E28..9E34 explicitly truncates the summed X coordinate to u16 before sign extension; 021B9E72/9E7E explicitly truncates the number to u16 before 0201EFA4.
  * symbols:
  * func_02049B90 0x02049B90 arm

@@ -8,8 +8,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * lang: c99
- * checks: 1 callee bodies/prototypes and all49 relocations resolved; 2 neighbors/twins read; 3 u8 flag and const parameter unchanged; 4 relevant idioms read; 5 full idiom directory re-read.
- * residual: best616B/158 concrete bytes; two manual scheduling variants exhausted; once-only300 permuter returned155 but rejected unsafe tmp assignments before case2.
+ * checks: 1 own matched callee and forwarding bodies rederived all arities; 49/49 relocations resolved; 2 own overlay/shared-callee searches found no twin; 3 const typed Input pointer and _Bool done each compiled unchanged at14 differences; 4 epilogue, distinct-local stack order, named-zero and const-record idioms read; 5 unfiltered idiom listing refreshed, own/sibling matched neighbors reread, stack-storage idiom checked. Next sweep: none within final retry budget.
+ * residual: FINAL RETRY EXHAUSTED; best616/616B, 14 concrete bytes at+00F6..+0102: heap halfword load, done=0 spill and outgoing arguments schedule differently. Earlier once300 unsafe candidate not repeated.
+ * lever: nested gate!=1 bodies retain the separate case epilogues (158->25); distinct bankSeen versus seen and block declaration layout restore spill slots (25->14); two scheduling variants consumed.
  * extent: code through021B988E, pools through021B98A4, following callback table and event_pdc_return.c string.
  * prototypes: 02031348 legacy void(void) forwards unchanged r0-r3 to four-argument020314F4; 020185F0 bx-lr preserves caller's address in r0, consumed by020074D8.
  * symbols:
@@ -104,8 +105,10 @@ int func_021B963C(void *unused,u32 *state,const char *data,char *p)
     if(gate==1)return 0;
     switch(*state) {
     case 0: {
-        void *party,*profile,*dex,*flags,*bank;
-        u32 storage,seen,kind,count;
+        void *party,*profile,*dex,*flags;
+        u32 storage,seen;
+        void *bank;
+        u32 bankSeen,kind,count;
         int box,slot;
         u8 done;
         party=func_02012934(*(void **)data);
@@ -125,8 +128,8 @@ int func_021B963C(void *unused,u32 *state,const char *data,char *p)
                 func_020076D0((void *)storage,&box,&slot);
                 *(u32 *)(p+0x2c)=box;
                 bank=func_02045B38(0,2,234,139);
-                seen=func_020142E8((void *)func_0201296C(*(void **)data),2413);
-                *(void **)(p+0x28)=func_02045EC0(bank,seen?177:176);
+                bankSeen=func_020142E8((void *)func_0201296C(*(void **)data),2413);
+                *(void **)(p+0x28)=func_02045EC0(bank,bankSeen?177:176);
                 func_02045C04(bank);
             }
             kind=func_02013E4C(func_02012AC8(func_020127A4(*(void **)data)));
@@ -157,7 +160,7 @@ int func_021B963C(void *unused,u32 *state,const char *data,char *p)
         int enabled;
         void *record;
         int *object;
-        if(gate==1)return 0;
+        if(gate!=1) {
         storage=func_0201293C(*(void **)data);
         enabled=0;
         if(*(u32 *)(p+0x24)==1)enabled=1;
@@ -168,10 +171,11 @@ int func_021B963C(void *unused,u32 *state,const char *data,char *p)
             func_02031348(*(void **)(p+0x34),(u32)ov194_id,(u32)d_021F5580,(u32)object);
             (*state)++;
         } else *state=3;
+        } else return 0;
         break;
     }
     case 2:
-        if(gate==1)return 0;
+        if(gate!=1) {
         if(func_0216C0E4(*(int **)p)==0) {
             func_0216C0D4(*(int **)p,*(int *)(p+4));
             func_02017E40(*(void **)(data+8),115,*(u32 *)(p+4));
@@ -180,6 +184,7 @@ int func_021B963C(void *unused,u32 *state,const char *data,char *p)
         func_0216C0C0(*(int *)p);
         *(int *)p=0;
         (*state)++;
+        } else return 0;
         break;
     case 3: {
         void *party,*storage,*record;

@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all call arities from owners/SDK; 2 matched ov21985848/858BC prove Matrix; 3 const p and signed i each unchanged5 bytes; 4 struct-local/spill-order idioms read; 5 directory/neighbours reread no twin; next byte-buffer RenderArg storage (manual scheduling cap used); bounded300 baseline agrees, no improvement.
+ * checks: 1 full own light/render/matrix bodies plus argless 47964 veneer target rederived; 2 own/sibling render and matrix neighbors re-read; 3 long and unsigned-long loop counters unchanged5; 4 declared-object, split-spill, scope and declaration-order idioms read; 5 complete directory and neighbors refreshed, stack object diagnostic read.
+ * retry: FINAL exhausted; 5 fixed one runs this retry. Raw second storage unchanged5, explicit matrix base worsens15. Prior once300 consumed, not repeated; best validated5/272 preserved; sole residue matrix-base and second-object pointer slots sp0/sp4 swapped.
  * symbols:
  * func_02048C58 0x02048C58 arm
  * func_02048AD0 0x02048AD0 arm
@@ -74,5 +75,4 @@ void func_02185B74(char *p)
         break;
     }
 }
-
 

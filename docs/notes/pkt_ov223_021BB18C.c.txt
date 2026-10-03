@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own EC64/EE60/F250/C724 and text/bitmap bodies establish arities and outgoing slots; 2 BB2A4/BB134 matched neighbours use the same text/layout helpers; 3 const p worsened 25 to50, which u16 unchanged25; post-stop offset u16 gave213/224B and center s16 gave60/228B; 4 enum-offset/local-stack-order/scope/second-definition idioms read; 5 fresh unfiltered idiom listing and BB2A4/BB450 re-read, scalar spill residue not aggregate; next retry hypothesis separate full-word offset copy or an inline helper to move offset/set/message homes; once-only permuter budget300 plateau25/232, baseline concrete verdict and size agree but reports two extra unresolved data hints, no mutation retained
+ * checks: 1 own text/bitmap/layout callee bodies rederived; 2 BB2A4/BB134/BB450 and sibling ov225A368 re-read; 3 center u32 worsened76/228, set u32 and message u32 unchanged25/232; 4 enum-offset/scope/stack-order/struct-sp idioms read; 5 full fresh idiom listing and neighbours show no new spill twin. Final retry exhausted.
+ * retry: six one calls; full-word saved offset198/232, inline formatting helper25/232, center u32 76/228, set/message integer payloads unchanged25; prior once300 search not repeated.
  * symbols:
  *   func_0201EC64 0x0201EC64 thumb
  *   func_02045EC0 0x02045EC0 arm

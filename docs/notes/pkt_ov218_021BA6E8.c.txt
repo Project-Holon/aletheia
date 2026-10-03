@@ -8,12 +8,51 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 720 body and original read all four full-word arguments, return int; 2 4FC/328/554/61C confirm seven slots and position ABI, no wrapper twin; 3 enum base and pointer ABI paired with owned 720 compile unchanged at 62 bytes/57 differences; 4 direct pointer selection and enum inline binding did not improve; 5 full idiom directory relisted and 4FC/328/554/61C reread; no stack object. Next sweep: none within canonical budget.
- * residual: best first-pass 58 bytes against 56, 35 concrete differences; selected base remains separate from its offset and the seven-entry bound is rematerialized.
+ * checks: 1 own720 body proves four full-word arguments and int return; 2 own4FC/328/554/61C confirm seven slots/Pair ABI, no wrapper twin; 3 const p and short y each unchanged58/56B35; 4 enum bound, base/offset and narrow-store idioms read; 5 full idiom directory refreshed, own/sibling matched neighbors reread; no stack object. Next sweep: none within final retry budget.
+ * residual: FINAL RETRY EXHAUSTED; size-first best56/56B, 48 concrete differences; alternate58/56B35 preserved in scratch/baselineA6E8.c. Entry p copy, selected-base/bound register colors and unsigned loop guard differ.
+ * search: macro-free emitted baseline confirmed58/56B35; once300 result rejected for uninitialized space read and double offset in call; safe port removes both, preserves full-word addresses and validates at56/56B48. Counter ranges0..6 before stopping; original signed versus unsigned tests agree in that range.
  * symbols:
  *   func_021BA720 0x021BA720 thumb ov218
  */
 typedef unsigned int u32;
-extern int func_021BA720(u32,u32,u32,int);
-enum Count {CountSeven=7};
-void func_021BA6E8(char *p,int flag,int y){u32 offset;u32 space;enum Count n;u32 base;int i;if(flag!=0){offset=0x294;space=0;}else{offset=0x2b0;space=1;}n=CountSeven;base=(u32)p+offset;for(i=0;i<n;i++){if(func_021BA720(base,i,space,y)!=0)break;}}
+extern int func_021BA720(u32, u32, u32, int);
+enum Count
+{
+  CountSeven = 7
+};
+void func_021BA6E8(char *p, int flag, int y)
+{
+  u32 offset;
+  u32 space;
+  enum Count n;
+  u32 base;
+  u32 i;
+  if (flag != 0)
+  {
+    space = 0;
+    offset = 0x294;
+  }
+  else
+  {
+    space = 1;
+    offset = 0x2b0;
+  }
+  n = CountSeven;
+  base = (u32) p;
+  if (flag)
+  {
+  }
+  base = base + offset;
+  {
+    i = 0;
+    while (i < n)
+    {
+      if (func_021BA720(base, i, space, y) != 0)
+        break;
+      i++;
+    }
+
+  }
+}
+
+

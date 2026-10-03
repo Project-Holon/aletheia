@@ -7,15 +7,16 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 own 9F10/9CE4/9900 and full 7D518 body establish prototypes; 2 twin ov221 and ov214AD14 agree; 3 long counter DIFF2; 4 enum for adds guard, named enum argument DIFF2, unsigned counter loses loop; 5 refreshed idiom directory and both 9748 neighbors use enum do-while; next retry enum do-while (manual variants spent); permuter baseline DIFF2/424 agreed, 300 compiles best DIFF2.
- * residual: 2/424 concrete bytes; +00AE expected adds r0,r4,#0, emitted movs r0,#0.
- * dependency: sole unresolved ARM9 02043588 omitted from src/matched/arm9/unit_02043570.c's function header.
- *   Prior verified EXACT16 ARM C from parked ov214021BAD14 / ov133021B69AC:
+ * status: MATCH
+ * checks: 1 own callee bodies/forwarders and SDK-mode read rederived arities; 2 fresh own9748 and R1 ov221 constructor twin read; 3 BGMode counter with named enum-zero and uncast mode call; 4 enum-zero and enum-counter idioms cover lever; 5 fresh full idiom listing/neighbours. One MATCH424 and required TU MATCH424; sole unresolved ARM9 witness remains.
+ * residual: concrete-correct MATCH424, 35/36 relocations resolved; +00AA ARM9 func_02043588 has no witness; required TU --suggest-split leaves whole caller OUT.
+ * blocker: ARM902043588 omitted from src/matched/arm9/unit_02043570.c's function header; Ilias-owned.
+ *   Verified EXACT16 ARM C preserved from prior parked ov214021BAD14 / ov133021B69AC; R1 reverified this wave:
  *   extern void func_02043558(void),func_02043570(void);
  *   void func_02043588(void) {func_02043558();func_02043570();}
  * volatile: 021B9638..021B9648 BLDCNT store and two DISPCNT reads/writes.
  * prototype: 3159C leaves allocation result in r0; original consumes it despite legacy void declaration.
+ * lever: BGMode i=BG_MODE0, uncast func_0207D518(i), enum do-while one-trip resource loop restores +00AE register copy.
  * symbols:
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
@@ -67,7 +68,7 @@ extern void *func_020056A0(u32,void*,u32);
 extern void func_021B98FC(void);
 extern void func_021B9900(char*),func_021B9964(u8*),func_021B9C1C(char*),func_021B9CE4(char*);
 extern char *func_02012944(void*);
-typedef enum { BG_MODE0=0 } BGMode;
+typedef enum { BG_MODE0=0, BG_MODE1=1 } BGMode;
 extern void func_02043588(void),func_02043558(void),func_0207D518(BGMode);
 extern void func_0203FCA0(u8,const void*,u8),func_020414AC(u8),func_02040588(u8,u8);
 extern void func_02043598(u32,u32);
@@ -81,8 +82,7 @@ extern void func_0204E720(u32,int,int,int),func_020409B4(u32),func_0203D34C(u32,
 int func_021B95A0(void *owner,void *unused,void *input)
 {
  char *p,*settings;
- long i;
- BGMode bg;
+ BGMode i;
  int selected,zero;
  const Row *row;
  u32 id;
@@ -90,7 +90,7 @@ int func_021B95A0(void *owner,void *unused,void *input)
  void *h;
  func_0203064C((void*)1,131,0x30000);
  p=func_0203159C(owner,88,131);
- i=0;
+ i=BG_MODE0;
  func_02082BCC(p,i,88);
  *(u16*)p=131;
  *(void**)(p+4)=input;
@@ -104,11 +104,12 @@ int func_021B95A0(void *owner,void *unused,void *input)
  *(volatile u16*)0x04001050=i;
  *(volatile u32*)0x04001000 &= ~0xe000u;
  *(volatile u32*)0x04001000 |= 0x10000;
- func_02043588();bg=i;func_0207D518(bg);func_02043558();
- for(;i<1u;i++) {
+ func_02043588();func_0207D518(i);func_02043558();
+ do {
   row=&tbl_021BA1F4[i];id=row->id;
   func_0203FCA0(id,row->cfg,row->type);func_020414AC(id);func_02040588(id,row->enable);
- }
+  i++;
+ } while((u32)i<1u);
  func_02043598(16,1);
  heap=*(u16*)p;
  selected=1;if(*(u8*)(settings+29)!=1) selected=0;

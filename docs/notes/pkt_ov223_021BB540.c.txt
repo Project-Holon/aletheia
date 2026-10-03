@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own49F78 full unit reads third argument as a full-word output address; own490F4/307B0/49238/61CA4 bodies and SDK copy prototype read; 2 BB7A4 matched palette loader re-read; 3 b u32, const p, offset u32 unchanged10; post-stop function-scope first/second unchanged10 (second manual scheduling variant); 4 stack-order/block-scope/struct-sp idioms read; 5 fresh unfiltered idiom listing and BB7A4/BB944 neighbours re-read; once-only permuter budget300 baselineDIFF10/236 agrees on concrete verdict/size, emitter reports two extra unresolved data hints; safe temp/expand/cast candidate fixed-one validatedDIFF5/236 with12/12 resolved; next retry hypothesis integer spelling of first buffer base to swap a/first homes, no more scheduling variants this pass
+ * checks: 1 own49F78/490F4/free/61CA4 bodies and matched copy caller rederived; 2 BB7A4 full loader twin and block-scope buffers unchanged5/236; 3 a u32 caused CCERR then corrected casts unchanged5, const p and first u32 unchanged5; 4 local-stack/block-scope/struct-sp idioms read; 5 full fresh idiom listing and palette neighbours checked. Final retry exhausted.
+ * retry: seven one calls including one CCERR; corrected integer a, first-buffer integer, const p, declaration reorder and block-scope buffers unchanged5/236; prior once300 search not repeated.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049F78 0x02049F78 arm

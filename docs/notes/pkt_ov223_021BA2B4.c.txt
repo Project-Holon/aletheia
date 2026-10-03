@@ -8,13 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 every callee read from own matched source; no call setup differs; 2 own A0AC and 9D9C table twin checked; 3 int and unsigned long sort a/b each unchanged DIFF6; writable p excludes const; 4 register-colour, width and struct-stack idioms checked; 5 refreshed unfiltered idioms and ov22 neighbours, no new twin. Next hypothesis: isolate sort a/b block or reverse their declarations on retry.
+ * checks: 1 own A0AC and ARM9 actor helper bodies rederived; 2 A0AC/9D9C table twins re-read; 3 u16 a/b jointly and separately unchanged DIFF6; 4 declaration/block-scope/width-register idioms read; 5 refreshed full idiom listing and ov222/223/224/225 neighbours, no new matching sort twin. Final retry exhausted.
  * residual: 1384/1384 bytes; six concrete bytes at +04F2,+04F6,+04F8,+04FE,+0506,+0508 exchange a/b in r2/r3. All 70 relocations resolve.
  * attempts: full animation state machine; two manual scheduling variants exhausted; macro-free emitted baseline matches DIFF6; once-only permuter jobs1 budget300 types found no improvement (terminal exit1). Five iteration runs including syntax repair, two check3 runs, one emitted baseline run.
+ * retry: six one calls; reversed declarations and block-scope a/b unchanged, u16 a/b and individual widths unchanged; prior once300 search not repeated.
  * symbols:
  *   motion 0x021BC7F0 data a1
  *   initialOrder 0x021BC8C0 data a1
- *   func_021BA0AC 0x021BA0AC thumb
+ *   func_021BA0AC 0x021BA0AC thumb ov223
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B404 0x0204B404 arm
  *   func_0204B5AC 0x0204B5AC arm
