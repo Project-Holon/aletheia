@@ -1,0 +1,90 @@
+/*
+ * function: func_021BD4F4
+ * address: 0x021BD4F4
+ * packet: pkt_ov209_021BD4F4
+ * region: ov209
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 accessor bank returns u8; loaders take four registers plus u16 stack key; 2 no ov208/209 twin, ARM9 callers confirm out pointers; 3 const p unchanged, u8 y/height reduces 19 to 12 bytes; 4 declaration order fixes register/spill map, two scheduling variants used; 5 unfiltered idiom list and matched ov208/209 neighbours reread, no twin.
+ * Once-only permuter: emitted baseline DIFF 224/224, 12 bytes; 300 jobs=1 types yields DIFF 224/224, 6 bytes, validated by one.
+ * Residue: row spill 0x18 versus original 0x10; screenOwner spill 0x10 versus original 0x18.
+ * Next retry hypothesis: swap row/screenOwner storage declaration order; no further manual scheduling variant allowed this wave.
+ * symbols:
+ *   func_02045748 0x02045748 arm
+ *   func_02045750 0x02045750 arm
+ *   func_02045758 0x02045758 arm
+ *   func_02045760 0x02045760 arm
+ *   func_02045770 0x02045770 arm
+ *   func_020437D4 0x020437D4 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049EF4 0x02049EF4 arm
+ *   func_02049DF4 0x02049DF4 arm
+ *   func_02049238 0x02049238 arm
+ *   func_02082A90 0x02082A90 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u8 func_02045748(void *);
+extern u8 func_02045750(void *);
+extern u8 func_02045758(void *);
+extern u8 func_02045760(void *);
+extern void *func_02045770(void *);
+extern void *func_020437D4(void *);
+extern void *func_020490F4(u32, u32);
+extern void *func_02049EF4(void *, u32, u32, u32, u16);
+extern void *func_02049DF4(void *, u32, u32, u32, u16);
+extern void func_02049238(void *);
+extern void func_020307B0(void *);
+extern void func_02082A90(const void *, void *, u32);
+void func_021BD4F4(const char *p, unsigned index)
+{
+  char *chr;
+  char *screen;
+  void *chrOwner;
+  char *src;
+  void *screenOwner;
+  u8 height;
+  u16 row;
+  u16 col;
+  u16 *tiles;
+  u8 y;
+  int width;
+  char *dst;
+  int x;
+  void **entry;
+  void *archive;
+  void *tmp1;
+  (void) (&x);
+  entry = (void **) ((p + 0x20) + (index * 8));
+  width = func_02045748(*entry);
+  height = func_02045750(*entry);
+  x = func_02045758(*entry);
+  y = func_02045760(*entry);
+  dst = func_020437D4(func_02045770(*entry));
+  archive = func_020490F4(159, 107);
+  tmp1 = func_02049EF4(archive, 69, 0, (u32) (&screen), 0x806b);
+  row = 0;
+  screenOwner = tmp1;
+  u16 *tmp = (u16 *) (screen + 12);
+  tiles = tmp;
+  chrOwner = func_02049DF4(archive, 57, 0, (u32) (&chr), 0x806b);
+  src = *((char **) (chr + 20));
+  func_02049238(archive);
+  while (row < height)
+  {
+    for (col = 0; col < width; col++)
+    {
+      func_02082A90(src + ((tiles[(((y + row) * 32) + x) + col] & 0x3ff) * 32), dst + (((row * width) + col) * 32), 32);
+    }
+
+    row++;
+  }
+
+  func_020307B0(chrOwner);
+  func_020307B0(screenOwner);
+}

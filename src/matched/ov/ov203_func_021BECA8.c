@@ -1,0 +1,63 @@
+/*
+ * function: func_021BECA8
+ * address: 0x021BECA8
+ * packet: pkt_ov203_021BECA8
+ * region: ov203
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * The u16 target parameter fixes the otherwise swapped home stores at +6/+8.
+ * symbols:
+ *   sub_020311B8 0x020311B8 arm
+ *   sub_02031290 0x02031290 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021BED94 0x021BED94 thumb
+ *   func_021BF7AC 0x021BF7AC thumb
+ *   func_02006148 0x02006148 thumb
+ *   sub_0207C768 0x0207C768 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ */
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+struct Tcbl;
+struct TcblNode;
+struct S02030FB4;
+struct Owner { u8 pad[0x20]; struct Tcbl *manager; };
+struct Work { struct Owner *owner; u8 state,kind,target,pad; int duration,start,end,current,step; };
+extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern void *sub_02031290(struct S02030FB4 *);
+extern void func_02082BCC(void *,u32,u32);
+extern void func_021BED94(struct TcblNode *,void *);
+extern int func_021BF7AC(struct Owner *,int);
+extern int func_02006148(u32);
+extern u32 sub_0207C768(u32,u32);
+void func_021BECA8(struct Owner *owner,u8 kind,u16 target,int start,int end,int duration,int flag)
+{
+    struct Work *work;
+    float a,b,c;
+    int final;
+    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,func_021BED94,0x1c,0));
+    func_02082BCC(work,0,0x1c);
+    work->owner=owner;
+    work->kind=kind;
+    work->start=start;
+    work->end=end;
+    work->duration=func_021BF7AC(owner,duration);
+    if(flag == -1) work->target=flag;
+    else work->target=func_02006148(target);
+    if(start>0) a=0.5f+(float)(start<<12);
+    else a=(float)(start<<12)-0.5f;
+    work->current=(int)a;
+    if(duration>0) b=0.5f+(float)(duration<<12);
+    else b=(float)(duration<<12)-0.5f;
+    if(end>0) c=0.5f+(float)(end<<12);
+    else c=(float)(end<<12)-0.5f;
+    final=(int)c;
+    work->step=sub_0207C768(final-work->current,(int)b);
+}

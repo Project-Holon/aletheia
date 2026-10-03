@@ -1,0 +1,154 @@
+/*
+ * function: func_02213894
+ * address: 0x02213894
+ * packet: pkt_ov199_02213894
+ * region: ov199
+ * compiler: 1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 31330/31348/39CB4/network bodies and 02157170 show retain live inputs, pool words prove EFDAC/F03C4 argument swap corrected in run 8; 2 own 2E74/3134/33E4 and scoped pending neighbours reread, no state-machine twin; 3 const ctx worsens 607, signed status and enum bound do not improve 416, u8 j adds truncations and grows to 962; 4 enum guard/const scheduling/declared struct idioms read, two manual scheduling variants exhausted; 5 full idiom directory reread, scalar frame slots rather than aggregate. Once-300 permuter baseline agrees 416/954; best 179/950 rejected for added volatile and assignments before case labels (uninitialized tmp/tmp3). Next retry: inline copy/typed context loop.
+ * residual: DIFF 416 concrete bytes, compiled 954 vs actual intended code end 02213C4A (950 bytes); cross-overlay loading proves ov093 data and ov213 descriptor, all three remain wildcarded until layout aligns.
+ * Extent ends in the following callback tables and source string; code ends 02213C4A.
+ * ABI: 02031348 forwards the caller's four live registers through its legacy void wrapper.
+ * symbols:
+ *   func_02031330 0x02031330 arm
+ *   func_02031348 0x02031348 arm
+ *   func_02005D90 0x02005D90 thumb
+ *   func_02034AC4 0x02034AC4 arm
+ *   func_02034A5C 0x02034A5C arm
+ *   func_0203A574 0x0203A574 arm
+ *   func_020399A8 0x020399A8 arm
+ *   func_02039C68 0x02039C68 arm
+ *   func_02039CB4 0x02039CB4 arm
+ *   func_0203A5E4 0x0203A5E4 arm
+ *   func_0203CD98 0x0203CD98 arm
+ *   func_0203D798 0x0203D798 arm
+ *   func_0200FB38 0x0200FB38 thumb
+ *   func_0200FB24 0x0200FB24 thumb
+ *   func_02157170 0x02157170 thumb ov009
+ *   ov213_id 0x000000D5 data a1
+ *   ov093_id 0x0000005D data a1
+ *   d_021BB0B0 0x021BB0B0 data a4 ov213
+ *   d_021F03C4 0x021F03C4 data a4 ov093
+ *   d_021EFDAC 0x021EFDAC data a4 ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned u32;
+typedef enum Slot { SLOT_FIRST=0,SLOT_LAST=3 } Slot;
+extern unsigned func_02031330(void *);
+extern void func_02031348(void *,int,const void *,void *);
+extern void func_02005D90(unsigned,u16);
+extern int func_02034AC4(int);
+extern void func_02034A5C(int);
+extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
+extern void *func_020399A8(void);
+extern void func_02039C68(void *,unsigned,unsigned);
+extern unsigned func_02039CB4(void *,unsigned,unsigned);
+extern void func_0203A5E4(unsigned);
+extern int func_0203CD98(void);
+extern void *func_0203D798(void);
+extern void func_0200FB38(void);
+extern unsigned func_0200FB24(void);
+extern unsigned func_02157170(unsigned,unsigned);
+extern const char ov213_id[],ov093_id[],d_021BB0B0[],d_021F03C4[],d_021EFDAC[];
+int func_02213894(void *unused,u32 *state,u8 *ctx,u32 *work)
+{
+    unsigned status=func_02031330((void *)work[0]);
+    int send,j,index,bound,side,first,last;
+    Slot i;
+    u8 *record,*dest;
+    switch(*state) {
+    case 0:
+        func_02005D90(*(u16 *)(*(u8 **)(ctx+4)+0x18),0xffff);
+        *(int *)(*(u8 **)(ctx+8)+0x44)=1;
+        func_02031348((void *)work[0],(int)ov213_id,d_021BB0B0,*(void **)(ctx+8));
+        status=2;*state=1;break;
+    case 1: if(status!=1)*state=2;break;
+    case 2:
+        func_02034AC4((int)ov093_id);work[2]=1;
+        func_0203A574(0x100,(unsigned)d_021F03C4,9,0);work[3]=1;
+        func_02039C68(func_020399A8(),0xc8,0x24);*state=3;break;
+    case 3: if(func_02039CB4(func_020399A8(),0xc8,0x24))*state=4;break;
+    case 4:
+        func_02031348((void *)work[0],-1,d_021EFDAC,*(void **)(ctx+4));
+        status=2;*state=5;break;
+    case 5: if(status!=1)*state=6;break;
+    case 6: *state=7;break;
+    case 7:
+        func_02039C68(func_020399A8(),0xd2,0x24);
+        work[1]=0;*state=8;break;
+    case 8:
+        if(func_02039CB4(func_020399A8(),0xd2,0x24)) {
+            func_0203A5E4(0x100);work[3]=0;
+            func_02034A5C((int)ov093_id);work[2]=0;*state=9;
+        }
+        if(func_0203CD98() && *((u8 *)func_0203D798()+0x65)==3) {
+            if(work[1]++>600) {
+                func_0203A5E4(0x100);work[3]=0;
+                func_02034A5C((int)ov093_id);work[2]=0;*state=9;work[1]=0;
+            }
+        }
+        break;
+    case 9:
+        func_02039C68(func_020399A8(),0xd3,0x24);*state=10;work[1]=0;break;
+    case 10:
+        if(func_02039CB4(func_020399A8(),0xd3,0x24))*state=11;
+        if(func_0203CD98() && *((u8 *)func_0203D798()+0x65)==3) {
+            if(work[1]++>600)*state=11;
+        }
+        break;
+    case 11:
+        send=1;
+        if((*(u8 **)(ctx+4))[0x22]==0)*(int *)(*(u8 **)(ctx+8)+0x44)=2;
+        else *(int *)(*(u8 **)(ctx+8)+0x44)=4;
+        switch(*(unsigned *)(*(u8 **)(ctx+4)+0x8c)) {
+        case 1: case 4: *(int *)(*(u8 **)(ctx+8)+0x40)=0;break;
+        case 0: case 3: *(int *)(*(u8 **)(ctx+8)+0x40)=1;break;
+        case 2: goto default_value;
+        case 5: work[1]=0;send=0;*state=15;break;
+        case 6: default: default_value: *(int *)(*(u8 **)(ctx+8)+0x40)=2;break;
+        }
+        record=*(u8 **)(ctx+4);
+        if(record[0x22]==0) {bound=1;first=0;last=1;}
+        else {bound=3;first=0;last=2;}
+        i=0;
+        if(i<=bound) {
+        first <<= 4;last <<= 4;
+        side=record[0x21]&1;
+        do {
+            if((i&1)==side) {
+                if(side!=0)index=(i&2)+1;else index=i&2;
+                for(j=0;j<6;j++) {
+                    *(u8 *)((unsigned)*(u8 **)(ctx+8)+first+(i>>1)*16+j+0xa)=*(u8 *)((unsigned)*(u8 **)(ctx+4)+index*6+j+0xc8);
+                }
+            } else {
+                if(side!=0)index=i&2;else index=(i&2)+1;
+                for(j=0;j<6;j++) {
+                    *(u8 *)((unsigned)*(u8 **)(ctx+8)+last+(i>>1)*16+j+0xa)=*(u8 *)((unsigned)*(u8 **)(ctx+4)+index*6+j+0xc8);
+                }
+            }
+        } while(++i<=bound);
+        }
+        if(send) {func_02031348((void *)work[0],(int)ov213_id,d_021BB0B0,*(void **)(ctx+8));status=2;*state=12;}
+        break;
+    case 12: if(status!=1)*state=14;break;
+    case 14:return 1;
+    case 15:if(work[1]++>1800) {func_0200FB38();*(int *)(ctx+0xc)=2;return 1;}break;
+    }
+    if(func_0203CD98()!=0 && status!=1) {
+        if(*((u8 *)func_0203D798()+0x65)==3) {
+            if(func_0200FB24()!=0) {func_0200FB38();*(int *)(ctx+0xc)=1;return 1;}
+        } else {
+            switch(func_02157170(1,1)) {
+            case 0:break;
+            case 1:case 2:case 3:default:*(int *)(ctx+0xc)=2;return 1;
+            case 4:*(int *)(ctx+0xc)=3;return 1;
+            }
+        }
+    }
+    return 0;
+}
+

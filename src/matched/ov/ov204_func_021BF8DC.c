@@ -1,0 +1,59 @@
+/*
+ * function: func_021BF8DC
+ * address: 0x021BF8DC
+ * packet: pkt_ov204_021BF8DC
+ * region: ov204
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * Width: original forwards heap without narrowing at 021BF900 and 021BF950;
+ * u32 heap externs remove the truncations inserted by the legacy u16 prototypes.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02047CFC 0x02047CFC arm
+ *   func_02048A24 0x02048A24 arm
+ *   func_02047E88 0x02047E88 arm
+ *   func_02048A18 0x02048A18 arm
+ *   func_020477A4 0x020477A4 arm
+ *   func_020477D4 0x020477D4 arm
+ *   site 0x021C0B00 data a1
+ *   va 0x021C0914 data a4
+ *   vb 0x021C0920 data a4
+ *   vc 0x021C0908 data a4
+ *   setup 0x021C093C data a4
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {u32 x,y,z;} Vec3;
+extern const Vec3 va,vb,vc;
+extern const char site[];
+extern const char setup[];
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern void *func_02047CFC(u16,u16,u32);
+extern void *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u32);
+extern u16 func_02047E88(void *,const void *);
+extern void *func_02048A18(void *,u16);
+extern u32 func_020477A4(void *,u32);
+extern int func_020477D4(void *,u32);
+char *func_021BF8DC(void *owner,int kind,u32 heap)
+{
+    Vec3 a,b,c;
+    char *p;
+    void *obj;
+    p=func_02030734(heap,48,1,site,162);
+    *(u16 *)(p+4)=heap;
+    *(void **)p=owner;
+    *(void **)(p+8)=func_02047CFC(10,16,heap);
+    a=va;b=vb;c=vc;
+    *(void **)(p+12)=func_02048A24(2,24576,(u32)-24576,(u32)-32768,32768,4096,4194304,4096,&a,&b,&c,heap);
+    if(kind!=7){
+        *(u16 *)(p+16)=func_02047E88(*(void **)(p+8),setup);
+        obj=func_02048A18(*(void **)(p+8),*(u16 *)(p+16));
+        func_020477A4(obj,3);func_020477A4(obj,4);
+        func_020477D4(obj,0);func_020477D4(obj,1);func_020477D4(obj,2);
+    }else *(u16 *)(p+16)=0xffff;
+    *(u32 *)(p+24)=1;
+    return p;
+}

@@ -1,0 +1,60 @@
+/*
+ * function: func_021BEFC4
+ * address: 0x021BEFC4
+ * packet: pkt_ov203_021BEFC4
+ * region: ov203
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   sub_020311B8 0x020311B8 arm
+ *   sub_02031290 0x02031290 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021BF0B4 0x021BF0B4 thumb
+ *   sub_0207C768 0x0207C768 arm
+ *   func_02023F60 0x02023F60 thumb
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ */
+typedef unsigned int u32;
+struct Tcbl;
+struct TcblNode;
+struct S02030FB4;
+struct Owner { char pad[0x20]; struct Tcbl *manager; };
+struct Work { struct Owner *owner; int state,mask,kind,duration,start,end,current,step; int *counter; };
+extern struct TcblNode *sub_020311B8(struct Tcbl *,void (*)(struct TcblNode *,void *),u32,u32);
+extern void *sub_02031290(struct S02030FB4 *);
+extern void func_02082BCC(void *,u32,u32);
+extern void func_021BF0B4(struct TcblNode *,void *);
+extern u32 sub_0207C768(u32,u32);
+extern void func_02023F60(u32,u32,u32);
+void func_021BEFC4(struct Owner *owner,int mask,int kind,int start,int end,int duration,int *counter)
+{
+    struct Work *work;
+    float a,b,c;
+    int final;
+    work=sub_02031290((struct S02030FB4 *)sub_020311B8(owner->manager,func_021BF0B4,0x28,0));
+    func_02082BCC(work,0,0x28);
+    work->owner=owner;
+    work->mask=mask;
+    work->kind=kind;
+    work->start=start;
+    work->end=end;
+    work->duration=duration;
+    work->counter=counter;
+    if(start>0) a=0.5f+(float)(start<<12);
+    else a=(float)(start<<12)-0.5f;
+    work->current=(int)a;
+    if(duration>0) b=0.5f+(float)(duration<<12);
+    else b=(float)(duration<<12)-0.5f;
+    if(end>0) c=0.5f+(float)(end<<12);
+    else c=(float)(end<<12)-0.5f;
+    final=(int)c;
+    work->step=sub_0207C768(final-work->current,(int)b);
+    if(counter != 0) (*counter)++;
+    func_02023F60((short)work->start,work->kind,work->mask);
+}

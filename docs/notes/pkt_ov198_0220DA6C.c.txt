@@ -5,10 +5,13 @@
  * region: ov198
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: compiled 424 vs 408; 268 concrete bytes, all 18 sites resolved.
- * checks: 1 callee bodies/0201ED04 unit confirm arity and pointer payload; 2 C694/CCF0/D628/D9B4/11190 neighbours read; 3 wide widths and enum extraWidth no rescue, const p 268/424 best; 4 byte-local colour, spill and repeated-print idioms read; 5 current unfiltered idiom list and 11190 reread. Permuter not required: best size is +16. Next: inline print helper boundaries and width lifetime.
+ * residual: 440 compiled versus 408 original; 163 concrete byte differences. Register rotation, split trailing print/free blocks and pool placement persist. Best concrete score163 at440B; prior closer-size424B/268 remains in wave68 archive.
+ * retry: FINAL RETRY EXHAUSTED; wave69 R1, 6 terminal one runs, fixed compiler/flags and --diff.
+ * checks: 1 fresh C724/D304/457xx/ED04/F250 bodies confirm 7/3/1-2/3; corrected 45738 return u8 compiles same163/440. 2 C694/CCF0/D628/D9B4/11190 twins reread. 3 mutable p298/452 and long width168/440 rejected; u8 widths retain explicit wide-call truncations. 4 helper retaining dirty/free block improves268 to163; both manual variants exhausted. 5 current unfiltered idioms, C694/11190 and stack-storage idiom reread.
+ * permuter: No previous search; skipped because best size delta +32.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
@@ -22,6 +25,7 @@
  *   func_0201F250 0x0201F250 thumb
  *   func_0201EEF4 0x0201EEF4 thumb
  *   d_02211B68 0x02211B68 data a4
+
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,7 +35,7 @@ typedef enum Count { COUNT_ZERO=0, COUNT_BYTE=255 } Count;
 extern int func_022110D4(u8 *,int);
 extern void *func_02045EC0(void *,u32);
 extern void *func_020457B0(u32,u32);
-extern u32 func_02045738(void *);
+extern u8 func_02045738(void *);
 extern u32 func_02045770(void *);
 extern u32 func_0201D304(void *,u32,u32);
 extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
@@ -42,6 +46,13 @@ typedef struct { unsigned char low:7; unsigned char high:1; } Flags;
 typedef struct { unsigned char low:3; unsigned char middle:4; unsigned char high:1; } Bits;
 extern void func_0201EEF4(void *,u32,void *);
 extern u32 d_02211B68[];
+static inline void print_line(const u8 *p,u32 x,u32 y,void *text,u16 color)
+{
+ void *context=*(void **)(p+0x1EAC);
+ func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),x,y,(u32)text,*(u32 *)(*(char **)p+12),color);
+ *(u8 *)(p+0x1F74)=1;
+ func_02045808(text);
+}
 void func_0220DA6C(const u8 *p,int index)
 {
     void *handle;
@@ -74,19 +85,12 @@ void func_0220DA6C(const u8 *p,int index)
         gap=8;
     }
     x=(int)((func_02045738(handle)<<3)-width-extraWidth-gap)/2;
-    context=*(void **)(p+0x1EAC);
-    func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),x,7,(u32)buf,*(u32 *)(*(char **)p+12),0x3DC0);
-    *(u8 *)(p+0x1F74)=1;
-    func_02045808(buf);
+    print_line(p,x,7,buf,0x3DC0);
     if (extra!=0) {
         if (((Bits *)(elem+0x17))->low==0) {
-            context=*(void **)(p+0x1EAC);
-            func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),(s16)(x+width+gap),8,(u32)extra,*(u32 *)(*(char **)p+12),0x2960);
+                    print_line(p,(s16)(x+width+gap),8,extra,0x2960);
         } else {
-            context=*(void **)(p+0x1EAC);
-            func_0201C724(context,func_02045770(*(void **)(p+0x1F70)),(s16)(x+width+gap),8,(u32)extra,*(u32 *)(*(char **)p+12),0x31A0);
+                    print_line(p,(s16)(x+width+gap),8,extra,0x31A0);
         }
-        *(u8 *)(p+0x1F74)=1;
-        func_02045808(extra);
     }
 }

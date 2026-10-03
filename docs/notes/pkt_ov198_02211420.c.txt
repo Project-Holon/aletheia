@@ -3,15 +3,15 @@
  * address: 0x02211420
  * packet: pkt_ov198_02211420
  * region: ov198
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags: -O4,p
  * lang: c99
  * isa: thumb
  * status: DIFF
- * Residual: 912 bytes versus 1008; 683 concrete mismatches, merged scroll
- * branches and wrong offset register lifetime. Latent ARM9 witness blocker
- * 0202CF98 is defined in unit_0202CF84.c but absent from its function header.
- * checks: 1 callee bodies confirm manager arities 1/2/3/4/5 and CD64 s8,s8,u8; 2 no six-state twin, matched 11034/F2DC read; 3 u16 offset compiled904/704 mismatch versus enum912/683, enum retained; 4 stack-buffer and enum-offset idioms read; 5 unfiltered idioms relisted, neighbours 11034 and ov199127F0 reread; next retry hypothesis separate signed coordinate locals/shared-scroll CFG; permuter not applicable: size delta96
+ * residual: 912 compiled versus 1008 original; 683 concrete byte differences. Merged scroll branches and state/selection offset lifetimes persist. Four CF98 relocation sites lack an external witness: Ilias-owned unit_0202CF84.c defines0202CF98 but its function header omits it; ARM9 untouched.
+ * retry: FINAL RETRY EXHAUSTED; wave69 R1, 5 terminal one runs, fixed compiler/flags and --diff.
+ * checks: 1 fresh manager bodies confirm 3/5/3/4/1/5/4/2/1; CD64 uses s8,s8,u8; allocator fifth argument u16, corrected. 2 113B8/1139C/113FC/11034/F2DC bodies read; no six-state twin. 3 long offset704/904 rejected; broader enum range683/912 unchanged, signed byte array retained from original ldrsb; p writable. 4 inline-state wrapper704/904 and paired-scroll helper683/912 rejected; two manual variants exhausted; stack-array/enum/switch idioms read. 5 fresh unfiltered idioms and 11034/F2DC/ov199127F0 reread.
+ * permuter: No previous search; skipped because best size delta -96.
  * symbols:
  *   func_0202C9B4 0x0202C9B4 thumb
  *   func_0202CA3C 0x0202CA3C thumb
@@ -30,14 +30,15 @@
  *   func_0220F2DC 0x0220F2DC thumb ov198
  *   func_0202CA0C 0x0202CA0C thumb
  *   d_02212550 0x02212550 data a1 ov198
+
  */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
-typedef enum { state_offset = 0x1e98 } StateOffset;
+typedef enum { state_offset = 0x1e98,state_limit=0x2499 } StateOffset;
 extern void *func_0202C9B4(unsigned, unsigned, unsigned);
 extern void func_0202CA3C(void *, unsigned, unsigned, unsigned, unsigned);
-extern void *func_02030734(unsigned, unsigned, unsigned, const char *, unsigned);
+extern void *func_02030734(unsigned, unsigned, unsigned, const char *, u16);
 extern void func_022113B8(u8 *, unsigned, unsigned);
 extern void func_0202CAC4(void *, unsigned, const void *);
 extern void func_020307B0(void *);

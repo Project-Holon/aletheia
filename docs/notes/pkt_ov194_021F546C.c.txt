@@ -1,0 +1,19 @@
+/*
+ * function: func_021F546C
+ * address: 0x021F546C
+ * packet: pkt_ov194_021F546C
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee 021F5494 reads two u16 pointers and returns int; no call-register residue; 2 no twin in ov194; 3 u16 local count shrinks 15 to 10, u16 stack size adds ldrh and grows to 42, signed size and removing pointer const unchanged at 10; 4 masked-local-width idiom explains restored loop colours; dead-parameter reuse unchanged; 5 directory re-listed and callee/neighbours re-read, no new twin, n/a stack-object check because no aggregate local. Next would test separating count initialization from pointer locals within the scheduling budget.
+ * residual: 10 concrete bytes differ, 40/40 bytes; initial stack load uses r0 after saving a, image loads r1 before saving a; loop and relocation exact.
+ * symbols:
+ *   func_021F5494 0x021F5494 thumb ov194
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_021F5494(const u16 *,const u16 *);
+void func_021F546C(const u16 *a,u32 ignored1,u32 ignored2,const char *b,u32 size) {u16 n=(u16)(size>>6);int i;for(i=0;i<n;i++){if(func_021F5494(a,(const u16 *)(b+i*64))==1)break;}}

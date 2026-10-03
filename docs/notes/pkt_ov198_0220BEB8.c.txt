@@ -5,10 +5,13 @@
  * region: ov198
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee bodies/prototypes preserve all seven print arguments and u8 stack argument; 2 matched C9F0/C0D0 twins read, no matching full body; 3 u16 fourth parameter and const p each compiled unchanged (512 bytes/479 differences); 4 far-offset and repeated-print inline idioms read, scheduling variants exhausted; 5 idiom directory and C9F0/C0D0 reread, no address-taken stack object; next retry should test a static inline print block with block-local far offset; permuter not run because size delta is -24.
- * residual: 512 compiled versus 536 original; 479 concrete bytes differ, all 25 relocations resolve; early 1f70 constant CSE and frame/spill layout differ, initial duplicate len==9 arms merge.
+ * residual: 512 compiled versus 536 original; 479 concrete byte differences. Early far-offset CSE, initial identical-arm merge and frame/spill differences persist.
+ * retry: FINAL RETRY EXHAUSTED; wave69 R1, 4 terminal one runs, fixed compiler/flags and --diff.
+ * checks: 1 fresh C724/D304/457xx/ED04/F250 bodies confirm arities 7/3/1-2/3; print coordinates stay wide. 2 C9F0/C0D0 twins reread. 3 incoming value u16 and extra u8 retained; mutable p run4 still512/479. 4 repeated-print and enum-offset helper variants568/517 and580/518 rejected. 5 current unfiltered idioms and C9F0/C0D0 reread; no stack aggregate.
+ * permuter: No previous search; skipped because best size delta -24.
  * symbols:
  *   func_02045778 0x02045778 arm
  *   func_022110D4 0x022110D4 thumb ov198
@@ -22,6 +25,7 @@
  *   func_02045738 0x02045738 arm
  *   func_0201D304 0x0201D304 thumb
  *   d_02211B68 0x02211B68 data a4
+
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

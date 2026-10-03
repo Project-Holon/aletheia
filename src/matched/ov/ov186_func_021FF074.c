@@ -1,0 +1,23 @@
+/*
+ * function: func_021FF074
+ * address: 0x021FF074
+ * packet: pkt_ov186_021FF074
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B49C 0x0204B49C arm
+ *   func_0204B5D4 0x0204B5D4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct Actor;
+extern void func_0204B49C(struct Actor*,s16,u16,u32);
+extern void func_0204B5D4(struct Actor*,u32,u32);
+/* Space is explicitly truncated to u16 at the original call. */
+void func_021FF074(u8*p){*(u32*)(p+20)=410;func_0204B49C(*(struct Actor**)(p+4),*(s16*)(p+60),*(u32*)(p+68),0);func_0204B5D4(*(struct Actor**)(p+4),*(u32*)(p+20),0);}

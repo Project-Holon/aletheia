@@ -10,12 +10,7 @@
  * status: DIFF
  * blocker: six concrete register bytes; loop bound r1 versus original r3,
  *   loop index r3 versus original r1; both variants compiled 44 bytes.
- * checks: 1 n/a no callees; 2 no twin, matched 021844C8 confirms int return;
- *   3 const p and long count both six-byte DIFF; 4 loop-bound and declaration
- *   idioms read, direct field bound and unsigned subtraction worsened to 18;
- *   5 idiom list and matched 021844C8 reread, n/a stack object absent.
- * next: distinct signed length-minus-one bound with original register homes;
- *   two principled declaration/scheduling trials already used this attempt.
+ * checks: 1 n/a no callees; 2 matched 021844C8 confirms int return, no twin; 3 long bound unchanged6, enum index worsened8; 4 named bound order9 then6, loop-colouring idioms read, permuter300 agreed baseline6/44 and found no improvement; 5 fresh unfiltered idiom directory and matched 021844C8 reread, no stack object; final retry exhausted, no further sweep.
  * symbols:
  */
 typedef unsigned char u8;
@@ -23,4 +18,3 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
 int func_0218449C(const char *p) { int max,i; u8 *data; int count,v; count=*(int *)(p+8); max=0; i=0; data=*(u8 **)(p+4); for(;i<count-1;i++){v=data[i];if((u32)v<128)v=255-v;if(v>max)max=v;}return max; }
-

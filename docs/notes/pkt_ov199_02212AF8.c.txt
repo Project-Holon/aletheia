@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee bodies read, heap stack word-wide despite legacy u16; 2 no initializer twin, matched 127F0/12988 read; 3 const p888/471 worse, u16 id892/401 unchanged, int retained; 4 const-load/stack-buffer/pooled-id idioms read; 5 unfiltered idioms relisted and neighbours reread; permuter budget300 once baseline892/401 agreed, best892/380 validated after moving tmp2 declaration to top; next retry hypothesis bounded Info row pointer shape
+ * checks: 1 all callees rederived from own bodies or matched callers, builders retain full-word heap stack exception and AE14 live return; 2 no initializer twin, matched 127F0/12988/13134 reread; 3 enum id unchanged416/888, const p first CCERR then corrected730/884 worse; 4 bounded Info/Row pointers reproduce early stores but fold switch branches416/888, separate defaults645/896 worse, shared-pointer/tail/stack-object idioms read; 5 fresh unfiltered directory and matched neighbours reread, no aggregate stack object; prior permuter300 already used, not repeated; best380/892 preserved, final retry exhausted.
  * ABI exception: empty AE14 preserves its live pointer argument/result.
  * Builder stack heap inputs are word-wide: original stores r6 directly,
  * so legacy u16 externs must be widened to avoid absent truncations.

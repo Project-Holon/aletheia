@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched 7460 body confirms char*,u32; 2 twins 815C/817C use shared offsets, opposite desired shape; 3 enum field/int local and const parameter compiled unchanged; 4 inline enum value and offset helpers unchanged; 5 idioms relisted and newly matched 817C reread, no stack object. Next sweep: none within canonical budget.
+ * checks: 1 own matched 7460 confirms void(char*,u32); 2 matched 815C/817C share offsets but use opposite folding; 3 u16 n and unsigned long n unchanged15/48; 4 integer-base and word-subscript variants unchanged, constant-pair and flag-tail idioms read; 5 fresh unfiltered directory and matched neighbours reread, no stack object; permuter300 baseline15/48 agreed, temp(p+1ba) winner validated29/52 and rejected as worse than original15/48; final retry exhausted.
  * residual: 48 versus 52 bytes; 15 concrete byte differences from offset sharing after byte store.
  * symbols:
  *   func_021B7460 0x021B7460 thumb ov173
@@ -18,4 +18,3 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021B7460(char *,u32);
 int func_021B6B6C(char *p) { u8 n; if(*(u8 *)(*(char **)p+27)<4) { func_021B7460(p,10); n=4; } else { func_021B7460(p,7); n=3; } *(u8 *)(p+0x1ba)=n; *(u32 *)(p+0x1b0)=3; return 2; }
-

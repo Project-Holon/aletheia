@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov170 021EEFA4 confirms five arguments, four byte scalars; 2 no same-region data twin; 3 const p/q/dest/tables no change, integer-base/inline-field variants no improvement; 4 const-table and coordinate-byte-offset idioms checked; 5 idiom directory and current ov170/171 sources re-read, no new twin; next: record type evidence.
- * residue: best run 1 has 35 concrete bytes different at 56/56 bytes; register/scheduling layout differs. Runs 2-4 have 42 wrong bytes at 52/56; latest only d_021F0188 lacks a witness because shifted pools land inside the compared range. No MATCH claimed.
+ * checks: 1 own 021EEFA4 confirms void(char*,u8,u8,u8,u8), five arguments; 2 no data twin, asm proves 12-byte rows; 3 unsigned long index/helper64/76 and const p/helper63/76 worse; 4 typed row42/52, per-arm inline64/76, table/coordinate idioms read; 5 fresh unfiltered idioms and matched EFA4 reread; permuter300 used but emitted baseline33/56 disagrees with fixed35/56, winner21/56 changes void return to pointer and has CCERR declaration ordering, rejected; final retry exhausted.
+ * residue: preserved best35 concrete bytes different at56/56; original index/table/target register homes and pool order differ, only2/4 relocations resolve. No concrete-correct MATCH or blocker leaf claim.
  * symbols:
  *   d_021F0188 0x021F0188 data a1
  *   d_021F0DCC 0x021F0DCC data a1
@@ -22,4 +22,3 @@ typedef unsigned int u32;
 extern u8 d_021F0188[],d_021F0DCC[],d_021F0370[];
 extern void func_021EEFA4(char*,u8,u8,u8,u8);
 void func_021EE544(u8*p,u32 i){u8*q;if(i<30)q=d_021F0DCC;else{q=d_021F0370;i-=30;}q=(u8*)((u32)q+i*12);func_021EEFA4(*(char**)(p+44),q[0],q[1],d_021F0188[0],d_021F0188[1]);}
-

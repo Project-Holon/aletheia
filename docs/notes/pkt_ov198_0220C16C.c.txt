@@ -5,10 +5,13 @@
  * region: ov198
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: compiled 400 vs 396; 334 concrete bytes, 19/19 relocations resolved.
- * checks: 1 own callee bodies/units confirm arities; D304 must stay wide (second use is untruncated); C724 fourth input is u32, original caches incoming ldrb once then passes full word; 2 C2F8/C0D0/C398/C42C twins read; 3 width int/enum/u16 and const p compiled no improvement, narrow return rejected as wrong, narrower C724 fourth parameter 249/400 rejected as unsupported by own callee or original call truncation (restoration recheck agrees); 4 shift/cast, spill, and repeated-print idioms read; 5 directory and current CCF0/D628 neighbours reread, no new rescue. Permuter baseline 334/400 agreed; 300 candidates best 171/396 rejected: reads buf before assignment and hoists aliasing field read across call. Next: inline print helper boundaries.
+ * residual: 400 compiled versus 396 original; 330 concrete byte differences. First width-half shift pair, context/y load ordering and spill slot ordering persist.
+ * retry: FINAL RETRY EXHAUSTED; wave69 R1, 5 terminal one runs, fixed compiler/flags and --diff.
+ * checks: 1 fresh C724/D304/45770/ED04/F250 bodies confirm 7/3/1/6/3; D304 stays wide and C724 y stays u32. 2 C2F8/C0D0/C398/C42C twins reread. 3 long width and const p each400/330, no rescue; incoming x/y u8 and left s16 retained. 4 print helper400/330 improves334; helper with bound context reverts334, two manual variants exhausted. 5 current unfiltered idioms, C9F0/C0D0/C398 and stack-storage idiom reread.
+ * permuter: Previous 300 search already exhausted; not repeated. Prior best171/396 was invalid and remains rejected.
  * symbols:
  *   func_022110D4 0x022110D4 thumb ov198
  *   func_02045EC0 0x02045EC0 arm
@@ -18,6 +21,7 @@
  *   func_02045808 0x02045808 arm
  *   func_0201EFA4 0x0201EFA4 thumb
  *   func_0201F250 0x0201F250 thumb
+
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -31,6 +35,12 @@ extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
 extern void func_02045808(void *);
 extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
 extern void func_0201F250(void *,void *,void *);
+static inline void print_line(u8 *p,int slot,u32 x,u32 y,u32 text,u32 font)
+{
+ void *context=*(void **)(p+0x1EAC);
+ func_0201C724(context,func_02045770(*(void **)(p+0x1F70+slot*8)),x,y,text,font,0x3DC0);
+ *(u8 *)(p+0x1F74+slot*8)=1;
+}
 void func_0220C16C(u8 *p,int slot,int index,u8 x,u8 y)
 {
     char *elem;
@@ -51,8 +61,7 @@ void func_0220C16C(u8 *p,int slot,int index,u8 x,u8 y)
     x-=width>>1;
     context=*(void **)(p+0x1EAC);
     yvalue=y;
-    func_0201C724(context,func_02045770(*(void **)(p+0x1F70+slot*8)),x,yvalue,(u32)text,*(u32 *)(p+0x1E9C),0x3DC0);
-    *(u8 *)(p+0x1F74+slot*8)=1;
+    print_line(p,slot,x,yvalue,(u32)text,*(u32 *)(p+0x1E9C));
     func_02045808(text);
     hp=func_02045EC0(*(void **)(p+0x1EA0),13);
     func_0201EFA4(*(void **)(p+0x1EA4),0,*(u16 *)(elem+16),3,0,1);
@@ -61,14 +70,12 @@ void func_0220C16C(u8 *p,int slot,int index,u8 x,u8 y)
     buf=*(void **)(p+0x1EA8);
     left=x-func_0201D304(buf,font,0);
     context2=*(void **)(p+0x1EAC);
-    func_0201C724(context2,func_02045770(*(void **)(p+0x1F70+slot*8)),left,yvalue,(u32)buf,font,0x3DC0);
-    *(u8 *)(p+0x1F74+slot*8)=1;
+    print_line(p,slot,left,yvalue,(u32)buf,font);
     func_02045808(hp);
     max=func_02045EC0(*(void **)(p+0x1EA0),13);
     func_0201EFA4(*(void **)(p+0x1EA4),0,*(u16 *)(elem+18),3,0,1);
     func_0201F250(*(void **)(p+0x1EA4),*(void **)(p+0x1EA8),max);
     context3=*(void **)(p+0x1EAC);
-    func_0201C724(context3,func_02045770(*(void **)(p+0x1F70+slot*8)),(s16)(x+width),yvalue,*(u32 *)(p+0x1EA8),*(u32 *)(p+0x1E9C),0x3DC0);
-    *(u8 *)(p+0x1F74+slot*8)=1;
+    print_line(p,slot,(s16)(x+width),yvalue,*(u32 *)(p+0x1EA8),*(u32 *)(p+0x1E9C));
     func_02045808(max);
 }

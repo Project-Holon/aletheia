@@ -1,0 +1,21 @@
+/*
+ * function: func_0220B120
+ * address: 0x0220B120
+ * packet: pkt_ov197_0220B120
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   sub_020450F0 0x020450F0 arm
+ *   func_0220B150 0x0220B150 thumb ov197
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern u32 sub_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void func_0220B150(char *,u8);
+void func_0220B120(char *p) { *(u32 *)(p+0x24)=sub_020450F0(4,1,19,30,4,12,1); func_0220B150(p,*(u8 *)(p+0x532)); }
