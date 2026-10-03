@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u8 *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 extern void func_021A0734(u8 *a, u32 b);
 extern u32 func_021A07B4(u8 *p, int t);
 extern void func_02082D44(void *src, void *dst, u32 n);
@@ -34,7 +34,7 @@ u8 *func_021A03D0(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f)
 {
     u8 *p;
 
-    p = func_02030734(f, 0x490, 1, d_021DDE38, 0x167);
+    p = func_02030734(f, 0x490, 1, (const char *)d_021DDE38, 0x167);
     *(u16 *)(p + 2) = c;
     func_021A0734(p, a);
     *(u16 *)(p + 0x38a) = 1;

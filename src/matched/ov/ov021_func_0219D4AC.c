@@ -17,7 +17,7 @@
  *   d_021DDD80     0x021DDD80  data ov021 a4
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 extern unsigned char d_021DDD80[];
 
 void func_0219D4AC(int *obj, int a)
@@ -25,7 +25,7 @@ void func_0219D4AC(int *obj, int a)
     int i;
     *(int *)((char *)obj + 0xc) =
         (int)(unsigned short *)func_02030734(a, *(unsigned short *)((char *)obj + 8) * 4,
-                                             1, d_021DDD80, 0x7f);
+                                             1, (const char *)d_021DDD80, 0x7f);
     for (i = 0; i < (int)*(unsigned short *)((char *)obj + 8); i++) {
         unsigned short *p = *(unsigned short **)((char *)obj + 0xc);
         p[i * 2 + 1] = 0xFFFF;

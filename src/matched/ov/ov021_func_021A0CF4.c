@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_021A0EE4(void *p, u32 b);
 extern u8 d_021DDE48[];
 extern const u8 d_021D872C[];
@@ -35,7 +35,7 @@ u32 *func_021A0CF4(u32 a, u32 b, u32 c)
     u32 *p;
     u32 r;
 
-    p = (u32 *)func_02030734((u16)a, 0x2c, 1, d_021DDE48, 0x13c);
+    p = (u32 *)func_02030734((u16)a, 0x2c, 1, (const char *)d_021DDE48, 0x13c);
     p[2] = 0;
     *(u16 *)(p + 3) = a;
     p[8] = 0;

@@ -25,7 +25,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02012DD0(u32);
+extern int func_02012DD0(u8 *p);
 extern void func_02196228(u8 *p, int flag);
 extern void func_0201F7A8(u32, u32);
 extern void func_020456F8(u32);
@@ -36,7 +36,7 @@ extern void func_02196804(u8 *p);
 
 void func_02197738(u8 *a)
 {
-    if (func_02012DD0(*(u32 *)(a + 0x30)) == 2) {
+    if (func_02012DD0(*(u8 **)(a + 0x30)) == 2) {
         func_02196228(a, 0);
         func_0201F7A8(*(u32 *)(a + 0x2b0), 2);
         func_020456F8(*(u32 *)(a + 0x2b0));

@@ -21,7 +21,7 @@
 extern int func_0216D4F8(int);
 extern int func_0216D4F0(int);
 extern void func_0216D524(int, void *);
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern void func_0219D4AC(int *obj, int a);
 extern unsigned char d_021DDD80[];
 
@@ -31,7 +31,7 @@ void func_0219D448(int a, int b)
     int *p;
 
     h = func_0216D4F8(a);
-    p = (int *)func_02030734(h, 0x10, 1, d_021DDD80, 0x48);
+    p = (int *)func_02030734(h, 0x10, 1, (const char *)d_021DDD80, 0x48);
     p[0] = a;
     p[1] = b;
     *(unsigned short *)(p + 2) = func_0216D4F0(a);

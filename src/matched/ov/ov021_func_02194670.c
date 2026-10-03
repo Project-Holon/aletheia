@@ -26,7 +26,7 @@ extern int d_021DDAC4;
 extern void *(*d_020A8140)(int, int, int);
 extern void *(*d_020A8148)(int, int, int);
 
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, u16 tag);
 typedef unsigned int   u32;
 struct Tcbl;
 extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
@@ -38,7 +38,7 @@ void *func_02194670(u16 *a)
     unsigned char *r6;
     int i;
 
-    r6 = (unsigned char *)func_02030734(*a, 0xcd0, 1, &d_021DDAC4, 0xec);
+    r6 = (unsigned char *)func_02030734(*a, 0xcd0, 1, (const char *)&d_021DDAC4, 0xec);
     *(T24 *)r6 = *(T24 *)a;
     *(void **)(r6 + 0xc98) = func_0203101C(*a, *a, 0x20, 0x20);
     for (i = 0; i < 0x20; i++)

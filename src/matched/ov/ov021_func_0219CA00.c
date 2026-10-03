@@ -19,12 +19,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u8 *func_02030734(u32, u32, u32, void *, u32);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern unsigned char d_021DDD70[];
 
 void func_0219CA00(u32 *s, u32 n, u32 heap)
 {
-    u16 *p = (u16 *)func_02030734(heap, n * 8, 1, d_021DDD70, 0x484);
+    u16 *p = (u16 *)func_02030734(heap, n * 8, 1, (const char *)d_021DDD70, 0x484);
     s[0] = n;
     s[1] = (u32)p;
     do {

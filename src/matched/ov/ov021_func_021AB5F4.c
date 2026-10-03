@@ -25,12 +25,12 @@ typedef struct {
     int pad1c;
 } S;
 
-extern void *func_02030734(u16 heap, int size, int clear, const char *file, int line);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *file, u16 line);
 extern char d_021DDFC8[];
 
 S *func_021AB5F4(int heap, int a, int b)
 {
-    S *p = func_02030734(heap, 0x20, 1, d_021DDFC8, 0x51);
+    S *p = func_02030734((u16)heap, 0x20, 1, d_021DDFC8, 0x51);
     p->f0 = a;
     p->f4 = b;
     p->f14 = -1;

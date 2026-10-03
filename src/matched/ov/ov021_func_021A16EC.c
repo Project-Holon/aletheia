@@ -27,7 +27,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct S02046CE0;
 extern int func_02046C94(void);
 extern void *func_02049250(void *h, u32 id, u16 heap);
@@ -45,7 +45,7 @@ void func_021A16EC(u8 *d, void *a, const u8 *s, u32 n)
     d[3] = s[5];
     d[4] = s[6];
     d[5] = s[7];
-    *(void **)(d + 8) = func_02030734(n, func_02046C94(), 1, d_021DDE5C, 0x2ad);
+    *(void **)(d + 8) = func_02030734((u16)n, func_02046C94(), 1, d_021DDE5C, 0x2ad);
     r = func_02049250(a, *(const u16 *)s, n);
     func_02046CE0(*(void **)(d + 8), r);
     func_02047180(*(void **)(d + 8));

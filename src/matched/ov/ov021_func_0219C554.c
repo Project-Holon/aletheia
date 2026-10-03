@@ -34,7 +34,7 @@ typedef struct { u32 a, b, c; } T12;
 extern int d_021DDD70;
 extern T12 d_021D8058;
 extern u32 func_0216D4F8(u32);
-extern u8 *sub_02030734(u32, u32, u32, void *, u32);
+extern void *sub_02030734(u32, u32, int, const char *, u16);
 extern void func_0216D51C(u32, void *);
 extern void func_0219CAD8(void *, u32);
 extern void func_0219CBE0(u8 *o);
@@ -45,7 +45,7 @@ extern void func_0204EDB0(u32, u8 *);
 
 void func_0219C554(u32 a, u32 b, u32 c)
 {
-    u8 *p = sub_02030734(func_0216D4F8(a), 0x24, 1, &d_021DDD70, 360);
+    u8 *p = sub_02030734(func_0216D4F8(a), 0x24, 1, (const char *)&d_021DDD70, 360);
     u32 h;
     T12 t;
     u8 z;

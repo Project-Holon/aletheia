@@ -26,7 +26,7 @@ typedef unsigned short u16;
 
 extern int d_021DDE90;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 int func_02188C84(int obj);
 void *func_02188CB4(unsigned char *p);
 void *func_021A3074(unsigned char *p);
@@ -45,7 +45,7 @@ void func_021A2D88(int obj, int unused, int y)
     char *p;
 
     h = func_02188C84(obj);
-    p = (char *)func_02030734(h, 0x10, 1, &d_021DDE90, 0x68);
+    p = (char *)func_02030734(h, 0x10, 1, (const char *)&d_021DDE90, 0x68);
     *(u16 *)p = h;
     *(int *)(p + 4) = obj;
     a = func_02188CB4((void *)obj);

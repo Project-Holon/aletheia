@@ -34,14 +34,14 @@ typedef struct {
 
 extern int d_021DDE80;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 void func_021A2BD4(void *p, void *o, void *s, int a, int b);
 
 void func_021A28CC(Obj *o, int heap)
 {
     int i;
 
-    o->f3c = (int)func_02030734(heap, o->hdr->f28, 1, &d_021DDE80, 0x874);
+    o->f3c = (int)func_02030734(heap, o->hdr->f28, 1, (const char *)&d_021DDE80, 0x874);
     if (o->hdr->n != 0) {
         for (i = 0; i < 0x20; i++) {
             func_021A2BD4((char *)o + 0x74 + i * 0x38, o, o->sub, o->f0, heap);

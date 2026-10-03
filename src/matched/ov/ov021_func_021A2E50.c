@@ -20,12 +20,12 @@ typedef unsigned int   u32;
 
 extern int d_021DDEA8;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 u32 func_021A36E4(int a, u32 b, int c, int d, u16 heap);
 
 u32 *func_021A2E50(int a, u32 b, int c, int d, u16 heap)
 {
-    u32 *o = (u32 *)func_02030734(heap, 0x10, 1, &d_021DDEA8, 0x4C);
+    u32 *o = (u32 *)func_02030734(heap, 0x10, 1, (const char *)&d_021DDEA8, 0x4C);
 
     o[0] = b;
     o[1] = func_021A36E4(a, b, c, d, heap);

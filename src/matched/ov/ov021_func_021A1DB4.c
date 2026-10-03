@@ -20,13 +20,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 d_021DDE80[];
-extern u32 *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 
 u32 *func_021A1DB4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 h, u16 i)
 {
     u32 *o;
 
-    o = func_02030734(i, 0x784, 1, d_021DDE80, 0x17E);
+    o = func_02030734(i, 0x784, 1, (const char *)d_021DDE80, 0x17E);
     o[0] = a;
     o[5] = b;
     o[1] = d;

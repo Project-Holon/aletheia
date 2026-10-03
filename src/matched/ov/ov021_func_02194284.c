@@ -18,16 +18,16 @@ typedef unsigned short u16;
 
 extern int d_021DDA70;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 
 void *func_02194284(int a, void *b, int heap, int c)
 {
     int n = 0xc;
-    char *p = (char *)func_02030734(heap, n, 1, &d_021DDA70, 0x5d);
+    char *p = (char *)func_02030734(heap, n, 1, (const char *)&d_021DDA70, 0x5d);
 
     *(u16 *)p = a;
     *(u16 *)(p + 2) = c;
     *(void **)(p + 4) = b;
-    *(void **)(p + 8) = func_02030734(heap, n * a, 1, &d_021DDA70, 0x63);
+    *(void **)(p + 8) = func_02030734(heap, n * a, 1, (const char *)&d_021DDA70, 0x63);
     return p;
 }
