@@ -1,0 +1,63 @@
+/*
+ * function: func_021F5004
+ * address: 0x021F5004
+ * packet: pkt_ov194_021F5004
+ * region: ov194
+ * status: DIFF
+ * checks: 1 4D20/4F50 live-R0 forwarders need pointer returns; 4DA4 and 4F6C caller truncations require u16 indices; 2 matched 4F7C confirms int loops, u16 accessors, const key; 3 const text compiled unchanged at 312/32; 4 stack-order and separate-loop-index idioms read, manual scheduling cap reached; 5 fresh idiom listing and 4DA4/4F6C/4F7C/4D20/4F50 neighbours re-read, stack-object idiom read; permuter 300 improved to 312/24 via initialized found use and k/ok declaration swap, fixed one validated; next hypothesis remaining allocatedHeap/words and category/j spill slots plus grid/i register colours.
+ * symbols:
+ *   func_021F4D20 0x021F4D20 thumb ov194
+ *   func_021F4D34 0x021F4D34 thumb ov194
+ *   func_021F4D9C 0x021F4D9C thumb ov194
+ *   func_021F4DA0 0x021F4DA0 thumb ov194
+ *   func_021F4DA4 0x021F4DA4 thumb ov194
+ *   func_021F4F50 0x021F4F50 thumb ov194
+ *   func_021F4F60 0x021F4F60 thumb ov194
+ *   func_021F4F68 0x021F4F68 thumb ov194
+ *   func_021F4F6C 0x021F4F6C thumb ov194
+ *   func_02045A98 0x02045A98 arm
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+extern void *func_021F4D20(u32,u16);
+extern void func_021F4D34(void *);
+extern u16 func_021F4D9C(void *),func_021F4DA0(void *);
+extern u32 func_021F4DA4(void *,u16,u16);
+extern void *func_021F4F50(u16);
+extern void func_021F4F60(void *);
+extern u16 func_021F4F68(void *);
+extern u16 func_021F4F6C(void *,u16,u16);
+extern u16 func_02045A98(void);
+int func_021F5004(const u16 *text,u32 heap)
+{
+    void *grids[4];
+    void *grid;
+    int i,ok;
+    u32 allocatedHeap=(heap&0x7fff)|0x8000,category;
+    int pos,j;
+    void *words;
+    int k,found;
+    for(i=0;i<4;i++) grids[i]=func_021F4D20(i,(u16)allocatedHeap);
+    words=func_021F4F50((u16)allocatedHeap);
+    ok=1;
+    for(pos=0;text[pos]!=func_02045A98();pos++) {
+        found=0;
+        for(category=0;category<4;category++) {
+            j=0;
+            grid=grids[category];
+            for(;j<func_021F4DA0(grid) && found==0;j++)
+                for(i=0;i<func_021F4D9C(grid) && found==0;i++)
+                    if(text[pos]==func_021F4DA4(grid,(u16)i,(u16)j)) found=1;
+        }
+        for(k=0;k<func_021F4F68(words);k++) {
+            for(i=0;i<3;i++)
+                if(text[pos]==func_021F4F6C(words,(u16)k,(u16)i)) found=1;
+        }
+        if(found==0) {if(found) {} ok=0;break;}
+    }
+    func_021F4F60(words);
+    for(i=0;i<4;i++) func_021F4D34(grids[i]);
+    return ok;
+}
+
+

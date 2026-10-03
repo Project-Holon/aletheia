@@ -7,9 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 n/a: no calls; 2 ov129 neighbours read, no exact loop twin; 3 local scope and unsigned mul/v no change; 4 declaration/const idioms read; 5 refreshed idioms and neighbours, no stack object; next: separate multiplier update spelling.
- * residual: 30 concrete bytes; 58 bytes compiled vs60 extent.
+ * status: EXACT*
+ * Lever: expand v reads while retaining its declaration/assignment, name n*28, and initialise sum before mul.
+ * Permuter found this spelling after38 candidates; baseline DIFF30 bytes; intermediate expand-v DIFF5.
+ * trailing: Two zero alignment bytes.
+ * checks: final retry rescued by bounded permuter; emitted baseline agreed, winning C confirmed by fixed one and sequential shard verification. Prior DIFF superseded by matched source.
  * symbols:
 
  */
@@ -17,4 +19,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-int func_021D92E4(u8 *p) { int n; int sum; u32 mul; u32 v; mul=1; sum=0; for(n=*(int *)(p+0x23c)-1;n>-1;n--) { v=*(int *)(p+n*28); if(v) sum+=(v-1)*mul; mul*=10; } return sum; }
+int func_021D92E4(u8 *p)
+{
+  int n;
+  int sum;
+  u32 mul;
+  u32 v;
+  int tmp;
+  sum = 0;
+  mul = 1;
+  for (n = (*((int *) (p + 0x23c))) - 1; n > (-1); n--)
+  {
+    v = *((int *) (p + (n * 28)));
+    tmp = n * 28;
+    if (*((int *) (p + tmp)))
+      sum += ((*((int *) (p + (n * 28)))) - 1) * mul;
+    mul *= 10;
+  }
+
+  return sum;
+}

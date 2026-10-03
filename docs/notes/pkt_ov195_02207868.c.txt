@@ -1,0 +1,164 @@
+/*
+ * function: func_02207868
+ * address: 0x02207868
+ * packet: pkt_ov195_02207868
+ * region: ov195
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matrix/vec/invsqrt callees and live heap setup read; 2 refreshed 06274/063E0/06604 show no full motion twin; 3 u8 flags 707B, fx32 locals 709B worse, writable p cannot be const; 4 real interleaved stack structs 705B, separate case flags 706B; 5 refreshed all 568 idioms and matched neighbours, declared-struct idiom read. Next lever: branch sharing without further declaration sweeps.
+ * residual: 2364 compiled / 2340 listed; 705 concrete bytes, 35/35 relocations; runs 5 + macro-free baseline + permuter300. Permuter baseline agrees; 2340/1567 best has added volatile and is rejected.
+ * extent: handed ends at shared epilogue 0220818C; pop 02208190, pools through 022081A0, next genuine 022081A4.
+ * symbols:
+ *   func_0207B640 0x0207B640 thumb
+ *   func_0207BC08 0x0207BC08 arm
+ *   func_0207C7E8 0x0207C7E8 arm
+ *   func_02208410 0x02208410 thumb ov195
+ *   _ll_mul 0x0209C054 arm
+ *   FX_SinCosTable_ 0x020A1B38 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef long fx32;
+typedef struct {fx32 x,y,z;} Vec;
+typedef struct {fx32 a[12];} Matrix;
+extern void func_0207B640(Matrix *,fx32,fx32);
+extern void func_0207BC08(const Vec *,const Matrix *,Vec *);
+extern fx32 func_0207C7E8(fx32);
+extern int func_02208410(char *,u16);
+extern const s16 FX_SinCosTable_[];
+#define G(n) (*(u32 *)(p+(n)))
+#define Q(n) (*(int *)(q+(n)))
+#define H(n) (*(s16 *)(p+(n)))
+#define V(n) (*(Vec *)(q+(n)))
+static inline int mul(int a,int b){return (int)(((long long)a*b+2048)>>12);}
+static inline int sub(int a,int b){return (int)((u32)a-(u32)b);}
+static inline int add(int a,int b){return (int)((u32)a+(u32)b);}
+void func_02207868(char *p,u16 heap)
+{
+    s16 i,j,i1,j1,i2,j2,i3,j3;
+    int first,second,done;
+    int angle,dx,dy,dz,horiz,vert,inv,vx,vy,vz,smallH,smallV;
+    char *q;
+    Vec goal;
+    Matrix m1;
+    Vec source1;
+    Matrix m2;
+    Vec source2;
+    Matrix m3;
+    Vec source3;
+    Matrix m4;
+    Vec source4;
+    G(0x68)+=G(0x6c);
+    if((int)G(0x68)>=65536)G(0x68)-=65536;
+    for(i=0;i<18;i++)for(j=0;j<18;j++){
+        q=p+0x74+i*0x900+j*0x80;
+        V(0x74)=V(0x68);
+    }
+    switch(G(0x64)){
+    case 0:
+        G(0x64)=1;G(0x70)=0;G(0x6c)=0x600;return;
+    case 1:
+        first=1;second=1;done=1;
+        for(i1=0;i1<18;i1++)for(j1=0;j1<18;j1++){
+            q=p+0x74+i1*0x900+j1*0x80;
+            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
+            func_0207B640(&m1,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            source1.x=Q(0x50);source1.y=0;source1.z=0;
+            func_0207BC08(&source1,&m1,&goal);goal.y=Q(0x54);
+            if(Q(0x64)==0){
+                if(first||second){Q(0x30)=0;Q(0x64)=1;if(first)first=0;else second=0;}
+                done=0;
+            }else if(Q(0x64)==1){
+                if(Q(0x30)==0){
+                    Q(0x68)=add(Q(0x68),Q(0x40));Q(0x6c)=add(Q(0x6c),Q(0x44));Q(0x70)=add(Q(0x70),Q(0x48));
+                    Q(0x30)++;*(u8 *)(p+0xa274)=(u8)(i1+1);
+                }else{
+                    dy=sub(Q(0x5c),Q(0x6c));dz=sub(Q(0x60),Q(0x70));dx=sub(Q(0x58),Q(0x68));
+                    horiz=mul(dx,dx)+mul(dz,dz);vert=mul(dy,dy);
+                    if(horiz<0x11ac&&vert<0x11ac){
+                        Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);Q(0x6c)=Q(0x5c);
+                        Q(0x68)=goal.x;Q(0x70)=goal.z;Q(0x6c)=goal.y;Q(0x30)=0;Q(0x64)=2;
+                    }else{
+                        smallV=0;smallH=0;if(horiz<0x11ac)smallH=1;else if(vert<0x11ac)smallV=1;
+                        if(smallH){Q(0x68)=Q(0x58);Q(0x70)=Q(0x60);}
+                        else{
+                            inv=func_0207C7E8(horiz);
+                            Q(0x68)=add(add(Q(0x68),mul(sub(Q(0x68),Q(0x74)),409)),mul(mul(dx,inv),3584));
+                            Q(0x70)=add(add(Q(0x70),mul(sub(Q(0x70),Q(0x7c)),409)),mul(mul(dz,inv),3584));
+                        }
+                        if(smallV)Q(0x6c)=Q(0x5c);
+                        else{vy=dy>=0?4096:-4096;Q(0x6c)=add(add(Q(0x6c),mul(sub(Q(0x6c),Q(0x78)),409)),mul(vy,3584));}
+                        Q(0x30)++;
+                    }
+                }
+                done=0;
+            }else if(Q(0x64)==2){Q(0x68)=goal.x;Q(0x70)=goal.z;Q(0x6c)=goal.y;}
+        }
+        if(done){G(0x64)=2;if(G(0x28)!=1&&G(0x28)!=2)G(0x28)=1;}return;
+    case 2:
+        if(G(0x70)<100)G(0x6c)+=32;
+        if(G(0x70)>=200&&G(0x70)<240)G(0x6c)-=32;
+        for(i2=0;i2<18;i2++)for(j2=0;j2<18;j2++){
+            q=p+0x74+i2*0x900+j2*0x80;
+            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
+            func_0207B640(&m2,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+            source2.x=Q(0x50);source2.y=0;source2.z=0;
+            func_0207BC08(&source2,&m2,&V(0x68));Q(0x6c)=Q(0x54);
+        }
+        if(func_02208410(p,heap)&&G(0x70)>=30){
+            if(H(0x5c)>=0&&H(0x5a)>=0){
+                *(u8 *)((u32)p+(u32)H(0x5c)*0x900+(u32)H(0x5a)*0x80+0x88)=0;
+                if(H(0x5a)-1<0){H(0x5a)=18;H(0x5c)--;}else H(0x5a)--;
+            }
+            if(H(0x60)<18&&H(0x5e)<18){
+                *(u8 *)((u32)p+(u32)H(0x60)*0x900+(u32)H(0x5e)*0x80+0x88)=0;
+                if(H(0x5e)+1>=18){H(0x5e)=0;H(0x60)++;}else H(0x5e)++;
+            }
+        }
+        if(H(0x5c)<0&&H(0x60)>=18&&G(0x70)>=240){G(0x64)=3;G(0x70)=0;return;}
+        G(0x70)++;return;
+    case 3:
+        first=1;second=1;done=1;
+        for(i3=17;i3>=0;i3--)for(j3=17;j3>=0;j3--){
+            q=p+0x74+i3*0x900+j3*0x80;
+            angle=add(Q(0x4c),G(0x68));if(angle>=65536)angle-=65536;
+            if(Q(0x64)==2){
+                if(first||second){Q(0x30)=0;Q(0x64)=3;if(first)first=0;else second=0;done=0;}
+                else{
+                    func_0207B640(&m3,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    source3.x=Q(0x50);source3.y=0;source3.z=0;
+                    func_0207BC08(&source3,&m3,&V(0x68));Q(0x6c)=Q(0x54);
+                    done=0;
+                }
+            }else if(Q(0x64)==3){
+                if(Q(0x30)==0){
+                    func_0207B640(&m4,FX_SinCosTable_[(angle>>4)*2],FX_SinCosTable_[(angle>>4)*2+1]);
+                    source4.x=Q(0x50);source4.y=0;source4.z=0;
+                    func_0207BC08(&source4,&m4,&V(0x68));Q(0x6c)=Q(0x54);
+                    vx=sub(Q(0x68),Q(0x74));vy=sub(Q(0x6c),Q(0x78));vz=sub(Q(0x70),Q(0x7c));
+                    horiz=mul(vx,vx)+mul(vz,vz);vert=mul(vy,vy);
+                    if(horiz>4096){inv=func_0207C7E8(horiz);vx=mul(vx,inv);vz=mul(vz,inv);}
+                    if(vert>4096)vy=vy>=0?4096:-4096;
+                    Q(0x68)=add(Q(0x68),vx);Q(0x6c)=add(Q(0x6c),vy);Q(0x70)=add(Q(0x70),vz);Q(0x30)++;
+                }else{
+                    dx=sub(Q(0x34),Q(0x68));dy=sub(Q(0x38),Q(0x6c));dz=sub(Q(0x3c),Q(0x70));
+                    horiz=mul(dx,dx)+mul(dz,dz);vert=mul(dy,dy);
+                    if(horiz<0x11ac&&vert<0x11ac){Q(0x68)=Q(0x34);Q(0x70)=Q(0x3c);Q(0x6c)=Q(0x38);Q(0x30)=0;Q(0x64)=4;}
+                    else{
+                        if(horiz>4096){inv=func_0207C7E8(horiz);dx=mul(dx,inv);dz=mul(dz,inv);}
+                        if(vert>4096)dy=dy>=0?4096:-4096;
+                        Q(0x68)=add(Q(0x68),dx);Q(0x6c)=add(Q(0x6c),dy);Q(0x70)=add(Q(0x70),dz);
+                    }
+                }
+                done=0;
+            }
+        }
+        if(done){G(0x64)=4;G(0x28)=4;}return;
+    case 4: return;
+    }
+}

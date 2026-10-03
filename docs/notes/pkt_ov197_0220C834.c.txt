@@ -1,0 +1,72 @@
+/*
+ * function: func_0220C834
+ * address: 0x0220C834
+ * packet: pkt_ov197_0220C834
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: compiled 224/224, four bytes at +0006/+0008: allocator tag stack store and size literal load trade places.
+ * checks: 1 allocator 5 arguments/tag u16, all callee bodies read; 2 same-ov197 C980/CAAC context twins, no allocator twin; 3 const q iteration and signed allocator size/u16 heap checks unchanged; 4 enum-offset and narrow-stack idioms read; 5 fresh idiom list and CAAC/D11C neighbours read; permuter emitted baseline DIFF4 agrees, 300 candidates no improvement; next: allocator size passed through typed inline.
+ * symbols:
+ *   sub_02030734 0x02030734 arm
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_0220C914 0x0220C914 thumb ov197
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_0200829C 0x0200829C thumb
+ *   func_020082B0 0x020082B0 thumb
+ *   func_020082B4 0x020082B4 thumb
+ *   func_0220B9A4 0x0220B9A4 thumb ov197
+ *   d_0220E0E0 0x0220E0E0 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef enum { WORK_SIZE=0x5a4 } Offset;
+extern const char d_0220E0E0[];
+extern char *sub_02030734(unsigned,unsigned,int,const char *,u16);
+extern void *func_021F86D4(void);
+extern int func_021F86E0(void);
+extern void func_0220C914(void *,char *);
+extern void *func_02030DA8(void *,unsigned,unsigned,unsigned);
+extern void func_0200829C(const void *,u16,short *,short *);
+extern u16 func_020082B0(const void *),func_020082B4(const void *);
+extern int func_0220B9A4(char *);
+void func_0220C834(const char *q)
+{
+    Offset size=WORK_SIZE;
+    char *p;
+    unsigned i;
+    int value;
+    p=sub_02030734(*(u16 *)(q+0xc),size,1,d_0220E0E0,177);
+    func_02030DA8(func_021F86D4(),(unsigned)func_0220C914,(unsigned)p,100);
+    *(const char **)p=q;
+    *(int *)(p+8)=func_021F86E0();
+    *(int *)(p+(size-4))=0;
+    value=0;
+    if(*(int *)(*(char **)p+8)==1) {
+        *(u8 *)(p+(size-0x72))=1;
+        *(u8 *)(p+(size-0x74))=1;
+    } else if(*(int *)(*(char **)p+8)==3) {
+        *(u8 *)(p+(size-0x72))=1;
+        *(u8 *)(p+(size-0x74))=0;
+        value=2;
+    } else {
+        *(u8 *)(p+(size-0x72))=0;
+        *(u8 *)(p+(size-0x74))=0;
+    }
+    *(u8 *)(p+(size-0x71))=value;
+    if(*(int *)(*(char **)p+8)!=1) {
+        for(i=0;i<4;i++) func_0200829C(*(void **)(*(char **)p+0x1c),i,(short *)(*(char **)p+0x30+i*2),(short *)(*(char **)p+0x38+i*2));
+        *(u16 *)(p+0x540)=func_020082B0(*(void **)(*(char **)p+0x1c));
+        *(u8 *)(p+0x542)=func_020082B4(*(void **)(*(char **)p+0x1c));
+        func_0220B9A4(p);
+    } else {
+        for(i=0;i<4;i++) {
+            *(u16 *)(*(char **)p+0x30+i*2)=0;
+            *(u16 *)(*(char **)p+0x38+i*2)=0;
+        }
+    }
+}

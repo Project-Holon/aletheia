@@ -1,0 +1,119 @@
+/*
+ * function: func_021F3FBC
+ * address: 0x021F3FBC
+ * packet: pkt_ov194_021F3FBC
+ * region: ov194
+ * status: DIFF
+ * checks: 1 owned ARM9 resource callees confirm 5/7/4/5-argument arity and u16 heap slots; 2 peer 021F1440 supplies packed from a halfword and heap 30, no constructor twin; 3 u32 heap regressed to 776 bytes, u16 packed shrank 10 to 8 differing bytes; 4 narrow-spill, stack-slot and typed-copy idioms read, manual scheduling cap reached; 5 fresh idiom listing and 3EF0/42E8/51E4 neighbours re-read, stack-object idiom read; permuter 300 found no improvement (baseline 740/10 confirmed); next hypothesis heap entry reload scheduling.
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_02043678 0x02043678 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_020275E4 0x020275E4 thumb
+ *   func_020276A4 0x020276A4 thumb
+ *   func_020276A8 0x020276A8 thumb
+ *   func_020276AC 0x020276AC thumb
+ *   func_020276B0 0x020276B0 thumb
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0201BABC 0x0201BABC thumb
+ *   func_0201BC40 0x0201BC40 thumb
+ *   func_0201BCB4 0x0201BCB4 thumb
+ *   func_0201BB5C 0x0201BB5C thumb
+ *   func_020255A0 0x020255A0 thumb
+ *   func_0201C724 0x0201C724 thumb
+ *   func_021F51E4 0x021F51E4 thumb ov194
+ *   d_021F5569 0x021F5569 data ov194 a1
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef struct {u16 x,y,z,w;} Pos;
+typedef struct {void *bmp; short x,y;u32 f8,fc;u8 a,b;u16 c;u32 f14;} Param;
+extern void func_02082BCC(void *,int,int);
+extern u32 func_020275E4(void),func_020276A4(void),func_020276A8(void),func_020276AC(int),func_020276B0(int);
+extern u32 func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
+extern u32 func_0201BABC(u32,u8,u32,u32),func_0201BB5C(u32,u8,u32,u32);
+extern void *func_020490F4(unsigned,u16);
+extern int func_0204ACEC(void *,u32,u32,u32,u16),func_0204AC18(void *,u32,u32,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u32),func_0204A6C8(void *,u32,u32,u32,u16);
+extern void func_02049238(void *);
+extern void *func_0204B294(unsigned,unsigned,unsigned,unsigned,void *,u16,u16);
+extern void func_0204B92C(void *,u32),func_0204B878(void *,u32),func_0204B6F4(void *,u32,u32);
+extern void func_021F51E4(void *,u32,u32,u32,u16,u16,int,int,u16);
+extern void *func_02043678(int,int,int,u16);
+extern void *func_020255A0(void *,Param *);
+extern void *func_02045EC0(void *,int);
+extern void func_02043B5C(void *,u8);
+extern void func_0201C724(void *,u32,u32,u32,void *,u32,u16);
+extern const u8 d_021F5569[];
+void func_021F3FBC(char *p,u32 kind,u32 species,u16 packed,u32 owner,void *ctx,void *window,void *strings,void *labels,u16 heap)
+{
+    Param param;
+    Pos pos;
+    u32 extra,arc,cell,member,resA,resB,choice;
+    void *archive;
+    u32 dimx,dimy,mode;
+    int compressed=0;
+    extra=0;dimx=34;dimy=20;
+    func_02082BCC(p,0,60);
+    choice=0;
+    switch(kind) {
+    case 0:case 1:
+        arc=func_020275E4();cell=func_020276A4();member=func_020276A8();resA=func_020276AC(2);resB=func_020276B0(2);mode=species;break;
+    case 2:
+        arc=32;cell=0;choice=d_021F5569[species];member=species+49;resA=65;resB=66;mode=species>=8?1:0;break;
+    case 3:
+        extra=1;mode=(packed&0xff00)>>8;if(mode==2)extra=0;
+        arc=7;cell=func_0201BC3C();member=func_0201BABC(species,(u8)packed,mode,0);resA=func_0201BC40();resB=func_0201BCB4();
+        dimx=30;dimy=20;compressed=1;break;
+    case 4:case 5:arc=118;cell=9;member=8;resA=7;resB=6;choice=1;break;
+    }
+    archive=func_020490F4(arc,heap);
+    if(compressed) *(int *)(p+8)=func_0204ACEC(archive,cell,0,64,heap);
+    else *(int *)(p+8)=func_0204AC18(archive,cell,0,64,choice,1,heap);
+    *(int *)(p+16)=func_0204AF28(archive,resA,resB,heap);
+    *(int *)(p+12)=func_0204A6C8(archive,member,0,0,heap);
+    func_02049238(archive);
+    func_02082BCC(&pos,0,8);
+    pos.x=dimx;pos.y=dimy;
+    *(void **)p=func_0204B294(owner,*(u32 *)(p+12),*(u32 *)(p+8),*(u32 *)(p+16),&pos,0,heap);
+    func_0204B92C(*(void **)p,1);
+    switch(kind) {
+    case 0: if(species==0) func_021F51E4(*(void **)p,49,6,3,4,4,0,0,heap); else func_021F51E4(*(void **)p,49,9,3,4,4,0,0,heap);break;
+    case 1:func_021F51E4(*(void **)p,49,6,3,4,4,0,0,heap);
+    case 2:func_0204B6F4(*(void **)p,0,1);break;
+    case 3:func_0204B878(*(void **)p,1);func_0204B6F4(*(void **)p,func_0201BB5C(species,(u8)packed,(packed&0xff00)>>8,0),0);break;
+    case 5:func_0204B878(*(void **)p,5);func_0204B6F4(*(void **)p,0,1);break;
+    case 4:func_0204B878(*(void **)p,2);func_0204B6F4(*(void **)p,0,1);break;
+    }
+    if(extra) {
+        u16 color;
+        u32 label;
+        archive=func_020490F4(23,heap);
+        *(void **)(p+48)=func_02043678(2,2,32,heap);
+        *(int *)(p+36)=func_0204ACEC(archive,5,0,160,heap);
+        func_02049238(archive);
+        func_02082BCC(&param,0,24);
+        param.bmp=*(void **)(p+48);param.x=46;param.y=20;param.f8=*(u32 *)(p+36);
+        param.a=0;param.c=0;param.f14=0;param.b=0;param.fc=0;
+        *(void **)(p+44)=func_020255A0(labels,&param);
+        if(mode==1) {label=17;color=0xc80;} else {label=16;color=0x14c0;}
+        *(void **)(p+40)=func_02045EC0(strings,label);
+        func_02043B5C(*(void **)(p+48),0);
+        func_0201C724(window,*(u32 *)(p+48),0,0,*(void **)(p+40),(u32)ctx,color);
+        *(void **)(p+56)=window;*(int *)(p+52)=1;
+    }
+}
+
+

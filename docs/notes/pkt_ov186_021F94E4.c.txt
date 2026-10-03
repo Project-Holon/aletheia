@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callees/readers and B570 four args confirmed; 2 962C/966C/9810 twins read; 3 const ctx reduced 23 to 17 bytes, unsigned locals unchanged; 4 explicit empty case exits reduced table residue to 10 bytes; 5 fresh idioms and matched neighbours re-read, no untried lever within manual scheduling cap. Next hypothesis: case-local two-word load spelling; manual scheduling cap exhausted.
+ * checks: 1 fresh own ARM9 arities and FC4DC matched readers confirmed; 2 962C/966C/9810 neighbours read; 3 full-word unsigned long local and long type unchanged; 4 load-pair/register-colour idioms read, case-local pair and u64 extraction still DIFF10; 5 fresh unfiltered idioms and neighbours reread. Final retry exhausted (4 iteration + 1 check-3). Permuter skipped: extent follower omitted.
  * residue: 10 concrete bytes in case 7 load order/register rotation; all seven relocations resolved. Lead 312B; handed 328B extent includes 021F961C store/return follower (14B + 2B padding). Permuter skipped: follower omitted from compiled branch.
  * symbols:
  *   func_021FC4DC 0x021FC4DC thumb ov186
@@ -73,5 +73,4 @@ void func_021F94E4(int *out,int *source,const char *ctx,int type)
 done:
     return;
 }
-
 

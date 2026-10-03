@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 owncallees derived,1FB4showreadsonearg,4DBC/4F50live-r0 return exception; 2 3CD0windowconstructor no prologue twin; 3 countu16/s16/u32,constvoid/u16text nochange4,CCERRconstfixedcast; 4 narrow-home-store andfront-end-spill idiomsread; 5 freshlisting,3CD0reread,no newtwin.
- * search: Macro-free emittedbaseline4/338 agreesfixedone; once-only300 --types noimprovement; no furthersearch.
- * runs: 7 fixed one calls includingoneCCERR plus once-onlypermuter300; validDIFF4 at338/340,bodymatchesafterprologue.
+ * residual: Final retry exhausted; 4 concrete bytes; compiled338/340; only text/count initial home-store order differs; all21 relocations resolved.
+ * checks: 1 own callees and new1FB4 confirm arity;4DBC/4F50 widened because original stores live r0; 2 3CD0 no prologue twin; 3 long/enum/u8 count and integer text unchanged4,unsigned-long heap321; 4 typed0x94 Work unchanged4, narrow-home/front-end-spill idioms reread; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 7 fixed one calls; previous once-only300 permuter already used, no repeated search.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_020450F0 0x020450F0 arm

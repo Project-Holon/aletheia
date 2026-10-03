@@ -1,0 +1,21 @@
+/*
+ * function: func_021FCE00
+ * address: 0x021FCE00
+ * packet: pkt_ov132_021FCE00
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020399A8 0x020399A8 arm
+ *   func_02039CB4 0x02039CB4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_02039CB4(struct Entry *,int,int);
+int func_021FCE00(char *p,int id) {if(func_02039CB4(func_020399A8(),id,0x11)==1)return 1;if(*(int *)(p+4)==1)return 1;return 0;}

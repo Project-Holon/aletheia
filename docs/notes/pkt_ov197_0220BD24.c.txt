@@ -1,0 +1,84 @@
+/*
+ * function: func_0220BD24
+ * address: 0x0220BD24
+ * packet: pkt_ov197_0220BD24
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: compiled 508/508, 60 concrete bytes differ; case1 offset/color register homes, branch stack-store placement and enum width truncations.
+ * checks: 1 CC70/CC58 two, CB4C four, CE50 seven with byte stack widths, BB98 two args/u16 result own show; 2 BBE4 table Config14 and BF40 byte palette twin; 3 const p iteration 61, signed-char/short color checks 512/224 worse; 4 enum-offset/shared-argument/byte-colour idioms read; 5 fresh idiom list and newly matched BBE4/BF40/C574 reread; permuter baseline DIFF60 agrees, 300 no improvement; next: struct-typed work parameter.
+ * symbols:
+ *   func_0202CC70 0x0202CC70 thumb
+ *   func_0202CB4C 0x0202CB4C thumb
+ *   func_0202CE50 0x0202CE50 thumb
+ *   func_0202CC58 0x0202CC58 thumb
+ *   func_0220BB98 0x0220BB98 thumb ov197
+ *   d_0220DB44 0x0220DB44 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+struct Config {u16 member;u8 w,h;};
+extern const struct Config d_0220DB44[14];
+extern void func_0202CC70(void *,unsigned),func_0202CC58(void *,unsigned);
+extern void func_0202CB4C(void *,unsigned,int,int);
+extern void func_0202CE50(void *,unsigned,int,int,u8,u8,u8);
+extern unsigned func_0220BB98(const char *,unsigned);
+void func_0220BD24(char *p,int mode)
+{
+    unsigned i;
+    for(i=0;i<14;i++) func_0202CC70(*(void **)(p+0x520),i);
+    switch(mode) {
+    case 0:
+        func_0202CB4C(*(void **)(p+0x520),10,27,19);
+        func_0202CB4C(*(void **)(p+0x520),13,1,19);
+        if(*(u16 *)(p+0x540)==0) func_0202CE50(*(void **)(p+0x520),13,0,0,25,5,3);
+        else func_0202CE50(*(void **)(p+0x520),13,0,0,25,5,1);
+        func_0202CC58(*(void **)(p+0x520),0);
+        func_0202CC58(*(void **)(p+0x520),1);
+        func_0202CC58(*(void **)(p+0x520),2);
+        func_0202CC58(*(void **)(p+0x520),3);
+        func_0202CC58(*(void **)(p+0x520),10);
+        func_0202CC58(*(void **)(p+0x520),13);
+        break;
+    case 1: {
+        const unsigned off=0x533;
+        enum { DIMENSION=5 } dimension;
+        u8 color;
+        func_0202CB4C(*(void **)(p+0x520),10,59,19);
+        for(i=0;i<6;i++) {
+            if(func_0220BB98(p,i)==0) func_0202CE50(*(void **)(p+0x520),i+4,0,0,d_0220DB44[i+4].w,d_0220DB44[i+4].h,6);
+            else func_0202CE50(*(void **)(p+0x520),i+4,0,0,d_0220DB44[i+4].w,d_0220DB44[i+4].h,4);
+        }
+        if(*(u8 *)(p+*(u8 *)(p+off)+(off+6))==0) {
+            dimension=DIMENSION;
+            color=3;
+            func_0202CE50(*(void **)(p+(off-0x13)),11,0,0,dimension,dimension,color);
+        } else {
+            dimension=DIMENSION;
+            color=1;
+            func_0202CE50(*(void **)(p+(off-0x13)),11,0,0,dimension,dimension,color);
+        }
+        func_0202CE50(*(void **)(p+(off-0x13)),12,0,0,dimension,dimension,color);
+        func_0202CC58(*(void **)(p+0x520),4);
+        func_0202CC58(*(void **)(p+0x520),5);
+        func_0202CC58(*(void **)(p+0x520),6);
+        func_0202CC58(*(void **)(p+0x520),7);
+        func_0202CC58(*(void **)(p+0x520),8);
+        func_0202CC58(*(void **)(p+0x520),9);
+        func_0202CC58(*(void **)(p+0x520),11);
+        func_0202CC58(*(void **)(p+0x520),12);
+        func_0202CC58(*(void **)(p+0x520),10);
+        break;
+    }
+    case 2:
+        func_0202CE50(*(void **)(p+0x520),13,0,0,25,5,1);
+        func_0202CB4C(*(void **)(p+0x520),10,27,51);
+        func_0202CB4C(*(void **)(p+0x520),13,1,51);
+        func_0202CC58(*(void **)(p+0x520),10);
+        func_0202CC58(*(void **)(p+0x520),13);
+        break;
+    }
+}

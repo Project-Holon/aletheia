@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: DIFF 26 bytes, compiled 352/352; first-arm result=1 cross-jump layout differs; 6/7 relocations resolved, ARM9 0x0200FB4C unresolved.
- * checks: 1 own ov125 event reader/ack and ARM9 bodies confirm arity; 2 ov186 siblings and ov125 unit read, no decoder twin; 3 enum result and const event pointer each compiled DIFF 28; 4 goto-tail idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom listing and matched siblings reread. Next untried: named first-arm output temporary.
- * permuter: once, jobs 1/types/budget 300; baseline agrees DIFF 28,352/352; hoist-up(result,-1) winner ported and validated DIFF 26 without changing behavior.
+ * residual: Final retry exhausted; 26 concrete bytes; compiled352/352; first-arm result cross-jump differs; 6/7 relocations, ARM9 0200FB4C witness absent.
+ * checks: 1 own ov125 reader/ack and ARM9 body confirm arity; 2 FF88C reread, no decoder twin; 3 Event struct, short/long result unchanged26; 4 named first-arm value34 and switch284, manual variants exhausted; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 6 fixed one calls; previous once-only300 permuter already used, no repeated search.
  * symbols:
  *   func_021D72EC 0x021D72EC thumb ov125
  *   func_021D72F8 0x021D72F8 thumb ov125

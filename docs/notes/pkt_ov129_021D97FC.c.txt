@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a: no calls; 2 ov129 neighbours read, no exact loop twin; 3 const parameter, offset struct and enum count no change; 4 declaration/const idioms read; 5 refreshed idioms and neighbours, no stack object; next: typed record parameter.
- * residual: 4 concrete bytes in count-load scratch register;58 bytes compiled vs60 extent.
+ * checks: 1 n/a: no calls; 2 97CC/93D4 neighbours give Record layout; 3 long counter and u8 flag both compiled unchanged; 4 declaration-order and far-field/allocator idioms read, typed-record and declaration-order attempts failed; 5 fresh plain idiom list and 97CC/97B8/9760 neighbours re-read, sibling128/130 search no twin, no stack object. Next: explicit count-offset enum; retry exhausted.
+ * retry: 4 iteration + 2 checks; bounded permuter300 emitted baseline agrees, best still DIFF4/58B.
+ * residual: 4 concrete bytes in count-load scratch register;58 bytes compiled vs60 extent (two zero alignment bytes). Final retry exhausted.
  * symbols:
 
  */

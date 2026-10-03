@@ -1,0 +1,22 @@
+/*
+ * function: func_021DD760
+ * address: 0x021DD760
+ * packet: pkt_ov137_021DD760
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201FEF4 0x0201FEF4 thumb
+ *   func_020452E8 0x020452E8 arm
+ *   func_020450C8 0x020450C8 arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed short s16;
+extern void func_0201FEF4(void *);
+extern void func_020452E8(void *);
+extern void func_020450C8(void);
+void func_021DD760(u8 *p) {if(*(void **)(p+232)!=0)func_0201FEF4(*(void **)(p+232));func_020452E8(*(void **)(p+208));func_020452E8(*(void **)(p+220));func_020452E8(*(void **)(p+216));func_020452E8(*(void **)(p+212));func_020450C8();}

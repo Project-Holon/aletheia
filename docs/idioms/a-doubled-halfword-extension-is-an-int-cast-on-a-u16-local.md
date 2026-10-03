@@ -1,5 +1,7 @@
 # A doubled halfword extension is an (int) cast on a u16 local
 
+summary: Storing an int parameter in a u16 local and explicitly casting its uses to int preserves two loop-invariant Thumb zero-extension pairs.
+
 Shape (Thumb, -O4,p): a loop-invariant value gets two zero-extension pairs before the loop.
 
     lsls r0, r6, #0x10

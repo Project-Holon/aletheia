@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own B68 is void(char *,int), no argument/return discrepancy; 2 task callbacks and neighbours confirm payload words, no selector twin; 3 const/int/u32/Pair and allocated State field all DIFF2, one State-offset typo corrected within check-3 budget; 4 whole Pair copy DIFF6, one-word aggregate unchanged; 5 fresh unfiltered idiom listing and 648/88C/9D0/A98 neighbours read. Next untried lever: named first-payload temporary.
+ * checks: 1 fresh own FFB68 and callback bodies confirm arities; 2 FF648/FF88C/FF9D0/FFA98 neighbours read; 3 enum/long payload and const long source unchanged; 4 named first-payload and register-colour idioms unchanged; 5 fresh unfiltered idioms/neighbours reread. Final retry exhausted (4 iteration + 1 check-3). Permuter skipped: separately matched FF648 follower omitted.
  * Residual: 252-byte lead versus 276-byte listing includes already filed 021FF648; only first payload load/store uses r1 instead of r2 (DIFF2), all 22 relocations resolve.
  * Permuter: skipped because handed extent contains the separately matched 021FF648 follower, as canonical big procedure permits.
  * Extent: separately filed func_021FF648 follows at +0xFC; it is excluded from this singleton.

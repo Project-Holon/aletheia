@@ -8,12 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 02008314 two-pointer copy; 2 matched ov188 021EEE78;
- *   3 enum/int/u8 flag widths tested, original flag truncates as int;
- *   4 bitfield/aggregate/flag idioms read; 5 fresh directory and neighbours.
- *   Permuter300 baseline agreed34, winner clean port validated25/222 bytes;
- *   two manual scheduling variants used. Next retry: nested block flag
- *   declaration initializer or const source pointer (not tried).
+ * residual: Final retry exhausted; 25 concrete bytes; compiled222/224; flag/temp register scheduling and trailing padding differ; relocation resolved.
+ * checks: 1 own 02008314 takes two pointers; 2 EEE78 reread, no exact twin; 3 const source unchanged25, prior widths checked; 4 inline field34 and nested flag block25, manual variants exhausted; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 4 fixed one calls; previous once-only300 permuter already used, no repeated search.
  * symbols:
  *   func_02008314 0x02008314 thumb
  */

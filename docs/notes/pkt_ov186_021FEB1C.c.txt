@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 callee bodies confirm arities (E6E0 r0 used); 2 FE7F8 agrees on palette types; 3 wider mask, narrow value/fifth args, const p and int value all unchanged; 4 constant-pooling and brace idioms read, guards correct; 5 directory refreshed, FE7F8/EC14 reread, no stack object residue; permuter 300 baseline/best DIFF 248/248 187 bytes out.
+ * checks: 1 fresh own palette callees and E6E0 live-r0 body confirm arities; 2 FE7F8/FEC14 neighbours read; 3 enum/unsigned-long value and enum state pointer unchanged; 4 constant-pair/enum idioms read, named enum masks worsen to 256B/239; 5 fresh unfiltered idioms and neighbours reread. Final retry exhausted (4 iteration + 1 check-3); prior 300-budget permuter not repeated.
  * residue: 3FFF/BFFF pooled into r7 across paired calls, enlarging saved-register set; no unresolved relocations.
  * abi: 0204E6E0 leaves the duration divisor in r0; the caller consumes it.
  * symbols:
@@ -67,5 +67,4 @@ int func_021FEB1C(char *p,int *state)
     }
     return 0;
 }
-
 

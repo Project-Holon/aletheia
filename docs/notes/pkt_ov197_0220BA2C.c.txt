@@ -1,0 +1,97 @@
+/*
+ * function: func_0220BA2C
+ * address: 0x0220BA2C
+ * packet: pkt_ov197_0220BA2C
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 02048F60 takes 3; 020081DC takes 3, caller narrows index; 020307B0 takes 1. 2 ov197 neighbours BB1C/BB78/B814 no complete twin. 3 const p and byte mask each compiled DIFF17 unchanged. 4 address grouping, integer row base and byte-colour idioms read. 5 fresh unfiltered idioms listing and BB1C/BB78/BD14/B814 reread.
+ * residual: 5 differing bytes at +006C,+006E,+0070: row-base add precedes count load and changes scratch operands; 240/240 bytes; all 6 relocations resolved.
+ * permuter: once --budget 300 --jobs 1 --types; emitted baseline DIFF17 size240 agrees with one; safe initialized temporary/declaration winner DIFF5 validated by one.
+ * next: retry may test named int row base / full-word unsigned column grouping; no further scheduling variants this pass.
+ * budget: third manual declaration variant was inadvertently introduced during width change (DIFF17 to25), then immediately reverted; no later manual scheduling sweep.
+ * Width: original narrows item index to u16 before 020081DC; extern preserves caller truncation despite owner u32 index.
+ * symbols:
+ *   func_02048F60 0x02048F60 arm
+ *   func_020081DC 0x020081DC thumb
+ *   func_020307B0 0x020307B0 arm
+ *   d_0220DB3C 0x0220DB3C data a1
+ *   d_0220DB3F 0x0220DB3F data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned long u32;
+extern void *func_02048F60(u32, u16, u16);
+extern u16 *func_020081DC(u8 *, u32, u16);
+extern void func_020307B0(void *);
+extern const u8 d_0220DB3C[3];
+extern const u8 d_0220DB3F[4];
+void func_0220BA2C(char *p)
+{
+  u8 *flags;
+  unsigned group;
+  unsigned index;
+  u16 *tmp;
+  unsigned kind;
+  u16 *item;
+  u8 mask;
+  unsigned page;
+  char *slot;
+  u32 bit;
+  int tmp1;
+  unsigned tmp2;
+  u16 tmp3;
+  void *tmp4;
+  tmp3 = *((u16 *) ((*((char **) p)) + 0xC));
+  tmp4 = func_02048F60(232, 0, tmp3);
+  group = 0;
+  flags = tmp4;
+  for (; group < 3; group++)
+  {
+    index = 0;
+    kind = d_0220DB3C[group];
+    for (;;)
+    {
+      item = func_020081DC(*((u8 **) (*((char **) p))), kind, index);
+      if (item == 0)
+        break;
+      if ((item[0] != 0) && (item[1] != 0))
+      {
+        mask = flags[item[0]];
+        for (bit = 0; bit < 4; bit++)
+        {
+          tmp1 = 1 << bit;
+          if (mask & tmp1)
+          {
+            page = d_0220DB3F[bit];
+            tmp2 = page * 0x90;
+            slot = (char *) (((((u8 *) p) + page)[0x535] * 4) + ((u32) (p + tmp2)));
+            *((u16 *) (slot + 0x150)) = item[0];
+            tmp = (u16 *) (slot + 0x152);
+            *tmp = item[1];
+            (((u8 *) p) + page)[0x535]++;
+          }
+        }
+
+      }
+      index++;
+    }
+
+  }
+
+  func_020307B0(flags);
+  for (group = 0; group < 4; group++)
+  {
+    if ((((u8 *) p) + group)[0x535] == 0)
+      (((u8 *) p) + group)[0x539] = 0;
+    else
+      (((u8 *) p) + group)[0x539] = ((((u8 *) p) + group)[0x535] - 1) / 6;
+    if ((((u8 *) p) + group)[0x539] < (*((s16 *) (((*((char **) p)) + (group * 2)) + 0x38))))
+      *((s16 *) (((*((char **) p)) + (group * 2)) + 0x38)) = (((u8 *) p) + group)[0x539];
+  }
+
+}

@@ -1,0 +1,20 @@
+/*
+ * function: func_02202940
+ * address: 0x02202940
+ * packet: pkt_ov135_02202940
+ * region: ov135
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residue: 52 bytes compiled; 13 concrete bytes differ in loop register allocation.
+ * checks: 1 func_0201CE48 void(void*) from matched ov135 caller, call setup matches; 2 02202878 shares cleanup callee but no loop twin; 3 const u8* parameter and long counter both retain 13-byte delta; 4 named-pointer/integer-base/hoisted-zero idioms read, u32* element form regresses to 18 bytes; 5 refreshed idioms and matched neighbours, no new twin, no stack object in residue. Next: struct-record shape, no permutation sweep.
+ * symbols:
+ *   func_0201CE48 0x0201CE48 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_0201CE48(void *);
+void func_02202940(u8 *p) { long i=0; u32 base=(u32)p+24; for(;i<24;i++) { u32 e=base+(u32)i*12; if(*(u32 *)(e+8)!=0) *(u32 *)(e+8)=0; } if(*(void **)(p+16)!=0) { func_0201CE48(*(void **)(p+16)); *(u32 *)(p+16)=0; *(u32 *)(p+20)=0; } }

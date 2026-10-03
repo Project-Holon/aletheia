@@ -1,0 +1,71 @@
+/*
+ * function: func_02206E2C
+ * address: 0x02206E2C
+ * packet: pkt_ov195_02206E2C
+ * region: ov195
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 all float helpers resolved; 2 matched 06274/063E0 math and allocation twins; 3 short x/y worse (1784), pointer writes forbid readonly; 4 named floats avoid folding, compound inline add preserves operand order; 5 refreshed idioms/neighbours, no stack aggregate; runs 6 + baseline + permuter300; baseline1764/157 agrees, best1764/40 rejected for added volatile(top).
+ * symbols:
+ *   _fflt 0x0209BDBC arm
+ *   _fmul 0x0209C77C arm
+ *   _fsub 0x0209CB8C arm
+ *   _fadd 0x0209C95C arm
+ *   _fdiv 0x0209CE10 arm
+ *   _fgr 0x0209BBB0 arm
+ *   _ffix 0x0209C494 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {int x,y,z;} Vec;
+#define PW(n) (*(int *)(q+(n)))
+#define SH(n) (*(short *)(q+(n)))
+#define ROUND(x) ((int)(((x)>0)?(x)*4096.0f+0.5f:(x)*4096.0f-0.5f))
+#define SPAN span
+#define STEP step
+static inline float addFloat(float a,float b){a+=b;return a;}
+void func_02206E2C(char *p,u16 heap)
+{
+    int i,x,y;
+    char *q;
+    float left,top,offx,offy;
+    float span=2.022056818008423f,step=5.333333492279053f,zero=0.0f,two=2.0f;
+    *(int *)(p+0x1c)=0;*(int *)(p+0x20)=0;*(int *)(p+0x24)=0;
+    *(u8 *)(p+0xa274)=18;
+    left=-18.198511123657227f+SPAN/two;
+    top=18.198511123657227f-SPAN/two;
+    offx=zero*(SPAN/STEP);
+    offy=zero*(SPAN/STEP);
+    for(i=0;i<324;i++){
+        x=i%18;y=i/18;
+        q=p+0x74+y*0x900+x*0x80;
+        PW(0)=60;
+        *(u8 *)(q+0x14)=31;
+        SH(0x16)=ROUND((zero-SPAN)/two-offx);
+        SH(0x18)=ROUND(addFloat(SPAN/two,offy));
+        SH(0x1a)=0;
+        SH(0x1c)=ROUND((zero-SPAN)/two-offx);
+        SH(0x1e)=ROUND((zero-SPAN)/two-offy);
+        SH(0x20)=0;
+        SH(0x22)=ROUND(addFloat(SPAN/two,offx));
+        SH(0x24)=ROUND((zero-SPAN)/two-offy);
+        SH(0x26)=0;
+        SH(0x28)=ROUND(addFloat(SPAN/two,offx));
+        SH(0x2a)=ROUND(addFloat(SPAN/two,offy));
+        SH(0x2c)=0;
+        *(Vec *)(q+0x68)=*(Vec *)(p+0x1c);
+        PW(0x68)+=ROUND(left+SPAN*(float)x);
+        PW(0x6c)+=ROUND(top-SPAN*(float)y);
+        PW(4)=ROUND((16.0f+(float)x*STEP)-zero);
+        PW(0xc)=ROUND((16.0f+(float)y*STEP)-zero);
+        PW(8)=PW(4)+ROUND(two*zero+STEP);
+        PW(0x10)=PW(0xc)+ROUND(two*zero+STEP);
+        *(Vec *)(q+0x74)=*(Vec *)(q+0x68);
+    }
+}
+
+

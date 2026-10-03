@@ -1,0 +1,40 @@
+/*
+ * function: func_021D92E4
+ * address: 0x021D92E4
+ * packet: pkt_ov129_021D92E4
+ * region: ov129
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * Lever: expand v reads while retaining its declaration/assignment, name n*28, and initialise sum before mul.
+ * Permuter found this spelling after38 candidates; baseline DIFF30 bytes; intermediate expand-v DIFF5.
+ * trailing: Two zero alignment bytes.
+ * symbols:
+
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+int func_021D92E4(u8 *p)
+{
+  int n;
+  int sum;
+  u32 mul;
+  u32 v;
+  int tmp;
+  sum = 0;
+  mul = 1;
+  for (n = (*((int *) (p + 0x23c))) - 1; n > (-1); n--)
+  {
+    v = *((int *) (p + (n * 28)));
+    tmp = n * 28;
+    if (*((int *) (p + tmp)))
+      sum += ((*((int *) (p + (n * 28)))) - 1) * mul;
+    mul *= 10;
+  }
+
+  return sum;
+}

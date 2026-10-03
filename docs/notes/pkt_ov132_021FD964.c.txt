@@ -1,0 +1,20 @@
+/*
+ * function: func_021FD964
+ * address: 0x021FD964
+ * packet: pkt_ov132_021FD964
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no calls in this leaf; 2 ov132 neighbours have the same raw 0x73 access but no getter twin; 3 const p and u8 subindex each compiled with no change; 4 named u32 base and pointer arithmetic each compiled with no change; 5 latest idiom directory and matched neighbours checked, no new fit, stack-local check n/a no stack object
+ * The 14-byte follower has one concrete byte different: at +6 original
+ * adds r0,r0,r2, compiled adds r0,r2,r0. Parent confirmed ownership.
+ * Tested through the lead unit at 021FD938. Baseline plus two principled
+ * nonshrinking changes and two mandatory check compiles: five runs.
+ * This first-pass residual is eligible for one retry.
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+u32 func_021FD964(char *p,u32 index,u32 subindex){return *(u8 *)((u32)p+index*0x30+subindex+0x73);}

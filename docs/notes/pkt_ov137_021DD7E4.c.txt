@@ -1,0 +1,24 @@
+/*
+ * function: func_021DD7E4
+ * address: 0x021DD7E4
+ * packet: pkt_ov137_021DD7E4
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residue: 38 compiled vs 40 original; 12 concrete bytes differ. Original has b-to-next at +0x1c.
+ * checks: 1 inspected callees; 02039338 returns u16, 021DE220 reads one pointer, 021DE350 empty but caller supplies p; 2 no exact twin; 3 u16 02039338 with long a and unsigned 021DE220 each kept same 12-byte diff; 4 goto/shared-tail and branch-stub idioms read; 5 neighbouring sources refreshed, no stack object; next hypothesis nested explicit else-call arm, reordering budget exhausted.
+ * symbols:
+ *   func_021DD80C 0x021DD80C thumb ov137
+ *   func_02039338 0x02039338 arm
+ *   func_021DE220 0x021DE220 thumb ov137
+ *   func_021DE350 0x021DE350 thumb ov137
+ */
+extern void func_021DD80C(char *);
+extern int func_02039338(void);
+extern int func_021DE220(char *);
+extern void func_021DE350(char *);
+int func_021DD7E4(char *p,int a) {func_021DD80C(p);if(func_02039338()==0) {if(func_021DE220(p)==1) goto done;}func_021DE350(p);done:return a;}
+

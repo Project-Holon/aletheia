@@ -8,16 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee bodies/forwarding confirm all arities; 3159C return
- *   widened from void because caller consumes r0. 2 same-overlay callers
- *   and current 1E28 source read. 3 const q/enum category unchanged171;
- *   4 enum/raw offsets and const idioms read; 5 fresh directory/neighbours.
- *   Permuter300 emitted baseline217 disagrees with fixed one171; search
- *   rejected. Best fixed compile592/588,171 bytes; two scheduling variants
- *   used. Next retry: typed work object/local scope for register reuse.
- * region-evidence: ov088 021BC230 loads ov194 with the same argument block;
- *   +0x24 is its ov088 object. ov088 021BD374 reads that pointer's +4/+6;
- *   ov021 at that address is an interior instruction requiring saved r5.
+ * residual: Final retry exhausted; 217 concrete bytes; compiled592/588; q/p/far-offset register rotation and call setup remain; all36 relocations resolved.
+ * checks: 1 own callees/forwarders and show confirm arities, 3159C consumes live r0 despite void own definition; 2 constructors and new1FB4/3008 read; 3 typed0x2d4 Work,long category,u32 species unchanged217; 4 typed ctx reused for allocation227; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 5 fixed one calls; previous once-only300 permuter already used, no repeated search.
+ * provenance: Earlier note claimed171; wave67 fixed baseline and typed variants all217, matching its prior permuter-emitted217. Preserve original C, report fresh measurement.
+ * region-evidence: ov088021BC230 supplies its own +0x24 object; ov088021BD374 reads +4/+6. Same address in ov021 is interior, not this callee.
  * symbols:
  *   func_0200C104 0x0200C104 thumb
  *   func_0203064C 0x0203064C arm

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callee arities witnessed, 02025538 keeps base live in r1; 2 no initializer twin; 3 const owner and long counters no change, u32 heap adds 12 bytes; 4 spill-slot and loop-guard idioms read; 5 unfiltered idioms and F9F48/FD760 reread, Record object offsets already correct; next enum loop guards; permuter 300 baseline 16 agrees, clean winner 7 fixed-one verified.
- * residual: 656/656 bytes, 37/37 relocations; five spill-offset bytes and two guard-branch bytes differ.
+ * checks: 1 fresh own callees/readers confirm arities, D73C(int *,int) and FA920(int *,int *,u8 *) corrected byte-identically; original FB704/FAEC0 arguments visibly narrow to u16; 2 F9F48/FA0FC/FD760 neighbours read; 3 enum byte guard improves 7 to 6, unsigned-long bytes unchanged, u16 bytes adds truncation and worsens to 660B/459; 4 enum-guard, spill-slot, declared-struct and unsigned-scaling idioms read; 5 fresh unfiltered idioms/neighbours reread. Final retry exhausted (5 iteration + 1 check-1 + 1 check-3); prior 300-budget permuter not repeated.
+ * residual: DIFF6, 656/656 bytes, 37/37 relocations resolved; five bytes swap bytes/bank stack slots (+1C/+24), one unsigned count-entry branch differs. Enum-typed byte-count guard restores original BLE.
  * symbols:
  *   func_02034714 0x02034714 arm
  *   func_02030734 0x02030734 arm
@@ -38,6 +38,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
+typedef enum { BOUND_ZERO } Bound;
 typedef struct 
 {
   u32 words[17];
@@ -61,8 +62,8 @@ extern void func_021FAC20(void *, u32, u32, u32, void *, const void *, u32, u16)
 extern void func_021FA020(u8 *, int, int);
 extern void func_02045808(void *);
 extern void func_021FAEC0(char *, u16);
-extern void func_021FD73C(void *, void *);
-extern void func_021FA920(void *, int *, u8 *);
+extern void func_021FD73C(int *, int);
+extern void func_021FA920(int *, int *, u8 *);
 extern void func_021FAAD0(void *, int *, u8 *);
 extern u16 func_021FB760(void *, int);
 extern void func_021FAF08(char *, int);
@@ -120,7 +121,7 @@ u8 *func_021F9CB8(int section, u32 base, char *owner, int archive, char *saved, 
   {
     tmp = func_021FC214(owner);
     bank = tmp;
-    if ((*((u32 *) ((*((char **) (ctx + 0x5c))) + 0x18))) > 0)
+    if ((Bound)(*((u32 *) ((*((char **) (ctx + 0x5c))) + 0x18))) > 0U)
     {
       temporary_heap = (heap & 0x7fff) | 0x8000;
       j = 0;
@@ -139,7 +140,7 @@ u8 *func_021F9CB8(int section, u32 base, char *owner, int archive, char *saved, 
     for (i = 0; i < ctx[0x3b]; i++)
       func_021FAEC0((*((char **) (ctx + 0x3c))) + (((ctx[0x3b] - i) - 1) * 0x44), i);
 
-    func_021FD73C(*((void **) (ctx + 0xc)), func_021FA920);
+    func_021FD73C(*((int **) (ctx + 0xc)), (int)func_021FA920);
     *((int *) (ctx + 0x1c)) = 2;
   }
   else
@@ -147,7 +148,7 @@ u8 *func_021F9CB8(int section, u32 base, char *owner, int archive, char *saved, 
     bank = func_021FC214(owner);
     tmp2 = (void **) (ctx + 0x44);
     ctx[0x39] = func_021FB760(*tmp2, section);
-    if (ctx[0x39] > 0)
+    if ((Bound)ctx[0x39] > 0)
     {
       temporary_heap = (heap & 0x7fff) | 0x8000;
       i = 0;
@@ -164,7 +165,7 @@ u8 *func_021F9CB8(int section, u32 base, char *owner, int archive, char *saved, 
     for (i = 0; i < ctx[0x39]; i++)
       func_021FAF08((*((char **) (ctx + 0x40))) + (i * 0x44), 0xe0);
 
-    func_021FD73C(*((void **) (ctx + 0xc)), func_021FAAD0);
+    func_021FD73C(*((int **) (ctx + 0xc)), (int)func_021FAAD0);
   }
   return ctx;
 }

@@ -6,8 +6,10 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 matched callee reads p and byte-record pointer; 2 no other twin; 3 const p and unsigned/signed base leave 4-byte swap; 4 counter-before-bound and register-colour idioms inspected, two scheduling variants used; 5 neighbours and idiom list refreshed, no twin; next hypothesis per-element local exceeds scheduling budget
+ * status: EXACT*
+ * Lever: keep the declared base but expand p+0x204 at the call; named base left a four-byte r5/r6 swap.
+ * trailing: Two zero alignment bytes.
+ * checks: final retry rescued by bounded permuter; emitted baseline agreed, winning C confirmed by fixed one and sequential shard verification. Prior DIFF superseded by matched source.
  * symbols:
  *   func_021FA2A0 0x021FA2A0 thumb ov132
  */
@@ -16,8 +18,9 @@ typedef unsigned short u16;
 extern void func_021FA2A0(char *, u8 *);
 void func_021FA27C(char *p)
 {
-    u8 i = 0;
-    u8 *base = (u8 *)(p + 0x204);
-    for (; i < 60; i++) func_021FA2A0(p, base + i * 8);
-}
+  u8 i = 0;
+  u8 *base = (u8 *) (p + 0x204);
+  for (; i < 60; i++)
+    func_021FA2A0(p, ((u8 *) (p + 0x204)) + (i * 8));
 
+}

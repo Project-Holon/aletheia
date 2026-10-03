@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 caller1BFC supplies three separate narrow stack arguments; 61CA4 arity4 from own matched file; 2 ov19443A0 shares trig table, no exact colour twin; 3 table nonconst unchanged118, int green worse163, int cast-k worse187, char pointer unchanged190 before arity correction; 4 masked-local/per-channel idioms read; 5 fresh unfiltered idioms,ov194 neighbours andov195082DC reread: siblingRGBuses s16 channels, useful forretry; currentbudgetsclosed. No further manual scheduling permitted; two variants exhausted.
- * residue: Compiled208/original208,118 concrete bytes; all2 relocations resolved. Phase/color/trig register allocation and scheduling remain different.
- * permuter: Once-only budget300 completed; baseline agreed118. Best110 candidate temp(tmp=eb-b) reads eb before assignment, rejected. Fixed candidate one confirmed110 but behavior is invalid; preserve this valid118 spelling.10 fixed one runs total including baseline/candidate.
+ * residual: Final retry exhausted; 118 concrete bytes; compiled208/208; phase/color/trig register allocation and scheduling differ; both relocations resolved.
+ * checks: 1 own61CA4 arity4 and caller1BFC seven args; 2 own43A0 and ov195082DC no exact twin; 3 s16/u16 channels181/204,unsigned phase and long sum unchanged118; 4 step parameter reuse unchanged118, per-channel/width idioms read; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 6 fixed one calls; previous once-only300 permuter already used, no repeated search.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm

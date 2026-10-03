@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own B570 four u32 args and result confirmed; 2 9868 twin no spill lever; 3 u16 heap and signed tag no change; 4 spill-scope and slot idioms no change; 5 fresh idioms and 9868/9810 neighbours read, scalar result is sp-relative. Next hypothesis: separate index per loop; manual scheduling cap exhausted. Permuter 300 baseline/best 212B,4 bytes,one wildcard.
+ * checks: 1 fresh own callee bodies confirm arities; B98C remains an ARM9 wildcard; 2 9868/9810 neighbours read; 3 pointer-typed save and u16 tag unchanged; 4 separate loop index and function-scope tag unchanged; 5 fresh unfiltered idioms and neighbours reread. Final retry exhausted (4 iteration + 1 check-3); prior 300-budget permuter not repeated.
  * residue: save/tag spill slots +8/+C swapped (4 bytes); ARM9 0200B98C also unresolved.
  * symbols:
  *   func_02012EBC 0x02012EBC thumb

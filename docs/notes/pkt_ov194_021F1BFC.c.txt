@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own1A1C five args, ownD58 seven scalar args, ownB404 three; 2 only43A0 sharesB404, no control-flow twin; 3 countu16 andconstrect nochange49; 4 volatile-two-locals anddeclared-struct idiomsread, manualcap2 reached; 5 freshidiomlisting and43A0 reread, nexttrycastbuffer4 storage.
- * search: Macro-free baseline47/348 agreesfixedone; once-only300 permuter returnedvalid37/348, fixedoneagrees; nofurthermanuals.
- * runs: 10 fixed one calls plus once-onlypermuter300; finalvalidDIFF37 at348 bytes.
- * volatile: Field p+0x80 is separately reread at021F1C38 and021F1C3C before its update.
+ * residual: Final retry exhausted; 37 concrete bytes; compiled348/348; vector/controller call scheduling differs; all11 relocations resolved.
+ * checks: 1 own1A1C five args,D58 seven scalars,B404 three and40804 one; 2 new31F4 caller reread, no twin; 3 cast-buffer Vec,long increment,long selected unchanged37; 4 separate increment39 and inline y-call43, manual variants exhausted; 5 fresh unfiltered idioms and matched neighbours reread.
+ * retry: Wave67 6 fixed one calls; previous once-only300 permuter already used, no repeated search.
+ * volatile: p+0x80 is separately reread at021F1C38 and021F1C3C before update.
  * symbols:
  *   d_021F5780 0x021F5780 data a4
  *   func_020355C4 0x020355C4 arm

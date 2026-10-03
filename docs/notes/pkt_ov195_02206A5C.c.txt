@@ -1,0 +1,84 @@
+/*
+ * function: func_02206A5C
+ * address: 0x02206A5C
+ * packet: pkt_ov195_02206A5C
+ * region: ov195
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 sqrt(long), division(u32,u32), heap forwarded; 2 matched 06274/063E0 twins read; 3 long locals unchanged, no read-only pointer (writes); 4 hoisted long-long copy idiom read; 5 refreshed index and math neighbours, no stack aggregate; runs 6 + baseline + permuter300 (baseline970/294; best974/564 worse).
+ * symbols:
+ *   func_02206E2C 0x02206E2C thumb ov195
+ *   _ffltu 0x0209BE04 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fmul 0x0209C77C arm
+ *   _fsub 0x0209CB8C arm
+ *   _fadd 0x0209C95C arm
+ *   _fdiv 0x0209CE10 arm
+ *   _fgr 0x0209BBB0 arm
+ *   _ffix 0x0209C494 arm
+ *   _ll_mul 0x0209C054 arm
+ *   func_0207C7B4 0x0207C7B4 arm
+ *   sub_0207C768 0x0207C768 arm
+ *   FX_SinCosTable_ 0x020A1B38 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {int x,y,z;} Vec;
+extern void func_02206E2C(char *,u16);
+extern long func_0207C7B4(long);
+extern u32 sub_0207C768(u32,u32);
+extern const short FX_SinCosTable_[];
+#define PW(n) (*(int *)(q+(n)))
+#define H(n) (*(short *)(p+(n)))
+#define ROUND(x) ((int)(((x)>0)?(x)*4096.0f+0.5f:(x)*4096.0f-0.5f))
+static inline int fxmul(int a,int b){return (int)(((long long)a*b+2048)>>12);}
+static inline int fxmul64(long long a,long long b){return (int)((a*b+2048)>>12);}
+void func_02206A5C(char *p,u16 heap)
+{
+    u8 k,i,j,group,n;
+    char *q;
+    long dx,dy,dz,lenxz,leny;
+    long long yy,zz;
+    float f,r;
+    func_02206E2C(p,heap);
+    *(u32 *)(p+0x28)=0;
+    for(k=0;k<16;k++)*(short *)(p+k*2+0x2c)=0x7fff;
+    H(0x4c)=0x7fff;
+    H(0x56)=0;H(0x52)=0;H(0x54)=0;H(0x58)=0;
+    H(0x5a)=17;H(0x5c)=8;H(0x5e)=0;H(0x60)=H(0x5c)+1;
+    *(u32 *)(p+0x64)=0;*(u32 *)(p+0x68)=0;*(u32 *)(p+0x6c)=0;*(u32 *)(p+0x70)=0;
+    *(u8 *)(p+0xa274)=0;
+    for(i=0;i<18;i++) {
+        group=i/3;
+        for(j=0;j<18;j++) {
+            q=p+0x74+i*0x900+j*0x80;
+            PW(0x30)=0;
+            *(Vec *)(q+0x34)=*(Vec *)(q+0x68);
+            if(i%3==0){if(j<9)n=j*6;else n=(j-9)*6+1;}
+            else if(i%3==1){if(j<9)n=j*6+2;else n=(j-9)*6+3;}
+            else {if(j<9)n=j*6+4;else n=(j-9)*6+5;}
+            PW(0x4c)=((int)n<<16)/54;
+            PW(0x54)=ROUND(22.0f-(22.0f/3.0f)*(float)group-(22.0f/3.0f/54.0f)*(float)n);
+            f=(float)PW(0x54)/4096.0f;
+            r=10.0f+2.0f*(2.0f*((f*(10.0f*f)/44.0f)/44.0f));
+            PW(0x50)=ROUND(r);
+            PW(0x58)=fxmul(PW(0x50),FX_SinCosTable_[(PW(0x4c)>>4)*2+1]);
+            PW(0x60)=fxmul(PW(0x50),FX_SinCosTable_[(PW(0x4c)>>4)*2]);
+            PW(0x5c)=PW(0x54);
+            dx=(int)((u32)PW(0x58)-(u32)PW(0x68));dy=(int)((u32)PW(0x5c)-(u32)PW(0x6c));dz=(int)((u32)PW(0x60)-(u32)PW(0x70));
+            yy=dy;zz=dz;
+            lenxz=func_0207C7B4(fxmul(dx,dx)+fxmul64(zz,zz));
+            leny=func_0207C7B4(fxmul64(yy,yy));
+            if(lenxz>4096){PW(0x40)=sub_0207C768(dx,lenxz);PW(0x48)=sub_0207C768(dz,lenxz);}
+            else {PW(0x40)=dx;PW(0x48)=dz;}
+            if(leny>4096)PW(0x44)=sub_0207C768(dy,leny);else PW(0x44)=dy;
+            PW(0x64)=0;
+        }
+    }
+}
+
+

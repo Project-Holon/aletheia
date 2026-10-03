@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee bodies confirm arity/live r0; 2 FD760/FC148 twins read, no constructor twin; 3 u16 heap callees 191->30, const 16->12, signed a unchanged; 4 home-spill and declaration idioms read; 5 directory/neighbours reread, no rescue; permuter 300 baseline/best DIFF12.
+ * checks: 1 fresh own bodies confirm arities, B294 leaves consumed r0 and copies point-address argument unchanged; 2 FD760/FC148 neighbours read; 3 enum/long a and const data unchanged, full-width a/b cannot be narrowed; 4 spill-home/declared-struct idioms read, named width unchanged; 5 fresh unfiltered idioms and neighbours reread. Final retry exhausted (4 iteration + 1 check-3); prior 300-budget permuter not repeated.
  * residual: 216 bytes, 12 concrete bytes differ in a home-spill scheduling; a stays full width because original stores it untruncated at object+14.
  * prototype: B294 returns live r0; its fifth full-word payload is an unchanged point address.
  * symbols:
@@ -64,5 +64,4 @@ Obj *func_021FB3BC(const Point *pt,void *data,int a,u32 b,u32 c,void *owner,void
     func_0202597C(p->grid,1);
     return p;
 }
-
 
