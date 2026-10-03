@@ -23,15 +23,20 @@ typedef struct {
     unsigned short b;
 } Ent;
 
-extern void func_0202CFC0(int mgr, unsigned idx, unsigned short *w, unsigned short *h);
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+struct WinMgr;
+extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 extern void func_021EB6D8(char *p, int b, int c, int d);
-extern void func_0202CE50(int mgr, unsigned idx, int x, int y, unsigned char w, unsigned char h, unsigned char pal);
+extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
 extern void *func_02045770(void *p);
 extern void func_02043B5C(void *a, unsigned b);
 extern void func_021EAAE4(char *w, unsigned i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 
 void func_021EB988(char *p, Ent *e, unsigned n)
 {

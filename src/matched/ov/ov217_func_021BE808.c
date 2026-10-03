@@ -54,12 +54,13 @@ extern void func_021BEEA4(void *p);
 extern void func_021BEF98(void *p);
 extern void func_021BEF30(void *p);
 extern void func_021BEFD4(void *p);
-extern void func_021C116C(u32 o);
-extern void func_021C118C(u32 o, u32 v);
-extern void func_021C1160(u32 o);
-extern void func_021C1184(u32 o, u32 v);
+extern void func_021C116C(u8 *h);
+extern void func_021C118C(u8 *h, u32 v);
+extern void func_021C1160(u8 *h);
+extern void func_021C1184(u8 *h, u32 v);
 extern u32 func_021BF810(void *p);
-extern u32 func_021BF76C(void *p);
+extern u8 *func_021BF76C(void *p);
+
 extern void func_020061E4(int);
 void func_021BE808(char *p)
 {

@@ -27,9 +27,9 @@ typedef unsigned int u32;
 extern int func_021D775C(int);
 extern int func_021C7D34(int, int);
 extern u8 func_021C7F68(int *, int, u8 *);
-extern int func_021C7CF4(int, int);
+extern void *func_021C7CF4(int, int);
 extern u8 *func_021C88A4(int, int, int);
-extern int func_021D7B74(int, u32);
+extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, u32);
 extern void func_021C88C8(int, u8 *);
@@ -40,7 +40,8 @@ void func_021E7A78(int a, int b, int c)
     u8 list[4];
     u8 k, i;
     u8 n;
-    int slot, x;
+    int slot;
+    u8 *x;
     u8 *p;
     if (c == func_021D775C(3)) {
         k = func_021D775C(4);

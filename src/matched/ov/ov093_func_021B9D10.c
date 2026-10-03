@@ -29,10 +29,10 @@ struct Arr { void *e[6]; u8 n; };
 extern int func_021D5B7C(void *m);
 extern u32 func_021B8588(void *p);
 extern int func_021B8B78(void *p, int k);
-extern int func_021D59B4(void *p, int k);
-extern u32 func_021D5844(void *m);
-extern void func_021D5848(void *m, u32 v);
-extern int func_021D5864(void *m);
+extern int func_021D59B4(u8 *p, int k);
+extern void *func_021D5844(void *m);
+extern void func_021D5848(void *m, void *v);
+extern void *func_021D5864(void *m);
 extern void func_021D5854(void *m);
 extern int func_021D6C24(void *m);
 
@@ -40,7 +40,7 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
 {
     int j;
     void *m;
-    int h;
+    void *h;
 
     for (j = arr->n - 1; j > 0; j--) {
         if (func_021D5B7C(arr->e[j]) != 0)
@@ -57,7 +57,7 @@ void func_021B9D10(char *a, struct Arr *arr, int k)
                 func_021D5848(m, func_021D5844(arr->e[j]));
             } else {
                 h = func_021D5864(m);
-                if (h != *(int *)(a + 0x2c0))
+                if (h != *(void **)(a + 0x2c0))
                     func_021D5854(m);
             }
         }

@@ -16,7 +16,10 @@
  */
 
 typedef struct { unsigned char a; unsigned char b; } Off;
-extern void func_0202CF98(int, int, signed char *, signed char *);
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
 extern void func_021EC08C(char *p, int i, short a, short b, short c);
 extern const Off d_021EFCE0[];
 
@@ -25,7 +28,7 @@ void func_021EC8E4(char *p)
     signed char buf[2];
     unsigned short i;
     short x, y;
-    func_0202CF98(*(int *)(*(char **)(p + 0x2C) + 0x74), 8, &buf[1], &buf[0]);
+    func_0202CF98(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74), 8, &buf[1], &buf[0]);
     x = buf[0] * 8;
     y = buf[1] * 8;
     for (i = 0; i < 6; i++)

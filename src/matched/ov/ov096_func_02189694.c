@@ -25,9 +25,9 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern u16 func_021D57FC(int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u16 func_021D57FC(void *);
 extern u8 func_021E8CFC(int);
 extern u8 func_021E8D04(int);
 
@@ -36,11 +36,11 @@ int func_02189694(int a, int b) {
     u8 k;
     int t;
     int p;
+    u8 s;
     r = func_0201134C(a);
     k = func_0201134C(a);
-    t = func_0218A160(b, r);
-    t = func_0218A2FC(b, t);
-    p = func_021D57FC(t);
+    s = func_0218A160((u8 *)b, r);
+    p = func_021D57FC(func_0218A2FC((u8 *)b, s));
     if (k == func_021E8CFC(p) || k == func_021E8D04(p)) {
         t = 1;
     } else {

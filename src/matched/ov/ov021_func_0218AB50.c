@@ -31,8 +31,8 @@ typedef signed short   s16;
 
 extern u16 func_02188C84(u8 *p);
 extern void *func_02012934(void *p);
-extern u32 func_02188D50(u8 *p);
-extern void func_021C3378(u32 v);
+extern void *func_02188D50(u8 *p);
+extern int func_021C3378(void **p);
 extern void func_0218AAD0(void *sys, void *party);
 extern int func_0218AB0C(void *party);
 extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);

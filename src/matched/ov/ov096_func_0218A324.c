@@ -21,12 +21,12 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern int func_0218A2FC(u8 *, int);
-extern int func_021D67A8(int);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D67A8(void *);
 
 void func_0218A324(u8 *p)
 {
-    int s;
+    u8 *s;
     int i;
     u16 h;
     s = func_0218A2FC(p, p[0x95]);

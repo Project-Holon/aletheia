@@ -24,7 +24,7 @@ extern const char bgwinfrm_File[];
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file,
                            u32 line);
 
-struct BgWinFrm {
+struct WinMgr {
     void *buf;       /* 0x00 */
     u16   h4;        /* 0x04 */
     u16   lo : 15;   /* 0x06 */
@@ -32,11 +32,11 @@ struct BgWinFrm {
     u32   w8;        /* 0x08 */
 };
 
-struct BgWinFrm *func_0202C9B4(u32 a0, u32 a1, u32 heap)
+struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap)
 {
-    struct BgWinFrm *p;
+    struct WinMgr *p;
 
-    p = func_02030734(heap, sizeof(struct BgWinFrm), 0, bgwinfrm_File, 0x56);
+    p = func_02030734(heap, sizeof(struct WinMgr), 0, bgwinfrm_File, 0x56);
     p->h4 = a1;
     p->w8 = heap;
     p->lo = a0;

@@ -28,7 +28,7 @@ extern u8 d_021EFF74[];
 extern u32 func_021B9B94(void *p);
 extern int func_021D62C4(void *p, int i);
 extern u32 func_021D805C(void *s, int k);
-extern int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 func_021D7B60(void *p, int k);
 extern int func_021D3E70(void *s, void *m);
 extern int func_021D3EC8(void *s, void *m);

@@ -58,24 +58,25 @@ typedef struct {
     unsigned short timer;
 } Blk;
 
-extern int func_021EF5C4(int a);
+struct WinMgr;
+extern int func_021EF5C4(struct WinMgr *mgr);
 extern int func_021EF400(unsigned char *p);
 extern void func_021EA878(unsigned char *p, int v);
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
-extern void func_021EF534(int mgr);
+extern void func_021EF534(struct WinMgr *mgr);
 extern int func_021EBFEC(char *w, int i);
 extern void func_021ED2F4(char *w);
 extern unsigned func_02035CB8(unsigned *outA, unsigned *outB);
-extern int func_021EF45C(int a);
+extern int func_021EF45C(struct WinMgr *mgr);
 extern int func_021DF1DC(short x, short y);
 extern int func_021DF228(short x, short y, const unsigned char *r);
 extern const unsigned char d_021EF79C[];
 extern const unsigned char d_021EF7B4[];
 extern void func_021ED888(char *w, int a);
 extern int func_021EF248(void);
-extern void func_021EF3D8(int a);
+extern void func_021EF3D8(struct WinMgr *mgr);
 extern unsigned func_0202136C(unsigned short v);
 extern int func_021DDE80(unsigned char *p, unsigned a, unsigned b);
 extern void func_021DEA3C(unsigned char *p, unsigned a, unsigned b, int mode);
@@ -98,7 +99,7 @@ extern int func_021DEAFC(unsigned char *p);
 extern void func_021ED6E4(unsigned char *p, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define CNT(p) (*(unsigned short *)(WORK(p) + 0xA16C))
 
 int func_021E1628(unsigned char *p)

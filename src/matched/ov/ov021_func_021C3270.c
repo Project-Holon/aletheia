@@ -28,7 +28,7 @@ extern u32 func_0200BC2C(u32, u32);
 extern u32 func_0200BCD8(u32, u32);
 extern void func_021C3530(u32, u32);
 extern void func_021C32BC(u32 *, u32);
-extern void func_0201A98C(u32, u32);
+extern u32 func_0201A98C(u32, u32);
 extern void func_0200BC88(u32, u32);
 extern void func_021C36B0(u32);
 

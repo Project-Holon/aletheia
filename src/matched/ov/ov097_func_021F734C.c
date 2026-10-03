@@ -24,6 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
+typedef signed char s8;
 struct WinMgr;
 struct Pair { void *data; u32 other; };
 struct P {
@@ -31,12 +33,12 @@ struct P {
     struct Pair images[6]; u8 pad50[0xa8]; void *mons[6];
 };
 extern const char d_021F78C0[];
-extern struct WinMgr *func_0202C9B4(u32, u32, u32);
-extern void func_0202CA3C(struct WinMgr *, u32, u32, u32, u32);
-extern void func_0202CEBC(struct WinMgr *, u32, void *);
-extern void func_0202CAC4(struct WinMgr *, u32, const void *);
-extern void func_0202CE50(struct WinMgr *, u32, int, int, u8, u8, u8);
-extern void func_0202CB4C(struct WinMgr *, u32, int, int);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
+extern void func_0202CE50(struct WinMgr *mgr, u32 idx, s32 x, s32 y, u8 w, u8 h, u8 pal);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern u32 func_0204162C(int);
 extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);

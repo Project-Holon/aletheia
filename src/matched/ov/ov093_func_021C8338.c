@@ -13,9 +13,10 @@
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021D5C30 0x021D5C30 thumb ov093
  */
-extern int func_021B9934(char *, int);
+typedef unsigned char u8;
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5C30(unsigned char *);
 int func_021C8338(unsigned char *p, int i)
 {
-    return func_021D5C30((unsigned char *)func_021B9934(*(char **)(p + 8), i));
+    return func_021D5C30(func_021B9934(*(char **)(p + 8), i));
 }

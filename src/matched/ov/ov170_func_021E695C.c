@@ -31,12 +31,13 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
+struct WinMgr;
 extern void func_021DF040(char *);
 extern void func_021EC000(char *, int, int);
-extern void func_021EF3A0(int);
+extern void func_021EF3A0(struct WinMgr *mgr);
 extern void func_021ED888(char *, int);
 extern void func_021ECB20(u8 *, int, int);
-extern void func_021EF3EC(int);
+extern void func_021EF3EC(struct WinMgr *mgr);
 extern void func_020061E4(unsigned);
 extern int func_021E8FC0(u8 *, int (*)(u8 *), int);
 extern int func_021E01B0(u8 *);
@@ -57,11 +58,11 @@ int func_021E695C(u8 *p)
         func_021DF040((char *)p);
         func_021EC000(*(char **)(p + 44), 4, 0);
         if (p[30] == 0) {
-            func_021EF3A0(*(int *)(*(u8 **)(p + 44) + 116));
+            func_021EF3A0(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
         } else {
             func_021ED888(*(char **)(p + 44), 0);
             func_021ECB20(p, 1, 1);
-            func_021EF3EC(*(int *)(*(u8 **)(p + 44) + 116));
+            func_021EF3EC(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
         }
         func_020061E4(0x669);
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;

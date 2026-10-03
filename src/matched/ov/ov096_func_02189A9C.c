@@ -27,16 +27,16 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern int func_021D5BA4(int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D5BA4(void *);
 
 int func_02189A9C(int a, int b) {
     int t;
+    u8 s;
     t = func_0201134C(a);
-    t = func_0218A160(b, t);
-    t = func_0218A2FC(b, t);
-    t = func_021D5BA4(t);
+    s = func_0218A160((u8 *)b, t);
+    t = func_021D5BA4(func_0218A2FC((u8 *)b, s));
     *(int *)(b + 0x38) = t;
     return *(int *)(b + 0xc4);
 }

@@ -22,11 +22,12 @@
  *   func_021EF670 0x021EF670 thumb ov170
  *   func_021EE364 0x021EE364 thumb ov170
  */
+struct WinMgr;
 extern void func_021ED55C(char *, int);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(char *);
 extern void func_021EE038(char *, int, int, int);
-extern void func_021EF57C(int);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *, int, int);
 extern int func_021E0190(char *);
 extern void func_021ED888(char *, int);
@@ -44,7 +45,7 @@ int func_021E85F0(char *p)
         func_021EBA5C(W, 24);
         func_021DD14C(p);
         func_021EE038(p, 0, 0, 1);
-        func_021EF57C(*(int *)(W + 0x74));
+        func_021EF57C(*(struct WinMgr **)(W + 0x74));
         S++;
         return func_021E8FC0(p, (int)func_021E0190, 0x5f);
     case 1:

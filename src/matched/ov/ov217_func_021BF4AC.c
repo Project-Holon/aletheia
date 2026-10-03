@@ -22,13 +22,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef signed int s32;
 struct Obj; struct Actor;
 struct Vec2 { short x,y; };
 extern const u16 d_021C3850[];
 extern unsigned func_021BF910(char *,unsigned);
-extern unsigned func_021BF76C(void *);
-extern unsigned func_021C11DC(unsigned,u8);
-extern unsigned func_021C11FC(unsigned,u8,unsigned,unsigned);
+extern u8 *func_021BF76C(void *p);
+extern u8 func_021C11DC(u8 *p, u8 key);
+extern void func_021C11FC(u8 *h, u8 key, s32 *px, s32 *py);
 extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
 extern void func_0204B92C(struct Obj *,unsigned);
@@ -36,7 +37,8 @@ extern void func_0204B9C4(struct Actor *,unsigned);
 void func_021BF4AC(char *p)
 {
     struct Obj *obj;
-    unsigned index,x,y;
+    unsigned index;
+    s32 x,y;
     struct Vec2 pos;
     const u16 *table;
     obj=*(struct Obj **)(p+0x3a0);
@@ -46,7 +48,8 @@ void func_021BF4AC(char *p)
     index=func_021BF910(p,*(unsigned *)(p+52));
     if (func_021C11DC(func_021BF76C(p),index)==0) { func_0204B3DC(obj,0); return; }
     if (index==0) { func_0204B3DC(obj,0); return; }
-    func_021C11FC(func_021BF76C(p),index,(unsigned)&x,(unsigned)&y);
+    func_021C11FC(func_021BF76C(p),index,&x,&y);
+
     pos.x=x;
     pos.y=y;
     func_0204B404(obj,&pos,table[12]);

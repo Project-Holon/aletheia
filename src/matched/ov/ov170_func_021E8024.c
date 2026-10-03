@@ -31,9 +31,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+struct WinMgr;
 extern void func_021EC000(char *, int, int);
 extern void func_021ED508(char *, int, int);
-extern void func_021EF57C(int);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *, int, int);
 extern int func_021E0190(char *);
 extern void func_021ECB20(char *, int, int);
@@ -59,7 +60,7 @@ int func_021E8024(char *p)
     case 0:
         func_021EC000(W, 4, 0);
         func_021ED508(p, 14, 0);
-        func_021EF57C(*(int *)(W + 0x74));
+        func_021EF57C(*(struct WinMgr **)(W + 0x74));
         S++;
         return func_021E8FC0(p, (int)func_021E0190, 0x59);
     case 1:

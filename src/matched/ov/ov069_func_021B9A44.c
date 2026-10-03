@@ -15,8 +15,9 @@
  *   func_0202CA0C  0x0202CA0C  thumb
  */
 
+struct WinMgr;
 void func_021B9A44(void *p)
 {
-    void func_0202CA0C(void *);
+    void func_0202CA0C(struct WinMgr *mgr);
     func_0202CA0C(*(void **)((char *)p + 4));
 }

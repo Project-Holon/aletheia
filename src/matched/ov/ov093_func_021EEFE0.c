@@ -52,9 +52,9 @@ extern void func_0201EF8C(void *w, u32 i, u32 a);
 extern void func_0201EF34(void *w, u32 i, u32 a);
 extern void func_0201EF40(void *w, u32 i, u32 a);
 extern void func_0201F020(void *w, u32 i, u32 a);
-extern void func_021EED00(u8 k, int z);
-extern void func_021EED24(u8 k, int z);
-extern void func_021EED48(u8 k, u8 z);
+extern void func_021EED00(u8 a, u32 b);
+extern void func_021EED24(u8 a, u32 b);
+extern void func_021EED48(u8 a, u8 b);
 extern void func_021EED6C(void *w, u8 i, u8 a);
 extern void func_021EED90(void *w, u8 i, u8 a);
 

@@ -37,15 +37,16 @@
  * menu when a save flag is set), then print the prompt and lock the list.
  */
 
+struct WinMgr;
 extern void func_021ED55C(unsigned char *p, int flag);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0190(unsigned char *p);
 extern int func_02007A80(void *save, unsigned bits);
 extern void func_021EB988(unsigned char *p, const void *e, unsigned n);
-extern void func_021EF534(int mgr);
+extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021EBC28(unsigned char *p, int kind, int i);
 extern void func_021EE364(unsigned char *p, int idx, int v);
 extern void func_02026124(void *obj, unsigned idx);
@@ -61,7 +62,7 @@ extern const unsigned char d_021EF9F8[];
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define LIST(p) (*(void **)(WORK(p) + 0x70))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define KIND(p) (*(unsigned char *)(WORK(p) + 0xA17C))
 #define SAVE(p) (*(void **)(*(char **)(p) + 4))

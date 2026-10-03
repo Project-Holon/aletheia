@@ -14,8 +14,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_0202CC70(void *,u16);
-extern void func_0202CC58(void *,u16);
+typedef unsigned int u32;
+struct WinMgr;
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 extern void func_021C6028(u8 *,u16,u16,u8);
 void func_021C5C00(u8 *p)
 {

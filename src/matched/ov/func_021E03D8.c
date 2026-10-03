@@ -23,9 +23,12 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
+extern u8 func_021D5440(u8 *p);
+extern void func_021E03F8(int a, int b);
+
 /* 021E03D8  pass-through: second callee takes the first one's result */
-int func_021E03D8(int a, int b)
+void func_021E03D8(u8 *a, int b)
 {
-    return func_021E03F8(func_021D5440(a), b);
+    func_021E03F8(func_021D5440(a), b);
 }
 

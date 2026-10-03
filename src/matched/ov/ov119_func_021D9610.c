@@ -16,8 +16,8 @@
  */
 typedef unsigned short u16;
 extern int func_021D8AA8(void *);
-extern int func_021D8FA4(void *,int);
+extern void *func_021D8FA4(void *,int);
 extern int func_021D8F20(void *,int);
-extern int func_02017E1C(int,int,int);
+extern int func_02017E1C(void *,int,int);
 extern int func_0202136C(u16);
-int func_021D9610(unsigned char *p) { int v,w; if(func_021D8AA8(p)==0) {v=func_021D8FA4(p,0); w=func_021D8F20(p,1);} else {v=func_021D8FA4(p,1); w=func_021D8F20(p,0);} if(func_0202136C(func_02017E1C(v,6,0)) && p[0x11f4]!=0 && w==0) return 1; return 0; }
+int func_021D9610(unsigned char *p) { void *v; int w; if(func_021D8AA8(p)==0) {v=func_021D8FA4(p,0); w=func_021D8F20(p,1);} else {v=func_021D8FA4(p,1); w=func_021D8F20(p,0);} if(func_0202136C(func_02017E1C(v,6,0)) && p[0x11f4]!=0 && w==0) return 1; return 0; }

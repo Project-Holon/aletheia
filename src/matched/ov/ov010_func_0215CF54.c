@@ -22,13 +22,13 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012934(void *p);
 extern void *func_0201210C(void *p);
-extern unsigned int func_02188D50(unsigned char *);
+extern void *func_02188D50(unsigned char *);
 extern void func_021C3204(unsigned int *, unsigned int, unsigned int);
 
 int func_0215CF54(void *a, void *b)
 {
     int v = func_02159B10(a, b);
     void *q = func_02012934(func_0215A5E4(b));
-    func_021C3204((unsigned int *)func_02188D50(func_0201210C(func_0215A5DC(b))), (unsigned int)q, v);
+    func_021C3204(func_02188D50(func_0201210C(func_0215A5DC(b))), (unsigned int)q, v);
     return 0;
 }

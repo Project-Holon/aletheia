@@ -31,21 +31,21 @@ extern int func_0201AA18(void *);
 extern void func_0201A948(void *);
 extern void *func_021B9BF0(void *, u8);
 extern void func_021D6B84(void *, int);
-extern u32 func_021D5844(void *);
-extern void func_0201A98C(void *, u32);
+extern void *func_021D5844(void *);
+extern u32 func_0201A98C(void *, void *);
 extern int func_021D6C24(void *);
-extern int func_021D5864(void *);
+extern void *func_021D5864(void *);
 extern void func_0201AC2C(void *, void *);
 extern void *func_0201AB28(void *, int);
 extern void func_021D6C3C(void *, void *);
-extern void func_021D5848(void *, u32);
+extern void func_021D5848(void *, void *);
 void func_021B969C(char *a, char *b, int k, int flag)
 {
     void *list;
     char *g;
     u32 n, i, j;
     void *m, *e;
-    u32 h;
+    void *h;
     u8 links[6];
     list = func_021B985C(a, k);
     g = func_021B9AEC(a, k);
@@ -72,6 +72,6 @@ void func_021B969C(char *a, char *b, int k, int flag)
         m = func_021B9BF0(g, i);
         func_021D6C3C(m, e);
         if (links[i] != 6)
-            func_021D5848(m, (u32)func_0201AB28(list, links[i]));
+            func_021D5848(m, func_0201AB28(list, links[i]));
     }
 }

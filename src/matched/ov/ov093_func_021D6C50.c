@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u32 w[0x3b]; } Head;
 typedef struct { u16 h[6]; u8 pad[2]; } Ent;
-typedef struct {
+typedef struct Unk021D6C50 {
     u32 pad00[6];
     u8 pad18[3];
     u8 lo : 5;

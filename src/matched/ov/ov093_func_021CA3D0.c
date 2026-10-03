@@ -23,7 +23,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021B8DDC(u8 v);
-extern int func_021B9934(char *p, int i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern char *func_021B9AEC(char *p, int i);
 extern int func_021B9C98(char *p, u8 *a);
@@ -33,7 +33,8 @@ extern void func_021BD4E4(u8 *p, int i, u8 a, u8 b);
 
 int func_021CA3D0(u8 *p, u8 *q)
 {
-    int a, b, m1, m2;
+    int a, b;
+    u8 *m1, *m2;
     char *o;
     s16 i, j;
     if (q[4] != q[5]) {
@@ -42,10 +43,10 @@ int func_021CA3D0(u8 *p, u8 *q)
         if (a == b) {
             m1 = func_021B9934(*(char **)(p + 8), q[4]);
             m2 = func_021B9934(*(char **)(p + 8), q[5]);
-            if (!func_021D5B68((void *)m1) && !func_021D5B68((void *)m2)) {
+            if (!func_021D5B68(m1) && !func_021D5B68(m2)) {
                 o = func_021B9AEC(*(char **)(p + 8), a);
-                i = func_021B9C98(o, (u8 *)m1);
-                j = func_021B9C98(o, (u8 *)m2);
+                i = func_021B9C98(o, m1);
+                j = func_021B9C98(o, m2);
                 if (i >= 0 && j >= 0) {
                     func_021BD43C(p, a, i, j, 0);
                     func_021C99A0(p, q + 8);

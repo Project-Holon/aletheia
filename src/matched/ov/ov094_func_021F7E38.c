@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   d_0220AF20     0x0220AF20  data   ov094
@@ -22,11 +22,11 @@ typedef struct {
 
 extern Work *d_0220AF20;
 
-extern void func_021FFE48(void *h, int b, int a);
-extern void func_022003EC(void *h, int a, int *buf, int b);
+extern void func_021FFE48(void *h, int b, void *a);
+extern void func_022003EC(void *h, void *a, int *buf, int b);
 extern void func_022001DC(void *h, int b, int *buf);
 
-void func_021F7E38(int a, int b)
+void func_021F7E38(void *a, int b)
 {
     int buf[9];
 

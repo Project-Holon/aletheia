@@ -15,10 +15,12 @@
  * Forward the word at +0x74 with index 11.
  */
 
-extern void func_0202CC70(int, int);
+typedef unsigned int u32;
+struct WinMgr;
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 
 void func_021EF69C(char *p)
 {
-    func_0202CC70(*(int *)(p + 0x74), 0xb);
+    func_0202CC70(*(struct WinMgr **)(p + 0x74), 0xb);
 }
 

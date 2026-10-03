@@ -31,14 +31,14 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
-extern u32 func_021BF76C(void *p);
+extern u8 *func_021BF76C(void *p);
 extern u32 func_021BF810(void *p);
 extern u32 func_021BF7F4(void *p);
 extern u32 func_021BF854(void *p);
 extern void func_021C0FF8(u32 a, u32 b);
 extern void func_021C0F78(u32 a, void *b);
 extern u8 func_021C11C8(u8 *p, u8 key);
-extern u32 func_021C11DC(u32 o, u8 k);
+extern u8 func_021C11DC(u8 *p, u8 key);
 extern void *func_02045EC0(void *bank, u32 index);
 extern void *func_020457B0(u32 size, u32 heap);
 extern void func_02045808(void *p);
@@ -48,7 +48,7 @@ extern void func_0201F250(void *a, void *b, void *c);
 void func_021BF15C(char *p)
 {
     u32 t = *(u32 *)(p + 0x354);
-    u32 o = func_021BF76C(p);
+    u8 *o = func_021BF76C(p);
     u32 k;
     u32 a, b, c;
     void *x, *y, *z;
@@ -61,7 +61,8 @@ void func_021BF15C(char *p)
         return;
     }
     k = func_021BF7F4(p);
-    a = func_021C11C8((u8 *)o, (u8)k);
+    a = func_021C11C8(o, (u8)k);
+
     b = func_021BF854(p);
     c = func_021C11DC(o, (u8)k);
     x = func_02045EC0(*(void **)(p + 0xc), 0xd);

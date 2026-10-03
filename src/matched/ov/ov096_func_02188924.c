@@ -23,26 +23,27 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A0F4(int, int, int, int, int);
-extern int func_021D62C4(int, int);
+extern int func_021D62C4(void *, int);
 typedef struct Slot { u32 a : 3; u32 rest : 29; } Slot;
-extern Slot func_021D6314(int, int);
+extern Slot func_021D6314(void *, int);
 extern int func_021E8A78(Slot);
 
 void func_02188924(int a, int b, int c)
 {
     int t1;
     int t3;
-    int r;
+    u8 *r;
+    u8 k;
     int x;
     Slot s;
 
     t1 = func_0201134C(a);
     t3 = func_0201134C(a);
-    r = func_0218A160(b, t1);
-    r = func_0218A2FC(b, r);
+    k = func_0218A160((u8 *)b, t1);
+    r = func_0218A2FC((u8 *)b, k);
     x = 0;
     if (func_021D62C4(r, 5) != 0) {
         s = func_021D6314(r, 5);

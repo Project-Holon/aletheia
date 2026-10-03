@@ -47,7 +47,7 @@ typedef unsigned char u8;
 typedef unsigned u32;
 typedef struct Bits {u8 low:4,high:4;} Bits;
 extern int func_020275DC(void),func_021D8A24(void *),func_0200FB24(void),func_0203D29C(void);
-extern void func_021DD90C(char *,int,int,int),func_021D9468(void *,int,int),func_021D8A50(void *),func_021DF868(void *);
+extern void func_021DD90C(char *,int,int,int),func_021D9468(void *,int,void *),func_021D8A50(void *),func_021DF868(void *);
 extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
 extern unsigned func_020399A8(void);
 extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
@@ -72,7 +72,7 @@ int func_021DCD38(int a,int b,int c,char *p)
         for(i=0;i<2;i++) func_021DD90C(p,i,*(u8 *)(p+i+0x11e8),0);
     }
     if(I(0xf9c) && B(0x11f3)==0) {
-        func_021D9468(p,1,*(int *)(p+(I(0xf9c)-1)*4+0x5dc));I(0xf9c)=0;
+        func_021D9468(p,1,*(void **)(p+(I(0xf9c)-1)*4+0x5dc));I(0xf9c)=0;
     }
     func_021D8A50(p);func_021DF868(p);func_0204A600();
     if(P(0x64c)) func_02027974(P(0x64c));

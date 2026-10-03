@@ -47,7 +47,7 @@ extern void *func_02012934(void *p);
 extern int func_0201AA18(void *list);
 extern void *func_0201AB28(void *list, int idx);
 extern int func_02017E1C(void *obj, int key, int off);
-extern void func_0201A98C(void *list, void *mon);
+extern u32 func_0201A98C(void *list, void *mon);
 extern void *func_0200BAF4(int a, int b);
 extern void func_0201AC2C(void *src, void *dst);
 extern void func_020307B0(void *p);

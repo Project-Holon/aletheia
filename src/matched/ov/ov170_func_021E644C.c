@@ -43,18 +43,19 @@ typedef struct {
     unsigned char hi : 4;
 } Nib;
 
+struct WinMgr;
 extern void func_021ED55C(unsigned char *p, int flag);
-extern int func_021EF480(int a);
+extern int func_021EF480(struct WinMgr *mgr);
 extern void func_021DD14C(unsigned char *p);
 extern void func_021DEFEC(unsigned char *p, int b);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021ED6E4(unsigned char *p, int v);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0ED4(unsigned char *p);
-extern void func_021EF3D8(int a);
-extern void func_021EF35C(int a);
-extern void func_021EF36C(int a);
+extern void func_021EF3D8(struct WinMgr *mgr);
+extern void func_021EF35C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EC5A0(unsigned char *p, int flag);
 extern void func_020061E4(unsigned se);
 extern int func_021E01B0(unsigned char *p);
@@ -69,7 +70,7 @@ extern int func_021EA458(unsigned char *p, unsigned i);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define NIB(p) ((Nib *)((p) + 0x1C))
 

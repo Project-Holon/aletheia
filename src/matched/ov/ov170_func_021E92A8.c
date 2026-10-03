@@ -21,6 +21,7 @@
  *   func_021EF670 0x021EF670 thumb
  *   func_021EF68C 0x021EF68C thumb
  */
+struct WinMgr;
 extern void func_021EBA5C(char *,int);
 extern void func_021DD14C(unsigned char *);
 extern int func_020355C4(void);
@@ -28,7 +29,7 @@ extern void func_020260F4(void *,int);
 extern void func_021ED508(unsigned char *,int,int);
 extern void func_021ECB20(unsigned char *,int,int);
 extern void func_021ED888(char *,int);
-extern int func_021EF480(void *);
+extern int func_021EF480(struct WinMgr *mgr);
 extern void func_021EF670(char *);
 extern void func_021EF68C(char *);
 #define WORK (*(char **)(p+0x2c))
@@ -43,17 +44,17 @@ int func_021E92A8(unsigned char *p)
     case 0: func_021ECB20(p,2,0); return 0x31;
     case 1: func_021ED888(WORK,1); func_021ECB20(p,1,0); return 0x2c;
     case 2:
-        if(func_021EF480(*(void **)(WORK+0x74))==1) {
+        if(func_021EF480(*(struct WinMgr **)(WORK+0x74))==1) {
             func_021ECB20(p,2,0); func_021EF68C(WORK); return 0x1b;
         }
         func_021ED888(WORK,1); func_021ECB20(p,1,0); func_021EF670(WORK); return 0x11;
     case 3:
-        if(func_021EF480(*(void **)(WORK+0x74))==1) {
+        if(func_021EF480(*(struct WinMgr **)(WORK+0x74))==1) {
             func_021ECB20(p,0x82,0); func_021EF68C(WORK); return 0x46;
         }
         func_021ED888(WORK,1); func_021ECB20(p,0x81,0); func_021EF670(WORK); return 0x39;
     case 4:
-        if(func_021EF480(*(void **)(WORK+0x74))==1) {
+        if(func_021EF480(*(struct WinMgr **)(WORK+0x74))==1) {
             func_021ECB20(p,2,0); func_021EF68C(WORK); return 0x27;
         }
         func_021ED888(WORK,1); func_021ECB20(p,1,0); func_021EF670(WORK); return 0x23;

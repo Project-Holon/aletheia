@@ -16,9 +16,11 @@
  *   func_021D76BC  0x021D76BC  thumb  ov093
  */
 
+typedef unsigned char u8;
+
 extern int func_021D775C(int key);
-extern int func_021C7CF4(int a, int b);
-extern int func_021D59B4(void *p, int k);
+extern void *func_021C7CF4(int a, int b);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021D76BC(int a, int b);
 
 void func_021E15B0(int a, int b, int c)
@@ -27,6 +29,6 @@ void func_021E15B0(int a, int b, int c)
 
     if (c != func_021D775C(3))
         return;
-    n = (unsigned char)func_021D59B4((void *)func_021C7CF4(b, c), 15);
+    n = (unsigned char)func_021D59B4(func_021C7CF4(b, c), 15);
     func_021D76BC(55, n);
 }

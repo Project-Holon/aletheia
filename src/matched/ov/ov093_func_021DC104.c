@@ -19,7 +19,8 @@
 extern int d_021F0690;
 extern int func_021D775C(int);
 extern void *func_021C7CF4(void *,int);
-extern int func_021D5B48(void *);
+typedef unsigned char u8;
+extern int func_021D5B48(u8 *p);
 extern void func_021D7704(int,int);
 void func_021DC104(int a,void *b,int c) { int k=4; if(c==func_021D775C(k) && func_021D5B48(func_021C7CF4(b,c))) func_021D7704(0x35,k<<9); }
 int *func_021DC130(int *p) { *p=1; return &d_021F0690; }

@@ -21,6 +21,7 @@
 extern int func_021D775C(int);
 extern void func_021D7704(int,int);
 extern void *func_021C7CF4(int *,int);
-extern int func_021D5B48(void *);
+typedef unsigned char u8;
+extern int func_021D5B48(u8 *p);
 extern int func_021D76BC(int,unsigned int);
 void func_021DEA58(int a,int *b,int c,int *p) { if(c==func_021D775C(4)) { if(func_021D5B48(func_021C7CF4(b,c))) *p=func_021D76BC(58,3); else *p=0; } }

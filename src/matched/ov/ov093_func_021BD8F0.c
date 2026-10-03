@@ -32,7 +32,7 @@ extern void func_021CD4B0(void *, u32, ...);
 extern void func_021B9D10(char *, void *, int);
 extern void func_021B9C10(char *, u8, u8);
 extern u8 *func_021B9BF0(char *, u8);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021B8750(void *, u8, void *);
 extern void func_021D8484(u8 *);
 extern void func_021DCF5C(u8 *);

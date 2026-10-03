@@ -28,7 +28,7 @@ typedef signed int s32;
 typedef struct { u32 v; } Word;
 
 extern Word func_021D7D18(int x);
-extern u8 func_021D5440(int m);
+extern u8 func_021D5440(u8 *p);
 extern Word func_021E899C(u32 a);
 extern u32 func_021D7B8C(u32 lo, u32 hi);
 extern Word func_021E8940(u8 a);
@@ -45,7 +45,7 @@ void func_021D7DC0(int a, int b, Word *out)
     out->v = 0;
     switch (a) {
     case 7:
-        *out = func_021E899C(func_021D5440(b));
+        *out = func_021E899C(func_021D5440((u8 *)b));
         break;
     case 6:
         y = func_021D7B8C(2, 5);

@@ -20,25 +20,25 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-typedef struct { u32 q; u8 f[4]; } Ent;
+typedef struct { u8 *q; u8 f[4]; } Ent;
 
-extern u32 func_021B9C00(u32 p, u8 i);
-extern int func_021D5B68(u32 q);
-extern u32 func_021D5448(u32 q);
-extern u8 func_021D5584(u32 q, u8 i);
-extern u32 func_021D54C0(u32 q, u8 i);
-extern u32 func_021CF5B0(u8 *p, u32 q, u32 w, u32 z);
+extern u8 *func_021B9C00(void *p, u32 i);
+extern int func_021D5B68(void *q);
+extern u32 func_021D5448(void *q);
+extern u8 func_021D5584(void *q, u8 i);
+extern u32 func_021D54C0(void *q, u8 i);
+extern u32 func_021CF5B0(u8 *p, void *q, u32 w, void *z);
 
 void func_021CECB4(u8 *p, Ent *out)
 {
     u32 i;
     u32 j;
-    u32 q;
+    u8 *q;
     u32 n;
     u32 k;
     Ent *e;
     for (i = 0; i < 3; i++) {
-        q = func_021B9C00(*(u32 *)(p + 0x118), i);
+        q = func_021B9C00(*(void **)(p + 0x118), (u8)i);
         e = out + i;
         e->q = q;
         for (j = 0; j < 4; j++) {

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021EF400  0x021EF400  thumb  ov170
@@ -17,8 +17,8 @@
 
 
 
-extern int func_021EF400(void);
-int func_021E01B0(void)
+extern int func_021EF400(unsigned char *p);
+int func_021E01B0(unsigned char *p)
 {
-    return func_021EF400() != 0;
+    return func_021EF400(p) != 0;
 }

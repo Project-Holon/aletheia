@@ -15,10 +15,11 @@
  * Forward the word at +0x74.
  */
 
-extern void func_0202CA0C(int);
+struct WinMgr;
+extern void func_0202CA0C(struct WinMgr *mgr);
 
 void func_021EF310(char *p)
 {
-    func_0202CA0C(*(int *)(p + 0x74));
+    func_0202CA0C(*(struct WinMgr **)(p + 0x74));
 }
 

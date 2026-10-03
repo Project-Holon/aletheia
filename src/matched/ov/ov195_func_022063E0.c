@@ -90,7 +90,7 @@ static inline fx32 FX_CosIdx(int idx)
 }
 extern void *func_02030734(u16 heap, u32 size, int flags, void *file, u32 line);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern u32 func_02017F00(void *p);
+extern u8 func_02017F00(void *p);
 extern u32 func_02017EAC(void *p);
 extern void *func_02048A24(u32 a0, fx32 sin, fx32 cos, fx32 aspect, u32 a4, fx32 a5,
                            fx32 a6, u32 a7, VecFx32 *a8, VecFx32 *a9, VecFx32 *a10,

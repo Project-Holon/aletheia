@@ -27,19 +27,19 @@ struct Cmd {
     u8 b5;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D62C4(void *p, int i);
-extern void func_021C2CA8(void *w, int x);
-extern void func_021D65C8(int x, int y);
+extern void func_021C2CA8(void *w, u8 *x);
+extern void func_021D65C8(u8 *x, u8 *y);
 extern void func_021CD4B0(void *w, u32 id, ...);
-extern int func_021D6D7C(int x);
+extern int func_021D6D7C(u8 *x);
 extern int func_021CA238(void *p, u8 i);
 
 int func_021CA1D0(u8 *w, const struct Cmd *c)
 {
-    int a = func_021B9934(*(char **)(w + 8), c->b4);
-    int b = func_021B9934(*(char **)(w + 8), c->b5);
-    if (func_021D62C4((void *)a, 0x10) != 0) func_021C2CA8(w, b);
+    u8 *a = func_021B9934(*(char **)(w + 8), c->b4);
+    u8 *b = func_021B9934(*(char **)(w + 8), c->b5);
+    if (func_021D62C4(a, 0x10) != 0) func_021C2CA8(w, b);
     func_021D65C8(b, a);
     func_021CD4B0(*(void **)(w + 0xC), 0x26, c->b4, c->b5);
     if (func_021D6D7C(b) != 0) {

@@ -31,7 +31,7 @@ extern int func_021D775C(int);
 extern void *func_021C7CF4(void *, int);
 extern int func_021D62C4(void *, int);
 extern u8 *func_021C88A4(void *, int, int);
-extern int func_021D70A8(void *);
+extern u16 func_021D70A8(void *p);
 extern Word func_021E896C(int, int);
 extern void func_021C8838(void *, int, int);
 extern void func_021C8860(void *, u32);

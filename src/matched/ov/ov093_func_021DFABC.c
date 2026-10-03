@@ -37,9 +37,9 @@ extern int func_021D775C(int key);
 extern u32 func_0201BEB8(u16 id, u32 bit);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
-extern int func_021C7CF4(int a, int b);
+extern void *func_021C7CF4(int a, int b);
 extern int func_021DCFF8(int a, int b);
-extern int func_021D7B74(void *m, int k);
+extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 v);
 
@@ -57,7 +57,7 @@ void func_021DFABC(int a, int q, int id)
         return;
     r = (Rec *)func_021C88A4((void *)q, 7, id);
     r->f06 = func_021D775C(3);
-    m = (void *)func_021C7CF4(q, r->f06);
+    m = func_021C7CF4(q, r->f06);
     n = (u8)func_021DCFF8(a, 2);
     r->f04 = func_021D7B74(m, n);
     func_021C8838(r->f0c, 2, 424);

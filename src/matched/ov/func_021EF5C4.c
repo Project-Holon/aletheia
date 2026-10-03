@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *
@@ -15,13 +15,15 @@
  */
 
 
-extern int func_0202CDD4(char *, int);
-int func_021EF5C4(char *p)
+typedef unsigned int u32;
+struct WinMgr;
+extern u32 func_0202CDD4(struct WinMgr *mgr, u32 idx);
+int func_021EF5C4(struct WinMgr *mgr)
 {
     unsigned i;
     int found = 0;
     for (i = 0; i < 6; i++) {
-        if (func_0202CDD4(p, i) == 1)
+        if (func_0202CDD4(mgr, i) == 1)
             found = 1;
     }
     return found;

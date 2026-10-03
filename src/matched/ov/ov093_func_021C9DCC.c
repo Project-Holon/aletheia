@@ -14,11 +14,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021C195C(u8 *, u8 *, u32);
 int func_021C9DCC(u8 *p, u8 *q)
 {
-    int a = func_021B9934(*(char **)(p + 8), q[4]);
-    func_021C195C(p, (u8 *)a, *(u32 *)(q + 8));
+    u8 *a = func_021B9934(*(char **)(p + 8), q[4]);
+    func_021C195C(p, a, *(u32 *)(q + 8));
     return 1;
 }

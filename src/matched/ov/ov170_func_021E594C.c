@@ -38,7 +38,8 @@
  * party slot (or back out to state 0x33), fade, swap, then reopen.
  */
 
-extern void func_021EF57C(int mgr);
+struct WinMgr;
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED55C(unsigned char *p, int flag);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
@@ -53,7 +54,7 @@ extern void func_020061E4(unsigned se);
 extern void func_021ED6E4(unsigned char *p, int v);
 extern void func_021EBBC8(unsigned char *p, int kind, int i);
 extern void func_021EBC58(unsigned char *p, int sel, int kind, int i);
-extern void func_021EF3A0(int mgr);
+extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021E01B0(unsigned char *p);
 extern void func_021EE520(unsigned char *p, unsigned idx);
 extern int func_021E066C(unsigned char *p);
@@ -63,7 +64,7 @@ extern void func_021EE038(unsigned char *p, int a, int b, int c);
 extern void func_021EE364(unsigned char *p, int idx, int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define STATE(p) (*(int *)((p) + 0x28))
 

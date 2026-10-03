@@ -27,9 +27,9 @@ extern const Pt d_021E757C;
 extern int func_0204B404(int a, void *b, int c);
 extern int func_020355C4(void);
 extern int func_0204B3DC(int a, int b);
-extern int func_021D8FA4(void *p, int a);
+extern void *func_021D8FA4(void *p, int a);
 extern void func_021E5B6C(void *p, int a, int b);
-extern void func_021E219C(void *p, int a, int b, int c);
+extern void func_021E219C(void *p, void *a, int b, int c);
 void func_021D9780(char *p, int a1, int a2)
 {
     Pt t0, t1;
@@ -48,7 +48,7 @@ void func_021D9780(char *p, int a1, int a2)
         func_0204B3DC(*(int *)(p + 0xf0c), 1);
     }
     if (a2 != 0) {
-        int v;
+        void *v;
 
         v = func_021D8FA4(p, *(int *)(p + 0x10a0));
         func_021E219C(p, v, *(int *)(p + 0x10a0), 1);

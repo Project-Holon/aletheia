@@ -34,19 +34,24 @@ typedef struct {
     Work *work;
 } Sys;
 
-extern void func_0202CF98(int, int, signed char *, signed char *);
-extern void func_0202CFC0(int mgr, unsigned idx, unsigned short *w, unsigned short *h);
-extern unsigned char func_0202CF8C(int mgr, unsigned idx);
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
+extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 
 void func_021DD090(Sys *p, unsigned idx)
 {
     unsigned short w;
     unsigned short h;
     signed char pos[2];
-    func_0202CF98(*(int *)((char *)p->work + 0x74), idx, &pos[1], &pos[0]);
-    func_0202CFC0(*(int *)((char *)p->work + 0x74), idx, &w, &h);
+    func_0202CF98(*(struct WinMgr **)((char *)p->work + 0x74), idx, &pos[1], &pos[0]);
+    func_0202CFC0(*(struct WinMgr **)((char *)p->work + 0x74), idx, &w, &h);
     p->work->flag = 1;
-    p->work->id = func_0202CF8C(*(int *)((char *)p->work + 0x74), idx);
+    p->work->id = func_0202CF8C(*(struct WinMgr **)((char *)p->work + 0x74), idx);
     p->work->lo = 0xD;
     p->work->hi = 0xC;
     p->work->state = 0;

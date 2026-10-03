@@ -16,9 +16,11 @@
  * listing reads both (lsls r1, r1, #2), and its result is returned.
  */
 
-int func_021B9934(char *p, int i);
+typedef unsigned char u8;
 
-int func_021C7CF4(int *p, int i)
+u8 *func_021B9934(char *p, int i);
+
+void *func_021C7CF4(int *p, int i)
 {
     return func_021B9934((char *)p[2], i);
 }

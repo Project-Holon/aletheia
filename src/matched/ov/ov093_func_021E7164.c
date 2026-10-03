@@ -21,8 +21,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021D775C(int key);
-extern int func_021C7CF4(int a, int b);
-extern int func_021C81C8(int a, int b, int c);
+extern void *func_021C7CF4(int a, int b);
+extern u16 func_021C81C8(u8 *p, u8 *x, int flag);
 extern int func_021D76BC(int key, int val);
 extern int d_021F24EC[];
 
@@ -31,10 +31,10 @@ void func_021E7164(int u, int a, int b)
     int x, y, q, v;
 
     if (b == func_021D775C(3)) {
-        x = func_021C7CF4(a, b);
-        y = func_021C7CF4(a, (u8)func_021D775C(4));
-        x = func_021C81C8(a, x, 0);
-        y = func_021C81C8(a, y, 0);
+        x = (int)func_021C7CF4(a, b);
+        y = (int)func_021C7CF4(a, (u8)func_021D775C(4));
+        x = func_021C81C8((u8 *)a, (u8 *)x, 0);
+        y = func_021C81C8((u8 *)a, (u8 *)y, 0);
         q = x / y;
         if (q >= 4)
             v = 150;

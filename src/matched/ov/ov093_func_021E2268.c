@@ -30,8 +30,8 @@ extern void func_021C88C8(int a, void *b);
 extern void func_021D7DC0(int a, void *b, void *c);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 val);
-extern int func_021E03D8(void *a, int b);
-extern int func_021D70A8(void *a);
+extern void func_021E03D8(u8 *a, int b);
+extern u16 func_021D70A8(void *p);
 
 void func_021E2268(void *u, int a, int b, int *p)
 {

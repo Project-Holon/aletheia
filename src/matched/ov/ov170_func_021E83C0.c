@@ -40,29 +40,30 @@
  *   d_021EF908 0x021EF908 data a4
  */
 typedef unsigned char u8;
+struct WinMgr;
 typedef struct { unsigned short a; unsigned short b; } Ent;
 typedef struct { u8 pad[0x1c]; u8 lo : 4; u8 hi : 4; } Flags;
 extern void func_021EC000(char *, int, int);
 extern void func_021ED508(char *, int, int);
 extern void func_021ED888(char *, int);
-extern int func_021EF5E8(int);
+extern int func_021EF5E8(struct WinMgr *mgr);
 extern int func_021EC01C(char *, int);
 extern void func_021ED6E4(char **, int);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(char *);
-extern void func_021EF57C(int);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(char *, int, int);
 extern int func_021E0190(char *);
-extern int func_021EF770(int);
+extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EE008(char *, int, int);
 extern void func_021EF680(char *);
 extern int func_021EA858(char *, int);
-extern int func_021EF45C(int);
+extern int func_021EF45C(struct WinMgr *mgr);
 extern void func_021EF69C(char *);
-extern void func_021EF3A0(int);
+extern void func_021EF3A0(struct WinMgr *mgr);
 extern int func_021E01B0(u8 *);
 extern void func_021EB988(char *, Ent *, unsigned);
-extern void func_021EF534(int);
+extern void func_021EF534(struct WinMgr *mgr);
 extern void func_021ECB20(char *, int, int);
 extern void func_021EBC28(u8 *, int, int);
 extern void func_021EE364(char *, int, int);
@@ -70,7 +71,7 @@ extern void func_021ED544(char *, int);
 extern Ent d_021EF908[];
 #define W (*(char **)(p + 0x2c))
 #define S (*(int *)(W + 0xA194))
-#define M (*(int *)(W + 0x74))
+#define M (*(struct WinMgr **)(W + 0x74))
 int func_021E83C0(char *p)
 {
     switch (S) {

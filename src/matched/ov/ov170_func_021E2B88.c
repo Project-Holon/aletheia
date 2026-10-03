@@ -30,6 +30,7 @@
  */
 typedef unsigned char u8;
 typedef struct { u8 lo:4; u8 hi:4; } Nib;
+struct WinMgr;
 extern u8 func_020260E0(void *);
 extern void func_021DEFEC(u8 *,int);
 extern void func_021EBA5C(char *,int);
@@ -37,7 +38,7 @@ extern void func_021DD14C(u8 *);
 extern void func_021EF670(char *);
 extern void func_021ECB84(char *,unsigned);
 extern void func_021ED55C(char **,int);
-extern void func_021EF57C(int);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(u8 *,int (*)(u8 *),int);
 extern int func_021E0190(u8 *);
 extern void func_020061E4(unsigned);
@@ -70,7 +71,7 @@ int func_021E2B88(u8 *p)
             func_021ECB84(W(p),p[0x16]);
         }
         func_021ED55C((char **)p,0);
-        func_021EF57C(*(int *)(W(p)+0x74));
+        func_021EF57C(*(struct WinMgr **)(W(p)+0x74));
         (*(int *)(W(p)+0xA194))++;
         return func_021E8FC0(p,func_021E0190,20);
     case 1:

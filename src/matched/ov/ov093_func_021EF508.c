@@ -44,7 +44,7 @@ typedef struct {
     u16 f5a;
 } D;
 
-extern void func_021EED00(int a, int b);
+extern void func_021EED00(u8 a, u32 b);
 extern int func_021B8DDC(int m);
 extern int func_021B8CE8(int a, u8 b, int c);
 extern void *func_021B86B8(void ***p);
@@ -59,7 +59,7 @@ void func_021EF508(u32 a, int b, u32 *p)
     int t;
     u8 id;
 
-    func_021EED00((u8)p[0], 0);
+    func_021EED00(p[0], 0);
     id = p[0];
     if (d_021F6398.f58 == 0 &&
         func_021B8CE8((int)d_021F6398.f0, d_021F6398.f54,

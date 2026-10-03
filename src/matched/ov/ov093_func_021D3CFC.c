@@ -16,13 +16,13 @@
  *   func_021D6E88 0x021D6E88 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6408(u8 *);
 extern void func_021D6E88(u8 *);
 int func_021D3CFC(char *p, int unused, unsigned int *a)
 {
-    int obj = func_021B9934(*(char **)(p + 4), a[0]);
-    func_021D6408((u8 *)obj);
-    func_021D6E88((u8 *)obj);
+    u8 *obj = func_021B9934(*(char **)(p + 4), (u8)a[0]);
+    func_021D6408(obj);
+    func_021D6E88(obj);
     return 1;
 }

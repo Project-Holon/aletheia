@@ -102,9 +102,9 @@ extern void func_021E95B4(u32 a);
 extern u32 func_02045B38(int a, int b, int c, u16 d);
 extern void func_021EB32C(u32 a, int b);
 extern int func_021EB52C(u32 a);
-extern int func_021E9634(Obj *p, u32 k);
+extern u8 *func_021E9634(Obj *p, u32 k);
 extern void func_021EAF18(void *msg, int a, int id);
-extern u8 func_021D5440(int v);
+extern u8 func_021D5440(u8 *p);
 extern void func_021EAF50(void *msg, int v);
 extern void func_021EAF78(void *msg, u8 v);
 extern void func_021EA65C(Obj *p, void *msg);
@@ -120,7 +120,7 @@ extern int func_021E95F4(u32 a);
 extern u32 func_0201BD28(int a, int b);
 extern void func_021ED118(u32 p, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u8 a7);
 extern int func_021ED1B0(u32 a);
-extern int func_021D59B4(int a, int b);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_0209C0A4(int a, int b);
 extern void func_021F80FC(int a, int b);
 extern void func_021F7C2C(int a, int b);
@@ -162,7 +162,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 2:
         if (func_021EB52C(p->x17C)) {
             u8 msg[0x24];
-            int v = func_021E9634(p, 0);
+            u8 *v = func_021E9634(p, 0);
             func_021EAF18(msg, 1, 0x45);
             func_021EAF50(msg, func_021D5440(v));
             func_021EAF78(msg, 0);
@@ -171,8 +171,8 @@ int func_021E91E8(Obj *p, int *state, Work *w)
         }
         break;
     case 3:
-        p->xBC = func_021E9634(p, 0);
-        p->xC0 = func_021D5440(p->xBC);
+        p->xBC = (u32)func_021E9634(p, 0);
+        p->xC0 = func_021D5440((u8 *)p->xBC);
         p->xB8 = 0;
         p->xC4 = 0;
         p->b175 = 0;
@@ -227,7 +227,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 11:
         if (func_021EA7E8(p, 0)) {
             u8 msg[0x24];
-            int v = func_021E9634(p, 0);
+            u8 *v = func_021E9634(p, 0);
             func_021EAF18(msg, 2, 0x5D);
             func_021EAF50(msg, func_021D5440(v));
             func_021EAF78(msg, 0);
@@ -272,7 +272,7 @@ int func_021E91E8(Obj *p, int *state, Work *w)
     case 17:
         if (!func_021F7EB4()) {
             u8 msg[0x24];
-            int v = func_021E9634(p, 1);
+            u8 *v = func_021E9634(p, 1);
             func_021EAF18(msg, 1, 0x41);
             func_021EAF50(msg, func_021D5440(v));
             func_021EA614(p, msg);

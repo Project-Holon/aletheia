@@ -16,10 +16,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
-extern int func_021B98AC(char *const *, u8);
-extern int func_021D5B68(int);
-extern void func_021F803C(u32, u32, u32);
+struct E { u8 *a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern int func_021D5B68(void *m);
+extern void func_021F803C(u32 a, void *m, u32 c);
 void func_021EDA04(struct E *e)
 {
     if (e->fb != 0) {

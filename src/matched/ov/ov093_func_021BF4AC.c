@@ -56,7 +56,7 @@ extern int func_021BF6E8(u8 *, u8 *, u8 *, u8 *, void *, int);
 extern u32 func_0201BEB8(u16, u32);
 extern int func_021D5BB0(u8 *, u32);
 extern int func_021C6668(u8 *, u8 *, u8 *, u16);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021CD64C(void *, u8, ...);
 void func_021BF4AC(u8 *p, u8 *b, u8 *a, void *d, void *e)
 {

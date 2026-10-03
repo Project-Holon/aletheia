@@ -16,8 +16,9 @@
  *   func_021D7360  0x021D7360  thumb  ov093
  */
 
+typedef unsigned short u16;
 extern void *func_021D732C(int a, int b);
-extern int func_021D70A8(void *a);
+extern u16 func_021D70A8(void *p);
 extern void func_021D7040(void *n);
 extern void *func_021D7360(void *n);
 

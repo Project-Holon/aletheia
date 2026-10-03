@@ -28,11 +28,12 @@ struct Ent {
     u16 f2;
 };
 
+struct WinMgr;
 extern const struct Ent d_021BD5EC[];
 
-extern void *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(void *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CEBC(void *mgr, u32 idx, void *a);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021BB380(char *p)
 {

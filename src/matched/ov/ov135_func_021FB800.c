@@ -62,19 +62,20 @@ typedef struct {
     u8 g[4];
 } Obj;
 
+struct WinMgr;
 extern const int tbl_02203324[];
 extern const Span tbl_022033F8[];
 extern const u32 tbl_02203440[];
 extern const Cell tbl_022032C6[];
 
-extern void func_0202CAE4(void *mgr, int a, int b, int c, int d);
-extern u32 func_0202CF84(void *mgr, u32 idx);
+extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
+extern u32 func_0202CF84(struct WinMgr *mgr, u32 idx);
 extern void func_021F9260(Obj *p, u32 mode);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_021FBE84(void *mgr, void *bank, void *win, u32 index, u32 x, u16 color, void *g);
 extern int func_021FC008(Obj *p, u32 a);
 extern void func_021FBEB8(void *mgr, void *bank, void *win, u32 index, void *g);
-extern void func_0202CB4C(void *mgr, int a, int b, int c);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B878(u32 v, int k);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern int func_020355C4(void);

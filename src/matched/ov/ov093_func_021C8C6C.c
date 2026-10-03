@@ -17,15 +17,15 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
 extern int func_021C8CAC(int a, u8 b);
-extern int func_021B9934(int a, u8 b);
-extern void func_021C60D4(int a, int b);
+extern u8 *func_021B9934(char *p, int i);
+extern void func_021C60D4(u8 *p, u8 *a);
 
 typedef struct { u32 pad : 8; u32 idx : 5; u32 rest : 19; } Ent;
 
 int func_021C8C6C(int a, Ent *e)
 {
     if (func_021C8CAC(a + 0x1ab8, e->idx)) {
-        func_021C60D4(a, func_021B9934(*(int *)(a + 8), e->idx));
+        func_021C60D4((u8 *)a, func_021B9934(*(char **)(a + 8), (u8)e->idx));
         return 1;
     }
     return 0;

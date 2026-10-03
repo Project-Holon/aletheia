@@ -14,8 +14,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed char s8;
 typedef signed short s16;
+typedef unsigned int u32;
 struct WinMgr;
-extern void func_0202CD64(struct WinMgr *, unsigned int, s8, s8, u8);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
 void func_021BCE0C(char *p, int delta)
 {
     int magnitude;

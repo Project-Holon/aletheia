@@ -14,10 +14,13 @@
  *   func_0202CB4C 0x0202CB4C thumb
  */
 
-extern void func_0202CC70(int mgr, unsigned i);
-extern void func_0202CB4C(int mgr, unsigned i, int a, signed char b);
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
-void func_021EF508(int mgr)
+void func_021EF508(struct WinMgr *mgr)
 {
     unsigned i;
     for (i = 0; i < 6; i++) {

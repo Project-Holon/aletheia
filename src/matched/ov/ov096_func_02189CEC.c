@@ -31,21 +31,22 @@ typedef unsigned int u32;
 typedef int s32;
 
 extern int func_0201134C(int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern int func_021D59B4(int, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D59B4(u8 *p, int k);
 
 int func_02189CEC(int a, int b) {
     int r6;
     int r4;
-    int t;
+    u8 s;
+    u8 *t;
     int x;
     r6 = func_0201134C(a);
     r4 = func_0201134C(a);
-    t = func_0218A160(b, r6);
-    t = func_0218A2FC(b, t);
+    s = func_0218A160((u8 *)b, r6);
+    t = func_0218A2FC((u8 *)b, s);
     x = func_021D59B4(t, r4);
-    *(int *)(b + 0x38) = x - func_021D59B4(*(int *)(b + 0xbc), r4);
+    *(int *)(b + 0x38) = x - func_021D59B4(*(u8 **)(b + 0xbc), r4);
     return *(int *)(b + 0xc4);
 }
 

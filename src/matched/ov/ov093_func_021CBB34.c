@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed long long s64;
-extern u32 func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021BA1A8(void *, int);
 extern int func_021CBCF4(u8 *);
 extern u16 func_021D5444(void *);

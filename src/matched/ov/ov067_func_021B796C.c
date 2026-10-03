@@ -40,9 +40,10 @@ struct S {
     u8 count44;
 };
 
+struct WinMgr;
 extern void ENV_SetResourceSet(void *p);
 extern void func_020452E8(int p);
-extern void func_0202CA0C(int p);
+extern void func_0202CA0C(struct WinMgr *mgr);
 extern void func_0202EA20(int p);
 extern void func_0201C4C0(int p);
 
@@ -54,7 +55,7 @@ void func_021B796C(struct S *s)
     for (i = 0; i < s->count44; i++)
         func_020452E8((int)s->arr38[i].p);
     ENV_SetResourceSet(s->arr38);
-    func_0202CA0C((int)s->f3c);
+    func_0202CA0C(s->f3c);
     if (s->cnt16 != 0) {
         for (i = 0; i < s->cnt16; i++)
             ENV_SetResourceSet(s->arr40[i]);

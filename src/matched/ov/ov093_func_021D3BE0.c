@@ -16,12 +16,12 @@
  */
 typedef unsigned char u8;
 struct Work;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D65C8(struct Work *, struct Work *);
 int func_021D3BE0(char *p, int unused, unsigned int *a)
 {
-    int first = func_021B9934(*(char **)(p + 4), a[0]);
-    int second = func_021B9934(*(char **)(p + 4), a[1]);
+    u8 *first = func_021B9934(*(char **)(p + 4), (u8)a[0]);
+    u8 *second = func_021B9934(*(char **)(p + 4), (u8)a[1]);
     func_021D65C8((struct Work *)second, (struct Work *)first);
     return 1;
 }

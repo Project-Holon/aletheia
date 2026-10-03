@@ -26,7 +26,7 @@ extern int func_021C20BC(u8 *, u8 *, int);
 extern void func_021C5480(u8 *, u8 *, int);
 extern void func_021C8810(u8 *);
 extern void func_021C4B2C(u8 *, u8 *, u32);
-extern int func_021C20D0(u8 *, u8 *, int, u8 *);
+extern int func_021C20D0(u8 *p, u8 *a, int c, u8 *l);
 void func_021C4A64(u8 *p, u8 *a, u32 b, u32 c)
 {
     u32 lock;

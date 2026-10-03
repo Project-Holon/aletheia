@@ -30,25 +30,26 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4, fb8, fbc, fc0, fc4; } Obj;
+typedef struct { u8 p0[0x38]; int f38; u8 p1[0x58]; u8 f94; u8 p2[0x1b]; int fb0, fb4; char *fb8; u8 *fbc, *fc0; int fc4; } Obj;
 
 extern int func_0201134C(int);
 extern void func_020113B0(int, int);
-extern int func_0218A308(int, int);
-extern u32 func_0218A390(int, int, int, int);
+extern u8 *func_0218A308(void *, u32);
+extern u32 func_0218A390(int, u8 *, u8 *, int);
 extern int func_021B8DE4(int, int);
-extern int func_021B9AF8(int, int);
+extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(int, int);
-extern int func_021B9B94(int);
-extern int func_021D5440(int);
-extern int func_021D5B68(int);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
+extern u8 func_021D5440(u8 *p);
+extern int func_021D5B68(void *);
 
 int func_02189AC0(int a, Obj *b) {
     int c;
     int x;
     int r4;
-    int r7;
-    int r6;
+    char *r7;
+    u8 *r6;
     u32 base;
     c = func_0201134C(a);
     x = func_0201134C(a);
@@ -56,7 +57,7 @@ int func_02189AC0(int a, Obj *b) {
     r7 = func_021B9AF8(b->fb8, r4);
     r4 = func_021B99B8(b->fb0, r4);
     base = func_0218A390((int)b, b->fbc, b->fc0, c);
-    for (; r4 < func_021B9B94(r7); r4++) {
+    for (; r4 < func_021B9B94((struct Q1 *)r7); r4++) {
         r6 = func_0218A308(r7, (u8)r4);
         func_021D5440(r6);
         if (func_021D5B68(r6) == 0) {

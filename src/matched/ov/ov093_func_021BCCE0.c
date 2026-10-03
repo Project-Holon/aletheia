@@ -57,7 +57,7 @@ typedef union {
 typedef struct { u8 *a; Action b; u32 c; u8 d, processed; u16 pad; } E;
 extern void func_021C859C(u8 *);
 extern int func_021D5B68(void *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021BCEEC(void *, u8);
 extern int func_021D62C4(void *, int);
 extern int func_021B86E4(u8 *);

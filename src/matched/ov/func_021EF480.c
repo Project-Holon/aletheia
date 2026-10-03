@@ -15,10 +15,13 @@
  */
 
 
-extern void func_0202CF98(int, int, char *, char *);
-int func_021EF480(int p)
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+int func_021EF480(struct WinMgr *mgr)
 {
-    char buf[4];
-    func_0202CF98(p, 8, buf + 1, buf);
+    s8 buf[4];
+    func_0202CF98(mgr, 8, buf + 1, buf);
     return buf[1] == 0x2 && buf[0] == 6;
 }

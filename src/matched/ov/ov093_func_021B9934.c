@@ -10,7 +10,9 @@
  * status:   EXACT* (extent 12, compiled 10, trailing padding)
  */
 
-int func_021B9934(char *p, int i)
+typedef unsigned char u8;
+
+u8 *func_021B9934(char *p, int i)
 {
-    return *(int *)(p + i * 4 + 0x84);
+    return *(u8 **)(p + i * 4 + 0x84);
 }

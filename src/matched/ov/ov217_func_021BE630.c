@@ -31,27 +31,27 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BE930();
-extern u32 func_021BE9B8();
-extern u32 func_021BE934();
-extern u32 func_021BEFF8();
-extern u32 func_021BF3D8();
-extern u32 func_021BF4AC();
-extern u32 func_021BF810();
+extern void func_021BE930(void *p, u32 v);
+extern void func_021BE9B8(u8 *p);
+extern int func_021BE934(char *p);
+extern void func_021BEFF8(u8 *p);
+extern void func_021BF3D8(char *p);
+extern void func_021BF4AC(char *p);
+extern u32 func_021BF810(void *p);
 void func_021BE630(u8 *a0, u32 a1)
 {
     if ((u32)(a1 - 1) <= 1) {
     if (*(u32*)(a0 + 968) == 0) {
     return;
     }
-    if (func_021BF810(a0, *(u32*)(a0 + 968)) == 0) {
+    if (func_021BF810(a0) == 0) {
     return;
     }
     }
     func_021BE9B8(a0);
     func_021BE930(a0, a1);
-    func_021BE934(a0);
-    func_021BF3D8(a0);
-    func_021BF4AC(a0);
+    func_021BE934((char *)a0);
+    func_021BF3D8((char *)a0);
+    func_021BF4AC((char *)a0);
     func_021BEFF8(a0);
 }

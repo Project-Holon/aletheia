@@ -42,7 +42,7 @@ int func_0201BEB8(int a, int b);
 void *func_021C88A4(int a, int k, int b);
 void *func_021C7CF4(int a, int b);
 int func_021DCFF8(void *a, int k);
-int func_021D7B74(void *a, u8 b);
+extern int func_021D7B74(u8 *p, u32 k);
 void func_021C8838(void *p, int a, int b);
 void func_021C8860(void *p, int a);
 void func_021C88C8(int a, void *p);

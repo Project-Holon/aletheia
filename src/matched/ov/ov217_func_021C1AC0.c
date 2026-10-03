@@ -25,10 +25,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u8 func_021C1A84(u32, u8);
-extern void *func_021C1AB4(void *, u32);
-void *func_021C1AC0(u32 a0, u8 a1)
+extern u8 func_021C1A84(u8 *p, u8 key);
+extern void *func_021C1AB4(void *p, u32 n);
+
+void *func_021C1AC0(u8 *p, u8 key)
 {
-    return func_021C1AB4((void *)a0, func_021C1A84(a0, a1));
+    return func_021C1AB4(p, func_021C1A84(p, key));
 }
+
 

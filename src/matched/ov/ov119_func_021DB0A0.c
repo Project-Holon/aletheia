@@ -24,7 +24,7 @@ extern unsigned func_020399A8(void);
 extern int func_020173EC(int);
 extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
 extern void func_020307B0(int);
-extern void func_021D9468(void *,int,int);
+extern void func_021D9468(void *,int,void *);
 int func_021DB0A0(char *p)
 {
     int t=func_021D8D4C(*(int *)(p+0x828),*(int *)(p+0xf88),*(int *)(p+0xf84),p);
@@ -35,7 +35,7 @@ int func_021DB0A0(char *p)
             return 0;
         }
     }
-    func_021D9468(p,0,t);
+    func_021D9468(p,0,(void *)t);
     func_020307B0(t);
     return 1;
 }

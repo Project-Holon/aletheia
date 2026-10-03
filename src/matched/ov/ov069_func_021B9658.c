@@ -18,8 +18,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+struct WinMgr;
 extern int func_021B9E44(u8 *p);
 extern void func_021B9DFC(u8 *p);
-extern void func_0202CD94(void *p);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_0204A600(void);
-int func_021B9658(u32 a,u32 b,u32 c,u8 *p) { if(func_021B9E44(p)==0) return 1; func_021B9DFC(p); func_0202CD94(*(void **)(p+4)); func_0204A600(); return 0; }
+int func_021B9658(u32 a,u32 b,u32 c,u8 *p) { if(func_021B9E44(p)==0) return 1; func_021B9DFC(p); func_0202CD94(*(struct WinMgr **)(p+4)); func_0204A600(); return 0; }

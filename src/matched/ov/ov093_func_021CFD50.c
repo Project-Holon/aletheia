@@ -28,9 +28,9 @@ struct G {
 };
 
 extern u8 func_021B8D38(void *p, void *a, u16 k, u8 *out);
-extern int func_021B9934(void *p, int i);
+extern u8 *func_021B9934(void *p, int i);
 
-int func_021CFD50(struct G *g, int k)
+u8 *func_021CFD50(struct G *g, int k)
 {
     u8 buf[4];
     u8 n;

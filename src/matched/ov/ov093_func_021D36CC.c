@@ -15,10 +15,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_021B9934(char *, u8);
-extern void func_021D5F90(int, u16);
+extern u8 *func_021B9934(char *p, int i);
+extern void func_021D5F90(u8 *, u16);
 int func_021D36CC(char *p, int *state, unsigned int *q)
 {
-    func_021D5F90(func_021B9934(*(char **)(p + 4), q[0]), q[1]);
+    func_021D5F90(func_021B9934(*(char **)(p + 4), (u8)q[0]), q[1]);
     return 1;
 }

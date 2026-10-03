@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_021BE9B8(u8 *);
 extern void func_021BE91C(char *,int);
-extern u32 func_021BF810(u8 *,u32);
+extern u32 func_021BF810(void *p);
 extern int func_021BE934(char *);
 extern u32 func_021BF3D8(u8 *);
 extern u32 func_021BF4AC(u8 *);
@@ -38,11 +38,11 @@ void func_021BE580(u8 *p)
     do {
         u32 index=*(u32 *)(p+52);
         if (index-1<=1) {
-            if (*(u32 *)(p+968)==0 || func_021BF810(p,index)==0) {
+            if (*(u32 *)(p+968)==0 || func_021BF810(p)==0) {
                 func_021BE91C((char *)p,1);
             } else repeat=0;
         } else if (index==4) {
-            if (*(u32 *)(p+968)==1 || func_021BF810(p,index)==0) {
+            if (*(u32 *)(p+968)==1 || func_021BF810(p)==0) {
                 func_021BE91C((char *)p,1);
             } else repeat=0;
         } else repeat=0;

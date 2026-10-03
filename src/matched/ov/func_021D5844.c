@@ -23,5 +23,5 @@ typedef signed short s16;
 typedef signed int s32;
 
 /* 021D5844  ldr r0,[r0] */
-u32 func_021D5844(u32 *p) { return *p; }
+void *func_021D5844(void *m) { return *(void **)m; }
 

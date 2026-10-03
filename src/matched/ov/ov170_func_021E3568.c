@@ -17,12 +17,13 @@
  *   func_021EF670 0x021EF670 thumb ov170
  *   func_021EF68C 0x021EF68C thumb ov170
  */
+struct WinMgr;
 extern int func_021E2094(char *);
 extern int func_020260F0(void *);
 extern void func_021EC000(char *, int, int);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(unsigned char *);
-extern int func_021EF770(int);
+extern int func_021EF770(struct WinMgr *mgr);
 extern void func_021EF670(char *);
 extern void func_021EF68C(char *);
 #define W(p) (*(char **)((p) + 0x2C))
@@ -40,7 +41,7 @@ int func_021E3568(unsigned char *p)
     func_021EBA5C(W(p), n);
     func_021DD14C(p);
     if (*(int *)(*(char **)p + 0x24) == 2) {
-        if (func_021EF770(*(int *)(W(p) + 0x74)) == 1)
+        if (func_021EF770(*(struct WinMgr **)(W(p) + 0x74)) == 1)
             func_021EF670(W(p));
         else
             func_021EF68C(W(p));

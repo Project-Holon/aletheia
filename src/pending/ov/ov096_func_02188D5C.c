@@ -55,7 +55,7 @@ typedef struct {
 } Conn;
 
 extern int func_0201134C(int);
-extern int func_021D5440(int);
+extern u8 func_021D5440(u8 *p);
 extern int func_021D5448(int);
 extern int func_021D54C0(int, int);
 extern int func_021C7E14(int, int, int, int, int, int);
@@ -69,8 +69,8 @@ int func_02188D5C(int a, Conn *b)
     int i;
 
     t = func_0201134C(a);
-    y = func_021D5440(b->fbc);
-    z = func_021D5440(b->fc0);
+    y = func_021D5440((u8 *)b->fbc);
+    z = func_021D5440((u8 *)b->fc0);
     r = func_021C7E14(b->fb4, y, z, b->f2, 1, t);
     if (r == 0) {
         b->f38 = 0;

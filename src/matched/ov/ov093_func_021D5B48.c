@@ -12,7 +12,7 @@
  *   func_021D59B4 0x021D59B4 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021D59B4(u8 *, int);
+extern int func_021D59B4(u8 *p, int k);
 int func_021D5B48(u8 *p)
 {
     if (func_021D59B4(p, 0xd) == func_021D59B4(p, 0xe)) return 1;

@@ -36,31 +36,32 @@ typedef struct {
     u8 pad3C[0xb0 - 0x3c];
     int fb0;
     u8 padB4[4];
-    int fb8;
+    char *fb8;
     u8 padBC[8];
     int fc4;
 } Conn;
 
 extern int func_0201134C(int);
 extern int func_0218A160(Conn *, int);
-extern int func_0218A308(int, u8);
+extern u8 *func_0218A308(void *, u8);
 extern int func_021B8DE4(int, int);
-extern int func_021B9AF8(int, int);
+extern char *func_021B9AF8(char *p, int i);
 extern int func_021B99B8(int, int);
-extern int func_021B9B94(int);
-extern int func_021D5B7C(int);
+struct Q1;
+extern u8 func_021B9B94(struct Q1 *p);
+extern int func_021D5B7C(void *);
 
 int func_02188E90(int a, Conn *b)
 {
     int x;
-    int p;
+    char *p;
     int n;
 
     x = func_021B8DE4(b->fb0, func_0218A160(b, func_0201134C(a)));
     p = func_021B9AF8(b->fb8, x);
     n = func_021B99B8(b->fb0, x);
     b->f38 = 0;
-    for (; n < func_021B9B94(p); n++) {
+    for (; n < func_021B9B94((struct Q1 *)p); n++) {
         if (func_021D5B7C(func_0218A308(p, n)) != 0)
             b->f38++;
     }

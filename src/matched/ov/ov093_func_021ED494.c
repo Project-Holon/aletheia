@@ -17,8 +17,8 @@
  *   func_021F80FC  0x021F80FC  thumb  ov094
  */
 typedef unsigned char u8;
-extern void *func_021B98AC(char *const *, u8);
-extern int func_021D59B4(void *, int);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern int func_021D59B4(u8 *p, int k);
 extern u8 func_021B8E70(u8 *, u8);
 extern void func_021F8118(u8, int);
 extern void func_021F80FC(u8, int);

@@ -14,9 +14,9 @@
  *   func_021F6B38 0x021F6B38 thumb ov097
  *   func_0204A600 0x0204A600 arm
  */
-struct Unk;
+struct WinMgr;
 extern int (*D_021F7608[])(char *);
-extern void func_0202CD94(struct Unk *);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021F6B38(char *);
 extern void func_0204A600(void);
-int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; func_0202CD94(*(struct Unk **)(d+8)); func_021F6B38(d); func_0204A600(); return 0; }
+int func_021F6590(int a,int *b,int c,char *d) { *b=D_021F7608[*b](d); if(*b==5) return 1; func_0202CD94(*(struct WinMgr **)(d+8)); func_021F6B38(d); func_0204A600(); return 0; }

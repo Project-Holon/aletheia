@@ -25,7 +25,7 @@ typedef signed int s32;
 typedef struct { u32 x; } W;
 enum Kind { K0, K1, K10 = 10 };
 struct Lock { u32 a:10; u32 b:9; u32 c:9; u32 d:1; u32 e:1; u32 f:1; u32 g:1; };
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern u32 func_021C2E4C(u8 *);
 extern u8 func_0201C020(u16);
 extern void func_021C2F70(u8 *, u16, u32, u8 *, u8 *, s32 *, s32 *);

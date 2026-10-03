@@ -32,16 +32,16 @@ typedef struct {
     u8 pad04[0x38 - 4];
     int f38;
     u8 pad3C[0xbc - 0x3c];
-    int fbc;
-    int fc0;
+    u8 *fbc;
+    u8 *fc0;
     int fc4;
 } Conn;
 
 extern int func_0201134C(int);
-extern int func_0218A160(Conn *, int);
-extern int func_0218A2FC(Conn *, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
 extern int func_0218A378(Conn *, int, int);
-extern int func_021D57FC(int);
+extern int func_021D57FC(void *);
 extern int func_021E8CFC(int);
 extern int func_021E8D04(int);
 
@@ -71,16 +71,16 @@ int func_02188CA0(int a, Conn *b)
         b->f38 = func_0218A378(b, b->f2, 0);
         break;
     case 6:
-        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC(b, func_0218A160(b, 3))));
+        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
         break;
     case 5:
-        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC(b, func_0218A160(b, 2))));
+        b->f38 = func_021E8CFC(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
         break;
     case 8:
-        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC(b, func_0218A160(b, 3))));
+        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 3))));
         break;
     case 7:
-        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC(b, func_0218A160(b, 2))));
+        b->f38 = func_021E8D04(func_021D57FC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, 2))));
         break;
     }
     return b->fc4;

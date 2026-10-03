@@ -17,8 +17,8 @@
  *   func_021D9B34 0x021D9B34 thumb ov119
  */
 extern void func_02045CAC(int,int,int);
-extern int func_021D8FA4(void *,int);
-extern void func_0201EEF4(int,int,int);
+extern void *func_021D8FA4(void *,int);
+extern void func_0201EEF4(int,int,void *);
 extern void func_0201F250(int,int,int);
 extern void func_021E1024(void *);
 extern void func_021D8E84(void *,int);

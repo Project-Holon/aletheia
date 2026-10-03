@@ -29,11 +29,11 @@ typedef struct {
 } D;
 
 extern D d_021F6398;
-extern void *func_021B9940(void *p, int i);
-extern int func_021D5864(void *m);
-extern void func_0201EE84(u32 h, u32 a, u32 mon);
+extern u8 *func_021B9940(char *p, u8 i);
+extern void *func_021D5864(void *m);
+extern void func_0201EE84(u32 h, u32 a, void *mon);
 
-void func_021EED48(int a, u32 b)
+void func_021EED48(u8 a, u8 b)
 {
-    func_0201EE84(d_021F6398.f8, b, func_021D5864(func_021B9940((void *)d_021F6398.f4, a)));
+    func_0201EE84(d_021F6398.f8, b, func_021D5864(func_021B9940((char *)d_021F6398.f4, a)));
 }

@@ -35,11 +35,11 @@ struct Cmd {
     u8 b6;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021C3B8C(void *w, u32 a, u32 b);
 extern void func_021C3BB8(void *w, u32 a, u32 b);
-extern void func_021C5A1C(void *w, int x);
-extern void func_021C5A34(void *w, int x);
+extern void func_021C5A1C(u8 *p, u8 *a);
+extern void func_021C5A34(u8 *p, u8 *a);
 extern int func_021C99A0(void *w, void *c);
 extern u32 func_021CC8D8(void *lock, int line);
 extern void func_021C7BF8(void *w);
@@ -47,7 +47,7 @@ extern void func_021CC95C(void *lock, u32 v, int line);
 
 u8 func_021C98E4(u8 *w, struct Cmd *c)
 {
-    int id = func_021B9934(*(char **)(w + 8), c->id);
+    u8 *id = func_021B9934(*(char **)(w + 8), (u8)c->id);
     int r = 0;
     u32 s;
     if (c->b4 != 0) {

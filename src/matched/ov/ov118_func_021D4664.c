@@ -60,15 +60,15 @@ extern void func_021E4888(void *p);
 extern void func_021E2680(void *p);
 extern void func_021D4484(void *p, int a);
 extern int func_021D8AA8(void *);
-extern u32 func_021D8FA4(void *, int);
-extern u32 func_02017E1C(u32, u32, u32);
+extern void *func_021D8FA4(void *, int);
+extern u32 func_02017E1C(void *, u32, u32);
 extern void func_02006CAC(void *buf);
 extern u32 func_02006984(u32, u32, u32, u32, u32, u32, u32, void *);
 extern void func_020307B0(u32);
 extern void func_02015C30(u32, Vec *);
 extern void func_021DFD24(u32);
 extern u32 func_021DFBB4(u32, u32, Vec *, const void *, u16);
-extern void func_021E36C8(void *p, int a, int b, u32 mon, int c);
+extern void func_021E36C8(void *p, int a, int b, void *mon, int c);
 extern void func_02015E04(u32);
 extern void func_02015EA0(u32);
 extern void func_021D8E84(void *p, int next);
@@ -84,7 +84,7 @@ extern u8 d_021D86A0[];
 
 void func_021D4664(u8 *p)
 {
-    u32 mon;
+    void *mon;
     u32 a;
     u32 b;
     Vec v1;

@@ -44,11 +44,12 @@ struct S {
     u16 **f40;
 };
 
-extern u8 func_0202CF8C(void *mgr, u32 idx);
+struct WinMgr;
+extern u8 func_0202CF8C(struct WinMgr *mgr, u32 idx);
 extern int func_021B8FA0(int x);
 extern int func_02051B0C(int i);
-extern void func_0202CAC4(void *mgr, u32 idx, void *p);
-extern void func_0202CEBC(void *mgr, u32 idx, void *p);
+extern void func_0202CAC4(struct WinMgr *mgr, u32 idx, const void *src);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 extern u8 func_02045748(void *d);
 extern u8 func_02045750(void *d);
 extern u8 func_02045758(void *d);

@@ -15,7 +15,8 @@
  *   func_0202CA0C  0x0202CA0C  thumb
  */
 
-extern void func_0202CA0C(void *);
+struct WinMgr;
+extern void func_0202CA0C(struct WinMgr *mgr);
 
 void func_021BB474(char *p)
 {

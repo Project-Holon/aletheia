@@ -24,10 +24,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(void *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021B8778(void *, int, u8 *);
-extern void *func_021B98A4(void *, u8);
+extern u8 *func_021B98A4(char *const *q, u8 b);
 extern int func_021D5B68(void *);
 extern void *func_021B86B8(void *);
 extern int func_021CBB34(u8 *, void *, void *, int, u8 *, u8 *);
@@ -46,7 +46,7 @@ int func_021CBA40(u8 *p, void *a, u16 b)
     u8 flag;
     count = func_021B8778(*(void **)(p + 4), (unsigned short)((chosen << 8) | func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a))), buf);
     for (i = 0; i < count; i++) {
-        m = func_021B98A4(*(void **)(p + 8), buf[i]);
+        m = func_021B98A4(*(char *const **)(p + 8), buf[i]);
         if (!func_021D5B68(m)) { chosen = buf[i]; break; }
     }
     if (!func_021B86B8(*(void **)(p + 4))) {

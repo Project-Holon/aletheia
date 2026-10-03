@@ -40,7 +40,7 @@ extern u32 func_021B9B94(void *);
 extern u8 func_021B9B98(char *);
 extern void *func_021B9BF0(void *, u8);
 extern u8 func_021D54B4(void *);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021B8B9C(void *, u8);
 
 void func_021BA878(u8 *p)

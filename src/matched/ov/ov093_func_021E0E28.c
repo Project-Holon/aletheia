@@ -54,13 +54,13 @@ typedef struct RecB {
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(void *a, int b);
 extern int func_021D5814(void *m, int k);
-extern int func_021D59B4(void *m, int k);
+extern int func_021D59B4(u8 *p, int k);
 extern void *func_021C88A4(void *a, int k, int b);
 extern Word func_021E89C0(void);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
-extern int func_021D7B74(void *m, int k);
+extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C83DC(void *p, int x);
 
 void func_021E0E28(int a, void *q, int id)

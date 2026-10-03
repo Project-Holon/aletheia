@@ -19,7 +19,8 @@
  *   func_020307B0 0x020307B0 arm
  */
 typedef unsigned char u8;
-extern void func_0202CA0C(void *);
+struct WinMgr;
+extern void func_0202CA0C(struct WinMgr *mgr);
 extern void func_02030EAC(void *);
 extern void func_02020D3C(void *);
 extern void func_0204B3B4(void *);

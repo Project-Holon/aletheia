@@ -44,7 +44,7 @@ struct Info { u32 f00; u32 f04; u8 f08; u8 f09; u16 f0A; u8 f0C; u8 f0D; u8 pad0
 extern void *func_0201A920(u32 heap);
 extern u32 func_020173EC(void);
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void func_0201A98C(void *party, void *mon);
+extern u32 func_0201A98C(void *party, void *mon);
 extern void func_021AA304(struct Info *out, void *a1, void *a2);
 extern void func_0201347C(void *a0, void *a1, void *a2, struct Info *a3, u32 a4, u16 a5);
 extern void func_02013144(void *p, int v);

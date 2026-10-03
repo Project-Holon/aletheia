@@ -37,7 +37,7 @@ typedef struct Entry {
     u8 pad1[3];
     short show;
     short pad6;
-    u32 text;
+    void *text;
 } Entry;
 
 typedef struct Info {
@@ -67,7 +67,7 @@ extern void *func_020457B0(u32, u16);
 extern int func_0201EC64(int);
 extern void func_0201DD78(u32, u32, u32);
 extern void *func_02045EC0(void *, u32);
-extern void func_0201EEF4(u32, u32, u32);
+extern void func_0201EEF4(u32, u32, void *);
 extern void func_0201F250(int, void *, void *);
 extern void func_02204C98(void *a, int b, int *w, int *h);
 extern void func_0201C7A4(int, short, short, void *, int);

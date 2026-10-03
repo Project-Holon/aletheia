@@ -74,6 +74,7 @@ typedef struct {
     char *work;
 } Obj;
 
+struct WinMgr;
 extern u32 func_020362DC(void);
 extern int func_021EA9F4(Obj *p, int v);
 extern unsigned func_021EF170(void);
@@ -81,14 +82,14 @@ extern void func_020260F4(void *obj, int state);
 extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_020061E4(unsigned se);
 extern int func_02035D20(void *x, void *y);
-extern int func_021EF5E8(int p);
+extern int func_021EF5E8(struct WinMgr *mgr);
 extern void func_021EB988(Obj *p, const void *e, unsigned n);
 extern void func_021DEFEC(Obj *p, int b);
 extern int func_021E9D2C(Obj *p, int i);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern void func_021EE3E4(Obj *p, unsigned idx);
 extern void func_021DF040(Obj *p);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021ED6E4(Obj *p, int v);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(Obj *p);
@@ -112,7 +113,7 @@ extern int func_021E9E7C(Obj *p, int i, int v);
 extern const unsigned char d_021EF918[];
 
 #define OBJ(p) (*(void **)((p)->work + 0x70))
-#define MGR(p) (*(int *)((p)->work + 0x74))
+#define MGR(p) (*(struct WinMgr **)((p)->work + 0x74))
 
 int func_021E4504(Obj *p)
 {

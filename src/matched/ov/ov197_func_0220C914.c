@@ -18,13 +18,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct Tcbl;
-struct Unk;
+struct WinMgr;
 extern int (*const d_0220DF40[])(char *);
 extern int func_0220D3B0(void *, char *);
 extern void func_0220BF40(char *);
 extern int func_0220B980(char *);
 extern void func_020310C4(struct Tcbl *);
-extern void func_0202CD94(struct Unk *);
+extern void func_0202CD94(struct WinMgr *mgr);
 void func_0220C914(void *task, char *p)
 {
     if (*(int *)(*(char **)p + 0x24) == 1) {
@@ -36,6 +36,6 @@ void func_0220C914(void *task, char *p)
     if (*(u8 *)(p + 0x530) == 20 && func_0220D3B0(task, p) == 1) return;
     func_020310C4(*(struct Tcbl **)(p + 4));
     func_0220BF40(p);
-    func_0202CD94(*(struct Unk **)(p + 0x520));
+    func_0202CD94(*(struct WinMgr **)(p + 0x520));
     func_0220B980(p);
 }

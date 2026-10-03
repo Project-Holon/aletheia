@@ -15,14 +15,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 struct Work; extern void func_021D56CC(struct Work *, u8);
 int func_021D375C(u32 *a, int b, u32 *c)
 {
-    int m;
+    u8 *m;
     u8 k;
     k = c[1];
-    m = func_021B9934((char *)a[1], c[0]);
+    m = func_021B9934((char *)a[1], (u8)c[0]);
     func_021D56CC((struct Work *)m, k);
     return 1;
 }

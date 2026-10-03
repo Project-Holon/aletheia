@@ -24,16 +24,17 @@ extern void func_02045CAC(int,int,int);
 extern void func_021E1024(void *);
 extern void func_021E1030(void *);
 extern int func_021D8A24(void *);
-extern void func_021D9468(void *,int,int);
+extern void func_021D9468(void *,int,void *);
 extern int func_020173EC(void);
-extern int func_021D8FA4(void *,int);
+extern void *func_021D8FA4(void *,int);
 extern void func_02082D44(void *,const void *,int);
 extern void func_021D8E84(void *,int);
 extern void func_021DDF74(void *);
 extern void func_021DE0F0(void *);
 void func_021DE12C(char *p)
 {
-    int obj,n;
+    void *obj;
+    int n;
     func_02045CAC(*(int *)(p+0x720),0x88,*(int *)(p+0x738));
     func_021E1024(p);
     func_021E1030(p);
@@ -41,10 +42,10 @@ void func_021DE12C(char *p)
     if(func_021D8A24(p)==0) {
         p[0x11e0]=11;
         p[0x11e1]=11;
-        obj=*(int *)(p+0xfd8);
+        obj=*(void **)(p+0xfd8);
         func_021D9468(p,1,obj);
         n=func_020173EC();
-        func_02082D44((void *)obj,(void *)func_021D8FA4(p,1),n);
+        func_02082D44(obj,func_021D8FA4(p,1),n);
         func_021D8E84(p,(int)func_021DDF74);
         return;
     }

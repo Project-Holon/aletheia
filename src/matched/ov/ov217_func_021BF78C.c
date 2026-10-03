@@ -25,10 +25,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C11F4();
+extern int func_021C11F4(u8 *p);
 u32 func_021BF78C(u32 a0)
 {
-    if (func_021C11F4(*(u32*)(((u8*)a0) + 700)) != 0 || func_021C11F4(*(u32*)(((u8*)a0) + 704)) != 0 || func_021C11F4(*(u32*)(((u8*)a0) + 708)) != 0 || func_021C11F4(*(u32*)(((u8*)a0) + 712)) != 0) {
+    if (func_021C11F4(*(u8 **)(((u8*)a0) + 700)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 704)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 708)) != 0 || func_021C11F4(*(u8 **)(((u8*)a0) + 712)) != 0) {
     return 0;
     }
     return 1;

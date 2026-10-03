@@ -18,9 +18,10 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B9934(void *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021B8DC0(void *p, void *a, u8 b);
-extern void func_021D6C50(int a, int b);
+struct Unk021D6C50;
+extern int func_021D6C50(struct Unk021D6C50 *a, struct Unk021D6C50 *b);
 extern void func_021EA8B4(void *w, int a, int b);
 extern int func_021EA8D4(void *w);
 
@@ -28,11 +29,11 @@ int func_021D28AC(u8 *p, int *st, u32 *c)
 {
     switch (*st) {
     case 0: {
-        int a = func_021B9934(*(void **)(p + 4), c[0]);
-        int b = func_021B9934(*(void **)(p + 4), c[1]);
+        u8 *a = func_021B9934(*(char **)(p + 4), (u8)c[0]);
+        u8 *b = func_021B9934(*(char **)(p + 4), (u8)c[1]);
         int d = func_021B8DC0(*(void **)p, *(void **)(p + 4), c[0]);
         int e = func_021B8DC0(*(void **)p, *(void **)(p + 4), c[1]);
-        func_021D6C50(a, b);
+        func_021D6C50((struct Unk021D6C50 *)a, (struct Unk021D6C50 *)b);
         func_021EA8B4(*(void **)(p + 0x54), d, e);
         (*st)++;
         break;

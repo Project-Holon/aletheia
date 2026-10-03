@@ -24,8 +24,8 @@ typedef signed int s32;
 
 /* 021D5848  ldrb r2,[r0,#0x1b]; str r1,[r0,#4]; movs r1,#0x40; orrs r1,r2;
  *           strb r1,[r0,#0x1b] */
-struct QH { u8 pad[4]; u32 v; u8 pad2[0x1b - 8]; u8 flags; };
-void func_021D5848(struct QH *p, u32 v)
+struct QH { u8 pad[4]; void *v; u8 pad2[0x1b - 8]; u8 flags; };
+void func_021D5848(struct QH *p, void *v)
 {
     u8 f = p->flags;
     p->v = v;

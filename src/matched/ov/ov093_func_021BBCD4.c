@@ -19,23 +19,23 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021BD2B4(u32 *it, u8 *p);
-extern int func_021BD34C(u32 *it, u8 *p, u32 *x);
-extern int func_021D5BDC(u32 x, u32 n);
-extern void func_021C6110(u8 *p, u32 x, u32 n);
+extern void func_021BD2B4(u8 *it, u8 **q);
+extern int func_021BD34C(u8 *it, u8 **q, u8 **x);
+extern int func_021D5BDC(void *p, u32 n);
+extern void func_021C6110(u8 *p, u8 *a, u32 n);
 
 void func_021BBCD4(u8 *p)
 {
     u32 it;
-    u32 x;
+    u8 *x;
     u32 n;
 
-    func_021BD2B4(&it, p);
-    if (func_021BD34C(&it, p, &x) != 0) {
+    func_021BD2B4((u8 *)&it, (u8 **)p);
+    if (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0) {
         n = 12;
         do {
             if (func_021D5BDC(x, n) != 0)
                 func_021C6110(p, x, n);
-        } while (func_021BD34C(&it, p, &x) != 0);
+        } while (func_021BD34C((u8 *)&it, (u8 **)p, &x) != 0);
     }
 }

@@ -21,11 +21,11 @@ typedef struct {
     void *obj;              /* 0x04 */
 } Work;
 
-extern void func_02017100(void *p, int a, int v);
+extern void func_02017100(void *p, int *out, int v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_020172AC(void *obj, int k);
 
-void func_022003EC(Work *w, void *p, int a, int flags)
+void func_022003EC(Work *w, void *p, int *a, int flags)
 {
     int v = 1;
 

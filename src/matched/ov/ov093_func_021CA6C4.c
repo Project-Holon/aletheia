@@ -17,14 +17,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *);
 extern int func_021C5418(u8 *, u8 *, int);
 struct Msg;
 extern int func_021C99A0(void *, const struct Msg *);
 int func_021CA6C4(u8 *p, const u8 *q)
 {
-    u8 *m = (u8 *)func_021B9934(*(char **)(p + 8), q[4]);
+    u8 *m = func_021B9934(*(char **)(p + 8), q[4]);
     if (!func_021D5B68(m) && func_021C5418(p, m, *(const int *)(q + 8))) {
         func_021C99A0(p, (const struct Msg *)(q + 12));
         return 1;

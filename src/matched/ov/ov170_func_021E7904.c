@@ -21,8 +21,9 @@
  *   func_021EBD50 0x021EBD50 thumb ov170
  *   func_021E8FE8 0x021E8FE8 thumb ov170
  */
+struct WinMgr;
 extern void func_021ED55C(char **p, int flag);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0190(unsigned char *p);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
@@ -40,7 +41,7 @@ int func_021E7904(unsigned char *p)
     switch (STEP(p)) {
     case 0:
         func_021ED55C((char **)p, 0);
-        func_021EF57C(*(int *)(WORK(p) + 0x74));
+        func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         STEP(p)++;
         return func_021E8FC0(p, func_021E0190, 0x4D);
     case 1:

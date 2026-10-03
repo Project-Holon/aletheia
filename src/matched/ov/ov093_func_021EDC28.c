@@ -37,20 +37,20 @@ struct W {
     u8 f22_1 : 1;
 };
 
-extern int func_021B98AC(int a, int b);
-extern int func_021D59B4(int a, int b);
-extern u8 func_021D5440(int a);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern int func_021D59B4(u8 *p, int k);
+extern u8 func_021D5440(u8 *p);
 extern void func_021EDF4C(struct W *w);
 extern void func_021EDE54(struct W *w);
 extern void func_021F8AE8(int a, u32 b);
 
 void func_021EDC28(struct W *w, u8 a1, int flag)
 {
-    int t;
+    u8 *t;
     u16 h;
     u8 k;
 
-    t = func_021B98AC(*(int *)(w->f00 + 0x138), a1);
+    t = func_021B98AC(*(char *const **)(w->f00 + 0x138), a1);
     h = func_021D59B4(t, 0x10);
     k = func_021D5440(t);
     if (w->f22_0) {

@@ -41,7 +41,7 @@ struct Node {
 struct NodeList { u32 serial; struct Node *head; u32 used; struct Node *pool[0x84]; };
 extern struct NodeList data_021F3CB0;
 extern struct Node *func_021D732C(int id, int sub);
-extern u16 func_021D70A8(struct Node *n);
+extern u16 func_021D70A8(void *p);
 extern struct Node *func_021D7360(struct Node *n);
 int func_021E0354(int sub, int key, u8 *found)
 {

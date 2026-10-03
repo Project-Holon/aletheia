@@ -30,16 +30,17 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
+struct WinMgr;
 extern void func_021EC000(char *, int, int);
 extern void func_021ED508(u8 *, int, int);
 extern void func_021EBA5C(char *, int);
 extern void func_021DD14C(u8 *);
-extern void func_021EF57C(int);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(u8 *, int (*)(u8 *), int);
 extern int func_021E0190(u8 *);
 extern unsigned func_021DD25C(void ***, unsigned short, int, unsigned, unsigned);
 extern void func_021DF110(u8 *, unsigned);
-extern void func_021EF6A8(int);
+extern void func_021EF6A8(struct WinMgr *mgr);
 extern void func_020061E4(unsigned);
 extern int func_021E01A8(u8 *);
 extern void func_021EE364(char **, int, int);
@@ -56,13 +57,13 @@ int func_021E7D64(u8 *p)
         func_021ED508(p, 14, 0);
         func_021EBA5C(*(char **)(p + 44), 24);
         func_021DD14C(p);
-        func_021EF57C(*(int *)(*(u8 **)(p + 44) + 116));
+        func_021EF57C(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
         return func_021E8FC0(p, func_021E0190, 85);
     case 1:
         *(u32 *)(*(u8 **)(p + 44) + 0xa174) = func_021DD25C((void ***)p, p[22], p[20], 11, 0);
         func_021DF110(p, *(u32 *)(*(u8 **)(p + 44) + 0xa174));
-        func_021EF6A8(*(int *)(*(u8 **)(p + 44) + 116));
+        func_021EF6A8(*(struct WinMgr **)(*(u8 **)(p + 44) + 116));
         func_020061E4(0x669);
         (*(u32 *)(*(u8 **)(p + 44) + 0xa194))++;
         return func_021E8FC0(p, func_021E01A8, 85);

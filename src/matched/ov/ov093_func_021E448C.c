@@ -29,7 +29,7 @@ extern int func_021D775C(int);
 extern void *func_021C7CF4(void *, int);
 extern int func_021D5B48(void *);
 extern Word func_021D7D78(int);
-extern u32 func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern int func_021D76BC(int, u32);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C88C8(void *, void *);

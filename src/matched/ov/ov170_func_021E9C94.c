@@ -20,9 +20,10 @@
  *   func_021E00C4 0x021E00C4 thumb
  */
 
+struct WinMgr;
 extern void func_021DD16C(char *p, int dir);
-extern int func_021EF5E8(int p);
-extern void func_021EF57C(int mgr);
+extern int func_021EF5E8(struct WinMgr *mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(char *p);
 extern void func_021EF670(char *w);
@@ -34,8 +35,8 @@ extern int func_021E00C4(char *p);
 void func_021E9C94(char *p, int a, int n)
 {
     func_021DD16C(p, 0);
-    if (func_021EF5E8(*(int *)(WORK(p) + 0x74)) == 1) {
-        func_021EF57C(*(int *)(WORK(p) + 0x74));
+    if (func_021EF5E8(*(struct WinMgr **)(WORK(p) + 0x74)) == 1) {
+        func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         func_021EBA5C(WORK(p), 0x18);
         func_021DD14C(p);
         if (a == 1)

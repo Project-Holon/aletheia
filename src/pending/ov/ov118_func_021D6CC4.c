@@ -42,8 +42,8 @@ typedef struct {
 } Quad;
 
 extern u32 func_021D8AA8(void *);
-extern u32 func_021D8FA4(void *, int);
-extern u32 func_02017E1C(u32, int, int);
+extern void *func_021D8FA4(void *, int);
+extern u32 func_02017E1C(void *, int, int);
 extern void func_02006984(u32, u32, u32, u32, u32, u32, u32, u32);
 extern u32 func_02015C30(u32, void *);
 extern void func_021DFD24(u32);
@@ -55,7 +55,7 @@ extern const u32 d_021D8398[];
 
 void func_021D6CC4(void *a0, int a1)
 {
-    u32 x;
+    void *x;
     u8 buf[12];
 
     x = func_021D8FA4(a0, 1 - func_021D8AA8(a0));

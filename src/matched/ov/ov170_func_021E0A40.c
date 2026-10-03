@@ -15,11 +15,12 @@
  *   func_021EF5C4 0x021EF5C4 thumb ov170
  *   func_021ED2F4 0x021ED2F4 thumb ov170
  */
+struct WinMgr;
 extern void func_021ED108(char *w, int on);
 extern void func_021EBFA8(char *w, int i, int v);
 extern void func_021EC000(char *w, int i, int v);
 extern int func_021E066C(char *p);
-extern int func_021EF5C4(int a);
+extern int func_021EF5C4(struct WinMgr *mgr);
 extern void func_021ED2F4(char *w);
 #define WORK(p) (*(char **)((p) + 0x2C))
 int func_021E0A40(char *p)
@@ -38,7 +39,7 @@ int func_021E0A40(char *p)
         (*(unsigned short *)(s + 12))++;
     case 1:
         a = func_021E066C(p);
-        b = func_021EF5C4(*(int *)(WORK(p) + 0x74));
+        b = func_021EF5C4(*(struct WinMgr **)(WORK(p) + 0x74));
         if (a == 0 && b == 0) {
             if (*(unsigned short *)(WORK(p) + 0xA16C)) {
                 func_021ED108(WORK(p), 0);

@@ -19,24 +19,26 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021B9934(u32 a, int b);
-extern int func_021D6C24(int m);
-extern int func_021B937C(u32 a, u32 b, int c);
-extern void func_021C64B4(u8 *p, int a, int b, int *buf);
-extern int func_021C6E3C(u8 *p, int a, int b, int *buf, int z);
+extern u8 *func_021B9934(char *p, int i);
+struct R4;
+struct Out64B4;
+extern int func_021D6C24(struct R4 *p);
+extern u8 *func_021B937C(int a, char *b, u8 *c);
+extern void func_021C64B4(u8 *p, int q, u8 *a, struct Out64B4 *out);
+extern int func_021C6E3C(u8 *p, u8 *a, u8 *b, u8 *q, int flag);
 
 int func_021C7DAC(u8 *p, int a, int b, int c)
 {
     int buf[5];
     int r;
-    int x = func_021B9934(*(u32 *)(p + 8), a);
-    int y = func_021B9934(*(u32 *)(p + 8), b);
+    u8 *x = func_021B9934(*(char **)(p + 8), a);
+    u8 *y = func_021B9934(*(char **)(p + 8), b);
     *(int *)(p + 0x774) += 1;
-    if (func_021D6C24(y)) {
-        y = func_021B937C(*(u32 *)(p + 4), *(u32 *)(p + 8), y);
+    if (func_021D6C24((struct R4 *)y)) {
+        y = func_021B937C(*(int *)(p + 4), *(char **)(p + 8), y);
     }
-    func_021C64B4(p, c, x, buf);
-    r = func_021C6E3C(p, x, y, buf, 0);
+    func_021C64B4(p, c, x, (struct Out64B4 *)buf);
+    r = func_021C6E3C(p, x, y, (u8 *)buf, 0);
     *(int *)(p + 0x774) -= 1;
     return r;
 }

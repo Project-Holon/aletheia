@@ -20,8 +20,9 @@
 
 typedef unsigned char u8;
 typedef unsigned int u32;
+struct WinMgr;
 extern void func_021C62F4(u8 *);
-extern void func_0202CC70(void *, int);
+extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern int func_020260E0(void *);
 extern void func_021C76D0(u8 *, int);
 extern void func_021C66B8(u8 *, int, u32);

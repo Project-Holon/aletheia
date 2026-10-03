@@ -26,15 +26,15 @@ struct Cmd {
     u32 f1 : 1;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
-extern int func_021D5B48(int x);
-extern int func_021C2128(void *w, int x);
+extern int func_021D5B48(u8 *p);
+extern int func_021C2128(u8 *p, u8 *a);
 
 int func_021C9DE8(u8 *w, struct Cmd *c)
 {
-    int r = func_021B9934(*(char **)(w + 8), c->id);
-    if (func_021D5B68((void *)r) == 0 || c->f1) {
+    u8 *r = func_021B9934(*(char **)(w + 8), (u8)c->id);
+    if (func_021D5B68(r) == 0 || c->f1) {
         if (c->f0 && func_021D5B48(r) != 0) return 0;
         if (func_021C2128(w, r) != 0) return 1;
     }

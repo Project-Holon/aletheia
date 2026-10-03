@@ -48,7 +48,7 @@ struct WinMgr {
     struct Win *wins;
 };
 
-extern void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s32 x, s32 y);
+extern void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void sub_0202CC58(struct WinMgr *mgr, u32 idx)
 {

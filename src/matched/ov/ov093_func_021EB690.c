@@ -32,13 +32,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct S { int h, x, y, dx, dy; u8 state, cnt; };
 extern int func_021EB660(u8 *, int *);
-extern u8 func_021B8ED8(u8 *, u32);
-extern int func_021B98AC(char *const *, u8);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021B8ED8(u8 *p, u8 k);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern u8 func_021D5440(u8 *p);
 extern void func_021ED798(u8 *);
 extern int func_021ED814(struct S *);
-extern int func_021D5864(void *);
-extern void func_021F7EE8(u32, u32);
+extern void *func_021D5864(void *);
+extern void func_021F7EE8(void *, int);
 extern void func_021F7A28(int, u32);
 extern void func_021EB584(int);
 extern int func_021F7EB4(void);
@@ -57,7 +57,7 @@ int func_021EB690(int *state, u8 *p)
     case 0:
         b[5] = 1;
         b[4] = func_021B8ED8(*(u8 **)(p + 0x134), b[5]);
-        *(int *)b = func_021B98AC(*(char *const **)(p + 0x138), b[4]);
+        *(u8 **)b = func_021B98AC(*(char *const **)(p + 0x138), b[4]);
         b[6] = func_021D5440(*(u8 **)b);
         func_021ED798(p + 0x154);
         (*state)++;
@@ -95,7 +95,7 @@ int func_021EB690(int *state, u8 *p)
         if (!func_021F7EB4()) {
             b[5] = 0;
             b[4] = func_021B8ED8(*(u8 **)(p + 0x134), b[5]);
-            *(int *)b = func_021B98AC(*(char *const **)(p + 0x138), b[4]);
+            *(u8 **)b = func_021B98AC(*(char *const **)(p + 0x138), b[4]);
             b[6] = func_021D5440(*(u8 **)b);
             func_021F7EE8(func_021D5864(*(void **)b), b[5]);
             func_021F7998(0x234);

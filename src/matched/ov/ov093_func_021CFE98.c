@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 struct G { u8 pad[0xf4]; u64 seed; u64 mul; u64 add; };
-extern u16 func_021D57FC(int);
-extern u8 func_021D5448(int);
-extern u32 func_021D54C0(int, u8);
+extern u16 func_021D57FC(void *);
+extern u8 func_021D5448(void *);
+extern u32 func_021D54C0(void *, u8);
 extern int func_0201C314(u32);
 extern int func_0201C1C8(u32);
 extern int func_021D799C(int, int);
-extern int func_021D055C(void *, int, int);
-int func_021CFE98(struct G *g, int a, int b)
+extern int func_021D055C(void *, void *, int);
+int func_021CFE98(struct G *g, void *a, void *b)
 {
     u8 n;
     int k;

@@ -19,7 +19,7 @@ extern void *func_021DD2D0(void ***, int, unsigned);
 extern void func_021DD314(void *, int, int);
 extern void func_021EDAB0(void *, int);
 extern void *func_0201747C(void *, unsigned);
-extern int func_0201A98C(void *, void *);
+extern unsigned int func_0201A98C(void *, void *);
 extern void func_020307B0(void *);
 void func_021DD39C(unsigned char *p, unsigned short *q)
 {

@@ -33,7 +33,7 @@ enum Offset { queue = 0x1a68 };
 extern void func_021BDB28(void *);
 extern void func_021BD2B4(struct Cursor *, u8 **);
 extern int func_021BD34C(struct Cursor *, u8 **, u8 **);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021BDB38(void *, u8 *);
 extern void func_021BDB48(void *, u8 *);
 extern u32 func_021CC8D8(void *, int);

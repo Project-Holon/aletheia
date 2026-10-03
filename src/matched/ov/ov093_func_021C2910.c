@@ -41,10 +41,10 @@ extern void func_021C2AA0(int, S, u8 *, struct Msg *);
 extern int func_021C99A0(void *, const struct Msg *);
 extern void func_021C8810(struct Msg *);
 extern u16 func_021D5444(void *);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern void func_021D8510(u8 *);
 extern void func_021D66D8(void *, u8);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *, u32, ...);
 extern void func_021D8484(u8 *);
 extern void func_021C5D88(u8 *, u8 *, int);
@@ -55,7 +55,7 @@ extern void func_021C2CA8(void *, int);
 extern void func_021C3FDC(u8 *, u8 *);
 extern void func_021C2C50(u8 *, u8 *, u8 *, u32);
 extern void func_021CC95C(void *, u32, int);
-extern void func_021C195C(u8 *, u8 *, u32);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
 void func_021C2910(u8 *p, u8 *a, u8 *b, int kind, S value, int f, int g, const struct Msg *m)
 {
     u32 lock;

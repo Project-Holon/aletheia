@@ -26,14 +26,14 @@ struct Q {
     u8 hi : 4;
 };
 
-extern int func_021B9934(char *p, int i);
-extern int func_021C3810(u8 *p, int a, int b, int c, int *out, int e, int hi, void *q8);
+extern u8 *func_021B9934(char *p, int i);
+extern int func_021C3810(u8 *p, u8 *a, u8 *b, int c, int *out, int e, int hi, void *q8);
 
 u8 func_021CA318(u8 *p, const struct Q *q)
 {
     int out[1];
-    int a = func_021B9934(*(char **)(p + 8), q->f);
-    int b = func_021B9934(*(char **)(p + 8), (u8)q->b);
+    u8 *a = func_021B9934(*(char **)(p + 8), q->f);
+    u8 *b = func_021B9934(*(char **)(p + 8), (u8)q->b);
     if (func_021C3810(p, b, a, q->lo, out, q->e, q->hi, (u8 *)q + 8)) return 1;
     return 0;
 }

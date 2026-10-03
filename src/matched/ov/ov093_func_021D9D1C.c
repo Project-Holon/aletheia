@@ -26,7 +26,7 @@ typedef unsigned int u32;
 extern int func_021D775C(int);
 extern int func_021C83D4(void *);
 extern void *func_021C7CF4(void *a, int b);
-extern int func_021D59B4(void *p, int k);
+extern int func_021D59B4(u8 *p, int k);
 typedef struct { u32 raw; } Slot;
 extern void func_021D7DC0(int, void *, Slot *);
 extern void func_021D9E08(void *, int, int, Slot, int);

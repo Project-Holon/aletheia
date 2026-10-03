@@ -17,25 +17,25 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B9934(int a, u8 b);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern void func_021CD4B0(void *w, u32 id, ...);
 extern void func_021D5F08(void *p);
 
-typedef struct { int pad0; int pad1; int f8; void *fc; } P;
+typedef struct { int pad0; int pad1; char *f8; void *fc; } P;
 typedef struct { u32 w; u8 n; u8 ids[1]; } Ent;
 
 int func_021C947C(P *p, const Ent *e)
 {
     int r = 0;
     u32 i;
-    int a;
+    u8 *a;
 
     for (i = 0; i < e->n; i++) {
         a = func_021B9934(p->f8, e->ids[i]);
-        if (func_021D5B68((void *)a) == 0) {
+        if (func_021D5B68(a) == 0) {
             func_021CD4B0(p->fc, 0xd, e->ids[i]);
-            func_021D5F08((void *)a);
+            func_021D5F08(a);
             r = 1;
         }
     }

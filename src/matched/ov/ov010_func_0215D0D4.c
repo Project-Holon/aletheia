@@ -21,8 +21,8 @@ extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(void *,void *);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern void **func_02188D50(void *);
-extern void *func_021C34F8(void **,int);
+extern void *func_02188D50(unsigned char *);
+extern void *func_021C34F8(void *,unsigned int);
 extern int func_021C3490(void **,int);
 int func_0215D0D4(void *a,void *b)
 {

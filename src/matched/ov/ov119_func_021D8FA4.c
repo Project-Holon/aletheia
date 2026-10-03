@@ -21,12 +21,12 @@ extern u32 func_021D8A24(void *, int);
 extern u32 func_020399A8(u32);
 extern u32 func_0203D1A4(u32);
 
-int func_021D8FA4(void *p, int idx)
+void *func_021D8FA4(void *p, int idx)
 {
     u32 v = func_021D8A24(p, idx);
     if (v == 0)
-        return *(int *)((char *)p + idx * 4 + 0x5DC);
+        return *(void **)((char *)p + idx * 4 + 0x5DC);
     if (func_0203D1A4(func_020399A8(v)) == 0)
-        return *(int *)((char *)p + idx * 4 + 0x5DC);
-    return *(int *)((char *)p + (1 - idx) * 4 + 0x5DC);
+        return *(void **)((char *)p + idx * 4 + 0x5DC);
+    return *(void **)((char *)p + (1 - idx) * 4 + 0x5DC);
 }

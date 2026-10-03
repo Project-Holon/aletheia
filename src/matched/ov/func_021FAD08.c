@@ -20,11 +20,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
-extern int func_0202CE40(u32 v, int z);
+struct WinMgr;
+extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 
 int func_021FAD08(u8 *p)
 {
-    if (func_0202CE40(*(u32 *)(p + 0x18), 0) == 0) {
+    if (func_0202CE40(*(struct WinMgr **)(p + 0x18), 0) == 0) {
         *(u32 *)(p + 0x48) = *(u32 *)(p + 0x4c);
     }
     return -1;

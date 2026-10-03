@@ -34,7 +34,7 @@ extern int func_0200BCA0(u32);
 extern void func_0216556C(void);
 extern void func_021C33E0(u32);
 extern void func_021C3898(u32 *, u32);
-extern void func_0201A98C(u32, u32);
+extern u32 func_0201A98C(u32, u32);
 extern void func_0200BC20(u32);
 extern void func_020307B0(u32);
 extern u32 func_02188C80(u32);

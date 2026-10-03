@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021EF32C  0x021EF32C  thumb  ov170
@@ -18,10 +18,11 @@
 
 
 
-extern void func_021EF32C(int);
+struct WinMgr;
+extern void func_021EF32C(struct WinMgr *mgr);
 extern void func_021EC688(int);
 void func_021EA784(int p)
 {
     func_021EC688(p);
-    func_021EF32C(*(int *)(*(int *)(p + 0x2c) + 0x74));
+    func_021EF32C(*(struct WinMgr **)(*(int *)(p + 0x2c) + 0x74));
 }

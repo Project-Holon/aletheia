@@ -16,11 +16,12 @@
  *   func_021BEE38 0x021BEE38 thumb ov210
  * BEE38 parameters widened: original call uses signed full-width loads.
  */
+typedef unsigned int u32;
+typedef signed char s8;
 struct WinMgr;
-struct Unk;
 extern void func_02041EE4(unsigned int, unsigned int, int);
-extern void func_0202CB4C(struct WinMgr *, unsigned int, int, int);
-extern void func_0202CD94(struct Unk *);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
 extern void func_021BEE38(char *, int, int, int, unsigned short);
 void func_021BCDA4(char *p)
@@ -30,7 +31,7 @@ void func_021BCDA4(char *p)
     func_02041EE4(4, 3, 48);
     func_02041EE4(7, 3, 48);
     func_0202CB4C(*(struct WinMgr **)(p + 0x20), 0, 0, 27);
-    func_0202CD94(*(struct Unk **)(p + 0x20));
+    func_0202CD94(*(struct WinMgr **)(p + 0x20));
     for (i = 2; i <= 4; i++) {
         func_021BEE58(p, i, &x, &y, 0);
         y += 48;

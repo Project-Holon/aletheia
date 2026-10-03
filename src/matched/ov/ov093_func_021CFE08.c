@@ -29,11 +29,11 @@ struct G {
 };
 
 extern u32 func_021B8588(void *p);
-extern int func_021D59B4(int m, int k);
-extern int func_021D0644(void *g, int m, int a, int b);
-extern int func_021D055C(void *g, int a, int b);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021D0644(void *g, void *m, void *a, int b);
+extern int func_021D055C(void *g, void *a, int b);
 
-int func_021CFE08(struct G *g, int a, int b)
+int func_021CFE08(struct G *g, void *a, void *b)
 {
     if (func_021B8588(g->p0) != 0)
         return 0;

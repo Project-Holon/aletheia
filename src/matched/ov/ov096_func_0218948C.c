@@ -36,13 +36,13 @@ typedef struct {
 } Conn;
 
 extern int func_0201134C(int);
-extern int func_0218A160(Conn *, int);
-extern int func_0218A2FC(Conn *, int);
-extern int func_021D69AC(int, int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D69AC(void *, int);
 
 int func_0218948C(int a, Conn *b)
 {
-    b->f38 = func_021D69AC(func_0218A2FC(b, func_0218A160(b, func_0201134C(a))), 0);
+    b->f38 = func_021D69AC(func_0218A2FC((u8 *)b, func_0218A160((u8 *)b, func_0201134C(a))), 0);
     return b->fc4;
 }
 

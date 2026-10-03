@@ -39,7 +39,7 @@ typedef struct Work {
     void *f04;          /* 0x04 */
     u8 pad08[0x14 - 0x08];
     u32 f14;            /* 0x14 */
-    u32 f18;            /* 0x18 */
+    void *f18;          /* 0x18 */
     u8 pad1C[0x28 - 0x1C];
     void *f28;          /* 0x28 */
     u8 pad2C[0x38 - 0x2C];
@@ -53,7 +53,7 @@ extern u8 func_021568A8(Work *w, u8 n);
 extern u8 func_02157384(void *t, int i);
 extern void *func_021FCE44(void *sess, u32 i);
 extern void *func_02012944(void *p);
-extern void func_0201EEF4(void *ws, u32 i, u32 mon);
+extern void func_0201EEF4(void *ws, u32 i, void *mon);
 extern void func_0201EF14(void *ws, u32 i, void *mon);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
 extern void *func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);

@@ -25,14 +25,14 @@ struct Cmd {
     u32 w4;
 };
 
-extern int func_021B9934(char *p, u8 i);
-extern void func_021C60D4(void *w, int x);
+extern u8 *func_021B9934(char *p, int i);
+extern void func_021C60D4(u8 *p, u8 *a);
 extern int func_021C99A0(void *w, void *c);
-extern void func_021C2250(void *w, int x, int a, int b);
+extern void func_021C2250(u8 *p, u8 *a, u16 b, u32 c);
 
 int func_021C9ECC(u8 *w, struct Cmd *c)
 {
-    int r = func_021B9934(*(char **)(w + 8), c->id);
+    u8 *r = func_021B9934(*(char **)(w + 8), (u8)c->id);
     if (c->w4 == 0) {
         func_021C60D4(w, r);
         func_021C99A0(w, (u8 *)c + 8);

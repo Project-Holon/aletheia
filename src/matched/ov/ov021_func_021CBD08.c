@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Builds a party list from the selected slots and runs the ov010 summary on it.
  *
@@ -37,7 +37,7 @@ extern void *func_0201A920(u32 heap);
 extern void *func_021CA210(u8 *p);
 extern void func_0201A954(void *list, u8 n);
 extern u32 func_0201AB28(void *h, u8 idx);
-extern void func_0201A98C(void *list, u32 m);
+extern u32 func_0201A98C(void *list, u32 m);
 extern u32 func_021681C8(u32 a, void *list, u8 kind, u8 *b, u8 *c, u8 n);
 extern void func_020307B0(void *p);
 

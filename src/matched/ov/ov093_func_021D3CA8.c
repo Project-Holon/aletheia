@@ -16,11 +16,11 @@
  */
 typedef unsigned char u8;
 struct UtilSlots;
-extern int func_021B9934(char *, u8);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021D6264(struct UtilSlots *, u8);
 int func_021D3CA8(char *p, int unused, unsigned int *a)
 {
-    int obj = func_021B9934(*(char **)(p + 4), a[0]);
+    u8 *obj = func_021B9934(*(char **)(p + 4), (u8)a[0]);
     func_021D6264((struct UtilSlots *)obj, a[1]);
     return 1;
 }

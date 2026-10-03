@@ -28,7 +28,7 @@ typedef struct { u8 *a; u32 b, c; u8 d0, flag; u16 pad; } E;
 extern const u16 d_021EFDB8[3];
 extern int func_021D5BB0(u8 *, u32);
 extern int func_021D6E74(u8 *);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern E *func_021BCB14(u8 *, u16, u8, u32);
 extern u32 func_021BCB68(u8 *, E *);
 extern void func_021D5FC0(u8 *, u32);

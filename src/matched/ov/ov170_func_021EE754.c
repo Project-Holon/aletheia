@@ -20,7 +20,8 @@ typedef struct {
     int x24;
 } Top;
 
-extern int func_021EF45C(int a);
+struct WinMgr;
+extern int func_021EF45C(struct WinMgr *mgr);
 extern unsigned func_021DD25C(unsigned char *p, unsigned short a, int box, unsigned id, unsigned v);
 extern void func_021EE038(unsigned char *p, int a, int b, int c);
 
@@ -35,7 +36,7 @@ void func_021EE754(unsigned char *p, unsigned r)
     } else if ((*(Top **)p)->x24 == 3) {
         f = 1;
     } else if (r >= 0x1E) {
-        if (func_021EF45C(*(int *)(*(char **)(p + 0x2C) + 0x74)) == 0 || func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
+        if (func_021EF45C(*(struct WinMgr **)(*(char **)(p + 0x2C) + 0x74)) == 0 || func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)
             f = 2;
     } else {
         if (func_021DD25C(p, r, p[0x14], 0xA9, a) == 0)

@@ -18,10 +18,10 @@
 
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-struct S { char *w; u32 k; u32 v; u32 c; u8 pad10; u8 f; u8 pad12[2]; u8 *cnt; };
+struct S { char *w; u32 k; void *v; u32 c; u8 pad10; u8 f; u8 pad12[2]; u8 *cnt; };
 
-extern int func_021F7D80(int a, int b);
-extern void func_021F7E38(int a, int b);
+extern void func_021F7D80(void *a, int b);
+extern void func_021F7E38(void *a, int b);
 extern int func_021F7EB4(void);
 extern void func_02031194(u32 a);
 

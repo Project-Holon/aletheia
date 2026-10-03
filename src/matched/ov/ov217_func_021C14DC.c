@@ -50,7 +50,7 @@ extern void func_0207BCA0(V *a, V *b, V *c, V *d);
 extern void func_0207C554(int a, int b, int c, int d, int e, int f, int g, V *h);
 extern void func_0206A854(void);
 
-void func_021C14DC(void)
+void func_021C14DC(u8 *p)
 {
     V a;
     V b;

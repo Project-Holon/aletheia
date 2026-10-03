@@ -36,6 +36,7 @@
  *   func_02007F1C 0x02007F1C thumb
  *   func_021ED55C 0x021ED55C thumb
  */
+struct WinMgr;
 extern void func_021EF670(char *);
 extern void func_021EA75C(unsigned char *);
 extern void func_021ECB20(unsigned char *,int,int);
@@ -46,7 +47,7 @@ extern void func_021ED588(unsigned char *);
 extern void func_021DEFEC(unsigned char *,int);
 extern void func_021EB988(unsigned char *,const void *,unsigned);
 extern const unsigned char data_021EF918[];
-extern void func_021EF4E4(void *);
+extern void func_021EF4E4(struct WinMgr *mgr);
 extern void func_021EBC58(unsigned char *,int,int,int);
 extern unsigned func_0202136C(unsigned short);
 extern void *func_021DD2D0(unsigned char *,int,unsigned);
@@ -69,11 +70,11 @@ int func_021E9B74(unsigned char *p)
     switch(p[0x13]) {
     case 0:
         func_021EB988(p,data_021EF918,4);
-        func_021EF4E4(*(void **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
+        func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
         func_021EE364(p,0xd,0x25); func_021ED588(p); return 0x23;
     case 1:
         func_021EB988(p,data_021EF918,4);
-        func_021EF4E4(*(void **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
+        func_021EF4E4(*(struct WinMgr **)(WORK+0x74)); func_021EBC58(p,p[0x16],1,0x18);
         func_021ECB20(p,1,1); func_021ED888(WORK,0);
         func_021EE364(p,0xe,0xa); func_021EA75C(p); func_021ED588(p); return 0x27;
     case 4:

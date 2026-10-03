@@ -18,14 +18,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021C2AF0(u8 *, u8 *);
-extern u16 func_021D67E8(int);
+extern u16 func_021D67E8(u8 *p);
 extern u32 func_021D7B10(u32, u32);
 u32 func_021C83A0(u8 *p, int i)
 {
-    int a = func_021B9934(*(char **)(p + 8), i);
-    int b = func_021C2AF0(p, (u8 *)a);
+    u8 *a = func_021B9934(*(char **)(p + 8), i);
+    int b = func_021C2AF0(p, a);
     u32 r = func_021D7B10(func_021D67E8(a), b);
     if (r < 1) r = 1;
     return r;

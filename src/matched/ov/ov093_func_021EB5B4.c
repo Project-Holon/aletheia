@@ -20,10 +20,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u8 func_021B8ED8(u8 *, u32);
-extern int func_021B98AC(char *const *, u8);
-extern int func_021D5864(int);
-extern void func_021F7EE8(int, u32);
+extern u8 func_021B8ED8(u8 *p, u8 k);
+extern u8 *func_021B98AC(char *const *q, u8 b);
+extern void *func_021D5864(void *m);
+extern void func_021F7EE8(void *, int);
 extern void func_021EDA04(u8 *);
 extern void func_021EB584(int);
 extern int func_021F7EB4(void);

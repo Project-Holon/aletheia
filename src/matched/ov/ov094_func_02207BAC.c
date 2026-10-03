@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: matched ov094_func_02207C94.c and its existing shard cover the
  *   48-byte follower at 02207C94; retain this lead as a single function.
  * symbols:
@@ -36,7 +36,7 @@ typedef struct {
     char p74[12];
 } E;
 typedef struct { char pad[0x40]; E e[8]; } O;
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021D5444(void *);
 extern u32 func_02018584(u16, u16, u16);
 extern void func_02207EA8(E *, int);

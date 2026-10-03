@@ -28,13 +28,13 @@ struct G {
     u64 add;
 };
 
-extern int func_021D59B4(int m, int k);
-extern int func_021D62C4(int m, int k);
-extern int func_021D5C44(int m);
-extern int func_021D6940(int m, int a, int b, u16 *out);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021D62C4(void *m, int k);
+extern int func_021D5C44(void *m);
+extern int func_021D6940(void *m, int a, int b, u16 *out);
 extern int func_021D05C4(void *g, int a, int b, u8 *out);
 
-int func_021D0248(struct G *g, int m, u8 *out)
+int func_021D0248(struct G *g, void *m, u8 *out)
 {
     u16 t[4];
     u8 idx;

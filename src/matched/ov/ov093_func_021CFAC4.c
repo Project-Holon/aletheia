@@ -11,7 +11,8 @@
  * symbols:
  *   func_021D59B4 0x021D59B4 thumb ov093
  */
-extern int func_021D59B4(void *, int);
+typedef unsigned char u8;
+extern int func_021D59B4(u8 *p, int k);
 int func_021CFAC4(void *p, void *q)
 {
     if (func_021D59B4(q, 17) != 23) return 1;

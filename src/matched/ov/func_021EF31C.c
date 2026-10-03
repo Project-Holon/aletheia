@@ -14,10 +14,12 @@
  * Forward the three arguments with a literal third argument, in place of the fourth.
  */
 
-extern void func_0202CAE4(int, int, int, int, int);
+typedef unsigned int u32;
+struct WinMgr;
+extern void func_0202CAE4(struct WinMgr *mgr, u32 idx, u32 arc, u32 member, u32 alloc);
 
-void func_021EF31C(int a0, int a1, int a2)
+void func_021EF31C(struct WinMgr *mgr, int a1, int a2)
 {
-    func_0202CAE4(a0, a1, 0x74, a2, 1);
+    func_0202CAE4(mgr, a1, 0x74, a2, 1);
 }
 

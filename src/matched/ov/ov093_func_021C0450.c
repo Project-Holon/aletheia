@@ -32,7 +32,7 @@ extern int func_021C4F64(u8 *, u8 *);
 extern int func_021BC2B0(u8 *);
 extern void func_021C0520(u8 *, u8 *, u16, u32);
 extern union Slot func_021D7D18(int);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021CD4B0(void *, u32, ...);
 extern void func_021C5C1C(u8 *, u8 *, int, union Slot);
 extern void func_021C5480(u8 *, u8 *, int);

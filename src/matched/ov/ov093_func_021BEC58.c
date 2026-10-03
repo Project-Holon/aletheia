@@ -77,7 +77,7 @@ struct Rec { u32 value; u16 kind; u8 data, flag; };
 struct O { u32 pos; struct Rec r[120]; };
 extern u32 func_0201C1BC(u16);
 extern u32 func_0201BEB8(u16, u32);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern int func_021D5B68(void *);
 extern void func_021BEC2C(u8 *, u8 *, u32);
 extern int func_021BFC08(u8 *, u8 *, u8 *, u16);

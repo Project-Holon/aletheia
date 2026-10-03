@@ -31,7 +31,7 @@ extern u32 sub_0201BD28(u16, u32);
 extern W sub_0201BF58(u16);
 extern void func_021D7C70(W, u32, Word *);
 extern void func_021D74F8(int);
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021D75EC(int, u32);
 extern void func_021D75A8(int, u32);
 extern void func_021D7630(int, u32);

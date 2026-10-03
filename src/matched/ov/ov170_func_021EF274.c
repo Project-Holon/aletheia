@@ -19,16 +19,18 @@
  *   func_0202C9B4 0x0202C9B4 thumb
  *   func_0202CA3C 0x0202CA3C thumb
  */
-extern int func_0202C9B4(unsigned,unsigned,unsigned);
-extern void func_0202CA3C(int,unsigned,unsigned,unsigned,unsigned);
+typedef unsigned int u32;
+struct WinMgr;
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021EB744(char *);
 extern void func_021EF630(char *);
 extern void func_021EB79C(char *);
 extern void func_021EB7C8(char *);
-extern void func_021EF31C(int,int,int);
+extern void func_021EF31C(struct WinMgr *mgr,int,int);
 extern void func_021EB95C(char *);
-extern void func_021EF4C0(int);
-#define MGR(w) (*(int *)((w)+0x74))
+extern void func_021EF4C0(struct WinMgr *mgr);
+#define MGR(w) (*(struct WinMgr **)((w)+0x74))
 void func_021EF274(char *p)
 {
     char *w=*(char **)(p+0x2c);

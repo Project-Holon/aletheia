@@ -16,7 +16,7 @@
 typedef unsigned char u8;
 struct Unk021D62A8;
 extern int func_021C8348(u8 *, int);
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D62C4(struct Unk021D62A8 *, int);
 int func_021C8374(u8 *p, int i)
 {

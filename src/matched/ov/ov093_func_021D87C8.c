@@ -25,14 +25,14 @@ typedef signed short s16;
 typedef signed int s32;
 
 int func_021D775C(int a);
-int func_021C7CF4(int a, int b);
-int func_021D62A8(int a);
+void *func_021C7CF4(int a, int b);
+int func_021D62A8(void *m);
 void func_021D7704(int a, int b);
 void func_021D76BC(int a, int b);
 
 void func_021D87C8(void *a, int b, int c)
 {
-    int r;
+    void *r;
     if (c == func_021D775C(2)) {
         r = func_021C7CF4(b, c);
         if (func_021D62A8(r) != 0) {

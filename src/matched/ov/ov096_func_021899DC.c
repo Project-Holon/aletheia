@@ -26,20 +26,20 @@ typedef int s32;
 
 extern int func_0201134C(int);
 extern void func_020113B0(int, int);
-extern int func_0218A160(int, int);
-extern int func_0218A2FC(int, int);
-extern u32 func_021D5478(int);
-extern u32 func_021D5448(int);
+extern u8 func_0218A160(u8 *p, int k);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern u32 func_021D5478(void *);
+extern u32 func_021D5448(void *);
 
 int func_021899DC(int a, int b) {
     int r4;
     int r7;
-    int t;
-    int s;
+    u8 t;
+    u8 *s;
     r4 = func_0201134C(a);
     r7 = func_0201134C(a);
-    t = func_0218A160(b, r4);
-    s = func_0218A2FC(b, t);
+    t = func_0218A160((u8 *)b, r4);
+    s = func_0218A2FC((u8 *)b, t);
     if (func_021D5478(s) >= func_021D5448(s) && func_021D5448(s) > 1) {
         func_020113B0(a, *(int *)(a + 0x14) + r7);
     }

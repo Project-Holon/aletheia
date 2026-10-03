@@ -24,8 +24,8 @@ typedef unsigned long long u64;
 extern u8 *func_02011324(u8 *);
 extern int func_0218814C(u8 *, u8 *);
 extern int func_02188284(u8 *, u8 *);
-extern int func_0218A2FC(u8 *, int);
-extern int func_021D5B68(int);
+extern u8 *func_0218A2FC(u8 *p, u8 i);
+extern int func_021D5B68(void *m);
 extern u32 func_0203F0A8(void);
 int func_02187FB0(u8 *a)
 {

@@ -22,9 +22,10 @@
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
+struct WinMgr;
 extern u32 func_0201C6B4(const void *);
-extern void func_0202CD64(void *, u32, s8, s8, u8);
-extern u32 func_0202CE40(void *, u32);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+extern u32 func_0202CE40(struct WinMgr *mgr, u32 idx);
 extern void func_020061E4(u32);
 extern int func_021F681C(u8 *, int, int);
 extern void func_021F7308(u8 *, u32, int);
@@ -37,27 +38,27 @@ int func_021F66B4(u8 *p)
         if (func_0201C6B4(*(void **)(p + 0x1c)) == 0) break;
         if (*(int *)(*(int *)p + 8) == 0) {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(void **)(p + 8), i + 3, -1, 0, 16);
-                func_0202CD64(*(void **)(p + 8), i + 9, -1, 0, 16);
+                func_0202CD64(*(struct WinMgr **)(p + 8), i + 3, -1, 0, 16);
+                func_0202CD64(*(struct WinMgr **)(p + 8), i + 9, -1, 0, 16);
             }
         } else {
             for (i = 0; i < 3; i++) {
-                func_0202CD64(*(void **)(p + 8), i, 1, 0, 16);
-                func_0202CD64(*(void **)(p + 8), i + 6, 1, 0, 16);
+                func_0202CD64(*(struct WinMgr **)(p + 8), i, 1, 0, 16);
+                func_0202CD64(*(struct WinMgr **)(p + 8), i + 6, 1, 0, 16);
             }
         }
         func_020061E4(0x642);
         (*(int *)(p + 0x110))++;
     case 1:
         if (*(int *)(*(int *)p + 8) == 0) {
-            if (func_0202CE40(*(void **)(p + 8), 3) == 0) {
+            if (func_0202CE40(*(struct WinMgr **)(p + 8), 3) == 0) {
                 (*(int *)(p + 0x110))++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);
             }
             func_021F7308(p, 3, -8);
         } else {
-            if (func_0202CE40(*(void **)(p + 8), 0) == 0) {
+            if (func_0202CE40(*(struct WinMgr **)(p + 8), 0) == 0) {
                 (*(int *)(p + 0x110))++;
                 func_020061E4(0x57a);
                 return func_021F681C(p, 0x80, 4);

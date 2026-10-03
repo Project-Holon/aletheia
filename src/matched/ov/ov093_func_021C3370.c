@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern int func_021D5B7C(void *);
-extern int func_021D5B48(void *);
+extern int func_021D5B48(u8 *p);
 int func_021C3370(u8 *p, void *q)
 {
     if (func_021D5B7C(q) == 0) return 1;

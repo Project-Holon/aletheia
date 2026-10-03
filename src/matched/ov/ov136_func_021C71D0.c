@@ -18,8 +18,10 @@ struct Control {
     u8 phase : 4;
     u8 a, b, c, d, e, f;
 };
-extern void func_0202CF98(void *, int, s8 *, s8 *);
-extern void func_0202CFC0(void *, int, u16 *, u16 *);
+typedef unsigned int u32;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void func_0202CFC0(struct WinMgr *mgr, u32 idx, u16 *w, u16 *h);
 int func_021C71D0(u8 *p, int v, int w)
 {
     struct Temp { s8 b, a; u16 c, d; } t;

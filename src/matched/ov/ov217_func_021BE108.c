@@ -43,10 +43,11 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern int func_021BE4DC(void *p);
-extern u32 func_021BF77C(void *p);
+extern u8 *func_021BF77C(void *p);
 extern void func_021BED10(void *p, u32 i);
-extern void func_021C1184(u32 o, u32 v);
-extern void func_021C1178(u32 o);
+extern void func_021C1184(u8 *h, u32 v);
+extern void func_021C1178(u8 *h);
+
 extern u32 func_02006238(void);
 extern void func_020061E4(int);
 extern void func_021BF704(void *p);

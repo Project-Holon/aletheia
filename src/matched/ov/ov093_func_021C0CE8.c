@@ -34,7 +34,7 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern int func_021B9934(u8 *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 
 struct Ent {
     u16 v;
@@ -53,7 +53,7 @@ int func_021C0CE8(u8 *p, const struct Q *q, u32 *o1, u16 *o2, u32 *o3, u8 *o4, u
     u32 n = 0;
     for (; i < q->n; i++) {
         if (q->e[i].f == 0) {
-            o1[n] = func_021B9934(*(u8 **)(p + 8), q->e[i].lo);
+            o1[n] = (u32)func_021B9934(*(char **)(p + 8), (u8)q->e[i].lo);
             o2[n] = q->e[i].v;
             o3[n] = q->e[i].b;
             o4[n] = q->e[i].d;

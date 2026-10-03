@@ -21,10 +21,11 @@
  *   func_021EBC28 0x021EBC28 thumb ov170
  *   func_021EE038 0x021EE038 thumb ov170
  */
+struct WinMgr;
 extern void func_021ED55C(char **p, int flag);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0190(unsigned char *p);
 extern void func_020061E4(unsigned se);
@@ -43,7 +44,7 @@ int func_021E86EC(unsigned char *p)
         func_021ED55C((char **)p, 0);
         func_021EBA5C(WORK(p), 0x18);
         func_021DD14C(p);
-        func_021EF57C(*(int *)(WORK(p) + 0x74));
+        func_021EF57C(*(struct WinMgr **)(WORK(p) + 0x74));
         STEP(p)++;
         return func_021E8FC0(p, func_021E0190, 0x60);
     case 1:

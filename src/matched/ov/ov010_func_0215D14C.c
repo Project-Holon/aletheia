@@ -19,15 +19,16 @@
  *   func_0215D198  0x0215D198  thumb  ov010
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern void *func_02188D50(void *);
+extern void *func_02188D50(u8 *);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(void *, void *);
-extern void *func_021C34F8(void *, int);
+extern void *func_021C34F8(void *, u32);
 extern int func_0215D198(void *);
 
 int func_0215D14C(void *a, void *b)

@@ -15,9 +15,11 @@
 typedef unsigned char u8;
 typedef signed char s8;
 typedef signed short s16;
+typedef unsigned int u32;
+struct WinMgr;
 extern void func_02041300(unsigned, int, int, int, u8, u8, u8);
-extern void func_0202CB4C(void *, unsigned, int, int);
-extern void func_0202CC58(void *, unsigned);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 void func_021BBE8C(void *unused, u8 *p)
 {
     *(int *)(p + 0x1a8) = 0;

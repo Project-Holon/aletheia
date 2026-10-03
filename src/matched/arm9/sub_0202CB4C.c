@@ -84,7 +84,7 @@ extern void func_020410D0(u32 index, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5,
                           u8 a6, u8 a7, u8 a8, u8 a9);
 extern void (*g_020A0058[])(u32);
 
-void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s32 x, s32 y)
+void sub_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y)
 {
     struct Win *win = &mgr->wins[idx];
     u8 sx, ow, ox;

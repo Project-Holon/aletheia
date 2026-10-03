@@ -26,8 +26,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern int func_021D8AA8(void *p);
-extern u32 func_021D8FA4(void *p, int which);
-extern u32 func_02017E1C(u32 mon, u32 id, u32 arg);
+extern void *func_021D8FA4(void *p, int which);
+extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
 extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
@@ -36,7 +36,7 @@ extern u32 func_02008530(u32 a);
 void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
 {
     int which;
-    u32 mon;
+    void *mon;
     u32 id;
     u32 a;
     u32 b;

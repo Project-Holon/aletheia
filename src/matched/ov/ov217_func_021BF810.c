@@ -21,10 +21,10 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF834(void *p);
 extern u32 func_021BF844(void *p);
-u32 func_021BF810(char *p)
+u32 func_021BF810(void *p)
 {
     u32 r = 0;
-    switch (*(u32 *)(p + 0x2cc)) {
+    switch (*(u32 *)((char *)p + 0x2cc)) {
     case 0:
         r = func_021BF834(p);
         break;

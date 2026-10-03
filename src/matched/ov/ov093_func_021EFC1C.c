@@ -24,9 +24,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u8 func_021D5440(void *m);
+extern u8 func_021D5440(u8 *p);
 extern int func_021B9A24(u8 a, u8 b);
-extern int func_021B9940(char *p, int i);
+extern u8 *func_021B9940(char *p, u8 i);
 extern int func_021D5750(u8 *p, u16 id);
 
 typedef struct {
@@ -47,7 +47,7 @@ int func_021EFC1C(S *a, char *x, void *m, u16 y)
     for (i = 0; i < n; i++) {
         c = a->id[i];
         if (func_021B9A24(mon, c) == 0) {
-            if (func_021D5750((u8 *)func_021B9940(x, c), y) != 0)
+            if (func_021D5750(func_021B9940(x, c), y) != 0)
                 return 1;
         }
     }

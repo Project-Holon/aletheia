@@ -33,7 +33,7 @@ struct Cmd {
     u16 h6;
 };
 
-extern int func_021B9934(char *p, u8 i);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021D5B68(void *p);
 extern int func_021DCF78(void *p, u16 x);
 extern void func_021DCF9C(int x);
@@ -46,7 +46,7 @@ extern int func_021C88E4(void *w);
 
 int func_021C9E3C(u8 *w, struct Cmd *c)
 {
-    int r = func_021B9934(*(char **)(w + 8), c->b4);
+    int r = (int)func_021B9934(*(char **)(w + 8), c->b4);
     int x;
     int t;
     u32 s;

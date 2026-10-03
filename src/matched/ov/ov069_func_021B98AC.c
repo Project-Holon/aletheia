@@ -40,6 +40,7 @@ typedef struct {
     int y;
 } Pos;
 
+struct WinMgr;
 extern const Pos d_021BA66C[];
 
 extern int func_020275E4(void);
@@ -55,10 +56,10 @@ extern void func_02049BDC(void *arc, int id, int a, int b, int c, int d, int hea
 extern void func_02049B40(int a, int b, int c, int d, int e, int heap);
 extern void func_020413B0(int a, int b, int c, int d, int e, int f);
 extern void func_020409B4(int a);
-extern void *func_0202C9B4(u32 a0, u32 a1, u32 heap);
-extern void func_0202CA3C(void *mgr, u32 idx, u32 bg, u32 w, u32 h);
-extern void func_0202CB18(void *mgr, u32 idx, void *arc, u32 a, u32 b);
-extern void func_0202CB4C(void *mgr, int i, s8 x, s8 y);
+extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 
 void func_021B98AC(u8 *p)
 {

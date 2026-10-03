@@ -22,16 +22,17 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_021D59B4(int, int);
+extern int func_021D59B4(u8 *p, int k);
 extern u32 _u32_div_f(u32, u32);
 
-int func_021D7B74(int a0, u32 a1)
+int func_021D7B74(u8 *p, u32 k)
 {
-    u32 r = func_021D59B4(a0, 0xe);
+    u32 r = func_021D59B4(p, 0xe);
 
-    r = r / a1;
+    r = r / k;
     if (r == 0)
         r = 1;
     return r;

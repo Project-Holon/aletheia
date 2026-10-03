@@ -18,10 +18,10 @@
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 
-extern int func_021B9934(int a, u8 b);
-extern int func_021D5B7C(int a);
-extern int func_021D55D8(int a, int b, int c);
-extern void func_021C6080(int a, int b, int c, int d, int e);
+extern u8 *func_021B9934(char *p, int i);
+extern int func_021D5B7C(void *m);
+extern int func_021D55D8(u8 *p, int i, int s);
+extern void func_021C6080(u8 *p, u8 *a, int b, int c, int d);
 extern void func_021C99A0(int a, void *b);
 
 typedef struct {
@@ -31,14 +31,15 @@ typedef struct {
 
 int func_021C8FA4(int p, const Ent *e)
 {
-    int a, r;
+    u8 *a;
+    int r;
 
-    func_021B9934(*(int *)(p + 8), e->idx);
-    a = func_021B9934(*(int *)(p + 8), e->b5);
+    func_021B9934(*(char **)(p + 8), (u8)e->idx);
+    a = func_021B9934(*(char **)(p + 8), e->b5);
     if (func_021D5B7C(a) || e->f7b) {
         r = !e->f7a;
         if (func_021D55D8(a, e->b6, r) == 0) {
-            func_021C6080(p, a, e->b6, e->b4, r);
+            func_021C6080((u8 *)p, a, e->b6, e->b4, r);
             func_021C99A0(p, (void *)((u8 *)e + 8));
             return 1;
         }

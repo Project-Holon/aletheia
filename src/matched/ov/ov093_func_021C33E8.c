@@ -16,14 +16,15 @@
  *   func_021C5B74  0x021C5B74  thumb  ov093
  */
 
-extern int func_021D5440(int);
+typedef unsigned char u8;
+extern u8 func_021D5440(u8 *p);
 extern int func_021C3428(int, int);
 extern void func_021CD4B0(int, int, int, int);
 extern void func_021C5B74(int, int, int, int);
 
 void func_021C33E8(int a, int b, int c)
 {
-    int v = func_021C3428(a + 0x1ab8, func_021D5440(b));
+    int v = func_021C3428(a + 0x1ab8, func_021D5440((u8 *)b));
     if (v != 6)
         func_021CD4B0(*(int *)(a + 0xc), 0x4d, v, 0x263);
     func_021C5B74(a, b, c, 1);

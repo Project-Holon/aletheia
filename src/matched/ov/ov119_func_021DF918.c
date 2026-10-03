@@ -22,7 +22,7 @@ extern void func_021E36D8(void *,int);
 extern void func_021E6F0C(void *,int,int);
 extern void func_021E272C(void *,int,int);
 extern void func_02041B6C(int);
-extern void func_021E36A8(int,int,int,int,int,int);
+extern void func_021E36A8(void *,int,int,void *,int,int);
 void func_021DF918(void *p,int i,int v)
 {
     int one;
@@ -35,5 +35,5 @@ void func_021DF918(void *p,int i,int v)
     func_021E272C(p,i,v);
     one=1;
     func_02041B6C(1);
-    func_021E36A8((int)p,i,one-i,v,one-i,one);
+    func_021E36A8(p,i,one-i,(void *)v,one-i,one);
 }

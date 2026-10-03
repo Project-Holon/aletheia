@@ -33,21 +33,21 @@ struct Slot {
 
 extern u8 *func_021B9AEC(u8 *p, int i);
 extern void func_021CD4B0(void *w, u32 id, ...);
-extern void func_021B9C50(u8 *p, int k, u32 *o1, u32 *o2);
-extern int func_021D5B68(u32 p);
-extern void func_021C5108(u8 *p, u32 v, int k);
+extern void func_021B9C50(u8 **p, int k, u8 **o1, u8 **o2);
+extern int func_021D5B68(void *p);
+extern void func_021C5108(u8 *p, u8 *a, int b);
 extern int func_021EF948(int k);
-extern int func_021D62C4(u32 p, int i);
+extern int func_021D62C4(void *p, int i);
 extern void func_021C5620(u8 *p, u8 *a, int k, struct Slot *out);
-extern void func_021D8548(u32 p);
-extern void func_021DCFB4(u32 p);
-extern void func_021BC4CC(u8 *p, int a, int b, u32 c, u8 *d);
+extern void func_021D8548(void *p);
+extern void func_021DCFB4(void *p);
+extern void func_021BC4CC(u8 *p, int a, int b, u8 *c, u8 *d);
 
 void func_021BC418(u8 *p, int a, int b)
 {
     u8 *t;
-    u32 v1;
-    u32 v2;
+    u8 *v1;
+    u8 *v2;
     int k;
 
     if (b == 1)
@@ -56,17 +56,17 @@ void func_021BC418(u8 *p, int a, int b)
         return;
     t = func_021B9AEC(*(u8 **)(p + 8), a);
     func_021CD4B0(*(void **)(p + 0xc), 0x48, a, b);
-    func_021B9C50(t, b, &v1, &v2);
+    func_021B9C50((u8 **)t, b, &v1, &v2);
     if (func_021D5B68(v1) == 0)
         func_021C5108(p, v1, 1);
     if (func_021D5B68(v2) == 0) {
         if (func_021EF948(2) != 0) {
             k = 0x20;
             if (func_021D62C4(v2, k) != 0)
-                func_021C5620(p, (u8 *)v2, k, 0);
+                func_021C5620(p, v2, k, 0);
             k = 0x1e;
             if (func_021D62C4(v2, k) != 0)
-                func_021C5620(p, (u8 *)v2, k, 0);
+                func_021C5620(p, v2, k, 0);
         }
         func_021D8548(v2);
         func_021DCFB4(v2);

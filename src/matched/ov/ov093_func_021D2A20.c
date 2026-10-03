@@ -63,7 +63,7 @@ typedef struct {
     u8 unk19C[0xa];
     u8 side;
 } LearnSeq;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021B8DC0(void *, void *, int);
 extern int func_021F8204(int);
 extern int func_021D69B8(void *, u32 *, void *);
@@ -107,7 +107,7 @@ int func_021D2A20(u8 *p, int *state, u32 *args)
     int enabled;
     u32 remaining;
     id = (u8)args[0];
-    obj = (void *)func_021B9934(*(char **)(p + 4), id);
+    obj = func_021B9934(*(char **)(p + 4), id);
     index = func_021B8DC0(*(void **)p, *(void **)(p + 4), id);
     enabled = 0;
     if (index != 0xff && func_021F8204(index)) enabled = 1;

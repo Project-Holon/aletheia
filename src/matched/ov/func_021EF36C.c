@@ -16,12 +16,16 @@
  */
 
 
-extern void func_0202CF98(int, int, char *, char *);
-extern void func_0202CD64(int, int, int, int, int);
-void func_021EF36C(int p)
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed char s8;
+struct WinMgr;
+extern void func_0202CF98(struct WinMgr *mgr, u32 idx, s8 *x, s8 *y);
+extern void func_0202CD64(struct WinMgr *mgr, u32 idx, s8 dx, s8 dy, u8 frames);
+void func_021EF36C(struct WinMgr *mgr)
 {
-    char buf[4];
-    func_0202CF98(p, 8, buf + 1, buf);
+    s8 buf[4];
+    func_0202CF98(mgr, 8, buf + 1, buf);
     if ((signed char)buf[0] != 6)
-        func_0202CD64(p, 8, 0, -1, (unsigned char)(buf[0] - 6));
+        func_0202CD64(mgr, 8, 0, -1, (unsigned char)(buf[0] - 6));
 }

@@ -30,7 +30,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 func_021D5440(u8 *);
+extern u8 func_021D5440(u8 *p);
 extern void func_021C51D0(u8 *, u8 *);
 extern void func_021BFF60(u8 *, u8 *, int);
 extern void func_021D8510(u8 *);
@@ -45,7 +45,7 @@ extern void func_021D6264(void *, int);
 extern void func_021CD4B0(void *, u32, ...);
 extern void func_021EF90C(int);
 extern int func_021BC2B0(u8 *);
-extern int func_021D59B4(void *, int);
+extern int func_021D59B4(u8 *p, int k);
 extern void func_021C3FDC(u8 *, u8 *);
 void func_021C5108(u8 *p, u8 *a, int b)
 {

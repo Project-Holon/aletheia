@@ -14,6 +14,6 @@
  *   func_021BFA00 0x021BFA00 thumb ov093
  */
 typedef unsigned char u8;
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern int func_021BFA00(u8 *, u8 *, u8 *, void *);
-int func_021C8290(u8 *p, int a, int b, void *item) { u8 *x; x=(u8 *)func_021B9934(*(char **)(p+8),a); return func_021BFA00(p,x,(u8 *)func_021B9934(*(char **)(p+8),b),item); }
+int func_021C8290(u8 *p, int a, int b, void *item) { u8 *x; x=func_021B9934(*(char **)(p+8),a); return func_021BFA00(p,x,func_021B9934(*(char **)(p+8),b),item); }

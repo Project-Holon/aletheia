@@ -24,12 +24,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+struct WinMgr;
 extern void *func_02045770(void *win);
 extern void func_02043B5C(void *bmp, u32 color);
 extern void func_02202A50(void *ctx, u32 num, u32 digits, u32 mode, void *win, int x, int y);
 extern void func_02202B20(void *ctx, int a, void *win, int b, int c);
 extern void func_02045334(void *win);
-extern void func_0202CEBC(void *mgr, u32 idx, void *win);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
 
 void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages)
 {

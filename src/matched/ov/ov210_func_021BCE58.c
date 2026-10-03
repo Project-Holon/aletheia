@@ -16,9 +16,9 @@
  */
 typedef unsigned short u16;
 typedef signed short s16;
-struct Unk;
+struct WinMgr;
 extern void func_02041EE4(unsigned int, unsigned int, int);
-extern void func_0202CD94(struct Unk *);
+extern void func_0202CD94(struct WinMgr *mgr);
 extern void func_021BEE58(char *, int, short *, short *, unsigned short);
 extern void func_021BEE38(char *, int, int, int, unsigned short);
 int func_021BCE58(char *p)
@@ -27,7 +27,7 @@ int func_021BCE58(char *p)
     short x, y;
     int magnitude;
     if (*(u16 *)(p + 0x2c8) == 0) return 0;
-    func_0202CD94(*(struct Unk **)(p + 0x20));
+    func_0202CD94(*(struct WinMgr **)(p + 0x20));
     func_02041EE4(4, 4, *(s16 *)(p + 0x2ca));
     func_02041EE4(7, 4, *(s16 *)(p + 0x2ca));
     for (i = 2; i <= 4; i++) {

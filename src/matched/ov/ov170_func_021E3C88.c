@@ -47,23 +47,24 @@
  * the macro on both, the 0xA194 offset is CSEd into the increment and takes r4.
  */
 
+struct WinMgr;
 extern unsigned char func_020260E0(void *obj);
-extern int func_021EF480(int mgr);
+extern int func_021EF480(struct WinMgr *mgr);
 extern void func_021DEFEC(unsigned char *p, int b);
 extern void func_021EBA5C(char *w, int v);
 extern void func_021DD14C(unsigned char *p);
 extern void func_021EF68C(char *w);
 extern void func_021ED6E4(unsigned char *p, int v);
 extern void func_021ED55C(unsigned char *p, int flag);
-extern void func_021EF57C(int mgr);
+extern void func_021EF57C(struct WinMgr *mgr);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E0190(unsigned char *p);
 extern int func_021E01B0(unsigned char *p);
 extern void func_020061E4(unsigned se);
 extern void func_021EBD78(unsigned char *p, int b);
-extern void func_021EF3D8(int mgr);
-extern void func_021EF35C(int mgr);
-extern void func_021EF36C(int mgr);
+extern void func_021EF3D8(struct WinMgr *mgr);
+extern void func_021EF35C(struct WinMgr *mgr);
+extern void func_021EF36C(struct WinMgr *mgr);
 extern void func_021EC5A0(unsigned char *p, int flag);
 extern void func_021ECB20(unsigned char *p, int f, int c);
 extern void func_021ED888(char *w, int a);
@@ -85,7 +86,7 @@ typedef struct {
 
 #define WORK(p) (*(char **)((p) + 0x2C))
 #define OBJ(p) (*(void **)(WORK(p) + 0x70))
-#define MGR(p) (*(int *)(WORK(p) + 0x74))
+#define MGR(p) (*(struct WinMgr **)(WORK(p) + 0x74))
 #define STEP(p) (*(int *)(WORK(p) + 0xA194))
 #define STATE(p) (*(int *)((p) + 0x28))
 #define NIB(p) ((Nib *)((p) + 0x1C))

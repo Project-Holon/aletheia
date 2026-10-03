@@ -29,6 +29,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned u32;
 typedef short s16;
+typedef signed char s8;
+struct WinMgr;
 extern void func_021BC068(u8 *,void *);
 extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
 extern void func_02040618(u32,u32,u32);
@@ -39,11 +41,11 @@ extern void func_021BC120(u8 *);
 extern void func_021BC160(void *);
 extern void func_021BC23C(void *);
 extern void func_021BC1B8(u8 *);
-extern void func_0202CA3C(void *,u32,u32,u32,u32);
-extern void func_0202CB18(void *,u32,u32,u32,u32);
-extern void func_0202CB4C(void *,u32,int,int);
-extern void func_0202CEBC(void *,u32,void *);
-extern void func_0202CC58(void *,u32);
+extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
+extern void func_0202CB18(struct WinMgr *mgr, u32 idx, void *arc, u32 member, u32 alloc);
+extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
+extern void func_0202CEBC(struct WinMgr *mgr, u32 idx, void *a);
+extern void func_0202CC58(struct WinMgr *mgr, u32 idx);
 void func_021BBD60(u8 *p,u32 a)
 {
     func_021BC068(p,(void *)a);
@@ -62,7 +64,7 @@ void func_021BBD60(u8 *p,u32 a)
     func_021BC23C(p);
     func_021BC1B8(p);
     func_0202CA3C(*(void **)(p+0x1b4),0,0,32,6);
-    func_0202CB18(*(void **)(p+0x1b4),0,a,25,0);
+    func_0202CB18(*(void **)(p+0x1b4),0,(void *)a,25,0);
     func_0202CB4C(*(void **)(p+0x1b4),0,0,0);
     func_0202CEBC(*(void **)(p+0x1b4),0,*(void **)(p+0xc));
     func_0202CC58(*(void **)(p+0x1b4),0);

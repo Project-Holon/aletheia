@@ -12,7 +12,7 @@
  * Resolved by the func_021B98AC label in ov069 (thumb); cross-overlay target.
  *
  * symbols:
- *   func_021B98AC  0x021B98AC  thumb  ov069
+ *   func_021B98AC  0x021B98AC  thumb  ov093
  */
 
 typedef unsigned char u8;
@@ -22,5 +22,5 @@ typedef signed char s8;
 typedef unsigned int u32;
 typedef int s32;
 
-extern void func_021B98AC(u32);
-void func_0218A2FC(u8 *p) { func_021B98AC(*(u32 *)(p + 0xb8)); }
+extern u8 *func_021B98AC(char *const *q, u8 b);
+u8 *func_0218A2FC(u8 *p, u8 i) { return func_021B98AC(*(char *const **)(p + 0xb8), i); }

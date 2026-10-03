@@ -43,9 +43,9 @@ struct T6 { u8 f0; u8 f1; u16 f2; u16 f4; };
 extern struct T6 g_021EFDC0[];
 
 extern u16 func_021D5444(void *p);
-extern u32 func_021D59B4(void *p, u32 idx);
+extern int func_021D59B4(u8 *p, int k);
 extern u16 func_021D5B40(void *p);
-extern u32 func_021D5844(void *p);
+extern void *func_021D5844(void *m);
 extern u32 func_021D805C(u32 v, u32 n);
 
 extern u32 func_02019C90(void *p, u32 a, u32 b);
@@ -61,7 +61,7 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
     u16 v6;
     u32 m;
     u32 t;
-    u32 rec;
+    void *rec;
     u32 sv;
 
     m = func_021D5444(a1);
@@ -81,8 +81,8 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         }
     }
     rec = func_021D5844(a0);
-    sv = func_02017D30((void *)rec);
-    if (func_02017E1C((void *)rec, 0x97, 0) != 0) {
+    sv = func_02017D30(rec);
+    if (func_02017E1C(rec, 0x97, 0) != 0) {
         for (i = 0; i < 6; i++) {
             buf[i] = buf[i] * 2;
         }
@@ -96,11 +96,11 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
             continue;
         }
         t = g_021EFDC0[i].f2;
-        w = func_02017E1C((void *)rec, t, 0) + v;
+        w = func_02017E1C(rec, t, 0) + v;
         if (w > 0xff) {
             w = 0xff;
         }
-        func_02017E40((void *)rec, t, w);
+        func_02017E40(rec, t, w);
         switch (i) {
         case 0: a2[5] = v; break;
         case 1: a2[6] = v; break;
@@ -110,5 +110,5 @@ void func_021CB5F0(u32 *a0, u8 *a1, u8 *a2)
         case 5: a2[0xa] = v; break;
         }
     }
-    func_02017D70((void *)rec, sv);
+    func_02017D70(rec, sv);
 }

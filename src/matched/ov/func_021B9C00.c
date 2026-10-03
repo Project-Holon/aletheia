@@ -22,12 +22,12 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-struct S2 { u32 items[6]; u8 count; };
+struct S2 { u8 *items[6]; u8 count; };
 /* 021B9C00  same shape as 021B9BF0 */
-u32 func_021B9C00(struct S2 *p, u32 i)
+u8 *func_021B9C00(struct S2 *p, u32 i)
 {
     if (i < p->count)
-        return ((u32 *)p)[i];
+        return p->items[i];
     return 0;
 }
 
