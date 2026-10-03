@@ -81,7 +81,8 @@ extern u8  g_02140534[];
 extern struct Sub02006544Voice g_02140488[];
 extern struct Sub02006544Pair  g_0209D8C0[];
 
-extern void func_020067D0(struct Sub02006544Voice *v);
+struct Sub02006544Entry;
+extern void func_020067D0(struct Sub02006544Entry *e);
 
 void func_02006544(u16 a0, u32 a1, u32 a2)
 {
@@ -95,7 +96,7 @@ void func_02006544(u16 a0, u32 a1, u32 a2)
         p->unk00 = 0;
         p->lo = (u8)g_0209D8C0[i].lo;
         p->hi = (u8)g_0209D8C0[i].hi;
-        func_020067D0(p);
+        func_020067D0((struct Sub02006544Entry *)p);
         if (i == 0) {
             p->unk04 = (u32)g_02140534;
             p->unk10 = (u32)g_02140534;

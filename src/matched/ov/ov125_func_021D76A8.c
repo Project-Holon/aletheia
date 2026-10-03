@@ -14,5 +14,6 @@
  *   func_0200B448 0x0200B448 thumb
  *   func_02012E4C 0x02012E4C thumb
  */
-extern void *func_02012EBC(void *); extern unsigned int func_0200725C(void *,unsigned int,unsigned char); extern void *func_020073D8(void *,unsigned int,unsigned int); extern void func_0200B448(void *); extern void func_02012E4C(unsigned char *,void *);
+struct Ctrl;
+extern void *func_02012EBC(void *); extern unsigned int func_0200725C(struct Ctrl *,unsigned int,unsigned char); extern void *func_020073D8(void *,unsigned int,unsigned int); extern void func_0200B448(void *); extern void func_02012E4C(unsigned char *,void *);
 void func_021D76A8(unsigned char *p,unsigned char heap,unsigned int id) {void *s=func_02012EBC(p); func_0200725C(s,id,heap); func_0200B448(func_020073D8(s,id,0)); func_02012E4C(p,(void *)id);}

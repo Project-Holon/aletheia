@@ -29,13 +29,15 @@
 typedef unsigned int u32;
 
 extern char g_02140488[];
-extern int  func_02006868(void *voice);
-extern void func_02006948(void *voice);
+struct Sub02006544Entry;
+extern int  func_02006868(struct Sub02006544Entry *voice);
+struct Sub02006948;
+extern void func_02006948(struct Sub02006948 *voice);
 
 int func_02006A64(u32 idx)
 {
-    if (func_02006868(g_02140488 + 0x34 * idx) == 0) {
-        func_02006948(g_02140488 + 0x34 * idx);
+    if (func_02006868((struct Sub02006544Entry *)(g_02140488 + 0x34 * idx)) == 0) {
+        func_02006948((struct Sub02006948 *)(g_02140488 + 0x34 * idx));
         return 0;
     }
     return 1;

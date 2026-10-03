@@ -38,7 +38,7 @@ extern void *func_021FC4DC(void *);
 extern void *func_02025538(unsigned int a0, void *a1);
 extern void *func_021FD760(void *,int,int,u16);
 extern int func_02012EBC(int);
-extern int func_0200A5F8(int);
+extern void *func_0200A5F8(void *sys);
 extern int func_0200A640(int);
 extern void func_021F88A4(char *,char *);
 extern void func_021F891C(char *p, const char *q);
@@ -58,7 +58,7 @@ int func_021F8480(void *obj,int b,char *q)
     v=func_021FC4DC(*(void **)(q+8));
     *(void **)(p+0x1c)=func_02025538(*(u16 *)(p+0x24),v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760(v,*(int *)(q+0xc),i,*(u16 *)(p+0x24));
-    *(int *)(p+0x28)=func_0200A640(func_0200A5F8(func_02012EBC(*(int *)(q+0x18))));
+    *(int *)(p+0x28)=func_0200A640((int)func_0200A5F8((void *)func_02012EBC(*(int *)(q+0x18))));
     func_021F88A4(p,q);
     func_021F891C(p,q);
     *(void **)(p+0xc)=func_021FD6D8(p,func_021F85DC,*(u16 *)(p+0x24));

@@ -52,19 +52,20 @@ struct Sub02006948 {
 
 extern void func_02072BDC(u32 a);
 extern void func_02072D20(u32 a);
-extern void func_02072A88(u32 a);
-extern void func_020067A4(struct Sub02006948 *p);
+extern void func_02072A88(u32 *a);
+struct Sub02006544Entry;
+extern void func_020067A4(struct Sub02006544Entry *p);
 
 void func_02006948(struct Sub02006948 *p)
 {
     func_02072BDC(p->unk14);
     func_02072D20(p->unk14);
-    func_02072A88(p->unk14);
+    func_02072A88((u32 *)p->unk14);
     if (p->unk2C == 1) {
         func_02072BDC(p->unk18);
         func_02072D20(p->unk18);
-        func_02072A88(p->unk18);
+        func_02072A88((u32 *)p->unk18);
     }
     p->unk00 = 0;
-    func_020067A4(p);
+    func_020067A4((struct Sub02006544Entry *)p);
 }

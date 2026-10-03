@@ -73,7 +73,7 @@ extern int   sub_02005CE0(void *arg);
 extern void  sub_02005D14(void);
 extern void  sub_02005F90(void);
 
-extern void func_020755A8(void *obj, int a, int b, int c, void *arg);
+extern u32 func_020755A8(u32 obj, int a, int b, int c, u32 arg);
 
 void sub_02005DAC(void *arg)
 {
@@ -85,5 +85,5 @@ void sub_02005DAC(void *arg)
     if (sub_02005924(arg) == 0) {
         return;
     }
-    func_020755A8(sub_0200590C(), 6, -1, -1, arg);
+    func_020755A8((u32)sub_0200590C(), 6, -1, -1, (u32)arg);
 }

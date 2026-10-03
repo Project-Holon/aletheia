@@ -26,9 +26,10 @@
 typedef unsigned int u32;
 
 extern u32 *sub_0200590C(void);
-extern void   func_02072FE8(void *slot, u32 a, u32 b);
+struct Obj;
+extern void   func_02072FE8(struct Obj *slot, u32 a, int b);
 
 void func_02005F24(u32 a0, u32 a1)
 {
-    func_02072FE8(sub_0200590C(), a0, a1);
+    func_02072FE8((struct Obj *)sub_0200590C(), a0, (int)a1);
 }

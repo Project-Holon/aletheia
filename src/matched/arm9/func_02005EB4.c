@@ -30,15 +30,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 *sub_0200590C(void);
-extern void   func_02072FA8(void *slot, u32 key, u32 f);
-extern void   func_02072FC8(void *slot, u32 key, u32 f);
+struct Obj;
+extern void   func_02072FA8(struct Obj *slot, u32 key, u32 f);
+extern void   func_02072FC8(struct Obj *slot, u32 key, u32 f);
 
 void func_02005EB4(u32 a0)
 {
     u16 key = (u16)(a0 ^ 0xFFFF);
 
-    func_02072FA8(sub_0200590C(), 0xFFFF, 0);
+    func_02072FA8((struct Obj *)sub_0200590C(), 0xFFFF, 0);
     if (key != 0) {
-        func_02072FC8(sub_0200590C(), key, 1);
+        func_02072FC8((struct Obj *)sub_0200590C(), key, 1);
     }
 }

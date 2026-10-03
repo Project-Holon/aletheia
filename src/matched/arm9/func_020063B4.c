@@ -49,13 +49,13 @@ typedef signed int    s32;
 extern void sub_02005D14(void);
 extern void sub_02006368(void);
 extern void sub_020746B0(u32 v);
-extern void sub_02006300(u8 *p, u32 v);
+extern void sub_02006300(u32 a, int mode);
 extern int sub_02006394(void);
 extern void sub_0200597C(void);
 extern void sub_02085A38(u32 v);
-extern void sub_020059A0(u8 *p);
-extern u32  sub_0200590C(void);
-extern void sub_020755A8(u32 a, u32 b, s32 c, s32 d, u8 *p);
+extern int sub_020059A0(u32 a);
+extern u32 *sub_0200590C(void);
+extern u32 sub_020755A8(u32 a, int b, int c, int d, u32 e);
 
 u32 func_020063B4(u8 *a0, u32 *a1, u32 a2)
 {
@@ -67,13 +67,13 @@ u32 func_020063B4(u8 *a0, u32 *a1, u32 a2)
         switch (*a1) {
         case 0:
             sub_020746B0(0x1300);
-            sub_02006300(a0, 0);
+            sub_02006300((u32)a0, 0);
             (*a1)++;
             break;
         case 1:
             if (sub_02006394() == 1) {
                 sub_0200597C();
-                sub_02006300(a0, 1);
+                sub_02006300((u32)a0, 1);
                 (*a1)++;
             } else {
                 sub_02085A38(2);
@@ -84,8 +84,8 @@ u32 func_020063B4(u8 *a0, u32 *a1, u32 a2)
                 s32 z = 0;
 
                 sub_020746B0(0);
-                sub_020059A0(a0);
-                sub_020755A8(sub_0200590C(), 0, z - 1, z - 1, a0);
+                sub_020059A0((u32)a0);
+                sub_020755A8((u32)sub_0200590C(), 0, z - 1, z - 1, (u32)a0);
                 (*a1)++;
                 return 1;
             }

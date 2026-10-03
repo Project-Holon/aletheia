@@ -115,7 +115,8 @@ struct Sub02006B20Chan {
 
 extern struct Sub02006B20Chan sub_02006B20_Table[];
 
-extern void func_02006948(struct Sub02006B20Chan *chan);
+struct Sub02006948;
+extern void func_02006948(struct Sub02006948 *chan);
 
 s8 sub_02006B20(u32 i)
 {
@@ -170,7 +171,7 @@ u32 sub_02006B94(u32 i)
 void sub_02006BB4(u32 i)
 {
     if (sub_02006B20_Table[i].unk00 == 1) {
-        func_02006948(&sub_02006B20_Table[i]);
+        func_02006948((struct Sub02006948 *)&sub_02006B20_Table[i]);
     }
 }
 

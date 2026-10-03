@@ -27,6 +27,7 @@
  *       --func func_02007248 --addr 0x02007248 --cc 1.1p1 --thumb
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
 
 struct Sub02007248 {
@@ -37,9 +38,9 @@ struct Sub02007248 {
     u32 unk10;
 };
 
-extern void func_020334E8(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void func_020334E8(u8 *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 
 void func_02007248(struct Sub02007248 *p, u32 a1, u32 a2, u32 a3, u32 a4)
 {
-    func_020334E8(p->unk10, a1, a2, a3, a4);
+    func_020334E8((u8 *)p->unk10, a1, a2, a3, a4);
 }

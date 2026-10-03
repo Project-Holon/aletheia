@@ -16,6 +16,6 @@ typedef struct Obj { int f00; int f04; int f08; } Obj;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern int func_0200A5F8(int);
+extern void *func_0200A5F8(void *sys);
 extern const char d_02172730[];
-Obj *func_02156CAC(int a, int b, int c) { Obj *p; int zero = 0; p = func_02030734(a, 12, 0, d_02172730, 0xa7); p->f00 = zero; p->f08 = func_0200A5F8(c); p->f04 = b; return p; }
+Obj *func_02156CAC(int a, int b, int c) { Obj *p; int zero = 0; p = func_02030734(a, 12, 0, d_02172730, 0xa7); p->f00 = zero; p->f08 = (int)func_0200A5F8((void *)c); p->f04 = b; return p; }

@@ -40,7 +40,7 @@ extern int   func_02005CE0(void *arg);
 extern void  func_02005D14(void);
 extern int   func_02005924(u32 a);
 extern u32 *sub_0200590C(void);
-extern void *func_020755A8(void *slot, u32 a, int b, int c, u32 d);
+extern u32 func_020755A8(u32 slot, int a, int b, int c, u32 d);
 extern void  func_02005EB4(u32 key);
 
 void *func_02005D34(u32 a0, u32 a1)
@@ -56,7 +56,7 @@ void *func_02005D34(u32 a0, u32 a1)
     if (func_02005924(a0) == 0) {
         return 0;
     }
-    r = func_020755A8(sub_0200590C(), 0, -1, -1, a0);
+    r = (void *)func_020755A8((u32)sub_0200590C(), 0, -1, -1, a0);
     if (r == 0) {
         return (void *)zero;
     }

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02031AE0  0x02031AE0  arm
@@ -32,20 +32,24 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern int  func_02031AE0(int v, int mode);
-extern int  func_0200A5F8(char *self);
-extern void func_0200A7EC(int h, int v);
+struct State;
+extern int  func_02031AE0(struct State *v, u32 mode);
+extern void *func_0200A5F8(void *self);
+struct Big;
+extern void func_0200A7EC(struct Big *h, u8 v);
 extern int func_02008784(void *sys, u32 index);
-extern u32  func_0200725C(char *self, u32 a, u8 heap);
-extern void func_020072A4(char *self, u32 a);
+struct Ctrl;
+extern u32  func_0200725C(struct Ctrl *self, u32 a, u8 heap);
+struct Sub020072A4Ctrl;
+extern void func_020072A4(struct Sub020072A4Ctrl *self, u32 a);
 extern void func_020087C0(void *sys, u32 index);
 
 typedef enum { BIT_0, BIT_MAX = 9 } Bit;
 
 int func_020070C8(char *self)
 {
-    int t = func_02031AE0(*(int *)(self + 0x10), 1);
-    int h;
+    int t = func_02031AE0(*(struct State **)(self + 0x10), 1);
+    void *h;
     Bit i;
 
     if (t != 1 && t != 2) {
@@ -56,9 +60,9 @@ int func_020070C8(char *self)
         h = func_0200A5F8(self);
         func_0200A7EC(h, 0);
         if (func_02008784(self, 6) == 1) {
-            int r = func_0200725C(self, 6, 1);
+            int r = func_0200725C((struct Ctrl *)self, 6, 1);
 
-            func_020072A4(self, 6);
+            func_020072A4((struct Sub020072A4Ctrl *)self, 6);
             if (r != 1 && r != 2)
                 goto bits;
             func_0200A7EC(h, 1);

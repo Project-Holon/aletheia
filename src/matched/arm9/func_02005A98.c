@@ -69,8 +69,9 @@ extern struct Sub02005A98Slot sub_02005A98_Table[];
 extern void  sub_02005858(void);
 extern void  sub_02005834(u32 v);
 extern struct Sub02005A98Hdr *func_0207482C(u32 *a, u32 b, u32 c, u32 d, u32 e);
-extern void  func_02074A6C(u32 a, u32 *b);
-extern u32   func_02074894(u32 *a);
+extern u32   func_02074A6C(u32 a, u32 b);
+struct S;
+extern int   func_02074894(struct S *a);
 
 struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
 {
@@ -85,10 +86,10 @@ struct Sub02005A98Hdr *func_02005A98(const u32 *a0, u32 a1)
     i = 0;
     p = func_0207482C(*sub_02005A98_Cur.unk08, 8, 0, 0, 0);
     for (i = 0; i < a1; i++) {
-        func_02074A6C(a0[i], *sub_02005A98_Cur.unk08);
+        func_02074A6C(a0[i], (u32)*sub_02005A98_Cur.unk08);
     }
     p->n = a1;
     p->status = saved;
-    sub_02005834(func_02074894(*sub_02005A98_Cur.unk08));
+    sub_02005834(func_02074894((struct S *)*sub_02005A98_Cur.unk08));
     return p;
 }

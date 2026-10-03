@@ -97,10 +97,13 @@ extern int func_021DFE98(u8 *p);
 extern void func_021DFDB8(void *p);
 extern u8 sub_02008754(void *sys);
 extern int sub_02008784(void *sys, u32 index);
-extern int sub_0200725C(struct SaveCtrl *c, int i, int flag);
-extern void sub_020072A4(struct SaveCtrl *c, int i);
-extern int sub_0200A5F8(struct SaveCtrl *c);
-extern void sub_0200A7EC(int a, int b);
+struct Ctrl;
+extern u32 sub_0200725C(struct Ctrl *ctrl, u32 id, u8 heap);
+struct Sub020072A4Ctrl;
+extern void sub_020072A4(struct Sub020072A4Ctrl *ctrl, u32 id);
+extern void *sub_0200A5F8(void *sys);
+struct Big;
+extern void sub_0200A7EC(struct Big *p, u8 value);
 extern u8 ov228_id[];
 extern const char sub_02006F20_File[];
 extern const char sub_02006F20_Msg[];
@@ -152,8 +155,8 @@ struct SaveCtrl *func_02006F20(int heap)
             flags = &c->unk0C;
             do {
                 if (sub_02008784(c, i) == 1) {
-                    s = sub_0200725C(c, i, 1);
-                    sub_020072A4(c, i);
+                    s = sub_0200725C((struct Ctrl *)c, i, 1);
+                    sub_020072A4((struct Sub020072A4Ctrl *)c, i);
                     switch (s) {
                     case 1:
                     case 2:

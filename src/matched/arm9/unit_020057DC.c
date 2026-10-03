@@ -91,7 +91,8 @@ extern struct Sub020057DCSlot sub_020057DC_Table[];
 extern void func_02072DB0(int idx, int v);
 extern void  func_02072E9C(u32 *info);
 extern void  func_02072EA8(u32 *info);
-extern u32   func_02074894(u32 *a);
+struct S;
+extern int   func_02074894(struct S *a);
 extern void  func_020748E0(u32 *a, u32 b);
 extern int   func_02074AC4(u32 a, int b, u32 *c);
 
@@ -147,7 +148,7 @@ void sub_02005888(u16 a)
         func_02072E9C(&sub_020057DC_Table[i].unk08);
     }
     func_02072DB0(sub_020057DC_Cur.unk00, 6);
-    sub_02005834(func_02074894(*sub_020057DC_Cur.unk08));
+    sub_02005834(func_02074894((struct S *)*sub_020057DC_Cur.unk08));
 }
 
 u16 sub_020058D0(void)
@@ -185,12 +186,12 @@ int sub_02005924(u32 a)
     if (func_02074AC4(a, 3, *sub_020057DC_Cur.unk08) == 0) {
         return 0;
     }
-    slot->unk14 = func_02074894(*sub_020057DC_Cur.unk08);
+    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
     r = func_02074AC4(a, 4, *sub_020057DC_Cur.unk08);
     if (r == 0) {
         return 0;
     }
-    slot->unk18 = func_02074894(*sub_020057DC_Cur.unk08);
+    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
     slot->unk04 = a;
     return r;
 }
@@ -200,7 +201,7 @@ void sub_0200597C(void)
     struct Sub020057DCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
-    slot->unk14 = func_02074894(*sub_020057DC_Cur.unk08);
+    slot->unk14 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
 }
 
 int sub_020059A0(u32 a)
@@ -208,7 +209,7 @@ int sub_020059A0(u32 a)
     struct Sub020057DCSlot *slot =
         &sub_020057DC_Table[sub_020057DC_Cur.index];
 
-    slot->unk18 = func_02074894(*sub_020057DC_Cur.unk08);
+    slot->unk18 = func_02074894((struct S *)*sub_020057DC_Cur.unk08);
     slot->unk04 = a;
     return 1;
 }
