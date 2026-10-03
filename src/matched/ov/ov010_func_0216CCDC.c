@@ -22,7 +22,8 @@
  *   d_02172B48     0x02172B48  data  ov010  a1
  */
 
-extern int func_02030CB0(int);
+typedef unsigned int   u32;
+extern u32 func_02030CB0(u32 idx);
 extern int func_02030734(int, int, int, char *, int);
 extern int func_02030CBC(int, int);
 extern int func_020490F4(int, int);

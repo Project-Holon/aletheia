@@ -57,14 +57,18 @@ typedef struct Outer {
 
 extern const u16 d_021839E0[5][5];
 
-extern void *func_020124E4(void *);
+struct Ctx;
+struct Obj;
+struct S0201235C;
+struct WordSet;
+extern void *func_020124E4(struct Obj *p);
 extern void *func_02012138(void *);
-extern void *func_020120F4(void *);
-extern void *func_02012944(void *);
-extern void  func_0201F02C(void *, int, void *);
-extern void  func_0201EF40(void *, int, u32);
-extern void  func_0201EFA4(void *, u32, u32, u32, u32, u32);
-extern void  func_0201235C(void *, void *);
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
+extern void func_0201EF40(struct WordSet *p, u32 i, u32 v);
+extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
+extern void func_0201235C(struct S0201235C *o, u32 *out);
 extern u32   func_020362DC(void);
 extern u8   *func_02158344(void *);
 extern int   func_0217405C(u8 *, u8 *);

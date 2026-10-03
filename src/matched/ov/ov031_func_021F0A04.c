@@ -39,7 +39,7 @@ typedef struct {
 
 extern u16 *func_0204162C(u8 bg);
 extern void func_02082D44(void *dst, const void *src, int n);
-extern void func_02041B6C(int);
+extern void func_02041B6C(u32 bit);
 extern void func_0202DD24(int, int, int);
 extern u32 func_02045770(u32);
 extern void func_02043814(u32, u32);

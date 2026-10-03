@@ -22,7 +22,7 @@ extern void *func_020120F4(const struct Ctx *p);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void func_02082BCC(void *, int, unsigned int);
-extern void func_02168B20(void);
+extern int func_02168B20(int a, int *b, int *c);
 void *func_02168BBC(void *a, void *b)
 {
     void *h;

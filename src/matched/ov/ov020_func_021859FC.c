@@ -27,7 +27,8 @@ struct Sub02014444Obj;
 extern void *func_02012B38(const struct BigObj *p);
 extern u32 func_0201444C(struct Sub02014444Obj *o);
 extern void *func_020127C4(void *p);
-extern void func_021864DC(void *p);
+typedef unsigned char  u8;
+extern void func_021864DC(u8 *p);
 void func_021859FC(void *p, const short *s)
 {
     func_02186470(p);

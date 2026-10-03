@@ -37,7 +37,7 @@ typedef struct {
     u16 f728;
 } D;
 
-extern int func_02039338(void);
+extern u16 func_02039338(void);
 
 void func_02167D44(int a, int b, const u16 *c, D *d)
 {

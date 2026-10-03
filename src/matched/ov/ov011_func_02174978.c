@@ -72,7 +72,7 @@ extern int func_02173984(u8 *, u8 *);
 extern int func_02012E40(int);
 extern void *func_02012EBC(int);
 extern u16 *func_0200BE48(void *sys);
-extern int func_021756D0(u16);
+extern int func_021756D0(u32 x);
 extern void func_0200BE84(void *, u8 *);
 
 void func_02174978(u8 *s)

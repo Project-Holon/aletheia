@@ -59,7 +59,7 @@ extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
 extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
-extern void func_021F3B90(void);
+extern int func_021F3B90(void *a);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 
 void *func_021F39B8(void *a, int b, V *c, const V *d, int e, int f)

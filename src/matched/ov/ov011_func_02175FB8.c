@@ -34,7 +34,7 @@ typedef struct {
     u16 h16;
 } Rec;
 
-extern int func_021756B0(u32 a);
+extern int func_021756B0(int value);
 extern int func_021756D0(u32 a);
 
 int func_02175FB8(void *unused, Rec *p)

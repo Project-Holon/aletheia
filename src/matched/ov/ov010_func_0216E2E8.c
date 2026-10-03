@@ -22,7 +22,8 @@ typedef unsigned int u32;
 extern int func_0216DD1C(void *c, void **out, u32 *iter);
 extern u16 func_0216D598(void *p);
 extern u32 func_0200F128(u32 id);
-extern void func_0204944C(void *a, int b, u16 c, int d, void *e);
+struct ArcFile;
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
 
 typedef struct Record { u16 fields[14]; } Record;
 

@@ -17,10 +17,14 @@
  */
 typedef short s16;
 typedef struct { int x, y, z; } Vec;
-void *func_020122C0(void *p, int a, void (*cb)(void), unsigned int n);
-void *func_020124E8(void *p);
+typedef unsigned int   u32;
+typedef unsigned char  u8;
+struct Desc;
+struct Obj;
+struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+void *func_020124E8(struct Obj *p);
 void func_02014184(void *d, int a, s16 b, unsigned int c, unsigned int e, unsigned int f);
-void func_02184730(void);
+int func_02184730(int ctx, int *state, u8 *p);
 void func_02184CEC(void *obj, void *p);
 static inline void vset(Vec *d, int x, int y, int z)
 {

@@ -31,7 +31,7 @@ int func_020120F4(int a);
 int func_021583EC(int a, int b);
 void func_02008494(int a, void *b);
 int func_02175B14(u8 *a);
-void *func_02175B34(u8 *a);
+u8 *func_02175B34(u8 *p);
 void func_02082D44(void *src, void *dst, int n);
 void func_0217F2B4(void *a, int b);
 void func_02174E14(u8 *a, int b);

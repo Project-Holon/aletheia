@@ -24,7 +24,8 @@ struct Sess {
 
 extern struct Sess g_021B60D8;
 extern void func_021B2848(void *a, void *b, unsigned int c);
-extern int func_021B29A4(void *a, void *b);
+typedef unsigned char  u8;
+extern int func_021B29A4(int *obj, const u8 *q);
 struct N;
 extern int func_021B2958(struct N *p);
 

@@ -34,8 +34,12 @@ typedef struct {
 } Ov018Obj;
 
 void *func_02026478(void *);
-int func_02012B58(void *);
-void *func_02012950(void *, int);
+typedef unsigned int   u32;
+struct BigObj;
+struct Rec44;
+struct Sub24;
+u8 func_02012B58(const struct BigObj *p);
+struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 int func_02008550(void *);
 
 int func_0217F5F0(Ov018Obj *p, int idx)

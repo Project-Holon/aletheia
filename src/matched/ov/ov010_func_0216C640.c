@@ -22,7 +22,8 @@
 
 typedef struct S { char p0[9]; unsigned char k; char p1[0x7CC - 10]; int f; } S;
 
-extern void func_0200B400(int);
+typedef unsigned int   u32;
+extern void func_0200B400(u32 heap);
 extern int func_021CBD08(void *, int);
 extern void func_0216CAD4(void *, int, int);
 extern int func_0216E8CC(int, int, int);
