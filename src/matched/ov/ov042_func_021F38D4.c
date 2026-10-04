@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The u16 j/k parameters of func_021BE700/674/6CC (as ov043/ov045 declare
  * them) with the byte held in a u8 local move the join's stack-argument

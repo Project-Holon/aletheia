@@ -70,7 +70,7 @@ extern void func_02027FD8(struct TaskMenuState *s);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int heap);
 int func_021D55FC(void *a, void *b, char *out, char *p)
 {
     int i;

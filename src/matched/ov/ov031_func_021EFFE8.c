@@ -27,7 +27,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012138(void *p);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 *func_02026474(void *p);
 struct Obj;
 extern void func_0202DC08(struct Obj *p);
@@ -47,7 +48,7 @@ void func_021EFFE8(u32 *p)
 {
     u8 *q;
 
-    q = func_02026474(func_02012138((void *)p[0]));
+    q = func_02026474((void *)func_02012138((const struct Ctx *)p[0]));
     if (q != 0)
         q[0x282E] = 0;
     func_0202DC08((void *)p[0x1F]);

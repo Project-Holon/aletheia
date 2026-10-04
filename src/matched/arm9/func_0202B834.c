@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Compares the +8 field against func_0202B810() (the +4 field by way of
  * func_020127A4) and returns 1 when they differ, 0 when they match.
@@ -22,7 +22,7 @@ typedef unsigned int  u32;
 
 struct Obj;
 
-extern u32 func_0202B810(void);
+extern unsigned short func_0202B810(void);
 
 u32 func_0202B834(struct Obj *o)
 {

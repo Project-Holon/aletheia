@@ -108,9 +108,11 @@ typedef struct {
 extern char str_02183B48[];
 
 void *func_020124E4(void *);
-void *func_02012138(void *);
+struct Ctx;
+u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(void *);
-void *func_0201210C(void *p);
+struct Ctx;
+void *func_0201210C(const struct Ctx *p);
 u32 func_02026454(void *);
 u8 *func_02026474(void *);
 int func_0200FB24(void);
@@ -160,7 +162,7 @@ int func_02180538(void *a, int *state, Outer *c)
     u32 n;
 
     sub = func_020124E4(a);
-    t = func_02012138(sub);
+    t = (void *)func_02012138(sub);
     w = func_020120F4(sub);
     func_0201210C(sub);
     switch (*state) {

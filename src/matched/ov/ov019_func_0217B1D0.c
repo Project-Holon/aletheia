@@ -49,7 +49,8 @@ struct obj {
 
 extern int memcmp(const void *a, const void *b, int n);
 extern void memset(void *p, int v, int n);
-extern int func_02012114(int);
+struct Ctx;
+extern unsigned int func_02012114(const struct Ctx *p);
 typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
@@ -74,7 +75,7 @@ int func_0217B1D0(struct obj *o, struct ent *e)
         if (memcmp(e->s[i].mac, (char *)o + 0x28a4, 6) != 0) {
             continue;
         }
-        if (func_02012114(o->in->fc) == 1) {
+        if (func_02012114((const struct Ctx *)o->in->fc) == 1) {
             t = func_02188CE0(func_0201210C((void *)o->in->fc));
             if (t != 0) {
                 r = func_0217AED4(e, v);
