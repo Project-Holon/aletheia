@@ -27,7 +27,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045770(u32 v);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 v, u32 k);
 extern void func_021F9218(u32 win, u32 bank, u32 idx, u8 *g);
 extern void func_02045334(u32 v);
@@ -40,7 +41,7 @@ void func_02200BAC(u8 *p, u32 k)
     u32 v;
 
     *(u32 *)(p + 0xde0) = func_020450F0(4, 0xc, 0x13, 0x12, 4, 1, 1);
-    func_02043B5C(func_02045770(*(u32 *)(p + 0xde0)), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xde0)), 0);
     func_021F9218(*(u32 *)(p + 0xde0), *(u32 *)(p + 0xb6c), k, p + 0xfa0);
     v = *(u32 *)(p + 0xde0);
     func_02045334(v);

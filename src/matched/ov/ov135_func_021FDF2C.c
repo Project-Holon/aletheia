@@ -49,7 +49,8 @@ extern const Pos tbl_022037B0[];
 extern const Pos tbl_022037BC[];
 
 extern u32 func_020450F0(u32 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u16 base);
-extern u32 func_02045770(u32 v);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 v, u32 k);
 extern void func_02045334(u32 v);
 extern void func_02045374(u32 v);
@@ -63,7 +64,7 @@ void func_021FDF2C(Menu *p)
     u32 v;
 
     p->frame = func_020450F0(0, 2, 0x15, 0x1b, 2, 0xd, 1);
-    func_02043B5C(func_02045770(p->frame), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)p->frame), 0);
     v = p->frame;
     func_02045334(v);
     func_02045374(v);
@@ -71,7 +72,7 @@ void func_021FDF2C(Menu *p)
     func_02040C14(3, 0, 1, 0);
     for (i = 0; i < 6; i++) {
         p->item[i] = func_020450F0(3, tbl_022037BC[i].x, tbl_022037BC[i].y, 0xb, 2, 0xd, 0);
-        func_02043B5C(func_02045770(p->item[i]), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p->item[i]), 0);
         v = p->item[i];
         func_02045334(v);
         func_02045374(v);
@@ -79,7 +80,7 @@ void func_021FDF2C(Menu *p)
     }
     for (i = 0; i < 2; i++) {
         p->tab[i] = func_020450F0(3, tbl_022037A8[i].x, tbl_022037A8[i].y, 0x1c, 2, 0xd, 0);
-        func_02043B5C(func_02045770(p->tab[i]), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p->tab[i]), 0);
         v = p->tab[i];
         func_02045334(v);
         func_02045374(v);
@@ -87,7 +88,7 @@ void func_021FDF2C(Menu *p)
     }
     for (i = 0; i < 3; i++) {
         p->page[i] = func_020450F0(3, tbl_022037B0[i].x, tbl_022037B0[i].y, 0xa, 2, 0xd, 0);
-        func_02043B5C(func_02045770(p->page[i]), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p->page[i]), 0);
         v = p->page[i];
         func_02045334(v);
         func_02045374(v);

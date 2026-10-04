@@ -33,7 +33,8 @@ typedef struct {
 } Menu;
 extern const WinDef tbl_0220351C[];
 extern u32 func_020450F0(u32,u8,u8,u8,u8,u8,u16);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32,u32);
 extern void func_02045334(u32);
 extern void func_02045374(u32);
@@ -45,7 +46,7 @@ void func_021FC3E0(Menu *p)
     int i;
     u32 w;
     p->frame=func_020450F0(2,2,21,27,2,13,1);
-    func_02043B5C(func_02045770(p->frame),0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)p->frame),0);
     w=p->frame;
     func_02045334(w);
     func_02045374(w);
@@ -57,7 +58,7 @@ void func_021FC3E0(Menu *p)
     func_020409B4(func_02045730(w));
     for(i=0;i<14;i++) {
         p->item[i]=func_020450F0(3,tbl_0220351C[i].x,tbl_0220351C[i].y,tbl_0220351C[i].w,tbl_0220351C[i].h,13,1);
-        func_02043B5C(func_02045770(p->item[i]),0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p->item[i]),0);
         w=p->item[i];
         func_02045334(w);
         func_02045374(w);

@@ -20,7 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern void func_02045CAC(u32, u32, void *);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32, u32);
 extern void func_02045334(u32);
 extern void func_02045374(u32);
@@ -32,7 +33,7 @@ void func_022009A4(u8 *p, u32 n)
 {
     u32 w;
     func_02045CAC(*(u32 *)(p + 0xb6c), n, *(void **)(p + 0xb88));
-    func_02043B5C(func_02045770(*(u32 *)(p + 0xd40)), 0xf);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xd40)), 0xf);
     w = *(u32 *)(p + 0xd40);
     func_02045334(w);
     func_02045374(w);
