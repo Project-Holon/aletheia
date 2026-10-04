@@ -16,7 +16,7 @@
  *   func_02031324  0x02031324  arm
  */
 
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern int func_0203159C(int, int, int);
 extern int func_020457B0(int, int);
 extern int func_02031324(int);
