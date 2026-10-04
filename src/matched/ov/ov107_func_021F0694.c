@@ -23,7 +23,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_021EE824(void *);extern void func_02012704(void *);extern void func_020307B0(void *);extern void func_020315D4(void *);extern void func_020306F0(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void func_0200F7B8(int);extern void func_0200F83C(void);extern void func_02035544(int);
+struct S020315D4;
+extern void func_021EE824(void *);extern void func_02012704(unsigned char *);extern void func_020307B0(void *);extern void func_020315D4(struct S020315D4 *);extern void func_020306F0(u32);extern u32 func_0200FB24(void);extern int func_0200FBB0(void);extern void func_0200F7B8(int);extern void func_0200F83C(void);extern void func_02035544(int);
 typedef struct {u8 f00;u8 pad[3];void *f04;} Save;
 typedef struct {u16 f00,pad02;u32 f04;Save *f08;u32 f0C,f10,f14,f18;} Ctx;
 int func_021F0694(void *task,int unused,int keep,Ctx *p){int mode;u32 a,b,c;

@@ -25,7 +25,8 @@ extern void func_0201C4C0(int);
 extern void func_021FD714(int);
 extern void func_02025588(int);
 extern void func_021F9BA0(int);
-extern void func_020315D4(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
 int func_021E25E4(int obj,int b,int c,char *p)
 {
     int i;
@@ -39,6 +40,6 @@ int func_021E25E4(int obj,int b,int c,char *p)
     func_021FD714(*(int *)(p+0xc));
     func_02025588(*(int *)p);
     func_021F9BA0(*(int *)(*(char **)(p+0x3c)+0x10));
-    func_020315D4(obj);
+    func_020315D4((struct S020315D4 *)obj);
     return 1;
 }
