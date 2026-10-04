@@ -18,11 +18,12 @@ typedef struct {
     int f4;
 } S;
 
-extern void func_02045334(int a);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *a);
 
 void func_021A9294(int a, S *s)
 {
     if (s->f0 == 1) {
-        func_02045334(s->f4);
+        func_02045334((struct Descriptor *)s->f4);
     }
 }

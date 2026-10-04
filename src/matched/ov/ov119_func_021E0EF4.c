@@ -43,7 +43,7 @@ extern u32 func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
 extern void func_02028470(u8 *,u32);
 extern void func_0201C7A4(void *,s16,s16,void *,void *);
 extern void func_0201F73C(void *,int,u16,int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(struct Cfg *cfg);
 extern void func_02041B6C(u32 bit);
 void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
@@ -62,5 +62,5 @@ void func_021E0EF4(char *p,int flag,int x,int y,int w,int h)
         func_0201C7A4(func_02045770(v),0,0,*(void **)(p+0x738),*(void **)(p+0x728));
     }
     func_0201F73C(v,1,*(u32 *)(p+0x644),15);
-    func_02045334((int)v);func_02045374(v);func_02041B6C(6);
+    func_02045334(v);func_02045374(v);func_02041B6C(6);
 }

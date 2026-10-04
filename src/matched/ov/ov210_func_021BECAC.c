@@ -14,9 +14,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02045334(unsigned v);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *v);
 
 void func_021BECAC(int a, unsigned *p)
 {
-    func_02045334(*p);
+    func_02045334((struct Descriptor *)*p);
 }

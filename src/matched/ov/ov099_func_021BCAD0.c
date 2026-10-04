@@ -30,7 +30,7 @@ typedef unsigned long  u32;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int a, int b);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern int func_020200CC(int);
 extern void func_021BA8EC(char *p);
 extern void *func_021BA8BC(void *p);
@@ -45,7 +45,7 @@ int func_021BCAD0(char *p, int v)
     q = *(int *)(p + 0x1B8);
     if (*(u8 *)(p + 0x1B0) != 0) {
         if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)(p + 0x1AC))) == 0) {
-            func_02045334(*(int *)(p + 0x1AC));
+            func_02045334((struct Descriptor *)*(int *)(p + 0x1AC));
             *(u8 *)(p + 0x1B0) = 0;
         }
     }

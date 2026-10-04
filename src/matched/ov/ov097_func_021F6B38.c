@@ -22,7 +22,7 @@ extern int func_0201C4E4(int);
 extern int func_0201C6C4(int a, int b);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 
 void func_021F6B38(char *p)
 {
@@ -36,7 +36,7 @@ void func_021F6B38(char *p)
         e = p + i * 8;
         if (*(u8 *)(e + 0x24) != 0) {
             if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)(e + 0x20))) == 0) {
-                func_02045334(*(int *)(e + 0x20));
+                func_02045334((struct Descriptor *)*(int *)(e + 0x20));
                 *(u8 *)(e + 0x24) = 0;
             }
         }

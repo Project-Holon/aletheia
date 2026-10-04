@@ -53,7 +53,7 @@ extern void func_021E15F8(void *,void *,int,int,char *);
 extern void func_021E1778(int,int,int,int,char *);
 extern void func_021E0E68(char *,void *,int,int,int,int,u16,int);
 extern void func_021E1CA8(char *p);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(int);
 extern void func_02041B6C(u32 bit);
 void func_021E272C(char *p,int i,void *mon)
@@ -101,8 +101,8 @@ void func_021E272C(char *p,int i,void *mon)
         char *first=p+0x5c4;
         char *second=p+0x5cc;
         long endindex=(long)i*4;
-        func_02045334(*(int *)(first+endindex));
-        func_02045334(*(int *)(second+endindex));
+        func_02045334((struct Descriptor *)*(int *)(first+endindex));
+        func_02045334((struct Descriptor *)*(int *)(second+endindex));
         func_02045374(*(int *)(first+endindex));
         func_02045374(*(int *)(second+endindex));
     }

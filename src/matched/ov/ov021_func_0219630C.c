@@ -65,7 +65,7 @@ extern void func_02045CAC(u32, u32, u32);
 extern u32 func_0201D304(u32, u32, u32);
 extern u32 func_0201D42C(u32, u32);
 extern void func_0201C7A4(u32, s16, s16, u32, u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(u32);
 extern void func_02051C6C(u32);
 extern void func_02041B6C(u32);
@@ -104,7 +104,7 @@ void func_0219630C(int n, u32 *msg, Obj *a, Desc *d, int *xs, int *ys)
             y = 0;
         }
         func_0201C7A4((u32)func_02045770((struct Descriptor *)a->w[i]), x, y, a->x38, a->x2c);
-        func_02045334(a->w[i]);
+        func_02045334((struct Descriptor *)a->w[i]);
         func_02045374(a->w[i]);
     }
     if (a->x24 != 0) {

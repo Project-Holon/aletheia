@@ -21,11 +21,11 @@ typedef signed char    s8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32, u32);
-extern void func_02045334(u32);
+extern void func_02045334(struct Descriptor *);
 
 void func_021BE820(u8 *p)
 {
     func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154)), 0);
-    func_02045334(*(u32 *)(p + 0x154));
+    func_02045334((struct Descriptor *)*(u32 *)(p + 0x154));
 }
 

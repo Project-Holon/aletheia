@@ -29,7 +29,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern void func_021F6B7C(int, int);
 extern void func_021F6CE4(int, int);
 extern void func_021F6D70(int, int);
@@ -52,7 +52,7 @@ void func_021F6A98(int a)
             func_021F6D70(a, i);
             func_021F6EE8(a, i);
         } else {
-            func_02045334(p[8]);
+            func_02045334((struct Descriptor *)p[8]);
         }
     }
 }

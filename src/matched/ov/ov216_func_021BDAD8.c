@@ -21,7 +21,7 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *x);
 extern int  func_0201C6C4(int q, int t);
-extern void func_02045334(int x);
+extern void func_02045334(struct Descriptor *x);
 extern void func_02031194(int a);
 
 void func_021BDAD8(int a, int **b)
@@ -31,7 +31,7 @@ void func_021BDAD8(int a, int **b)
 
     if (s[4]) {
         if (func_0201C6C4(q, (int)func_02045770((struct Descriptor *)*(int *)s)) == 0) {
-            func_02045334(*(int *)s);
+            func_02045334((struct Descriptor *)*(int *)s);
             s[4] = 0;
         }
     }

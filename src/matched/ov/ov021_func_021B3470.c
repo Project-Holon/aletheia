@@ -33,7 +33,7 @@ extern u32 func_0201C6B4(const struct PrintSys *p);
 extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
-extern void func_020409B4(void);
+extern void func_020409B4(u32 index);
 extern s32 func_020200CC(struct Obj *o);
 extern void func_021B3370(char *w);
 
@@ -50,8 +50,7 @@ void func_021B3470(char *p)
         q = *(void **)(p + 364);
         func_02045334(q);
         func_02045374(q);
-        func_02045730(q);
-        func_020409B4();
+        func_020409B4(func_02045730(q));
         *(u16 *)(p + 522) = *(u16 *)(p + 522) + 1;
     }
     r = func_020200CC(*(void **)(p + 420));

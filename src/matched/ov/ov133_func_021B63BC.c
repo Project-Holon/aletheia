@@ -88,7 +88,7 @@ struct Descriptor;
 extern u32 func_021BA20C(u8 *p);
 extern void func_021B9CBC(u8 *,u8 *);
 extern u32 func_0201C6B4(const void *),func_0201C4E4(void *);
-extern void func_02045334(void *),func_02045374(void *);
+extern void func_02045334(struct Descriptor *d),func_02045374(void *);
 extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_0200FB24(void);
 struct Obj;

@@ -48,7 +48,7 @@ extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7D0(u32 a, s16 b, s16 c, u32 d, u32 e, u32 f);
 extern void func_02045808(u32 a);
 extern u32 func_0201C440(u16 heap);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 extern void func_02045374(u32 a);
 extern u32 func_02045730(u32 a);
 extern void func_020409B4(u32 a);
@@ -77,16 +77,16 @@ void func_021B3FA0(char *w)
     *(u32 *)(w + 0x1B0) = func_0201C440(*(u16 *)(w + 4));
     if (*(u8 *)(w + 0x163) == 1) {
         bg = *(u32 *)(w + 0x168);
-        func_02045334(bg);
+        func_02045334((struct Descriptor *)bg);
         func_02045374(bg);
         func_020409B4(func_02045730(bg));
     } else {
         bg = *(u32 *)(w + 0x164);
-        func_02045334(bg);
+        func_02045334((struct Descriptor *)bg);
         func_02045374(bg);
         func_020409B4(func_02045730(bg));
         bg = *(u32 *)(w + 0x168);
-        func_02045334(bg);
+        func_02045334((struct Descriptor *)bg);
         func_02045374(bg);
         func_020409B4(func_02045730(bg));
     }

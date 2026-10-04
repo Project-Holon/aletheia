@@ -34,7 +34,7 @@ extern void func_02045CAC(int,int,int);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,int,int,int,int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(int);
 extern void func_02041B6C(u32 bit);
 void func_021DD90C(u8 *p,int i,int msg,int force)
@@ -53,7 +53,7 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
     msg+=0x72;
     func_02045CAC(*(int *)(p+0x720),msg,*(int *)(p+0x730));
     func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,*(int *)(p+0x730),*(int *)(p+0x728));
-    func_02045334(w);
+    func_02045334((struct Descriptor *)w);
     func_02045374(w);
     func_02041B6C(3);
     (p+i)[0x11e8]=3;

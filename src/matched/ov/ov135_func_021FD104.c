@@ -46,7 +46,8 @@ typedef struct {
 extern const WinDef tbl_02203668[];
 
 extern u32 func_020450F0(u8 bg, u8 x, u8 y, u8 w, u8 h, u8 pal, u16 base);
-extern void func_02045334(u32 v);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32 v);
 extern u32 func_02045730(u32 v);
 extern void func_02041B6C(u32 v);
@@ -70,7 +71,7 @@ void func_021FD104(Menu *p)
             p->win[i] = func_020450F0(d->bg, d->x, d->y, d->w, d->h, 1, 1);
         }
         v = p->win[i];
-        func_02045334(v);
+        func_02045334((struct Descriptor *)v);
         func_02045374(v);
         func_02041B6C(func_02045730(v));
     }

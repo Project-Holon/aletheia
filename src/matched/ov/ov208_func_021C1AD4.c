@@ -72,7 +72,7 @@ extern void func_02045808(struct U16Vec *vec);
 extern void func_0201ED04(struct WordSet *p);
 extern void func_0201C724(u32 a, void *b, u32 c, u32 d, void *e, u32 f, u16 g);
 extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
-extern void func_02045334(u32 p);
+extern void func_02045334(struct Descriptor *p);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
 extern void func_0204B878(u32 obj, u32 anim);
 
@@ -131,7 +131,7 @@ void func_021C1AD4(u16 *heap, u8 *p, int key)
             W(0x2c) = 0;
             func_0201C6EC(W(0x3c));
             func_02043B5C(func_02045770((struct Descriptor *)W(0x1c)), 0);
-            func_02045334(W(0x1c));
+            func_02045334((struct Descriptor *)W(0x1c));
             func_0204B3DC((struct Obj *)W(0xbc), 0);
             func_0204B3DC((struct Obj *)W(0xc4), 0);
             func_0204B3DC((struct Obj *)W(0xc0), 0);

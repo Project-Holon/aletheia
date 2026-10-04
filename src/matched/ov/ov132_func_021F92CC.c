@@ -22,7 +22,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void func_02045334(u32);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *d);
 extern void func_02045374(u32);
 extern void func_020409B4(u32);
 extern u32 func_0201D7EC(int,int,int,int,u32);
@@ -34,7 +35,7 @@ void func_021F92CC(u8 *p)
 {
     int zero;
     *(u32 *)(p+0xd0)=func_020450F0(1,4,20,24,4,15,1);
-    func_02045334(*(u32 *)(p+0xd0));
+    func_02045334((struct Descriptor *)*(u32 *)(p+0xd0));
     func_02045374(*(u32 *)(p+0xd0));
     func_020409B4(1);
     zero=0;

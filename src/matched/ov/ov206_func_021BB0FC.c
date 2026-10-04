@@ -16,7 +16,8 @@
  *   func_02041B6C  0x02041B6C  arm
  */
 
-extern void func_02045334(int);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
 extern void func_02045374(int);
 extern int func_02045730(int);
 typedef unsigned int   u32;
@@ -28,13 +29,13 @@ void func_021BB0FC(void *obj)
 
     if (*(int *)((char *)obj + 8) != 0) {
         p = *(int *)((char *)obj + 0x8c);
-        func_02045334(p);
+        func_02045334((struct Descriptor *)p);
         func_02045374(p);
         func_02041B6C(func_02045730(p));
         return;
     }
     p = *(int *)((char *)obj + 0x90);
-    func_02045334(p);
+    func_02045334((struct Descriptor *)p);
     func_02045374(p);
     func_02041B6C(func_02045730(p));
 }

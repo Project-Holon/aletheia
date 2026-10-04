@@ -20,14 +20,14 @@ typedef unsigned char u8;
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
-extern void func_02045334(int);
+extern void func_02045334(struct Descriptor *);
 
 void func_021B6C90(char *p, int flag)
 {
     if ((u8)(*(u8 *)(p + 0x14) + 0xff) <= 1) {
         if (flag == 0) {
             func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)p), 0xc);
-            func_02045334(*(int *)p);
+            func_02045334((struct Descriptor *)*(int *)p);
         }
         *(int *)(p + 4) = 0;
         *(int *)(p + 8) = 0x10000;

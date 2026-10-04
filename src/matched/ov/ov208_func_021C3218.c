@@ -19,12 +19,13 @@ typedef unsigned int u32;
 extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_021C32FC(u16 *,u8 *,int);
-extern void func_02045334(u32);
+struct Descriptor;
+extern void func_02045334(struct Descriptor *);
 void func_021C3218(u16 *heap,u8 *p,int key)
 {
     func_02049B90(23,5,4,0,0,32,*heap);
     *(u32 *)(p+12)=func_020450F0(6,10,5,12,4,0,1);
     *(u32 *)(p+16)=0;
     func_021C32FC(heap,p,key);
-    func_02045334(*(u32 *)(p+12));
+    func_02045334((struct Descriptor *)*(u32 *)(p+12));
 }

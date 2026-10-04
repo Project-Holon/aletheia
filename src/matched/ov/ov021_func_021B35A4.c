@@ -79,7 +79,7 @@ extern void func_0201C4E4(u32 a);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(u32 a, u32 b);
-extern void func_02045334(u32 a);
+extern void func_02045334(struct Descriptor *a);
 extern void func_020310C4(u32 a);
 extern const u8 d_021D9440[];
 
@@ -179,7 +179,7 @@ int func_021B35A4(u32 a, char *p, u32 c, u32 d)
     func_0201C4E4(*(u32 *)(p + 0x1B0));
     q = *(u32 *)(p + 0x1B0);
     if (*(u8 *)(p + 0x1AC) != 0 && func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1A8))) == 0) {
-        func_02045334(*(u32 *)(p + 0x1A8));
+        func_02045334((struct Descriptor *)*(u32 *)(p + 0x1A8));
         *(u8 *)(p + 0x1AC) = 0;
     }
     func_020310C4(*(u32 *)(p + 0x1B4));

@@ -51,7 +51,7 @@ extern void func_0204B878(u32 obj, u32 anim);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 struct Obj;
 extern void func_0204B3DC(struct Obj *obj, unsigned int on);
-extern void func_02045334(u32 p);
+extern void func_02045334(struct Descriptor *p);
 
 #define W(o) (*(u32 *)(p + (o)))
 
@@ -75,7 +75,7 @@ void func_021C1D30(u16 *heap, u8 *p, int key)
         func_0204B404(W(0xd0), &pt, 0);
         func_0204B3DC((struct Obj *)W(0xd0), 1);
     } else {
-        func_02045334(W(0x18));
+        func_02045334((struct Descriptor *)W(0x18));
         func_0204B3DC((struct Obj *)W(0xd0), 0);
     }
 }

@@ -51,7 +51,7 @@ extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32 a, u32 b);
-extern void func_02045334(u32 win);
+extern void func_02045334(struct Descriptor *win);
 extern u32  func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern int func_0204A298(int a0, int a1, int a2, int a3, u32 *out);
 extern u32  func_02045EC0(u32 msg, u32 id);
@@ -76,7 +76,7 @@ void ov208_func_021C48CC(u16 *heap, struct Ov208Menu *p, int key)
         p->win[i] = func_020450F0(t.d[i][0], t.d[i][1], t.d[i][2], t.d[i][3], t.d[i][4],
                                   t.d[i][5], t.d[i][6]);
         func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[i]), 0);
-        func_02045334(p->win[i]);
+        func_02045334((struct Descriptor *)p->win[i]);
     }
     p->msg = func_02045B38(0, 2, 0xea, *heap);
     p->msg2 = func_02045B38(0, 2, 0xf4, *heap);
