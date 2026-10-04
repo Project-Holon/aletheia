@@ -37,7 +37,8 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02188D2C(int *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(unsigned char *a, V3 *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
 extern int func_021BE480(int a, unsigned b, int c);
 extern void func_021BE4B4(int a, int b, int c, int d);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
@@ -56,7 +57,7 @@ void func_021F37B8(int a)
 
     sys = func_0201210C((void *)a);
     s = func_02188D2C(sys);
-    func_021A3038(func_02188CB4((void *)sys), &v);
+    func_021A3038(func_02188CB4((void *)sys), (struct VecFx32 *)&v);
     *(V3 *)func_021BE480(s, 0, 0) = v;
     func_021BE4B4(s, 0, 0, 0);
     for (i = 0; i < 4; i++) {

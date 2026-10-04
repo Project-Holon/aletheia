@@ -57,7 +57,8 @@ struct BigObj;
 extern u32 func_02012A30(const struct BigObj *p);
 extern u8 func_021A80FC(void *p);
 extern void *func_021BDC94(void *p);
-extern void func_021A810C(void *p, void *q);
+struct VecFx32;
+extern void func_021A810C(unsigned char *p, struct VecFx32 *q);
 extern void func_021A8214(Work *w);
 extern void func_021A7B88(Work *w);
 extern int func_021A7CE8(void *task, int *state, struct Work *w);
@@ -79,7 +80,7 @@ void *func_021A7B20(Args *a)
     w->f0C = a->f14;
     w->f10 = 1;
     w->f14 = 0;
-    func_021A810C(a->f0C, (u8 *)w + 0x1C);
+    func_021A810C(a->f0C, (struct VecFx32 *)((u8 *)w + 0x1C));
     func_021A8214(w);
     func_021A7B88(w);
     return task;
