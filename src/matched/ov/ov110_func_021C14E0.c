@@ -16,7 +16,8 @@
  *   func_021C0C50 0x021C0C50 thumb ov110
  */
 typedef unsigned char u8;
-extern void func_021C0B44(void *);
+struct TaskMenu;
+extern void func_021C0B44(struct TaskMenu *);
 extern u8 func_020355C4(void);
 extern void func_02023F60(unsigned, unsigned, unsigned);
 extern void func_021C09E0(u8 *);
