@@ -41,7 +41,8 @@ extern u32 func_0201CE30(u32);
 extern void func_02040618(u32 layer, u32 a, u32 b);
 extern u32 func_021927F8(u32 *);
 extern u32 func_02194990(u32, u32);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_021927FC(u32 *, u32, u32);
 extern void func_02045334(u32);
 extern u32 func_02193228(u32);
@@ -77,7 +78,7 @@ u32 func_02191388(u32 *a)
     case 0:
         if (func_021927F8(a + 3) == 1) {
             w = func_02194990(a[2], *((u8 *)a + 1));
-            func_021927FC(a + 3, func_02045770(w), 15);
+            func_021927FC(a + 3, (u32)func_02045770((struct Descriptor *)w), 15);
             func_02045334(w);
         }
         if (func_02193228(a[5] + 0x160) != 0) {
@@ -88,7 +89,7 @@ u32 func_02191388(u32 *a)
         break;
     case 1:
         w = func_02194990(a[2], *((u8 *)a + 1));
-        c = func_02045770(w);
+        c = (u32)func_02045770((struct Descriptor *)w);
         if (func_0219320C(a[5] + 0x160) == 0) {
             func_021928C0(a + 3, c, 15);
         }

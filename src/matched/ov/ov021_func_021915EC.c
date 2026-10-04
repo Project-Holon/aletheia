@@ -42,12 +42,13 @@ typedef struct R {
     u16 f28;
 } R;
 
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_020409B4(u32 a);
 
 void func_021915EC(R *r)
 {
-    func_02043B5C(func_02045770(r->f18), 0xFF);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)r->f18), 0xFF);
     func_020409B4((u8)r->f0c->f02);
 }
