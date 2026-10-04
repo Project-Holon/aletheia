@@ -19,7 +19,8 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef struct Position { s16 x, y, z; u8 a, b; } Position;
 extern void func_02082BCC(void *, int, unsigned int);
-extern void *func_0204B294(void *, void *, void *, void *, Position *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -34,7 +35,7 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
     pos.x = x;
     pos.y = y;
     pos.z = 10;
-    *(void **)p = func_0204B294(manager, *(void **)(q + 4), *(void **)(q + 8), *(void **)q, &pos, 0, heap);
+    *(void **)p = func_0204B294(manager, (unsigned int)*(void **)(q + 4), (unsigned int)*(void **)(q + 8), (unsigned int)*(void **)q, &pos, 0, heap);
     func_0204B688(*(void **)p, 1);
     pos.z = 0;
     base = x;
@@ -44,7 +45,7 @@ void func_021DE084(char *p, void *manager, const char *q, unsigned int value, s1
         pos.x = base + i * 16;
         pos.y = y;
         slot = p + i * 4;
-        *(void **)(slot + 4) = func_0204B294(manager, *(void **)(q + 4), *(void **)(q + 8), *(void **)q, &pos, 0, heap);
+        *(void **)(slot + 4) = func_0204B294(manager, (unsigned int)*(void **)(q + 4), (unsigned int)*(void **)(q + 8), (unsigned int)*(void **)q, &pos, 0, heap);
         func_0204B688(*(void **)(slot + 4), 1);
     }
     func_021DE15C(p, value);

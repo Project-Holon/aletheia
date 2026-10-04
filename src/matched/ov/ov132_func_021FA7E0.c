@@ -38,7 +38,7 @@ extern void *func_0204B100(int,u8,u32),*func_020490F4(u32,u16);
 struct Obj;
 extern void func_0204B270(void *),func_02049238(void *),func_0204B3DC(void *,u32),func_0204B92C(struct Obj *,u32);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_021FA99C(u8 *,unsigned,int,int);
 void func_021FA7E0(char *p)
 {
@@ -72,16 +72,16 @@ void func_021FA7E0(char *p)
             configs[1].index=i;
             configs[1].a=10;
             configs[1].b=0;
-            *(void **)(p+i*4+0x4c)=func_0204B294(*(u32 *)(p+0x18),*(u32 *)(p+0x28),*(u32 *)(p+0x1c),*(u32 *)(p+0x34),(u32)&configs[1],1,*(u16 *)p);
+            *(void **)(p+i*4+0x4c)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x28),*(u32 *)(p+0x1c),*(u32 *)(p+0x34),&configs[1],1,*(u16 *)p);
             configs[1].index=0;
-            *(void **)(p+i*4+0x54)=func_0204B294(*(u32 *)(p+0x18),*(u32 *)(p+0x2c),*(u32 *)(p+0x20),*(u32 *)(p+0x38),(u32)&configs[1],1,*(u16 *)p);
+            *(void **)(p+i*4+0x54)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x2c),*(u32 *)(p+0x20),*(u32 *)(p+0x38),&configs[1],1,*(u16 *)p);
             func_0204B3DC(*(void **)(p+i*4+0x4c),0);
             func_0204B3DC(*(void **)(p+i*4+0x54),0);
             func_021FA99C((u8 *)p,i,*(u16 *)(p+i*2+0x48),format);
         }
     }
     configs[0].x=128; configs[0].y=96; configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    *(void **)(p+0x5c)=func_0204B294(*(u32 *)(p+0x18),*(u32 *)(p+0x30),*(u32 *)(p+0x24),*(u32 *)(p+0x3c),(u32)&configs[0],1,*(u16 *)p);
+    *(void **)(p+0x5c)=func_0204B294((void *)*(u32 *)(p+0x18),*(u32 *)(p+0x30),*(u32 *)(p+0x24),*(u32 *)(p+0x3c),&configs[0],1,*(u16 *)p);
     func_0204B3DC(*(void **)(p+0x5c),0);
     func_0204B92C(*(void **)(p+0x5c),1);
 }

@@ -20,7 +20,8 @@ typedef unsigned short u16;
 
 typedef struct { u16 a, b, c, d; } Rect;
 
-extern int func_0204B294(int, int, int, int, Rect *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
 extern const Rect d_021BA84C;
@@ -31,7 +32,7 @@ void func_021B7070(int *p, int *out)
     int h;
 
     r = d_021BA84C;
-    h = func_0204B294(p[0x14 / 4], p[0x54 / 4], p[0x50 / 4], p[0x58 / 4], &r, 1, 0x61);
+    h = (int)func_0204B294((void *)p[0x14 / 4], p[0x54 / 4], p[0x50 / 4], p[0x58 / 4], &r, 1, 0x61);
     func_0204B92C((struct Obj *)h, 1);
     *out = h;
 }

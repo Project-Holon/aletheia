@@ -22,7 +22,7 @@ struct Obj;
 extern const struct Entry d_021C2EFC;
 extern unsigned func_021BA3D8(void *,unsigned);
 extern unsigned func_021BA3D0(void *,unsigned);
-extern unsigned func_0204B294(unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_0204B3DC(struct Obj *,unsigned);
 void func_021BAA48(char *p)
 {
@@ -34,6 +34,6 @@ void func_021BAA48(char *p)
     second=func_021BA3D0(p,d_021C2EFC.second);
     third=func_021BA3D0(p,d_021C2EFC.third);
     fourth=func_021BA3D0(p,d_021C2EFC.fourth);
-    *(unsigned *)(p+0x7c)=func_0204B294(first,second,third,fourth,(unsigned)&vec,d_021C2EFC.arg,*(u16 *)(p+4));
+    *(unsigned *)(p+0x7c)=(unsigned)func_0204B294((void *)first,second,third,fourth,&vec,d_021C2EFC.arg,*(u16 *)(p+4));
     func_0204B3DC(*(struct Obj **)(p+0x7c),0);
 }
