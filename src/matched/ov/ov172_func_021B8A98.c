@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern char *func_021BDFFC(void *);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 p);
 extern void func_021B6E88(char *p, void *q);
 
@@ -27,7 +28,7 @@ void func_021B8A98(int a, u32 b, char *list, char *q)
     u8 n, i;
     p = func_021BDFFC(*(void **)(q + 0x3dc));
     n = (b >> 3) & 0xff;
-    func_0203D1A4(func_020399A8());
+    func_0203D1A4((u32)func_020399A8());
     for (i = 0; i < n; i++)
         func_021B6E88(p, list + i * 8);
 }

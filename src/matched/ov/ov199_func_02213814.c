@@ -16,9 +16,9 @@
  *   func_02005E30 0x02005E30 thumb
  */
 struct Obj0203159C;
-extern void func_0203064C(void *,unsigned,unsigned);
+extern void func_0203064C(unsigned,unsigned,unsigned);
 extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_02031324(int);
 extern void func_02005E30(unsigned);
-int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;func_0203064C((void *)1,88,336);r=func_0203159C(p,16,88);func_02082BCC(r,0,16);*(int *)(q+12)=0;*(void **)r=func_02031324(88);func_02005E30(16);return 1;}
+int func_02213814(struct Obj0203159C *p,int unused,char *q){void *r;func_0203064C(1,88,336);r=func_0203159C(p,16,88);func_02082BCC(r,0,16);*(int *)(q+12)=0;*(void **)r=func_02031324(88);func_02005E30(16);return 1;}
