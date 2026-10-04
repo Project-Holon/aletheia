@@ -17,7 +17,7 @@
  *   func_020071F0 0x020071F0 thumb
  */
 typedef unsigned short u16;
-extern void func_0203064C(void *,unsigned,unsigned);
+extern void func_0203064C(unsigned,unsigned,unsigned);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082A7C(unsigned,void *,unsigned);
 typedef unsigned char  u8;
@@ -33,7 +33,7 @@ int func_021B95A0(void *owner,int unused,void **args)
     void *context;
     char *p;
     context=*args;
-    func_0203064C((void *)1,84,1<<18);
+    func_0203064C(1,84,1<<18);
     p=func_0203159C(owner,76,84);
     func_02082A7C(0,p,76);
     *(u16 *)p=84;
