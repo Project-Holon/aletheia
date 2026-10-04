@@ -15,6 +15,11 @@
  *   mine `bne; movs 1; movs 0` for `(ra == 0) ? 1 : 0` and `ra ? 0 : 1`; branch B matches with `fl = 0; if (rb == 0) fl = 1;`.
  *   Levers found: raw id kept in r6 for BE0/store/BC8 while BD4 result is a second variable; BE0 result in a temp before C98;
  *   locals in function scope; t0 = q->f0->f0 read before the f8 = 1 store.
+ * note 2026-10-04 (wD2 lane07): residue (1) fixed by writing `q->f8 = 1;` at the top of each arm (statement repeated per arm, cmp now
+ *   precedes the store). Remaining: (2) slot order. With decl `cb, ca, g` slots are g 8, ca 0xc, cb 0x10 (g takes the first slot
+ *   whatever its declaration position; ca/cb follow reverse declaration order); original is cb 8, ca 0xc, g 0x10, ra 0x14, so g must
+ *   not be the first spilled local. (3) branch A flag `ra == 0 ? 1 : 0`: original `ldr r0,[sp,#0x14]; cmp; beq; movs 0; b; movs 1`,
+ *   mine `bne; movs 1; movs 0`. The `fl = 0; if (ra == 0) fl = 1;` form (as in branch B) grows the code (extra movs) and is worse here.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_020056A0 0x020056A0 thumb
@@ -60,8 +65,8 @@ Q *func_021BB854(Owner *p, Data *data)
     *(u16 *)((char *)q->f0 + 0x10) = 0;
     q->f4 = data;
     t0 = q->f0->f0;
-    q->f8 = 1;
     if (t0 == 0) {
+        q->f8 = 1;
         g = q->f0->f4;
         ca = func_021B9C34(q->f4->f2C, g);
         q->fC = 0;
@@ -81,6 +86,7 @@ Q *func_021BB854(Owner *p, Data *data)
             }
         }
     } else {
+        q->f8 = 1;
         cb = func_021B9C20(q->f4->f2C);
         q->fC = 0;
         q->f10 = func_02030734(q->f4->f4, cb * 8, 1, d_021BC05C, 0xB2);

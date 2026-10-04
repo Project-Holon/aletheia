@@ -34,6 +34,14 @@
  *
  * Addresses are Black-image addresses.
  */
+/*
+ * 2026-10-04 (wave D2 lane03): DIFF, still 14 of 256 bytes. Slot analysis: original spill slots
+ * are tmp(f1eac, first spill)=0x0C, v(D304 result)=0x14, val=0x10; mine tmp=0x14, v=0x0C, val=0x10.
+ * Tried: no tmp local (f1eac nested in the call) = 214 bytes worse (changes argument order);
+ * v and val folded into one block-local = same worse; dead early stores `v = 0; val = 0;` to move the
+ * virtual register order = no change; `v = a0->f1eac; tmp = v;` = no change.
+ * The late `ldr r2,[sp,#0x10]` before the second 0201C724 is a separate scheduling residue.
+ */
 
 typedef struct {
     int f0;

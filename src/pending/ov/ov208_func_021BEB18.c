@@ -8,6 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-04 (wD2 lane19): also tried ctx as a one-field struct by value and as u32 with casts: no change (frame 0x74/0x78 vs 0x70,
+ *   ctx still in r7). Residue unchanged: image stores ctx back to [sp,#0x88] at entry and keeps state at [sp,#0x34], r7 free.
  * symbols:
  *   func_021BC3B4 0x021BC3B4 thumb
  *   func_021BC3B8 0x021BC3B8 thumb

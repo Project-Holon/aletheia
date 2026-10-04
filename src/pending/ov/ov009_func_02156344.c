@@ -19,6 +19,10 @@
  *   The old note had the switch mapping wrong: 0,1,5,default -> 4; 2 -> 1;
  *   3 -> 2; 4 -> 3, and case 5 needs its own arm (the table's lone `b`).
  *
+ * 2026-10-04 (wave D2 lane 04): unit header of ov009_func_021562EC.c corrected to list
+ * func_021562EC, func_0215631C, func_02156330 (shard needs regen by the integrator).
+ * The remaining blocker is 0x021AF18C in ov013 (pengy's overlay, not touched).
+ *
  * symbols:
  *   g_021A8264  0x021A8264  data  ov009  a4
  *   func_0215631C  0x0215631C  thumb  ov009

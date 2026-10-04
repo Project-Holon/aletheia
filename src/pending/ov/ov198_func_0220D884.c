@@ -20,6 +20,13 @@
  *   func_02211AFE  0x02211AFE  thumb  ov198
  */
 /*
+ * 2026-10-04 (wave D2 lane03): DIFF, unchanged (148 vs 156). Also tried p+i*8+K at each use with no q
+ * local: identical output. Analysis: q (p+i*8) is live from the first load to the strb in one branch, so it
+ * interferes with the 0x4C product m. The original gives m a callee-saved register (r7, `adds r7,r0,#0;
+ * muls r7,r1,r7`) and spills q; mine gives q r7 and the product a scratch. Something keeps m's live range
+ * long or heavy in the original (m used across a call is the likely reason).
+ */
+/*
  * 2026-10-04 (wave D1 lane07): DIFF, 148 bytes vs 156. Logic believed correct.
  * Residue: the original keeps two stack temps ([sp,#4] = p+i*8, [sp,#8] = 0x1F74-4 hoisted
  * before the loop) and a callee-saved r7 for the idx*0x4C product, so frame is 0xC with no

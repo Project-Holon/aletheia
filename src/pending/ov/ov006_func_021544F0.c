@@ -22,6 +22,11 @@
  * Prototype evidence: 02031324 and 02031348 forward all registers to
  * 02031354(int) and 020314F4(obj,u32,u32,u32); 0200F7B8 receives the
  * explicitly loaded zero despite its legacy void declaration.
+ * 2026-10-04 note (wave D2 lane 15): still MATCH, bytes identical. Unresolved after re-run:
+ * THM_CALL func_021C2850 (ov099 hint present, but 021C2850 is a Thumb veneer in ov099, 64 bytes
+ * incl. data, no matched witness exists) and six single-use overlay-id words (ov008 0x8,
+ * ov119 0x77, ov127 0x7f, ov134 0x86, ov172 0xac, ov195 0xc3) with no witness outside this
+ * function. Nothing left to change in the C.
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02026454 0x02026454 thumb

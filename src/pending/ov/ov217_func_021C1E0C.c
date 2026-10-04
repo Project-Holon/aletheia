@@ -33,6 +33,11 @@
  *   _fmul          0x0209C77C  arm
  *   _fgr           0x0209BBB0  arm
  *
+ * Note 2026-10-04 (wD2 lane04): checked the order again. The original stores r (the fdiv result)
+ * to sp+4 right after the call, then does three separate reload groups of o from sp+8
+ * (ldr; str ox; add; str ox / ldr; str oy; add; str oy / ldr; add; str o). This draft reloads o once
+ * (ldr r1,[sp,#8]) and derives all three offsets from r1 before spilling r. Declaring oy, ox, o, r in
+ * that order (to match slots 0x10, 0xc, 8, 4) made it worse (238 bytes differ).
  * Note 2026-10-04 (wD1 lane06): Not retried (float loop, see note above).
  */
 

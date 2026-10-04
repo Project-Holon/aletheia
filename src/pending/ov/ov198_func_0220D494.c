@@ -32,6 +32,16 @@
  * Re-verified (DIFF fixer): still 391 concrete bytes; all 15 relocations
  * resolve, so it is a frame-packing/allocation residue, not evidence.
  */
+/*
+ * 2026-10-04 (wave D2 lane03): DIFF, unchanged. Reading of the original frame: 16 words (0x40), mine 17.
+ * Original keeps base1 = p+0x1F70 at [sp,#0x1C] and base2 = p+0x1F74 at [sp,#0x28] (two separate hoists,
+ * one for the handle load, one for the flag strb); w1 stays at [sp,#0x24] and is reloaded in block 3
+ * (`adds r2,r7,r2`); in block 3 the f1eac load lands in r4 (the pool register is dead by then:
+ * `subs r4,#0xc4; ldr r4,[r5,r4]` after the handle load, before the 02045770 call) so block 3 needs no
+ * f spill slot. Blocks 1 and 2 spill f to 0x18 and 0x14. Mine spills w1 and uses a different slot set.
+ * Next idea: model slot records as `struct {u32 h; u8 flag;} *s = (p+0x1F70)` with `s[a1].h` read and
+ * `s[a1].flag` written, and read f1eac after the handle in block 3 only.
+ */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;

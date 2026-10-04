@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-04 wD2 lane01: still 136 bytes. Also tried iabs() inline helper form with pa->x re-read in the loop (119 bytes, code 142 vs 160) and ax..by locals with iabs (122); a[i] via byte offset `off = i*8` (same as draft). Original is 8 bytes longer than any variant: it copies sum with `movs r3,#0` ... `adds r0,r3,#0` before the divide and loads a from [sp] twice in the loop.
  * note 2026-10-04: structure matches (four diffs computed before the abs tests, unsigned d1/d2 compare,
  *   u16 d, weights 100/80/50/30, _u32_div_f by 9). Residue is colouring only: original keeps sum in r3,
  *   i in r1, a+i*8 in r0, pa->x in ip, prologue loads pa/pb first; ours puts sum in r0 and orders spills

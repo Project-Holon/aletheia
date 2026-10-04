@@ -17,6 +17,11 @@
  * 0x304C/0x3050 as base-0x10/-0xc; ours reuses the register and loads a separate
  * 0x304C constant, so the pool gets one extra word (+4 shift in later pool refs).
  * Tried: ternary, if/else, local v, a u32 *q = p+0x305C with q[-4]/q[-3] (size worse).
+  *
+ * note 2026-10-04 (lane 20, D2): also tried `unsigned off = 0x305C;` with *(u16 *)(p + off) and
+ * (p + (off - 0x10)) / (off - 0xC): still 35 bytes, size equal; the compiler folds off and derives
+ * 0x304C/0x3050 from a separate pool constant. The original keeps r1 = 0x305C live, so the offset is
+ * a non-foldable value (same shape as ov223 021BB18C where r4 = 0x240 is kept and 0x234 = r4 - 0xc).
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

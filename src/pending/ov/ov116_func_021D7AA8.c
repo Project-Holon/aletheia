@@ -14,6 +14,11 @@
  *   func_021C9634 0x021C9634 arm ov114
  *   func_021D70E4 0x021D70E4 thumb ov116
  */
+
+/*
+ * 2026-10-04 (wave D2 lane05): MATCH, rechecked: one relocation unresolved, func_021C93D0 (ov114 ARM, same leaf as in func_021D70EC). Blocked on a matched witness for that leaf; ov114 belongs to pengy.
+ */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;

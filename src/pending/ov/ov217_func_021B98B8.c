@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   MATCH
  *
+ * Note 2026-10-04 (wD2 lane12): byte-correct; 11 of 12 relocations resolved. Residue: d_021C2E60 ABS32, tool says the ov217 hint is contested (another overlay in the window starts an object at 0x021C2E60) and this function has no overlay_id site. Needs a tool-side hint for that address, no C change.
+ *
  * blocker:  byte-correct; caps at MATCH because 0x021C2E30 (and 0x021C2E60
  *           under the contested ov217 hint) are data targets whose only
  *           pool word image-wide is the one inside this range, so no

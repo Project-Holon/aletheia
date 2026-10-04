@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  relocation witness (label/sole-ref): callees 0x02060F18 and 0x02060F40 have no outside witness
+ * blocker:  relocation witness (label/sole-ref): callee 0x02060F18 has no outside witness
+ * 2026-10-04: 0x02060F40 now EXACT in src/matched/arm9/func_02060F40.c. 0x02060F18 (an
+ * ARM setter, bit 0 of the halfword at +0x36) is parked DIFF in
+ * src/pending/arm9/func_02060F18.c (13 bytes: and-sink scheduling). Bytes here are correct.
  *
  * symbols:
  *   d_021A8268  0x021A8268  data  ov009  a4

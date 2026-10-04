@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Fifteen-entry dispatch on a small selector: 0 through 6 answer 0, 7 through 14 answer 1.
  */

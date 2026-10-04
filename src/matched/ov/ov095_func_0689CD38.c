@@ -1,9 +1,6 @@
 /*
  * unit:     yes
- * function: func_0689CD38
- * function: func_0689CD40
- * function: func_0689CD48
- * function: func_0689CD50
+ * function: func_0689CD38, func_0689CD40, func_0689CD48, func_0689CD50
  * address:  0x0689CD38
  * packet:   pkt_ov095_0689CD38
  * region:   ov095

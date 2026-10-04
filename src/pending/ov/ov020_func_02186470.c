@@ -9,6 +9,10 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-04 (wD2 lane 02): same residue, 15 bytes (pure r4/r5 colour swap of a0 and id, plus the 02013DE0 leaf
+ * has no witness). Also tried: u16 id (86 bytes worse), id & 0xFFFF, a u32 id16 local, no q local, e outside the
+ * loop, func_020127A4(a0) as a one-argument call. a0 should get the lower colour; the draft gives id the lower one.
+ *
  * symbols:
  *   func_020127A4  0x020127A4  thumb
  *   func_02012AC8  0x02012AC8  thumb

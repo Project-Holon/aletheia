@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * 2026-10-04 (wD2 lane 09): bytes are identical; only ABS32 +0124 (func_02154668) is open.
+ * 02154668 is a Thumb veneer (ldr r3,[pc]; bx r3) and 3 overlays overlap it (ov000, ov001, ov006).
+ * Tried ov000 and ov010 on the symbols line: still no outside witness.
  *
  * Byte-correct; two sites stay wildcarded:
  *   +0130 ABS32 abs_id_124 (0x7C): a pooled overlay id (ov124, whose

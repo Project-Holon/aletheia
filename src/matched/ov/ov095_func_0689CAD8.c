@@ -1,13 +1,6 @@
 /*
  * unit:     yes
- * function: func_0689CAD8
- * function: func_0689CAE0
- * function: func_0689CAEC
- * function: func_0689CB08
- * function: func_0689CB14
- * function: func_0689CB18
- * function: func_0689CB1C
- * function: func_0689CB2C
+ * function: func_0689CAD8, func_0689CAE0, func_0689CAEC, func_0689CB08, func_0689CB14, func_0689CB18, func_0689CB1C, func_0689CB2C
  * address:  0x0689CAD8
  * packet:   pkt_ov095_0689CAD8
  * region:   ov095

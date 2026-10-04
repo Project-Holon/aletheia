@@ -9,6 +9,7 @@
  * isa: thumb
  * status: MATCH
  * blocker: ov021 0x021CF59C unlabelled overlay-ID thunk, owned by Ilias.
+ * note (2026-10-04, wD2 lane07): re-verified MATCH: the only wildcard is the ov021 callee 021CF59C (no label witness). It is a 12-byte ARM-style thunk inside the ov021_func_021CF580 extent (ldr r1,[pc]; ldr r3,[pc]; bx r3 with r1 = 0x4B, target func_021CF564): veneer-like, not C. Needs a label in layout.
  * symbols:
  *   d_021F5BC8 0x021F5BC8 data a4
  *   func_02189A08 0x02189A08 thumb ov021

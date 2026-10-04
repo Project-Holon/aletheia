@@ -16,6 +16,11 @@
  *   of ty and y (ty first matches the first store), ty+=2,y++ increment order (matches),
  *   operand orders of the (hy*4 + hx) sum.
  *
+ * 2026-10-04 (wD2 lane 02): improved from 8 to 7 differing instructions: `((i >> 3) << 2) + (tx >> 3)` fixes the add operand order
+ * (the `* 4` form compiled to adds r2,r7,r2). Residue: ty and v swap spill slots (original ty=sp+0x10, v=sp+0xc).
+ * Declaration order of ty/v/i/t does not move the slots (tested seven placements); v inline, u16 t, and moving the ty
+ * initialisation out of the for header all make it worse.
+ *
  * symbols:
  *   func_02007A18  0x02007A18  thumb
  *   func_02017DBC  0x02017DBC  thumb
@@ -68,7 +73,7 @@ void func_021EDC0C(int **a, u32 box, u8 *dest)
                 t = (u16)(t + 16);
                 v = (t << 8) | t;
                 for (i = ty; i < ty + 2; i++)
-                    func_02082A48(v, dest + ((((i & 7) << 3) + (((i >> 3) * 4 + (tx >> 3)) << 6)) + (tx & 7)), 2);
+                    func_02082A48(v, dest + ((((i & 7) << 3) + ((((i >> 3) << 2) + (tx >> 3)) << 6)) + (tx & 7)), 2);
             }
             func_02017DE4(e, sv);
         }

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * 2026-10-04 (wD2 lane 09): bytes are identical; only +002A and +0032 are open:
+ * calls to unlabelled arm9 02035010 and 02035040 (no witness).
+ * A separate arm9 label lane must label them; nothing left in this source.
  *
  * Blocked: func_02035010 and func_02035040 (arm, unlabelled arm9 leaves, EL_GetGlobalAdr
  * wrappers per sdk_class.json) have no witness outside this range; both are Ilias's.

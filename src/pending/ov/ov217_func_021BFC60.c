@@ -34,6 +34,11 @@
  *
  * Addresses are Black-image addresses.
  *
+ * Note 2026-10-04 (wD2 lane04): n, i, first now sit in the original slots (declare `int n` before
+ * `i`, then `first`; 195 bytes differ). Left: the u8 c1 spill (original sp+8, the last slot, below the four
+ * loop pointer temps at 0x18..0xc; here 0x18), k lives in memory (sp+4), and buf+3 is formed as
+ * `add r1,sp,#0x28; adds r1,#3` then reg+reg (here folded to [r0,#3]); a two-array struct
+ * {u8 a[3]; u8 b[3]} did not change that.
  * Note 2026-10-04 (wD1 lane06): Not retried (203 bytes, stack slot order only). No new finding.
  */
 
@@ -62,10 +67,11 @@ void func_021BFC60(char *p)
     u32 va[3];
     u32 vb[3];
     u8 buf[6];
+    int n;
+    int i, j, k;
     void *h;
     u8 first;
     u8 c0, c1, c2;
-    int i, j, k;
     func_021BF740(p);
     func_02012EBC();
     h = func_0200E394();
@@ -88,7 +94,7 @@ void func_021BFC60(char *p)
     vb[2] = func_0200E47C(h, c2);
     for (i = 0; i < 3; i++) {
         u8 g = buf[3 + i];
-        int n = buf[i];
+        n = buf[i];
         for (j = 0; j < n; j++) {
             sh[i][j] = d_021C3D44[g][j];
             A[i][j] = func_0200E4B0(h, g, j + 1);

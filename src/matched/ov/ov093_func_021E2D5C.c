@@ -1,7 +1,6 @@
 /*
  * unit:     yes
- * function: func_021E2D5C
- * function: func_021E2DB4
+ * function: func_021E2D5C, func_021E2DB4
  * address:  0x021E2D5C
  * packet:   pkt_ov093_021E2D5C
  * region:   ov093

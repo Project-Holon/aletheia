@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH*
+ * note 2026-10-04 wD2 lane01: still MATCH*. The only unresolved site is func_021BBA94 (+006C): its extent is larger than 021BBA94..021BBAD4 (64 bytes shown, stale inner label) and needs its own ov172 witness file. Not in lane 01; a lane that owns 021BBA94 closes this.
  * blocker: func_021BBA94 ov172 lacks an outside witness; larger body
  * extends past stale inner label 021BBAD4. No split frees the only call.
  * Extent remainder: zero alignment halfword at 021BDD6A.

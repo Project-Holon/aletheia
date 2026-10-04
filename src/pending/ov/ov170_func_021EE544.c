@@ -15,6 +15,10 @@
  *   struct g, g[0]/g[1] into locals before/after the call, u8 callee prototype, struct vs byte
  *   table, t+i*12 forms, e=&t[i] before/after the branch. Branch/pool order already matches.
  *
+ * 2026-10-04 (wD2 lane 02): still 6 bytes. Also tried: g as an E-typed table (g->a/g->b), x/y locals read from e
+ * before the call, tx/ty locals read before the call, callee parameters declared u32, const g, a G{x,y} struct.
+ * All give the same order (ty, e->a, e->b, tx). The original loads tx before e->a and e->b.
+ *
  * symbols:
  *   func_021EEFA4  0x021EEFA4  thumb
  *   d_021F0188  0x021F0188  data

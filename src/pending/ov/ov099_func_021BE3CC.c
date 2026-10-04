@@ -11,6 +11,8 @@
  *
  * note (2026-10-04): DIFF, 120 vs 124 bytes, same instruction mix. Semantics and the four spill slots (x=sp+8, ptr=sp+0xc, stride=sp+0x10, row=sp+0x14, set by reverse declaration order) now match. Residue: register colouring (original p=r4, base=r5, ours p=r5, base=r4), original stores b,c to the stack before loading base, and uses r2/r1 temps instead of r0 for the row/stride math. Declaration-order variants of i/j did not change it.
  *
+ * note (2026-10-04, lane17): lane17 wave D2: re-read, no new change. Same residue (colouring p/base swap, early b,c stack stores).
+ *
  * symbols:
  *   func_021BE4EC  0x021BE4EC  thumb  ov099
  *   func_02042FB0  0x02042FB0  arm

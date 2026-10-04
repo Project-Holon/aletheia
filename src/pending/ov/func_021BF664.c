@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-04 (D2-16): tried the dst store as one expression (b<<10 | g<<5 | r, each channel inline) and A, g, B, r, b statement order:
+ * 135 and 135 bytes out, still 288 vs 292 bytes. Statement order does not move the scheduler. The image spills gA, b<<10 and a
+ * second 0x7c00; we spill rA/bA. Image order: A load, gA, B load, rA, bA, bB, b lerp, rB, gB, g lerp, r lerp.
  *
  * Near miss, 288 compiled vs 292 original, ~148 bytes differ.  The two
  * external calls and the tbl_020A1B38 ABS32 all resolve.  The residual is the

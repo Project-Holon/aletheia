@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-04 wD2 lane01: still 186 bytes. Original spills r3 (x0) and r2 (p) first at entry and re-reads x0 from [sp,#4] at every use; ours copies x0 to r1. Tried `*(int *)&x0` at each use: forces a `push {r0-r3}` prologue (107 bytes diff, 214 bytes), so x0 is an allocator spill, not address-taken. Also `*(u8 **)&p` (worse).
  * note (2026-10-04): draft is logic-correct (186 byte diff, 206 vs 208 bytes). Residue: original keeps x0 and p
  *   purely on the stack (str r3,[sp,#4] first; x0 reloaded each use) and holds y1,y0 in r4,r5 across the
  *   float-round calls, re-reading y0 from the stack arg in the loop pre-header; mine copies x0 to r1 and

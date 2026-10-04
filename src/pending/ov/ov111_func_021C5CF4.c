@@ -15,6 +15,12 @@
  * (strb [dst,idx], dst at sp+0x10). Ours also hoists dst+yo and spills dst at sp+0.
  * Tried: continue vs combined || conditions, nested ifs, idx association orders,
  * yb/yo locals. None changed the allocation.
+  *
+ * note 2026-10-04 (lane 20, D2): extra residue facts from the listing. In the original every
+ * rejection test branches to a short `b skip` (xx<0 via `adds; bmi`, then `cmp yy; bge next; b skip`),
+ * sel (param 8) is loaded once into r7 and never re-spilled while w, h, mode are reloaded from
+ * their stack slots; v lives in r2 (strb r2,[dst,idx]), j in ip, n in r4, k in r3, yy in r6.
+ * Ours spills all stack params, uses r7 for v and branches directly. Not retried this lane.
  */
 typedef unsigned char u8;
 void func_021C5CF4(u8 *dst, const u8 *src, int x, int y, int w, int h, int mode, int sel)

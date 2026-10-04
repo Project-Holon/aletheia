@@ -22,10 +22,11 @@
  *   func_02014184  0x02014184  thumb
  *   func_0218466C  0x0218466C  thumb  ov020
  *
- * 2026-10-04: DIFF, compiled 172 bytes vs 164. Semantics read from the listing (alloc node, if id kind==1 add
- * (rot & 7 - func_02012B58 + 0x902 field) << 22 to pos.x, init, store zeros at +0x2C/+0x40). Residue: the original
- * spills id/node/ctx ([sp,#8]/[sp,#0xc]/[sp,#0x10]) and keeps owner r4, r r5, x r6, e r7; this draft keeps id in r7 and
- * spills e. Tried: bitfield lo:3 for the &7 (lsls/lsrs #0x1d matches), z=0 local for the zero stores.
+ * 2026-10-04 (wD2 lane 02): improved from 172 to 164 bytes (size now matches): func_02014184 takes a u32 id (the
+ * original passes the spilled id with no halfword truncation). 18 bytes differ now, all one pattern: owner/r colours
+ * swapped (original owner=r4, r=r5; draft owner=r5, r=r4), plus one asrs/ldr ordering at the 02014184 call setup.
+ * Tried: r declared after z and assigned just before the branch (same), r declared first (worse), v.x update moved
+ * inside the e != 0 block (much worse). Earlier: bitfield lo:3 for the &7, z=0 local for the zero stores.
  */
 
 typedef unsigned char  u8;
@@ -49,7 +50,7 @@ extern int func_02158344(int a0);
 extern u8 func_02012B58(const void *p);
 extern void func_02184CEC(void *a, void *b);
 extern int func_020142A4(int a);
-extern void func_02014184(void *r, u16 id, s16 count, u32 a, u32 b, u32 c);
+extern void func_02014184(void *r, u32 id, s16 count, u32 a, u32 b, u32 c);
 extern void func_0218466C(void);
 
 void *func_02185588(void *owner, u32 id, const V3 *pos)

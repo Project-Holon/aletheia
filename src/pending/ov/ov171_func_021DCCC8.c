@@ -14,6 +14,9 @@
  * Declaration order did not change the slot order. Also the p+0xB4 operand: original
  * computes (p+0xB4) fresh then +r; compiled adds r first. Spelling p+0xB4+r hoists p+0xB4
  * into a spill (worse). Callee prototypes guessed (all thumb except func_020457B0).
+ * 2026-10-04 (wD2 lane19): original temps by slot (low to high): d(p+0xC+r) @0, e(p+i*0xBC) @4, o @8, c @0xc, j @0x10.
+ *   Declaring j,c,o,e,d,i,k at function scope reorders e/o/c but the d temp stays at 0xC; hoisting d before the k loop or
+ *   `(u8*)((u32)(p+0xB4)+(u32)r)` grows the frame to 0x18 (worse). Residue: d temp slot and (p+0xB4)+r operand order.
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02012F68 0x02012F68 thumb

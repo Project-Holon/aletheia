@@ -14,6 +14,10 @@
  *   0xd (and -128 as r7-0x8d, modelled as v - 0x8d). The shifted bytes make the rest differ.
  *   Tried: u16/u8/s16/int parameter types on the 02049xxx callees, last arg u16 (as ov021
  *   prototypes), casts on the three r2=4 uses, dropping the first 4. Hoist stays.
+ *   2026-10-04 (D2): the whole residue is one hoist. Ours emits movs r7,#4 before the first call and uses it
+ *   once (the r2=4 of the 0x10 call at +00A2, third r2=4 use); that then turns every later movs rN,#0 into
+ *   adds rN,r6,#0. The original never hoists 4 (every use is a fresh movs) and only loads r7=0xd just before
+ *   the 0xd call. Untried here: nothing new; hoist threshold seems to follow the count of equal constants.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): re-read the listing. Original block 4 loads movs r0,#5 twice (before the 2041090 call after ldr r1,[sp,#8], and again before 20409B4) and keeps 0x20 in r7. We CSE the 5 into r6. No new spelling tried beyond the D1 list; next idea: make the two 5s distinct expressions (different callee parameter types, one callee taking a one-field struct or u16).
+ *
  * note 2026-10-02: all but 4 bytes match. Original keeps 0x20 hoisted in r7
  *   but rematerialises the final block's `movs r0,#5` for the 20409B4 call;
  *   we hoist it into r6 (movs r6,#5 before the 2041090 call). Tried separate

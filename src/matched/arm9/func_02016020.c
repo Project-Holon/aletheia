@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Unlabelled Thumb leaf in the ARM9 module (mcss.c). Stores its second
  * argument into the word at +0x30. Seeded from overlay call sites.

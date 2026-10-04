@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (4 bytes). Loop call func_021C7E14 schedules 'adds r0,r5' before 'str r6,[sp,#4]'; the image stores t first, as the first call does. Also tried r declared before c; no change. Same family as func_02189D48 (stack-argument store versus argument-0 address order).
  * note: 2026-10-04 Residue: second call of func_021C7E14 in the loop schedules 'adds r0,r5' before 'str r6,[sp,#4]'; original stores t first (as in the first call). Rest is identical. Tried: and/continue forms, u32/u16 c, int/u32 t and best, static inline helper for either call, fused nested call.
  * symbols:
  *   func_0201134C 0x0201134C thumb

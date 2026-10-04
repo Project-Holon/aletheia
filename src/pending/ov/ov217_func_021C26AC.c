@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): also tried e = p + n*0xd4 + 4 with an explicit if (0 < e[1]) guard around the for: worse (32 bytes, an extra beq). Original: muls then adds r2,r5,#4 then adds r1,r2,r1; count reloaded from e[1] at the bottom test (guard and bottom load not CSEd).
+ *
  * 2026-10-02 (wC1 lane06): 58 bytes.  Search of a 12-byte-stride table of
  * u16 keys under group callee-result*0xd4 (+4).  Original: p kept in r5,
  * `adds r2,r5,#4` after the muls, i in r0 (the call result register), the

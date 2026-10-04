@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note: 2026-10-04 (D2-13): x (sp+0x1c) and y (sp+0x18) are address-taken stack words. Also tried: no (u32) casts (14 bytes out), `x >= byte` order (4 out, same), u8 and u32 locals for the rect origin (24 to 29 out). Image loads the byte first, then x once and reuses r0 for both tests; compiled loads x first.
  * note (2026-10-03): 4 bytes out, both rect tests: image compares `cmp byte, x; bhi` (byte loaded
  *   first into r1), compiled `cmp x, byte; blo` with the same loads. Tried: operand order, !(), continue
  *   chains, else-if chains, struct point local, u32 casts, inline helper, separate loop vars.

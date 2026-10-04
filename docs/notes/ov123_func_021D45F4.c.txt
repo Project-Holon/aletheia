@@ -1,0 +1,12 @@
+ov123 0x021D45F4 (316 bytes, Thumb), wave D2 lane 07, 2026-10-04: NOT drafted (lane ran out of context budget).
+Listing read only. Reading notes for the next lane:
+- Prologue: push {r4-r7,lr}; sub sp,#0x1c; args r0..r3 + two stack args (sp+0x30, sp+0x34).
+  r0 (count) spilled [sp,#0xc], r1 spilled [sp,#0x10], r2 -> r5 (owner struct), r3 spilled [sp,#0x14].
+- *(owner + 0x25C) = count; bl 0x201DD68 (unknown, check matched callers).
+- loop i=0..3 (r7): slot = owner + i*4; if slot->f10 != 0 { blx 0x20456F8; bl 0x201F7A8(slot->f10, 2); blx 0x20452E8(slot->f10) }; slot->f10 = 0 (r4 is the zero).
+- blx 0x2049B40(0x17, 5, 4, 0x100 (4 + 0xFC), sp0 = 0x20, sp4 = owner->hword@0xC).
+- if (count > 0): per-record loop (r4 = j) over records of 16 bytes at r3 = sp+0x14 arg (u8 fields at +0,+4,+8,+0xC),
+  call blx 0x20450F0(7, (u8)rec[0], (u8)rec[1], (u8)rec[2], sp0=(u8)rec[3], sp4=8, sp8=0) -> stored at owner + j*4 + 0x10;
+  then blx 0x2045770(); blx 0x2043B5C(.., 0); blx 0x2045CAC(owner->f24, table1[j], owner->f38);
+  blx 0x201DD78(0xF, 2, 0); if (stack arg sp+0x30) {...bl 0x201D304(owner->f38, owner->f30, 0), halve, subtract} else 0;
+  second stack arg (sp+0x34) handled the same way. Listing continues past +0xBA; not read.

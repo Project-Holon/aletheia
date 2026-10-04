@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): moved y = p[6] above the if: unchanged (53 bytes). Original hoists ldrb r2,[r5,#6] to the join before ldr font; the shifts of y (lsls/asrs 16) already match.
+ *
  * Note 2026-10-02: DIFF, only the load slot of p[6] (ldrb r2) differs: original loads it before
  * the font ldr; compiler sinks it after the stack stores. Tried int/s16/u8 locals, nested args.
  *

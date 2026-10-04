@@ -3990,6 +3990,10 @@ OVERLAY_ID_CONSUMERS = {
     # word [2]; its callback func_02014758.c (EXACT*), case 0, passes f08 as
     # func_020146F8's r2 (an entry above).  Read 2026-10-02.
     0x02014808: ("func_02014808", 2, "src/matched/arm9/func_02014808.c"),
+    # func_02012444.c (EXACT) stores its r1 as task word [0]; its callback
+    # func_0201240C.c (EXACT), case 0, passes item[0] as func_020120B4's r1
+    # (an entry above).  Read 2026-10-04.
+    0x02012444: ("func_02012444", 1, "src/matched/arm9/func_02012444.c"),
     # src/matched/ov/ov021_func_021BB990.c (EXACT): calls func_02034AC4(a)
     # with its r0 unchanged.  The key is an overlay address: ov217 also has
     # a function at 0x021BB990, but it takes a struct pointer in r0

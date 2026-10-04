@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (67 bytes). Image CSEs 0x807B into r7 (loaded at entry, used by both func_020490F4 calls) and 0x7B into r4; ours loads 0x807B into r1 per use, sets r5=0 before the first call (image: after the first call) and CSEs 4 into r7. Not resolved.
  * note (2026-10-02): logic complete, 67 bytes differ, all register choice. The original keeps
  *   0x807B in r7 (ldr r7 at entry, adds r1,r7 for both opens) and loads reg-arg zeros and 4s
  *   as immediates. This draft reloads 0x807B from the pool, CSEs 4 into r7 and copies r5 (zero)

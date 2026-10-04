@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: MATCH
+ * note: 2026-10-04 (D2-13): body is byte-correct. Callee func_021FD1C4 (ov186, 0x021FD1C4) is a 1148-byte function in pengy's ov186 split with no witness (its listing extent shows 64 bytes, a wrong label gap); the relocation cannot resolve until it is filed. No change possible here.
  * blocker: ov186021FD1C4 has no outside witness. Complete 1148-byte body
  * has a seven-case resource loop, nested branches, stack aggregates and
  * many calls; no mechanical whole-body lever. W29 S24 evidence agrees.

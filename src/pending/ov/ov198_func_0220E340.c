@@ -23,6 +23,11 @@
  *   func_02049238  0x02049238  arm
  */
 /*
+ * 2026-10-04 (wave D2 lane03): DIFF, unchanged (9 bytes, pure r6/r7 swap of arc and arr). Also tried:
+ * arr as a u8 * base with `*(int *)(arr + i*4)`, and `register void *arc`: still 9 bytes.
+ * In the original the BC78 result is held in r6 (arr's register) across the BCEC call, same as mine in r7.
+ */
+/*
  * 2026-10-04 (wave D1 lane07): DIFF, same size (176), logic matches. Residue: r6/r7 swapped
  * everywhere: the original has arc in r7 and the p+0x24A4 array base in r6, mine the reverse.
  * Tried: declaration order arc/arr, arr computed before the arc call (hoists everything, worse),

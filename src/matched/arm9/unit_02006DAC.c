@@ -47,7 +47,7 @@
  * 0x02006E18..0x02006E2A, eighteen bytes that reproduce every concrete byte
  * and cap at MATCH.  It is `sub_02007BD0(a, sub_02006E2C());` and the
  * evidence for 0x02007BD0 is the `bl` at 0x02006E24 inside that very
- * function: the census is one witness image wide, one of them inside the
+ * the function list: the census is one witness image wide, one of them inside the
  * range, so no cut can free it.  The `literal` class has nothing either,
  * because no pool word anywhere in the image holds 0x02007BD0.  It closes
  * the day a second caller of 0x02007BD0 appears, exactly like 0x02005DE4 and

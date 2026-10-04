@@ -20,6 +20,11 @@
  */
 
 /*
+ * 2026-10-04 (wave D2 lane05): DIFF, no change. Reading of the listing: the pool word 0x11A is loaded twice (ldr r0,[pc]) and the second use adds #2, and 0x7FFF sits in r6 for both heap-id builds. So the original does not CSE 0x11A across the first call, while this build keeps it in r6 (hence 0x7FFF in r4 and sum spilled). Needs a source form where 0x11A and 0x11C are not the same constant family, not tried beyond the variants above.
+ */
+
+
+/*
  * 2026-10-04 (wave D1 lane07): DIFF. Logic believed correct (404 vs 396 bytes).
  * Residue: in the original, 0x7FFF sits in r6 and sum in r4 (movs r4,#0 before the
  * first alloc call), 0x11A is reloaded (ldr; adds #2) for the second call. Mine hoists

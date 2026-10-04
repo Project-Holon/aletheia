@@ -19,6 +19,11 @@
  *   func_0201F02C 0x0201F02C thumb
  *   func_02012944 0x02012944 thumb
  */
+
+/*
+ * 2026-10-04 (wave D2 lane05): DIFF, still one instruction (+0E) plus the schedule at +0A..+0C. Added attempts: table pointer as u32 field, off+tbl (fixes schedule, add order r2,r1 vs original r1,r2), tbl+off with off a separate local, static inline helpers (struct E * and u32 offset), u32* index with a cast, u32 local index. With off+(u32)tbl as the first operand the only residue is `adds r1,r2,r1` against `adds r1,r1,r2`.
+ */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

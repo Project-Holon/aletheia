@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note: 2026-10-04 (D2-13): func_021BBB3C returning int gives the right size (348) and leaves only the sentinel residue (60 bytes out incl. shift), with or without an int local `v = f(); v != 0xffff`. Image copies r0 to r1 and loads 0xffff into r0 (cmp r1,r0); compiled loads 0xffff into r1 (cmp r0,r1). Not closed.
  * blocker:  codegen, 2 bytes (one instruction): the image moves the sentinel lookup
  *           result to r1 and loads 0xffff into r0 (adds r1, r0, #0; ldr r0, =0xffff;
  *           cmp r1, r0); the draft compares r0 against r1. Everything after it is the

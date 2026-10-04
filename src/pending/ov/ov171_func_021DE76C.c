@@ -12,6 +12,9 @@
  * Original: r4=0xC5C pool const, r3=r4+2, sel into r5 (ldrsb), str mode, mul, ldrh n,
  * movs i=0, then ldrsb cur last. Tried: cur/i/n declaration orders, sel as int local,
  * s8 *c base pointer (all worse: constant folds 0xC5C-2).
+ * 2026-10-04 (wD2 lane19): tried statement order n, i=0, cur last with separate declarations (both orders): pool 0xC5C is then
+ *   not shared (ldr + subs #2, frame grows to push r3). The shared-0xC5C form needs cur initialised at declaration; only the
+ *   scheduling of the first ldrsb (cur before the mul here, after `movs i` in the original) differs. Unresolved.
  * symbols:
  *   d_021DEC94 0x021DEC94 data
  */

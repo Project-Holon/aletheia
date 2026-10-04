@@ -27,6 +27,11 @@
  *   func_02167ED8 0x02167ED8 arm ov009
  *   func_0200DD28 0x0200DD28 thumb
  */
+
+/*
+ * 2026-10-04 (wave D2 lane05): MATCH, rechecked: bytes equal, one relocation unresolved: arm9 func_0200DD28 has no witness (104-byte save-bitmap setter, 16 spellings already recorded in unit_0200DD10.c). Blocked on that arm9 leaf only.
+ */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;

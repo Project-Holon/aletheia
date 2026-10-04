@@ -20,6 +20,13 @@
  * (hoisted here). Tried: break vs return, int/u32 for the compare (int is right),
  * ternary vs if for the 0xb0/0xb1 argument (ternary with != 0 ? 0xb1 : 0xb0).
  *
+ * 2026-10-04 (wD2 lane04): residue (1) solved: the pool words 0xCF and 0xC2 are overlay ids; written
+ * as `(u32)ov207_id` / `(u32)ov194_id` with `ov207_id 0x000000CF data` and `ov194_id 0x000000C2 data`
+ * symbols lines (lever from wave D1). The original pool holds CF, 0220BAB0, C2, 021F5580 in that order
+ * at 021B9894..021B98A0. The draft is now 608 bytes (original pool included, 676 listed). Residues (2) and (3)
+ * above are unchanged: late shared `return 0` (original epilogue at 021B9888, `return 1` at 021B9882 for the
+ * default arm) and the inverted fl branch layout.
+ *
  * symbols:
  *   func_020074D8  0x020074D8  thumb
  *   func_02007698  0x02007698  thumb
@@ -51,6 +58,8 @@
  *   func_0202F190  0x0202F190  thumb
  *   func_02031330  0x02031330  arm
  *   func_02031348  0x02031348  arm
+ *   ov207_id  0x000000CF  data
+ *   ov194_id  0x000000C2  data
  *   func_02045B38  0x02045B38  arm
  *   func_02045C04  0x02045C04  arm
  *   func_02045EC0  0x02045EC0  arm
@@ -87,6 +96,8 @@ typedef struct {
 } G;
 
 extern u32 func_02031330(u32 a);
+extern unsigned char ov207_id[];
+extern unsigned char ov194_id[];
 extern u32 func_02031348(u32 a, u32 b, u32 c, void *d);
 extern u32 func_02012934(u32 a);
 extern u32 func_02012944(u32 a);
@@ -171,7 +182,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
             g->f1c = g->f2c;
             g->f20 = c->f0;
             g->f08 = (fl == 0) ? 1 : 0;
-            func_02031348(g->f34, 0xcf, 0x0220BAB0, &g->f08);
+            func_02031348(g->f34, (u32)ov207_id, 0x0220BAB0, &g->f08);
             (*state)++;
             break;
         }
@@ -187,7 +198,7 @@ u32 func_021B963C(u32 a0, u32 *state, Ctx *c, G *g)
         r7 = func_0201293C(c->f0);
         if (g->f24 == 1) {
             g->f00 = func_0216C0A4(g->f30, c->f2, 0xa, 0, g->f28, r7, g->f2c, func_0200C0F0(func_02012EBC(c->f0)));
-            func_02031348(g->f34, 0xc2, 0x021F5580, (void *)g->f00);
+            func_02031348(g->f34, (u32)ov194_id, 0x021F5580, (void *)g->f00);
             (*state)++;
             break;
         }

@@ -39,6 +39,12 @@
  * temps: both fold to the same code. (2) the original holds &rc in r7 for the whole
  * body (add r7, sp, #0x48), ours rematerialises it in r1. Next idea: rc as a pointer
  * argument to a non-inlined local helper shape, or the five groups as a loop over a table.
+ * note 2026-10-04 (wD2 lane18): still DIFF (486 bytes differ). Re-read: the 4 missing frame slots
+ * are exactly the first argument temp (func_021BE024 result) of each of the 5 groups: ours keeps it
+ * in r7 because &rc is rematerialised per use, the original keeps &rc in r7 (add r7,sp,#0x48 before
+ * the first rc store, still used by strh [r7,#4] after the 021BE0B4 call) so the temp must spill.
+ * Tried: rc through a pointer local (struct Rect *rp = &rc), no change. Also tried rc stores
+ * through a u8 * base local (611 bytes differ, worse). Untried: rc as a field of a larger local struct.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;

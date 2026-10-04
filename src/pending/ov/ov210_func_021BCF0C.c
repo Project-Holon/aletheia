@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (8 bytes): image rec=r4, counter=r2; ours rec=r2, counter=r4. Colouring looks priority ordered (counter gets the callee-saved register in ours); no source form found that lowers the pointer's priority.
  *
  * 2026-10-02: 44 bytes, size exact, one relocation resolved.  Only the colours
  * differ: the image keeps the record pointer in r4 and the loop counter in r2;

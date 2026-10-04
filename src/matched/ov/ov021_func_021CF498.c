@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Picks a row of the 0x25-entry table at 0x021DB4FC (0x14 bytes each) and calls its
  * builder.

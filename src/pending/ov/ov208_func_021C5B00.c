@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * note: 2026-10-04 (D2-13): original order is pool load for 0x6B8, `movs r4,#0` scheduled between pool load and `ldr r0,[r5,r0]`, then bne/blo skip over `movs r4,#1`. Compiled folds the zero into an else arm (+8 bytes). Not closed.
  * note (2026-10-03): logic complete, one residue: the image sets pose = 0 (movs, right after the
  *   0x6B8 pool load) and then conditionally 1; compiled sinks the 0 into an else arm
  *   (movs 1 / b / movs 0), +8 bytes. Tried: decl init, ternary, nested ifs, types u8/u16/u32/s16/char,

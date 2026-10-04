@@ -7,7 +7,7 @@
  * flags:    -O4,p -proc arm946e
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   MTX_Rot22_       0x0207AD64  thumb
  *   MTX_ScaleApply22 0x0207AD70  arm

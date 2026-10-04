@@ -12,6 +12,9 @@
  *   (table entry 0x10) targets its own `b end` at +0x26, i.e. an arm with an empty body that is not merged with the end label;
  *   cases 0,1,2,4,5,7 and the bhi go straight to end. Tried: plain break, default label, empty static inline call in case 3
  *   (inlined away or emitted as bl). Rest of body matches.
+ * 2026-10-04 (wD2 lane19): also tried `goto done` from case 3, `if (mode != 3) break;`, `do {} while (0)`, `while (0) {}`,
+ *   dead local `u32 t = mode;`/`mode + 1`, `mode = mode;`, `d = d;`, and default-only form: all emit the same 76 bytes (case 3 merges with end).
+ *   Original is 80 bytes: the 4 extra bytes are the `b end` stub for case 3 plus alignment padding before the pool.
  * symbols:
  *   func_0200F7DC 0x0200F7DC thumb
  *   d_021DAC20 0x021DAC20 data a4

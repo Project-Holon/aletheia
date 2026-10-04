@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): also tried a static inline set3(q,y,x,z) helper with the call args in load order y,x,z: same 8 bytes (our order y,z,x; scheduler hoists movs r2,#4 first).
+ *
  * Note 2026-10-02: DIFF, right loads and stores; only register colouring differs (orig y=r4, x=r3, z=r2).
  * Tried s16/int locals, declaration orders, direct stores, struct copy.
  *

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-04 wD2 lane01: not improved (266 bytes, 432 vs 440); breadth pass only, no new hypothesis beyond the wD1 note.
  * symbols:
  *   _fflt 0x0209BDBC arm
  *   _fadd 0x0209C95C arm

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-04 wD2 lane01: still 7 bytes (e/w slot swap). Also tried: block-scoped e and base (7), block-scoped e only (9), declaration orders w,e,me / me,w,base,e / me,base,e,w (9-10). Original slots e=sp+4, base=sp+8, w=sp+0xC.
  * symbols:
  *   func_020399A8 0x020399A8 arm
  *   func_0203D1A4 0x0203D1A4 arm

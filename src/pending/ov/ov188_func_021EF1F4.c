@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note: 2026-10-04 (D2-13): re-checked. 222 vs 224 bytes; only the flag temp r4 (movs r4,#1 hoisted after movs r1,#0x70, zero in the bne-skipped arm) differs. No new lever found.
  *
  * 2026-10-04: bitfield layout and all stores match (Bits50/Bits51 as in func_021EF2D4);
  *   222 vs 224 bytes. Residue is only the flag temp: original sets `movs r4,#1` inside the

@@ -11,6 +11,11 @@
  * blocker:  codegen, 20 bytes: spill slots of species (0x34) and i (0x14) swapped;
  *           every other byte matches. See docs/notes/pkt_ov208_021C53F4.c.txt.
  *
+ * note (2026-10-04): still 20 bytes (species/i slot swap). Retried: i declared inside the
+ *   en-block, i as for-init local, i declared last (after t), h declared after ratio, i as int
+ *   (same 20), u16/u8 (-8 bytes, wrong code). Moving i off the top of the list shifts every
+ *   spill slot by one (44 bytes), so the slot order is not plain declaration order here.
+ *
  * symbols:
  *   func_021BC3C0  0x021BC3C0  thumb
  *   func_021BC3A4  0x021BC3A4  thumb

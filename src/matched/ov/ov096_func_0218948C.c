@@ -1,8 +1,6 @@
 /*
  * unit:     yes
- * function: func_0218948C
- * function: func_021894B4
- * function: func_021894C4
+ * function: func_0218948C, func_021894B4, func_021894C4
  * address:  0x0218948C
  * packet:   pkt_ov096_0218948C
  * region:   ov096

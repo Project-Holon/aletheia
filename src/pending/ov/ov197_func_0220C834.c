@@ -13,6 +13,11 @@
  *   for the 0x533 store). Here the compiler loads 0x533 from the pool and consumes r4 destructively in
  *   the arms. Tried: raw u8* offsets, a typed struct with fields at 0x530/0x532/0x533/0x540/0x542/0x5A0
  *   (identical output). Not tried: sharing the size constant as a named local used in an offset sum.
+ * 2026-10-04 (wD2 lane19): loop counter i as u32 (not int) fixes both loops (blo, no sign test, r3/r4 counters match).
+ *   Residue: original keeps r4=0x5A4 live to a common tail `subs r4,#0x71; strb` and derives every large offset from it with
+ *   non-destructive `adds r1,r4,#0; subs r1,#N`; here arms use `subs r4,#0x74` destructively and the 0x533 store loads its own pool word
+ *   (original has 3 pool words, ours 4). Tried: p[0x533] spelled as p+0x5A4-0x71, volatile u8 store (no change). Second loop base
+ *   `r = *(u8**)p` lands in r6 here, r3 in the original (r6 is the i*2 temp there); not yet tried: row pointer scope.
  * symbols:
  *   d_0220E0E0 0x0220E0E0 data a1
  *   func_02030734 0x02030734 arm
@@ -45,7 +50,7 @@ void func_0220C834(u8 *arg)
     u8 *p;
     u8 *q;
     int z;
-    int i;
+    u32 i;
     int v;
     p = func_02030734(*(u16 *)(arg + 0xc), 0x5A4, 1, d_0220E0E0, 0xB1);
     q = func_02030DA8(func_021F86D4(), (u32)func_0220C914, p, 0x64);

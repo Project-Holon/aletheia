@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * note 2026-10-04 wD2 lane01: still 10 bytes (order of `movs r2,#2` before `str r0,[sp]` in the func_021B9E5C call). Also tried: v as u8* pointer with (u32)(vp+0x800); `3 << 14` and `v + (2 << 10)` constant spellings. No change.
  * note (2026-10-04): 520 bytes, 10 differing bytes, scheduling only. Residue: in the func_021B9E5C call (case 1) the
  *   original emits `movs r2,#2; str r0,[sp]; movs r0,#3; lsls r2; lsls r0; str r0,[sp,#4]`; mine emits
  *   `str r0,[sp]; movs r0,#3; movs r2,#2; lsls r0; lsls r2; str r0,[sp,#4]` (same instructions, order of the two

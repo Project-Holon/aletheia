@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (3 bytes): the 0x2B0 offset goes to r1 where the image uses r2 (b is copied to r4 first, so r1 and r2 are both dead); no spelling moves it.
  *
  * For mode a <= 6, looks up the +0x2b0 record and issues a six-argument event
  * (0, four of its bytes, and the low byte of b) through 0x020413B0, then flushes

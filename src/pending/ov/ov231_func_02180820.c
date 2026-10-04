@@ -27,6 +27,11 @@
  *   d_02180A30  0x02180A30  data  a1
  *   d_02180A00  0x02180A00  data  a2
  */
+
+/*
+ * 2026-10-04 (wave D2 lane05): DIFF, no change in verdict. New finding: the original calls _ull_mul for the *64 step (r2=0x40 held in r7, high word r4=0 hoisted), so 64 is not a visible power-of-two literal when the multiply is emitted; ours turns *64 into lsls/lsrs #6 shifts (224 vs 228 bytes). Every literal form folds: t*64*1000, (64*t)*1000, t*k*1000 with k a u64 local all become one *64000 mul or shifts (siblings ov231_func_02180924/02180984 use *64000). Needs a non-foldable 64 (an inline helper with a real u64 parameter was tried as `static inline u64 mul(u64 t, u64 k)`: same 224 bytes).
+ */
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long long u64;

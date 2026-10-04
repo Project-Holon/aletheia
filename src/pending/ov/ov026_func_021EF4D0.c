@@ -1,0 +1,54 @@
+/*
+ * function: func_021EF4D0
+ * address: 0x021EF4D0
+ * packet: pkt_ov026_021EF4D0
+ * region: ov026
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * note 2026-10-04: DIFF, 190 bytes vs 188. Semantics settled: c is an s16[6] record (pos x,y at 0,1;
+ *   velocity pair at 2,3; last delta pair at 4,5); q+0x16/+0x18 are s16 deltas; pt = pos/8; off-screen
+ *   (x >= 0x100 or y >= 0xC0) calls func_021A21E0 else func_021A26C4. Residue: original pushes r7 and keeps
+ *   the index constant 2 in r7 (ldrsh [c,r7]), frame is push {r3-r7,lr} with no sub sp; ours uses five regs
+ *   plus sub sp,#4, loads c[0] before c[2], and hoists 0x18. Tried: s16 array vs struct C, int dx/dy (worse, 182 B).
+ * symbols:
+ *   func_021A2640 0x021A2640 thumb ov021
+ *   func_021A21E0 0x021A21E0 thumb ov021
+ *   func_021A26C4 0x021A26C4 thumb ov021
+ */
+typedef short s16;
+struct PtS {
+    s16 x;
+    s16 y;
+};
+extern void func_021A2640(void *a, struct PtS *pt);
+extern void func_021A21E0(void *a);
+extern void func_021A26C4(void *a, struct PtS *pt);
+void func_021EF4D0(void *a, char *b, s16 *c)
+{
+    struct PtS pt;
+    func_021A2640(a, &pt);
+    if (*(s16 *)(b + 0x16) != 0) {
+        s16 dx = c[2] + *(s16 *)(b + 0x16);
+        s16 dy;
+        c[0] = c[0] + dx;
+        dy = c[3] + *(s16 *)(b + 0x18);
+        c[1] = c[1] + dy;
+        pt.x = c[0] / 8;
+        pt.y = c[1] / 8;
+        c[4] = dx;
+        c[5] = dy;
+    } else {
+        c[0] = c[0] + c[4];
+        c[1] = c[1] + c[5];
+        pt.x = c[0] / 8;
+        pt.y = c[1] / 8;
+    }
+    if (pt.x >= 0x100 || pt.y >= 0xc0) {
+        func_021A21E0(a);
+    } else {
+        func_021A26C4(a, &pt);
+    }
+}

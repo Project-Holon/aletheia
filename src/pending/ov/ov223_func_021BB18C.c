@@ -29,6 +29,11 @@
  *   func_021BAF48 0x021BAF48 thumb ov223
  *   d_021BC730 0x021BC730 data a4
  *   d_021BC710 0x021BC710 data a2
+  *
+ * note 2026-10-04 (lane 20, D2): tried `unsigned off = k; off += 0xC;` (declared first, or after the
+ * calls), desc declared before off, and an enum-typed k (228 B, but then p+k pointer adds). The plain
+ * forms constant-fold; the enum form keeps the spill but changes the address math. The original first
+ * stores r4 (0x240) to [sp,#0x18] then +0xc to the same slot: off is a non-foldable variable.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

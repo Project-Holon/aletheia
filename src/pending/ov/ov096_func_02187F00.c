@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * 2026-10-04 (wave D2 lane 08): re-tested, still DIFF (14 bytes, one scheduling difference: the 0x1D9 tag pool load is hoisted above 'str r3,[sp,#8]' in ours, after 'ldr r5,[sp,#0x20]' in the image). Also tried tag parameter as u32 and a 0x1D9u literal; no change.
  * note: 2026-10-04 Residue: one scheduling difference. Original loads the 0x1D9 tag pool word (ldr r0,[pc]) after 'ldr r5,[sp,#0x20]' and before the site-string ldr; ours loads it first. Everything else is byte-identical (176 bytes, same pool). Tried: decimal tag, u16 tag local, copy of heap.
  * symbols:
  *   func_02030734 0x02030734 arm

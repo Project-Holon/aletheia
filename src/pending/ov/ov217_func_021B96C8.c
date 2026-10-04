@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): also tried p typed int with (int *) cast at the deref and int-typed callee param. Same 5 bytes (p r6, c r4; original p r4, c r6, a r5).
+ *
  * blocker:  5 concrete bytes, all home-register assignment for the 2nd/3rd
  *           parameters. Original homes param1 (the int* p) in r4 and param2
  *           (int c) in r6, in plain declaration order; this front end

@@ -18,12 +18,12 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
+    "func_021BA004",
     "func_021BA098"
    ],
    "evidence": {
     "sole-ref": [
-     "code:0x021BA5E0",
-     "code:0x021BA60C"
+     "code:0x021BA5E0"
     ]
    }
   }

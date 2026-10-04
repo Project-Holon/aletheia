@@ -18,6 +18,11 @@
  *   func_021C9634 0x021C9634 arm ov114
  *   func_0200F7B8 0x0200F7B8 thumb
  */
+
+/*
+ * 2026-10-04 (wave D2 lane05): MATCH, rechecked: two relocations unresolved, func_021C93D0 and func_021C940C, both ov114 ARM code at 0x021C93D0/0x021C940C. Neither has a matched witness in ov114 (matched files at those addresses belong to ov021/ov212 and are different Thumb code). ov114 is pengy's overlay, so no leaf was filed. The ARM state query at 0x021C93D0 (64 bytes incl. data, reads 0x021D4084) is a tiny leaf that would unblock this file and func_021D7AA8.
+ */
+
 typedef unsigned char u8;
 typedef short s16;
 extern int func_021C93D0(void);

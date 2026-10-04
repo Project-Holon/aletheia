@@ -14,6 +14,9 @@
  *   (muls r1,r2,r1) and reloads 0x1249. Everything else (all stores, calls, tail) is byte exact.
  *   Tried: if/ternary both orders, early-return inline helper, k as local/const/inline parameter,
  *   u16 vs u32 n, k*n vs n*k, separate t/k statement. None keeps r1 live.
+ *   2026-10-04 (D2): also tried x/k as u16/u32 block locals (m = x * k; t / k): same output. Note the original has a
+ *   no-op `b` to the next instruction (+00FC) where the reload would sit: the join may come from an if/else whose
+ *   else arm is empty or whose arms both end at the call.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021B69AC 0x021B69AC thumb ov133

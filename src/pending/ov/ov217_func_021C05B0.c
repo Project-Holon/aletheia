@@ -27,6 +27,12 @@
  * Addresses are Black-image addresses.
  *
  * Note 2026-10-04 (wD1 lane06): Same residue as 021BD178 (pool word 021C37D0 reloaded per access, no CSE); counters j/bmp spill order also differs.
+ *
+ * Note 2026-10-04 (wD2 lane04): tried a literal address macro `((const struct Entry *)0x021C37D0)`
+ * (reloads per use but with separate pool words, 256 bytes, loads merged to ldm), the same with
+ * volatile (260 bytes), and a volatile extern (no change: address still CSEd). Stack slots
+ * (j declared before bmp) now match the original. Residue unchanged: one shared pool word that is
+ * reloaded per field access.
  */
 
 typedef unsigned char u8;

@@ -23,6 +23,10 @@
  * `return func(r)`, an `int` counter, a `u32 *q` pointer with `q--`, and a
  * one-trip `for (i = 0x218c; i; i -= 4)`.  All 2 bytes, always `subs r2,r1`.
  */
+/*
+ * 2026-10-04 (wave D2 lane03): DIFF, unchanged (2 bytes). Also tried a struct view
+ * `struct { char pad[0x2188]; u32 b; u32 a; } *p` (p->a = v; f(p->b)) and raw `p + 0x2188`: same `subs r1,r2,#4`.
+ */
 
 typedef unsigned char  u8;
 typedef unsigned short u16;

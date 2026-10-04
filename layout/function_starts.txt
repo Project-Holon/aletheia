@@ -2645,3 +2645,43 @@ arm9_main   0x0203CB00  arm   # wave D1: ov099:021BEAEC THM_CALL (11 callers); f
 arm9_main   0x0203F5FC  arm   # wave D1: ov099:021BA2D4 THM_CALL (also 021BA36C, ov137:021E09C0/0FAC, ov168:02184780); EXACT func_0203F5FC.c
 arm9_main   0x0203F63C  arm   # wave D1: ov137:021E09C0 THM_CALL; EXACT func_0203F63C.c
 overlay_009 0x021956F8  arm     # real entry of the function labelled 0x021956FC (push {r0-r3} home area); SDK EXACT src/matched/ov_sdk/ov009_func_021956F8.c (gti2RejectConnection)
+arm9_main   0x0200EA00  thumb   # wave D2: EXACT src/matched/arm9/func_0200EA00.c; called from ov176_func_0217DC28.c
+arm9_main   0x0200EA08  thumb   # wave D2: EXACT src/matched/arm9/func_0200EA08.c; called from ov176_func_0217B984.c, ov176_func_0217DC28.c
+arm9_main   0x02016024  thumb   # wave D2: EXACT src/matched/arm9/func_02016024.c; called from ov204_func_021BF594.c
+arm9_main   0x02018544  thumb   # wave D2: EXACT src/matched/arm9/func_02018544.c; called from ov198_func_022107A8.c
+arm9_main   0x02019CF8  thumb   # wave D2: EXACT src/matched/arm9/func_02019CF8.c; called from ov091_func_021BC24C.c, ov170_func_021DD718.c
+arm9_main   0x02024120  thumb   # wave D2: EXACT src/matched/arm9/func_02024120.c; called from ov110_func_021C15B4.c
+arm9_main   0x02024144  thumb   # wave D2: EXACT src/matched/arm9/func_02024144.c; called from ov110_func_021BD5C4.c
+arm9_main   0x02024148  thumb   # wave D2: EXACT src/matched/arm9/func_02024148.c; called from ov110_func_021B9654.c
+arm9_main   0x0202414C  thumb   # wave D2: EXACT src/matched/arm9/func_0202414C.c; called from ov110_func_021B9720.c
+arm9_main   0x02024150  thumb   # wave D2: EXACT src/matched/arm9/func_02024150.c; called from ov110_func_021B96C0.c
+arm9_main   0x02024160  thumb   # wave D2: EXACT src/matched/arm9/func_02024160.c; called from func_02024158.c, ov110_func_021B97AC.c
+arm9_main   0x02024168  thumb   # wave D2: EXACT src/matched/arm9/func_02024168.c; called from ov110_func_021BD5C4.c
+arm9_main   0x02024224  thumb   # wave D2: EXACT src/matched/arm9/func_02024224.c; called from ov110_func_021BD764.c
+arm9_main   0x02024530  thumb   # wave D2: EXACT src/matched/arm9/func_02024530.c; called from ov110_func_021BD690.c
+arm9_main   0x020245A0  thumb   # wave D2: EXACT src/matched/arm9/func_020245A0.c; called from ov110_func_021BF444.c
+arm9_main   0x02024994  thumb   # wave D2: EXACT src/matched/arm9/func_02024994.c; called from ov110_func_021B9720.c
+arm9_main   0x02025B38  thumb   # wave D2: EXACT src/matched/arm9/func_02025B38.c; called from ov219_func_021845B4.c
+arm9_main   0x02025BB8  thumb   # wave D2: EXACT src/matched/arm9/func_02025BB8.c; called from ov219_func_021845B4.c
+arm9_main   0x02025BD0  thumb   # wave D2: EXACT src/matched/arm9/func_02025BD0.c; called from ov219_func_021845B4.c
+arm9_main   0x020275A8  thumb   # wave D2: EXACT src/matched/arm9/func_020275A8.c; called from ov032_func_021F00C8.c, ov032_func_021F12B8.c, ov032_func_021F2404.c
+arm9_main   0x020275AC  thumb   # wave D2: EXACT src/matched/arm9/func_020275AC.c; called from ov032_func_021F27D4.c
+arm9_main   0x020275B8  thumb   # wave D2: EXACT src/matched/arm9/func_020275B8.c; called from ov032_func_021F12B8.c, ov032_func_021F2404.c
+arm9_main   0x020275D0  thumb   # wave D2: EXACT src/matched/arm9/func_020275D0.c; called from ov032_func_021F00C8.c, ov032_func_021F2404.c
+arm9_main   0x0202BA9C  thumb   # wave D2: EXACT src/matched/arm9/func_0202BA9C.c; called from ov053_func_021F3778.c, ov054_func_021F373C.c
+arm9_main   0x020399DC  arm     # wave D2: EXACT src/matched/arm9/func_020399DC.c; called from ov100_func_021BB270.c
+arm9_main   0x0203DA68  arm     # wave D2: EXACT src/matched/arm9/func_0203DA68.c; called from ov100_func_021BAB08.c
+arm9_main   0x0203E590  arm     # wave D2: EXACT src/matched/arm9/func_0203E590.c; called from ov100_func_021BA530.c, ov100_func_021BB270.c
+arm9_main   0x0204F2FC  arm     # wave D2: EXACT src/matched/arm9/func_0204F2FC.c; called from ov133_func_021B6884.c
+arm9_main   0x0204F32C  arm     # wave D2: EXACT src/matched/arm9/func_0204F32C.c; called from ov112_func_021F4DE0.c, ov133_func_021B6884.c
+arm9_main   0x02051F1C  arm     # wave D2: EXACT src/matched/arm9/func_02051F1C.c; called from ov072_func_021BAA90.c, ov208_func_021C0D5C.c
+arm9_main   0x02060F40  arm     # wave D2: EXACT src/matched/arm9/func_02060F40.c; called from ov009_func_02156E30.c
+overlay_010 0x02164474  thumb   # wave D2: EXACT src/matched/ov/ov010_func_02164474.c; called from ov020_func_02183DE4.c
+overlay_021 0x02189A48  thumb   # wave D2: EXACT src/matched/ov/ov021_func_02189A48.c; called from ov029_func_021F0D48.c
+overlay_021 0x02189A50  thumb   # wave D2: EXACT src/matched/ov/ov021_func_02189A50.c; called from ov020_func_02187CEC.c, ov020_func_02187CFC.c
+overlay_021 0x021CF51C  thumb   # wave D2: EXACT src/matched/ov/ov021_func_021CF51C.c; called from ov077_func_021F57F8.c, ov078_func_021F57D4.c
+overlay_029 0x021F24FC  thumb   # wave D2: EXACT src/matched/ov/ov029_func_021F24FC.c; called from ov029_func_021F251C.c
+overlay_099 0x021BDD98  thumb   # wave D2: EXACT src/matched/ov/ov099_func_021BDD98.c; called from ov204_func_021BDC18.c, ov204_func_021BDD98.c, ov208_func_021BDCF8.c
+overlay_175 0x021DC5F8  thumb   # wave D2: EXACT src/matched/ov/ov175_func_021DC5F8.c; called from ov175_func_021D9DC8.c
+overlay_208 0x021BEF9C  thumb   # wave D2: EXACT src/matched/ov/ov208_func_021BEF9C.c; called from ov208_func_021BEA04.c
+overlay_208 0x021BF784  thumb   # wave D2: EXACT src/matched/ov/ov208_func_021BF784.c; called from ov110_func_021BA5C4.c, ov110_func_021BA9B4.c, ov110_func_021BABAC.c

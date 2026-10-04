@@ -9,6 +9,8 @@
  * isa: thumb
  * status: DIFF
  *
+ * Note 2026-10-04 (wD2 lane12): stack layout (i [sp,#0x20], heap [sp,#0x1c], y [sp,#0x18], row ptr [sp,#0x14]) already matches in the plain build; residue is only the 8 uncached pool loads. Tried extern const/non-const struct with __attribute__((aligned(32))): it switches loop shape (entry branch to bottom test, 240 bytes), wrong direction.
+ *
  * DIFF 2026-10-02 (wC1 lane02): body order/slots/calls match; 8 extra pool loads missing. The original reloads the
  * d_021C349C base from the (single) pool word for every field access (compiled 236 bytes vs 252); mine keeps it in a register.
  * Tried non-const, volatile, literal-address macro: no change. Twin of func_021BD274 (0x52, d_021C32D8/d_021C34C8).

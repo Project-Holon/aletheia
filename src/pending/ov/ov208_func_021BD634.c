@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-04 (D2-16): no change in the 8-byte residue (str r7,[r5,#4] after the memset argument setup in the image). Reread listing:
+ * r7=1 is set before the f34 store, the store p->f4 sits between the arg moves and the blx. Nothing new tried beyond D1/C2 list.
  *
  * 2026-10-04 (D1-08): also tried `struct Ov208Pos pos = {0}` in a nested block (compiler zeroes with strh, not a memset call; 203 bytes out).
  *

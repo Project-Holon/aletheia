@@ -11,6 +11,8 @@
  *
  * note (2026-10-04): DIFF, 18 bytes, scheduling only. Original after the 0204B034 call does adds r1,r0 ; movs r0,#0x64 ; adds r0,#0xb0 ; str r1,[r5,r0] (value copied to r1, offset in r0); ours keeps the value in r0 and builds the offset in r1. Tried void *, u32 and int result locals and a Pair struct pointer; none changed it.
  *
+ * note (2026-10-04, lane17): lane17 wave D2: also tried a struct with fields at 0x110/0x114 (p->a, p->b) and a temp; same 18 bytes. Residue is the copy adds r1,r0,#0 before the 0x114 store.
+ *
  * symbols:
  *   func_0204A48C  0x0204A48C  arm
  *   func_0204B100  0x0204B100  arm

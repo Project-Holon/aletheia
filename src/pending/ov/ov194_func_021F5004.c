@@ -10,6 +10,8 @@
  * status:   DIFF
  * note (2026-10-04): DIFF, 227 bytes but only stack slot numbering and one pad. Control flow and calls match. Original slots: t=sp+0, v=4, k=8, idx=0xc, j=0x10, h=0x14, ret=0x18, idx*2=0x1c, (u16)j=0x20, bufs=0x24; compiled differs (ret=4, idx=0x10, k=0x14, v=0x18, h=0x1c) and pushes r3. Tried declaration reorders and v&0xFFFF to break the cast CSE.
  *
+ * note (2026-10-04, lane17): re-run, still 312 bytes vs original, no new change. Lever to try next: slot order is reverse declaration order, original highest slot is bufs then (u16)j, idx*2, ret, h, j, idx, k, v, t.
+ *
  * symbols:
  *   func_021F4D20 0x021F4D20 thumb ov194
  *   func_021F4F50 0x021F4F50 thumb ov194

@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
+ * 2026-10-04 (wD2 lane 09): bytes are identical; 3 of 41 relocations open.
+ * Filed leaf func_021F24FC as matched ov029_func_021F24FC.c (EXACT).
+ * Open: ABS32 +01C0 to 021F24FC (witness index not yet regenerated),
+ * and THM_CALL +0128/+0130 to unlabelled arm9 02035010 and 02035040 (arm9 wrappers:
+ * r2=*(0x021469BC), tail call to 02035004/02035034 style stubs, no source or label yet).
  *
  * Byte-correct.  Blocked by two unlabelled ARM9 leaves (Ilias's), so the
  * overlay leaf 0x021F24FC is not filed either:

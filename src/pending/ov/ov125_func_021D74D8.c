@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * note 2026-10-04 wD2 lane01: still 7 bytes (pure r1/r3 swap between y and the second address). Also tried: q=(int*)(p+8) x=q[0] y=q[1]; both loaded words in locals before the compare; compare operand order swapped (11 bytes); no `!= 0` (32 bytes). Reasoning: original colours the second address (r1) before y (r3); ours colours y first.
  *
  * 2026-10-04 (wD1 lane 11): 7 of 72 bytes differ, same length. The original
  * loads x (p+8) into r2 and y (p+0xC) into r3 after the first compared word

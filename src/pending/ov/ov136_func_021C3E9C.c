@@ -9,6 +9,9 @@
  * isa: thumb
  * status: DIFF
  * note: 2026-10-04 Residue: 12 bytes plus the shift they cause. (1) Original compiles the v==4 || v==0xFFFF test as 'beq L2; ldr pool; cmp; bne L3; b L2' with a branch to the next instruction; ours (else-if form kept here) emits 'bne X; b L2; X:' and the || and switch forms drop the extra b (2 bytes short). (2) Case 2: original loads ctx->10 into r1 ('ldr r1,[r4,#0x10]; ldrh r0,[r1]'), ours uses r0. Tried: ||, ternary, switch (several layouts), nested if, u32/int/u16 v, pointer locals. Case 4 matches with a local h = ctx->8 read after q.
+ *   2026-10-04 (D2): goto form (if (v==4) goto s2; if (v==0xFFFF) goto s2; else goto s3; s2/s3 blocks after) gives the
+ *   original beq L2 / ldr / cmp / bne L3 order but drops the trailing b-to-next, so the function is 2 bytes short.
+ *   Local q/w pointer for case 2 did not move the r1 load. Both residues stay open.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02031348 0x02031348 arm

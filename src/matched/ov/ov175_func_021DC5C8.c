@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     the listing extent (72 B) runs into the neighbour's `mov r8,r8`
  *           pad and pool word; all 48 compiled bytes match.

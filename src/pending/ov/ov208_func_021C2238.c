@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * 2026-10-04 (D2-16): image arg-load order is h, on[i], pal, y0, x0, w (x0 after y0). Ours loads x0 right after h. Same 16 bytes; no new variant found.
  *
  * 2026-10-04 (D1-08): 16 bytes, one instruction moved. The image loads arg x0 (ldrb r1,[r4,r1]) after the
  * y0 load (ldrb r2,[r3,#1]); ours hoists it right after the h load. Tried: local pointer q, locals
