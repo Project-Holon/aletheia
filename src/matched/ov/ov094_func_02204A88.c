@@ -25,7 +25,9 @@ typedef struct Ctx {
     Main *main;
 } Ctx;
 
-extern void func_0204B454(void *h, s16 *out, int k);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *h, s16 *in, int k);
 extern void func_0220687C(Main *m, int a);
 
@@ -33,10 +35,10 @@ void func_02204A88(int a0, Ctx *c)
 {
     s16 v[2];
 
-    func_0204B454(c->main->o210, v, 1);
+    func_0204B454(c->main->o210, (struct PtS *)v, 1);
     v[0] -= 8;
     func_0204B404(c->main->o210, v, 1);
-    func_0204B454(c->main->o214, v, 1);
+    func_0204B454(c->main->o214, (struct PtS *)v, 1);
     v[0] -= 8;
     func_0204B404(c->main->o214, v, 1);
     if (v[0] == 0xe0) {

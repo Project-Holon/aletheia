@@ -22,7 +22,9 @@ typedef struct E {
     char p74[8];
     void *f7c;
 } E;
-extern void func_0204B454(void *, s16 *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *, s16 *, int);
 struct Node;
 extern void func_02030EAC(struct Node *n);
@@ -32,22 +34,22 @@ void func_02208B10(void *h, E *e)
     s16 v[2];
     if (e->f44 != 0) step = 8;
     else step = -8;
-    func_0204B454(e->f0, v, 0);
+    func_0204B454(e->f0, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f0, v, 0);
-    func_0204B454(e->f8, v, 0);
+    func_0204B454(e->f8, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f8, v, 0);
-    func_0204B454(e->f14, v, 0);
+    func_0204B454(e->f14, (struct PtS *)v, 0);
     v[0] += (s16)step;
     func_0204B404(e->f14, v, 0);
     if (e->f44 == 0) {
-        func_0204B454(e->f4, v, 0);
+        func_0204B454(e->f4, (struct PtS *)v, 0);
         v[0] += (s16)step;
         func_0204B404(e->f4, v, 0);
     }
     if (e->f10 != 0) {
-        func_0204B454(e->f10, v, 0);
+        func_0204B454(e->f10, (struct PtS *)v, 0);
         v[0] += (s16)step;
         func_0204B404(e->f10, v, 0);
     }

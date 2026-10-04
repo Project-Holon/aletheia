@@ -18,5 +18,7 @@ typedef unsigned int u32;
 typedef struct Vec2 { s16 x,y; } Vec2;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B454(void *,Vec2 *,u32);
-u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(*(void **)(p+0x1c)); func_0204B454(*(void **)(p+0x1c),out,0); return result; }
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor,struct PtS *out,unsigned int space);
+u32 func_021BFD94(u8 *p,Vec2 *out) { u32 result; result=func_0204B3F4(*(void **)(p+0x1c)); func_0204B454(*(void **)(p+0x1c),(struct PtS *)out,0); return result; }

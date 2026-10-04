@@ -42,7 +42,9 @@ typedef struct S {
 
 extern void func_0220793C(S *q);
 extern void func_0220868C(void *obj, S *q, int n);
-extern void func_0204B454(void *h, s16 *out, int k);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *h, s16 *v, int k);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -62,7 +64,7 @@ void func_02207DA0(void *obj, S *q, int n)
     q->lo = 1;
     if (q->f68 > 0) {
         func_0220793C(q);
-        func_0204B454(q->f8, v, 0);
+        func_0204B454(q->f8, (struct PtS *)v, 0);
         v[0] = v[0] - (s16)(0x30 - q->f78);
         func_0204B404(q->fc, v, 0);
         func_0204B3DC(q->fc, 1);

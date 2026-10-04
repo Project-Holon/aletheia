@@ -15,13 +15,15 @@
 typedef signed short s16;
 typedef unsigned short u16;
 struct Point { s16 x,y; };
-extern void func_0204B454(int,struct Point *,u16);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor,struct PtS *out,unsigned int space);
 extern void func_0204B404(int,struct Point *,u16);
 void func_021B97BC(int a,int b,int c,int d)
 {
  struct Point p;
  if(*(int *)(a+0x2c8+d*4) != 0) {
-  func_0204B454(*(int *)(a+0x2c8+d*4),&p,0);
+  func_0204B454((struct Actor *)*(int *)(a+0x2c8+d*4),(struct PtS *)&p,0);
   p.x += (s16)b;
   p.y += (s16)c;
   func_0204B404(*(int *)(a+0x2c8+d*4),&p,0);
