@@ -20,24 +20,25 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 struct Entry;
+struct Link;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(void *,int,int);
+extern u32 func_02039CB4(struct Link *,u32,u32);
 extern unsigned func_0203D378(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern int func_02039C68(void *, int, int);
+extern void func_02039C68(struct Link *, u32, u32);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9B7C(void);
 void func_021B9BE4(int a)
 {
  int k=12;
- if(func_02039CB4(func_020399A8(),0x7d,k)!=0) {
+ if(func_02039CB4((struct Link *)func_020399A8(),0x7d,k)!=0) {
   if(func_0203D378()!=0) {
    if(func_0203D3A8(func_020399A8(),0xc05,4,*(int *)(a+0x244)+0x18)!=0) {
-    func_02039C68(func_020399A8(),0x7e,k);
+    func_02039C68((struct Link *)func_020399A8(),0x7e,k);
     func_021B95B8(a,func_021B9B7C);
    }
   } else {
-   func_02039C68(func_020399A8(),0x7e,k);
+   func_02039C68((struct Link *)func_020399A8(),0x7e,k);
    func_021B95B8(a,func_021B9B7C);
   }
  }

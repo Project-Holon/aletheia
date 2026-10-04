@@ -30,7 +30,8 @@ struct Entry;
 extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(void *);
 extern int func_021D8A24(void *p);
-extern int func_02039CB4(void *h, int a, int b);
+struct Link;
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_021D8E84(void *p, int next);
@@ -54,7 +55,7 @@ void func_021D9C00(char *p)
         me = 0;
         other = 1;
     }
-    if (func_021D8A24(p) != 0 && func_02039CB4(func_020399A8(), 0x1a, 8) == 0) {
+    if (func_021D8A24(p) != 0 && func_02039CB4((struct Link *)func_020399A8(), 0x1a, 8) == 0) {
         func_021DD24C(p);
         return;
     }

@@ -15,7 +15,8 @@
  *   func_021DDB10 0x021DDB10 thumb ov119
  */
 
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_021E12AC(void *);
 extern void func_021DD080(unsigned,int,void *);
 extern void func_021D8E84(void *,int);
@@ -25,7 +26,7 @@ void func_021DDB64(unsigned char *p)
 {
     func_020399A8();
     if(func_021E12AC(p)) {
-        func_021DD080(func_020399A8(),25,p);
+        func_021DD080((unsigned)func_020399A8(),25,p);
         func_021D8E84(p,(int)func_021DDB10);
     }
 }

@@ -13,13 +13,15 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021E0BE8 0x021E0BE8 thumb ov119
  */
-extern unsigned func_020399A8(void);
-extern unsigned func_02039CB4(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned func_02039CB4(struct Link *, unsigned, unsigned);
 extern void func_021D8E84(void *, int);
 extern void func_021E0BE8(char *p);
 void func_021E0BC4(void *p)
 {
-    if (func_02039CB4(func_020399A8(), 0x18, 8)) {
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x18, 8)) {
         func_021D8E84(p, (int)func_021E0BE8);
     }
 }

@@ -23,10 +23,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 sub_020399A8(void);
+struct Entry;
+extern struct Entry *sub_020399A8(void);
 extern u32 func_0203D1A4(u32 p);
 
 void func_021B8B5C(void)
 {
-    func_0203D1A4(sub_020399A8());
+    func_0203D1A4((u32)sub_020399A8());
 }

@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Link;
-extern struct Link *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_02039CB4(struct Link *,u32,u32);
 extern u16 func_02039338(void);
-int func_021DF2B8(int *p) { if(func_02039CB4(func_020399A8(),204,40)) { if(func_02039338()==0) *p=33; else *p=34; } return 0; }
+int func_021DF2B8(int *p) { if(func_02039CB4((struct Link *)func_020399A8(),204,40)) { if(func_02039338()==0) *p=33; else *p=34; } return 0; }
