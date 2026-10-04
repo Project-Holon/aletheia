@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * blocker: ARM9 0203F5FC has no outside code witness; verified scratch-only EXACT.
  *   typedef unsigned short u16;
  *   extern const short d_020A1B38[];

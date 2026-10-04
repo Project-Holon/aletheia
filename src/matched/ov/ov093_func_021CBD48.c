@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: Thumb bx-pc linker veneer 0x021CBE98 points to 0x0689C9A0,
  * outside covered regions. Its call has no external witness; tu split
  * census reports zero witnesses and no viable partition. The trailing
@@ -28,10 +28,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021D5814(void *,int);
-extern int func_021BA1A8(void *,int);
+extern int func_021BA1A8(char **p, int m);
 extern char *func_021B8714(char **);
-extern int func_021D59B4(void *,int);
-extern int func_021B8724(void *,void *);
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021B8724(char *p, void *m);
 extern int func_020113F0(u8,u8);
 extern int func_021CBE98(u16);
 int func_021CBD48(u8 *p,int unused,void *q,int k)

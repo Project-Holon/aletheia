@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * blocker: ARM9 0x0203C600 has no outside code witness; Ilias owns it.
  * blocker: 0x0203C600 ARM verified EXACT in ov099_func_021BEB68.c.
  *   extern char *d_021469DC;
@@ -34,11 +34,11 @@ extern int func_0203C600(void);
 extern void func_021D5D3C(int);
 extern void func_021D5C94(int);
 extern void func_021D5ED8(int,int);
-extern int func_0202EB0C(void);
+extern u32 func_0202EB0C(void);
 extern void func_021D426C(u8 *,u32);
 extern void func_021D4310(u8 *);
 extern void func_021D4BB4(u8 *);
-extern void func_021D4AB0(u8 *);
+extern void func_021D4AB0(int a);
 extern int func_021D4644(u8 *);
 #define W(k) (*(int *)(p+(k)))
 #define P(k) (*(u8 **)(p+(k)))

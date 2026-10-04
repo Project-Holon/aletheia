@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * blocker: ARM9 func_02025358 at +0x26 has no outside witness.
  * split: TU confirms one image-wide witness, inside this caller; no cuts.
  * ARM9 stub: 02025358 ldr r3,[pc,#0]; bx r3; pool 020307B0.

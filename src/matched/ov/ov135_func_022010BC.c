@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * blocker: the call target 0x0200FB4C (arm9, Thumb leaf) has no label, so its
  * relocation stays wildcarded (requested in docs/sessions/2026-09-27/arm9_requests.md).
@@ -56,20 +56,20 @@ typedef struct {
     u32 done;
 } Work;
 
-extern int func_021B99DC(void *wm);
-extern int func_021B9790(void *wm);
-extern void *func_021B97F4(void *wm);
-extern void func_021B9774(void *wm);
-extern void func_021B99B8(void *wm);
-extern void func_021B9838(void *wm);
-extern u8 func_021B99F0(void *rec);
+extern int func_021B99DC(u8 *p);
+extern int func_021B9790(u8 *p);
+extern u8 *func_021B97F4(u8 *p);
+extern void func_021B9774(u8 *p);
+extern void func_021B99B8(u8 *p);
+extern void func_021B9838(u8 *p);
+extern u8 func_021B99F0(u8 *p);
 extern u32 func_021B99F4(void *rec, int i);
-extern void *func_021B9A14(void *rec, int i);
+extern u8 *func_021B9A14(u8 *p, u32 i);
 extern void func_0200FB4C(u32 id);
 extern void func_0200F7B8(u32 v);
 extern void func_02082D44(const void *src, void *dst, u32 n);
 extern void func_0220254C(void *mon, u32 heap);
-extern void func_0200FBB0(void);
+extern u32 func_0200FBB0(void);
 extern void func_0203CA04(void);
 extern void func_0200FBA0(void);
 extern void func_0203C968(void);

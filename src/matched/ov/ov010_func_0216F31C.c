@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
  *
  * Byte-correct. Blocker: func_0200E714 (site +004C) is an unlabelled ARM9 Thumb
  * leaf (copies four halfwords to dst[idx*4]) whose only caller is this

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: 0x02010934 Thumb sole-ref/matched unavailable for interior unit member.
  * blocker: Verified EXACT with one in S30/blocker10934-r1.log:
  *   extern void func_020307B0(void *);
@@ -23,13 +23,15 @@
  *   func_02010934 0x02010934 thumb
  */
 typedef unsigned char u8;
-extern int func_02010904(void *);
+typedef unsigned int   u32;
+struct Sub0201088CObj;
+extern u32 func_02010904(struct Sub0201088CObj *p);
 extern unsigned func_0200FB24(void);
-extern int func_0200FBB0(void);
+extern u32 func_0200FBB0(void);
 extern void func_0200F7B8(int);
 extern void func_0202223C(unsigned, unsigned);
-extern void func_0202F038(void *);
-extern void func_02010934(void *);
+extern void func_0202F038(u8 *p);
+extern void func_02010934(struct Sub0201088CObj *p);
 int func_021DF648(u8 *p)
 {
     int ready;

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
  *
  * Counts how many of five save-data conditions hold.
  *
@@ -35,17 +35,21 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02012EF0(void *save);
+typedef signed int     s32;
+struct Big;
+struct Blk1AC;
+struct Rec1B0;
+extern void *func_02012EF0(void **p);
 extern void *func_02012F44(void *save);
 extern void *func_020127B8(void *save);
 extern void *func_0201296C(void *save);
 extern u32 func_020142E8(void *bitmap, int id);
 extern void *func_0200CA1C(void *save);
 extern int func_0200D298(void *p);
-extern u32 func_0200DBA0(void *p, int i, u32 op);
-extern u32 func_0200A73C(void *p);
-extern u16 func_0200BDF8(void *p);
-extern u16 func_0200BDFC(void *p);
+extern u32 func_0200DBA0(struct Blk1AC *p, s32 i, u32 op);
+extern u32 func_0200A73C(struct Big *p);
+extern u16 func_0200BDF8(struct Rec1B0 *p);
+extern u16 func_0200BDFC(struct Rec1B0 *p);
 
 int func_0216F830(void *save)
 {

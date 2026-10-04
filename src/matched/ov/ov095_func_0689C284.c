@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: THM_CALL +0x8C func_0689C354 has no witness outside
  *   0689C284..0689C354; caller-only tu --suggest-split leaves this sole section OUT.
  * extent: 208-byte corrected body; C354 is a 16-byte Thumb bx-pc veneer

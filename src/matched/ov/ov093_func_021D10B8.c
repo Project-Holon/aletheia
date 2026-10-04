@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: sole-ref/code and veneer evidence cannot resolve 021D121C and
  * 021D122C; their bx-pc veneers point outside known image regions to
  * 0x0689CB14 and 0x0689CB1C. All concrete bytes in the 356-byte body match.
@@ -34,15 +34,15 @@ typedef unsigned int u32;
 extern int func_021EEC20(int, u8 **);
 extern void func_021EAF18(void *, int, int);
 extern void func_021EAF50(void *, int);
-extern void func_021EAF78(void *, int);
+extern void func_021EAF78(u8 *p, u8 v);
 extern void func_021EA614(void *, void *);
-extern int func_021EA710(void *);
+extern int func_021EA710(u32 *p);
 extern int func_021EA720(void *);
 extern void func_021EABC4(void *, void *, void *, int);
 extern int func_021EAC54(void *, int *);
-extern void func_021D0B10(void *, int, int, void *, void *);
-extern void func_021E9A78(void *, const u8 *, int, int, u8 *);
-extern int func_021E9B20(void *);
+extern void func_021D0B10(u8 *p, u32 a, u32 b, void *q, void *out);
+extern void func_021E9A78(char *p, const u8 *q, int x, int y, u8 *r);
+extern int func_021E9B20(u8 *p);
 extern int func_021D121C(void *);
 extern u32 func_021D122C(void *);
 extern void func_021D8394(void *, u8, u32);

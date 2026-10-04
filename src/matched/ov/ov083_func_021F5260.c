@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Byte-correct. Only blockers: four unlabelled arm9 leaves (Ilias's), each
  * with no witness outside the range.
@@ -48,12 +48,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020120F4(void *a);
+struct Ctx;
+struct Rec02010F94;
+extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02010F7C(u32 heap);
 extern void *func_02158768(void *p, u32 msg, u32 a, u32 b);
 extern void *func_021589D0(void *h);
-extern int   func_02010F94(void *rec, int slot);
-extern void  sub_02010E14(int slot, void *rec, int select);
+extern unsigned int func_02010F94(struct Rec02010F94 *p, int idx);
+extern void sub_02010E14(int slot, u8 *rec, int select);
 extern void  func_02159058(void *p, u16 a, u16 b, u16 c, u32 d);
 extern void *func_02158F74(void *p);
 extern void  func_021F5488(void *a0, void *a1, int a2);

@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * extent: two-byte alignment padding at 0x021E0A42.
  * blocker: ARM9 0x0203F63C and 0x0203F5FC have no outside label/matched witness.
  * Verified ARM scratch C: S12/blocker_0203F63C-r1.log EXACT (72 bytes),
@@ -29,8 +29,10 @@
  */
 typedef unsigned short u16;
 extern void func_021E15DC(int *,int);
-extern int func_0203F63C(u16);
-extern int func_0203F5FC(u16);
+typedef signed short   s16;
+typedef unsigned int   u32;
+extern s16 func_0203F63C(u32 x);
+extern s16 func_0203F5FC(u32 x);
 void func_021E09C0(char *p,int *q,int amount,int extra)
 {
     u16 angle;

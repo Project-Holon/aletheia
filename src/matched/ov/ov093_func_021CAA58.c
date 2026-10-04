@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: thirteen local Thumb veneers 021CAC24..021CACE4 have no
  * outside witness; their ARM pool target 0x0689CB49 is outside image regions.
  * extent: 458-byte function, two bytes alignment, thirteen 16-byte veneers.
@@ -41,11 +41,11 @@ typedef unsigned int u32;
 extern u8 func_021D5440(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
 extern u8 func_021CAA24(u8 *, u8 *, u8 *, int, u16);
-extern u8 *func_021B98A4(void *, u8);
+extern u8 *func_021B98A4(char * const *q, u8 b);
 extern u32 func_021D78AC(u32);
 extern u8 *func_021CB174(u8 *, int, u8);
 extern u8 *func_021CB1A4(u8 *, int);
-extern int func_021B9934(char *, int);
+extern u8 *func_021B9934(char *p, int i);
 extern u8 func_021CB1D4(u8 *, u8 *, u8 *, u32);
 extern void func_021CAC24(void *, void *);
 extern void func_021CAC34(void *, void *);

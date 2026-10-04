@@ -9,7 +9,7 @@ for this repository.
 ## Overlays
 
 237 overlays, 1,876,064 game code bytes (+518,060 SDK bytes), 27,621 functions,
-  1,728,416 matched (92.1299% of game), plus 3,233 SDK functions (518,060 bytes) matched.
+  1,730,518 matched (92.2419% of game), plus 3,233 SDK functions (518,060 bytes) matched.
 Bytes are instruction bytes on both sides, the measure used for ARM9: literal pools
 and data runs are not counted as matched or as work.
 
@@ -63,7 +63,7 @@ byte-matching ROM.
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
-  - [ ] Overlays: 22,940 of 24,388 game functions are matched (1,728,416 of 1,876,064 game instruction bytes, 92.13%), plus 3,233 of 3,233 SDK functions (518,060 of 518,060 SDK instruction bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
+  - [ ] Overlays: 22,959 of 24,388 game functions are matched (1,730,518 of 1,876,064 game instruction bytes, 92.24%), plus 3,233 of 3,233 SDK functions (518,060 of 518,060 SDK instruction bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
   - [ ] 100% matching across the whole ROM
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))

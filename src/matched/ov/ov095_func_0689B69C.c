@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: five unlabelled 16-byte bx-pc/ARM veneers 0689B730..0689B770 lack outside witnesses; full ROM pool targets 022033CC,0220270C,021F81EC,021F8A78,022033CC respectively. No ARM9 blocker.
  * trailing: five fixed veneers plus 16-byte tail stub 0689B780..0689B790; non-C veneers interrupt the lead/stub C unit. Parent cleared B780 conditionally; no follower filed.
  * checks: 1 call arguments and veneer target words audited, 760 argless; 2 B670 union/bitfields and B790 tail twin read; 3 bitfield += (u8)1 gives byte-correct 148B; 4 bitfield/compound-update idioms fit; 5 live ov095 neighbors reread; caller-only TU/split diagnoses wildcard sites.

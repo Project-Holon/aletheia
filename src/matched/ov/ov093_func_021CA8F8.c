@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: Five Thumb veneers at 021CA9D4, 021CA9E4, 021CA9F4,
  * 021CAA04, 021CAA14 each target 0x0689CB49 outside the image regions;
  * no outside code witness resolves their call relocations. The 220-byte
@@ -26,8 +26,8 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021D5440(u8 *);
 extern int func_021B8D8C(void *, void *, u32);
-extern u8 *func_021CB174(u8 *, int, u8);
-extern int func_021B9934(char *, int);
+extern void *func_021CB174(u8 *p, unsigned int n, int k);
+extern u8 *func_021B9934(char *p, int i);
 extern void func_021CA9D4(void *, void *);
 extern void func_021CA9E4(void *, void *);
 extern void func_021CA9F4(void *, void *);

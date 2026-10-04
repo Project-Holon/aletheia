@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Byte-correct; blocked by one unwitnessed arm9 leaf (Ilias's), no outside
  * caller: func_02012EFC at 0x02012EFC (unlabelled tail-call stub), verified EXACT as
@@ -34,16 +34,21 @@ typedef unsigned short u16;
 typedef unsigned int  u32;
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_02045EC0(void *h, u32 idx);
-extern void  func_02045A90(void *a);
-extern void *func_020457B0(u32 size, u32 heap);
-extern void *func_0201EC74(u32 count, u32 size, u32 heap);
+struct Buf3FC;
+struct MsgBank;
+struct RecSlot;
+struct U16Vec;
+struct WordSet;
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern u16 *func_02045A90(struct U16Vec *vec);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern struct WordSet *func_0201EC74(u32 n, u32 size, u8 heap);
 extern void *func_020056A0(void *fn, void *arg, u32 c);
 extern void  func_021B96C8(void);
-extern void *func_02012EFC(void *a);
-extern void *func_0200DF58(void *p, u32 heap);
-extern u32   func_0200DF94(void *b);
+extern void *func_02012EFC(void **p);
+extern struct Buf3FC *func_0200DF58(struct RecSlot *p, u32 heap);
+extern u32 func_0200DF94(struct Buf3FC *b);
 extern void  func_021BA350(void *p);
 
 void func_021B96D4(u8 *p, u32 a)

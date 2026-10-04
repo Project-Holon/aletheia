@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * blocker: SDK-owned G2_ChangeBlendAlpha (ARM ov121 021DDC30) and
  *   G2S_ChangeBlendAlpha (ARM ov121 021DDC44) lack code witnesses.
  *   sdk/TwlSDK/include/nitro/gx/g2.h static inline definitions match the

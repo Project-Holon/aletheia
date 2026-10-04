@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * lever: named temporaries keep Q+0x30 live across0201A364; bounded permuter47 compiles found byte-correct192.
  * blocker: ARM90201A364 (thumb) has no witness outside02167EF4..02167FB4; Ilias owns it. No owner-leaf compile under assigned scope.
  * Interface evidence: ov019_func_0217BA10.c records r0->r2, r1->r0, r1=0x69, jump via02048F4C. Original caller supplies d in r0 and p->buf in r1.
@@ -73,7 +73,8 @@ extern int func_0200CA1C(void);
 extern void func_02082BCC(void *, int, int);
 extern u8 func_0201AA18(int);
 extern int func_0200CA38(int);
-extern void func_02167FB4(void);
+struct SeqWork;
+extern int func_02167FB4(void *evt, u32 *seq, struct SeqWork *w);
 int func_02167EF4(int a, int b, int c, int d, int e, int f, int g, int h, int i)
 {
   P *p;
