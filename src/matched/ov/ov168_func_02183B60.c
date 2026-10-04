@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum {OBJECT_SIZE=0x150} Size;
 extern const char d_02184A20[];
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
 extern void func_02183ED4(int);
@@ -64,7 +64,7 @@ enum Result func_02183B60(void *obj)
     u8 *p;
     Size size;
     int result=1;
-    func_0203064C((void *)1,73,0x70000);
+    func_0203064C(1,73,0x70000);
     size=OBJECT_SIZE;
     p=func_0203159C(obj,size,73);
     func_02082BCC(p,0,size);

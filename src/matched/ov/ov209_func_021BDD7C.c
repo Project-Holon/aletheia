@@ -60,7 +60,7 @@ extern int func_0202D7D8(int,int,int,int,int,int,int,int,u16,u16);
 extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void *func_021C940C(void *,const Template *,u32);
 extern void func_0204BA20(struct Actor *a, u32 v);
-extern void *func_0201ADE4(void *,u16,void *);
+extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern void func_0204B604(struct Actor *actor, u32 which, u32 set);
@@ -113,7 +113,7 @@ void func_021BDD7C(char *p,u16 species)
     t.w10=*(unsigned *)(p+t.w10*4+0xc0c);
     *(void **)(p+0xa74+index*4)=func_021C940C(*(void **)(p+0xa70),&t,0x6b);
     func_0204BA20(*(void **)(p+0xa74+index*4),0);
-    personal=func_0201ADE4((void *)species,outForm,(void *)0x806b);
+    personal=func_0201ADE4(species,(u16)outForm,0x806b);
     if (species!=0 && func_0201AE1C(personal,0x22)==0)
         func_0204B604(*(void **)(p+0xa74+index*4),1,1);
     func_0201AE14(personal);

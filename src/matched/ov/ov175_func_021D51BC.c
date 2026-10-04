@@ -50,7 +50,7 @@ extern void func_021E8AA0(int *, int);
 struct Sub0200852CObj;
 extern void func_021D54E8(unsigned sys, int *state, int *p);
 extern void func_021D61A4(void *obj, int unused, u8 *p);
-extern void func_0203064C(void *, u32, u32);
+extern void func_0203064C(u32, u32, u32);
 extern void func_02156E30(int, int, int, int);
 extern void func_02156F50(int);
 extern void func_02156ED0(void);
@@ -91,7 +91,7 @@ void func_021D51BC(unsigned sys, int *state, char *p)
             return;
         }
         P(0xf8) = 0;
-        func_0203064C((void *)1, 0x86, 0x60000);
+        func_0203064C(1, 0x86, 0x60000);
         func_02156E30(9, 0x60000, 1000, 0x86);
         func_02156F50(0x86);
         *state = 1;
