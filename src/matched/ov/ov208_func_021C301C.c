@@ -32,7 +32,8 @@ typedef unsigned int   u32;
 struct Pos { s16 x; s16 y; };
 struct Pair { int x; int y; };
 
-extern void func_0204B454(void *obj, struct Pos *out, int space);
+struct Actor; struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 struct Obj;
 extern void func_0204B5C0(const struct Obj *o, struct Pair *p);
 extern void func_0204B404(void *obj, struct Pos *pos, int space);
@@ -50,7 +51,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
     case 2:
         break;
     case 1:
-        func_0204B454(OBJ(p), &pos, 1);
+        func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
         func_0204B5C0(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f;
         f += 0.01f;
@@ -67,7 +68,7 @@ void ov208_func_021C301C(u16 *heap, u8 *p, int key)
         func_0204B5AC(OBJ(p), &sc);
         break;
     case 3:
-        func_0204B454(OBJ(p), &pos, 1);
+        func_0204B454(OBJ(p), (struct PtS *)&pos, 1);
         func_0204B5C0(OBJ(p), &sc);
         f = (float)sc.y / 4096.0f - 0.01f;
         if (f <= 1.0f) {

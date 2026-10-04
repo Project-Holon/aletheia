@@ -15,7 +15,8 @@
  *   func_021F43A0 0x021F43A0 thumb ov194
  */
 typedef struct {short x,y;} Vec2;
-extern void func_0204B454(int,Vec2 *,int);
+struct Actor; struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern unsigned func_02035D20(unsigned *,unsigned *);
 extern int func_021F4450(int *,int *);
 extern void func_021F4394(char *);
@@ -27,7 +28,7 @@ void func_021F42E8(char *p) {
     int point[2];
     switch (*(int *)(p+24)) {
     case 0:
-        func_0204B454(*(int *)p,&pos,0);
+        func_0204B454((struct Actor *)*(int *)p,(struct PtS *)&pos,0);
         *(int *)(p+20)=0;
         if (func_02035D20(&x,&y)) {
             rect[0]=pos.x-16; rect[1]=pos.y-16;

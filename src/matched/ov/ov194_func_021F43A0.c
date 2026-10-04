@@ -14,7 +14,8 @@
  */
 typedef struct {short x,y;} Vec2;
 extern short d_020A1B38[];
-extern void func_0204B454(int,Vec2 *,int);
+struct Actor; struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 extern void func_0204B404(int,Vec2 *,int);
 int func_021F43A0(char *p) {
     Vec2 pos;
@@ -22,7 +23,7 @@ int func_021F43A0(char *p) {
     if (*(int *)(p+28)) {
         tick=*(unsigned short *)(p+32);
         *(unsigned short *)(p+32)=tick+1;
-        func_0204B454(*(int *)p,&pos,0);
+        func_0204B454((struct Actor *)*(int *)p,(struct PtS *)&pos,0);
         pos.y=20-((12*d_020A1B38[((unsigned short)(32767*tick/8)>>4)*2])>>12);
         func_0204B404(*(int *)p,&pos,0);
         if (*(unsigned short *)(p+32)>8) *(int *)(p+28)=0;

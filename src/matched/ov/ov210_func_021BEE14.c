@@ -20,7 +20,8 @@ typedef unsigned int   u32;
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern void func_0204B404(void *, void *, unsigned short);
-extern void func_0204B454(void *, void *, unsigned short);
+struct Actor; struct PtS;
+extern void func_0204B454(struct Actor *,struct PtS *,unsigned int);
 
 void func_021BEE14(char *p, int idx, int flag)
 {
@@ -45,7 +46,7 @@ void func_021BEE38(char *p, int idx, unsigned short a, unsigned short b, unsigne
 void func_021BEE58(char *p, int idx, short *outA, short *outB, unsigned short in)
 {
     short buf[2];
-    func_0204B454(*(void **)(p + idx * 4 + 0x28), buf, in);
+    func_0204B454(*(void **)(p + idx * 4 + 0x28), (struct PtS *)buf, in);
     *outA = buf[0];
     *outB = buf[1];
 }
