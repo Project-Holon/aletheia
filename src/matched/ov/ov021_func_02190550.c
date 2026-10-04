@@ -33,7 +33,8 @@ typedef struct Slot {
 } Slot;
 
 extern void func_02045CAC(u32 a, u32 b, u32 c);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_0201C6FC(u32 a, u32 b, s16 c, s16 d, u32 e, u32 f);
 
 void func_02190550(Slot *s, int x, int y, u32 z)
@@ -42,6 +43,6 @@ void func_02190550(Slot *s, int x, int y, u32 z)
 
     func_02045CAC(s->f10, z, s->f18);
     t = s->f0c;
-    func_0201C6FC(t, func_02045770(s->f1c), x, y, s->f18, s->f08);
+    func_0201C6FC(t, (u32)func_02045770((struct Descriptor *)s->f1c), x, y, s->f18, s->f08);
     s->f20 = 1;
 }

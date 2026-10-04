@@ -46,7 +46,8 @@ typedef struct {
 } Obj;
 
 int func_020120F4(int a0);
-int func_02045770(int a0);
+struct Descriptor;
+void *func_02045770(struct Descriptor *a0);
 int func_0201C6C4(int a0, int a1);
 int func_02012B70(int a0);
 int func_02012B58(int a0);
@@ -66,7 +67,7 @@ void func_0217E638(Obj *p)
     int v;
 
     h = func_020120F4(p->f00);
-    if (func_0201C6C4(p->f28, func_02045770(p->f44)) == 1) {
+    if (func_0201C6C4(p->f28, (int)func_02045770((struct Descriptor *)p->f44)) == 1) {
         return;
     }
     if (func_02012B70(h) == 1) {
@@ -86,7 +87,7 @@ void func_0217E638(Obj *p)
     }
     p->f10C = mode;
     if (mode == 7) {
-        func_02043B5C(func_02045770(p->f44), 0);
+        func_02043B5C((int)func_02045770((struct Descriptor *)p->f44), 0);
         func_02045334(p->f44);
         return;
     }
@@ -95,8 +96,8 @@ void func_0217E638(Obj *p)
     }
     func_02045CAC(p->f2C, anim, p->f38);
     func_0201F250(p->f24, p->f40, p->f38);
-    func_02043B5C(func_02045770(p->f44), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)p->f44), 0);
     v = p->f28;
-    func_0201C724(v, func_02045770(p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
+    func_0201C724(v, (int)func_02045770((struct Descriptor *)p->f44), 0, 0, p->f40, p->f1C, 0x3C40);
     p->f48 = 1;
 }
