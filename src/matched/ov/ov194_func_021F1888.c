@@ -27,7 +27,9 @@ extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,int);
 extern void *func_0204B294(unsigned,unsigned,unsigned,unsigned,void *,u16,u16);
-extern void func_0204B3DC(void *,unsigned),func_0204B92C(void *,unsigned);
+extern void func_0204B3DC(void *,unsigned);
+struct Obj;
+extern void func_0204B92C(struct Obj *,unsigned);
 void func_021F1888(char *p,unsigned owner,u16 heap)
 {
     short pos[4];

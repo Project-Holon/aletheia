@@ -48,7 +48,8 @@ typedef struct {
 } Work;
 
 extern int func_021F5CA4(Work *p);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B878(u32 obj, u16 anim);
 extern int func_021F5F9C(int a, int b, int c);
 extern void func_021F68A4(Work *p, int box);
@@ -68,14 +69,14 @@ int func_021F5CFC(Work *p)
     if (r != -1) {
         switch (r) {
         case 0x1F:
-            func_0204B92C(p->arrows[0], 1);
+            func_0204B92C((struct Obj *)p->arrows[0], 1);
             func_0204B878(p->arrows[0], 0x26);
             p->box = func_021F5F9C(p->box, p->boxes, 1);
             func_021F68A4(p, p->box);
             func_020061E4(0x548);
             break;
         case 0x20:
-            func_0204B92C(p->arrows[1], 1);
+            func_0204B92C((struct Obj *)p->arrows[1], 1);
             func_0204B878(p->arrows[1], 0x27);
             p->box = func_021F5F9C(p->box, p->boxes, -1);
             func_021F68A4(p, p->box);

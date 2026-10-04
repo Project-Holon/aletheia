@@ -74,7 +74,8 @@ extern const Pos tbl_02202C50[];
 
 extern void func_02082BCC(void *, int, int);
 extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
-extern void func_0204B92C(u32, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B878(u32, u16);
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(u32, int);
@@ -91,7 +92,7 @@ void func_021F5420(Work *p)
     s.a = tbl_02202D24[p->idx].x;
     s.b = tbl_02202D24[p->idx].y;
     p->sub.f34 = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
-    func_0204B92C(p->sub.f34, 1);
+    func_0204B92C((struct Obj *)p->sub.f34, 1);
     func_0204B878(p->sub.f34, 4);
     if (func_020355C4() == 1) {
         func_0204B3DC(p->sub.f34, 0);
@@ -145,7 +146,7 @@ void func_021F5420(Work *p)
     s.e = 1;
     p->sub.f3C = func_0204B294(p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
     func_0204B878(p->sub.f3C, 0xc);
-    func_0204B92C(p->sub.f3C, 1);
+    func_0204B92C((struct Obj *)p->sub.f3C, 1);
     func_0204B974(p->sub.f3C);
     func_0204B3DC(p->sub.f3C, 0);
     func_0204B3DC(p->fD38, 1);
