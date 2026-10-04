@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern int func_021BD1DC(int a);
-extern int func_02045770(int a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_021BD1FC(int a);
 extern int func_021BD204(int a);
 extern int func_021BD1EC(int a);
@@ -39,7 +40,7 @@ void func_021BC9CC(char *p)
     r4 = *(int *)(p + 0xc8 + 4 * *(u8 *)(p + 0x14a));
     if (r4 != 0) {
         a = func_021BD1DC(r4);
-        b = func_02045770(*(int *)(p + 0x24));
+        b = (int)func_02045770((struct Descriptor *)*(int *)(p + 0x24));
         c = func_021BD1FC(r4);
         d = func_021BD204(r4) - 8;
         e = func_021BD1EC(r4);

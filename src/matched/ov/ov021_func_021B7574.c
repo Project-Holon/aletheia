@@ -54,7 +54,8 @@ extern u32 func_02188C54(u32 a);
 extern u32 func_02192788(u32 a);
 extern int func_0219077C(u32 a);
 extern u32 func_021907C0(u32 a);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_021928C0(u32 a, u32 b, u32 c);
 extern void func_02045334(u32 a);
 extern u32 func_020362DC(void);
@@ -87,7 +88,7 @@ int func_021B7574(void *task, int *st, Work *w)
         break;
     case 2:
         h = func_021907C0(w->f4->fC);
-        func_021928C0(w->f4->f10, func_02045770(h), 15);
+        func_021928C0(w->f4->f10, (u32)func_02045770((struct Descriptor *)h), 15);
         func_02045334(h);
         if (func_020362DC() & 1) {
             func_020061E4(0x547);
