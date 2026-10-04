@@ -14,12 +14,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
 void func_021B891C(int a, char *q, u16 *p)
 {
     u32 entry;
-    entry = func_020399A8();
+    entry = (u32)func_020399A8();
     if (func_0203D3F8(entry, 255, 0x2001, *p + 8, (u32)p, 1, 0, 1) != 0)
         *(int *)(q + 0x194) = 1;
 }

@@ -34,7 +34,7 @@ struct Obj0203159C;
 struct U16Vec;
 struct App;
 struct Scene;
-extern void sub_0203064C(void *,u32,u32);
+extern void sub_0203064C(u32 src, u32 dst, u32 size);
 extern char *func_0203159C(struct Obj0203159C *,u32,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern void *sub_0201AB28(void *,u32);
@@ -52,7 +52,7 @@ extern const char d_02208F40[];
 int func_02203FA0(struct Obj0203159C *owner,int unused,u8 *app)
 {
     char *p;
-    sub_0203064C((void *)1,0x94,0x10000);
+    sub_0203064C(1,0x94,0x10000);
     p=func_0203159C(owner,0x120,0x94);
     func_02082BCC(p,0,0x120);
     *(u16 *)p=0x94;
