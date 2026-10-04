@@ -22,14 +22,15 @@ typedef unsigned int   u32;
 
 int func_02188C80(u32 x);
 int func_020120F4(int x);
-int func_02012A30(int x);
+struct BigObj;
+u32 func_02012A30(const struct BigObj *x);
 int func_02188C9C(u32 x);
 void func_02029D8C(u32 a0, u32 a1, u32 a2);
 
 void func_021A4114(u32 *p)
 {
     int a = func_020120F4(func_02188C80(p[2]));
-    int b = func_02012A30(a);
+    int b = func_02012A30((const struct BigObj *)a);
 
     func_02029D8C(b, a, (u16)func_02188C9C(p[2]));
 }

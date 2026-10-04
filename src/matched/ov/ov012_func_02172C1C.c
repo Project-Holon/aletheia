@@ -15,13 +15,13 @@
  */
 typedef unsigned char u8;
 extern void func_020307B0(void *p);
-extern void func_020306F0(void *p);
+extern void func_020306F0(unsigned int heap);
 extern void func_02173420(void *p);
 void func_02172C1C(void *p, u8 *q)
 {
     if (*(void **)(q + 0x352c) != 0) func_020307B0(*(void **)(q + 0x352c));
     func_02173420(q);
     func_020307B0(q);
-    func_020306F0((void *)0x41);
+    func_020306F0(0x41);
     func_020307B0(p);
 }

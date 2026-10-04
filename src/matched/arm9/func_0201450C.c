@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * promoted: seed round 9, EXACT (fresh match.py one) once the ov010 callees
  *           0x0215FA34 and 0x0215FA44 were seeded in layout/function_starts.txt
  * note:     re-verified 2026-09-20: MATCH*; see verify output
@@ -43,7 +43,8 @@
  *           0x02188BD8 in ov021; need seeds in those overlays' listings.
  */
 
-extern void func_02012A30(int v);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *v);
 extern void func_02188BD8(int v);
 extern int  func_020120F0(int v);
 extern void func_0215FA44(void);
@@ -53,7 +54,7 @@ int func_0201450C(int a0, int *a1, int *a2)
     int v7 = a2[0];
     int v6 = a2[1];
 
-    func_02012A30(a2[2]);
+    func_02012A30((const struct BigObj *)a2[2]);
     switch (*a1) {
     case 0:
         func_02188BD8(v6);
