@@ -24,10 +24,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
-extern void func_02155A90(u32 a);
-extern void func_02012138();
-extern u32 func_02026454();
-extern void func_02026400();
+struct Ctx;
+struct Comm;
+extern u32 func_02155A90(u8 *p);
+extern u32 func_02012138(const struct Ctx *p);
+extern u32 func_02026454(void *obj);
+extern void func_02026400(struct Comm *p);
 extern void func_02196034(void *p, void *fn, u32 n);
 extern void func_021967BC(u8 *p);
 
@@ -36,12 +38,8 @@ void func_02196804(u8 *p)
     p[0x306] = 1;
     func_0202208C(0, 0, 0, 0, 6, 1, *(u16 *)(p + 0x10));
     if (*(u32 *)(p + 8) != 0xC) {
-        func_02155A90(*(u32 *)(p + 0x2E4));
-        func_02012138();
-        if (func_02026454() != 0) {
-            func_02155A90(*(u32 *)(p + 0x2E4));
-            func_02012138();
-            func_02026400();
+        if (func_02026454((void *)func_02012138((const struct Ctx *)func_02155A90((u8 *)*(u32 *)(p + 0x2E4)))) != 0) {
+            func_02026400((struct Comm *)func_02012138((const struct Ctx *)func_02155A90((u8 *)*(u32 *)(p + 0x2E4))));
         }
     }
     func_02196034(p, (void *)func_021967BC, 0x37C);

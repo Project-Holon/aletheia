@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0203133C  0x0203133C  arm
@@ -33,11 +33,12 @@ struct IcaAnime {
     u32 f08;            /* +0x08 */
 };
 
-extern void func_0203133C(u32 v);
-extern void func_02011F90(struct IcaAnime *p);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
+extern void func_02011F90(u32 *p);
 
 void func_02012088(struct IcaAnime *p)
 {
-    func_0203133C(p->f08);
-    func_02011F90(p);
+    func_0203133C((struct S020314B8 *)p->f08);
+    func_02011F90((u32 *)p);
 }
