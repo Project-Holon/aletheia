@@ -15,7 +15,8 @@
  */
 typedef unsigned int u32;
 extern int func_020221A4(char *);
-extern void *func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026454(void *obj);
 extern void func_021D4244(char *, void *, int);
 void func_021D4AB4(char *p)
@@ -24,7 +25,7 @@ void func_021D4AB4(char *p)
         switch (*(u32 *)(p + 8)) {
         case 2:
         case 3:
-            if (func_02026454(func_02012138(*(void **)(p + 0x264))) == 0)
+            if (func_02026454((void *)func_02012138(*(void **)(p + 0x264))) == 0)
                 func_021D4244(p, 0, 0x345);
             break;
         default:
