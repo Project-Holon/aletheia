@@ -30,9 +30,9 @@ extern int func_0201BCB4(void);
 extern void *func_0204ACEC(void *, int, int, int, int);
 extern void *func_0204AF28(void *, int, int, int);
 extern void *func_0204A6C8(void *, int, int, int, int);
-extern void *func_0204B294(void *, void *, void *, void *, ObjTmpl *, int, int);
-typedef unsigned int   u32;
 struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
+typedef unsigned int   u32;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_02049238(void *);
@@ -55,12 +55,12 @@ void func_021E467C(char *p)
             t.mode = 3;
             q = p + i * 20 + j * 4;
             *(void **)(q + 0x9cc) = func_0204A6C8(arc, 0x51b, z, 1, *(u16 *)(p + 0x5f4));
-            *(void **)(q + 0xac0) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(q + 0x9cc),
-                *(void **)(p + 0x87c), *(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
+            *(void **)(q + 0xac0) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(q + 0x9cc),
+                (unsigned int)*(void **)(p + 0x87c), (unsigned int)*(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
             t.prio = z;
             t.pal = 0xf;
-            *(void **)(q + 0xbb0) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(p + 0x894),
-                *(void **)(p + 0x880), *(void **)(p + 0x8b0), &t, 1, *(u16 *)(p + 0x5f4));
+            *(void **)(q + 0xbb0) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x894),
+                (unsigned int)*(void **)(p + 0x880), (unsigned int)*(void **)(p + 0x8b0), &t, 1, *(u16 *)(p + 0x5f4));
             func_0204B92C(*(void **)(q + 0xac0), z);
             func_0204B3DC(*(void **)(q + 0xac0), z);
             func_0204B3DC(*(void **)(q + 0xbb0), z);

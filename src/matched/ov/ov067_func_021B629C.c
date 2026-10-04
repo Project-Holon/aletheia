@@ -31,7 +31,8 @@ typedef struct {
     int fC;
 } P;
 
-extern int func_0204B294(int a, int b, int c, int d, Rect *r, int e, u16 f);
+struct Obj;
+extern struct Obj *func_0204B294(void *a, unsigned int b, unsigned int c, unsigned int d, const void *r, u16 e, u16 f);
 extern void func_0204B878(int h, u8 e);
 
 int func_021B629C(P *p, int a, u16 x, u16 y, u8 e, u16 f)
@@ -41,7 +42,7 @@ int func_021B629C(P *p, int a, u16 x, u16 y, u8 e, u16 f)
 
     rc.x = x;
     rc.y = y;
-    r = func_0204B294(a, p->f0, p->f4, p->f8, &rc, (u16)p->fC, f);
+    r = (int)func_0204B294((void *)a, p->f0, p->f4, p->f8, &rc, (u16)p->fC, f);
     func_0204B878(r, e);
     return r;
 }

@@ -9,7 +9,7 @@
  * isa: thumb
  * status: EXACT
  * prototype: 0204B294 leaves its forwarder's result in r0, captured at
- *   021B712A and 021B715A; declared with the observed word result.
+ *   021B712A and 021B715A; the returned object pointer is stored as a word.
  * symbols:
  *   func_021B7180 0x021B7180 thumb ov174
  *   func_021B71A0 0x021B71A0 thumb ov174
@@ -34,9 +34,9 @@ extern void func_020307B0(void *);
 extern int func_0204ACEC(void *, u32, u32, u32, u16);
 extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern int func_0204AF28(void *, u32, u32, u32);
-extern u32 func_0204B294(u32, u32, u32, u32, u32, u16, u16);
-struct Actor;
 struct Obj;
+extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
+struct Actor;
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B974(struct Actor *a);
@@ -61,12 +61,12 @@ void func_021B7004(u8 *p, u8 *q)
     req.y = (q[0] / 2) * 96 + 48;
     if (*(int *)(p + 8) == 2) req.y += 56;
     req.id = 0;
-    *(u32 *)(q + 40) = func_0204B294(*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), (u32)&req, 0, *(u16 *)p);
+    *(u32 *)(q + 40) = (u32)func_0204B294((void *)*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), &req, 0, *(u16 *)p);
     func_0204B3DC(*(void **)(q + 40), 1);
     func_0204B92C(*(void **)(q + 40), 1);
     func_0204B974(*(void **)(q + 40));
     req.id = 1;
-    *(u32 *)(q + 44) = func_0204B294(*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), (u32)&req, 0, *(u16 *)p);
+    *(u32 *)(q + 44) = (u32)func_0204B294((void *)*(u32 *)(p + 80), *(u32 *)(q + 32), *(u32 *)(q + 28), *(u32 *)(q + 36), &req, 0, *(u16 *)p);
     func_0204B3DC(*(void **)(q + 44), 1);
     func_0204B92C(*(void **)(q + 44), 1);
     func_0204B974(*(void **)(q + 44));

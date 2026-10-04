@@ -75,7 +75,7 @@ extern u32 func_02027600(u32 a);
 extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
-extern void *func_0204B294(void *, void *, void *, void *, Rect4 *, unsigned short, unsigned short);
+extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(struct Obj *o, u32 v, u32 flag);
 extern void func_0204B800(struct Node *node, u32 val);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -162,7 +162,7 @@ void func_021BB79C(Ent *p, unsigned x, unsigned y, int z, int row)
     func_020307B0(handle);
     for (j = 0; j < 2; j++) {
         if (p->m[row][j] != -1) {
-            p->n[row][j] = func_0204B294(p->f24, (void *)p->m[row][j], p->fc8, p->fcc, &rr[j], (unsigned short)tern, p->f0);
+            p->n[row][j] = func_0204B294(p->f24, (u32)p->m[row][j], (u32)p->fc8, (u32)p->fcc, &rr[j], (unsigned short)tern, p->f0);
             func_0204B6F4(p->n[row][j], func_020275EC(sel[j]), 1);
             func_0204B800(p->n[row][j], 2);
             func_0204B688(p->n[row][j], 1);

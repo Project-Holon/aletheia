@@ -58,7 +58,8 @@ extern u32 func_0202DA48(u32,u32,u32,u32);
 extern u32 func_0202DA18(u32,u32,u32,u32,u32);
 extern int func_0202DA6C(int,int,int,int);
 extern void func_02049238(void *);
-extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u32);
+struct Obj;
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
 {
     u32 i,base,id,archive,offset;
@@ -94,6 +95,6 @@ void func_021C991C(u8 *p,u8 *q,u8 *ctx,u16 heap)
     *(u32 *)(p+0x180)=func_0202DA18(archive,id,0,192,heap);
     *(u32 *)(p+0x184)=func_0202DA6C(id,2,0,heap);
     func_02049238((void *)archive);
-    *(u32 *)(p+0x178)=func_0204B294(*(u32 *)(ctx+0x138),*(u32 *)(p+0x17C),
-        *(u32 *)(p+0x180),*(u32 *)(p+0x184),(u32)&bounds,0,heap);
+    *(u32 *)(p+0x178)=(u32)func_0204B294((void *)*(u32 *)(ctx+0x138),*(u32 *)(p+0x17C),
+        *(u32 *)(p+0x180),*(u32 *)(p+0x184),&bounds,0,heap);
 }
