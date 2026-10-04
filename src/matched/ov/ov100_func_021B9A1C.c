@@ -18,13 +18,14 @@
  */
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(void *,int,int);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_0203D7B0(int),func_0203D7BC(int);
 extern void func_021B95B8(unsigned char *,unsigned);
 extern void func_021B99F4(unsigned a);
 void func_021B9A1C(unsigned a)
 {
- if(func_02039CB4(func_020399A8(),0x7f,12)!=0) {
+ if(func_02039CB4((struct Link *)func_020399A8(),0x7f,12)!=0) {
   func_0203D7B0(0); func_0203D7BC(0);
   *(int *)(a+0xcac)=0;
   func_021B95B8((unsigned char *)a,(unsigned)func_021B99F4);

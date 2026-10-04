@@ -83,8 +83,9 @@ extern void func_0219749C(u8 *, u32, u32, u32, u32);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 extern void func_021966F0(void);
 extern void func_02196034(u8 *, void (*)(void), u32);
-extern void func_02155A90(u32);
-extern u32 func_020120F4(void);
+struct Ctx;
+extern u32 func_02155A90(u8 *);
+extern void *func_020120F4(const struct Ctx *);
 extern void func_0207D63C(u32, u32, u32, u32, u32);
 extern void func_0203D34C(u32, u32);
 
@@ -123,8 +124,7 @@ int func_021978DC(u32 a, u32 b, u32 c)
     func_0202208C(0, 1, 1, 0, 6, 1, *(u16 *)(w + 0x10));
     func_02196034(w, func_021966F0, 0x83B);
     *(u32 *)(w + 0x2E4) = c;
-    func_02155A90(*(u32 *)(w + 0x2E4));
-    *(u32 *)(w + 0x30) = func_020120F4();
+    *(u32 *)(w + 0x30) = (u32)func_020120F4((const struct Ctx *)func_02155A90((u8 *)*(u32 *)(w + 0x2E4)));
     func_0207D63C(0x04001050, 4, 1, 0xf, 4);
     func_0203D34C(0, *(u16 *)(w + 0x10));
     func_02043534(0x13);

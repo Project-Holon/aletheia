@@ -26,7 +26,7 @@ typedef signed short s16;
 extern char id127[],id67[];
 typedef signed int     s32;
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,int);
 extern void func_021C63EC(void *,void *,int);

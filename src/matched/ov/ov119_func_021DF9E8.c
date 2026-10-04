@@ -16,7 +16,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 low:4;u8 high:4; } Flags;
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 extern u32 func_020173EC(void);
 extern void MI_CpuCopy8(const void *,void *,unsigned);
@@ -25,7 +26,7 @@ int func_021DF9E8(char *p,void *src,int kind)
 {
     unsigned id;
     int one;
-    id=func_020399A8();
+    id=(unsigned)func_020399A8();
     if(((Flags *)(p+0x11fb))->low) return 0;
     MI_CpuCopy8(src,*(void **)(p+0x106c),func_020173EC());
     one=1;

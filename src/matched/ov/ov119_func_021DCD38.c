@@ -49,7 +49,8 @@ typedef struct Bits {u8 low:4,high:4;} Bits;
 extern int func_020275DC(void),func_021D8A24(void *),func_0200FB24(void),func_0203D29C(void);
 extern void func_021DD90C(char *,int,int,int),func_021D9468(void *,int,void *),func_021D8A50(void *),func_021DF868(void *);
 extern void func_0204A600(void),func_02027974(void *),func_02028178(u8 *);
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
 extern void func_0201DE00(u8 *,u8 *,u8 *),func_0201DD78(u32,u32,u32),func_020310C4(void *);
 struct PrintSys;
@@ -79,7 +80,7 @@ int func_021DCD38(int a,int b,int c,char *p)
     if(P(0x64c)) func_02027974(P(0x64c));
     if(P(0x648)) func_02028178(P(0x648));
     if(((Bits *)(p+0x11fb))->high) {
-        if(func_0203D3A8(func_020399A8(),0xc17,0,0)) ((Bits *)(p+0x11fb))->high=0;
+        if(func_0203D3A8((unsigned)func_020399A8(),0xc17,0,0)) ((Bits *)(p+0x11fb))->high=0;
     }
     if(P(0x744)) {
         func_0201DE00(&rgb[2],&rgb[1],&rgb[0]);
