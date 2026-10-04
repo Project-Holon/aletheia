@@ -16,14 +16,16 @@
  *   func_021D9434 0x021D9434 thumb ov119
  */
 extern int func_021D8A24(void *);
-extern int func_020399A8(void);
-extern int func_02039CB4(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_021E1098(char *p);
 extern void func_021D8E84(void *,int);
 extern void func_021D9434(void *);
 void func_021D9B84(void *p) {
  if(func_021D8A24(p)) {
-  if(func_02039CB4(func_020399A8(),20,8)) {
+  if(func_02039CB4((struct Link *)func_020399A8(),20,8)) {
    func_021E1098(p); func_021D8E84(p,(int)func_021D9434);
   }
  } else { func_021E1098(p); func_021D8E84(p,(int)func_021D9434); }

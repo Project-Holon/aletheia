@@ -28,7 +28,7 @@ typedef unsigned char u8;
 extern int func_021D8AA8(void *p);
 extern void *func_021D8FA4(void *p, int which);
 extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
-extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
+extern void *func_0201ADE4(unsigned int a, int b, unsigned int heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern u32 func_02008530(u32 a);
@@ -63,7 +63,7 @@ void func_021D6544(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy)
     b = func_02017E1C(mon, 0x6F, 0);
     egg = func_02017E1C(mon, 0x4C, 0);
     if (egg == 0) {
-        h = func_0201ADE4(a, b, *(u16 *)(p + 0x5F4));
+        h = (u32)func_0201ADE4((u16)a, (u16)b, *(u16 *)(p + 0x5F4));
         flag = func_0201AE1C(h, 0x10);
         func_0201AE14(h);
     }

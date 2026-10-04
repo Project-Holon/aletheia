@@ -81,9 +81,11 @@ extern void func_02082D44(const void *,void *,u32);
 extern s32 func_0200B078(struct Reg2 *p, u32 id);
 extern u32 func_0200E994(void *base, void *key);
 extern void func_02006210(void);
-extern int func_020399A8(void);
-extern void func_02039C68(u32,u32,u32);
-extern u32 func_02039CB4(u32,u32,u32);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *,u32,u32);
+extern u32 func_02039CB4(struct Link *,u32,u32);
 extern int func_0217E2C0(void *,u32 *);
 extern int func_0217E2F8(u8 *p, const void *q);
 extern int func_0217E1B8(int *);
@@ -131,8 +133,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
             *state=16;
         }else{func_021E7E0C(*(void ***)(p+28),0);func_02006210();*state=21;}
         break;
-    case 16:func_02039C68(func_020399A8(),0x48,0x1f);*state=17;break;
-    case 17:if(func_02039CB4(func_020399A8(),0x48,0x1f))*state=18;break;
+    case 16:func_02039C68((struct Link *)func_020399A8(),0x48,0x1f);*state=17;break;
+    case 17:if(func_02039CB4((struct Link *)func_020399A8(),0x48,0x1f))*state=18;break;
     case 18:if(func_0217E2C0(*(void **)(p+12),(u32 *)(p+0x1d4)))*state=19;break;
     case 19:if(func_0217E2F8(*(void **)(p+12),(u32 *)(p+0x1d8)))*state=20;break;
     case 20:
@@ -151,8 +153,8 @@ void func_0217C628(int *sys,u32 *state,u8 *p)
     case 31:if((*(u32 *)(p+0x1cc))++>300){*(u32 *)(p+0x1cc)=0;*state=32;}break;
     case 32:func_02040588(0,1);func_0217CFE8(p,24,1);*state=40;func_021E8AB4((u32)sys,33);break;
     case 33:func_0217CFE8(p,35,2);*state=40;func_021E8AB4((u32)sys,34);break;
-    case 34:func_02039C68(func_020399A8(),0x47,0x1f);*state=35;break;
-    case 35:if(func_02039CB4(func_020399A8(),0x47,0x1f))*state=36;break;
+    case 34:func_02039C68((struct Link *)func_020399A8(),0x47,0x1f);*state=35;break;
+    case 35:if(func_02039CB4((struct Link *)func_020399A8(),0x47,0x1f))*state=36;break;
     case 36:func_02040588(0,1);func_0217CFE8(p,38,2);*state=40;func_021E8AB4((u32)sys,37);break;
     case 37:
         if((*(u32 *)(p+0x1cc))++>60){

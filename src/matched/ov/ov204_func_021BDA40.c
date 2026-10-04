@@ -23,7 +23,7 @@
  */
 struct Obj0203159C; struct GfFont; struct MsgBank;
 extern int func_02034AC4(int);
-extern void func_0203064C(void *, unsigned, unsigned);
+extern void func_0203064C(unsigned int, unsigned, unsigned);
 extern char *func_0203159C(struct Obj0203159C *, unsigned, unsigned);
 extern void func_02082BCC(void *, unsigned, unsigned);
 extern unsigned char *func_021BDC18(int, int, unsigned short);
@@ -39,7 +39,7 @@ int func_021BDA40(struct Obj0203159C *owner, int unused, char *args)
 {
     char *p;
     func_02034AC4((int)ov067_id);
-    func_0203064C((void *)1, 111, 0x100000);
+    func_0203064C(1, 111, 0x100000);
     p = func_0203159C(owner, 0x24, 111);
     func_02082BCC(p, 0, 0x24);
     *(unsigned short *)p = 111;

@@ -37,7 +37,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct {u16 v[5];} Moves;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,int);
 typedef signed int     s32;
