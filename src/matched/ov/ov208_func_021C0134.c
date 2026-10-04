@@ -74,7 +74,8 @@ extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern void func_02082BCC(void *dst, int v, int n);
-extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u32 f, u32 heap);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B878(u32 obj, u32 anim);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
@@ -126,9 +127,9 @@ void func_021C0134(u16 *heap, u8 *p, int key)
 
     func_02082BCC(&pos, 0, sizeof(pos));
     for (i = 4; i < 7; i++)
-        OBJ(i) = func_0204B294(W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
+        OBJ(i) = (u32)func_0204B294((void *)W(0x1d0), W(0x98), W(0x9c), W(0xa0), &pos, 0, *heap);
     for (i = 0; i < 4; i++)
-        OBJ(i) = func_0204B294(W(0x1d0), W(0xa4), W(0xa8), W(0xac), &pos, 0, *heap);
+        OBJ(i) = (u32)func_0204B294((void *)W(0x1d0), W(0xa4), W(0xa8), W(0xac), &pos, 0, *heap);
 
     for (i = 0; i < 7; i++) {
         func_0204B878(OBJ(i), anim.v[i]);

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
 typedef unsigned char u8;
@@ -27,7 +27,8 @@ typedef struct {
     u8 e;
 } L;
 
-extern int func_0204B294(int, int, int, int, void *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B404(int, void *, int);
 extern void func_0204B878(int, int);
 
@@ -40,8 +41,8 @@ void func_021D9D44(char *p)
     s.c = 0;
     s.d = 10;
     s.e = 0;
-    *(int *)(p + 0x1E8) = func_0204B294(h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
-    *(int *)(p + 0x204) = func_0204B294(h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
+    *(int *)(p + 0x1E8) = (int)func_0204B294((void *)h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
+    *(int *)(p + 0x204) = (int)func_0204B294((void *)h, *(int *)(p + 0x270), *(int *)(p + 0x264), *(int *)(p + 0x288), &s.a, 0, 0x32);
     s.x = (*(u8 *)(p + 0x2F2) + *(u8 *)(p + 0x2F3)) / 2;
     s.y = (*(u8 *)(p + 0x2F0) + *(u8 *)(p + 0x2F1)) / 2;
     func_0204B404(*(int *)(p + 0x1E8), &s, 0);

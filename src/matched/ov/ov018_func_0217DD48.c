@@ -65,7 +65,7 @@ struct MsgBank;
 struct Obj;
 struct U16Vec;
 extern void *func_020120F4(const struct Ctx *p);
-extern void *func_0204B294(void *, void *, void *, void *, const void *, int, int);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void *func_020255A0(void *, Tmpl *);
@@ -86,7 +86,7 @@ void func_0217DD48(Work *p)
     Tmpl t;
 
     sys = func_020120F4(p->f00);
-    p->f9c = func_0204B294(p->f54, p->f04, p->f08, p->f10, d_021836AA, 0, 0x70);
+    p->f9c = func_0204B294(p->f54, (unsigned int)p->f04, (unsigned int)p->f08, (unsigned int)p->f10, d_021836AA, 0, 0x70);
     func_0204B3DC(p->f9c, 0);
     t = d_021836F4;
     for (i = 0; i < 2; i++) {

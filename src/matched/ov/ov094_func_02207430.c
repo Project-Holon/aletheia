@@ -49,7 +49,8 @@ struct PalAnmSlot;
 extern void func_020216D4(struct PalAnmSlot *slots, u32 bank, u32 off, u32 size);
 extern u32 func_0204A6C8(u32, int, int, int, u16);
 extern u32 func_0204AF28(u32, int, int, u16);
-extern u32 func_0204B294(u32, u32, u32, u32, Cfg *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern int func_021F8710(void);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
@@ -103,18 +104,18 @@ void func_02207430(Work *p, int mode, int i)
         j = i - 2;
     n = (7 - i) * 3;
     cfg.pri = n + 2;
-    p->entries[i].f40 = func_0204B294(p->f0, p->entries[i].f58, p->pal[j], p->entries[i].f5c, &cfg, 0, p->heap);
+    p->entries[i].f40 = (u32)func_0204B294((void *)p->f0, p->entries[i].f58, p->pal[j], p->entries[i].f5c, &cfg, 0, p->heap);
     cfg.pri = n + 1;
-    p->entries[i].f44 = func_0204B294(p->f0, p->entries[i].f60, p->pal[j], p->entries[i].f64, &cfg, 0, p->heap);
-    p->entries[i].f48 = func_0204B294(p->f0, p->entries[i].f68, p->pal[j], p->entries[i].f6c, &cfg, 0, p->heap);
+    p->entries[i].f44 = (u32)func_0204B294((void *)p->f0, p->entries[i].f60, p->pal[j], p->entries[i].f64, &cfg, 0, p->heap);
+    p->entries[i].f48 = (u32)func_0204B294((void *)p->f0, p->entries[i].f68, p->pal[j], p->entries[i].f6c, &cfg, 0, p->heap);
     if (func_021F8710() == 3 && i >= 4)
-        p->entries[i].f54 = func_0204B294(p->f0, p->f30, p->f3c, p->f34, &cfg, 0, p->heap);
+        p->entries[i].f54 = (u32)func_0204B294((void *)p->f0, p->f30, p->f3c, p->f34, &cfg, 0, p->heap);
     else
-        p->entries[i].f54 = func_0204B294(p->f0, p->f30, p->f38, p->f34, &cfg, 0, p->heap);
+        p->entries[i].f54 = (u32)func_0204B294((void *)p->f0, p->f30, p->f38, p->f34, &cfg, 0, p->heap);
     func_0204B92C((struct Obj *)p->entries[i].f54, 1);
     cfg.pri = n;
-    p->entries[i].f4c = func_0204B294(p->f0, p->entries[i].f70, p->pal[j], p->entries[i].f74, &cfg, 0, p->heap);
+    p->entries[i].f4c = (u32)func_0204B294((void *)p->f0, p->entries[i].f70, p->pal[j], p->entries[i].f74, &cfg, 0, p->heap);
     func_0204B3DC(p->entries[i].f4c, 0);
     if (side == 0 && mode != 2 && mode != 3)
-        p->entries[i].f50 = func_0204B294(p->f0, p->entries[i].f78, p->pal[j], p->entries[i].f7c, &cfg, 0, p->heap);
+        p->entries[i].f50 = (u32)func_0204B294((void *)p->f0, p->entries[i].f78, p->pal[j], p->entries[i].f7c, &cfg, 0, p->heap);
 }

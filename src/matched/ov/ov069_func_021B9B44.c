@@ -34,7 +34,7 @@ typedef struct Rec {
     u8 d, e;
 } Rec;
 
-typedef struct Obj {
+typedef struct WorkObj {
     unsigned char pad000[0x11C];
     int f11C;
     int f120;
@@ -44,7 +44,8 @@ typedef struct Obj {
 
 extern const Ent d_021BA6BC[];
 
-extern int func_0204B294(int, int, int, int, Rec *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *, unsigned int);
 
 void func_021B9B44(Obj *o)
@@ -58,7 +59,7 @@ void func_021B9B44(Obj *o)
         r.c = d_021BA6BC[i].c;
         r.e = 0;
         r.d = 0;
-        o->slot[i] = func_0204B294(o->f11C, o->arr[d_021BA6BC[i].d], o->arr[d_021BA6BC[i].e], o->arr[d_021BA6BC[i].f], &r, 0, 0x80);
+        o->slot[i] = (int)func_0204B294((void *)o->f11C, o->arr[d_021BA6BC[i].d], o->arr[d_021BA6BC[i].e], o->arr[d_021BA6BC[i].f], &r, 0, 0x80);
         func_0204B92C((struct Obj *)o->slot[i], 1);
     }
 }
