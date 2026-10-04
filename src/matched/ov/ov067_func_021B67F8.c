@@ -75,7 +75,8 @@ extern Ent d_021B942C[];
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern int func_021B6730(void *p, int i);
 extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Pos *pos, u16 f, u16 g);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, u32 v);
 struct S;
 extern void func_021B6A28(u8 *p);
 extern void func_021B6A68(struct S *p, u32 flag);
@@ -117,7 +118,7 @@ void func_021B67F8(Obj *p, u32 a1, void *a2, Src *src, u32 a4, u16 a5)
     p->f8 = p->src.hE;
     pos.z = p->f8;
     p->f0 = func_0204B294(a1, v0, v1, v2, &pos, a4, a5);
-    func_0204B92C(p->f0, 1);
+    func_0204B92C((struct Obj *)p->f0, 1);
     switch (p->f14) {
     case 0:
         p->fC = func_021B6A28;

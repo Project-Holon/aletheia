@@ -40,7 +40,8 @@ extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,u32);
 /* Caller consumes r0 from the legacy void-returning allocation wrapper. */
 extern u32 func_0204B294(u32,u32,u32,u32,struct Pos *,u16,u16);
-extern void func_0204B92C(u32,u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *,u32);
 extern void func_0204B688(u32,u32);
 void func_021BF308(u16 *heap, char *p, int key)
 {
@@ -77,7 +78,7 @@ void func_021BF308(u16 *heap, char *p, int key)
         pos.y = t[1];
         pos.z = *(u16 *)(q + 0x24);
         *(u32 *)(q + 0x1c) = func_0204B294(owner, *(u32 *)(p + 0xa0), *(u32 *)(p + 0x9c), *(u32 *)(p + 0xa4), &pos, flag, *heap);
-        func_0204B92C(*(u32 *)(q + 0x1c), 1);
+        func_0204B92C((struct Obj *)*(u32 *)(q + 0x1c), 1);
         func_0204B688(*(u32 *)(q + 0x1c), 1);
         i = (u8)(i + 1);
     } while ((u32)i < 6);

@@ -48,7 +48,8 @@ typedef struct {
 
 extern int func_021F9EEC(u32 total, u32 per);
 extern void func_020061E4(u32 se);
-extern void func_0204B92C(u32 v, int k);
+struct Obj;
+extern void func_0204B92C(struct Obj *v, u32 k);
 extern void func_0204B878(u32 v, int k);
 extern void func_021FB2F0(Menu *m, int page, int total);
 extern void func_021FBF04(void *mgr, void *ctx, void *win, int page, u32 pages);
@@ -63,7 +64,7 @@ void func_021F9F58(Menu *m, int dir)
     }
     if (dir < 0) {
         func_020061E4(0x548);
-        func_0204B92C(m->down, 1);
+        func_0204B92C((struct Obj *)m->down, 1);
         func_0204B878(m->down, 0x27);
         if (m->page != 0) {
             m->page = m->page - 1;
@@ -72,7 +73,7 @@ void func_021F9F58(Menu *m, int dir)
         }
     } else {
         func_020061E4(0x548);
-        func_0204B92C(m->up, 1);
+        func_0204B92C((struct Obj *)m->up, 1);
         func_0204B878(m->up, 0x26);
         if (m->page < last) {
             m->page = m->page + 1;
