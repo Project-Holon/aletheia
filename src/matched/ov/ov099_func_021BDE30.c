@@ -18,7 +18,8 @@
 extern void func_0203D644(int);
 extern void func_021BDD0C(void *, int);
 extern int func_021BDDB4(int, int);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1E8(int, int);
 void func_021BDE30(void *p, int kind, int value)
 {
@@ -31,7 +32,7 @@ void func_021BDE30(void *p, int kind, int value)
     switch (kind) {
     case 2:
     case 5:
-        func_0203D1E8(func_020399A8(), 1);
+        func_0203D1E8((int)func_020399A8(), 1);
         return;
     case 0:
     case 1:
@@ -39,7 +40,7 @@ void func_021BDE30(void *p, int kind, int value)
     case 4:
     case 6:
     default:
-        func_0203D1E8(func_020399A8(), 1);
+        func_0203D1E8((int)func_020399A8(), 1);
         break;
     }
 }

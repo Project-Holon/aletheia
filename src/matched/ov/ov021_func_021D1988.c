@@ -25,8 +25,10 @@ typedef int            s32;
 
 typedef struct Vec3 { s32 x, y, z; } Vec3;
 
-extern void func_02011610(u32 a, Vec3 *out);
-extern void func_02011638(u32 a, Vec3 *out);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *a, struct Rec12 *out);
+extern u32 func_02011638(struct IcaAnime *a, struct Rec12 *out);
 extern void func_0207C9D0(Vec3 *a, Vec3 *b, Vec3 *c);
 extern void func_0216D89C(u32 a, Vec3 *v);
 extern int func_0216D60C(int a0, int a1);
@@ -36,8 +38,8 @@ void func_021D1988(u32 a, u32 b, Vec3 *c)
     Vec3 v1;
     Vec3 v0;
 
-    func_02011610(a, &v1);
-    func_02011638(a, &v0);
+    func_02011610((struct IcaAnime *)a, (struct Rec12 *)&v1);
+    func_02011638((struct IcaAnime *)a, (struct Rec12 *)&v0);
     func_0207C9D0(&v1, c, &v1);
     func_0216D89C(b, &v1);
     if (v0.y == 0) {
