@@ -25,7 +25,7 @@ typedef signed int     s32;
 typedef unsigned int   u32;
 struct Ctx;
 extern int func_02034AC4(s32 handle);
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern u8 *func_021BD5C4(void *,int);
 extern void func_021B9BEC(u8 *p, int id);
 extern int func_021B9C74(void *);

@@ -25,8 +25,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020399A8(void);
-extern int func_02039CB4(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern void *func_02008510(void *, int);
 extern void func_02082BCC(void *, u8, u32);
 struct U16Vec;
@@ -43,7 +45,7 @@ void func_021D46A4(u8 *p)
     u16 *chars;
     u32 i;
     void *value = *(void **)(*(u8 **)(p + 0x48) + 0x18);
-    if (func_02039CB4(func_020399A8(), 3, 0x22) != 0) {
+    if (func_02039CB4((struct Link *)func_020399A8(), 3, 0x22) != 0) {
         str = func_02008510(value, 31);
         func_02082BCC(p + 0x188, 0, 40);
         *(u16 *)(p + 0x1ac) = 31;

@@ -23,7 +23,8 @@ typedef struct {
     u8 b;
 } Msg;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, void *e, u32 f, u32 g, u32 h);
 
 u32 func_021B6184(u8 *p, u8 b, u16 a)
@@ -31,7 +32,7 @@ u32 func_021B6184(u8 *p, u8 b, u16 a)
     Msg m;
     u32 h;
 
-    h = func_020399A8();
+    h = (u32)func_020399A8();
     m.b = b;
     m.a = a;
     if (p[0x62] != 2)

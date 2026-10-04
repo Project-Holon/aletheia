@@ -21,11 +21,14 @@
  *   func_021DA76C 0x021DA76C thumb ov119
  *   func_021DAEF0 0x021DAEF0 thumb ov119
  */
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned func_0203D1A4(unsigned);
 extern int func_021D8A24(void *);
-extern unsigned func_02039CB4(unsigned,unsigned,unsigned);
-extern void func_02039C68(unsigned,unsigned,unsigned);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern int func_021DD24C(char *p);
 extern void func_021DD294(char *p, int a, int b);
 extern void func_02045CAC(unsigned,unsigned,unsigned);
@@ -35,16 +38,16 @@ extern void func_021DA76C(void *),func_021DAEF0(void *);
 void func_021DA798(char *p) {
  int i, j, v;
  unsigned char a, b;
- i = func_0203D1A4(func_020399A8());
+ i = func_0203D1A4((unsigned)func_020399A8());
  j = 1 - i;
- if(func_021D8A24(p) && func_02039CB4(func_020399A8(),27,8)==0) {
+ if(func_021D8A24(p) && func_02039CB4((struct Link *)func_020399A8(),27,8)==0) {
   func_021DD24C(p);
   return;
  }
  func_021DD294(p,1,1);
  a = (p+i)[0x11e0];
  if(a==2 && ((unsigned char *)(p+j))[0x11e0]==2) {
-  if(func_021D8A24(p)) func_02039C68(func_020399A8(),13,8);
+  if(func_021D8A24(p)) func_02039C68((struct Link *)func_020399A8(),13,8);
   func_021D8E84(p,(int)func_021DA76C);
   return;
  }
