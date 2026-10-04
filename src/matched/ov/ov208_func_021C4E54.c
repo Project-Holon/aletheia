@@ -38,9 +38,9 @@ struct Ov208Menu {
 };
 
 extern void func_0201C6EC(u32 print);
-extern u32  func_02045770(u32 win);
-extern void func_02043B5C(u32 bmp, u8 v);
 struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(u32 bmp, u8 v);
 extern void func_02045334(struct Descriptor *d);
 extern void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 print, u32 win,
                                 u32 *active, u16 idx);
@@ -49,6 +49,6 @@ void ov208_func_021C4E54(u16 *heap, struct Ov208Menu *p, int key)
 {
     p->active[3] = 0;
     func_0201C6EC(p->print[3]);
-    func_02043B5C(func_02045770(p->win[3]), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[3]), 0);
     ov208_func_021C4D68(heap, p, key, 3, p->print[3], p->win[3], &p->active[3], p->sel);
 }

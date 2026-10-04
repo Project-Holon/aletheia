@@ -23,7 +23,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef signed int     s32;
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_021BE44C(u8 *p, int slot, u32 message, int x, int y, u16 color, u32 mode);
 extern void func_021BE49C(u8 *p);
@@ -32,7 +33,7 @@ void func_021BE7E4(u8 *p)
 {
     u32 z = 0;
 
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x154)), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x154)), 0);
     func_021BE44C(p, 1, 1, 0, 4, 0x440, z);
     func_021BE49C(p + 0x154);
 }

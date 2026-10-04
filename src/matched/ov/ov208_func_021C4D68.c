@@ -36,7 +36,8 @@ struct Ov208Menu {
     u32 font;
 };
 
-extern u32  func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern u16  func_020437DC(u32 bmp);
 extern void ov208_func_021C47C4(u16 *heap, struct Ov208Menu *p, int key, u32 *outStr, u32 *outB,
                                 int *outC, int *outD, u16 idx);
@@ -58,7 +59,7 @@ void ov208_func_021C4D68(u16 *heap, struct Ov208Menu *p, int key, int i, u32 pri
     YPos y2;
     u16 w;
 
-    bmp = func_02045770(win);
+    bmp = (u32)func_02045770((struct Descriptor *)win);
     width = func_020437DC(bmp);
     ov208_func_021C47C4(heap, p, key, &strA, &strB, &freeA, &freeB, idx);
     y = 1;
