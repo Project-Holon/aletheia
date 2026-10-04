@@ -70,9 +70,11 @@ int func_02174268(u8 *w);
 void func_0217505C(u8 *p, int a);
 u32 func_0200FB24(void);
 void func_02012124(int a, int b);
-int func_020399A8(void);
-void func_02039C68(int a, int b, int c);
-int func_02039CB4(int a, int b, int c);
+struct Entry;
+struct Entry *func_020399A8(void);
+struct Link;
+void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
+unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 void func_0203D7BC(int a);
 u32 func_0203D378(void);
 int func_020392B8(void);
@@ -114,11 +116,11 @@ int func_0217E904(u8 *w, u8 *obj, int a2, u8 *state)
             (*state)++;
         break;
     case 4:
-        func_02039C68(func_020399A8(), 0x13, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 0x13, 0x14);
         (*state)++;
         break;
     case 5:
-        if (func_02039CB4(func_020399A8(), 0x13, 0x14) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x13, 0x14) == 1) {
             func_0203D7BC(0);
             (*state)++;
         }

@@ -35,10 +35,12 @@ extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u1
 extern const char data_020A721C[];
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_02012E4C(void *sys, int id);
+typedef unsigned char u8;
+extern void func_02012E4C(u8 *p, u32 id);
 extern int func_02012E7C(char *p, int a1);
 extern void OS_WaitIrq(int clear, u32 mask);
-extern void func_0200734C(u32 sv, u32 id);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern void func_020307B0(void *p);
 
 void func_0200E608(void *sys, void *dst, u32 heap)
@@ -55,6 +57,6 @@ void func_0200E608(void *sys, void *dst, u32 heap)
         }
         OS_WaitIrq(1, 1);
     }
-    func_0200734C(sv, 5);
+    func_0200734C((struct Sub02007324Ctrl *)sv, 5);
     func_020307B0(buf);
 }

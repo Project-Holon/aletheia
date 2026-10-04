@@ -19,7 +19,8 @@
 extern int func_021736D8(void);
 typedef unsigned short u16;
 extern u16 func_02039338(void);
-extern unsigned int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_021736E0(int, int, int, char *, unsigned int);
 extern int func_0203D3A8(unsigned int, unsigned int, unsigned int, unsigned int);
 int func_021736EC(char *p)
@@ -27,8 +28,8 @@ int func_021736EC(char *p)
     unsigned int n;
     if (func_021736D8() == 0) {
         n = func_02039338();
-        func_021736E0(n, 0, 0, p, func_020399A8());
+        func_021736E0(n, 0, 0, p, (unsigned int)func_020399A8());
         return 1;
     }
-    return func_0203D3A8(func_020399A8(), 0x200, 0, 0);
+    return func_0203D3A8((unsigned int)func_020399A8(), 0x200, 0, 0);
 }

@@ -33,7 +33,9 @@ typedef struct St {
 extern void *func_02012F68(int a);
 struct U16Vec;
 extern int func_0200EC14(char *p);
-extern void func_0200EC2C(void *a, int b, St *c);
+struct Src0200EC2C;
+struct Dst0200EC2C;
+extern void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void func_02045808(struct U16Vec *vec);
 
@@ -48,7 +50,7 @@ void func_021F3B64(u16 *p, u32 *out, int *cnt)
     for (i = 0; i < *cnt; i++) {
         st.p0 = func_020457B0(0x40, p[0]);
         st.p1 = func_020457B0(0x40, p[0]);
-        func_0200EC2C(s, i, &st);
+        func_0200EC2C(s, i, (struct Dst0200EC2C *)&st);
         out[i] = st.c;
         func_02045808(st.p0);
         func_02045808(st.p1);

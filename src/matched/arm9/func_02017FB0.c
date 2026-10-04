@@ -44,7 +44,7 @@ struct Sav;
 extern u32 func_02017DBC(struct Sav *p);
 extern u32  func_02017E88(void *p, u32 id, u32 v);
 extern u32  func_02018438(void *p);
-extern void func_0201ADD0(u16 species, u16 form, void *dest);
+extern void func_0201ADD0(u32 species, int form, void *dest);
 extern void func_02017E64(void *p, u32 id, u32 v);
 extern u32 func_02018094(void *p, u32 move);
 extern void func_020180FC(void *p, u16 move);
@@ -75,7 +75,7 @@ void func_02017FB0(void *p)
     species = func_02017E88(p, 5, 0);
     form = func_02017E88(p, 0x6f, 0);
     level = func_02018438(p);
-    func_0201ADD0(species, form, gLearnBuf);
+    func_0201ADD0(species, (u16)form, gLearnBuf);
 
     for (i = 0; i < 4; i++) {
         func_02017E64(p, 0x36 + i, 0);
