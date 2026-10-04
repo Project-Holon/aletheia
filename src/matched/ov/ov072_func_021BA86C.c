@@ -53,7 +53,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern u16 func_021BBB3C(int p, u16 a, int b);
 extern int func_02166CD0(void *a, u32 msg);
 extern int func_021BA774(W *p, int i);
-extern int func_0204B294(int a, int b, int c, int d, Pos *pos, int f, u16 g);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B570(int obj, int v);
 extern void func_0204B84C(int obj, int v);
 extern void func_0204B800(int obj, int v);
@@ -122,7 +123,7 @@ void func_021BA86C(W *p, int a, int b, int c, int s0, int s1, int s2, void *s3, 
         func_02082BCC(&pos, 0, 8);
         pos.x = func_021BA774(p, 2);
         pos.y = func_021BA774(p, 3);
-        p->obj = func_0204B294(c, s0, s2, s1, &pos, 0, s4);
+        p->obj = (int)func_0204B294((void *)c, s0, s2, s1, &pos, 0, s4);
         func_0204B570(p->obj, 2);
         func_0204B84C(p->obj, 2);
         func_0204B800(p->obj, 4);

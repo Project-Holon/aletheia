@@ -25,7 +25,7 @@ struct Obj;
 extern const struct Entry d_021C37FC[];
 extern u32 func_021BF9FC(void *,u32);
 extern u32 func_021BF9F0(void *,u32);
-extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *,u32);
 void func_021C0408(u8 *p)
 {
@@ -42,7 +42,7 @@ void func_021C0408(u8 *p)
         c=func_021BF9F0(p,q->e);
         d=func_021BF9F0(p,q->f);
         dest=p+i*4;
-        *(u32 *)(dest+0x394)=func_0204B294(a,b,c,d,(u32)&arg,q->g,*(u16 *)(p+4));
+        *(u32 *)(dest+0x394)=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,*(u16 *)(p+4));
         func_0204B3DC(*(struct Obj **)(dest+0x394),0);
     }
 }

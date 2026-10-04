@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct Record { u16 x, y, z; u8 a, b; } Record;
 struct Obj;
 extern void func_0204B3B4(struct Obj *p);
-extern void *func_0204B294(u32, u32, u32, u32, Record *, u16, u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021D7128(u8 *p, int n, int k)
@@ -27,7 +27,7 @@ void func_021D7128(u8 *p, int n, int k)
     Record r;
     if (*(void **)(p + 0x14c + n * 4)) func_0204B3B4(*(void **)(p + 0x14c + n * 4));
     r.x = 0; r.y = 0; r.z = 1; r.a = 10; r.b = 2;
-    *(void **)(p + 0x14c + n * 4) = func_0204B294(*(u32 *)(p + 0x10), *(u32 *)(p + (k + 6) * 4 + 0x18), *(u32 *)(p + 0x20), *(u32 *)(p + (k + 25) * 4 + 0x18), &r, 1, *(u16 *)(p + 0xf4));
+    *(void **)(p + 0x14c + n * 4) = func_0204B294((void *)*(u32 *)(p + 0x10), *(u32 *)(p + (k + 6) * 4 + 0x18), *(u32 *)(p + 0x20), *(u32 *)(p + (k + 25) * 4 + 0x18), &r, 1, *(u16 *)(p + 0xf4));
     func_0204B92C(*(void **)(p + 0x14c + n * 4), 1);
     func_0204B3DC(*(void **)(p + 0x14c + n * 4), 0);
 }

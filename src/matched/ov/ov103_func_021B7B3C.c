@@ -43,7 +43,7 @@ extern int func_0204ABF0(u32,u32,u32,u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
 extern void func_02049238(void *);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(void *,u32),func_0204B84C(void *,u32),func_0204B92C(struct Obj *,u32);
 extern void func_0204B878(struct Obj *p, u16 value);
 struct State { void *bank; u32 palette, chars, other; void *actors[33]; };
@@ -65,7 +65,7 @@ void func_021B7B3C(struct State *p,const void *config,u16 heap)
     func_02049238(arc);
     func_02082BCC(point,0,8);
     for(i=0;i<32;i++) {
-        p->actors[i]=func_0204B294((u32)p->bank,p->chars,p->palette,p->other,(u32)point,1,heap);
+        p->actors[i]=func_0204B294(p->bank,p->chars,p->palette,p->other,point,1,heap);
         func_0204B3DC(p->actors[i],0);
         func_0204B84C(p->actors[i],3);
         func_0204B92C(p->actors[i],1);
