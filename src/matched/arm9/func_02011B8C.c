@@ -85,12 +85,15 @@ struct Vec3 {
 extern struct Vec3 data_0209DF84;
 extern struct Vec3 data_0209DF90;
 
-extern void func_02011610(void *ctx, struct Vec3 *out);
-extern void func_02011638(void *ctx, s32 *hsv);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *ctx, struct Rec12 *out);
+extern u32 func_02011638(struct IcaAnime *ctx, struct Rec12 *hsv);
 extern void func_02048AFC(void *dst, struct Vec3 *v);
 extern void func_02048B20(void *dst, struct Vec3 *v);
 extern void func_02048B44(void *dst, struct Vec3 *v);
-extern void func_020520FC(u16 h, u16 s, u16 v, struct Vec3 *out);
+struct Mtx33;
+extern void func_020520FC(int h, int s, int v, struct Mtx33 *out);
 extern void func_0207B51C(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
 extern void func_0207C9D0(struct Vec3 *a, struct Vec3 *b, struct Vec3 *out);
 
@@ -114,7 +117,7 @@ void func_02011B8C(void *dst, void *ctx)
     a = data_0209DF84;
     b = data_0209DF90;
 
-    func_02011638(ctx, hsv);
+    func_02011638(ctx, (struct Rec12 *)hsv);
 
     h = hsv[0] / 4096.0f;
     s = hsv[1] / 4096.0f;
@@ -133,12 +136,12 @@ void func_02011B8C(void *dst, void *ctx)
     ch = (u16)(u32)(65535.0f * (h / 360.0f));
     cs = (u16)(u32)(65535.0f * (s / 360.0f));
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
-    func_020520FC(ch, cs, cv, rgb);
+    func_020520FC(ch, cs, cv, (struct Mtx33 *)rgb);
 
     func_0207B51C(&a, rgb, &t0);
     func_0207B51C(&b, rgb, &t1);
 
-    func_02011610(ctx, &basis);
+    func_02011610(ctx, (struct Rec12 *)&basis);
     func_0207C9D0(&basis, &t0, &out);
 
     func_02048AFC(dst, &basis);

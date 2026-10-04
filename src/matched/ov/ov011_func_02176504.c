@@ -62,15 +62,17 @@ typedef struct {
 
 extern int func_020120F4(u32 a);
 extern void func_02012138(u32 a);
-extern int func_02031330(u32 a);
+extern u32 func_02031330(void *a);
 extern u32 func_0200FB24(void);
 extern int func_0203CDBC(void);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_02013790(Work *w, int a, int b, int c, int d);
 extern void func_02013128(Work *w, u32 a, int b);
 extern u16 func_02039338(void);
 extern void func_0203A424(int a, int b, int c, u16 d);
-extern int func_02039CB4(int a, int b, int c);
+struct Link;
+extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02034AC4(int id);
 extern void func_0203A574(int a, void *b, int c, int d);
 extern void func_02031348(u32 a, int b, void *c, Work *w);
@@ -89,7 +91,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
 
     h = func_020120F4(obj->w0);
     func_02012138(obj->w0);
-    busy = func_02031330(work->wF4);
+    busy = func_02031330((void *)work->wF4);
     if (func_0200FB24() != 0 || func_0203CDBC() == 1) {
         if (*state > 0 && *state < 6) {
             *state = 7;
@@ -97,7 +99,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
     }
     switch (*state) {
     case 0:
-        func_02013790(work, h, func_020399A8(), 1, 4);
+        func_02013790(work, h, (int)func_020399A8(), 1, 4);
         func_02013128(work, work->wF8, 0);
         if (func_02039338() < obj->b4) {
             work->b21 = 0;
@@ -111,11 +113,11 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         (*state)++;
         break;
     case 1:
-        func_0203A424(func_020399A8(), 0x15, 2, (1 << obj->b4) | (1 << func_02039338()));
+        func_0203A424((int)func_020399A8(), 0x15, 2, (1 << obj->b4) | (1 << func_02039338()));
         (*state)++;
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 0x15, 2) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x15, 2) == 1) {
             func_02034AC4((int)ov093_id);
             work->wFC = 1;
             func_0203A574(0x100, d_021F03C4, 9, 0);
@@ -123,11 +125,11 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
         }
         break;
     case 3:
-        func_0203A424(func_020399A8(), 0x16, 2, (1 << obj->b4) | (1 << func_02039338()));
+        func_0203A424((int)func_020399A8(), 0x16, 2, (1 << obj->b4) | (1 << func_02039338()));
         (*state)++;
         break;
     case 4:
-        if (func_02039CB4(func_020399A8(), 0x16, 2) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x16, 2) == 1) {
             (*state)++;
         }
         break;

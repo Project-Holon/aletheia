@@ -79,7 +79,8 @@ extern u16 func_02188C84(u8 *p);
 extern void *func_020114D0(u32 heap, u32 a1, u32 a2);
 extern int func_02006148(u32 a0);
 extern void func_0200616C(u32 id, u32 v);
-extern void func_02011610(void *anim, VecFx32 *out);
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *anim, struct Rec12 *out);
 extern void *func_02188D2C(void *field);
 extern VecFx32 *func_021BE480(void *p, int a, int b);
 extern void *func_02188CB4(u8 *p);
@@ -122,7 +123,7 @@ int func_0216C0E8(void *evt, u32 *state, Work *w)
         (*state)++;
         break;
     case 3:
-        func_02011610(w->anim, &cur);
+        func_02011610(w->anim, (struct Rec12 *)&cur);
         func_021BE480(func_02188D2C(field), 0, 0)->y = cur.y;
         q = func_02188CB4(field);
         func_021A3038(q, &v);
