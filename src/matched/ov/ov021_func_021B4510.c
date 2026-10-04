@@ -31,7 +31,8 @@ typedef unsigned int   u32;
 
 extern u32 func_02020D0C(u8 *p);
 extern u32 func_0201D304(u32 a, u32 b, u32 c);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_020437DC(u32 a);
 extern void func_021B44CC(u32 a, u32 b, int c, int d, u32 e, u32 f, u16 g);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -48,8 +49,8 @@ void func_021B4510(u8 *p, int a, u8 b)
         func_0201EFA4(*(u32 *)(w + 0x190), 1, *(u32 *)(w + a * 8 + 0x24), 5, 0, 1);
         func_0201F250(*(u32 *)(w + 0x190), *(u32 *)(w + 0x198), *(u32 *)(w + 0x194));
         lo = func_0201D304(*(u32 *)(w + 0x198), *(u32 *)(w + 8), 0);
-        hi = func_020437DC(func_02045770(*(u32 *)(w + 0x16C)));
-        func_021B44CC(*(u32 *)(w + 0x1B0), func_02045770(*(u32 *)(w + 0x16C)), hi - lo, b,
+        hi = func_020437DC((u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)));
+        func_021B44CC(*(u32 *)(w + 0x1B0), (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x16C)), hi - lo, b,
                       *(u32 *)(w + 0x198), *(u32 *)(w + 8), 0x31A0);
     }
 }

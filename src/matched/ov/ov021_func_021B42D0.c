@@ -35,7 +35,8 @@ extern u32 d_021D945C[];
 
 extern u32 func_02045EC0(u32 a, u32 b);
 extern u32 func_020457B0(u32 n, u32 heap);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0201F73C(u32 a, u32 b, u32 c, u32 d);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -54,7 +55,7 @@ void func_021B42D0(char *w, u32 a, u32 b)
     t1 = func_02045EC0(*(u32 *)(w + 0x188), 0x18);
     t2 = func_02045EC0(*(u32 *)(w + 0x188), d_021D945C[*(u8 *)(w + 0x163)]);
     t3 = func_020457B0(0x14, *(u16 *)(w + 4));
-    s = func_02045770(*(u32 *)(w + 0x174));
+    s = (u32)func_02045770((struct Descriptor *)*(u32 *)(w + 0x174));
     func_02043B5C(s, 0xF);
     func_0201F73C(*(u32 *)(w + 0x174), 2, 0xE4, 9);
     func_0201EFA4(*(u32 *)(w + 0x190), 0, a, 2, 0, 1);
