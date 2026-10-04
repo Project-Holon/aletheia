@@ -43,7 +43,8 @@ typedef struct {
     u8 b2c;
 } Ctx;
 
-extern int func_02012138(int a);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *a);
 extern u8 *func_02158344(int h);
 extern int func_0217C070(u8 *o);
 extern int func_02158630(int h);
@@ -72,7 +73,7 @@ int func_02185D38(int a0, int *state, Ctx *c)
     int id;
     u8 *obj;
 
-    h = func_02012138(c->f1c);
+    h = func_02012138((const struct Ctx *)c->f1c);
     switch (*state) {
     case 0:
         obj = func_02158344(h);

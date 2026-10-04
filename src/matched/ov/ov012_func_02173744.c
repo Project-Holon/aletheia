@@ -21,7 +21,8 @@
  *   d_02175614     0x02175614  data   ov012  a1
  */
 
-extern int func_02012138(int a);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *a);
 extern int func_020120F4(int a);
 extern int func_02026454(int a);
 typedef unsigned short u16;
@@ -40,7 +41,7 @@ void func_02173744(int a)
     int r7;
     int *p;
 
-    r5 = func_02012138(a);
+    r5 = func_02012138((const struct Ctx *)a);
     r7 = func_020120F4(a);
     if (func_02026454(r5) != 0) {
         func_02034714(d_02175610, 0, d_02175610);

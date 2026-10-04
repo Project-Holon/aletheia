@@ -40,7 +40,7 @@ struct Desc;
 struct Obj;
 extern void *func_020124E4(struct Obj *p);
 extern void *func_0201210C(const struct Ctx *p);
-extern void *func_02012138(void *);
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 func_02012B70(const struct BigObj *p);
 extern u32 func_0202647C(void *obj);
@@ -63,7 +63,7 @@ int func_021C06E0(u32 a, int *st)
     switch (*st) {
     case 0:
         func_0216D9A0(func_02188C7C((void *)o));
-        if (func_0202647C(func_02012138(h)) == 2) {
+        if (func_0202647C((void *)func_02012138(h)) == 2) {
             if (func_02012B70(func_020120F4(h)) == 1) {
                 func_0200FB38();
                 v = func_020146F8(h, o, ov021_id, d_021DA08C, h);

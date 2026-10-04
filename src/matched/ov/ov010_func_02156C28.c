@@ -19,7 +19,7 @@ extern void func_020307B0(void *);
 typedef signed int     s32;
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern char ov133_id[];
 int func_02156C28(void *a, int b, int c, void **d) { func_020307B0(*d); func_020315D4(a); func_020306F0(0x2d); func_02034A5C((u32)ov133_id); return 1; }
