@@ -18,7 +18,7 @@ struct Personal;
 extern void *func_021D6064(unsigned char *p);
 extern int func_0201ACC4(void *p, u32 pos);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
-extern void *func_0201ADE4(unsigned short,unsigned short,unsigned short);
+extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);

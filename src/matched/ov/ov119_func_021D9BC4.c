@@ -17,13 +17,15 @@
  */
 extern int func_021E12AC(char *p);
 extern int func_021D8A24(void *);
-extern int func_020399A8(void);
-extern int func_02039C68(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021D8E84(void *,int);
 extern void func_021D9B84(void *);
 void func_021D9BC4(char *p) {
  if(func_021E12AC(p) && *(int *)(p+0xF2C)>30) {
-  if(func_021D8A24(p)) func_02039C68(func_020399A8(),20,8);
+  if(func_021D8A24(p)) func_02039C68((struct Link *)func_020399A8(),20,8);
   func_021D8E84(p,(int)func_021D9B84);
  }
 }

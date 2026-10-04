@@ -45,7 +45,7 @@ typedef struct { s16 x,y; u16 a,b; } Entry;
 typedef struct { s16 x,y; u16 flags; u8 a,b; } Pos;
 #define SLOT(p,i) (*(u8 **)((u8 *)((u32 *)(p)+(i))+0x62c))
 extern const Entry d_021B94D4[];
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern u8 *func_0203159C(void *,u32,u32);
 extern void fill(void *,int,u32);
 extern void *func_020120F4(const void *),*func_020124F4(u16);
@@ -72,7 +72,7 @@ int func_021B7560(void *sys,u32 unused,void **args) {
     void *arc;
     Pos pos;
     int i;
-    func_0203064C((void *)1,67,6<<16);
+    func_0203064C(1,67,6<<16);
     p=func_0203159C(sys,0x648,67);
     fill(p,0,0x648);
     if(*args)*(void **)(p+0x628)=func_020120F4(*args);

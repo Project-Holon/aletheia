@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * arm9 call whose result is the first argument of the second call.
  *
@@ -23,10 +23,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern u32 sub_020399A8(void);
-extern void sub_02039CB4(u32 a, u32 b, u32 c);
+struct Entry;
+extern struct Entry *sub_020399A8(void);
+struct Link;
+extern u32 sub_02039CB4(struct Link *a, u32 b, u32 c);
 
 void func_021B8B48(void *p, u32 a, u32 b)
 {
-    sub_02039CB4(sub_020399A8(), b, 0x20);
+    sub_02039CB4((struct Link *)sub_020399A8(), b, 0x20);
 }

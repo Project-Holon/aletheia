@@ -20,9 +20,11 @@
  *   func_021DEA24 0x021DEA24 thumb ov119
  */
 
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_021D8A24(void *);
-extern int func_02039CB4(unsigned,int,int);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_021DD24C(void *);
 extern void func_021E1098(void *);
 extern void func_021DD294(void *,int,int);
@@ -33,5 +35,5 @@ extern void func_021DEA24(char *p);
 
 void func_021DDB10(unsigned char *p)
 {
-    func_020399A8(); if(func_021D8A24(p)) { if(func_02039CB4(func_020399A8(),25,8)==0) {func_021DD24C(p);return;} } func_021E1098(p);func_021DD294(p,0,0);func_021D8980(p);func_021DD09C(p);func_021D8E84(p,(int)func_021DEA24);
+    func_020399A8(); if(func_021D8A24(p)) { if(func_02039CB4((struct Link *)func_020399A8(),25,8)==0) {func_021DD24C(p);return;} } func_021E1098(p);func_021DD294(p,0,0);func_021D8980(p);func_021DD09C(p);func_021D8E84(p,(int)func_021DEA24);
 }
