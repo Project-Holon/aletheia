@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Leaf of the func_022040E0 dependency tree: when the scene object has the
  * +0x60 pointer set, tear down the six +0x48 handles.
@@ -17,7 +17,8 @@
  *   func_0204B92C  0x0204B92C  arm
  */
 extern void func_0204B908(int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 
 void func_02205138(int a, int *p)
 {
@@ -27,6 +28,6 @@ void func_02205138(int a, int *p)
         return;
     for (i = 0; i < 6; i++) {
         func_0204B908(p[0x12 + i], 0);
-        func_0204B92C(p[0x12 + i], 1);
+        func_0204B92C((struct Obj *)p[0x12 + i], 1);
     }
 }
