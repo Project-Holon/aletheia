@@ -19,8 +19,9 @@
  *   func_02013D5C  0x02013D5C  thumb
  */
 
-extern void func_02012138(int a);
-extern int func_02158344(void);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
+extern int func_02158344(int a);
 extern int func_02012B38(int a);
 extern int func_02012B58(int a);
 extern int func_0215841C(int a);
@@ -32,8 +33,7 @@ int func_021BCB48(int *p, int b)
 {
     int r4, r6, t;
 
-    func_02012138(p[0]);
-    r4 = func_02158344();
+    r4 = func_02158344((int)func_02012138((const struct Ctx *)p[0]));
     t = func_02012B38(p[1]);
     r6 = func_02012B58(p[1]);
     if (r4 != 0) {
