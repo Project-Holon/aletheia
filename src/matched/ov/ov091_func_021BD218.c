@@ -46,7 +46,7 @@ extern int func_0201BA68(int);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern int func_0201BBE8(int);
-extern u32 func_0204B294(u32,u32,u32,u32,R *,int,u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B6F4(u32,int,int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p,u32 v);
@@ -88,14 +88,14 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     frame=func_0201BBE8(species);
     a.a=x+16;a.b=y+8;a.c=1;a.d=16;a.e=2;
     {
-        int obj=func_0204B294(P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,*(u16 *)p);
+        int obj=(int)func_0204B294((void *)P(0x1ec),s[3],P(0x194),P(0x1d0),&a,1,*(u16 *)p);
         s[4]=obj;
         func_0204B6F4(obj,frame,1);
     }
     func_0204B92C((struct Obj *)s[4],1);
     gender=func_02017E1C(mon,6,0);
     b.a=x+32;b.b=y+16;b.c=0;b.d=8;b.e=2;
-    s[5]=func_0204B294(P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,*(u16 *)p);
+    s[5]=(u32)func_0204B294((void *)P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,*(u16 *)p);
     if(gender!=0) {
         func_0204B3DC(s[5],1);
         if(func_0202136C(gender)==1) func_0204B878(s[5],1);

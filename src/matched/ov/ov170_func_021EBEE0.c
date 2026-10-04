@@ -23,15 +23,16 @@ typedef struct {
     unsigned short pad14;
     unsigned short d;
 } Desc;
-extern void *func_0204B294(void *a, void *b, void *c, void *d, const Desc *e, unsigned f, unsigned g);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 typedef unsigned int   u32;
 struct Actor;
 extern void func_0204BA20(struct Actor *a, u32 v);
 
 void *func_021EBEE0(char *w, const Desc *s)
 {
-    void *r = func_0204B294(*(void **)(w + 0x9E70), *(void **)(w + s->a * 4 + 0x9FF4),
-                            *(void **)(w + s->b * 4 + 0xA108), *(void **)(w + s->c * 4 + 0xA134),
+    void *r = func_0204B294(*(void **)(w + 0x9E70), (unsigned int)*(void **)(w + s->a * 4 + 0x9FF4),
+                            (unsigned int)*(void **)(w + s->b * 4 + 0xA108), (unsigned int)*(void **)(w + s->c * 4 + 0xA134),
                             s, s->d, 0x4C);
     func_0204BA20(r, 0);
     return r;

@@ -22,7 +22,8 @@ typedef struct {
     unsigned char e;
 } S;
 
-extern int func_0204B294(int a, int b, int c, int d, S *s, int e, int f);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(int a, int b);
 
 void func_021F2E10(char *p, int *q)
@@ -34,7 +35,7 @@ void func_021F2E10(char *p, int *q)
     s.c = 0x25;
     s.d = 0;
     s.e = 2;
-    q[2] = func_0204B294(*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
+    q[2] = (int)func_0204B294((void *)*(int *)(p + 0x34), *(int *)(p + 0x2c), *(int *)(p + 0x28),
                          *(int *)(p + 0x30), &s, 0, *(unsigned short *)(p + 0xc));
     func_0204B3DC(q[2], 0);
     q[3] = *(int *)(p + 0x210);

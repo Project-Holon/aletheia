@@ -53,7 +53,8 @@ extern u32 func_0202D898(u32,u32,u32,u32,u32,u32,u32,u32,u16);
 extern void func_02049238(u32);
 extern void func_02082BCC(void *,int,u32);
 extern unsigned func_021BC520(unsigned char *p);
-extern u32 func_0204B294(u32,u32,u32,u32,void *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
 extern void func_0204B3DC(u32,u32);
 extern u32 func_020490F4(u32,u16);
@@ -80,7 +81,7 @@ void func_021B9D9C(char *p)
         func_02082BCC(&request,0,8);
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
-        *(u32 *)(r+108)=func_0204B294(func_021BC520(*(void **)(p+20)),*(u32 *)(r+84),*(u32 *)(r+88),*(u32 *)(r+92),&request,1,*(u16 *)p);
+        *(u32 *)(r+108)=(u32)func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(u32 *)(r+84),*(u32 *)(r+88),*(u32 *)(r+92),&request,1,*(u16 *)p);
         func_0204B3DC(*(u32 *)(r+108),0);
     }
     other=func_020490F4(205,*(u16 *)p);

@@ -73,7 +73,7 @@ extern const Pos tbl_02202D24[];
 extern const Pos tbl_02202C50[];
 
 extern void func_02082BCC(void *, int, int);
-extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B878(u32, u16);
@@ -91,7 +91,7 @@ void func_021F5420(Work *p)
     func_02082BCC(&s, 0, 8);
     s.a = tbl_02202D24[p->idx].x;
     s.b = tbl_02202D24[p->idx].y;
-    p->sub.f34 = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
+    p->sub.f34 = (u32)func_0204B294((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
     func_0204B92C((struct Obj *)p->sub.f34, 1);
     func_0204B878(p->sub.f34, 4);
     if (func_020355C4() == 1) {
@@ -109,7 +109,7 @@ void func_021F5420(Work *p)
         s.a = tbl_02202D24[i].x;
         s.b = tbl_02202D24[i].y;
         s.d = 30 - i % 6;
-        p->sub.arrA[i] = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
+        p->sub.arrA[i] = (u32)func_0204B294((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
         func_0204B878(p->sub.arrA[i], i + 6);
         func_0204B84C(p->sub.arrA[i], 1);
     }
@@ -118,7 +118,7 @@ void func_021F5420(Work *p)
         s.a = tbl_02202D24[i].x;
         s.b = tbl_02202D24[i].y + 6;
         s.d = 10;
-        p->sub.arrB[i] = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
+        p->sub.arrB[i] = (u32)func_0204B294((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
         func_0204B878(p->sub.arrB[i], 0x28);
         func_0204B84C(p->sub.arrB[i], 1);
     }
@@ -127,7 +127,7 @@ void func_021F5420(Work *p)
         s.a = tbl_02202D24[i].x + 8;
         s.b = tbl_02202D24[i].y + 6;
         s.d = 10;
-        p->arrC[i] = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
+        p->arrC[i] = (u32)func_0204B294((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
         func_0204B878(p->arrC[i], 0x2a);
         func_0204B84C(p->arrC[i], 1);
     }
@@ -135,7 +135,7 @@ void func_021F5420(Work *p)
     for (i = 0; i < 2; i++) {
         s.a = tbl_02202C50[i].x;
         s.b = tbl_02202C50[i].y;
-        p->arrD[i] = func_0204B294(p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
+        p->arrD[i] = (u32)func_0204B294((void *)p->sub.f0, p->sub.f4, p->sub.f8, p->sub.fC, &s, 0, 0x48);
         func_0204B878(p->arrD[i], i + 0x26);
         func_0204B84C(p->arrD[i], 1);
     }
@@ -144,7 +144,7 @@ void func_021F5420(Work *p)
     s.b = 0x88;
     s.d = 100;
     s.e = 1;
-    p->sub.f3C = func_0204B294(p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
+    p->sub.f3C = (u32)func_0204B294((void *)p->sub.f0, p->sub.f28, p->sub.f8, p->sub.f30, &s, 0, 0x48);
     func_0204B878(p->sub.f3C, 0xc);
     func_0204B92C((struct Obj *)p->sub.f3C, 1);
     func_0204B974(p->sub.f3C);

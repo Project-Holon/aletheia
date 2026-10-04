@@ -30,7 +30,7 @@ extern const struct Pair d_021DA738, d_021DA748;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0201BA68(int);
 extern void *func_0204A6C8(void *, u32, u32, u32, u16);
-extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -48,7 +48,7 @@ void func_021D6458(u8 *p, int n, int i)
     if(i==0) { pt.x=a.b; pt.y=b.b; }
     else { pt.x=a.a; pt.y=b.a; }
     pt.f4=0; pt.f6=3; pt.f7=1;
-    *(void **)(p+0xa8) = func_0204B294(*(u32 *)(p+0xc),*(void **)(p+0x40),*(u32 *)(p+0x28),*(u32 *)(p+0x5c),&pt,(u16)i,*(u16 *)(p+0x43c4));
+    *(void **)(p+0xa8) = func_0204B294((void *)*(u32 *)(p+0xc),(unsigned int)*(void **)(p+0x40),*(u32 *)(p+0x28),*(u32 *)(p+0x5c),&pt,(u16)i,*(u16 *)(p+0x43c4));
     func_0204B92C(*(void **)(p+0xa8),0);
     func_0204B3DC(*(void **)(p+0xa8),1);
     func_0204B6F4(*(void **)(p+0xa8),func_0201BBE8(n),1);
