@@ -35,7 +35,8 @@ typedef struct {
 
 extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Rec *e, u16 f, u16 g);
 extern void func_0204B3DC(u32 a, int b);
-extern void func_0204B92C(u32 a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *a, u32 b);
 
 void func_021B9EB8(Obj *o, int a)
 {
@@ -53,6 +54,6 @@ void func_021B9EB8(Obj *o, int a)
     o->f18 = func_0204B294(o->f0, o->f8, o->fc, o->f10, &r, 0, a);
     func_0204B3DC(o->f14, 0);
     func_0204B3DC(o->f18, 0);
-    func_0204B92C(o->f14, 1);
-    func_0204B92C(o->f18, 1);
+    func_0204B92C((struct Obj *)o->f14, 1);
+    func_0204B92C((struct Obj *)o->f18, 1);
 }

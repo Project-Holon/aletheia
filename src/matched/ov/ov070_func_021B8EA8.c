@@ -25,7 +25,8 @@
 extern int func_0204B98C();
 extern void func_0204B878();
 extern void func_021B809C();
-extern void func_0204B92C();
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern void func_02045CAC();
 extern void func_021BACF0(int p, int mode);
 extern void func_021BB580();
@@ -38,7 +39,7 @@ void func_021B8EA8(int p)
     if (func_0204B98C(*(int *)((char *)p + 0x72C)) == 0) {
         func_0204B878(*(int *)((char *)p + 0x72C), 0);
         func_021B809C(p);
-        func_0204B92C(*(int *)((char *)p + 0x6A8), 0);
+        func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 0);
         func_02045CAC(*(int *)((char *)p + 0x51C), 0x8A, *(int *)((char *)p + 0x528));
         func_021BACF0(p, 0);
         func_021BB580(p, 0);
