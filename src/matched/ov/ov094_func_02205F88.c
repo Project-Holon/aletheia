@@ -28,7 +28,8 @@ typedef short s16;
 typedef struct Point { s16 x, y; } Point;
 typedef struct { int w[9]; } Struct36;
 extern const u16 d_0220A392[];
-extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B404(void *, Point *, int);
 struct Bmp;
 struct CharBuf;
@@ -71,7 +72,7 @@ void func_02205F88(char *p)
     int i;
     enum { VRAM_BASE = 0x06600000 } vram;
 
-    *(void **)(p + 0x21c) = func_0204B294(*(u32 *)(p + 0x218), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
+    *(void **)(p + 0x21c) = func_0204B294((void *)*(u32 *)(p + 0x218), *(u32 *)(p + 0x104), *(u32 *)(p + 0x108), *(u32 *)(p + 0x10c), d_0220A392, 1, *(u16 *)(p + 0x240));
     pos.x = 0x80;
     pos.y = 0x50;
     func_0204B404(*(void **)(p + 0x21c), &pos, 1);

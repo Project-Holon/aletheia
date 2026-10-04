@@ -21,7 +21,7 @@ extern void func_02082BCC(void *, unsigned, unsigned);
 typedef signed int     s32;
 typedef unsigned int   u32;
 struct Obj;
-extern void func_0204B294(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *e, unsigned short f, unsigned short g);
 extern int func_021E5978(int *p, int i);
 extern unsigned func_021E7CF0(void *, unsigned short, unsigned short);
 extern void func_0204B3B4(struct Obj *p);

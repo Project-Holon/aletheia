@@ -24,7 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x, y, prio; u8 pal, mode; } ObjTmpl;
-extern void *func_0204B294(void *, void *, void *, void *, ObjTmpl *, int, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
@@ -49,8 +50,8 @@ void func_021E5998(char *p)
     u.prio = 0x13;
     u.pal = 0xe;
     u.mode = 1;
-    *(void **)(p + 0xf08) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(p + 0x894), *(void **)(p + 0x880),
-        *(void **)(p + 0x8b0), &u, 1, *(u16 *)(p + 0x5f4));
+    *(void **)(p + 0xf08) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x894), (unsigned int)*(void **)(p + 0x880),
+        (unsigned int)*(void **)(p + 0x8b0), &u, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C(*(void **)(p + 0xf08), 1);
     func_0204B3DC(*(void **)(p + 0xf08), 1);
     u.x = 0x60;
@@ -58,8 +59,8 @@ void func_021E5998(char *p)
     u.prio = 0;
     u.pal = 0xb;
     u.mode = 1;
-    *(void **)(p + 0xf0c) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(p + 0x894), *(void **)(p + 0x880),
-        *(void **)(p + 0x8b0), &u, 1, *(u16 *)(p + 0x5f4));
+    *(void **)(p + 0xf0c) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x894), (unsigned int)*(void **)(p + 0x880),
+        (unsigned int)*(void **)(p + 0x8b0), &u, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C(*(void **)(p + 0xf0c), 1);
     if (func_020355C4()) {
         func_0204B3DC(*(void **)(p + 0xf0c), 0);
@@ -75,14 +76,14 @@ void func_021E5998(char *p)
     t.prio = z;
     t.pal = 0xc;
     t.mode = 1;
-    *(void **)(p + 0xf10) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(p + 0x89c), *(void **)(p + 0x87c),
-        *(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
+    *(void **)(p + 0xf10) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x89c), (unsigned int)*(void **)(p + 0x87c),
+        (unsigned int)*(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C(*(void **)(p + 0xf10), 0);
     func_0204B3DC(*(void **)(p + 0xf10), 1);
     func_0204B6F4(*(void **)(p + 0xf10), func_0201BBE8(a), 1);
     t.x = 0xa0;
-    *(void **)(p + 0xf14) = func_0204B294(*(void **)(p + 0x9c4), *(void **)(p + 0x8a0), *(void **)(p + 0x87c),
-        *(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
+    *(void **)(p + 0xf14) = func_0204B294(*(void **)(p + 0x9c4), (unsigned int)*(void **)(p + 0x8a0), (unsigned int)*(void **)(p + 0x87c),
+        (unsigned int)*(void **)(p + 0x8ac), &t, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C(*(void **)(p + 0xf14), 0);
     func_0204B3DC(*(void **)(p + 0xf14), 1);
     func_0204B6F4(*(void **)(p + 0xf14), func_0201BBE8(b), 1);
