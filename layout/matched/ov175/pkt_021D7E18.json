@@ -20,13 +20,6 @@
    "compared_bytes": 2796,
    "evidence": {
     "sole-ref": [
-     "code:0x021D7BE4",
-     "code:0x021D8904",
-     "code:0x021D8CF0",
-     "code:0x021D8EC8",
-     "code:0x021D9064",
-     "code:0x021D9090",
-     "code:0x021D98E4",
      "code:0x021D9B2C",
      "code:0x021DA6B8"
     ]

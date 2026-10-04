@@ -21,12 +21,7 @@
     "sole-ref": [
      "code:0x021FC3BC",
      "code:0x021FE7B4",
-     "code:0x021FE7F4",
-     "code:0x021FF408",
      "self:0x02200254"
-    ],
-    "sdk": [
-     "0x02082BCC"
     ]
    }
   }
