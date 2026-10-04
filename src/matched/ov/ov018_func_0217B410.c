@@ -34,7 +34,8 @@ extern unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
 extern int func_02158344(int a0);
 extern u32 func_02013D5C(u32 id);
-extern void func_021A3038();
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_0217B5DC();
 struct Desc;
 extern struct Desc *func_0216B340(int a0, int a1, void *a2, int a3, int a4);
@@ -53,7 +54,7 @@ int func_0217B410(int a0, int a1, int a2)
     w = func_02158344(func_02012138((const struct Ctx *)a1));
     if (func_02013D5C(h) == 0)
         return 0;
-    func_021A3038(a2, &pos);
+    func_021A3038((unsigned char *)a2, (struct VecFx32 *)&pos);
     for (i = 0; i < 3; i++) {
         if (pos.x >= (i << 22) + 0x1F8000 && pos.x <= (i << 22) + 0x1F8000 && pos.z >= 0x2C8000 && pos.z <= 0x2C8000)
             return func_0217B5DC(a1, a0, w);

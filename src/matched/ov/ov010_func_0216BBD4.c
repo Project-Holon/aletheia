@@ -30,7 +30,8 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern int func_02159B10();
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038();
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F39B8();
 extern void func_0215897C();
 
@@ -60,7 +61,7 @@ int func_0216BBD4(int c, int vm)
     a4 = func_02159B10(c, vm);
     a5 = func_02159B10(c, vm);
     a6 = func_02159B10(c, vm);
-    func_021A3038(func_02188CB4((void *)p10), buf);
+    func_021A3038(func_02188CB4((void *)p10), (struct VecFx32 *)buf);
     vec[0] = (a2 << 16) + 0x8000;
     vec[1] = a3 << 15;
     vec[2] = (a4 << 16) + 0x8000;

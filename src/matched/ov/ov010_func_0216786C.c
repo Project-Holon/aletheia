@@ -85,7 +85,7 @@ extern int func_02188BE8(void *proc);
 extern void *func_02188CB4(u8 *p);
 extern void *func_021A3074(u8 *p);
 extern int func_021A34EC(void *q);
-extern void func_021A3038(void *q, VecFx32 *v);
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_02197CCC(void *a, VecFx32 *v);
 extern u16 func_021A3050(u8 *p);
 extern VecFx32 *func_02012AA0(void *pl);
