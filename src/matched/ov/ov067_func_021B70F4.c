@@ -78,7 +78,8 @@ extern int func_02045730(int a);
 extern void func_02041B6C(u32 bit);
 extern u8 func_020355C4(void);
 extern void func_0204B3DC(int a, int b);
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 
 void func_021B70F4(struct S *s, u32 a1, u32 a2)
 {
@@ -124,7 +125,7 @@ void func_021B70F4(struct S *s, u32 a1, u32 a2)
     if (func_020355C4() == 0) {
         for (i = 0; i < 4; i++) {
             func_0204B3DC(s->arrA0[i], 1);
-            func_0204B92C(s->arrA0[i], 1);
+            func_0204B92C((struct Obj *)s->arrA0[i], 1);
         }
     }
 }

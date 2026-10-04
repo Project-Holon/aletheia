@@ -47,7 +47,8 @@ extern int func_0204A6C8(void *, int, int, int, int);
 extern int func_0204ABF0(void *, int, int, int, int);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern int func_0204B294(int, int, int, int, Local *, int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_02043598(u32 mask, u32 enable);
 extern void func_02049238(void *);
 
@@ -68,7 +69,7 @@ void func_021B9EC4(int *p, int heap)
     s.e = 0;
     s.d = 0;
     p[1] = func_0204B294(p[0], p[12], p[11], p[13], &s, 1, heap);
-    func_0204B92C(p[1], 1);
+    func_0204B92C((struct Obj *)p[1], 1);
     func_02043598(0x10, 1);
     func_02049238(h);
 }

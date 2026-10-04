@@ -39,7 +39,8 @@ extern void func_02082BCC(void *dst, int v, int n);
 extern u16  func_021BBB3C(u32 tbl, int idx, int field);
 extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u32 f, u32 heap);
 extern void func_0204B878(u32 obj, u32 anim);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B84C(u32 obj, int v);
 extern void func_0204B800(u32 obj, int v);
 extern void func_0204B3DC(u32 obj, int on);
@@ -58,7 +59,7 @@ void ov208_func_021C0450(u16 *heap, u8 *p, int key)
         pos.y = func_021BBB3C(W(0x3c8), i, 0x1a);
         *(u32 *)(p + i * 4 + 0xdc) = func_0204B294(W(0), W(0xb0), W(0xb4), W(0xb8), &pos, 0, *heap);
         func_0204B878(*(u32 *)(p + i * 4 + 0xdc), func_021BBB3C(W(0x3c8), i, 0x18));
-        func_0204B92C(*(u32 *)(p + i * 4 + 0xdc), 1);
+        func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0xdc), 1);
         func_0204B84C(*(u32 *)(p + i * 4 + 0xdc), 2);
         func_0204B800(*(u32 *)(p + i * 4 + 0xdc), 4);
         func_0204B3DC(*(u32 *)(p + i * 4 + 0xdc), 0);
