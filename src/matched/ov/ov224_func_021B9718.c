@@ -26,8 +26,9 @@ typedef struct { unsigned id; char fields[32]; unsigned a,b; } Entry;
 extern const Entry d_021B9C04[];
 extern void func_020403F4(unsigned char);
 extern void func_021B9898(char *),func_021B99E8(char *);
-extern void func_02030EAC(void *),func_0201C6EC(void *),func_0201C4C0(void *),func_0201D83C(void *),func_020315D4(void *);
-extern void func_020306F0(int);
+struct S020315D4;
+extern void func_02030EAC(void *),func_0201C6EC(void *),func_0201C4C0(void *),func_0201D83C(void *),func_020315D4(struct S020315D4 *);
+extern void func_020306F0(unsigned int heap);
 int func_021B9718(void *a,int b,int c,char *p)
 {
     Index i=ZERO;

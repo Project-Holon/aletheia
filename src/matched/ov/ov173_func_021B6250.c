@@ -24,5 +24,5 @@ struct S020315D4;
 extern void func_02031140(struct S02031140 *p);
 extern void func_0201D83C(void *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
-int func_021B6250(void *p,u32 a,u32 b,char *ctx) { func_021B6460(ctx); func_02031140(*(void **)(ctx+0x64)); func_0201D83C(*(void **)(ctx+0x60)); func_020315D4(p); func_020306F0((void *)79); return 1; }
+extern void func_020306F0(unsigned int heap);
+int func_021B6250(void *p,u32 a,u32 b,char *ctx) { func_021B6460(ctx); func_02031140(*(void **)(ctx+0x64)); func_0201D83C(*(void **)(ctx+0x60)); func_020315D4(p); func_020306F0(79); return 1; }

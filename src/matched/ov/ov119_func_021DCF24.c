@@ -35,7 +35,8 @@ extern unsigned func_020221A4(void);
 extern char d_00000072[],d_00000043[],d_00000075[],d_00000076[];
 extern void func_020307B0(void *),func_021E5EF8(void *),func_021E5D84(char *),func_021DC720(char *),func_020275E0(void);
 extern int func_021D8A24(void *);
-extern void func_0203A5E4(int),func_021E31BC(char *),func_02030EAC(void *),func_021DC5D0(void *,int),func_021DC428(void *),func_021DC484(void *),func_020315D4(void *),func_020306F0(void *),func_02034A5C(int);
+struct S020315D4;
+extern void func_0203A5E4(int),func_021E31BC(char *),func_02030EAC(void *),func_021DC5D0(void *,int),func_021DC428(void *),func_021DC484(void *),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int),func_02034A5C(int);
 int func_021DCF24(void *owner,int unused,int keep,char *p)
 {
     int state=*(int *)(p+0x118c);
@@ -50,7 +51,7 @@ int func_021DCF24(void *owner,int unused,int keep,char *p)
     func_02030EAC(*(void **)(p+0x9c8));
     func_021DC5D0(p,keep!=0);
     func_021DC428(p);func_021DC484(p);func_020315D4(owner);
-    func_020306F0((void *)31);func_020306F0((void *)145);
+    func_020306F0(31);func_020306F0(145);
     if(state<5) {func_02034A5C((int)d_00000072);func_02034A5C((int)d_00000043);}
     func_02034A5C(state==0 || state==4 ?(int)d_00000075:(int)d_00000076);
     return 1;

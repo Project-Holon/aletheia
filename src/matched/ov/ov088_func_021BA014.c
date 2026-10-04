@@ -38,8 +38,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_020315D4(int a);
-extern void func_020306F0(int a);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int heap);
 extern void func_020274C8(void);
 extern void func_021BC114(void);
 extern void func_021BC0FC(void);
@@ -69,7 +70,7 @@ int func_021BA014(int a0, int a1, int a2, char *a3)
     u8 flag = *(u8 *)(a3 + 0x12c);
     char *w;
 
-    func_020315D4(a0);
+    func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0xb);
     switch (sel) {
     case 0:
