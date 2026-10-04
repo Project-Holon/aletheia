@@ -20,7 +20,7 @@
  *   func_02012FE4  0x02012FE4  thumb
  */
 
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern int *func_0203159C(int, int, int);
 extern void func_02082BCC(void *, int, int);
 extern int func_020070A4(void);

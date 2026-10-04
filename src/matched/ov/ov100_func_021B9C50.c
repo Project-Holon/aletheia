@@ -21,11 +21,12 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Entry;
+struct Link;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(void *,int,int);
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern void func_02087C6C(void *);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern int func_02039C68(void *,int,int);
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B96B8(void);
 extern void func_021B9BE4(void);
@@ -33,7 +34,7 @@ void func_021B9C50(int a)
 {
  u8 x[6];
  int k=12;
- if(func_02039CB4(func_020399A8(),0x79,k)!=0) {
+ if(func_02039CB4((struct Link *)func_020399A8(),0x79,k)!=0) {
   int t=*(int *)(a+0x24c);
   switch(t) {
   case 9: case 10: case 11:
@@ -43,7 +44,7 @@ void func_021B9C50(int a)
   }
   func_02087C6C(x);
   if(func_0203D3A8(func_020399A8(),0xc04,6,x)!=0) {
-   func_02039C68(func_020399A8(),0x7d,k);
+   func_02039C68((struct Link *)func_020399A8(),0x7d,k);
    func_021B95B8(a,func_021B9BE4);
   }
  }

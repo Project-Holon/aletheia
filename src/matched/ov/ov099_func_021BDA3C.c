@@ -17,18 +17,20 @@
  *   func_02039C68 0x02039C68 arm
  */
 typedef unsigned short u16;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1E8(int, int);
 extern int func_0203D378(int);
 extern void func_021BA874(void *, int);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BC090(char *);
-extern void func_02039C68(int, int, int);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 int func_021BDA3C(char *p, int v)
 {
     int zero;
     zero = 0;
-    if (func_0203D378(func_0203D1E8(func_020399A8(), 0)) == 0) {
+    if (func_0203D378(func_0203D1E8((int)func_020399A8(), 0)) == 0) {
         func_021BA874(p, *(u16 *)(p + 0x242) - 1);
         func_021BAAB8(p, 0x77, zero);
         *(int *)(p + 0x1cc) = 0xaa;
@@ -36,7 +38,7 @@ int func_021BDA3C(char *p, int v)
         func_021BA874(p, *(u16 *)(p + 0x242) - 1);
         func_021BAAB8(p, 0x4c, zero);
         func_021BC090(p);
-        func_02039C68(func_020399A8(), 0x1b, 10);
+        func_02039C68((struct Link *)func_020399A8(), 0x1b, 10);
         *(int *)(p + 0x1cc) = 0x49;
     }
     return v;

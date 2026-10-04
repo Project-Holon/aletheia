@@ -42,9 +42,10 @@ extern u32 func_020073D8(u32 a, u32 b, u32 c);
 extern void func_0200E684(u32 a);
 extern u32 func_0200E588(void);
 extern void func_02082BCC(u32 p, int v, u32 n);
-extern void func_02012E4C(u32 a, u32 b);
+extern void func_02012E4C(u8 *a, u32 b);
 extern u32 func_02012E7C(u32 a, u32 b);
-extern void func_0200734C(u32 a, u32 b);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *a, u32 b);
 extern void func_020307B0(u32 p);
 extern void func_021D11D8(u32 a);
 extern void func_021D1194(u32 a);
@@ -66,12 +67,12 @@ int func_021D10A8(u32 a, u32 *b, u32 *c)
         } else {
             func_02082BCC(x, 0, func_0200E588());
         }
-        func_02012E4C(s4, 5);
+        func_02012E4C((u8 *)s4, 5);
         b[0] = b[0] + 1;
         break;
     case 1:
         if (func_02012E7C(s4, 5) == 2) {
-            func_0200734C(r6, 5);
+            func_0200734C((struct Sub02007324Ctrl *)r6, 5);
             func_020307B0(c[1]);
             func_021D11D8(c[3]);
             func_021D1194(c[3]);

@@ -23,7 +23,8 @@ typedef unsigned int u32;
 
 extern u16 func_02045A98(void);
 extern u32 func_020457B0(u32 a, u32 b);
-extern void func_02045994(u32 a, void *b, u32 c);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *a, const u16 *b, u32 c);
 extern int func_0201D304(u32 a, u32 b, u32 c);
 extern int func_0201D42C(u32 a, u32 b);
 extern void func_02045808(u32 a);
@@ -36,7 +37,7 @@ void func_021BD604(u32 a, u16 b, u32 c, u8 *d, u8 *e)
     buf[0] = b;
     buf[1] = func_02045A98();
     h = func_020457B0(2, c);
-    func_02045994(h, buf, 2);
+    func_02045994((struct Strbuf *)h, buf, 2);
     *d = func_0201D304(h, a, 0);
     *e = func_0201D42C(h, a);
     func_02045808(h);
