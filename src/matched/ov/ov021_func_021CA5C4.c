@@ -261,7 +261,8 @@ extern void func_0200D85C(u32 h);
 extern u32 func_0200D87C(u32 h);
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A3050(void *a);
-extern void func_021A3038(void *a, Trip *t);
+struct VecFx32;
+extern void func_021A3038(unsigned char *a, struct VecFx32 *t);
 extern u32 func_02188C9C(void *a);
 extern void func_02014184(Rec1C *out, u32 id, s16 n, u32 a, u32 b, u32 c);
 extern void func_0201289C(u32 a, Rec1C *r);
@@ -280,7 +281,8 @@ extern void func_021F37C0(void *a, u32 b, const Trip *t);
 extern void *func_021F380C(void *a);
 extern void func_021D024C(void *o, u32 v);
 extern void func_021D028C(void *o, u32 v);
-extern void func_0216D88C(void *o, Vec *v);
+struct Actor;
+extern void func_0216D88C(const struct Actor *o, struct VecFx32 *v);
 extern u32 func_0216D5F8(void *o);
 extern void func_0216E014(void *o, Vec *v, u32 r);
 extern void func_0216DB4C(void *o, u32 v);
@@ -466,7 +468,7 @@ int func_021CA5C4(void *a, u32 b)
         void *o = func_02188CB4((void *)s30);
         u32 k = func_021A3050(o);
         int n;
-        func_021A3038(o, &t);
+        func_021A3038(o, (struct VecFx32 *)&t);
         switch (k) {
         case 0:
             n = 1;
@@ -565,7 +567,7 @@ int func_021CA5C4(void *a, u32 b)
         u32 y = p2 << 16;
         void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0) {
-            func_0216D88C(o, &v);
+            func_0216D88C(o, (struct VecFx32 *)&v);
             v.y = y;
             func_0216E014(o, &v, func_0216D5F8(o));
             func_0216DB4C(o, 1);

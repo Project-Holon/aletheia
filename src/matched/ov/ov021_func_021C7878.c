@@ -35,7 +35,9 @@ typedef struct {
 extern int func_02188C84(int);
 extern int func_021C6C70(int, int, int (*)(Obj *));
 extern Obj *func_021C6CCC(int);
-extern void func_0216D88C(int, int *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021C7A20(Obj *);
 
 /* The Vec copy is a VEC_Set-style inline setter: its arguments are
@@ -58,7 +60,7 @@ int func_021C7878(int a, int b, const Vec *c, int d)
     o->f0 = 0;
     o->f4 = a;
     o->f28 = d;
-    func_0216D88C(d, o->f1C);
+    func_0216D88C((const struct Actor *)d, (struct VecFx32 *)o->f1C);
     if (b >= 0) {
         o->f8 = 0;
         o->fC = 0;

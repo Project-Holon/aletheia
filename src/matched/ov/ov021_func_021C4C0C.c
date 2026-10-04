@@ -22,7 +22,9 @@ typedef struct { int a; int b; } S;
 
 extern int *func_021AC1AC(int a);
 extern void func_0216E1A4(int a, int *b);
-extern void func_0216D88C(int a, int *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_021AC1CC(int a, int *v);
 
 void func_021C4C0C(int a, int *b)
@@ -32,7 +34,7 @@ void func_021C4C0C(int a, int *b)
 
     *(S *)b = *(S *)p;
     func_0216E1A4(b[1], b + 2);
-    func_0216D88C(b[1], v);
+    func_0216D88C((const struct Actor *)b[1], (struct VecFx32 *)v);
     v[2] += 0x8000;
     func_021AC1CC(a, v);
     *(u16 *)(b + 4) = *(u16 *)(b[0] + 6);
