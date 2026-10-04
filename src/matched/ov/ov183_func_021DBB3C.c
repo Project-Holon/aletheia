@@ -34,7 +34,8 @@ extern void func_021FD820(char *);
 extern void func_021FD714(int);
 extern void func_0201C4C0(struct PrintSys *p);
 extern void func_02025588(int);
-extern void func_020315D4(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 int func_021DBB3C(int task,int b,char *q,char *p)
 {
     int i;
@@ -54,6 +55,6 @@ int func_021DBB3C(int task,int b,char *q,char *p)
     func_021FD714(*(int *)(p+8));
     func_0201C4C0(*(void **)(p+4));
     func_02025588(*(int *)p);
-    func_020315D4(task);
+    func_020315D4((struct S020315D4 *)task);
     return 1;
 }

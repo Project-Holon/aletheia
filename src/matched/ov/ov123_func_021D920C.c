@@ -36,7 +36,7 @@ extern void func_02156DE0(int,int);
 extern void func_021B9838(u8 *p);
 extern void func_02156DC4(int,int);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int handle);
 extern char ov114_id[];
 int func_021D920C(void *a, int b, int c, char *p)
