@@ -22,8 +22,9 @@ struct Entry;
 extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *,int,int);
-extern int func_02039CB4(void *,int,int);
+struct Link;
+extern void func_02039C68(struct Link *,u32,u32);
+extern u32 func_02039CB4(struct Link *,u32,u32);
 extern int func_0217E258(void *,unsigned);
 extern int func_0217E298(void *,unsigned);
 extern void func_0217E074(void *);
@@ -32,8 +33,8 @@ unsigned func_021E5A90(void **d,unsigned *c,unsigned *state)
  if(func_0200FB24()!=0){func_0200FB38();c[2]=2;return 1;}
  switch(*state) {
  case 0:++*state;break;
- case 1:func_02039C68(func_020399A8(),0x11,0x1F);++*state;break;
- case 2:if(func_02039CB4(func_020399A8(),0x11,0x1F)!=0)++*state;break;
+ case 1:func_02039C68((struct Link *)func_020399A8(),0x11,0x1F);++*state;break;
+ case 2:if(func_02039CB4((struct Link *)func_020399A8(),0x11,0x1F)!=0)++*state;break;
  case 3:if(func_0217E258(*d,c[3])!=0)++*state;break;
  case 4:if(func_0217E298(*d,c[4])!=0)++*state;break;
  case 5:return 1;
