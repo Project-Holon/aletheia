@@ -18,7 +18,8 @@
 typedef unsigned char u8;
 struct Link;
 extern void *func_02026478(void *);
-extern struct Link *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned int func_0203D1A4(struct Link *);
 struct BigObj;
 extern void func_02012B4C(struct BigObj *p, u8 v);
@@ -27,7 +28,7 @@ void func_02173728(unsigned int a, int b, u8 *c, u8 *d)
     void *h;
     unsigned int n;
     h = func_02026478(*(void **)(d + 4));
-    if (a != func_0203D1A4(func_020399A8())) {
+    if (a != func_0203D1A4((struct Link *)func_020399A8())) {
         n = *c;
         d[0x902] = n;
         func_02012B4C(h, n);

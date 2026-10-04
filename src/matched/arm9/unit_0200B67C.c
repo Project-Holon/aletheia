@@ -95,7 +95,7 @@ struct Big;
 struct Sub02007324Ctrl;
 extern void *func_02012EBC(struct Big *p);
 extern void  func_02007324(void *h, u32 c, u16 e, void *p, u32 size);
-extern void  func_02012E4C(void *a, u32 c);
+extern void  func_02012E4C(u8 *a, u32 c);
 extern int func_02012E7C(char *p, int a1);
 extern void func_0200734C(struct Sub02007324Ctrl *ctrl, u32 id);
 extern void  func_0200BA44(struct RecC4 *p);

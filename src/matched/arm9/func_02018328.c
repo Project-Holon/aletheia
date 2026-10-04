@@ -47,7 +47,7 @@ struct Learn { u16 move; u16 level; };
 
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02017E1C(void *p, u32 id, u32 v);
-extern void  func_0201ADD0(u16 species, u16 form, void *dest);
+extern void  func_0201ADD0(u32 species, int form, void *dest);
 extern u16   func_0201808C(void *p, u16 move);
 extern void  func_020307B0(void *m);
 extern u8    sPokeToolFile;
@@ -77,7 +77,7 @@ u16 func_02018328(void *p, u32 *idx, u32 heap)
     species = func_02017E1C(p, 5, 0);
     form = func_02017E1C(p, 0x6f, 0);
     level = func_02017E1C(p, 0x9e, 0);
-    func_0201ADD0(species, form, tbl);
+    func_0201ADD0(species, (u16)form, tbl);
 
     while (cur = tbl[*idx], t = cur, !Learn_IsEnd(&t)) {
         e = cur;

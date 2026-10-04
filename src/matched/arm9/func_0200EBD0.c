@@ -6,7 +6,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_0200EA3C  0x0200EA3C  thumb
@@ -24,8 +24,7 @@
  * from func_02088864, 4).  The slot index is read inline in the call's
  * argument, not through a named local.
  *
- * EXACT* only because the listing extent runs over the unlabelled follower
- * func_0200EC14 (its own matched entry); compiled bytes match exactly.
+ * Current listing extent is 68 bytes; compiled bytes match exactly.
  */
 
 typedef unsigned char u8;
@@ -37,13 +36,15 @@ struct Obj {
     u32 unk1558;
 };
 
-extern void func_0200EA3C(u8 *rec, void *a1, void *date, u32 heap);
+struct Rec;
+struct Date;
+extern void func_0200EA3C(struct Rec *rec, void *a1, struct Date *date, u32 heap);
 
 void func_0200EBD0(struct Obj *obj, void *a1, void *date, u32 heap)
 {
     if (obj->unk1558 < 9999) {
         u32 idx;
-        func_0200EA3C((u8 *)obj + obj->unk1554 * 0x16c, a1, date, heap);
+        func_0200EA3C((struct Rec *)((u8 *)obj + obj->unk1554 * 0x16c), a1, date, heap);
         idx = obj->unk1554 + 1;
         obj->unk1554 = idx;
         if (idx >= 15) {
