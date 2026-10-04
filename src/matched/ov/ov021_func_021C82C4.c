@@ -82,7 +82,7 @@ typedef struct Param {
     Buf24 buf;
 } Param;
 
-typedef struct Ctx {
+typedef struct TaskCtx {
     void *w0;
     u32 f04;
     u32 f08;
@@ -91,7 +91,8 @@ typedef struct Ctx {
     u32 f2c;
 } Ctx;
 
-extern void *func_0201210C(void *p);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188C58(void *p);
 extern void *func_02189A00(u8 *p);
 extern u32 func_02188C5C(u8 *p);

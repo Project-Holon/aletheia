@@ -27,7 +27,8 @@ extern void func_021B7DA8(void *);
 extern void func_021B7A60(void *);
 extern void func_021B78D0(void *);
 extern void func_021B7C88(void *);
-extern void func_020315D4(unsigned);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(unsigned);
 int func_021B7734(unsigned a,int b,int c,char *p) {
  func_021B71C0(*(unsigned *)(p+0x468));
@@ -39,7 +40,7 @@ int func_021B7734(unsigned a,int b,int c,char *p) {
  func_021B7A60(p+0x94);
  func_021B78D0(p);
  func_021B7C88(p+0x9c);
- func_020315D4(a);
+ func_020315D4((struct S020315D4 *)a);
  func_020306F0(0x3b);
  return 1;
 }
