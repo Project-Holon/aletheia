@@ -30,7 +30,8 @@ typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
 extern void func_0204B8C4();
 extern void func_0204B878();
-extern void func_0204B92C();
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021B6100();
 extern void func_021B8D88(char *p);
 
@@ -53,7 +54,7 @@ void func_021B8CE4(int p, int u, int a, int b)
     *(unsigned short *)((char *)p + 0x866) = 6;
     func_0204B8C4(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 0);
     func_0204B878(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), (unsigned short)x);
-    func_0204B92C(*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 1);
+    func_0204B92C((struct Obj *)*(int *)((char *)p + *(unsigned short *)((char *)p + 0x864) * 4 + 0x710), 1);
     *(int *)((char *)p + 0x868) = b;
     func_021B6100(p, func_021B8D88);
 }

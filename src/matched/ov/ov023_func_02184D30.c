@@ -58,7 +58,8 @@ typedef struct Work {
 } Work;
 
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
-extern void func_0204B92C(u32, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(u32, u16);
 extern void func_0204B3DC(u32, int);
 extern void func_0204B84C(u32, int);
@@ -81,7 +82,7 @@ void func_02184D30(Work *p)
         pos.x = i * 0x28 + 0x18;
         pos.y = 0x40;
         p->a60[i] = func_0204B294(p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
-        func_0204B92C(p->a60[i], 1);
+        func_0204B92C((struct Obj *)p->a60[i], 1);
         func_0204B878(p->a60[i], i);
         func_0204B3DC(p->a60[i], 0);
     }
@@ -89,7 +90,7 @@ void func_02184D30(Work *p)
         pos.x = d_02186BEC[j].x;
         pos.y = d_02186BEC[j].y;
         p->aD0[j] = func_0204B294(p->f38, p->f40, p->f3C, p->f44, &pos, 0, 0x28);
-        func_0204B92C(p->aD0[j], 1);
+        func_0204B92C((struct Obj *)p->aD0[j], 1);
         func_0204B878(p->aD0[j], d_02186BEC[j].anim);
         if (j >= 8) {
             func_0204B84C(p->aD0[j], 2);
@@ -100,7 +101,7 @@ void func_02184D30(Work *p)
         pos.x = 0x18;
         pos.y = i * 0x20 + 0x20 + 0x100000u;
         p->a98[i] = func_0204B294(p->f38, p->f58, p->f54, p->f5C, &pos, 1, 0x28);
-        func_0204B92C(p->a98[i], 1);
+        func_0204B92C((struct Obj *)p->a98[i], 1);
         func_0204B878(p->a98[i], i);
         func_0204B800(p->a98[i], 1);
         func_0204B3DC(p->a98[i], 0);
@@ -108,7 +109,7 @@ void func_02184D30(Work *p)
     pos.x = 0xD4;
     pos.y = 0xA0;
     p->f100 = func_0204B294(p->f38, p->f4C, p->f48, p->f50, &pos, 0, 0x28);
-    func_0204B92C(p->f100, 1);
+    func_0204B92C((struct Obj *)p->f100, 1);
     func_0204B878(p->f100, 1);
     func_0204B3DC(p->f100, 1);
     func_020434DC(0x10, 1);
