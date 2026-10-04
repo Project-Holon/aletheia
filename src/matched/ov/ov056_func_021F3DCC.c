@@ -32,7 +32,8 @@ extern u32 func_0218C654(u32 a, u32 b, Ent *e);
 extern int func_0218C6F4(u32 a, u32 b, int c);
 extern int func_02188C80(int a);
 extern int func_020120F4(int a);
-extern int func_02012A30(int a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A7C(int a, int b);
 extern Ent d_021F4278;
 extern int d_021F4258[];
@@ -57,5 +58,5 @@ void func_021F3DCC(int unused, int b, u32 *c)
             break;
         }
     }
-    func_02028A7C(func_02012A30(func_020120F4(func_02188C80(b))), 0x746);
+    func_02028A7C(func_02012A30((const struct BigObj *)func_020120F4(func_02188C80(b))), 0x746);
 }

@@ -29,7 +29,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_02012138(int);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_020120F4(int);
 extern u32 func_0201283C(int);
 extern u32 func_0201058C(u32);
@@ -52,7 +53,7 @@ void func_021F0390(u8 *p, int a, int b, int c, int e)
     u32 keys;
     int idx;
 
-    sv = func_02012138(*(int *)(p + 0x1c));
+    sv = func_02012138((const struct Ctx *)*(int *)(p + 0x1c));
     flags = 0;
     one = 1;
     s8 = 1;

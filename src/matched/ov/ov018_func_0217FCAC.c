@@ -22,9 +22,10 @@
  */
 
 typedef unsigned short u16;
+struct Ctx;
 
 int func_020124E4(int x);
-int func_02012138(int x);
+unsigned int func_02012138(const struct Ctx *p);
 void func_02012374(int x, int y);
 int *func_02158344(int x);
 int func_02167A54(int a, int b);
@@ -38,7 +39,7 @@ int func_0217FCAC(int x, int *st, int *obj)
     int v = func_020124E4(x);
     int *m;
 
-    m = func_02158344(func_02012138(v));
+    m = func_02158344(func_02012138((const struct Ctx *)v));
     switch (*st) {
     case 0:
         if (m == 0) {

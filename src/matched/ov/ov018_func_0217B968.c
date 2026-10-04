@@ -38,6 +38,7 @@ typedef struct { int x, y, z; } Vec;
 typedef unsigned int   u32;
 struct Comm;
 struct Ctx;
+struct Rec44;
 extern u32 func_0202648C(void *obj);
 extern u32 func_02026460(void *obj);
 extern u32 func_0200FB24(void);
@@ -47,7 +48,7 @@ extern u32 func_02012204(const struct Ctx *p);
 extern int func_020120D8(char *p);
 extern int func_020120F4(void *);
 extern int func_020127A4(int);
-extern int func_02012AC8(int);
+extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
 extern void func_021A3038(void *, Vec *);
 extern u32 func_02026454(void *obj);
@@ -75,7 +76,7 @@ void func_0217B968(int a0, void *a1, void *a2, void *a3)
         return;
     if (func_020120D8(a1) == 1)
         return;
-    if (func_02013D5C(func_02012AC8(func_020127A4(func_020120F4(a1)))) == 0)
+    if (func_02013D5C(func_02012AC8((const struct Rec44 *)func_020127A4(func_020120F4(a1)))) == 0)
         return;
     func_021A3038(a3, &v);
     switch (func_02026454(a2)) {

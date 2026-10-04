@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Task callback in the shape of func_021809A4: a 4-state sequence driving
  * the Ov018Obj at +0x10.
@@ -51,8 +51,9 @@ typedef struct {
 } Outer;
 
 struct Obj;
+struct Ctx;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+unsigned int func_02012138(const struct Ctx *p);
 u8 *func_02158344(void *);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
@@ -63,7 +64,7 @@ int func_02182920(void *a, int *state, Outer *c)
 {
     u8 *v;
 
-    v = func_02158344(func_02012138(func_020124E4(a)));
+    v = func_02158344((void *)func_02012138(func_020124E4(a)));
     switch (*state) {
     case 0:
         func_0217F3C4(&c->obj, c->f9C);
