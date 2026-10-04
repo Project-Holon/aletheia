@@ -29,7 +29,8 @@ typedef unsigned char  u8;
 extern u8 func_0201F548(int i);
 extern void func_02049B90(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045770(void);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
@@ -40,7 +41,7 @@ void func_021D20BC(u32 *w)
 {
     func_02049B90(5, func_0201F548(0), 0, 0, 0, 0x20, 0x15);
     w[0x30 / 4] = func_020450F0(1, 10, 3, 12, 12, 0, 1);
-    func_02043B5C(func_02045770(), 0x11);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)w[0x30 / 4]), 0x11);
     func_02045334(w[0x30 / 4]);
     func_02045374(w[0x30 / 4]);
     func_0201F73C(w[0x30 / 4], 1, 1, 0);

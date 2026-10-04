@@ -24,7 +24,8 @@ typedef unsigned short u16;
 
 typedef unsigned int   u32;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern int func_02045770(void);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_02045374(int);
 extern void func_02045334(int);
@@ -37,7 +38,7 @@ int func_021930C0(int a, int unused, int b, int c, u16 d, u16 e, u16 f)
     int k;
 
     r = func_020450F0(a & 0xff, b & 0xff, c & 0xff, d & 0xff, e & 0xff, f & 0xff, 1);
-    func_02043B5C(func_02045770(), 0xff);
+    func_02043B5C((int)func_02045770((struct Descriptor *)r), 0xff);
     func_02045374(r);
     func_02045334(r);
     func_020409B4((u8)a);
