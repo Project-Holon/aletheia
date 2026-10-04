@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -19,11 +19,13 @@
 
 typedef unsigned long u32;
 
-extern u32  func_020399A8(void);
-extern void func_02039CB4(u32 tick, u32 value, u32 line);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *tick, unsigned int value, unsigned int line);
 
 void func_021D9EEC(char *obj)
 {
-    func_02039CB4(func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
+    func_02039CB4((struct Link *)func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
 }
 

@@ -71,13 +71,14 @@ void func_021DE820(char *p)
     }
 }
 
-extern unsigned func_020399A8(void *);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_021E12AC(char *p);
 extern int func_021DD140(char *p);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
 void func_021DE8C0(char *p)
 {
-    func_020399A8(p);
+    func_020399A8();
     if(func_021E12AC(p) && func_021DD140(p) && *(int *)(p+0xf2c)>=120) {
         func_0202208C(0,0,0,0,6,1,*(u16 *)(p+0x5f4));
         func_021D8E84(p,(int)func_021DE820);

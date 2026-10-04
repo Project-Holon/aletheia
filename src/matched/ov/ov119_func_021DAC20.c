@@ -19,14 +19,16 @@
 extern int func_020221A4(void *);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *, int);
-extern unsigned func_020399A8(void);
-extern void func_02039C68(unsigned,unsigned,unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021DABE8(char *p);
 extern void func_021DAB34(char *p);
 void func_021DAC20(void *p) {
  if(func_020221A4(p)) {
   if(func_021D8A24(p)) {
-   func_02039C68(func_020399A8(),22,8);
+   func_02039C68((struct Link *)func_020399A8(),22,8);
    func_021D8E84(p,(int)func_021DABE8);
   } else { func_021D8E84(p,(int)func_021DAB34); }
  }
