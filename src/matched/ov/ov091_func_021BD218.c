@@ -48,7 +48,8 @@ extern void func_02049238(void *);
 extern int func_0201BBE8(int);
 extern u32 func_0204B294(u32,u32,u32,u32,R *,int,u16);
 extern void func_0204B6F4(u32,int,int);
-extern void func_0204B92C(u32,int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p,u32 v);
 extern void func_0204B3DC(u32,int);
 extern u32 func_0202136C(u16);
 extern void func_0204B878(u32,int);
@@ -91,7 +92,7 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
         s[4]=obj;
         func_0204B6F4(obj,frame,1);
     }
-    func_0204B92C(s[4],1);
+    func_0204B92C((struct Obj *)s[4],1);
     gender=func_02017E1C(mon,6,0);
     b.a=x+32;b.b=y+16;b.c=0;b.d=8;b.e=2;
     s[5]=func_0204B294(P(0x1ec),P(0x1a8),P(0x184),P(0x1c4),&b,1,*(u16 *)p);
