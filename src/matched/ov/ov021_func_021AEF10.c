@@ -27,7 +27,8 @@ extern void *func_0215A5DC(void *a0);
 extern u32 func_020120F4(void *a);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012A30(u32 a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *a);
 extern u32 func_02159B10(u32 a, u32 b);
 extern void func_02028A58(u32 a, u8 b, u8 c);
 extern void func_02159144(int n);
@@ -40,7 +41,7 @@ int func_021AEF10(u32 a, u32 b)
     x = func_0215A5DC((void *)b);
     y = func_020120F4(x);
     func_0201210C((void *)x);
-    y = func_02012A30(y);
+    y = func_02012A30((const struct BigObj *)y);
     z = func_02159B10(a, b);
     func_02028A58(y, z, func_02159B10(a, b));
     func_02159144(12);

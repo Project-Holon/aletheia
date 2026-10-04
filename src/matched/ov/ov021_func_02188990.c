@@ -59,7 +59,8 @@ extern void func_021C1AD0(u32 a);
 extern void func_0201209C(void *o, void *f, void *arg);
 extern void func_021A2EB8(u32 a);
 extern void func_021BB90C(u32 a);
-extern void *func_02012138(void *a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *a);
 extern void func_020263B0(void *o, u8 *p);
 extern void func_021BC424(u32 a);
 extern void func_021BE218(u8 *p);
@@ -98,7 +99,7 @@ int func_02188990(void *a, u8 *p)
     func_0201209C(a, 0, 0);
     func_021A2EB8(*(u32 *)(p + 0x8C));
     func_021BB90C(*(u32 *)(p + 0xBC));
-    func_020263B0(func_02012138(a), p);
+    func_020263B0((void *)func_02012138(a), p);
     if (*(u32 *)(p + 0x30) != 0)
         func_021BC424(*(u32 *)(p + 0x30));
     func_021BE218(p);

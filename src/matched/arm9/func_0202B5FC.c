@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status: EXACT*
  *
  * Builds the +0x14 sub-object from the +4 field and the object's u16 id.
  *
@@ -22,10 +22,10 @@ typedef unsigned int   u32;
 
 struct Obj;
 
-extern u32 func_0202B7F8(struct Obj *o);
+extern void *func_0202B7F8(struct Obj *o);
 extern u32 func_0202B1AC(u32 a, u32 b);
 
 void func_0202B5FC(struct Obj *o)
 {
-    *(u32 *)((u8 *)o + 0x14) = func_0202B1AC(func_0202B7F8(o), *(u16 *)o);
+    *(u32 *)((u8 *)o + 0x14) = func_0202B1AC((u32)func_0202B7F8(o), *(u16 *)o);
 }

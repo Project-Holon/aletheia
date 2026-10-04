@@ -30,7 +30,8 @@ typedef struct {
 } Req;
 
 int func_020124E4(int);
-int func_02012138(int);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *p);
 u8 *func_02158344(int);
 void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(void *x);
@@ -44,7 +45,7 @@ int func_0217FB94(int a, int *state, Req *req)
     u8 *w;
 
     s = func_020124E4(a);
-    w = func_02158344(func_02012138(s));
+    w = func_02158344(func_02012138((const struct Ctx *)s));
     switch (*state) {
     case 0:
         if (w == 0) {

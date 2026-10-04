@@ -43,7 +43,7 @@ extern int func_020124E4(int);
 typedef unsigned int   u32;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02012138(int);
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0(void *);
 extern u32 func_02188C54(u8 *p);
@@ -70,7 +70,7 @@ int func_0217B82C(int a0, int *state, Work *w)
 
     sys = func_020124E4(a0);
     obj = func_0201210C((void *)sys);
-    func_02012138(sys);
+    func_02012138((const struct Ctx *)sys);
     switch (*state) {
     case 0:
         func_0216D9A0(func_02188C7C(obj));

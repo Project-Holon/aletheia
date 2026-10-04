@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0201210C();
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int func_02082A7C();
 extern int func_02188C54();
 
@@ -30,7 +31,7 @@ int func_02158E54(int a0, int a1, int a2)
 
 t5 = a0 + 0;
 a0 = a1 + 0;
-    t4 = func_0201210C(a0, a1);
+    t4 = func_0201210C((const struct Ctx *)a0);
 loc_02158E5E:
 a0 = 0;
 a1 = t5 + 0;
