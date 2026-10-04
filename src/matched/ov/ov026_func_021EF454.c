@@ -26,7 +26,8 @@ typedef signed short   s16;
 extern u32 func_020056EC(u32 v);
 extern void func_021A26C4(int, s16 *);
 extern void func_0204B878(int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B954(int, int);
 
 void func_021EF454(int a, s16 *b, s16 *c, int d)
@@ -45,6 +46,6 @@ void func_021EF454(int a, s16 *b, s16 *c, int d)
     c[1] = v[1] << 3;
     func_0204B878(d, 1);
     one = 1;
-    func_0204B92C(d, 1);
+    func_0204B92C((struct Obj *)d, 1);
     func_0204B954(d, one << 13);
 }
