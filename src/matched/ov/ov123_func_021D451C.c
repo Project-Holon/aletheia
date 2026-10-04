@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * extent: follower 021D45F0 already filed separately.
  * symbols:
  *   func_0204BA10 0x0204BA10 arm

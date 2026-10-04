@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef struct {u16 x,y,z;u8 a,b;} Pos;
 extern int func_0204B294(int, int, int, int, void *, int, u16);
 extern void func_0204B6F4(int, int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 void func_0220AF6C(char *p, int a, int b, int c, int d)
 {
     Pos pos;
@@ -27,6 +28,6 @@ void func_0220AF6C(char *p, int a, int b, int c, int d)
         pos.z=i;
         *(int *)(p+i*4)=func_0204B294(a,b,c,d,&pos,1,*(u16 *)(p+0x10));
         func_0204B6F4(*(int *)(p+i*4),0,1);
-        func_0204B92C(*(int *)(p+i*4),1);
+        func_0204B92C((struct Obj *)*(int *)(p+i*4),1);
     }
 }

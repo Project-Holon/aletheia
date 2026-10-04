@@ -85,7 +85,8 @@ extern struct WinMgr *func_0202C9B4(u32 a0, u32 a1, u32 heap);
 extern void func_0202CA3C(struct WinMgr *mgr, u32 idx, u32 bg, u32 w, u32 h);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B878(u32 v, int k);
-extern void func_0204B92C(u32 v, int k);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(u32 v, int k);
 extern void *func_02202974(u32 a, u32 b, u32 c, u32 heap);
 extern void func_022026D8(void *ctx, u32 arg);
@@ -121,7 +122,7 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     func_0202CA3C(m->frm, 0, 2, 0x20, 0x14);
     func_021F4FF4(m->obj, 0x90, 0x28);
     func_0204B878(m->obj, 4);
-    func_0204B92C(m->obj, 1);
+    func_0204B92C((struct Obj *)m->obj, 1);
     func_0204B3DC(m->obj, 0);
     m->ctx = func_02202974(0xf, 0xe, 2, 0x48);
     func_022026D8(m->sub, init->arg);
