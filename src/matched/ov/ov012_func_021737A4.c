@@ -31,7 +31,7 @@ typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern int func_02188C80(int b);
 extern int func_0201212C(int p);
-extern int func_020123C4(int v);
+extern int func_020123C4(void *v);
 extern int func_02173840(u8 *p);
 extern int func_02174268(u8 *p);
 extern void func_0217B840(u8 *p, int b);
@@ -53,7 +53,7 @@ void func_021737A4(int a, int b)
     if (func_0201212C(func_02188C80(b)) == 1) {
         return;
     }
-    if (func_020123C4(*(int *)(*(u8 **)r4 + 0xc)) == 1) {
+    if (func_020123C4((void *)*(int *)(*(u8 **)r4 + 0xc)) == 1) {
         return;
     }
     if (func_02173840(r4) != 1) {

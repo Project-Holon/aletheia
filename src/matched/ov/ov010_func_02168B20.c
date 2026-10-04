@@ -22,9 +22,10 @@
  *   func_02168B18  0x02168B18  thumb ov010
  */
 
-extern int func_0201210C(int);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *);
 extern int func_02188CCC(int);
-extern int func_02012138(int);
+extern unsigned int func_02012138(const struct Ctx *);
 extern int func_02026454(int);
 extern void func_02026400(int);
 extern void func_02012158(int, int);
@@ -37,8 +38,8 @@ typedef enum { ST_0, ST_1, ST_2, ST_3, ST_4, ST_5 } State;
 int func_02168B20(int a, int *b, int *c)
 {
     int s = c[2];
-    int x = func_02188CCC(func_0201210C(s));
-    int y = func_02012138(s);
+    int x = func_02188CCC((int)func_0201210C((const struct Ctx *)s));
+    int y = func_02012138((const struct Ctx *)s);
     State t = (State)*b;
     switch (t) {
     case 0:

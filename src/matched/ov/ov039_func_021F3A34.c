@@ -83,7 +83,8 @@ extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
 extern Save *func_0200B3A4(unsigned int, unsigned int);
-extern int func_02012A30(int a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *a);
 extern int func_021F3DE4(int a, u8 b, u8 c);
 extern void func_021F47D8(int a, int f, int i);
 extern void func_02011558(u32 a);
@@ -137,7 +138,7 @@ void func_021F3A34(int a0, void *a1)
     s = func_021897BC(a1, 1);
     t = func_020120F4(func_02188C80(a1));
     q = func_0200B3A4(func_02012EC4(t), 2);
-    w = func_02012A30(t);
+    w = func_02012A30((const struct BigObj *)t);
     for (i = 0; i < 4; i++) {
         j = i;
         if (s->req[j] != 0) {

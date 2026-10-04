@@ -32,7 +32,7 @@ typedef struct Ctx {
 
 extern void func_0215716C(void *);
 extern void func_021F6888(void *);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int);
 extern void func_02156F98(Ctx *);
 typedef signed int     s32;
 struct S020315D4;

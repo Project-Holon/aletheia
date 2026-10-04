@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020124E4  0x020124E4  thumb
@@ -26,8 +26,10 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern u32 func_020124E4(void);
-extern u32 func_02012138(u32 a);
+struct Obj;
+struct Ctx;
+extern void *func_020124E4(struct Obj *p);
+extern u32 func_02012138(const struct Ctx *a);
 extern int func_0203CD98(void);
 extern int func_0203CEAC(int a0);
 extern int func_0203CDBC(void);
@@ -44,8 +46,8 @@ int func_021C0780(u32 a, int *st)
     u32 y;
     u32 z;
 
-    x = func_020124E4();
-    y = func_02012138(x);
+    x = (u32)func_020124E4((struct Obj *)a);
+    y = func_02012138((const struct Ctx *)x);
     switch (*st) {
     case 0:
         if (func_0203CD98()) {

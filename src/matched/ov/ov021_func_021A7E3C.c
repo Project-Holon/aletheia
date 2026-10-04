@@ -55,7 +55,8 @@ struct Desc;
 struct Obj;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
-extern void *func_02012A30(void *p);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern u8 func_021A80FC(void *p);
 extern void *func_021BDC94(void *p);
 extern void func_021A811C(void *p, void *q);
@@ -72,7 +73,7 @@ void *func_021A7E3C(Args *a)
     task = func_020122C0(a->f04, 0, func_021A7F38, 0x3C);
     w = func_020124E8(task);
     w->f00 = a;
-    w->f04 = func_02012A30(a->f08);
+    w->f04 = (void *)func_02012A30(a->f08);
     w->f28 = 0;
     w->f18 = 0;
     w->f1A = func_021A80FC(a->f0C);
