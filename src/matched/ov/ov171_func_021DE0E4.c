@@ -22,14 +22,16 @@
 typedef unsigned char u8;
 typedef signed short s16;
 
-extern void func_0204B454(int, s16 *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 
 void func_021DE0E4(u8 *obj, int i, s16 *out1, s16 *out2)
 {
     int v = *(int *)(obj + i * 4 + 0xb74);
     s16 tmp[2];
 
-    func_0204B454(v, tmp, 0);
+    func_0204B454((struct Actor *)v, (struct PtS *)tmp, 0);
     *out1 = tmp[0];
     *out2 = tmp[1];
 }

@@ -13,12 +13,14 @@
  *   func_0204B454 0x0204B454 arm
  */
 
-extern void func_0204B454(int actor, short *out, unsigned short space);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 
 void func_021EC0B0(char *p, int i, short *a, short *b, unsigned short space)
 {
     short t[2];
-    func_0204B454(*(int *)(p + i * 4 + 0x9E74), t, space);
+    func_0204B454((struct Actor *)*(int *)(p + i * 4 + 0x9E74), (struct PtS *)t, space);
     *a = t[0];
     *b = t[1];
 }

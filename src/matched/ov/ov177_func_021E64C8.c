@@ -19,7 +19,9 @@ typedef struct {
     char pad231[3];
     unsigned layer;      /* 0x234 */
 } Work;
-extern void func_0204B454(void *, Pt *, unsigned short);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *, const Pt *, unsigned short);
 extern void func_020061E4(unsigned);
 extern unsigned func_0209C2B0(unsigned, unsigned);
@@ -38,7 +40,7 @@ int func_021E64C8(Work *w)
     if (w->count == 0) {
         for (i = 0; i < 22; i++) {
             if (w->objs[i] != 0) {
-                func_0204B454(w->objs[i], &cur, w->layer);
+                func_0204B454(w->objs[i], (struct PtS *)&cur, (unsigned short)w->layer);
                 w->baseX[i] = cur.x;
             }
         }
@@ -47,7 +49,7 @@ int func_021E64C8(Work *w)
     level = func_0209C2B0(w->count << 8, 20) - 0x100;
     for (i = 0; i < 22; i++) {
         if (w->objs[i] != 0) {
-            func_0204B454(w->objs[i], &pos, w->layer);
+            func_0204B454(w->objs[i], (struct PtS *)&pos, (unsigned short)w->layer);
             pos.x = w->baseX[i] - func_0209C2B0(w->count << 8, 20);
             func_0204B404(w->objs[i], &pos, w->layer);
         }

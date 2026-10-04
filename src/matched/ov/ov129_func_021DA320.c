@@ -13,7 +13,9 @@
 typedef short s16;
 typedef unsigned char u8;
 typedef struct { s16 x,y; } Pair;
-extern void func_0204B454(void *,Pair *,unsigned int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 void func_021DA320(char *p)
 {
     int i;
@@ -27,7 +29,7 @@ void func_021DA320(char *p)
             x=4;
             y=8;
         }
-        func_0204B454(*(void **)(p+i*0x1c+12),&s,0);
+        func_0204B454(*(void **)(p+i*0x1c+12),(struct PtS *)&s,0);
         (*(u8 **)(p+i*0x1c+16))[0]=s.y-y;
         (*(u8 **)(p+i*0x1c+16))[2]=s.x-x;
         (*(u8 **)(p+i*0x1c+16))[1]=s.y+y;
