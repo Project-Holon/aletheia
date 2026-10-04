@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -24,12 +24,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_020399A8(int a, int b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_021BCC58(char *p, u32 x);
 
 void func_021C1334(int a, int b, int *p, void *q, int e)
 {
-    if (e == func_020399A8(a, b)) {
+    if (e == (int)func_020399A8()) {
         func_021BCC58(q, *p);
     }
 }

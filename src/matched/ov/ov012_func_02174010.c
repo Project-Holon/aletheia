@@ -13,9 +13,10 @@
  *   func_0203D4D0 0x0203D4D0 arm
  */
 typedef unsigned int u32;
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32, u32, u32, u32, u32, u32, u32, u32);
 void func_02174010(u32 a, void *p)
 {
-    func_0203D4D0(func_020399A8(), a, 0x1412, 0x28, (u32)p, 1, 0, 0);
+    func_0203D4D0((u32)func_020399A8(), a, 0x1412, 0x28, (u32)p, 1, 0, 0);
 }

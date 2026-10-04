@@ -62,7 +62,7 @@ extern u8 d_021D6338[];
 extern u8 d_0220B294[];
 extern u8 d_021D654C[];
 
-extern int  func_02031330(u32 h);
+extern unsigned int func_02031330(void *p);
 extern void func_02031348(u32 h, void *ovl, void *proc, void *arg);
 extern void func_0200F7B8(u32 a);
 extern void MI_CpuFill8(void *dst, u8 v, u32 size);
@@ -73,7 +73,7 @@ int func_02010C34(u32 a0, u32 *seq, u32 a2, u8 *ctx)
     int st;
     int flag;
 
-    st = func_02031330(*(u32 *)(ctx + 8));
+    st = func_02031330((void *)*(u32 *)(ctx + 8));
     if (st == 2 || st == 0) {
         func_0200F7B8(0);
     }

@@ -106,9 +106,10 @@ struct Sys {
 extern struct Ctx *g_021469F0;
 typedef signed int     s32;
 struct Entry;
+struct Link;
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *h, u32 a, u32 b);
-extern int  func_02039CB4(void *h, u32 a, u32 b);
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern u16 func_02039338(void);
 extern int  func_020399EC(void);
 extern int  func_02039ACC(void);
@@ -116,9 +117,9 @@ extern void func_0203CBAC(struct Ctx *p, u32 a, u32 b);
 extern int  func_0203CD98(void);
 extern int func_0203CEAC(int a0);
 extern u8  *func_0203CF10(int i);
-extern void func_0203CF3C(u32 a);
+extern void *func_0203CF3C(u32 a);
 extern void func_0203CFF0(void *p);
-extern void func_0203D000(void);
+extern void func_0203D000(void *p);
 extern void func_0203D010(void);
 extern void func_0203D01C(void);
 extern void func_0203D0DC(void *fn);
@@ -145,11 +146,11 @@ void func_0203DC70(void)
         if (p->f102 != 1)
             return;
         p->f101 = 1;
-        func_02039C68(func_020399A8(), 3, 0);
+        func_02039C68((struct Link *)func_020399A8(), 3, 0);
         func_0203DC68(p, 1);
         break;
     case 1:
-        if (func_02039CB4(func_020399A8(), 3, 0) == 0)
+        if (func_02039CB4((struct Link *)func_020399A8(), 3, 0) == 0)
             return;
         func_0203DC68(p, 2);
         break;
@@ -270,8 +271,7 @@ void func_0203DC70(void)
                 return;
             for (j = 0; j < 4; j++) {
                 if (func_0203EFC8(mac, q + 4 + j * 8, 6) == 0) {
-                    func_0203CF3C(i);
-                    func_0203D000();
+                    func_0203D000(func_0203CF3C((u32)i));
                     func_0203DC68(p, 0xC);
                     break;
                 }
@@ -324,12 +324,12 @@ void func_0203DC70(void)
     case 16:
         if (p->f102 != 1)
             return;
-        func_02039C68(func_020399A8(), 3, 0);
+        func_02039C68((struct Link *)func_020399A8(), 3, 0);
         g_021469F0->f101 = 1;
         func_0203DC68(p, 0x11);
         break;
     case 17:
-        if (func_02039CB4(func_020399A8(), 3, 0) == 0)
+        if (func_02039CB4((struct Link *)func_020399A8(), 3, 0) == 0)
             return;
         if (func_0203D3A8(func_020399A8(), 1, 0, 0) == 0)
             return;

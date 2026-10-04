@@ -20,7 +20,8 @@
 
 int func_02026478(int a);
 void func_02175938(void *a, void *b, int c);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D1A4(int a);
 int func_020127AC(int a, int b);
 void func_02082D44(void *d, int s, int n);
@@ -33,7 +34,7 @@ void func_02173D5C(int a, int b, char *c, char *d)
     v = func_02026478(*(int *)(d + 4));
     t = (unsigned char)c[0x24];
     func_02175938(d + 0x1AC, c, t);
-    if (t != func_0203D1A4(func_020399A8())) {
+    if (t != func_0203D1A4((int)func_020399A8())) {
         func_02082D44(c, func_020127AC(v, t), 0x10);
     }
 }

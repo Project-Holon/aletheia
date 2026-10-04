@@ -62,7 +62,8 @@ extern int  func_0203D1C0(u8 v);
 extern void func_0203D1E8(u32 unused, void *arg);
 extern void func_0203D7BC(int a);
 extern int  func_020392B8(void);
-extern u32  func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 id);
 extern int  memcmp(const void *a, const void *b, u32 n);
@@ -97,7 +98,7 @@ int func_0217BE64(void *w, Obj *obj, int a2, u8 *state)
                 *state = 4;
             } else {
                 func_0203D7BC(1);
-                func_0203D1E8(func_020399A8(), 0);
+                func_0203D1E8((u32)func_020399A8(), 0);
                 *state = 2;
             }
         } else {

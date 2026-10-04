@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 
 extern u32 func_02021288(u32 a);
-extern u32 func_0201ADE4(u32 a, u32 b, u32 c);
+extern void *func_0201ADE4(u32 species, int form, u32 heap);
 extern u32 func_0202130C(u32 a);
 extern u32 func_0201AE1C(u32 a, u32 b);
 extern void func_0201AE14(u32 a);
@@ -32,7 +32,7 @@ u32 func_021C447C(u32 a, u32 b, u32 c, u32 d)
         return 0;
     if (func_02021288(d) == 0)
         return 0;
-    x = func_0201ADE4(b, c, a);
+    x = (u32)func_0201ADE4(b, c, a);
     y = func_0202130C(d);
     if (y < 0x20) {
         v = func_0201AE1C(x, 0x27);
