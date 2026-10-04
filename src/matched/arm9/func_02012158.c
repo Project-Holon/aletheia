@@ -11,8 +11,8 @@
  * blocker:  02012BC8
  */
 
-extern void func_02012BC8(int v, int on);
+extern void func_02012BC8(unsigned char *p, int on);
 void func_02012158(char *p, unsigned int v)
 {
-    func_02012BC8(*(int *)(p + 0x1c), v);
+    func_02012BC8((unsigned char *)*(int *)(p + 0x1c), v);
 }

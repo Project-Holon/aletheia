@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 
 int func_021754B4(u8 *p, u8 *out);
-int func_020120D8(int a);
+int func_020120D8(char *p);
 void func_0217538C(u8 *p, int a);
 void func_0217545C(u8 *p);
 
@@ -29,7 +29,7 @@ void func_0217546C(u8 *p)
     u8 *q;
     int i;
 
-    if (func_021754B4(p, buf) == 1 && func_020120D8(*(int *)p) == 1) {
+    if (func_021754B4(p, buf) == 1 && func_020120D8((char *)*(int *)p) == 1) {
         q = p + 0x945;
         i = p[0x154];
         if (q[i] == 0) {

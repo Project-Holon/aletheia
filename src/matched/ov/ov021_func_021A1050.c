@@ -31,7 +31,8 @@ extern u32 func_020120F4(u32);
 extern u32 func_02012EBC(u32);
 extern u32 func_02009210(u32);
 extern void func_02009200(u32, u32);
-extern u32 func_0201214C(u32);
+struct Ctx;
+extern u32 func_0201214C(const struct Ctx *p);
 extern u32 func_02012204(u32);
 extern void func_02012210(u32);
 extern int func_02034AC4(int);
@@ -43,7 +44,7 @@ void ov021_func_021A1050(u32 *p)
     a = func_02188C80(p[5]);
     b = func_02012EBC(func_020120F4(a));
     func_02034AC4((int)abs_id_1d);
-    c = func_0201214C(a);
+    c = func_0201214C((const struct Ctx *)a);
     d = func_02009210(b);
     p[8] = func_021F27D8(d, p, func_02188C80(p[5]), p[6], p[7], c);
     func_02009200(d, c);

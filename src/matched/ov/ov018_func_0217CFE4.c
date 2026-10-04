@@ -47,8 +47,8 @@ typedef struct { u8 a : 7; u8 b : 1; } FlagsF8;
 
 extern char str_02183B14[];
 
-void *func_02012138(void *);
 struct Ctx;
+u32 func_02012138(const struct Ctx *p);
 void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 u32 func_02026454(void *obj);
 u8 *func_02026474(void *);
@@ -65,7 +65,8 @@ void func_02037174(void);
 void *func_020056A0(void (*cb)(void), void *arg, int pri);
 void func_0217D5AC(void);
 u8 *func_020120F8(const struct Ctx *p);
-int func_02012AC8(void *);
+struct Rec44;
+u16 func_02012AC8(const struct Rec44 *p);
 int func_0217EBD8(u8 *w);
 void func_0217E638(u8 *w, int);
 void func_0217DE68(u8 *w, int);
@@ -90,7 +91,7 @@ u8 *func_0217CFE4(void *a)
     int k;
     u32 tmp;
 
-    s = func_02012138(a);
+    s = (void *)func_02012138(a);
     w = func_02030734(0x70, 0x170, 1, str_02183B14, 0x240);
     *(void **)w = a;
     w[0x105] = 0xFF;
@@ -125,7 +126,7 @@ u8 *func_0217CFE4(void *a)
     REG_WINOUT_SUB = (u16)tmp;
     REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
     *(void **)(w + 0x34) = func_020056A0(func_0217D5AC, w, 10);
-    q = func_02012AC8(func_020120F8(*(void **)w));
+    q = func_02012AC8((const struct Rec44 *)func_020120F8(*(void **)w));
     k = func_0217EBD8(w);
     func_0217E638(w, q);
     func_0217DE68(w, k);

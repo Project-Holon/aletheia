@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern int func_02188BE8();
+extern int func_02188BE8(void *a);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_02194284(int a, void *b, int heap, int c);
 
