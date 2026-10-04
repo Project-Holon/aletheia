@@ -95,7 +95,8 @@ extern void *func_02188CB4(unsigned char *p);
 extern u16 func_02188C9C(u8 *p);
 extern int func_02013C60(u16 id);
 extern int func_021A3098(void *a);
-extern void func_0216E2E8(void *a, u16 b, Info *c);
+struct Record;
+extern void func_0216E2E8(const char *a, u16 b, struct Record *c);
 extern void func_021A35FC(void *o, s16 *z, s16 *y, s16 *x);
 extern u32 func_02188CFC(u8 *p);
 extern void func_021A36BC(void *o, Loc *l);
@@ -153,7 +154,7 @@ int func_021D2750(u32 a)
         if (e->kind == 0) {
             q = (Sub *)e;
             q = &e->sub;
-            func_0216E2E8(x, e->f2, &info);
+            func_0216E2E8(x, e->f2, (struct Record *)&info);
             func_021A35FC(o, &pos.z, &pos.y, &pos.x);
             if (e->sub.a <= pos.z && pos.z < e->sub.a + info.w) {
                 if (q->b - info.h < pos.x && pos.x <= q->b) {

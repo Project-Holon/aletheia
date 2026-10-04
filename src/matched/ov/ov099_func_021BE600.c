@@ -31,8 +31,10 @@ extern int func_02156D84(void);
 extern void func_021563D0(void);
 extern void func_021BEEBC(char *);
 extern void func_021C18C8(char *p, int kind, int value);
-extern int func_020399A8(void);
-extern void func_02039C68(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern u32 func_02005C4C(void);
 extern void func_02005D90(int, int);
 int func_021BE600(char *p, int ret)
@@ -45,10 +47,10 @@ int func_021BE600(char *p, int ret)
             func_021BEEBC(p);
             *(u16 *)(p + 0x242) = *(u8 *)(*(char **)(p + 0x248) + 0x47);
             func_021C18C8(p, 4, 3);
-            func_02039C68(func_020399A8(), 0x18, 0xa);
+            func_02039C68((struct Link *)func_020399A8(), 0x18, 0xa);
             *(int *)(p + 0x1cc) = 0xac;
         } else {
-            func_02039C68(func_020399A8(), 0x12, 0xa);
+            func_02039C68((struct Link *)func_020399A8(), 0x12, 0xa);
             *(int *)(p + 0x1cc) = 0x93;
         }
     } else {

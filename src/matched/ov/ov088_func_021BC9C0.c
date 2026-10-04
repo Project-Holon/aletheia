@@ -15,7 +15,7 @@
  *   func_02082BCC  0x02082BCC  arm
  */
 
-extern void  func_0203064C(int a, int heap, int size);
+extern void  func_0203064C(unsigned int a, unsigned int heap, unsigned int size);
 extern void *func_0203159C(int a, int size, int heap);
 extern void  func_02082BCC(void *p, int v, int n);
 
