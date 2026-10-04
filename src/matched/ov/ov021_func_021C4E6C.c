@@ -29,9 +29,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern int func_02011638(void *ctx, s32 *hsv);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011638(struct IcaAnime *ctx, struct Rec12 *hsv);
 extern void func_0207ADC4(void *p);
-extern void func_020520FC(u16 h, u16 s, u16 v, void *out);
+struct Mtx33;
+extern void func_020520FC(int h, int s, int v, struct Mtx33 *out);
 
 void func_021C4E6C(char *p)
 {
@@ -46,7 +49,7 @@ void func_021C4E6C(char *p)
     if (*(void **)(p + 0x10) == 0) {
         return;
     }
-    if (func_02011638(*(void **)(p + 0x10), hsv) != 1) {
+    if (func_02011638(*(void **)(p + 0x10), (struct Rec12 *)hsv) != 1) {
         return;
     }
 
@@ -68,5 +71,5 @@ void func_021C4E6C(char *p)
     cs = (u16)(u32)(65535.0f * (s / 360.0f));
     cv = (u16)(u32)(65535.0f * (v / 360.0f));
     func_0207ADC4(*(char **)(p + 0x14) + 0x18);
-    func_020520FC(ch, cs, cv, *(char **)(p + 0x14) + 0x18);
+    func_020520FC(ch, cs, cv, (struct Mtx33 *)(*(char **)(p + 0x14) + 0x18));
 }

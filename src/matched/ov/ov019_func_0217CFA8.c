@@ -46,9 +46,11 @@ extern void func_02034714(void *a, int b, void *c);
 extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0216F40C(void *a, int b, int c, int d, int e);
 extern void func_02082D44(void *a, void *b, int c);
-extern int func_020399A8(void);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 extern int func_0217EE4C(u8 *a, int b, int c);
 typedef unsigned int   u32;
 extern void func_0217F210(u8 *p, int a, u32 b);
@@ -76,12 +78,12 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         *(void **)(a + 0x3544) = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         func_0216F40C(*(void **)(a + 0x3540), (*(int **)a)[2], 1, 0, 0x41);
         func_02082D44(*(void **)(a + 0x3540), *(void **)(a + 0x3544), 0x678);
-        func_02039C68(func_020399A8(), 3, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 3, 0x14);
         func_0217F210(a, c, func_0217EE4C(a, b->f14[0x26], b->f14[0x27]));
         (*d)++;
         break;
     case 1:
-        if (func_02039CB4(func_020399A8(), 3, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 3, 0x14) == 1)
             (*d)++;
         break;
     case 2:
@@ -97,11 +99,11 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         }
         break;
     case 4:
-        func_02039C68(func_020399A8(), 4, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 4, 0x14);
         (*d)++;
         break;
     case 5:
-        if (func_02039CB4(func_020399A8(), 4, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 4, 0x14) == 1)
             (*d)++;
         break;
     case 6:
@@ -114,11 +116,11 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
         break;
     case 8:
         func_0217F210(a, c, 0x10);
-        func_02039C68(func_020399A8(), 5, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 5, 0x14);
         (*d)++;
         break;
     case 9:
-        if (func_0217F1EC(a) != 0 && func_02039CB4(func_020399A8(), 5, 0x14) == 1) {
+        if (func_0217F1EC(a) != 0 && func_02039CB4((struct Link *)func_020399A8(), 5, 0x14) == 1) {
             func_020307B0(*(void **)(a + 0x3540));
             func_020307B0(*(void **)(a + 0x3544));
             *(void **)(a + 0x353C) = 0;

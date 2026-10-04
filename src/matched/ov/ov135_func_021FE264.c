@@ -21,7 +21,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-extern u32 func_0201ADE4(u16,u16,u16);
+extern void *func_0201ADE4(u32,int,u32);
 extern u32 func_0201AE1C(u32,u32);
 extern void func_0201AE14(u32);
 extern int func_021F7B9C(u8 *p, int event);
@@ -35,7 +35,7 @@ void func_021FE264(u8 *p,u32 mode)
     case 0: *(u32 *)(p+0x28)=4; break;
     case 1:
         if(*(s16 *)(p+0xB56)!=0) {
-            h=func_0201ADE4(*(s16 *)(p+0xB56),0,0x48);
+            h=(u32)func_0201ADE4((u16)*(s16 *)(p+0xB56),0,0x48);
             v=func_0201AE1C(h,0x14);
             func_0201AE14(h);
             *(u32 *)(*(u8 **)(p+0xE00)+0x20)=v;

@@ -22,7 +22,7 @@
  */
 typedef unsigned short u16;
 struct Obj0203159C;struct Blk37;
-extern void func_0203064C(void *,unsigned,unsigned);
+extern void func_0203064C(unsigned,unsigned,unsigned);
 extern void *func_0203159C(struct Obj0203159C *,unsigned,unsigned);
 extern void func_02082BCC(void *,unsigned char,unsigned);
 extern void *func_02031324(int);
@@ -32,7 +32,7 @@ extern void func_021C9380(struct Blk37 *,unsigned char *);
 int func_021C8E80(struct Obj0203159C *obj,int unused,char *ctx)
 {
     char *p;
-    func_0203064C((void *)1,105,0x8000);
+    func_0203064C(1,105,0x8000);
     p=func_0203159C(obj,44,105);
     func_02082BCC(p,0,44);
     *(void **)p=ctx;

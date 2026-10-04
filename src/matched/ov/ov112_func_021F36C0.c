@@ -36,7 +36,7 @@ typedef struct {u32 x,y,z,week;} Options;
 typedef struct {u32 a,b;u8 *config;u32 c,d;} Save;
 typedef struct {u16 heap,pad;void *task;Save *save;void *scene,*actors;} State;
 typedef enum {ConfigSize=432} AllocSize;
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern State *func_0203159C(void *,u32,u32);
 extern int func_02034AC4(int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
@@ -52,7 +52,7 @@ extern const char d_021F836C[];
 int func_021F36C0(void *owner,int unused,const Save *save)
 {
  State *p;u8 *cfg;u8 i,j;Options options;u32 length;
- func_0203064C((void *)1,74,1<<19);
+ func_0203064C(1,74,1<<19);
  p=func_0203159C(owner,20,74);p->heap=74;
  if(save==0){
   func_02034AC4((u32)ov132_id);
