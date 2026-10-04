@@ -30,7 +30,8 @@ extern int func_02188C9C(int);
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
-extern void func_021A3038(void *, Vec *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_0217B94C(Vec *);
 extern int func_02159B48(int);
 extern int func_02159B94(int a0, int a1, int a2, int a3);
@@ -60,7 +61,7 @@ void func_0217BBD8(int a, int b, u8 *c)
     h = func_02188CB4((void *)a);
     if (h == 0)
         return;
-    func_021A3038(h, &v);
+    func_021A3038(h, (struct VecFx32 *)&v);
     v.x = v.x % 0x400000;
     if (func_0217B94C(&v) == 1)
         return;

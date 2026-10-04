@@ -54,7 +54,8 @@ typedef struct {
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D410(void *, u16);
-extern void func_021A3038(unsigned char *, Vec *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern void func_021F37B8(int, Vec *);
 extern void func_020061E4(u32 a);
 extern void func_0216DAC8(unsigned int *, unsigned int);
@@ -78,7 +79,7 @@ int func_0217C820(Rec *r)
         func_0216D410(obj, anim);
         if (r->f14 != 0)
             func_0216D410(r->f14, anim);
-        func_021A3038(fld, &v);
+        func_021A3038(fld, (struct VecFx32 *)&v);
         if (r->f13 == 3)
             v.x += 0x8000;
         else

@@ -43,7 +43,8 @@ extern void *func_020120F4(const struct Ctx *p);
 extern int func_02026454(int);
 extern u32 func_02013D5C(u32 id);
 extern int func_02175E90(void *p, u8 *q);
-extern void func_021A3038(void *, Vec *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern int func_020120D8(char *p);
 extern void func_021A3044(void *, Vec *);
 extern void func_02175274(u8 *, int);
@@ -78,7 +79,7 @@ void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
         return;
     if (func_02175E90(p, p + 0x1AC) == 1)
         return;
-    func_021A3038(a2, &cur);
+    func_021A3038(a2, (struct VecFx32 *)&cur);
     tmp = cur;
     x = cur.x;
     prev = ((Fh *)(p + 0x86))->f;

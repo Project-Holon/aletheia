@@ -50,7 +50,8 @@ extern int func_020120F4(void *);
 extern int func_020127A4(int);
 extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern u32 func_02013D5C(u32 id);
-extern void func_021A3038(void *, Vec *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *, struct VecFx32 *);
 extern u32 func_02026454(void *obj);
 extern int func_0217B930(Vec *);
 extern void func_0217BA54(void *);
@@ -78,7 +79,7 @@ void func_0217B968(int a0, void *a1, void *a2, void *a3)
         return;
     if (func_02013D5C(func_02012AC8((const struct Rec44 *)func_020127A4(func_020120F4(a1)))) == 0)
         return;
-    func_021A3038(a3, &v);
+    func_021A3038(a3, (struct VecFx32 *)&v);
     switch (func_02026454(a2)) {
     case 0:
         if (func_0217B930(&v) == 1)
