@@ -25,7 +25,9 @@
 typedef short s16;
 typedef struct { int v[3]; } Vec3;
 
-extern void func_0216D88C(int a, Vec3 *p);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *p);
 extern int func_0216D55C(int a, int b);
 extern int func_0216DB68(int a);
 extern void func_0216D570(int a, int b);
@@ -43,7 +45,7 @@ int func_02164010(int a)
     int out;
     int r;
 
-    func_0216D88C(a, &cur);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&cur);
     next = cur;
     if (func_0216D55C(a, 0x2000) != 0)
         return 0;

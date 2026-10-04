@@ -27,7 +27,8 @@ typedef struct {
 
 extern int *func_021A2630(int);
 extern int func_021A2638(int);
-extern void func_021A2640(int, Pt *);
+struct PtS;
+extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A26C4(int, Pt *);
 extern void func_021A21E0(int);
 
@@ -38,7 +39,7 @@ void func_021EEDD8(int a)
 
     p = func_021A2630(a);
     func_021A2638(a);
-    func_021A2640(a, &pt);
+    func_021A2640((unsigned char *)a, (struct PtS *)&pt);
     switch (p[3]) {
     case 0:
         pt.x = pt.x + (s16)p[4];

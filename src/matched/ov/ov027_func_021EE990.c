@@ -22,7 +22,8 @@
 
 int *func_021A2630(int a);
 int func_021A2638(int a);
-int func_021A2640(int a, short *pt);
+struct PtS;
+void func_021A2640(unsigned char *a, struct PtS *pt);
 void func_021A2654(int a, short *pt);
 void func_021A21E0(int a);
 
@@ -32,7 +33,7 @@ void func_021EE990(int a)
     short pt[2];
 
     func_021A2638(a);
-    func_021A2640(a, pt);
+    func_021A2640((unsigned char *)a, (struct PtS *)pt);
     if (o[3] == 0) {
         pt[0] = pt[0] + (short)o[4];
         pt[1] = pt[1] + (short)o[2];

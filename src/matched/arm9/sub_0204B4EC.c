@@ -36,7 +36,8 @@ struct Actor {
     u8 pad_0c[4];
 };
 
-extern void func_0204CF74(struct Actor *actor, u32 space, struct PtS *out);
+struct Obj;
+extern void func_0204CF74(struct Obj *actor, unsigned int space, unsigned short *out);
 extern s16  sub_0204B560(const struct Actor *actor, u32 axis);
 
 s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis)
@@ -45,7 +46,7 @@ s16 sub_0204B4EC(struct Actor *actor, u32 space, u32 axis)
     s16        v;
     s16        o;
 
-    func_0204CF74(actor, space, &origin);
+    func_0204CF74((struct Obj *)actor, space, (unsigned short *)&origin);
     v = sub_0204B560(actor, axis);
 
     if (axis == 0) {

@@ -17,11 +17,13 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { int x, y, z; } VecFx32;
-extern void func_0216D88C(const void *p, VecFx32 *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *p, struct VecFx32 *out);
 extern u32 func_021638CC(void *p, VecFx32 *o, s16 x, s16 y, int z, u16 kind);
 u32 func_02163994(void *p, s16 x, s16 y, int z, u16 kind)
 {
     VecFx32 pos;
-    func_0216D88C(p, &pos);
+    func_0216D88C((const struct Actor *)p, (struct VecFx32 *)&pos);
     return func_021638CC(p, &pos, x, y, z, kind);
 }
