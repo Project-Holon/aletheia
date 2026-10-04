@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   sub_020399A8  0x020399A8  arm
@@ -21,11 +21,12 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 typedef int BOOL;
 
-extern int sub_020399A8(int a, int b, int c);
+struct Entry;
+extern struct Entry *sub_020399A8(void);
 
 void func_021C12D0(int a, int b, int c, u8 *d, int e)
 {
-    if (sub_020399A8(a, b, c) == e) {
+    if ((int)sub_020399A8() == e) {
         d[0x1355] = 1;
     }
 }

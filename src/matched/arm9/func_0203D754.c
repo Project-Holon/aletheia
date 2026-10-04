@@ -21,7 +21,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void *func_0203D788(void);
-extern u32  func_020399A8(u32 v);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 
 void func_0203D754(u32 a)
 {
@@ -31,5 +32,5 @@ void func_0203D754(u32 a)
         return;
     }
     ((void (*)(u32, u32, u32)) * (u32 *)(p + 0x24))(
-        func_020399A8(*(u32 *)(p + 0x24)), a, *(u32 *)(p + 0x34c));
+        (u32)func_020399A8(), a, *(u32 *)(p + 0x34c));
 }

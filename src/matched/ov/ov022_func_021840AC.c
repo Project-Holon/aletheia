@@ -18,10 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 
 void func_021840AC(u8 *s)
 {
-    s[1] = s[1] | (u8)(1 << func_0203D1A4(func_020399A8()));
+    s[1] = s[1] | (u8)(1 << func_0203D1A4((u32)func_020399A8()));
 }

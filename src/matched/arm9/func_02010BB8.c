@@ -43,7 +43,7 @@ typedef unsigned int   u32;
 
 extern void  func_02043534(u32 a);
 extern void  func_020435F4(u32 a);
-extern void  func_0203064C(int a, int heap, int size);
+extern void  func_0203064C(u32 a, u32 heap, u32 size);
 extern u8   *func_0203159C(void *ctx, int size, int heap);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
 extern u32   func_02031324(int heap);

@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef struct { u16 x, y; } P;
 typedef struct { u32 v[4]; } T4;
 
-extern void func_0201ADD0(u16 a, u16 b, P *buf);
+extern void func_0201ADD0(unsigned int a, int b, void *buf);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_021C42F4(u32 *p, u32 v);
 extern const T4 d_021DA8F8;
@@ -43,7 +43,7 @@ void func_021C4160(u32 *p, u32 *q)
     u32 mv;
     u32 v;
 
-    func_0201ADD0(q[0], q[1], buf);
+    func_0201ADD0((u16)q[0], (u16)q[1], buf);
     i = 0;
     goto test;
 body:
