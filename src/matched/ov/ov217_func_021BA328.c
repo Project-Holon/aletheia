@@ -26,14 +26,15 @@ typedef signed int     s32;
 
 extern u32 func_0204B3DC();
 extern u32 func_0204B8C4();
-extern u32 func_0204B92C();
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern u32 func_0204B954();
 extern u32 func_021BA3E0();
 u32 func_021BA328(u32 a0)
 {
     u32 v1 = func_021BA3E0(a0, 0);
     func_0204B3DC(v1, 1);
-    func_0204B92C(v1, 1);
+    func_0204B92C((struct Obj *)v1, 1);
     func_0204B954(v1, 4096);
     return func_0204B8C4(v1, 0);
 }

@@ -31,7 +31,8 @@ typedef struct {
     int slot[8];
 } Work;
 extern int func_0204B294(int,int,int,int,Create *,u16,u16);
-extern void func_0204B92C(int,unsigned int);
+struct Obj;
+extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B3DC(int,unsigned int);
 extern void func_0204B878(int,u16);
 void func_021E67E0(Work *p, int z, int i) {
@@ -39,7 +40,7 @@ void func_021E67E0(Work *p, int z, int i) {
     c.x=i*206+8; c.y=160; c.z=4; c.a=1; c.b=0;
     if (!p->slot[i*2]) {
         p->slot[i*2]=func_0204B294(p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        func_0204B92C(p->slot[i*2],1);
+        func_0204B92C((struct Obj *)p->slot[i*2],1);
         func_0204B3DC(p->slot[i*2],1);
     } else {
         func_0204B3DC(p->slot[i*2],1);
@@ -47,7 +48,7 @@ void func_021E67E0(Work *p, int z, int i) {
     if (!p->slot[i*2+1]) {
         c.a=0; c.z=z;
         p->slot[i*2+1]=func_0204B294(p->g9c4,p->g898,p->g884,p->g8b4,&c,0,p->heap);
-        func_0204B92C(p->slot[i*2+1],1);
+        func_0204B92C((struct Obj *)p->slot[i*2+1],1);
         func_0204B3DC(p->slot[i*2+1],1);
     } else {
         func_0204B878(p->slot[i*2+1],z);

@@ -33,7 +33,7 @@ extern u32 func_021BE0B4(void *p);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B8C4(struct Obj *p, u32 value);
-extern void func_0204B92C(struct Obj *p, u32 v);
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const u8 d_021C6FB2[];
 extern const u8 d_021C6FB4[];
 extern const u8 d_021C6FB6[];

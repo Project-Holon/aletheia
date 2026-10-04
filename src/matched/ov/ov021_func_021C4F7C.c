@@ -80,7 +80,8 @@ extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02049238(void *);
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, unsigned int v);
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern u32 func_0201C450(u32 size, u16 heap);
@@ -130,7 +131,7 @@ char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
         *(u32 *)(p + i * 4 + 0x58) = func_0204B294(*(u32 *)(p + 0x4C), *(u16 *)(p + 0x52),
             *(u16 *)(p + 0x50), *(u16 *)(p + 0x54), &pos, 0, heap);
         func_0204B3DC(*(u32 *)(p + i * 4 + 0x58), 0);
-        func_0204B92C(*(u32 *)(p + i * 4 + 0x58), 1);
+        func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x58), 1);
     }
     *(u32 *)(p + 0x64) = func_02045B38(0, 2, 0xAD, heap);
     *(u32 *)(p + 0x68) = func_0201D7EC(0x17, 0, 0, 0, a3);
