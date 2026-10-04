@@ -24,7 +24,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern u32 func_020437D4(u32 bmp);
 extern void func_02082B0C(u32 src, char *dst, u32 n);
 extern u32 func_021841A0(u32 x);
@@ -39,7 +40,7 @@ void func_021844D8(char *p, int x)
     u32 sum;
     u8 c;
 
-    t = func_020437D4(func_02045770(*(u32 *)(p + 0x118)));
+    t = func_020437D4((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x118)));
     func_02082B0C(t + x * 1000, p + 0x7ad0, 1000);
     q = (u32 *)(p + 0x7ad0);
     sum = 0;

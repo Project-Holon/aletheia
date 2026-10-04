@@ -19,7 +19,8 @@
  */
 
 extern int  func_020436FC(int a, int b, int c, int d, int e);
-extern int  func_02045770(int a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_020439A0(int, int, int, int, int, int, int, int, int);
 extern void func_020437AC(int);
 
@@ -46,6 +47,6 @@ void func_02185BBC(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
         h -= t;
     }
     s = func_020436FC(a1, 8, 8, 0x20, 0x28);
-    func_020439A0(s, func_02045770(a0), x, y, dx, dy, w, h, 0);
+    func_020439A0(s, (int)func_02045770((struct Descriptor *)a0), x, y, dx, dy, w, h, 0);
     func_020437AC(s);
 }

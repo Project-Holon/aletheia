@@ -56,7 +56,8 @@ extern u16 func_02039338(void);
 extern int  func_02186170(W *p);
 extern void func_0204B3DC(u32 a, int b);
 extern void func_0201C6EC(u32 a);
-extern u32  func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_02043AF4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_02008500(u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -83,17 +84,17 @@ void func_02185F74(u32 *win, u16 color, W *p)
     }
     func_0201C6EC(p->f164);
     for (i = 0; i < 5; i++)
-        func_02043AF4(func_02045770(win[i]), 0, 0, 0x50, 0x10, 0);
+        func_02043AF4((u32)func_02045770((struct Descriptor *)win[i]), 0, 0, 0x50, 0x10, 0);
     for (i = 0; i < 5; i++) {
         if (p->e1c8[i].w != 0) {
             func_02008500(p->e1c8[i].w, p->arr18[i]);
             if (sel == i) {
                 t = p->f164;
-                func_0201C724(t, func_02045770(p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
+                func_0201C724(t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, 0xc80);
                 p->ent[i].f = 1;
             } else {
                 t = p->f164;
-                func_0201C724(t, func_02045770(p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
+                func_0201C724(t, (u32)func_02045770((struct Descriptor *)p->ent[i].w), 0, 0, p->arr18[i], p->f0c, color);
                 p->ent[i].f = 1;
             }
         }

@@ -28,7 +28,8 @@ typedef unsigned int u32;
 
 extern int func_02039338(int a);
 extern void func_02082B0C(void *src, void *dst, u32 n);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *bmp);
 extern void func_02045334(u32 a);
@@ -52,7 +53,7 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
             func_02082B0C(c, d + 0x4290 + off, 0x3e8);
         }
         func_02082B0C(d + 0x4290,
-                      func_020437D4((void *)func_02045770(*(u32 *)(d + 0x118))),
+                      func_020437D4(func_02045770((struct Descriptor *)*(u32 *)(d + 0x118))),
                       0x3840);
         t = *(u32 *)(d + 0x118);
         func_02045334(t);

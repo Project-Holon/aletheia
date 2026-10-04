@@ -45,7 +45,8 @@ typedef struct {
 
 extern void func_02045088(u16 heapId);
 extern u32  func_020450F0(u32 a, u32 b, u8 c, u32 d, u32 e, u32 f, u32 g);
-extern u32  func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32  func_0203101C(u32 a, u32 b, u32 c, u32 d);
 extern u32  func_0201C440(u16 heap);
@@ -62,17 +63,17 @@ void func_02184ECC(W *p)
 
     func_02045088(0x28);
     p->win[6] = func_020450F0(0, 2, 1, 0x1b, 4, 0xd, 1);
-    func_02043B5C(func_02045770(p->win[6]), 0xf);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[6]), 0xf);
     p->ent[6].w = p->win[6];
     p->ent[6].f = 0;
     p->win[5] = func_020450F0(1, 1, 2, 0x1e, 0xf, 0, 1);
-    func_02043B5C(func_02045770(p->win[5]), 2);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[5]), 2);
     p->f170 = func_0203101C(0x28, 0x28, 0x20, 0x20);
     p->f164 = func_0201C440(0x28);
     p->f168 = func_0201C440(0x28);
     for (i = 0; i < 5; i++) {
         p->win[i] = func_020450F0(4, 5, i * 4 + 3, 0xa, 2, 0xd, 1);
-        func_02043B5C(func_02045770(p->win[i]), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)p->win[i]), 0);
         p->ent[i].w = p->win[i];
         p->ent[i].f = 0;
         w = p->win[i];
