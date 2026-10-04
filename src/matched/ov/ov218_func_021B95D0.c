@@ -43,7 +43,7 @@ typedef unsigned char  u8;
 extern void func_021B9888(u8 *p);
 extern void func_021BA8F0(char *);
 extern void func_020315D4(struct S020315D4 *);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 extern void func_02034A5C(int);
 extern char ov067_id[];
 int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
@@ -72,7 +72,7 @@ int func_021B95D0(struct S020315D4 *ctx, int *state, void *unused, char *p)
         func_021BA8F0(*(char **)(p + 4));
         heap = *(u16 *)p;
         func_020315D4(ctx);
-        func_020306F0((void *)heap);
+        func_020306F0(heap);
         func_02034A5C((int)ov067_id);
         return 1;
     }

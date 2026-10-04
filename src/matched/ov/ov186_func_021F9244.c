@@ -26,7 +26,8 @@
  *   func_020315D4 0x020315D4 arm
  *   func_020306F0 0x020306F0 arm
  */
-extern int func_02012A30(int);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *p);
 extern void func_02028A58(int,int,int);
 extern int func_021FF8D4(char *);
 extern void func_021FF4E4(int);
@@ -41,12 +42,13 @@ extern void func_0200C3EC(int,unsigned char);
 extern void func_021FBDA4(int,unsigned);
 extern void func_021FB92C(int);
 extern void func_021FC474(char *);
-extern void func_020315D4(int);
-extern void func_020306F0(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int heap);
 int func_021F9244(int sys,int unused,int unused2,int *p)
 {
     int *nested=(int *)((int *)p[6])[3];
-    if(nested[0]==0) func_02028A58(func_02012A30(nested[1]),0x7f,0);
+    if(nested[0]==0) func_02028A58(func_02012A30((const struct BigObj *)nested[1]),0x7f,0);
     if(p[5]) {
         if(func_021FF8D4((char *)p[5])) ((int *)((int *)p[6])[3])[3]=2;
         func_021FF4E4(p[5]); p[5]=0;
@@ -64,7 +66,7 @@ int func_021F9244(int sys,int unused,int unused2,int *p)
     func_021FBDA4(p[1],1);
     func_021FB92C(p[1]);
     func_021FC474((char *)p[0]);
-    func_020315D4(sys);
+    func_020315D4((struct S020315D4 *)sys);
     func_020306F0(0x5a);
     return 1;
 }

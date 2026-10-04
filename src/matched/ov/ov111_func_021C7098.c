@@ -111,7 +111,7 @@ extern void func_021C81C0(Work *p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(int heap);
+extern void func_020306F0(u32 heap);
 
 int func_021C7098(void *proc, void *seq, int c, Work *p)
 {
