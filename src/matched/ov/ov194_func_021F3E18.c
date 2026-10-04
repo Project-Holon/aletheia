@@ -19,7 +19,8 @@
 typedef unsigned int   u32;
 struct WordSet;
 extern void func_0201EE84(struct WordSet *p, u32 i, void *mon);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int,unsigned char);
 extern int func_02045EC0(unsigned,unsigned);
 extern void func_0201F250(int,void *,int);
@@ -28,11 +29,11 @@ extern void func_02045808(int);
 void func_021F3E18(char *p,int value,void *mon) {
     int text,window;
     func_0201EE84(*(void **)(p+24),0,mon);
-    func_02043B5C(func_02045770(*(int *)(p+20)),*(unsigned short *)(p+32));
+    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p+20)),*(unsigned short *)(p+32));
     text=func_02045EC0(*(unsigned *)p,value);
     func_0201F250(*(int *)(p+24),*(void **)(p+28),text);
     window=*(int *)(p+16);
-    func_0201C6FC(window,func_02045770(*(int *)(p+8)),0,0,*(int *)(p+28),*(int *)(p+4));
+    func_0201C6FC(window,(int)func_02045770((struct Descriptor *)*(int *)(p+8)),0,0,*(int *)(p+28),*(int *)(p+4));
     *(unsigned char *)(p+12)=1;
     func_02045808(text);
 }
