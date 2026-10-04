@@ -67,16 +67,16 @@ struct Req {
     u16  unk_16;
 };
 
-extern struct Obj *sub_0204CFDC(void *owner, struct Req *r, void *c, void *d,
+extern struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 space,
                                 u16 e);
 extern void sub_0204B59C(struct Obj *o, s16 value, u32 axis);
 extern void sub_0204B5D4(struct Obj *o, u32 value, u32 axis);
 extern void sub_0204B5F4(struct Obj *o, u16 value);
 extern void sub_0204B570(struct Obj *o, u16 value);
 
-struct Obj *sub_0204D048(void *owner, struct Req *r, void *c, void *d, u16 e)
+struct Obj *sub_0204D048(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
-    struct Obj *o = sub_0204CFDC(owner, r, c, d, e);
+    struct Obj *o = sub_0204CFDC(owner, r, c, space, e);
 
     sub_0204B59C(o, r->unk_08, 0);
     sub_0204B59C(o, r->unk_08, 1);
