@@ -31,7 +31,8 @@ typedef struct Ent {
 
 extern int func_020120F4(int);
 extern int func_0201296C(int);
-extern int func_02012138(int);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_0202E83C(int);
 extern int func_0215843C(int);
 extern u16 *func_020143CC(int, int);
@@ -40,7 +41,7 @@ extern Ent d_02170FB0[];
 void func_02159E8C(u8 *out, int obj)
 {
     int a = func_0201296C(func_020120F4(obj));
-    int b = func_02012138(obj);
+    int b = func_02012138((const struct Ctx *)obj);
     int c = func_0202E83C(obj);
     int i;
     out[0] = c;

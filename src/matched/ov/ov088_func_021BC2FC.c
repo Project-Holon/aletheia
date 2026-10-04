@@ -54,7 +54,8 @@ extern void func_02008494(void *, void *);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern void func_02008314(void *, void *);
 extern void func_020307B0(void *);
-extern void func_0203133C(int);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *p);
 extern u8 func_02007210(const struct Sub020071E4Ctrl *ctrl);
 extern int func_02034AC4(int id);
 extern void func_02034A5C(int id);
@@ -64,7 +65,8 @@ extern void func_021DFEB0(void *, void *);
 extern void func_021DFDB8(void *);
 extern void *func_02011EEC(u32 a0, u16 a1, struct Rec12 *a2, u16 a3);
 extern int func_0216C0C0(int);
-extern void func_020315D4(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_020312F8(int, void *, void *);
 extern u8 ov228_id[];
 extern char d_0209DF9C[];
@@ -80,7 +82,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
     func_02008314(*(void **)(t + 0x58), func_0200873C(r4));
     func_020307B0(*(void **)(t + 0x54));
     func_020307B0(*(void **)(t + 0x58));
-    func_0203133C(*(int *)(t + 0x30));
+    func_0203133C((struct S020314B8 *)*(int *)(t + 0x30));
     if (func_02007210(r4) == 1) {
         func_02034AC4((int)ov228_id);
         r6 = func_021DFC20(1);
@@ -91,7 +93,7 @@ int func_021BC2FC(int a, int b, int c, char *t)
     }
     r4 = func_02011EEC(0, 0, &z, 0);
     func_0216C0C0(*(int *)(t + 0x28));
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020312F8(-1, d_0209DF9C, r4);
     return 1;
 }

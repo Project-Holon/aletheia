@@ -30,7 +30,8 @@ extern u32 func_02011330(u32 a);
 extern u32 func_02029984(void *a, u32 b);
 extern void func_0215897C(void *a, u32 b);
 extern u32 func_020120F4(void *a);
-extern u32 func_02012A30(u32 a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028BA0(u32 a, u32 b);
 extern void func_02159144(int n);
 
@@ -42,7 +43,7 @@ int func_021AEDE0(u32 a, u32 b)
     x = func_0215A5DC((void *)b);
     y = func_0215A5F4((void *)b);
     func_0215897C(y, func_02029984(x, func_02011330(a)));
-    func_02028BA0(func_02012A30(func_020120F4(x)), 2);
+    func_02028BA0(func_02012A30((const struct BigObj *)func_020120F4(x)), 2);
     func_02159144(13);
     return 1;
 }

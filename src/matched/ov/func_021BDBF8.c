@@ -22,11 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02012A30(u32);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02029D7C(u32, u32);
 
 int func_021BDBF8(u32 a)
 {
-return func_02029D7C(func_02012A30(*(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8)), *(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8));
+return func_02029D7C(func_02012A30((const struct BigObj *)*(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8)), *(u32 *)((u8 *)(*(u32 *)((u8 *)(a))) + 8));
 }
 

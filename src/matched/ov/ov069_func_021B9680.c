@@ -32,9 +32,10 @@ extern void func_021B9BF0(char *p);
 extern void func_021B9A44(void *p);
 extern void func_021B9888(void *p);
 extern void func_021B9784(u8 *p);
-extern void func_020315D4(u32 v);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void *func_0203084C(u32 heapId);
-extern void func_020306F0(int a);
+extern void func_020306F0(unsigned int heap);
 
 int func_021B9680(u32 a, u32 b, u32 c, void *p)
 {
@@ -45,7 +46,7 @@ int func_021B9680(u32 a, u32 b, u32 c, void *p)
     func_021B9A44(p);
     func_021B9888(p);
     func_021B9784(p);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_0203084C(0x80);
     func_020306F0(0x80);
     return 1;

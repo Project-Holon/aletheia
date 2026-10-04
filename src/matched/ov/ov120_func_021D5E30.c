@@ -32,7 +32,7 @@ extern void func_02027858(struct TaskMenu *m);
 extern void func_021D7898(char *p);
 extern void func_021D5FC4(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int heap);
 int func_021D5E30(void *p, int a, int b, u8 *q)
 {
     func_0200F7F4();
@@ -43,6 +43,6 @@ int func_021D5E30(void *p, int a, int b, u8 *q)
     func_021D7898(*(void **)(q + 0x40));
     func_021D5FC4(*(void **)(q + 0x3c));
     func_020315D4(p);
-    func_020306F0((void *)31);
+    func_020306F0(31);
     return 1;
 }

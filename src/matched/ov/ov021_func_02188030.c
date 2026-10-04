@@ -27,8 +27,10 @@ extern int d_021DD9C0;
 
 void *func_02030734(int a, int b, int c, void *d, int e);
 int func_020120F4(int x);
-void func_020120F8(int x);
-int func_02012AC8(void);
+struct Ctx;
+unsigned char *func_020120F8(const struct Ctx *p);
+struct Rec44;
+unsigned short func_02012AC8(const struct Rec44 *p);
 typedef unsigned int   u32;
 u32 func_02013B38(u32 id);
 int func_0202E83C(int x);
@@ -43,8 +45,7 @@ void *func_02188030(int a, int b)
     *(int *)(p + 0xc0) = 0;
     *(int *)(p + 4) = a;
     *(int *)(p + 8) = func_020120F4(a);
-    func_020120F8(a);
-    *(u16 *)(p + 0xd0) = func_02012AC8();
+    *(u16 *)(p + 0xd0) = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
     {
         int r7 = func_02013B38(*(u16 *)(p + 0xd0));
         *(int *)(p + 0xc) = func_0201407C(b, r7, func_0202E83C(a));
