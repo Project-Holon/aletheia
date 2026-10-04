@@ -20,9 +20,9 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 typedef struct {s16 x,y,index;u8 a,b;} Params;
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
 struct Actor;
 struct Obj;
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B688(struct Actor *actor, u32 value);
@@ -42,7 +42,7 @@ void func_021B9DE8(u8 *p)
     h=0x1848;h=0x18b8;
     do {
         configs[1].x=0;configs[1].y=0;configs[1].index=0;configs[1].a=0;configs[1].b=0;
-        *(void **)(p+(unsigned)i*4+d)=func_0204B294(*(u32 *)(p+0x1848),*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),(u32)&configs[1],1,*(u16 *)p);
+        *(void **)(p+(unsigned)i*4+d)=func_0204B294((void *)*(u32 *)(p+0x1848),*(u32 *)(p+a),*(u32 *)(p+b),*(u32 *)(p+c),&configs[1],1,*(u16 *)p);
         func_0204B3DC(*(void **)(p+(unsigned)i*4+e),1);
         func_0204B92C(*(void **)(p+(unsigned)i*4+f),1);
         func_0204B688(*(void **)(p+(unsigned)i*4+g),0);
@@ -50,11 +50,11 @@ void func_021B9DE8(u8 *p)
         ++i;
     } while(i<8);
     configs[0].x=128;configs[0].y=96;configs[0].index=0;configs[0].a=0;configs[0].b=0;
-    *(void **)(p+0x18b0)=func_0204B294(*(u32 *)(p+0x1848),*(u32 *)(p+0x185c),*(u32 *)(p+0x1868),*(u32 *)(p+0x1874),(u32)&configs[0],0,*(u16 *)p);
+    *(void **)(p+0x18b0)=func_0204B294((void *)*(u32 *)(p+0x1848),*(u32 *)(p+0x185c),*(u32 *)(p+0x1868),*(u32 *)(p+0x1874),&configs[0],0,*(u16 *)p);
     func_0204B3DC(*(void **)(p+0x18b0),0);
     func_0204B92C(*(void **)(p+0x18b0),1);
     configs[0].index=2;
-    *(void **)(p+0x18b4)=func_0204B294(*(u32 *)(p+0x1848),*(u32 *)(p+0x185c),*(u32 *)(p+0x1868),*(u32 *)(p+0x1874),(u32)&configs[0],0,*(u16 *)p);
+    *(void **)(p+0x18b4)=func_0204B294((void *)*(u32 *)(p+0x1848),*(u32 *)(p+0x185c),*(u32 *)(p+0x1868),*(u32 *)(p+0x1874),&configs[0],0,*(u16 *)p);
     func_0204B3DC(*(void **)(p+0x18b4),0);
     func_0204B92C(*(void **)(p+0x18b4),1);
 }

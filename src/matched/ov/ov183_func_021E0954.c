@@ -20,7 +20,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct {u16 a,b,c;u8 flag,pad;} Params;
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 struct Actor;
 extern void func_0204B688(struct Actor *actor, u32 value);
 extern int func_021E0E40(int,int);
@@ -52,7 +53,7 @@ void func_021E0954(char *p)
             if(i==*(int *)(q+recordOffset)+special+1) {
                 void *obj;
                 params.a=i*8+76;params.b=24;params.c=22;
-                obj=func_0204B294(owner,*(u32 *)(p+aB),*(u32 *)(p+bB),*(u32 *)(p+cB),(u32)&params,1,*(u16 *)(p+heapB));
+                obj=func_0204B294((void *)owner,*(u32 *)(p+aB),*(u32 *)(p+bB),*(u32 *)(p+cB),&params,1,*(u16 *)(p+heapB));
                 *(void **)(q+0x15c)=obj;func_0204B688(obj,1);
                 special++;
             } else {
@@ -60,7 +61,7 @@ void func_021E0954(char *p)
                 params.a=i*8+76;params.b=24;
                 q=p+normal*28;
                 params.c=func_021E0E40(*(int *)q,*(int *)(q+8));
-                obj=func_0204B294(owner,*(u32 *)(p+aA),*(u32 *)(p+bA),*(u32 *)(p+cA),(u32)&params,1,*(u16 *)(p+heapA));
+                obj=func_0204B294((void *)owner,*(u32 *)(p+aA),*(u32 *)(p+bA),*(u32 *)(p+cA),&params,1,*(u16 *)(p+heapA));
                 *(void **)(q+12)=obj;func_0204B688(obj,1);
                 normal++;
             }

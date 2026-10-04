@@ -24,7 +24,8 @@ struct Entry { s16 x,y,z; u8 a,b; u32 c,d,e,f; u16 g,pad; };
 extern const struct Entry d_021C320C[];
 extern u32 func_021BC714(void *,u32);
 extern u32 func_021BC708(void *,u32);
-extern int func_0204B294(int,int,int,int,struct Arg *,int,int);
+struct Obj;
+extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
 extern u32 func_0204B3DC(u32,u32);
 void func_021BCFD0(u8 *p)
 {
@@ -41,7 +42,7 @@ void func_021BCFD0(u8 *p)
         c=func_021BC708(p,q->e);
         d=func_021BC708(p,q->f);
         dest=p+i*4;
-        *(u32 *)(dest+288)=func_0204B294(a,b,c,d,&arg,q->g,*(u16 *)(p+8));
+        *(u32 *)(dest+288)=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,*(u16 *)(p+8));
         func_0204B3DC(*(u32 *)(dest+288),0);
     }
 }

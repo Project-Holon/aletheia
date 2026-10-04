@@ -62,8 +62,8 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *);
-extern int func_0204B294(int, int, int, int, Rect *, int, u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B974(int);
 extern u32 func_021B62E0(Req *r, int heap);
@@ -88,7 +88,7 @@ void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap
     s.a = 0xa8;
     s.b = 0xa8;
     s.c = 7;
-    o[5] = func_0204B294(a2, o[1], o[0], o[2], &s, 0, heap);
+    o[5] = (u32)func_0204B294((void *)a2, o[1], o[0], o[2], &s, 0, heap);
     func_0204B92C((struct Obj *)o[5], 1);
     func_0204B974(o[5]);
     t = d_021BBB8C;
