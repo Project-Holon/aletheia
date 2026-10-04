@@ -17,11 +17,12 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef struct {s16 x,y,z;u8 a,b;} Point;
 extern const s16 d_021CA6C8[][5];
-extern void *func_0204B294(u32,u32,u32,u32,Point *,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 void func_021C8B90(char *p,char *q,int unused,int i,u16 h) {
  Point pt;
  pt.x=(*(s16 *)p+d_021CA6C8[i][0])*8+16;
  pt.y=(*(s16 *)(p+2)+d_021CA6C8[i][1])*8+16;
  pt.z=0;pt.a=8;pt.b=1;
- *(void **)(p+44+i*4)=func_0204B294(*(u32 *)(q+316),*(u32 *)(q+324),*(u32 *)(q+332),*(u32 *)(q+340),&pt,0,h);
+ *(void **)(p+44+i*4)=func_0204B294((void *)*(u32 *)(q+316),*(u32 *)(q+324),*(u32 *)(q+332),*(u32 *)(q+340),&pt,0,h);
 }

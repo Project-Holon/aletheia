@@ -44,7 +44,7 @@ extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020409B4(u32);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_02049238(void *);
-extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *p, u32 v);
 void func_021B6594(u8 *p)
@@ -73,7 +73,7 @@ void func_021B6594(u8 *p)
     func_020409B4(1);
     func_02049238(arc);
     s.a=10; s.b=1; s.x=0;s.y=0;s.z=0;
-    *(void **)(p+84)=func_0204B294(*(u32 *)(p+80),*(u32 *)(p+72),*(u32 *)(p+68),*(u32 *)(p+76),(u32)&s,0,*(u16 *)p);
+    *(void **)(p+84)=func_0204B294((void *)*(u32 *)(p+80),*(u32 *)(p+72),*(u32 *)(p+68),*(u32 *)(p+76),&s,0,*(u16 *)p);
     func_0204B3DC(*(void **)(p+84),0);
     func_0204B92C(*(void **)(p+84),1);
 }
