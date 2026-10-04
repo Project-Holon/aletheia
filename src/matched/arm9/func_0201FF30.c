@@ -67,7 +67,8 @@ struct Src {
 extern char g_020A7390[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32  func_02020D18(u32 heap);
-extern u32  func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0202055C(struct Obj *obj, u16 row, u16 col, u16 n, u32 flag);
 extern void func_020206C0(struct Obj *o);
@@ -107,7 +108,7 @@ struct Obj *func_0201FF30(struct Src *src, u16 a, u16 b, u32 heap)
         *(u32 *)q = (u32)obj->unk0C;
         q[4] = 0;
     }
-    func_02043B5C(func_02045770(obj->unk0C), obj->f18lo);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)obj->unk0C), obj->f18lo);
     func_0202055C(obj, obj->f40, 0, obj->rows, 1);
     func_020206C0(obj);
     func_02020A34(obj, 1);

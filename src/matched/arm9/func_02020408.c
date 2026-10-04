@@ -77,7 +77,8 @@ struct Obj {
 
 #define COLOR(l, s, b) ((u16)((((l) & 0x1f) << 10) | (((s) & 0x1f) << 5) | ((b) & 0x1f)))
 
-extern u32  func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 extern void func_0201C7D0(u32 bmp, u32 x, u32 y, const void *text, u32 f, u16 color);
 
@@ -89,22 +90,22 @@ void func_02020408(struct Obj *obj, const void *text, u32 x, u32 y, u32 sel)
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724(a, func_02045770(t->win), x, y, text, obj->f30,
+            func_0201C724(a, (u32)func_02045770((struct Descriptor *)t->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
             t->dirty = 1;
         } else {
-            func_0201C7D0(func_02045770(obj->f28->win), x, y, text, obj->f30,
+            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     } else {
         if (sel) {
             u32 a = obj->f2C;
             struct Target *t = obj->f28;
-            func_0201C724(a, func_02045770(t->win), x, y, text, obj->f30,
+            func_0201C724(a, (u32)func_02045770((struct Descriptor *)t->win), x, y, text, obj->f30,
                           COLOR(obj->f17hi, obj->f18hi, obj->f18lo));
             t->dirty = 1;
         } else {
-            func_0201C7D0(func_02045770(obj->f28->win), x, y, text, obj->f30,
+            func_0201C7D0((u32)func_02045770((struct Descriptor *)obj->f28->win), x, y, text, obj->f30,
                           COLOR(obj->f34lo, obj->f35lo, obj->f34hi));
         }
     }

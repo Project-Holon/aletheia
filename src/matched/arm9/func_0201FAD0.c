@@ -46,7 +46,8 @@ struct Obj {
 extern int  func_0201FB30(struct Obj *o, u32 dir);
 extern void func_0201FD54(struct Obj *o, u8 *outA, u8 *outB, u32 old);
 extern void func_0201FD18(struct Obj *o);
-extern u32  func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_020061E4(u32 id);
 
@@ -61,7 +62,7 @@ int func_0201FAD0(struct Obj *o, u32 dir, u32 sound)
     }
 
     func_0201FD54(o, &cell[1], &cell[0], old);
-    func_02043AF4(func_02045770(o->f04), cell[1], cell[0], o->f31,
+    func_02043AF4((u32)func_02045770((struct Descriptor *)o->f04), cell[1], cell[0], o->f31,
                   o->f32, 0xff);
     func_0201FD18(o);
     func_020061E4(sound);

@@ -45,7 +45,8 @@ struct Obj {
     u16 f42;
 };
 
-extern u32  func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_0202055C(struct Obj *o, u32 a, u32 b, u32 c, u32 d);
 extern void func_02020CA0(void *win, u32 a, u32 b, u32 c, u16 tile);
@@ -55,7 +56,7 @@ void func_020208B8(struct Obj *obj, int n, u32 flag)
     u8 step;
 
     if (n >= (int)obj->rows) {
-        func_02043B5C(func_02045770(obj->unk0C), obj->f18lo);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)obj->unk0C), obj->f18lo);
         func_0202055C(obj, obj->f40, 0, obj->rows, 1);
         return;
     }

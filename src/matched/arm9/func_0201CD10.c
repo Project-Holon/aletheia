@@ -89,7 +89,8 @@ struct Rec {
     struct PrintCtx ctx; /* 0x34 */
 };
 
-extern u32   func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void *func_020311B8(u32 a0, void *fn, u32 sz, u32 a3);
 struct S02030FB4;
 extern void *func_02031290(struct S02030FB4 *p);
@@ -107,7 +108,7 @@ struct Rec *func_0201CD10(u32 a0, s16 a1, s16 a2, u32 a3,
     u32 h;
     u8 pair[2];
 
-    h = func_02045770(a0);
+    h = (u32)func_02045770((struct Descriptor *)a0);
     r = func_020311B8(a6, (void *)func_0201CEE0, 0x50, a7);
     o = func_02031290(r);
 
