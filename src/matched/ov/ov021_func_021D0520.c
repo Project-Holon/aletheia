@@ -30,7 +30,9 @@ typedef struct Vec3 {
 
 extern int func_0216E1C4(u32 a, u16 *b);
 extern void func_021AC154(u32 a);
-extern void func_0216D88C(u32 a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_02163E58(u32 m, Vec3 *pos, int *h);
 extern void func_021AC1CC(u32 a, Vec3 *v);
 
@@ -43,7 +45,7 @@ void func_021D0520(u32 a, u8 *b)
         func_021AC154(a);
         return;
     }
-    func_0216D88C(*(u32 *)(b + 8), &v);
+    func_0216D88C((const struct Actor *)*(u32 *)(b + 8), (struct VecFx32 *)&v);
     if (func_02163E58(*(u32 *)(b + 8), &v, &h) == 1) {
         v.y = h;
     }

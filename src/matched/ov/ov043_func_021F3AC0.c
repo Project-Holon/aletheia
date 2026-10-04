@@ -88,11 +88,14 @@ extern u32 func_02012EC4(u32 a);
 extern int *func_0200B3A4(u32 a, u32 b);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *a, Vec *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *a, struct VecFx32 *v);
 extern int func_0216DD1C(void *m, u32 *cur, int *it);
 extern int func_0216D83C(u32 o);
 extern int func_0216D86C(u32 o);
-extern void func_0216D88C(u32 o, Vec *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern Vec *func_0216D888(u32 o);
 extern void func_0216D85C(u32 o, s16 v);
 extern void func_0216D89C(u32 o, Vec *v);
@@ -155,12 +158,12 @@ int func_021F3AC0(void *a, int *b)
         for (i = 0; i < 5; i++) {
             w[17 + i] = 0;
         }
-        func_021A3038(func_02188CB4((void *)s), &pos);
+        func_021A3038(func_02188CB4((void *)s), (struct VecFx32 *)&pos);
         while (func_0216DD1C(m, &cur, &it) == 1) {
             x = func_0216D83C(cur);
             y = func_0216D86C(cur);
             if (func_021F3EEC(w[0], x, y)) {
-                func_0216D88C(cur, &vec);
+                func_0216D88C((const struct Actor *)cur, (struct VecFx32 *)&vec);
                 if (pos.y - 0x10000 < vec.y && vec.y < pos.y + 0x10000 && n < 5) {
                     w[17 + n++] = cur;
                 }

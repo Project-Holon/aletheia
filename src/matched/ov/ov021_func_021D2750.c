@@ -102,7 +102,9 @@ extern u32 func_02188CFC(u8 *p);
 extern void func_021A36BC(void *o, Loc *l);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_0201296C(u32 a);
-extern void func_0216D88C(void *a, V3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void *func_02162890(u32 c, u32 a, V3 *v);
 extern int func_021867C4(int, int);
 extern u8 *func_02186830(int h, int b, int heap);
@@ -174,7 +176,7 @@ int func_021D2750(u32 a)
     if (func_02188CFC(y) == 0) {
         r4 = func_021A3074((void *)o);
         r5 = func_0201296C(h);
-        func_0216D88C(r4, &v);
+        func_0216D88C(r4, (struct VecFx32 *)&v);
         if (func_02162890(f, r5, &v)) {
             return 0;
         }

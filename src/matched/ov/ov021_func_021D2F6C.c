@@ -31,7 +31,9 @@ extern void *func_0201210C(const struct Ctx *p);
 extern int func_02159B10(u32 a, u32 b);
 extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(void *map, u32 id);
-extern void func_0216D88C(void *a, int *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void *func_021F3970(void *a, int *v, int *w, int c, int d);
 extern void func_0215897C(void *a, void *b);
 
@@ -61,7 +63,7 @@ u32 func_021D2F6C(u32 a, u32 b)
     r4 = func_02159B10(a, b);
     r = func_0216DE94(func_02188C7C((void *)s14), s18);
     if (r != 0) {
-        func_0216D88C(r, v);
+        func_0216D88C(r, (struct VecFx32 *)v);
     }
     w[0] = (s8 << 16) + 0x8000;
     w[1] = s4 << 15;

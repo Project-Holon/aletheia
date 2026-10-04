@@ -16,7 +16,9 @@
 typedef short s16;
 typedef long long s64;
 
-extern void func_0216D88C(int a, int *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_021D0914(int a, s16 *v);
 
 void func_021D0824(int *p, int a)
@@ -26,7 +28,7 @@ void func_021D0824(int *p, int a)
 
     p[0] = 1;
     p[1] = 0;
-    func_0216D88C(a, p + 2);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)(p + 2));
     if (func_021D0914(a, v) == 0) {
         k = 0xE000;
     } else {

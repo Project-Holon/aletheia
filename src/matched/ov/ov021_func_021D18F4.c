@@ -32,7 +32,9 @@ typedef struct Vec3 { s32 x, y, z; } Vec3;
 extern int func_02011590(u32 a, u32 v);
 extern void func_02011558(u32 a);
 extern void func_021D1988(u32 a, u32 b, u8 *c);
-extern void func_0216D88C(u32 a, Vec3 *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern u32 func_0216D5F8(u32 a);
 extern void func_0216E014(u32 a, Vec3 *b, u32 c);
 extern void func_0216D570(u32 a, u32 b);
@@ -53,7 +55,7 @@ void func_021D18F4(u32 a, u32 b, u8 *p)
             func_02011558(*(u32 *)(p + 0x184));
             *(u32 *)(p + 0x184) = 0;
             p[0x19A] = 0;
-            func_0216D88C(*(u32 *)p, &v);
+            func_0216D88C((const struct Actor *)*(u32 *)p, (struct VecFx32 *)&v);
             func_0216E014(*(u32 *)p, &v, func_0216D5F8(*(u32 *)p));
             if (d_021DD5E0[p[0x199]] != 0) {
                 func_0216D570(*(u32 *)p, 0x8000);

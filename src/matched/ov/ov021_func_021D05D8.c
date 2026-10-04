@@ -30,7 +30,9 @@ typedef struct Vec021D05D8 {
 } Vec021D05D8;
 
 extern u32 func_021ABEA0(void *a, u32 b);
-extern void func_0216D88C(void *obj, Vec021D05D8 *out);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_021ABFA8(void *a, void *b, void *c, u32 d, void *e, u32 f);
 extern char d_021DB968[];
 
@@ -41,6 +43,6 @@ void func_021D05D8(void *a, void *b)
 
     arg.h = func_021ABEA0(b, 0x10);
     arg.a = a;
-    func_0216D88C(a, &v);
+    func_0216D88C(a, (struct VecFx32 *)&v);
     func_021ABFA8(b, d_021DB968, &v, 0, &arg, 0);
 }
