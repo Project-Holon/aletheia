@@ -35,7 +35,8 @@ extern char d_021DDA50[];
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern u32 func_02043678(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_02045770(u32 w);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02045374(u32 w);
 extern void func_02045334(u32 w);
 extern void func_02192264(u32 a, u32 b, u32 c, u32 d);
@@ -54,7 +55,7 @@ u32 *func_02192570(u16 *a, u32 b, u32 c, u16 d, u16 e, u16 f)
     t[0] = func_020450F0((u8)a[1], (u8)c, (u8)d, (u8)e, (u8)f, 9, 1);
     t[3] = func_02043678(1, 1, 0x20, *a);
     func_02192264(t[3], b, *a, 9);
-    func_021922A4(func_02045770(t[0]), b, *a);
+    func_021922A4((u32)func_02045770((struct Descriptor *)t[0]), b, *a);
     func_02192244(a[1], 9, *a);
     func_02045374(t[0]);
     func_02045334(t[0]);

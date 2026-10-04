@@ -36,7 +36,8 @@ typedef struct T {
     Fx *f08;
 } T;
 
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_021924F0(u16 a, u16 b, u32 c, u32 d, u32 e, u16 f);
 extern void func_02045334(u32 a);
 extern void func_020409B4(u32 a);
@@ -45,7 +46,7 @@ void func_0219269C(T *t, u16 b, u16 c, u32 d)
 {
     Fx *x = t->f08;
 
-    func_021924F0(b, c, func_02045770(t->f00), x->f08, d, x->f00);
+    func_021924F0(b, c, (u32)func_02045770((struct Descriptor *)t->f00), x->f08, d, x->f00);
     func_02045334(t->f00);
     func_020409B4((u8)t->f08->f02);
 }

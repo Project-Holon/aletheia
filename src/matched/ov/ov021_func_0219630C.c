@@ -58,7 +58,8 @@ extern void func_0201F7A8(u32, u32);
 extern void func_020452E8(u32);
 extern void func_0201DD78(u32, u32, u32);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32, u32);
 extern void func_02045CAC(u32, u32, u32);
 extern u32 func_0201D304(u32, u32, u32);
@@ -90,7 +91,7 @@ void func_0219630C(int n, u32 *msg, Obj *a, Desc *d, int *xs, int *ys)
     for (i = 0; i < n; i++) {
         func_0201DD78(15, 2, 0);
         a->w[i] = func_020450F0(7, (u8)d[i].x0, (u8)d[i].x4, (u8)d[i].x8, (u8)d[i].xc, 8, 0);
-        func_02043B5C(func_02045770(a->w[i]), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)a->w[i]), 0);
         func_02045CAC(a->x28, msg[i], a->x38);
         if (xs != 0) {
             x = xs[i] - (func_0201D304(a->x38, a->x2c, 0) >> 1);
@@ -102,7 +103,7 @@ void func_0219630C(int n, u32 *msg, Obj *a, Desc *d, int *xs, int *ys)
         } else {
             y = 0;
         }
-        func_0201C7A4(func_02045770(a->w[i]), x, y, a->x38, a->x2c);
+        func_0201C7A4((u32)func_02045770((struct Descriptor *)a->w[i]), x, y, a->x38, a->x2c);
         func_02045334(a->w[i]);
         func_02045374(a->w[i]);
     }

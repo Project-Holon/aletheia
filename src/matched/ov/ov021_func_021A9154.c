@@ -90,7 +90,8 @@ extern void *func_02188C54(void *p);
 extern u32 func_021904AC(u8 *p);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 extern void func_02045374(int a);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
 extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
@@ -113,8 +114,8 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
     it->f15 = s->f05;
     it->f04 = func_020450F0(6, s->f06, s->f07, 8, 2, 0xD, 1);
     func_02045374(it->f04);
-    func_02043B5C(func_02045770(it->f04), 0);
-    func_0201C724(p->f12C, func_02045770(it->f04), 2, 1, s->f0C, k, 0x440);
+    func_02043B5C((int)func_02045770((struct Descriptor *)it->f04), 0);
+    func_0201C724(p->f12C, (int)func_02045770((struct Descriptor *)it->f04), 2, 1, s->f0C, k, 0x440);
     if (s->f10 != 0) {
         it->f0C = func_0204A6C8(s->f10, s->f14, 0, 1, p->f00);
         it->f10 = func_0204AF28(s->f10, s->f18, s->f1C, p->f00);

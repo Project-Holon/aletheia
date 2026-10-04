@@ -29,7 +29,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern u32 func_02043B5C(u32, u32);
 extern void func_0201DD78(u32, u32, u32);
 extern signed char func_02012FFC(void);
@@ -48,12 +49,12 @@ void func_02197644(u8 *a, u32 b)
         *(u32 *)(a + 0x2b0) = func_020450F0(5, 1, 3, 30, 4, 11, 1);
     }
     t = *(u32 *)(a + 0x2b0);
-    func_02043B5C(func_02045770(t), 15);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)t), 15);
     func_0201DD78(1, 2, 15);
     if (b == 0) {
         *(u32 *)(a + 0x2b4) = func_0201CCE4(t, 0, 0, *(u32 *)(a + 0x38), *(u32 *)(a + 0x2c), func_02012FFC(), *(u32 *)(a + 0x2b8), 2, *(u16 *)(a + 0x10), 15);
     } else {
-        func_0201C7A4(func_02045770(t), 0, 0, *(u32 *)(a + 0x38), *(u32 *)(a + 0x2c));
+        func_0201C7A4((u32)func_02045770((struct Descriptor *)t), 0, 0, *(u32 *)(a + 0x38), *(u32 *)(a + 0x2c));
         *(u32 *)(a + 0x2b4) = 0;
     }
     func_0201F73C(t, 1, (u16)*(u32 *)(a + 0x3c), 12);
