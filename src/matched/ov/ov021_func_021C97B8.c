@@ -25,7 +25,8 @@ typedef unsigned int u32;
 extern void *func_02188CB4(unsigned char *p);
 typedef unsigned char  u8;
 extern u32 func_02188C98(u8 *p);
-extern void func_021A3038(void *, int *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u32 func_0218DC6C(u32);
 extern u32 func_0218C638(u32, u32, int *);
 extern void func_0218C69C(u32, u32, u32, u32);
@@ -39,7 +40,7 @@ int func_021C97B8(u32 a, u32 *q, u32 *p)
 
     switch (q[0]) {
     case 0:
-        func_021A3038(func_02188CB4((unsigned char *)p[1]), v);
+        func_021A3038(func_02188CB4((unsigned char *)p[1]), (struct VecFx32 *)v);
         box[0] = v[2] - 0x10000;
         box[1] = v[2] + 0x10000;
         box[2] = v[0] - 0x10000;

@@ -19,9 +19,11 @@
  */
 
 extern int func_02188CD0(int a);
-extern int func_021ABE8C(int a);
+struct T;
+extern int func_021ABE8C(struct T *a, int id);
 extern void func_021ABE30(int a, int *b, int c);
-extern void func_021A3038(int a, int *b);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021AD598(int a, int b, int *c);
 extern void func_021C8E14(int *p);
 
@@ -34,10 +36,10 @@ void func_021C8D74(int *p)
     if (p[5] != 0) {
         r5 = func_02188CD0(p[1]);
         v = 9;
-        if (func_021ABE8C(r5) == 0) {
+        if (func_021ABE8C((struct T *)r5, v) == 0) {
             func_021ABE30(r5, &v, 1);
         }
-        func_021A3038(p[2], buf);
+        func_021A3038((unsigned char *)p[2], (struct VecFx32 *)buf);
         func_021AD598(r5, 0, buf);
         func_021C8E14(p);
         p[5] = 0;

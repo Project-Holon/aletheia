@@ -47,7 +47,8 @@ extern void func_0207CA00(const V *a, const V *b, V *c);
 extern void func_0207CCA4(const V *a, V *b);
 extern void func_0207CAE8(const V *a, const V *b, V *c);
 extern const V d_021DB984;
-extern void func_021A3038(void *a, V *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_0206DF3C(V *a, int *x, int *y);
 extern u32 func_020450F0(u32 a, u8 b, u8 c, u32 d, u32 e, u32 f, u32 g);
 extern u32 func_02045770(u32 a);
@@ -81,7 +82,7 @@ void func_021D1264(u8 *p)
     func_0207CAE8(&f, &d_021DB984, &s);
     func_0207CAE8(&d, &s, &u);
     func_0207CCA4(&u, &u);
-    func_021A3038(o, &pos);
+    func_021A3038(o, (struct VecFx32 *)&pos);
     pos.x += (int)(((long long)u.x * -0x1C000 + 0x800) >> 12);
     pos.y += (int)(((long long)u.y * -0x1C000 + 0x800) >> 12);
     pos.z += (int)(((long long)u.z * -0x1C000 + 0x800) >> 12);
