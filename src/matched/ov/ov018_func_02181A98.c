@@ -54,7 +54,8 @@ typedef unsigned int   u32;
 struct Obj;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+struct Ctx;
+u32 func_02012138(const struct Ctx *p);
 int func_02158344(void *);
 void func_0201F02C(struct WordSet *p, u32 i, void *a);
 void func_0217F3C4(Ov018Obj *p, int a);
@@ -72,7 +73,7 @@ int func_02181A98(void *a, int *state, Ov018Outer *c)
     int v;
 
     sub = func_020124E4(a);
-    sys = func_02012138(sub);
+    sys = (void *)func_02012138(sub);
     v = func_02158344(sys);
     switch (*state) {
     case 0:

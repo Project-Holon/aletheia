@@ -32,7 +32,8 @@ typedef struct {
     unsigned char f168;
 } Ov018Menu;
 
-void *func_02012138(void *);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
 typedef unsigned char  u8;
 struct BigObj;
@@ -56,7 +57,7 @@ void *func_0217D4DC(Ov018Menu *w, int b, int c)
     void *r;
     void *ret;
 
-    s1 = func_02012138(w->f0);
+    s1 = (void *)func_02012138(w->f0);
     s2 = func_020120F4(w->f0);
     r = func_0201210C(w->f0);
     ret = 0;

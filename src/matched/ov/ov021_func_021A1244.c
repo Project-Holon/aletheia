@@ -24,8 +24,10 @@
 
 typedef unsigned int u32;
 extern u32 func_02188C80(u32);
-extern u32 func_020120F8(u32);
-extern u32 func_02012AC8(u32);
+struct Ctx;
+extern unsigned char *func_020120F8(const struct Ctx *p);
+struct Rec44;
+extern unsigned short func_02012AC8(const struct Rec44 *p);
 extern u32 func_020120F4(u32);
 extern u32 func_0201296C(u32);
 extern u32 func_021A8B18(u32, u32, u32);
@@ -37,7 +39,7 @@ void ov021_func_021A1244(u32 *p)
 {
     u32 a, b, c;
     a = func_02188C80(p[5]);
-    b = func_02012AC8(func_020120F8(a));
+    b = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a));
     c = func_020120F4(a);
     if (func_021A8B18(c, func_0201296C(c), b) != 1)
         func_02024DCC();

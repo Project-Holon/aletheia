@@ -29,12 +29,13 @@
 typedef unsigned int u32;
 
 extern char d_02176FCC[];
-extern int   func_0201210C(int a);
+struct Ctx;
+extern void *func_0201210C(const struct Ctx *p);
 extern int  func_02029BCC(int a, int b);
 extern void func_02012374(void *a, int b);
 extern int  func_02189A08(unsigned char *p);
 extern void func_021CF498(int a, void *b, int c);
-extern int  func_020144DC(int a);
+extern int  func_020144DC(int a, int b);
 extern void func_02012444(void *a, int b, void *c, int d);
 extern int  func_02029C00(int a);
 extern int  func_020145CC(int a);
@@ -45,7 +46,7 @@ int func_021766F0(void *a, u32 *p, int *q)
 {
     int sv;
 
-    sv = func_0201210C(q[0]);
+    sv = (int)func_0201210C((const struct Ctx *)q[0]);
     switch (*p) {
     case 0:
         func_02012374(a, func_02029BCC(q[0], 0x490));
@@ -56,7 +57,7 @@ int func_021766F0(void *a, u32 *p, int *q)
         (*p)++;
         break;
     case 2:
-        func_02012374(a, func_020144DC(q[0]));
+        func_02012374(a, func_020144DC(q[0], sv));
         (*p)++;
         break;
     case 3:
