@@ -53,7 +53,8 @@ struct PmsDraw {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  MI_CpuFill8(void *p, u32 v, u32 n);
 extern void  func_0202DF68(u32 *res, u32 a, u32 heap);
-extern void  func_0202E09C(struct PmsElem *e, u32 *res, u32 heap);
+struct Res;
+extern void  func_0202E09C(u8 *e, struct Res *res, u16 heap);
 extern char  s_pms_draw_c[];
 
 struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap)
@@ -81,7 +82,7 @@ struct PmsDraw *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u8 e0, u8 e1, u16 heap
     p->unk24 = 0x11 << 6;
     func_0202DF68(p->res, e0, p->heap);
     for (i = 0; i < p->count; i++) {
-        func_0202E09C(&p->elems[i], p->res, p->heap);
+        func_0202E09C((u8 *)&p->elems[i], (struct Res *)p->res, p->heap);
     }
     return p;
 }

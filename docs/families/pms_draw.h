@@ -291,7 +291,8 @@ void func_0202E040(void *h, u32 cell, u32 b, u32 c, u32 n,
 /* Creates both of an element's actors and sets its flags.  The loop
  * counter is SIGNED: the image compares with `blt`, and u32 gives `blo`
  * (closed 2026-09-21 by tools/permuter.py).  src/matched/func_0202E09C.c */
-void func_0202E09C(struct PmsElem *e, struct PmsRes *r, u32 b);
+struct Res;
+void func_0202E09C(u8 *e, struct Res *r, u16 b);
 
 /* Releases both of an element's actors.  src/matched/sub_0202E0C8.c */
 void sub_0202E0C8(struct PmsElem *p);
