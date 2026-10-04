@@ -26,7 +26,7 @@ extern void func_021D7420(void *);
 extern void func_021D6B70(unsigned char *a);
 extern void func_021D7C58(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 extern void func_02034A5C(int handle);
 extern void func_02005E9C(void);
 extern void func_02005DE4(void *);
@@ -39,7 +39,7 @@ int func_021D6918(void *p, int a, int b, u8 *q) {
     func_021D6B70(q + 0x1610);
     func_021D7C58(q + 4);
     func_020315D4(p);
-    func_020306F0((void *)125);
+    func_020306F0(125);
     func_02034A5C((int)ov_id);
     func_02005E9C();
     func_02005DE4(0);

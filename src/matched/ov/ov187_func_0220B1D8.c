@@ -21,7 +21,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { unsigned char low:1, flag:1, rest:6; } Flag;
-extern void *func_02012A30(void *);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *);
 extern void func_02005E9C(void);
 struct SoundSys;
 extern void func_02005DE4(void *p);
@@ -32,7 +33,7 @@ extern void func_02013930(void *);
 extern void func_0220B0F8(u32, u32);
 void func_0220B1D8(u8 *a, u8 *b)
 {
-    void *p = func_02012A30(*(void **)(*(u8 **)(b+0x17F0)+4));
+    void *p = (void *)func_02012A30(*(void **)(*(u8 **)(b+0x17F0)+4));
     func_02005E9C();
     func_02005DE4(0);
     func_02005DF8(30);

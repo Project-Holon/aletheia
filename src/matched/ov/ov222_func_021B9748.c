@@ -43,7 +43,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_0201D83C(void*);
 extern void func_021B9FB8(char*);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void*);
+extern void func_020306F0(unsigned int);
 int func_021B9748(void*scene,int unused1,int unused2,char*p)
 {
  LayerCount i;
@@ -63,6 +63,6 @@ int func_021B9748(void*scene,int unused1,int unused2,char*p)
  func_0201D83C(*(void**)(p+12));
  func_021B9FB8(*(char**)(p+8));
  func_020315D4(scene);
- func_020306F0((void*)0x83);
+ func_020306F0(0x83);
  return 1;
 }

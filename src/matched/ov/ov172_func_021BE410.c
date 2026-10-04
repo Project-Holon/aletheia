@@ -15,7 +15,7 @@ extern void func_021BD3B8(u32 *p);
 extern void func_020307B0(u32 p);
 struct S020315D4;
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int h);
+extern void func_020306F0(unsigned int h);
 int func_021BE410(void *a, void *b, int c, u32 *p)
 {
     func_021BD3B8(p);
