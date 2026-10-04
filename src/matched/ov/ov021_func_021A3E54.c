@@ -42,7 +42,9 @@ extern u32 func_021A3AD4(u8 *);
 extern void func_021A3AD0(u8 *, u32);
 extern u32 func_02188CD0(u32);
 extern u16 func_0216D5F8(void *p);
-extern void func_0216D88C(void *, u32 *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern u32 func_021ACB38(u32, u32, u32 *, void *, int);
 
 int func_021A3E54(u8 *p)
@@ -66,7 +68,7 @@ int func_021A3E54(u8 *p)
     if (func_021A3AD4(p) == 0) {
         c = func_02188CD0(*(u32 *)(p + 8));
         d = func_0216D5F8(b);
-        func_0216D88C(b, buf);
+        func_0216D88C(b, (struct VecFx32 *)buf);
         func_021A3AD0(p, func_021ACB38(c, d, buf, b, 1));
     }
     *(u16 *)(p + 0x32) = 1;

@@ -36,7 +36,9 @@ typedef unsigned int   u32;
 
 extern u32 func_021A3994();
 extern void *func_021A3960(unsigned char *p);
-extern void func_0216D88C();
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_02012A90();
 extern u16 func_0216D5F8(void *p);
 extern void func_02012AD4();
@@ -52,7 +54,7 @@ void func_021A2EB8(u32 *a)
     u32 d = func_021A3994(a[1]);
     void *e = func_021A3960((u8 *)a[1]);
 
-    func_0216D88C(e, b);
+    func_0216D88C(e, (struct VecFx32 *)b);
     func_02012A90(d, b);
     func_02012AD4(d, func_0216D5F8(e));
     if (func_02188CFC(a[0]) == 0) {

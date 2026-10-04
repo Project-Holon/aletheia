@@ -20,12 +20,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 typedef struct { int x, y, z; } Vec;
-extern void func_0216D88C(u32 a, Vec *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *v);
 extern int func_0219C20C(u32 a, Vec *p, int b, int c);
 
 int func_0219C2BC(u32 a, int b, int c)
 {
     Vec v;
-    func_0216D88C(a, &v);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)&v);
     return func_0219C20C(a, &v, b, c);
 }

@@ -35,9 +35,11 @@ typedef struct {
 } Vec021A4F58;
 
 void *func_021A3960(unsigned char *p);
-void func_0216D88C(void *h, Vec021A4F58 *v);
+struct Actor;
+struct VecFx32;
+void func_0216D88C(const struct Actor *h, struct VecFx32 *v);
 void func_02163E58(void *h, Vec021A4F58 *v, int *lim);
-void func_0216D570(void *h);
+void func_0216D570(char *h, u32 mask);
 void func_0216D89C(void *h, Vec021A4F58 *v);
 
 int func_021A4F58(u32 *p)
@@ -46,13 +48,13 @@ int func_021A4F58(u32 *p)
     Vec021A4F58 v;
     int lim;
 
-    func_0216D88C(h, &v);
+    func_0216D88C(h, (struct VecFx32 *)&v);
     func_02163E58(h, &v, &lim);
     if (v.y > lim) {
         v.y -= 0x8000;
         if (v.y < lim) {
             v.y = lim;
-            func_0216D570(h);
+            func_0216D570(h, 0x8000);
             p[7] = 1;
         }
         func_0216D89C(h, &v);
