@@ -22,9 +22,9 @@ typedef struct {
 } Ent;
 
 extern Ent d_021D373C[];
-int func_02189B28(int x);
+unsigned int func_02189B28(unsigned int x);
 
 int func_02189BA8(int x)
 {
-    return d_021D373C[func_02189B28(x)].f0;
+    return d_021D373C[(int)func_02189B28((unsigned int)x)].f0;
 }

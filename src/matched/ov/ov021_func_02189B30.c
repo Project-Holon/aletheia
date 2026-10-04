@@ -25,7 +25,7 @@ typedef struct Rec { int w[15]; } Rec;
 typedef struct Ent { Rec r; int f3c; int f40; int f44; } Ent;
 
 extern Ent d_021D3700[];
-extern int func_02189B28(int a);
+extern unsigned int func_02189B28(unsigned int a);
 struct Obj;
 extern unsigned short func_02159BF4(struct Obj *p);
 extern unsigned short func_02159BF8(struct Obj *p);
@@ -37,7 +37,7 @@ extern int func_020140CC(int x);
 
 void func_02189B30(int a, int x, char *out, void *obj)
 {
-    int i = func_02189B28(a);
+    int i = (int)func_02189B28((unsigned int)a);
 
     *(Rec *)out = d_021D3700[i].r;
     if (d_021D3700[i].f40 != 0) {
