@@ -30,7 +30,7 @@ extern void *func_0215A5DC(void *a0);
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_02188D24(u8 *p);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern void func_021BB990();
 extern u8 ov56_id[];
 extern u32 g_021F4344[];
@@ -42,7 +42,7 @@ int func_021B568C(int a0, int a1)
 {
     int r4 = func_02188D24(func_0201210C(func_0215A5DC((void *)a1)));
 
-    switch (func_02159B10(a0, a1)) {
+    switch (func_02159B10((void *)a0, (void *)a1)) {
     case 0:
         break;
     case 1:

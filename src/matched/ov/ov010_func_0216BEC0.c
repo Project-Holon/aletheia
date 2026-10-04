@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int func_0202F488();
 extern void func_0202F630();
@@ -39,8 +39,8 @@ int func_0216BEC0(int c, int vm)
     void *obj;
 
     r7 = func_02012934(func_0215A5E4((void *)vm));
-    k = func_02159B10(c, vm);
-    m = func_02159B10(c, vm);
+    k = func_02159B10((void *)c, (void *)vm);
+    m = func_02159B10((void *)c, (void *)vm);
     switch (k) {
     case 0xFB:
         t = 0;

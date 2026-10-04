@@ -52,7 +52,7 @@ typedef struct {
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern int func_020127C4(void *a);
-extern int func_02159B10(int a0, int a1);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02186278(int p, int which);
 extern Ent *func_02158F58(void *a);
@@ -100,7 +100,7 @@ int func_02186D48(int a0, int a1)
     m = func_0215A5F4((void *)a1);
     b = func_0215A5E4((void *)a1);
     c = func_020127C4(b);
-    kind = func_02159B10(a0, a1);
+    kind = func_02159B10((void *)a0, (void *)a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     if (kind == 3) {
         *out = func_02186278(c, 0);

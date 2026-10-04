@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5DC(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void func_021F3AA0();
 
 int func_0216BC88(int c, int vm)
@@ -33,10 +33,10 @@ int func_0216BC88(int c, int vm)
     int vec[3];
 
     p = func_0215A5DC((void *)vm);
-    a1 = func_02159B10(c, vm);
-    a2 = func_02159B10(c, vm);
-    a3 = func_02159B10(c, vm);
-    a4 = func_02159B10(c, vm);
+    a1 = func_02159B10((void *)c, (void *)vm);
+    a2 = func_02159B10((void *)c, (void *)vm);
+    a3 = func_02159B10((void *)c, (void *)vm);
+    a4 = func_02159B10((void *)c, (void *)vm);
     vec[0] = (a2 << 16) + 0x8000;
     vec[1] = a3 << 15;
     vec[2] = (a4 << 16) + 0x8000;

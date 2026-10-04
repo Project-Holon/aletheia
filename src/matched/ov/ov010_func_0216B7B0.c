@@ -31,7 +31,7 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *a0);
 extern void *func_0200E3A0(void *a);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void func_0200E3E8(u8 *bits, int id, u32 value);
 extern void func_02027100(const void *src);
 
@@ -43,8 +43,8 @@ int func_0216B7B0(int c, int vm)
 
     func_0215A5F4((void *)vm);
     r6 = func_0200E3A0(func_0200E394(func_02012EBC((struct Big *)func_0215A5E4((void *)vm))));
-    a = func_02159B10(c, vm);
-    b = func_02159B10(c, vm);
+    a = func_02159B10((void *)c, (void *)vm);
+    b = func_02159B10((void *)c, (void *)vm);
     func_0200E3E8(r6, (u8)a, b);
     func_02027100(r6);
     return 0;

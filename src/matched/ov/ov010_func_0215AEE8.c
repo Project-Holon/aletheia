@@ -26,7 +26,7 @@ typedef unsigned long long u64;
 
 extern void *func_0215A5E4(void *a0);
 extern int func_0215A5CC();
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0200CA1C(void *a);
 extern void *func_020173F0(u32 species, u32 level, u64 id, u32 heap);
 struct Blk37;
@@ -41,8 +41,8 @@ int func_0215AEE8(int a0, int a1)
     void *n;
     v0 = func_0200CA1C((void *)func_0215A5E4((void *)a1));
     k = func_0215A5CC(a1);
-    m = func_02159B10(a0, a1);
-    o = func_02159B10(a0, a1);
+    m = (int)func_02159B10((void *)a0, (void *)a1);
+    o = (int)func_02159B10((void *)a0, (void *)a1);
     n = func_020173F0(o, 1, 0xFFFFFFFF00000000ULL, k);
     switch (m) {
     case 0:

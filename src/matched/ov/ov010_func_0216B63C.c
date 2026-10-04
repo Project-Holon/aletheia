@@ -36,7 +36,7 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *sys);
 extern void *func_0200E394(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void func_0200C334(struct Blk34 *p, u8 v);
 extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
 extern void func_0200C358(struct Blk34 *p, u8 i, int v);
@@ -57,10 +57,10 @@ int func_0216B63C(int a0, int a1)
     w = func_02012EBC((struct Big *)func_0215A5E4((void *)a1));
     h = func_0200C0F0(w);
     func_0200E394(w);
-    k = func_02159B10(a0, a1);
-    s[0] = func_02159B10(a0, a1);
-    s[1] = func_02159B10(a0, a1);
-    s[2] = func_02159B10(a0, a1);
+    k = func_02159B10((void *)a0, (void *)a1);
+    s[0] = func_02159B10((void *)a0, (void *)a1);
+    s[1] = func_02159B10((void *)a0, (void *)a1);
+    s[2] = func_02159B10((void *)a0, (void *)a1);
     func_0200C334(h, k);
     z = 0;
     for (i = 0; i < 3; i++) {

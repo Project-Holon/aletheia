@@ -37,7 +37,7 @@ typedef struct {
     u32 rest : 3;
 } Bits;
 
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
@@ -61,7 +61,7 @@ int func_0216AD70(int a0, int a1)
     Bits v;
     Bits w;
 
-    kind = func_02159B10(a0, a1);
+    kind = func_02159B10((void *)a0, (void *)a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     x = func_0215A5DC((void *)a1);
     y = func_0215A5E4((void *)a1);

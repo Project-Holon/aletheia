@@ -32,7 +32,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern u32 *func_02158F58(void *p);
 extern u32 func_02188C84(u32 p);
-extern u32 func_02159B10(u32 a, u32 b);
+extern u32 func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct BigObj;
 extern void *func_0201292C(const struct BigObj *p);
@@ -55,7 +55,7 @@ int func_021B716C(u32 a, u32 b)
     s = func_0215A5F4((void *)b);
     h = func_0215A5E4((void *)b);
     v = func_02188C84(func_02158F58(s)[1]);
-    idx = func_02159B10(a, b);
+    idx = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     h = func_0201292C(h);
     arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);

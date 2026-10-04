@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5E4(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0200CA1C(void *a);
 extern int func_0200D064();
@@ -35,8 +35,8 @@ int func_0215AF40(int a0, int a1)
     int k, x;
     u16 *out;
     v = func_0200CA1C((void *)func_0215A5E4((void *)a1));
-    k = func_02159B10(a0, a1);
-    x = func_02159B10(a0, a1);
+    k = (int)func_02159B10((void *)a0, (void *)a1);
+    x = (int)func_02159B10((void *)a0, (void *)a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     switch (k) {
     case 0:

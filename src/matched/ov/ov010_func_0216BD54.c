@@ -28,15 +28,15 @@ typedef unsigned short u16;
 extern void *func_0215A5E4(void *work);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern u16   func_02159B10(void *ctx, void *work);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *ctx, void *work);
 extern u16   func_0216BE20(void *s, int species, int move, int kind, u16 *out);
 
 int func_0216BD54(void *ctx, void *work)
 {
     void *s = func_02012934(func_0215A5E4(work));
-    u16 species = func_02159B10(ctx, work);
-    u16 flag = func_02159B10(ctx, work);
+    int species = func_02159B10(ctx, work);
+    unsigned int flag = func_02159B10(ctx, work);
     u16 *out = func_02159AE8(ctx, work);
     u16 *res = func_02159AE8(ctx, work);
     int kind;

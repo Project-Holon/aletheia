@@ -29,7 +29,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F50(void *base);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern int func_021D0AB8();
 
 int func_0216A594(int a0, int a1)
@@ -54,7 +54,7 @@ loc_0216A5AA:
 loc_0216A5AE:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10(a0, a1);
+    a0 = func_02159B10((void *)a0, (void *)a1);
 loc_0216A5B8:
 a1 = a0 + 0;
 a0 = *(int *)((char *)v2);

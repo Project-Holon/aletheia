@@ -46,7 +46,7 @@ typedef struct Ent {
     u32 f4[5];
 } Ent;
 
-extern int func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_0215A5CC(u32 a);
@@ -84,7 +84,7 @@ int func_021B6BDC(u32 a, u32 b)
     u8 buf[0xcc];
     u32 x;
 
-    mode = func_02159B10(a, b);
+    mode = func_02159B10((void *)a, (void *)b);
     out = func_02159AE8((void *)a, (void *)b);
     sv = func_0215A5E4((void *)b);
     heap = func_0215A5CC(b);

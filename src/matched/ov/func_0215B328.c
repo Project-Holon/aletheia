@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern u32 func_0201296C(const struct BigObj *p);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern int func_0215A4EC();
 
 int func_0215B328(int a0, int a1)
@@ -43,7 +43,7 @@ loc_0215B338:
 t4 = a0 + 0;
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10(a0, a1);
+    a0 = func_02159B10((void *)a0, (void *)a1);
 loc_0215B342:
 a1 = a0 + 0;
 a0 = t4 + 0;

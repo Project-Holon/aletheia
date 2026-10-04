@@ -26,7 +26,7 @@ typedef struct {
     int d;
 } V4;
 
-extern int func_02159B10(int, int);
+extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215A5E4(void *a0);
 extern int func_02012F08(void *);
 extern void func_0200C248(int, int);
@@ -37,7 +37,7 @@ extern void func_02008A7C(int, int, int, int, int);
 int func_0215AC68(int a, int b)
 {
     V4 v;
-    int r4 = func_02159B10(a, b);
+    int r4 = func_02159B10((void *)a, (void *)b);
     void *r5 = func_0215A5E4((void *)b);
 
     func_0200C248(func_02012F08(r5), r4);

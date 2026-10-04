@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 struct Ctx;
 extern int func_02012FB0(unsigned char *base);
 extern int func_0216662C(int a0);
@@ -67,7 +67,7 @@ int func_0216AE10(int a0, int a1)
     hd = func_0215A5F4((void *)a1);
     b = func_0215A5DC((void *)a1);
     c = func_0215A5E4((void *)a1);
-    kind = func_02159B10(a0, a1);
+    kind = func_02159B10((void *)a0, (void *)a1);
     v = func_02012FB0(c);
     if (kind == 1 && func_0216662C(v) != 0) {
         x = func_0201210C((void *)b);

@@ -29,7 +29,7 @@ typedef unsigned int u32;
 
 struct Big;
 
-extern int func_02159B10(int a0, int a1);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
@@ -51,7 +51,7 @@ int func_0216ACCC(int a0, int a1)
 
 t4 = a0 + 0;
 t5 = a1 + 0;
-    a0 = func_02159B10(a0, a1);
+    a0 = func_02159B10((void *)a0, (void *)a1);
 loc_0216ACD6:
 t7 = a0 + 0;
 a0 = t4 + 0;

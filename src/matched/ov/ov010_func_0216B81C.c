@@ -29,7 +29,7 @@ struct Big;
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0E8(void *sys);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct Blk34;
 extern u8 func_0200C32C(struct Blk34 *p);
@@ -45,7 +45,7 @@ int func_0216B81C(int c, int vm)
 
     r6 = func_02012EBC((struct Big *)func_0215A5E4((void *)vm));
     t = func_0200C0E8(r6);
-    r5 = (u8)func_02159B10(c, vm);
+    r5 = (u8)func_02159B10((void *)c, (void *)vm);
     r4 = func_02159AE8((void *)c, (void *)vm);
     if (r5 == func_0200C32C(t)) {
         func_0216B8B8(r6, r4);

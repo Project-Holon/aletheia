@@ -22,15 +22,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern int func_02011330();
 extern int func_0215B4AC();
 extern u32 func_02017E1C(void *, u32, u32);
 extern int func_02017E40(int, int, int);
 int func_0215B74C(int a0, int a1)
 {
-    int a = func_02159B10(a0, a1);
-    int b = func_02159B10(a0, a1);
+    int a = func_02159B10((void *)a0, (void *)a1);
+    int b = func_02159B10((void *)a0, (void *)a1);
     int mode = func_02011330(a0);
     int obj = 0;
     u8 v;

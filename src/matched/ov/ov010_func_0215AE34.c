@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern int func_0215A5CC();
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern int func_02159F28();
 struct BigObj;
 struct Rec44;
@@ -46,9 +46,9 @@ int func_0215AE34(int a0, int a1)
 {
     void *v0 = func_0215A5DC((void *)a1);
     void *p = func_0215A5E4((void *)a1);
-    int x = func_02159B10(a0, a1);
-    int y = func_02159B10(a0, a1);
-    int flag = func_02159B10(a0, a1);
+    int x = func_02159B10((void *)a0, (void *)a1);
+    int y = func_02159B10((void *)a0, (void *)a1);
+    int flag = func_02159B10((void *)a0, (void *)a1);
     int q, r, s, t;
     func_02159F28(p, x, y);
     if (flag != 0) {

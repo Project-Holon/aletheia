@@ -34,7 +34,7 @@ extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(void *p);
 extern u32 func_02158F74(void *p);
 extern u32 func_02188C84(u32 p);
-extern u32 func_02159B10(u32 a, u32 b);
+extern u32 func_02159B10(void *a, void *b);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern struct Ent *func_0204A298(u32, u32, u32, u32, u32 *);
 extern void func_020307B0(void *p);
@@ -55,10 +55,10 @@ int func_021B721C(u32 a, u32 b)
 
     s = func_0215A5F4((void *)b);
     v = func_02188C84(func_02158F58(s)[1]);
-    k = func_02159B10(a, b);
-    idx = func_02159B10(a, b);
-    p1 = func_02159B10(a, b);
-    p2 = func_02159B10(a, b);
+    k = func_02159B10((void *)a, (void *)b);
+    idx = func_02159B10((void *)a, (void *)b);
+    p1 = func_02159B10((void *)a, (void *)b);
+    p2 = func_02159B10((void *)a, (void *)b);
     t = func_02158F74(s);
     arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;

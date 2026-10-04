@@ -27,7 +27,7 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(void *a);
-extern u32 func_02159B10(Script *, u32);
+extern unsigned int func_02159B10(void *a, void *b);
 
 int func_021AF8D8(Script *a, u32 b, void (*fn)(u32, u32, u32))
 {
@@ -35,6 +35,6 @@ int func_021AF8D8(Script *a, u32 b, void (*fn)(u32, u32, u32))
     u8 *p = a->cur;
     u32 v = *p;
     a->cur = p + 1;
-    fn(x, v, func_02159B10(a, b));
+    fn(x, v, func_02159B10(a, (void *)b));
     return 0;
 }

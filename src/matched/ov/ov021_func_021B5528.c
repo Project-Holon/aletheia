@@ -35,7 +35,7 @@ typedef struct {
     u32 w14;
 } Rec;
 
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_021D2D50(void *a, Rec *src);
@@ -43,14 +43,14 @@ extern void func_0215897C(void *vm, void *task);
 
 int func_021B5528(int a0, int a1)
 {
-    int v0 = func_02159B10(a0, a1);
-    int v1 = func_02159B10(a0, a1);
-    int v2 = func_02159B10(a0, a1);
-    int v3 = func_02159B10(a0, a1);
-    int v4 = func_02159B10(a0, a1);
-    int v5 = func_02159B10(a0, a1);
-    int v6 = func_02159B10(a0, a1);
-    int v7 = func_02159B10(a0, a1);
+    int v0 = func_02159B10((void *)a0, (void *)a1);
+    int v1 = func_02159B10((void *)a0, (void *)a1);
+    int v2 = func_02159B10((void *)a0, (void *)a1);
+    int v3 = func_02159B10((void *)a0, (void *)a1);
+    int v4 = func_02159B10((void *)a0, (void *)a1);
+    int v5 = func_02159B10((void *)a0, (void *)a1);
+    int v6 = func_02159B10((void *)a0, (void *)a1);
+    int v7 = func_02159B10((void *)a0, (void *)a1);
     void *r;
     void *o;
     Rec s;

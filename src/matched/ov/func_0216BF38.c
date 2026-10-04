@@ -28,7 +28,7 @@ struct Big;
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200D418(void *sys);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 struct Blk38;
 extern u8 func_0200D468(struct Blk38 *p, u32 i);
@@ -52,7 +52,7 @@ loc_0216BF48:
 loc_0216BF4C:
 a0 = t5 + 0;
 a1 = t6 + 0;
-    a0 = func_02159B10(a0, a1);
+    a0 = func_02159B10((void *)a0, (void *)a1);
 loc_0216BF56:
 a0 = a0 << 0x18;
 t4 = (unsigned)a0 >> 0x18;

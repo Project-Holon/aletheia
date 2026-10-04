@@ -32,7 +32,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E394(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0200E4F8();
 extern u32 func_0200E4B0(u8 *a0, u32 a1, u32 a2);
@@ -51,7 +51,7 @@ int func_0216B720(int c, int vm)
 
     func_0215A5F4((void *)vm);
     r6 = func_0200E394(func_02012EBC((struct Big *)func_0215A5E4((void *)vm)));
-    r5 = func_02159B10(c, vm);
+    r5 = func_02159B10((void *)c, (void *)vm);
     dst = func_02159AE8((void *)c, (void *)vm);
     n = d_0217219C[r5];
     best = -1;

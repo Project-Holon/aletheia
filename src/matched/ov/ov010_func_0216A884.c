@@ -33,7 +33,7 @@ struct Desc;
 extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int *func_020124E8(struct Desc *p);
 struct Ctx;
@@ -59,7 +59,7 @@ int func_0216A884(int a0, int a1)
     func_0215A5E4((void *)a1);
     l0 = func_0215A5F4((void *)a1);
     r4 = func_0215A5DC((void *)a1);
-    r6 = func_02159B10(a0, a1);
+    r6 = func_02159B10((void *)a0, (void *)a1);
     r7 = func_020122C0((void *)r4, 0, (void *)func_0216A8F0, 0x14);
     r5 = func_020124E8(r7);
     r5[0] = 0;

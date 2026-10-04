@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef short s16;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *, void *);
 extern int func_0215B4AC();
 extern u32 func_02017E1C(void *, u32, u32);
 int func_0215B558(int a0, int a1)
@@ -30,7 +30,7 @@ int func_0215B558(int a0, int a1)
     u16 *p = func_02159AE8((void *)a0, (void *)a1);
     u16 *q = func_02159AE8((void *)a0, (void *)a1);
     int obj;
-    if (func_0215B4AC(a1, func_02159B10(a0, a1), &obj) == 1) {
+    if (func_0215B4AC(a1, func_02159B10((void *)a0, (void *)a1), &obj) == 1) {
         *p = func_02017E1C((void *)obj, 0xAE, 0);
         *q = func_02017E1C((void *)obj, 0xAF, 0);
     } else {

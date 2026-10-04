@@ -29,7 +29,7 @@ struct Ctx;
 
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012F50(void *base);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern int func_021D0BD8();
 extern int func_0215897C();
 
@@ -43,7 +43,7 @@ int func_0216A510(int a0, int a1)
     r7 = func_0215A5F4((void *)a1);
     l0 = func_0215A5DC((void *)a1);
     r6 = (int *)func_02012F50(func_020120F4((const struct Ctx *)l0));
-    l4 = func_02159B10(a0, a1);
-    func_0215897C(r7, func_021D0BD8(l0, *r6, l4, func_02159B10(a0, a1)));
+    l4 = func_02159B10((void *)a0, (void *)a1);
+    func_0215897C(r7, func_021D0BD8(l0, *r6, l4, func_02159B10((void *)a0, (void *)a1)));
     return 1;
 }

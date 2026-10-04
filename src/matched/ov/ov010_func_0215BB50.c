@@ -43,7 +43,7 @@ struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern u8 *func_02012944(void *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern void *func_02159B10(void *, void *);
+extern unsigned int func_02159B10(void *, void *);
 extern int func_0215C510(void *a, void *b);
 
 int func_0215BB50(void *a0, void *a1)
@@ -62,9 +62,9 @@ int func_0215BB50(void *a0, void *a1)
     func_02012934(h);
     func_02012944(h);
     out = func_02159AE8(a0, a1);
-    t1 = func_02159B10(a0, a1);
-    t2 = func_02159B10(a0, a1);
-    t3 = func_02159B10(a0, a1);
+    t1 = (void *)func_02159B10(a0, a1);
+    t2 = (void *)func_02159B10(a0, a1);
+    t3 = (void *)func_02159B10(a0, a1);
     r.h = n;
     r.p0 = t1;
     r.p1 = t2;
