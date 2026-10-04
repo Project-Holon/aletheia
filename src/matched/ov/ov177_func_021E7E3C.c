@@ -77,14 +77,16 @@ extern void func_02045334(void *);
 extern void func_02045374(void *);
 extern unsigned char func_02045730(void *win);
 extern void func_020409B4(int v);
-extern void *func_02045770(void *win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern void func_0201C724(unsigned print, void *bmp, short x, short y, void *str, unsigned font, u16 color);
 extern void func_0201EFA4(void *, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void func_0201F250(void *, void *, void *);
 extern unsigned func_0201D304(void *, unsigned, unsigned);
 extern void func_02045808(void *);
 extern void func_0201ED04(void *);
-extern void func_0204B454(void *, Pos *, int);
+struct Actor; struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(void *, Pos *, int);
 extern void func_02040618(int, int, int);
 extern void func_020307B0(void *);
@@ -186,7 +188,7 @@ Work *func_021E7E3C(void *src, void *owner, int unused, unsigned font, unsigned 
     func_0201ED04(fmt);
     for (i = 0; i < 14; i++) {
         if (work->spr[i] != 0) {
-            func_0204B454(work->spr[i], &pos, 0);
+            func_0204B454(work->spr[i], (struct PtS *)&pos, 0);
             pos.x += 0x100;
             func_0204B404(work->spr[i], &pos, 0);
         }

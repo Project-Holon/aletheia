@@ -22,7 +22,7 @@ struct Descriptor;
 struct PrintSys;
 struct Tcbl;
 extern u32 func_0201C4E4(struct PrintSys *ps);
-extern unsigned func_02045770(void *);
+extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(void *, unsigned);
 extern void func_02045334(struct Descriptor *d);
 extern void func_020286C4(struct Ctx *ctx, void *p, void *cell);
@@ -35,13 +35,13 @@ void func_021E867C(char *p)
  switch(*(unsigned *)(p+0x2C)) {
  case 2:
  q=*(void **)(p+0x28);
- if(*(unsigned char *)(p+0x24)!=0 && func_0201C6C4(q,func_02045770(*(void **)(p+0x20)))==0) {
+ if(*(unsigned char *)(p+0x24)!=0 && func_0201C6C4(q,(unsigned)func_02045770(*(void **)(p+0x20)))==0) {
  func_02045334(*(void **)(p+0x20));*(unsigned char *)(p+0x24)=0;
  }
  break;
  case 0:
  q=*(void **)(p+0x28);
- if(*(unsigned char *)(p+0x24)!=0 && func_0201C6C4(q,func_02045770(*(void **)(p+0x20)))==0) {
+ if(*(unsigned char *)(p+0x24)!=0 && func_0201C6C4(q,(unsigned)func_02045770(*(void **)(p+0x20)))==0) {
  func_02045334(*(void **)(p+0x20));*(unsigned char *)(p+0x24)=0;
  }
  *(int *)(p+0x30)=*(unsigned char *)(p+0x24)==0;
