@@ -20,7 +20,9 @@ typedef unsigned int u32;
 typedef struct { short x,y; } Pt;
 typedef struct { int x,y,z; } T;
 typedef struct { T a,b,c,d,e; int i,n; } S;
-extern void func_0204B454(void *,Pt *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern int func_0207C7B4(int);
 extern void func_021E7248(S *,T *,T *,T *,T *,int);
 static inline int mul(int a,int b) { return (int)(((s64)a*b+0x800LL)>>12); }
@@ -29,7 +31,7 @@ void func_021E6544(char *p)
     T end,third,second,first;
     Pt pos;
     int x,y,dx,dy,speed;
-    func_0204B454(*(void **)(p+0xf20),&pos,1);
+    func_0204B454((struct Actor *)*(void **)(p+0xf20),(struct PtS *)&pos,1);
     dx=(pos.x-*(short *)(p+0xf6c))*4096;
     dy=(pos.y-*(short *)(p+0xf6e))*4096;
     first.x=pos.x*4096; first.y=pos.y*4096; first.z=0;

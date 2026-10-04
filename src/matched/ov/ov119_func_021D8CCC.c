@@ -18,7 +18,9 @@
 
 typedef signed short s16;
 
-extern void func_0204B454(int a, void *b, int c);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern unsigned int func_02035CB8(int *a, int *b);
 extern void func_021E4AB8(void *p, int a, int b);
 extern void func_021E64DC(void *p, int a, int b, int c, int d, int e);
@@ -28,7 +30,7 @@ void func_021D8CCC(void *p, int x, int y, int z, int a4)
     int o1, o2;
 
     *(int *)((char *)p + 0xf60) = x;
-    func_0204B454(x, (char *)p + 0xf64, 1);
+    func_0204B454((struct Actor *)x, (struct PtS *)((char *)p + 0xf64), 1);
     func_021E4AB8(p, *(int *)((char *)p + 0xf60), 1);
     if (func_02035CB8(&o1, &o2) == 0)
         return;

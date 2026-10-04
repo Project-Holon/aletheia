@@ -14,7 +14,9 @@
  *   func_021E729C 0x021E729C thumb ov119
  */
 typedef struct { short x,y; } Pt;
-extern void func_0204B454(int,Pt *,unsigned int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern void func_0204B404(int,const Pt *,unsigned int);
 extern void func_021E66E8(void *);
 extern void func_021E729C(void *);
@@ -23,7 +25,7 @@ int func_021E665C(char *p) {
     if (*(short *)(p+0x11dc)) {
         --*(short *)(p+0x11dc);
         if (!*(short *)(p+0x11dc)) return 1;
-        func_0204B454(*(int *)(p+0xf20),&pos,1);
+        func_0204B454((struct Actor *)*(int *)(p+0xf20),(struct PtS *)&pos,1);
         if (pos.y<0) *(short *)(p+0x11dc)=1;
         if (*(short *)(p+0x11dc)==1) func_021E66E8(p);
         else {

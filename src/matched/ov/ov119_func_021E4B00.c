@@ -47,7 +47,9 @@ extern void func_021E496C(int x, int y, u16 *out);
 extern void func_0204B7C8(void *, Info *);
 extern int func_021D8AF4(int, char *);
 extern int func_021D8B0C(int, int);
-extern void func_0204B454(void *, Pt *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern int func_02061CA4(int, int, int, int);
 extern void func_02082D44(int src, int dst, int n);
 extern int func_0201BBE8(int);
@@ -97,7 +99,7 @@ void func_021E4B00(char *p, int v, int a, int row, int flag)
             n = func_021D8AF4(a, p);
             idx = func_021D8B0C(a, j);
             idx += n * 30;
-            func_0204B454(*(void **)(p + row * 20 + j * 4 + 0xac0), &pt, 1);
+            func_0204B454((struct Actor *)*(void **)(p + row * 20 + j * 4 + 0xac0), (struct PtS *)&pt, 1);
             if (flag == 1 && pt.x >= -16 && pt.x <= 0x110) {
                 if (func_02061CA4(0x23, info.c, *(int *)(p + 0x1184) + idx * 0x200, 0x200) == 0) {
                     vram = VRAM_BASE;

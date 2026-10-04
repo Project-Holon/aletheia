@@ -25,7 +25,9 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct Pt {s16 x,y;} Pt;
 typedef struct Object {u8 pad[0xac0];void *actors[12][5];} Object;
-extern void func_0204B454(void *,Pt *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern int func_021D8AF4(int,char *),func_021D8B0C(int,int);
 int func_021E51A4(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outColumn,int *outRow)
 {
@@ -34,7 +36,7 @@ int func_021E51A4(char *p,int x,int y,int *outA,int *outB,int *outSlot,int *outC
  Object *tmp;
  for(row=0;row<12;row++) {
   for(column=0;column<5;column++) {
-   func_0204B454(((Object *)p)->actors[row][column],&pos,1);
+   func_0204B454((struct Actor *)((Object *)p)->actors[row][column],(struct PtS *)&pos,1);
    if(pos.x<=x && x<pos.x+24 && pos.y<=y && y<pos.y+24) {
     if(outA) {
      slot=*(u8 *)(p+0xd90+row*5+column);
