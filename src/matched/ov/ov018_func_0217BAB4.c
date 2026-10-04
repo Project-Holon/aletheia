@@ -32,11 +32,12 @@ typedef unsigned short u16;
 typedef struct { u16 f : 3; u16 g : 13; } Fh;
 typedef struct { int x, y, z; } Vec;
 
-extern int func_020120F8(void *);
-extern int func_02012AC8(int);
+struct Ctx;
+extern u8 *func_020120F8(const struct Ctx *p);
+struct Rec44;
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern void func_02012AE4(int);
 typedef unsigned int   u32;
-struct Ctx;
 extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern int func_02026454(int);
@@ -61,8 +62,8 @@ void func_0217BAB4(int a0, void *a1, void *a2, u8 *p)
     int limit;
     int sys;
 
-    x = func_020120F8(a1);
-    sys = func_02012AC8(x);
+    x = (int)func_020120F8(a1);
+    sys = func_02012AC8((const struct Rec44 *)x);
     func_02012AE4(x);
     x = func_02012138(a1);
     flag = 0;

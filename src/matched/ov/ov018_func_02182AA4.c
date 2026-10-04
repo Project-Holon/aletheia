@@ -50,8 +50,9 @@ typedef struct {
 typedef unsigned short u16;
 struct Evt;
 struct Obj;
+struct Ctx;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+unsigned int func_02012138(const struct Ctx *p);
 int func_02158344(void *);
 void func_0217F3C4(Ov018Obj *p, int a);
 int func_0217F40C(Ov018Obj *p);
@@ -71,7 +72,7 @@ int func_02182AA4(void *a, int *state, Ov018Outer *c)
     void *w;
 
     sub = func_020124E4(a);
-    v = func_02158344(func_02012138(sub));
+    v = func_02158344((void *)func_02012138(sub));
     switch (*state) {
     case 0:
         func_0217F3C4(&c->obj, c->f9C);

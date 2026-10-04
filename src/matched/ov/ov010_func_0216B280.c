@@ -22,7 +22,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_020124E4(int p);
-extern int func_02012138(int p);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158344(int a0);
 extern int func_02176850();
 extern int func_02176870();
@@ -32,7 +33,7 @@ int func_0216B280(int a0, int *state, u8 **work)
     int r;
     u16 *p;
 
-    r = func_02158344(func_02012138(func_020124E4(a0)));
+    r = func_02158344(func_02012138((const struct Ctx *)func_020124E4(a0)));
     if (r == 0) {
         p = *(u16 **)work;
         if (p != 0)

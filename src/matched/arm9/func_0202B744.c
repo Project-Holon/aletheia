@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Promoted out of src/pending: both callees, func_0202B804 and func_0202BEDC,
  * now have EXACT manifest entries, so the two THM_CALL fields resolve through
@@ -17,10 +17,11 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202B804(void *o);
+struct Obj;
+extern unsigned short func_0202B804(struct Obj *o);
 extern void func_0202BEDC(u32 a, u32 b);
 
 void func_0202B744(u8 *o)
 {
-    func_0202BEDC(*(u32 *)(o + 0x1c), func_0202B804(o));
+    func_0202BEDC(*(u32 *)(o + 0x1c), func_0202B804((struct Obj *)o));
 }

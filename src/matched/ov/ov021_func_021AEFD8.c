@@ -38,7 +38,8 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
-extern u32 func_02012A30(u32 a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern u32 func_02012984(u32 a);
 extern u16 func_02188C9C(u8 *p);
 extern u32 func_02029DF4(u32 a, u32 b, u32 c);
@@ -57,7 +58,7 @@ int func_021AEFD8(u32 a, u32 b)
     x = func_0215A5DC((void *)b);
     y = func_020120F4(x);
     l = func_0201210C((void *)x);
-    m = func_02012A30(y);
+    m = func_02012A30((const struct BigObj *)y);
     p = func_0215A5F4((void *)b);
     q = func_02012984(y);
     s = func_02029DF4(y, func_02188C9C(l), q);

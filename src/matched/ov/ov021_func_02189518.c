@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -25,9 +25,10 @@ typedef unsigned int   u32;
 struct Ctx;
 struct Rec44;
 struct SaveBlock;
+struct BigObj;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012134(void *p);
-extern void *func_02012A30(void *p);
+extern u32 func_02012A30(const struct BigObj *p);
 extern void *func_020127A4(struct SaveBlock *p);
 extern u32 func_02012B28(const struct Rec44 *p);
 extern void func_0202B544(void *a, u16 b);
@@ -42,7 +43,7 @@ void func_02189518(char *p, unsigned int idx)
 
     a = func_020120F4(*(void **)(p + 4));
     b = func_02012134(*(void **)(p + 4));
-    c = func_02012A30(a);
+    c = (void *)func_02012A30(a);
     k = func_02012B28(func_020127A4(a));
     func_0202B544(b, idx);
     if (k != 2)

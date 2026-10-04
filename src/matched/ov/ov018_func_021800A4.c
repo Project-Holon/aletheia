@@ -78,7 +78,7 @@ struct Rec44;
 struct Sub24;
 struct WordSet;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+u32 func_02012138(const struct Ctx *p);
 void *func_020120F4(const struct Ctx *p);
 u8 *func_02158344(void *);
 void func_0217553C(u8 *);
@@ -114,7 +114,7 @@ int func_021800A4(void *a, int *state, Outer *c)
     int flag;
 
     sub = func_020124E4(a);
-    t = func_02012138(sub);
+    t = (void *)func_02012138(sub);
     w = func_020120F4(sub);
     v = func_02158344(t);
     if (v == 0) {
