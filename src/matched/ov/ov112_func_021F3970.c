@@ -36,7 +36,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_02034A5C(int);
 extern void func_020307B0(void *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *);
+extern void func_020306F0(unsigned int);
 int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
     if (!func_020221A4()) return 0;
     func_0207D534((void *)0x0400006c,-16);
@@ -53,6 +53,6 @@ int func_021F3970(void *owner,void *arg,int flag,u8 *p) {
         func_02034A5C((int)ov_abs_84);
     }
     func_020315D4(owner);
-    func_020306F0((void *)74);
+    func_020306F0(74);
     return 1;
 }

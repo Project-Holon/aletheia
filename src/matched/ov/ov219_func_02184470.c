@@ -30,7 +30,7 @@ extern void func_02040588(unsigned,unsigned),func_0204363C(unsigned);
 extern int func_02028604(int);
 extern void func_02031140(struct S02031140 *);
 extern unsigned func_0201ED04(struct WordSet *);
-extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(u16);
+extern void func_021845A4(int),func_020315D4(struct S020315D4 *),func_020306F0(unsigned int);
 int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char *p)
 {
     unsigned heap=*(unsigned *)p;
@@ -41,6 +41,6 @@ int func_02184470(struct S020315D4 *controller,void *unused1,void *unused2,char 
     func_02028604(*(int *)(p+0xc088));
     func_02031140(*(struct S02031140 **)(p+0xc0a4));
     func_021845A4(func_0201ED04(*(struct WordSet **)(p+0xc0a8)));
-    func_020315D4(controller);func_020306F0(heap);
+    func_020315D4(controller);func_020306F0((u16)heap);
     return 1;
 }

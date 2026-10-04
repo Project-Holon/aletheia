@@ -7,18 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0203133C  0x0203133C  arm
  *   func_020307B0  0x020307B0  arm
  */
 
-extern void func_0203133C(int);
+struct S020314B8;
+extern void func_0203133C(struct S020314B8 *);
 extern void func_020307B0(void *);
 
 void func_021F9A6C(int *p)
 {
-    func_0203133C(p[0]);
+    func_0203133C((struct S020314B8 *)p[0]);
     func_020307B0(p);
 }
