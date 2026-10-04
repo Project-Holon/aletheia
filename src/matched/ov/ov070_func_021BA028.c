@@ -24,7 +24,8 @@ typedef struct {
     u8 d, e;
 } Rect;
 
-extern int func_0204B294(int, int, int, int, Rect *, int, u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(int, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
@@ -42,7 +43,7 @@ void func_021BA028(char *p)
     r1.d = 1;
     r1.e = 2;
     r1.c = 0;
-    *(int *)(p + 0x6A8) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r1, 0, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x6A8) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r1, 0, *(u16 *)(p + 0x544));
     func_0204B3DC(*(int *)(p + 0x6A8), 1);
     func_0204B92C((struct Obj *)*(int *)(p + 0x6A8), 1);
     func_021BA6A4(p);
@@ -51,7 +52,7 @@ void func_021BA028(char *p)
     r2.d = 1;
     r2.e = 2;
     r2.c = 1;
-    *(int *)(p + 0x6A4) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r2, 0, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x6A4) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x560), *(int *)(p + 0x554), *(int *)(p + 0x568), &r2, 0, *(u16 *)(p + 0x544));
     func_0204B3DC(*(int *)(p + 0x6A4), 1);
     func_0204B92C((struct Obj *)*(int *)(p + 0x6A4), 1);
     for (i = 0; i < 8; i++) {
@@ -60,10 +61,10 @@ void func_021BA028(char *p)
         r3.d = 0xa;
         r3.e = 3;
         r3.c = 0;
-        *(int *)(p + i * 4 + 0x634) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + i * 4 + 0x5F4), *(int *)(p + 0x588), *(int *)(p + 0x56C), &r3, 0, *(u16 *)(p + 0x544));
+        *(int *)(p + i * 4 + 0x634) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + i * 4 + 0x5F4), *(int *)(p + 0x588), *(int *)(p + 0x56C), &r3, 0, *(u16 *)(p + 0x544));
         r3.a -= 0x18;
         r3.c = 1;
-        *(int *)(p + i * 4 + 0x674) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x578), *(int *)(p + 0x574), *(int *)(p + 0x57C), &r3, 0, *(u16 *)(p + 0x544));
+        *(int *)(p + i * 4 + 0x674) = (int)func_0204B294((void *)*(int *)(p + 0x69C), *(int *)(p + 0x578), *(int *)(p + 0x574), *(int *)(p + 0x57C), &r3, 0, *(u16 *)(p + 0x544));
         func_0204B3DC(*(int *)(p + i * 4 + 0x634), 0);
         func_0204B3DC(*(int *)(p + i * 4 + 0x674), 0);
     }

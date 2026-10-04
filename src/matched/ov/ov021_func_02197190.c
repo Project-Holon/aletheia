@@ -53,8 +53,8 @@ extern const B3 d_021D3FA0;
 extern const B3 d_021D3F8C;
 extern const B3 d_021D3F94;
 extern void func_02197058(Obj *);
-extern int func_0204B294(int, int, int, int, Rect *, int, int);
 struct Obj;
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(int, int);
 extern void func_0204B688(int, int);
@@ -74,7 +74,7 @@ void func_02197190(Obj *p)
         r.c = x2.v[i];
         r.d = 0;
         r.e = 1;
-        p->sub.arr[i] = func_0204B294(p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
+        p->sub.arr[i] = (int)func_0204B294((void *)p->sub.f0, p->sub.f10, p->sub.f8, p->sub.f18, &r, 1, p->f10);
         func_0204B92C((struct Obj *)p->sub.arr[i], 0);
         func_0204B3DC(p->sub.arr[i], 1);
         func_0204B688(p->sub.arr[i], 1);
