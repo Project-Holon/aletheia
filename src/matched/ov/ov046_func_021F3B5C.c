@@ -38,7 +38,8 @@ extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *, int);
 extern int *func_021897BC(char *, int);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *, int *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern int func_021F3EFC(u32 a, int *b);
 
@@ -56,7 +57,7 @@ void *func_021F3B5C(void *a, int b)
     w = (int *)(q + 12);
     ((unsigned char *)w)[3] = 0;
     w[1] = 0x2000;
-    func_021A3038(func_02188CB4((void *)x), v);
+    func_021A3038(func_02188CB4((void *)x), (struct VecFx32 *)v);
     w[2] = v[1];
     if (b == 2)
         w[1] = w[1] * 0xffffffff;

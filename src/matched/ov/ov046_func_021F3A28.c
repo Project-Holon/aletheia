@@ -32,7 +32,8 @@ extern u32 func_02012EC4(u32);
 extern void *func_0200B3A4(u32, u32);
 extern void func_021BE580(u32);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *a, int *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern int func_021F40D8(int *);
 extern void func_021F3FA8(u32, void *, int);
 
@@ -45,7 +46,7 @@ void func_021F3A28(void *a)
 
     func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 10);
     func_021BE580(r7);
-    func_021A3038(func_02188CB4((void *)a), v);
+    func_021A3038(func_02188CB4((void *)a), (struct VecFx32 *)v);
     if (func_021F40D8(v) == 0)
         r4 = 0;
     if (r6[9] != r4) {

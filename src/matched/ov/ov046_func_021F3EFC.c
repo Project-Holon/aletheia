@@ -42,7 +42,8 @@ extern u8 *func_02012EC4(struct Big *p);
 extern int *func_0200B3A4(void *, int);
 extern void func_020061E4(u32 a);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *, int *);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *, int *);
 extern int d_021F4130[];
 
@@ -65,7 +66,7 @@ int func_021F3EFC(u32 a, int *b)
         break;
     case 1:
         c = func_02188CB4((void *)x);
-        func_021A3038(c, v);
+        func_021A3038(c, (struct VecFx32 *)v);
         v[0] = v[0] + w[1];
         v[1] = w[2] + (d_021F4130[((u8 *)w)[3]] << 12);
         func_021A3044(c, v);

@@ -33,7 +33,8 @@ extern int   func_0218EC5C(void *a);
 extern void  func_0218EC54(void *a);
 extern void *func_021BE480(void *a, int b, int c);
 extern void *func_02188CB4(void *a);
-extern void  func_021A3038(void *a, void *b);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void  func_021A3044(void *a, void *b);
 
 void func_021F42A8(void *p)
@@ -50,7 +51,7 @@ void func_021F42A8(void *p)
     e = func_021BE480(b, 0, 7);
     *(int *)((u8 *)e + 4) = 0x370000;
     f = func_02188CB4(a);
-    func_021A3038(f, tmp);
+    func_021A3038(f, (struct VecFx32 *)tmp);
     tmp[1] = 0x370000;
     func_021A3044(f, tmp);
 }
