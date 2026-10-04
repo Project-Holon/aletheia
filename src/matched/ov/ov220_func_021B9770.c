@@ -27,7 +27,10 @@ typedef unsigned char u8;
 typedef struct {unsigned first;char pad[40];} Entry;
 extern const Entry d_021BA370[];
 extern void func_020403F4(u8);
-extern void func_02030EAC(void *),func_0201C6EC(void *),func_0201C4C0(void *),func_0201D83C(void *),func_020315D4(void *),func_020306F0(void *);
+extern void func_02030EAC(void *),func_0201C6EC(void *),func_0201C4C0(void *),func_0201D83C(void *);
+extern void func_020306F0(unsigned int heap);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
 extern void func_021B9FF0(void *),func_021B9C70(void *),func_021B9B20(void *),func_021B99D8(void *),func_021BA178(void *);
 int func_021B9770(void *state,int unused1,int unused2,char *p)
 {
@@ -45,6 +48,6 @@ int func_021B9770(void *state,int unused1,int unused2,char *p)
     func_0201D83C(*(void **)(p+0xC));
     func_021BA178(*(void **)(p+8));
     func_020315D4(state);
-    func_020306F0((void *)131);
+    func_020306F0(131);
     return 1;
 }
