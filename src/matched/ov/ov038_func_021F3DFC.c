@@ -53,7 +53,8 @@ extern void func_020061E4(u32 se);
 extern void func_02006210(void);
 extern int func_02197DA0(u32 a);
 extern int func_02197DAC();
-extern void func_021A3038(void *q, V3 *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *q, V3 *v);
 
 int func_021F3DFC(int a0, int *a1)
@@ -96,7 +97,7 @@ int func_021F3DFC(int a0, int *a1)
             *(int *)(s + 0x20) = 0;
         break;
     case 2:
-        func_021A3038(q, &v);
+        func_021A3038(q, (struct VecFx32 *)&v);
         done = 0;
         s[5]++;
         if (s[6] == 0) {

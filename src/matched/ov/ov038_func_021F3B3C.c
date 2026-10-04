@@ -83,7 +83,8 @@ extern void *func_021BE674(int base, int i, int j, int k);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0216D454(void *t);
 extern int func_0216D3CC(void *t);
-extern void func_021A3038(void *q, V3 *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *q, V3 *v);
 extern void func_021BE4B4(int p, int i, int j, int v);
 extern V3 *func_021BE480(int p, int i, int j);
@@ -137,7 +138,7 @@ int func_021F3B3C(int a0, int *a1)
         t = func_021A3074((void *)q);
         if (func_0216D454(t) != 0 && func_0216D3CC(t) != 0) {
             *(int *)(s + 0x1c) = 1;
-            func_021A3038(q, (V3 *)(s + 8));
+            func_021A3038(q, (struct VecFx32 *)(s + 8));
             func_021BE4B4(h, 0, c, 1);
             func_021BE4B4(h, 0, 0x22, 0);
             src = func_021BE480(h, 0, c);
@@ -162,7 +163,7 @@ int func_021F3B3C(int a0, int *a1)
             if (s[7] >= 2) {
                 s[7] = 0;
                 s[5]++;
-                func_021A3038(q, &v);
+                func_021A3038(q, (struct VecFx32 *)&v);
                 v.z += dir << 12;
                 func_021A3044(q, &v);
                 d = (u32)s[5] >> 1;

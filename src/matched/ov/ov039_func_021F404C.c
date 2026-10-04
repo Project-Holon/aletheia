@@ -52,7 +52,8 @@ extern void *func_0200B3A4(unsigned int, unsigned int);
 extern u8 *func_021897BC(void *p, int idx);
 extern void *func_02188CB4(u8 *p);
 extern u16 func_021A3050(u8 *p);
-extern void func_021A3038(void *a, Vec *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern u8 func_021F36C0(int x, int z);
 extern int func_021F3DB8(u8 *s, int n);
 extern u8 func_021F3DAC(int n);
@@ -84,7 +85,7 @@ int func_021F404C(void *a0)
     if (func_021A3050(x)) {
         return 0;
     }
-    func_021A3038(x, &v);
+    func_021A3038(x, (struct VecFx32 *)&v);
     n = func_021F36C0(v.x / 0x10000, v.z / 0x10000);
     if (n == 0xff) {
         return 0;

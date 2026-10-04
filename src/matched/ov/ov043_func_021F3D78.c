@@ -63,7 +63,8 @@ extern void *func_021BE674(char *base, int i, unsigned int j, int k);
 extern void func_021BE6B0(unsigned char *p, int v);
 extern int func_021BE6BC(int *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(void *a, int *v);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void func_021A3044(void *a, int *v);
 extern int func_021F3ECC(int *p);
 extern void func_021F41B8(u8 a0, int a1, int a2, u32 a3, void *s);
@@ -105,7 +106,7 @@ int func_021F3D78(void *a, int *b)
         }
         func_021BE480(r, 0, 7)[1] = w[1];
         c = func_02188CB4((void *)s);
-        func_021A3038(c, v);
+        func_021A3038(c, (struct VecFx32 *)v);
         v[1] = w[1];
         func_021A3044(c, v);
         break;
