@@ -25,7 +25,8 @@ extern const Config d_021DF544;
 typedef unsigned int   u32;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(void *,void *,int);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *,const unsigned short *,u32);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_020409B4(u32 index);
 extern void func_02040588(u32 which, u32 enable);
@@ -38,9 +39,9 @@ void func_021D83DC(u8 *p,int heap)
     if(*(void **)(p+652)==0) {
         c=d_021DF544;
         c.w[2]=(int)func_020457B0(37,heap);
-        func_02045994((void *)c.w[2],p+1068,37);
+        func_02045994((struct Strbuf *)c.w[2],(const unsigned short *)(p+1068),37);
         c.w[8]=(int)func_020457B0(253,heap);
-        func_02045994((void *)c.w[8],p+1180,253);
+        func_02045994((struct Strbuf *)c.w[8],(const unsigned short *)(p+1180),253);
         *(void **)(p+652)=func_021DA1BC(0,&c,2,4,15,*(void **)(p+924),*(void **)(p+932),*(void **)(p+920),heap);
         func_02045808((void *)c.w[2]);
         func_02045808((void *)c.w[8]);

@@ -29,7 +29,7 @@ struct W {
 
 extern char ov094_id[];
 extern int func_02034AC4(int id);
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(u32, u32, u32);
 extern struct W *func_0203159C(int, int, int);
 extern void func_02082AC0(int v, void *p, u32 n);
 extern u32 func_021B61E8(int a, int b);

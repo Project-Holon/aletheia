@@ -26,7 +26,7 @@
  */
 typedef unsigned short u16;
 extern const u16 d_021B9B9C;
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern char *func_0203159C(void *, unsigned, unsigned);
 extern void func_02082BCC(void *, int, int);
 typedef unsigned int   u32;

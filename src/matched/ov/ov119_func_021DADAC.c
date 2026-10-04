@@ -30,7 +30,8 @@ struct Entry;
 extern void func_021E1030(char *p);
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_02039C68(void *a, unsigned int b, unsigned int c);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
 extern void func_02045CAC(int a, int b, int c);
 
 void func_021DADAC(void *p)
@@ -46,7 +47,7 @@ void func_021DADAC(void *p)
     }
     if (func_0203D3A8(func_020399A8(), 0xc00, 1, &b) == 0)
         return;
-    func_02039C68(func_020399A8(), 0x1b, 8);
+    func_02039C68((struct Link *)func_020399A8(), 0x1b, 8);
     func_02045CAC(*(int *)((char *)p + 0x720), 6, *(int *)((char *)p + 0x738));
     func_021E1024(p);
     func_021E1030(p);
