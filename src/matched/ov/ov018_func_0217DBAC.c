@@ -25,7 +25,8 @@ typedef struct { u16 a, b, c, d; } Rect;
 extern int func_0204B294(int, int, int, int, Rect *, int, int);
 extern void func_0204B3DC(int, int);
 extern void func_0204B6F4(int, int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern const Rect d_021836DC;
 
 void func_0217DBAC(int *p)
@@ -38,6 +39,6 @@ void func_0217DBAC(int *p)
         p[0x5c / 4 + i] = func_0204B294(p[0x54 / 4], p[1], p[2], p[4], &r, 0, 0x70);
         func_0204B6F4(p[0x5c / 4 + i], (u8)(i - 11), 1);
         func_0204B3DC(p[0x5c / 4 + i], 0);
-        func_0204B92C(p[0x5c / 4 + i], 1);
+        func_0204B92C((struct Obj *)p[0x5c / 4 + i], 1);
     }
 }

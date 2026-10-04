@@ -132,7 +132,8 @@ extern u8 func_021B76C8(u32 a, u32 b, u32 c);
 extern int func_021B629C(void *p, int a, u16 x, u16 y, u8 e, u16 f);
 extern void func_0204B84C(int p, u32 a);
 extern void func_0204B3DC(int a, int b);
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *a, u32 b);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 
@@ -221,7 +222,7 @@ S *func_021B6DC0(u16 heap, u32 a1, u32 a2, u32 a3, u8 a4, u32 a5, u32 a6, u32 a7
                                     func_021B76C8(p->fC0, i, 1), i, p->heap);
         func_0204B84C(p->arrA0[i], p->f19);
         func_0204B3DC(p->arrA0[i], 0);
-        func_0204B92C(p->arrA0[i], 0);
+        func_0204B92C((struct Obj *)p->arrA0[i], 0);
     }
     if (p->f1C == 0)
         func_020434DC(0x10, 1);
