@@ -14,12 +14,14 @@
  *   func_02039CB4  0x02039CB4  arm
  */
 
-extern int func_020399A8(int, int);
-extern int func_02039CB4(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 
 int func_021B61FC(int a, int b)
 {
-    if (func_02039CB4(func_020399A8(a, b), b, 0x2d) == 1)
+    if (func_02039CB4((struct Link *)func_020399A8(), b, 0x2d) == 1)
         return 1;
     if (*(unsigned char *)(a + 0x63) == 1)
         return 1;

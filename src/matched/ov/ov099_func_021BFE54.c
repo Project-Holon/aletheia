@@ -14,14 +14,16 @@
  *   func_0203C554 0x0203C554 arm
  *   func_021BA8EC 0x021BA8EC thumb ov099
  */
-extern int func_020399A8(void);
-extern int func_02039CB4(unsigned,unsigned,unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern int func_020399EC(void);
 typedef unsigned int   u32;
 extern void func_0203C554(u32 a);
 extern void func_021BA8EC(char *);
 int func_021BFE54(char *p, int ret) {
-    if (func_02039CB4(func_020399A8(),21,10) || func_020399EC()!=2) {
+    if (func_02039CB4((struct Link *)func_020399A8(),21,10) || func_020399EC()!=2) {
         func_0203C554(1);
         *(int *)(p+0x1f0)=-1;
         *(int *)(p+0x1e0)=20;

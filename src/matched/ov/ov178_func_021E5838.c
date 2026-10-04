@@ -20,7 +20,7 @@
  */
 
 
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(unsigned int, unsigned int, unsigned int);
 extern int func_0203159C(int, int, int);
 extern void func_02082BCC(int, int, int);
 extern void func_021E58F0(int, int *, int);

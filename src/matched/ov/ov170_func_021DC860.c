@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { B0=0, B8=8, B16=16 } Bound;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
 extern unsigned func_02007698(void *);

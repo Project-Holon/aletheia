@@ -29,9 +29,11 @@ extern void func_02173518(u8 *a);
 typedef unsigned int   u32;
 extern void func_021734A8(u8 *self, u32 id, u32 v);
 extern void func_021735FC(u8 *a, int b);
-extern int func_020399A8(void);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *a, u32 b, u32 c);
+extern u32 func_02039CB4(struct Link *a, u32 b, u32 c);
 extern int func_02173B4C(u8 *a);
 extern unsigned int func_02080D24(int a);
 
@@ -50,13 +52,13 @@ int func_0217C200(u8 *a, u8 *b, int c, u8 *d)
         func_02173518(b + 0x14);
         func_021734A8(a, 4, 1);
         func_021735FC(b + 0x14, *(int *)(b + 0x20));
-        r = func_020399A8();
-        func_02039C68(r, 2, 0x14);
+        r = (int)func_020399A8();
+        func_02039C68((struct Link *)r, 2, 0x14);
         (*d)++;
         break;
     case 1:
-        r = func_020399A8();
-        if (func_02039CB4(r, 2, 0x14) == 1)
+        r = (int)func_020399A8();
+        if (func_02039CB4((struct Link *)r, 2, 0x14) == 1)
             (*d)++;
         break;
     case 2:

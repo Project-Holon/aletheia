@@ -17,14 +17,14 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern u32 func_0201ADE4(u32 a, u32 b, u32 c);
+extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32 func_0201AE1C(u32 a, u32 b);
 extern void func_0201AE14(u32 a);
 
 u8 func_021C452C(u32 a, u32 b, u32 c, u32 d)
 {
     u32 s[3];
-    u32 x = func_0201ADE4(a, b, d);
+    u32 x = (u32)func_0201ADE4(a, b, d);
     u32 i;
 
     s[0] = func_0201AE1C(x, 0x1a);
