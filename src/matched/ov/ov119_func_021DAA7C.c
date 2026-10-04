@@ -18,13 +18,15 @@
  */
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int),func_021E31FC(void *),func_021DAA4C(void *);
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3F8(unsigned,unsigned,unsigned,unsigned,void *,int,int,int);
-extern void func_02039C68(unsigned,unsigned,unsigned);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned,unsigned);
 void func_021DAA7C(char *p) {
  if(func_021D8A24(p)) {
-  if(func_0203D3F8(func_020399A8(),255,0xc0e,0x2d6,p+16,0,0,1)) {
-   func_02039C68(func_020399A8(),18,8);func_021D8E84(p,(int)func_021DAA4C);
+  if(func_0203D3F8((unsigned)func_020399A8(),255,0xc0e,0x2d6,p+16,0,0,1)) {
+   func_02039C68((struct Link *)func_020399A8(),18,8);func_021D8E84(p,(int)func_021DAA4C);
   }
  } else {func_021E31FC(p);func_021D8E84(p,(int)func_021DAA4C);}
 }

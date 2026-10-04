@@ -30,7 +30,9 @@ typedef struct {
     V3 *pos;
 } R;
 
-extern int func_02011610(u32 t, V3 *v);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *t, struct Rec12 *v);
 extern void func_0202B934(u32 a, u32 b, V3 *v);
 
 static inline void V3_Set(V3 *d, int x, int y, int z)
@@ -44,7 +46,7 @@ void func_021C4E34(R *r)
 {
     V3 t;
 
-    if (r->task != 0 && func_02011610(r->task, &t) == 1) {
+    if (r->task != 0 && func_02011610((struct IcaAnime *)r->task, (struct Rec12 *)&t) == 1) {
         V3_Set(r->pos, t.x, t.y, t.z);
         if (r->f8 != 0)
             func_0202B934(r->f8, r->fC, &t);

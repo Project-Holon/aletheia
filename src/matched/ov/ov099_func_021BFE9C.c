@@ -16,11 +16,12 @@
 extern int func_021BA928(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern void func_02039C68(void *,unsigned int,unsigned int);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 int func_021BFE9C(char *p,int ret) {
  if (!func_021BA928(p)) return ret;
  if (--*(int *)(p+0x1e0)<0) {
-  func_02039C68(func_020399A8(),18,10);
+  func_02039C68((struct Link *)func_020399A8(),18,10);
   *(int *)(p+0x1cc)=147;
  }
  return ret;

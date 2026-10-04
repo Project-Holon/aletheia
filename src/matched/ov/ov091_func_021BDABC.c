@@ -27,7 +27,7 @@ typedef short s16;
 typedef unsigned int u32;
 typedef struct { s16 x,y; } Pair;
 extern int func_0205121C(u32,u32,u32);
-extern void *func_0203D7C8(u32,u32,u32,u32);
+extern void *func_0203D7C8(u32,u32,const char *,u16);
 extern int func_02050C04(int,int,int,int);
 extern int func_020056BC(void);
 extern void func_02051230(u8 *,u32,u32,u32);
@@ -54,7 +54,7 @@ void func_021BDABC(u8 *p)
         p[0x269] = 0x26;
     }
     handle = func_0205121C(0x4c,member,*(u16 *)p);
-    W(0x25c) = (u32)func_0203D7C8(*(u16 *)p,0x5000,(u32)d_021BED58,0xea);
+    W(0x25c) = (u32)func_0203D7C8(*(u16 *)p,0x5000,(const char *)d_021BED58,0xea);
     W(0x260) = func_02050C04(W(0x25c),0x5000,0,*(u16 *)p);
     func_02051230((u8 *)W(0x260),handle,0,func_020056BC());
     func_021BB3D4(p,*(int *)(p+W(0x2c)*4+0x160),&xy);

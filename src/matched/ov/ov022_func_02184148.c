@@ -14,12 +14,13 @@
  *   func_0203D1E8 0x0203D1E8 arm
  */
 extern int func_0203CD98(void);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_0203D1E8(int a, int b);
 void func_02184148(unsigned char *p, int a)
 {
     if (func_0203CD98()) {
-        func_0203D1E8(func_020399A8(), 1);
+        func_0203D1E8((int)func_020399A8(), 1);
         p[9] = 2;
         p[11] = a;
         p[10] = 0;
