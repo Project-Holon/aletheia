@@ -20,7 +20,9 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u32 x,y,z; } V;
-extern void func_0216D88C(const void *, V *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern u32 func_02188CD0(u8 *);
 extern u32 func_021C9064(u32, V *, u32);
 extern void func_021C909C(u32);
@@ -29,7 +31,7 @@ void func_021F3B88(int *a, u32 *out, u32 c)
 {
     V v;
     out[0]=c;
-    func_0216D88C((void *)c,&v);
+    func_0216D88C((const struct Actor *)c,(struct VecFx32 *)&v);
     out[1]=func_021C9064(func_02188CD0((u8 *)a[2]),&v,out[0]);
     if(func_021F3C98(a,out)==1) func_021C909C(out[1]);
 }

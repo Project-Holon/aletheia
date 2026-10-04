@@ -84,7 +84,8 @@ extern u32 func_02013D5C(u32 id);
 extern u8 *func_0217BEA8(u16);
 extern void func_0204B404(void *, Pos *, int);
 extern u32 func_0204B714(struct Obj *o);
-extern void func_0204B454(void *, Pos *, int);
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 extern const s8 d_021836A4[3][2];
 
 void func_0217E0F4(Work *p, Mon *m)
@@ -167,7 +168,7 @@ void func_0217E0F4(Work *p, Mon *m)
             func_0204B3DC(b, 0);
             for (k = 0; k < 3; k++) {
                 if (func_0204B714(p->f80[k]) == i + 1) {
-                    func_0204B454(p->f80[k], &l.p, 0);
+                    func_0204B454(p->f80[k], (struct PtS *)&l.p, 0);
                     break;
                 }
             }

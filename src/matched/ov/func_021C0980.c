@@ -20,7 +20,9 @@ extern int func_02040804(int);
 typedef unsigned int   u32;
 extern void func_02041EE4(u32 index, u32 a, u32 b);
 extern void func_0204B404(int, void *, int);
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *, struct PtS *, unsigned int);
 
 void func_021C0980(int a, unsigned char *p)
 {
@@ -59,7 +61,7 @@ void func_021C0980(int a, unsigned char *p)
         case 2:
             break;
         case 1:
-            func_0204B454(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), v, 1);
+            func_0204B454((struct Actor *)*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), (struct PtS *)v, 1);
             if (v[1] <= 0x70) {
                 v[1] = 0x70;
                 *(int *)(p + 0x74) = 2;
@@ -69,7 +71,7 @@ void func_021C0980(int a, unsigned char *p)
             func_0204B404(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), v, 1);
             break;
         case 3:
-            func_0204B454(*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), v, 1);
+            func_0204B454((struct Actor *)*(int *)(p + 0x5c + 4 * *(int *)(p + 0x64)), (struct PtS *)v, 1);
             if (v[1] >= 0xb0) {
                 v[1] = 0xb0;
                 *(int *)(p + 0x74) = 0;
