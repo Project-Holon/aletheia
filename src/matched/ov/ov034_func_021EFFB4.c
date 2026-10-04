@@ -30,7 +30,8 @@ extern void func_02040588(u32 which, u32 enable);
 extern void func_02045374(int);
 extern void func_02041B6C(u32 bit);
 extern void func_0201C4E4(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int, int);
 extern void func_02045334(int);
 
@@ -54,7 +55,7 @@ void func_021EFFB4(int *p)
         h = p[2];
         s = (char *)p + i * 8;
         if (*(unsigned char *)(s + 0x10)) {
-            if (func_0201C6C4(h, func_02045770(*(int *)(s + 0xC))) == 0) {
+            if (func_0201C6C4(h, (int)func_02045770((struct Descriptor *)*(int *)(s + 0xC))) == 0) {
                 func_02045334(*(int *)(s + 0xC));
                 *(unsigned char *)(s + 0x10) = 0;
             }

@@ -61,7 +61,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern u32 func_0201C440(u32);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
-extern void *func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(void *,u8);
 extern void *func_0201D7EC(int,int,int,int,u32);
 extern void *func_02045B38(u32,u32,u32,u32);
@@ -107,7 +108,7 @@ extern const u8 d_021F0A70[];
 static inline void print_record(u8 *p,u32 index,void *dst,void *s,u32 y,u16 color,u32 one)
 {
     u32 owner=*(u32 *)(p+8);
-    func_0201C724(owner,func_02045770(*(u32 *)(p+12+index*8)),0,y,dst,*(void **)(p+0x4C),color);
+    func_0201C724(owner,func_02045770((struct Descriptor *)*(u32 *)(p+12+index*8)),0,y,dst,*(void **)(p+0x4C),color);
     p[16+index*8]=one;
     func_02045808(s);
 }
@@ -121,7 +122,7 @@ void func_021F0284(u8 *p)
         const u8 *r=d_021F0A70+i*6;
         u8 *entry=p+i*8;
         *(u32 *)(entry+12)=func_020450F0(r[0],r[1],r[2],r[3],r[4],r[5],one);
-        func_02043B5C(func_02045770(*(u32 *)(entry+12)),0);
+        func_02043B5C(func_02045770((struct Descriptor *)*(u32 *)(entry+12)),0);
     }
     *(void **)(p+0x4C)=func_0201D7EC(23,0,0,0,*(u16 *)(p+0x12C));
     bank=func_02045B38(0,2,168,*(u16 *)(p+0x12C));

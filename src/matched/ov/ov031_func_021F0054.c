@@ -32,7 +32,8 @@ extern void func_02037174(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
 extern void func_0201C4E4(u32 a);
 extern void func_0202DBC4(u8 *p);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
 
@@ -70,7 +71,7 @@ void func_021F0054(struct Obj *p, int mode)
         if (p->b[i] == 1) {
             u32 q = p->w40;
             if (p->s[i].f != 0) {
-                if (func_0201C6C4(q, func_02045770(p->s[i].h)) == 0) {
+                if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)p->s[i].h)) == 0) {
                     func_02045334(p->s[i].h);
                     p->s[i].f = 0;
                 }

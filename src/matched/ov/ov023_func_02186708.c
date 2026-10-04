@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_0201C4E4(u32 a);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
 
@@ -33,7 +34,7 @@ void func_02186708(char *p)
     for (i = 0; i < 5; i++) {
         h = *(u32 *)(p + 0x164);
         if (*(u8 *)(p + i * 8 + 0x130) != 0) {
-            if (func_0201C6C4(h, func_02045770(*(u32 *)(p + i * 8 + 0x12C))) == 0) {
+            if (func_0201C6C4(h, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + i * 8 + 0x12C))) == 0) {
                 func_02045334(*(u32 *)(p + i * 8 + 0x12C));
                 *(u8 *)(p + i * 8 + 0x130) = 0;
             }
@@ -41,7 +42,7 @@ void func_02186708(char *p)
     }
     h = *(u32 *)(p + 0x168);
     if (*(u8 *)(p + 0x160) != 0) {
-        if (func_0201C6C4(h, func_02045770(*(u32 *)(p + 0x15C))) == 0) {
+        if (func_0201C6C4(h, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x15C))) == 0) {
             func_02045334(*(u32 *)(p + 0x15C));
             *(u8 *)(p + 0x160) = 0;
         }
