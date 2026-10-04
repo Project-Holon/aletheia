@@ -45,7 +45,7 @@ typedef short s16;
 typedef unsigned int u32;
 struct Obj0203159C;
 struct Ctx;
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(struct Obj0203159C *,u32,u32);
 extern void func_02082BCC(void *,int,int);
 extern void func_021B78EC(u8 *,int);
@@ -77,7 +77,7 @@ extern void func_021B8198(u8 *,u16 *);
 #define CTX(p) (*(u8 **)((p)+0x8b0))
 int func_021B7560(struct Obj0203159C *obj,void *state,u8 *context) {
  u8 *p; u32 bank; int tag; int font;
- func_0203064C((void *)1,0x38,0x20000);
+ func_0203064C(1,0x38,0x20000);
  p=func_0203159C(obj,0x8b4,0x38);
  func_02082BCC(p,0,0x8b4);
  CTX(p)=context;

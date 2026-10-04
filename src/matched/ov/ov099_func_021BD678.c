@@ -17,11 +17,12 @@ typedef unsigned int u32;
 extern int func_021BA928(void *);
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern u32 func_02039CB4(void *, u32, u32);
+struct Link;
+extern u32 func_02039CB4(struct Link *, u32, u32);
 int func_021BD678(char *p, int v)
 {
     func_021BA928(p);
-    if (func_02039CB4(func_020399A8(), 0x1b, 10) != 0) {
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x1b, 10) != 0) {
         *(u32 *)(p + 0x1cc) = 0x48;
     }
     return v;

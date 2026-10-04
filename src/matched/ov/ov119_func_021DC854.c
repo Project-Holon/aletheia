@@ -16,7 +16,7 @@
  */
 typedef unsigned int   u32;
 extern void func_02030678(void *a, u32 b, u32 c);
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern void *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,int);
 extern char d_021E8560[];

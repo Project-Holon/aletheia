@@ -14,5 +14,6 @@
 typedef unsigned short u16;
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039CB4(void *,int,int);
-int func_021DECB0(char *p) {if(func_02039CB4(func_020399A8(),202,40))*(int *)p=12;return 0;}
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
+int func_021DECB0(char *p) {if(func_02039CB4((struct Link *)func_020399A8(),202,40))*(int *)p=12;return 0;}
