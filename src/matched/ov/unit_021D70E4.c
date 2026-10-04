@@ -16,14 +16,14 @@
  *   func_021D7108  0x021D7108  thumb  ov093
  */
 
-extern void func_021D7108(int, int, int, int);
+extern void func_021D7108(void *, int, int, int);
 
-void func_021D70E4(int a, int b, int c)
+void func_021D70E4(void *a, int id)
 {
-    func_021D7108(a, b, 7, 0);
+    func_021D7108(a, id, 7, 0);
 }
 
-void func_021D70F0(int a, int b, int c)
+void func_021D70F0(void *a, int id)
 {
-    func_021D7108(a, b, 7, 1);
+    func_021D7108(a, id, 7, 1);
 }
