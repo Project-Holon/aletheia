@@ -16,7 +16,8 @@
  *   func_02045730 0x02045730 arm
  *   func_02041B6C 0x02041B6C arm
  */
-extern unsigned func_02045770(void *);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern int func_0201C6C4(unsigned, unsigned);
 typedef unsigned char  u8;
 struct Cfg;
@@ -26,7 +27,7 @@ extern void func_02045374(struct Cfg *cfg);
 extern u8 func_02045730(struct Descriptor *p);
 extern void func_02041B6C(unsigned);
 int func_021C1174(unsigned owner, void *p, int *state) {
-    unsigned q = func_02045770(p);
+    unsigned q = (unsigned)func_02045770(p);
     if (*state == 1 && func_0201C6C4(owner, q) == 0) {
         func_02045334(p);
         func_02045374(p);

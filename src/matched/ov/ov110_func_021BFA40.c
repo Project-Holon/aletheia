@@ -16,7 +16,8 @@
  *   func_021BF734 0x021BF734 thumb ov110
  */
 typedef unsigned char u8;
-extern void *func_02045770(unsigned);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_02045334(unsigned);
@@ -25,7 +26,7 @@ extern void func_021BFF7C(u8 *,unsigned,unsigned);
 extern unsigned func_021BF734(u8 *);
 void func_021BFA40(u8 *p,unsigned a) {
     unsigned y,i,n;
-    func_02043B5C(func_02045770(*(unsigned *)(p+12)),0);
+    func_02043B5C(func_02045770((struct Descriptor *)*(unsigned *)(p+12)),0);
     func_021BFF60(p);
     *(unsigned *)(p+0x98)=a*2;
     n=func_021BF734(*(u8 **)(p+4));

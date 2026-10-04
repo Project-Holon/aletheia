@@ -15,7 +15,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
-extern void *func_02045770(unsigned);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043AF4(void *,s16,s16,u16,u16,u8);
 void func_021BFED0(u8 *p,int amount) {
     int start,end;
@@ -27,9 +28,9 @@ void func_021BFED0(u8 *p,int amount) {
         start=(u8)(end+24*amount);
     }
     if(start<end) {
-        func_02043AF4(func_02045770(*(unsigned *)(p+12)),0,start,208,end-start,0);
+        func_02043AF4(func_02045770((struct Descriptor *)*(unsigned *)(p+12)),0,start,208,end-start,0);
     } else {
-        func_02043AF4(func_02045770(*(unsigned *)(p+12)),0,start,208,256-start,0);
-        func_02043AF4(func_02045770(*(unsigned *)(p+12)),0,0,208,end,0);
+        func_02043AF4(func_02045770((struct Descriptor *)*(unsigned *)(p+12)),0,start,208,256-start,0);
+        func_02043AF4(func_02045770((struct Descriptor *)*(unsigned *)(p+12)),0,0,208,end,0);
     }
 }
