@@ -20,7 +20,7 @@ extern int func_021D4418(char *p);
 extern void func_02012704(u8 *p);
 extern void func_020307B0(void *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(void *heap);
+extern void func_020306F0(unsigned int heap);
 int func_021D657C(struct S020315D4 *handle, int unused, int mode, char *p)
 {
     if (!func_021D4418(p)) return 0;
@@ -30,6 +30,6 @@ int func_021D657C(struct S020315D4 *handle, int unused, int mode, char *p)
         func_020307B0(*(void **)(p + 8));
     }
     func_020315D4(handle);
-    func_020306F0((void *)0x42);
+    func_020306F0(0x42);
     return 1;
 }
