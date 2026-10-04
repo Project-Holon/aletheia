@@ -37,8 +37,9 @@ typedef struct {
 
 extern int func_021B6818(P *p);
 extern void func_020307B0(void *p);
-extern void func_020315D4(int);
-extern void func_020306F0(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(u32 heap);
 
 int func_021B6534(int a0, int a1, int a2, P *p)
 {
@@ -58,7 +59,7 @@ int func_021B6534(int a0, int a1, int a2, P *p)
         func_020307B0(*(void **)p->q);
         func_020307B0(p->q);
     }
-    func_020315D4(a0);
+    func_020315D4((struct S020315D4 *)a0);
     func_020306F0(0x17);
     return 1;
 }

@@ -28,7 +28,7 @@ extern void func_0201C4C0(struct PrintSys *p);
 extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(u32 heap);
 extern void func_02034A5C(int);
 extern const char ov067_id[];
 int func_021BDB20(void *a, void *b, void *c, char *work)
