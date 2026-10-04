@@ -20,7 +20,8 @@
  *   func_021BB724  0x021BB724  thumb  ov070
  */
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_02045CAC(int, int, int);
 extern void func_0201F14C(int, int, int);
@@ -33,7 +34,7 @@ void func_021BAF38(int p, int val)
 {
     int r;
 
-    func_02043B5C(func_02045770(*(int *)(p + 0x504)), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(p + 0x504)), 0);
     func_02045CAC(*(int *)(p + 0x51C), 0x8B, *(int *)(p + 0x524));
     func_0201F14C(*(int *)(p + 0x520), 0, val);
     func_0201F250(*(int *)(p + 0x520), *(int *)(p + 0x528), *(int *)(p + 0x524));

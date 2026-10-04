@@ -22,7 +22,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045CAC(u32 a, u32 b, u32 c);
 extern void func_0201CE48(u32 h);
@@ -34,7 +35,7 @@ void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4)
 {
     u32 t;
 
-    func_02043B5C(func_02045770(*(u32 *)(p + 0x10)), (u8)*(u16 *)(p + 0x18));
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x10)), (u8)*(u16 *)(p + 0x18));
     func_02045CAC(a1, a2, *(u32 *)(p + 0x14));
     if (*(u32 *)(p + 8) != 0) {
         func_0201CE48(*(u32 *)(p + 8));
@@ -42,7 +43,7 @@ void func_021BA28C(u8 *p, u32 a1, u32 a2, u32 a3, u32 a4)
     }
     if (a4 == 0) {
         t = *(u32 *)(p + 0x24);
-        func_0201C6FC(t, func_02045770(*(u32 *)(p + 0x1c)), 0, 0,
+        func_0201C6FC(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c)), 0, 0,
                       *(u32 *)(p + 0x14), *(u32 *)(p + 4));
         p[0x20] = 1;
         *(u32 *)(p + 0x28) = 2;

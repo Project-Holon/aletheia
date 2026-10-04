@@ -25,7 +25,8 @@ struct GfFont;
 extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
 extern void *func_0201C440(u16 heap);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 
 void func_021B9D08(u8 *p)
 {
@@ -39,15 +40,15 @@ void func_021B9D08(u8 *p)
         p[i * 8 + 0x5C] = 0;
     }
     h = *(u32 *)(p + 0xE8);
-    func_0201C724(h, func_02045770(*(int *)(p + 0xA8)), 0, 0,
+    func_0201C724(h, (int)func_02045770((struct Descriptor *)*(int *)(p + 0xA8)), 0, 0,
                   *(u32 *)(p + 0x100), *(u32 *)(p + 0xC), 0x3DC0);
     p[0xAC] = 1;
     h = *(u32 *)(p + 0xE8);
-    func_0201C724(h, func_02045770(*(int *)(p + 0xC8)), 0, 0,
+    func_0201C724(h, (int)func_02045770((struct Descriptor *)*(int *)(p + 0xC8)), 0, 0,
                   *(u32 *)(p + 0x10C), *(u32 *)(p + 0xC), 0x3DC0);
     p[0xCC] = 1;
     h = *(u32 *)(p + 0xE8);
-    func_0201C724(h, func_02045770(*(int *)(p + 0xD8)), 0, 0,
+    func_0201C724(h, (int)func_02045770((struct Descriptor *)*(int *)(p + 0xD8)), 0, 0,
                   *(u32 *)(p + 0x118), *(u32 *)(p + 0xC), 0x3DC0);
     p[0xDC] = 1;
 }

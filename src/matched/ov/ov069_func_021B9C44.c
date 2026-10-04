@@ -41,7 +41,8 @@ extern Ent *d_021BA874[];
 
 extern void func_02045088(u16 heapId);
 extern int func_020450F0(u8, int, int, int, int, u8, int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
@@ -59,7 +60,7 @@ void func_021B9C44(Obj *o)
     for (i = 0; i < 8; i++) {
         e = d_021BA874[i];
         o->a[i] = func_020450F0(e->f0, e->f4, e->f5, e->f6, e->f7, e->f8, 1);
-        func_02043B5C(func_02045770(o->a[i]), 0);
+        func_02043B5C((int)func_02045770((struct Descriptor *)o->a[i]), 0);
         h = o->a[i];
         func_02045334(h);
         func_02045374(h);
@@ -67,6 +68,6 @@ void func_021B9C44(Obj *o)
     }
     for (j = 0; j < 10; j++) {
         o->b[j] = func_020450F0(1, 2, 1, 10, 2, 1, 1);
-        func_02043B5C(func_02045770(o->b[j]), 4);
+        func_02043B5C((int)func_02045770((struct Descriptor *)o->b[j]), 4);
     }
 }
