@@ -54,7 +54,7 @@ struct MsgBank;
 struct Rec;
 struct U16Vec;
 extern void *func_02012EBC(struct Big *p);
-extern void  func_02012E4C(void *sys, u32 id);
+extern void func_02012E4C(u8 *p, u32 id);
 extern int func_02012E7C(char *p, int a1);
 extern void *func_0200A5F8(void *save);
 extern void func_0200A7EC(struct Big *p, u8 value);

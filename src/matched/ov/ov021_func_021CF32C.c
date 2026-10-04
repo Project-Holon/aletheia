@@ -24,16 +24,17 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021CE70C(u32, u32, u32);
 
 void func_021CF32C(u32 flag)
 {
     if (flag == 1)
-        func_0203D3F8(func_020399A8(), 0xff, 0x2704, 0, 0, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0xff, 0x2704, 0, 0, 0, 0, 0);
     else
-        func_0203D3F8(func_020399A8(), 0, 0x2704, 0, 0, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0, 0x2704, 0, 0, 0, 0, 0);
 }
 
 void func_021CF36C(u32 a, u32 b, u32 c, u32 d)

@@ -18,12 +18,13 @@
  */
 
 extern int func_021736D8(void);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3F8(int a, int b, int c, int d, int *e, int f, int g, int h);
 
 int func_02173758(int a, int b, ...)
 {
     if (func_021736D8() == 0)
         return 0;
-    return func_0203D3F8(func_020399A8(), 0xff, 0x201, 1, &b, 1, 0, 0);
+    return func_0203D3F8((int)func_020399A8(), 0xff, 0x201, 1, &b, 1, 0, 0);
 }

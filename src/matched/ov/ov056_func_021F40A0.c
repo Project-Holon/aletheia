@@ -34,9 +34,11 @@ typedef unsigned int   u32;
 
 extern int  func_02011608(int dev);
 extern void func_020115EC(int dev, int x);
-extern void func_02011610(int dev, int *out);
+struct IcaAnime;
+struct Rec12;
+extern u32 func_02011610(struct IcaAnime *p, struct Rec12 *dst);
 extern void func_02011660(int dev, int *out);
-extern void func_02011638(int dev, int *out);
+extern u32 func_02011638(struct IcaAnime *p, struct Rec12 *dst);
 extern void func_021F4224(int *p, int i);
 extern void func_021F423C(int *p, int i);
 
@@ -53,9 +55,9 @@ int func_021F40A0(int *p)
         flag = 0;
     }
     func_020115EC(p[0], p[1]);
-    func_02011610(p[0], a);
+    func_02011610((struct IcaAnime *)p[0], (struct Rec12 *)a);
     func_02011660(p[0], b);
-    func_02011638(p[0], c);
+    func_02011638((struct IcaAnime *)p[0], (struct Rec12 *)c);
     if (a[0] == 0x1000) func_021F4224(p, 0); else if (a[0] == 0x2000) func_021F423C(p, 0);
     if (a[1] == 0x1000) func_021F4224(p, 1); else if (a[1] == 0x2000) func_021F423C(p, 1);
     if (a[2] == 0x1000) func_021F4224(p, 2); else if (a[2] == 0x2000) func_021F423C(p, 2);

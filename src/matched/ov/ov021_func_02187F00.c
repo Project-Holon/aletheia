@@ -30,7 +30,7 @@ extern char d_021DE700[];
 int func_020120F8(int x);
 int func_02012AC8(int x);
 int func_02189BBC(int x);
-void func_0203064C(int a, int b, int c);
+void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 typedef unsigned int   u32;
 struct Ctx;
 void func_02030678(void *a, u32 b, u32 c);

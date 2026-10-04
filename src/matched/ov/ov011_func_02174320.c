@@ -22,7 +22,8 @@ typedef struct H {
 } H;
 
 int func_02026478(int a);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D1A4(int p);
 int func_020127AC(int p, int a);
 void func_02082D44(void *d, int s, int n);
@@ -32,7 +33,7 @@ void func_02174320(int a, int b, void *c, char *d)
     int p;
 
     p = func_02026478(((int *)d)[1]);
-    if (a != func_0203D1A4(func_020399A8()) && ((unsigned char)d[0x8fb] & (1 << a))) {
+    if (a != func_0203D1A4((int)func_020399A8()) && ((unsigned char)d[0x8fb] & (1 << a))) {
         func_02082D44(c, func_020127AC(p, a), 0x10);
         if (a == ((H *)(d + 0x86))->f) {
             d[0x8fb + 0xb] = 1;

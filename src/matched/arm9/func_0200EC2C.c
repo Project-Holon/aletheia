@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02045994  0x02045994  arm
@@ -73,7 +73,8 @@ struct Dst0200EC2C {
     u16   f14[4];
 };
 
-extern void func_02045994(void *dest, const void *src, u32 size);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *o, const u16 *src, u32 len);
 
 void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *dst)
 {
@@ -87,8 +88,8 @@ void func_0200EC2C(const struct Src0200EC2C *base, int idx, struct Dst0200EC2C *
     dst->f13a = s->f03a;
     dst->f13b = s->f03b;
 
-    func_02045994(dst->p00, s->f0C, 0xb);
-    func_02045994(dst->p04, s->f22, 8);
+    func_02045994(dst->p00, (const u16 *)s->f0C, 0xb);
+    func_02045994(dst->p04, (const u16 *)s->f22, 8);
 
     for (i = 0; i < 4; i++)
         dst->f14[i] = s->f32[i];
