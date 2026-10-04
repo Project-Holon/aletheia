@@ -52,7 +52,7 @@ struct Memo {
 
 extern struct Memo g_02146270;
 
-extern void sub_0201ADA4(u32 a, u32 b, void *dest);
+extern void sub_0201ADA4(u32 a, int b, void *dest);
 
 void *func_02019C54(u32 a, u32 b)
 {

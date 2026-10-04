@@ -16,7 +16,8 @@
  */
 
 int func_021736D8(void);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D3F8(int a, int b, int c, int d, void *e, int f, int g, int h);
 
 int func_02173984(char *p, int b)
@@ -26,7 +27,7 @@ int func_02173984(char *p, int b)
     if (func_021736D8() == 0) {
         return 0;
     }
-    r = func_0203D3F8(func_020399A8(), 0xFF, 0x205, 0x1C, (void *)b, 0, 1, 0);
+    r = func_0203D3F8((int)func_020399A8(), 0xFF, 0x205, 0x1C, (void *)b, 0, 1, 0);
     if (r == 1) {
         p[0x900] = 0;
     }

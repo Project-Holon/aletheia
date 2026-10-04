@@ -69,7 +69,8 @@ extern int  func_0205D01C(u32 buf, u8 *rec, struct WihInfo *out);
 extern int  sub_020107FC(void *key);
 extern int  sub_020104F8(u8 *rec);
 extern int func_0201054C(const u8 *obj);
-extern u32  func_0201057C(u8 *rec);
+struct Ctx;
+extern u32  func_0201057C(const struct Ctx *rec);
 
 u32 func_0201058C(void *key)
 {
@@ -118,7 +119,7 @@ u32 func_0201058C(void *key)
                 break;
             }
         } else if (*(u16 *)(rec + 0xA) != 0) {
-            if (func_0201057C(rec) == 0)
+            if (func_0201057C((const struct Ctx *)rec) == 0)
                 *(int *)(g_021461E0 + 0x320) = 400;
             else
                 *(int *)(g_021461E0 + 0x324) = 400;
