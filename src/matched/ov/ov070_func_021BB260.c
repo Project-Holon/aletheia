@@ -32,7 +32,8 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(int, int);
 extern void func_02045CAC(int, int, int);
 extern void func_0201EFA4(int, int, int, int, int, int);
@@ -49,7 +50,7 @@ void func_021BB260(u8 *p, int val)
 
     win = (u32 *)(p + 0x754);
 
-    func_02043B5C(func_02045770(*win), 5);
+    func_02043B5C((int)func_02045770((struct Descriptor *)*win), 5);
     func_02045CAC(*(int *)(p + 0x51C), 0x83, *(int *)(p + 0x524));
     func_0201EFA4(*(int *)(p + 0x520), 0, val, 3, 0, 1);
     func_0201F250(*(int *)(p + 0x520), *(int *)(p + 0x528), *(int *)(p + 0x524));
@@ -58,7 +59,7 @@ void func_021BB260(u8 *p, int val)
     if (*(int *)(p + 0x7EC) == 2) {
         win2 = (u32 *)(p + 0x76C);
         v = func_021B619C(*(u32 *)(p + 0x84C), *(int *)(p + 0x7F4), *(u16 *)(p + 0x544));
-        func_02043B5C(func_02045770(*win2), 5);
+        func_02043B5C((int)func_02045770((struct Descriptor *)*win2), 5);
         func_02045CAC(*(int *)(p + 0x51C), 0x54, *(int *)(p + 0x524));
         func_0201EFA4(*(int *)(p + 0x520), 0, v, 7, 0, 1);
         func_0201F250(*(int *)(p + 0x520), *(int *)(p + 0x528), *(int *)(p + 0x524));
