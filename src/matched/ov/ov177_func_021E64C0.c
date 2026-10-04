@@ -1,7 +1,7 @@
 /*
  * function: func_021E64C0
  * address:  0x021E64C0
- * packet:   pkt_021E64C0
+ * packet:   pkt_ov177_021E64C0
  * region:   ov177
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -18,9 +18,9 @@
  * func_0217D434.
  */
 
-extern void func_021E6E8C(void);
+extern int func_021E6E8C(unsigned char *p, void *mgr);
 
-void func_021E64C0(void)
+int func_021E64C0(unsigned char *p, void *mgr)
 {
-    func_021E6E8C();
+    return func_021E6E8C(p, mgr);
 }
