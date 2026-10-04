@@ -17,7 +17,7 @@
  *   func_021D4240 0x021D4240 thumb ov124
  */
 typedef unsigned short u16;
-extern void func_0203064C(int,int,unsigned);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 typedef unsigned char  u8;

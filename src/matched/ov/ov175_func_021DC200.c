@@ -13,14 +13,15 @@
  *   func_0203D3F8 0x0203D3F8 arm
  *   func_0201A918 0x0201A918 thumb
  */
-extern unsigned long func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned long func_0203D1A4(unsigned long);
 extern unsigned long func_0203D3F8(unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long,unsigned long);
 extern int func_0201A918(void);
 void func_021DC200(char *p,unsigned long data)
 {
-    unsigned long busy=func_0203D1A4(func_020399A8());
+    unsigned long busy=func_0203D1A4((unsigned long)func_020399A8());
     int flag=1;
     if(busy!=0) flag=0;
-    func_0203D3F8(func_020399A8(),(unsigned char)flag,0x2403,func_0201A918(),data,1,1,1);
+    func_0203D3F8((unsigned long)func_020399A8(),(unsigned char)flag,0x2403,func_0201A918(),data,1,1,1);
 }

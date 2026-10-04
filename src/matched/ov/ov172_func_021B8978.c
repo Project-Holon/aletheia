@@ -22,7 +22,8 @@ typedef unsigned int u32;
 typedef struct { u16 a[9]; } Table;
 extern const Table d_021C6EC0;
 extern void *func_021BDFEC(void *);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 p);
 extern void func_021B69F0(void);
 extern void func_02082A7C(int, void *, int);
@@ -35,7 +36,7 @@ void func_021B8978(int a, int b, int c, char *q)
     p = func_021BDFEC(*(void **)(q + 0x3dc));
     data = *(char **)(q + 0x1a4);
     input = data + 8;
-    func_0203D1A4(func_020399A8());
+    func_0203D1A4((u32)func_020399A8());
     if (*(u8 *)(data + 5) == 0) {
         func_021B69F0();
         func_02082A7C(0, *(void **)(q + 0x1a8), 0xc800);
