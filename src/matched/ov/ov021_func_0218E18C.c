@@ -44,7 +44,7 @@ typedef struct {
     Vec v;
 } Info;
 
-extern void func_0218E260(char *p, Info *out);
+extern void func_0218E260(void *p, void *dst);
 extern void func_0218EC7C(char *p, int a);
 extern void func_0218EC68(char *p, int a);
 typedef unsigned int   u32;

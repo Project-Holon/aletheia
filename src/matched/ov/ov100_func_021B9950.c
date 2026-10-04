@@ -15,7 +15,8 @@
  *   func_0203EFC8 0x0203EFC8 arm
  */
 typedef unsigned char u8;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned func_0203D378(void);
 typedef signed int     s32;
 typedef unsigned int   u32;
@@ -24,7 +25,7 @@ void func_021B9950(int a,int b,void *c,int d,int e)
 {
  u8 *p;
  int i;
- if(e == func_020399A8()) {
+ if(e == (int)func_020399A8()) {
   if(func_0203D378() != 0) {
    i=0;
    p = (u8 *)(d+0x260);

@@ -15,11 +15,12 @@
  * Return-valued externs reflect r0 consumed after both forwarding calls.
  */
 extern int func_021736D8(void);
-extern unsigned int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(unsigned int, unsigned int, unsigned int, unsigned int);
 int func_021737A8(void)
 {
     if (func_021736D8() == 0)
         return 0;
-    return func_0203D3A8(func_020399A8(), 0x202, 0, 0);
+    return func_0203D3A8((unsigned int)func_020399A8(), 0x202, 0, 0);
 }

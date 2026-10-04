@@ -75,7 +75,8 @@ struct Desc;
 extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void *func_020124E8(struct Obj *p);
 extern void *func_020120F4(const struct Ctx *p);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_02013790(Obj *o, void *sys, u32 a, u32 b, u16 c);
 extern void func_020137C0(Obj *o, void *sys, u32 a, u32 b, u16 c);
 extern void func_02013864(Obj *o, void *sys, u32 a, u32 b, u16 c);
@@ -108,7 +109,7 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     case 6:
         func_02157650(&dir, 3);
         sys = func_020120F4(a0);
-        func_02013790(o, sys, func_020399A8(), 1, 4);
+        func_02013790(o, sys, (u32)func_020399A8(), 1, 4);
         break;
     case 9:
         func_02157650(&dir, 4);
@@ -119,7 +120,7 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     case 10:
         func_02157650(&dir, 7);
         sys = func_020120F4(a0);
-        func_020137C0(o, sys, func_020399A8(), 1, 4);
+        func_020137C0(o, sys, (u32)func_020399A8(), 1, 4);
         break;
     case 13:
         func_02157650(&dir, 8);
@@ -130,7 +131,7 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     case 14:
         func_02157650(&dir, 11);
         sys = func_020120F4(a0);
-        func_02013864(o, sys, func_020399A8(), 1, 4);
+        func_02013864(o, sys, (u32)func_020399A8(), 1, 4);
         break;
     case 17:
         func_02157650(&dir, 12);
@@ -141,7 +142,7 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     case 18:
         func_02157650(&dir, 15);
         sys = func_020120F4(a0);
-        func_02013894(o, sys, func_020399A8(), 1, 4);
+        func_02013894(o, sys, (u32)func_020399A8(), 1, 4);
         break;
     case 21:
         func_02157650(&dir, 16);
@@ -152,7 +153,7 @@ void *func_02157450(void *a0, void *a1, u32 kind, Rec *rec)
     case 22:
         func_02157650(&dir, 19);
         sys = func_020120F4(a0);
-        func_020137F0(o, sys, func_020399A8(), 1, rec->f12, 4);
+        func_020137F0(o, sys, (u32)func_020399A8(), 1, rec->f12, 4);
         break;
     default:
         func_02034714(d_0217277C, 0, d_0217277C);
