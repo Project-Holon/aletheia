@@ -17,9 +17,10 @@
 
 
 extern void func_021EBFA8(char *p, int i, int v);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 void func_021EBFCC(char *p, int i, int v)
 {
     func_021EBFA8(p, i, v);
-    func_0204B92C(*(int *)(p + i * 4 + 0x9E74), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + i * 4 + 0x9E74), 1);
 }

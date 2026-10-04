@@ -58,7 +58,8 @@ extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_02045374(u32),func_02041B6C(u32);
 extern u8 func_02045730(u32);
 extern u32 func_0204B294(u32,u32,u32,u32,Request *,u16,u32);
-extern void func_0204B92C(u32,u32),func_0204B688(u32,u32),func_0204B3DC(u32,u32);
+struct Obj;
+extern void func_0204B92C(struct Obj *,u32),func_0204B688(u32,u32),func_0204B3DC(u32,u32);
 struct Bmp;
 extern struct Bmp *func_02043678(u32 width, u32 height, u32 depth, u32 heap);
 extern void func_02043B5C(void *,u8),func_0201C7D0(void *,short,short,void *,void *,u16);
@@ -123,7 +124,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         else arrow.y=i==0?64:184;
         arrow.id=i;
         p->handles[i]=func_0204B294(cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
-        func_0204B92C(p->handles[i],1);func_0204B688(p->handles[i],1);
+        func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688(p->handles[i],1);
     }
     i=0;
     func_0204B3DC(p->handles[0],0);
@@ -157,6 +158,6 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
             else func_0204B3DC(p->handles[1],1);
         }
     }
-    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) func_0204B92C(p->handles[i],1);
+    if(func_021FCDA0((char *)p)) for(i=2;i<4;i++) func_0204B92C((struct Obj *)p->handles[i],1);
     return p;
 }
