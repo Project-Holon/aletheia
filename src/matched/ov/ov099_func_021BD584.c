@@ -20,8 +20,10 @@ extern int func_021BA928(void *);
 extern int func_0203D378(int);
 extern void func_021BA874(void *, int);
 extern void func_021BAAB8(char *, int, int);
-extern int func_020399A8(void);
-extern void func_02039C68(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 int func_021BD584(char *p, int v)
 {
     int t;
@@ -32,7 +34,7 @@ int func_021BD584(char *p, int v)
         func_021BAAB8(p, 0x77, 0);
         *(int *)(p + 0x1cc) = 0x6f;
     } else {
-        func_02039C68(func_020399A8(), 0x1b, 10);
+        func_02039C68((struct Link *)func_020399A8(), 0x1b, 10);
         *(int *)(p + 0x1cc) = 0x49;
     }
     return v;

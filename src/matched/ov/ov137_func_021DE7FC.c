@@ -40,7 +40,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203D7B0(int),func_0203D7BC(int),func_0203064C(void *,u32,u32);
+extern void func_0203D7B0(int),func_0203D7BC(int);
+extern void func_0203064C(u32 src, u32 dst, u32 size);
 extern u8 *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
 extern void *func_02012934(void *),*func_020490F4(u32,u16);
@@ -63,7 +64,7 @@ int func_021DE7FC(void *obj,int unused,u8 *q)
     void *r;
     int i,n,player;
     func_0203D7B0(1);
-    func_0203064C((void *)1,114,0x80000);
+    func_0203064C(1,114,0x80000);
     p=func_0203159C(obj,0xdac,114);
     i=0;
     func_02082BCC(p,0,0xdac);

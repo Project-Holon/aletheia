@@ -14,7 +14,9 @@
  */
 typedef struct { int x,y,z; } Vec;
 extern void *func_02051A34(void *);
-extern void func_02011610(void *, Vec *);
+struct IcaAnime;
+struct Rec12;
+extern unsigned int func_02011610(struct IcaAnime *p, struct Rec12 *dst);
 extern void func_02051838(void *, Vec *);
 void func_021D49F4(void *obj, int on) {
  int buf[3]; Vec *v; void *w;
@@ -22,7 +24,7 @@ void func_021D49F4(void *obj, int on) {
  w=func_02051A34(obj);
  if (*(void **)(*(char **)((char *)w+12)+0x98)!=0) {
  v=(Vec *)buf; v->x=0; v->y=0; v->z=0;
- func_02011610(*(void **)(*(char **)((char *)w+12)+0x98),v);
+ func_02011610(*(void **)(*(char **)((char *)w+12)+0x98),(struct Rec12 *)v);
  func_02051838(obj,v);
  }
  }

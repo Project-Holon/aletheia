@@ -36,7 +36,7 @@ typedef unsigned int u32;
 extern char ov114_id[];
 extern const char d_021DABA4[];
 extern int func_02034AC4(signed int);
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32 src, u32 dst, u32 size);
 extern char *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,u8,u32);
 struct Big;
@@ -65,7 +65,7 @@ int func_021D8FBC(void *a,int b,char *q)
     char *p;
     int value;
     func_02034AC4((int)ov114_id);
-    func_0203064C((void *)1,98,0x88000);
+    func_0203064C(1,98,0x88000);
     p=func_0203159C(a,0xb0,98);
     func_02082BCC(p,0,0xb0);
     *(u16 *)p=98;
