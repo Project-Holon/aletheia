@@ -19,7 +19,8 @@
 
 typedef unsigned char u8;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int v);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -28,7 +29,7 @@ extern void func_02184060(int o, u8 i);
 
 void func_0217403C(int a, int x, int y, u8 *p)
 {
-    if (a != func_0203D1A4(func_020399A8())) {
+    if (a != func_0203D1A4((int)func_020399A8())) {
         if (*(int *)(p + 0x3528) == 0) {
             func_02034714((void *)0x02175624, 0, (void *)0x02175624);
             return;

@@ -16,7 +16,8 @@
  */
 
 int func_021736D8(void);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
@@ -25,5 +26,5 @@ int func_02173DA0(int a, int b, int c)
     if (func_021736D8() == 0) {
         return 0;
     }
-    return func_0203D3F8(func_020399A8(), 0xFF, 0x20F, 0x28, b + c * 0x28, 0, 0, 1);
+    return func_0203D3F8((u32)func_020399A8(), 0xFF, 0x20F, 0x28, b + c * 0x28, 0, 0, 1);
 }

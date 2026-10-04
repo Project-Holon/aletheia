@@ -49,9 +49,9 @@ struct IcaAnime {
 typedef signed int     s32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020116C0(struct IcaAnime *p);
-extern void  func_020116E0(struct IcaAnime *p, u32 a, u32 b, u32 c);
+extern void  func_020116E0(u8 *p, u32 a, u32 b, u32 c);
 extern void func_02011770(u8 *p, int n);
-extern u32   func_020117D8(struct IcaAnime *p, u32 v1, u32 v2, u32 v3);
+extern int   func_020117D8(u8 *p, int v1, u8 *v2, int v3);
 extern void func_0201183C(struct IcaAnime *s, s32 q);
 extern u8    sIcaAnimeFile;
 
@@ -61,8 +61,8 @@ void *func_02011428(u32 heap, u32 a1, u32 a2, u32 a3, u32 a4)
     struct IcaAnime *p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x54);
 
     func_020116C0(p);
-    func_020116E0(p, a1, a2, heap);
-    if (func_020117D8(p, p->f0c, a3, a4) == 0) {
+    func_020116E0((u8 *)p, a1, a2, heap);
+    if (func_020117D8((u8 *)p, p->f0c, (u8 *)a3, a4) == 0) {
         return 0;
     }
     func_0201183C(p, 0);

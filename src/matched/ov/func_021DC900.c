@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021E1E34  0x021E1E34  thumb  ov170
@@ -16,11 +16,11 @@
  */
 
 
-extern int func_02031330(int);
+extern unsigned int func_02031330(void *);
 extern int func_021E1E34(int *, int);
 int func_021DC900(int a, int b, int c, int *d)
 {
-    d[2] = func_02031330(d[1]);
+    d[2] = func_02031330((void *)d[1]);
     if (func_021E1E34(d, b) == 0)
         return 1;
     return 0;
