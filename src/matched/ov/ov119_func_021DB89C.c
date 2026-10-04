@@ -15,7 +15,8 @@
  */
 typedef short s16;
 extern unsigned func_02035CB8(int *,int *);
-extern void func_0204B92C(int,int),func_021DB7AC(char *,int,int);
+struct Obj;
+extern void func_0204B92C(struct Obj *,unsigned int),func_021DB7AC(char *,int,int);
 extern int func_02035C38(void);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
@@ -27,7 +28,7 @@ void func_021DB89C(char *p)
         if(I(0x1088)) {
             if((unsigned)x>=64 && (unsigned)x<192 && (unsigned)y>=168 && (unsigned)y<188) {
                 int previous;
-                func_0204B92C(I(0xf04),1);
+                func_0204B92C((struct Obj *)I(0xf04),1);
                 previous=H(0x1078);
                 H(0x107a)=(x-previous)*2;
                 H(0x1078)=x;

@@ -24,7 +24,8 @@ typedef unsigned int   u32;
 extern void *func_021BC3B4(int key);
 extern int  func_0204B98C(u32 obj);
 extern void func_0204B878(u32 obj, u32 v);
-extern void func_0204B92C(u32 obj, int on);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, unsigned int on);
 extern void ov208_func_021BDC48(void *scene, u32 on);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -62,7 +63,7 @@ void ov208_func_021C692C(u16 *heap, u8 *p, int key)
         else if (W(0x694) == 3)
             other = 2;
         if (other != 5 && ST(other) == 0) {
-            func_0204B92C(OBJB(other), 1);
+            func_0204B92C((struct Obj *)OBJB(other), 1);
             func_0204B878(OBJB(other), B8(other));
         }
         W(0x694) = 5;

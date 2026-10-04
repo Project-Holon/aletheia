@@ -37,7 +37,8 @@ extern u32 func_0204AEF4(int, int);
 extern void func_02021640(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag, u32 idx, u32 count, u16 off);
 extern u32 func_0204B294(u32, u32, u32, u32, Config *, u16, u16);
 extern u32 func_0204B324(u32, u32, u32, u32, Config *, u16, u16);
-extern void func_0204B92C(u32, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern void func_02049238(void *);
 int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
 {
@@ -65,7 +66,7 @@ int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16
         cfg.b = f;
         *(u32 *)(p + 8 + off) = func_0204B324(*(u32 *)(p + 4), *(u32 *)(p + 12 + off), *(u32 *)(p + 16 + off), *(u32 *)(p + 20 + off), &cfg, 0, *(u16 *)(p + 0x80));
     }
-    func_0204B92C(*(u32 *)(p + 8 + off), 1);
+    func_0204B92C((struct Obj *)*(u32 *)(p + 8 + off), 1);
     func_02049238(archive);
     return i;
 }
