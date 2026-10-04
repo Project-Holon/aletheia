@@ -18,7 +18,8 @@
 
 typedef unsigned char u8;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02008468(void);
 extern int func_02012944(int v);
 typedef unsigned int   u32;
@@ -27,6 +28,6 @@ extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 
 void func_02173D38(u8 *p)
 {
     p[0x282B] = 0;
-    func_0203D3F8(func_020399A8(), 0, 0x140A, func_02008468(),
+    func_0203D3F8((u32)func_020399A8(), 0, 0x140A, func_02008468(),
                   func_02012944(*(int *)(*(u8 **)p + 8)), 1, 0, 0);
 }

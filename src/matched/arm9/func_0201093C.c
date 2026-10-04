@@ -17,15 +17,17 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_020399A8(void);
-extern u32  func_02039CB4(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern int func_02012DAC(int a0);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_02010964(u8 *p);
 
 void func_0201093C(u8 *p)
 {
-    if (func_02039CB4(func_020399A8(), 0x71, 8) != 0) {
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x71, 8) != 0) {
         func_02012DAC(*(u32 *)(p + 0xc));
         func_02010888(p, (u32)func_02010964);
     }

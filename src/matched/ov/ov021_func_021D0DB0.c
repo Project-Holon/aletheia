@@ -65,7 +65,8 @@ extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_020307B0(void *p);
-extern void func_0200734C(u32 sv, u32 id);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern void *func_02008C58(u32 h);
 struct Sub02008C20Obj;
 extern void func_02008E88(struct Sub02008C20Obj *obj, u32 value);
@@ -154,7 +155,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
             func_02082D44(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
         }
         func_020307B0(buf);
-        func_0200734C(h2, 5);
+        func_0200734C((struct Sub02007324Ctrl *)h2, 5);
     }
 
     x = func_02008C58(h);

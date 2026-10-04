@@ -52,7 +52,8 @@ typedef struct {
 
 extern Obj0203A85C *d_021469D8;
 extern void func_0203A770(u32 a, u32 b, int c, u32 d, u32 e, u32 f);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 size);
 
 void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
@@ -62,7 +63,7 @@ void func_0203A85C(int a0, u32 a1, void *a2, int a3, volatile int a4)
     if (a0 == 0xff) {
         idx = 8;
     }
-    if (a4 != func_020399A8()) {
+    if (a4 != (u32)func_020399A8()) {
         return;
     }
     if (d_021469D8->ent[idx].unk12 == 0) {
