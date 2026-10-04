@@ -20,7 +20,7 @@
  *   func_0217B014 0x0217B014 thumb ov176
  *   func_021E8A3C 0x021E8A3C thumb ov177
  */
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void func_02082BCC(void *,int,unsigned);
 extern int func_02034AC4(signed int);

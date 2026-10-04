@@ -32,7 +32,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct Work { u16 heap, pad; void *arg; int state; void *view, *str, *msg, *model, *ctx; int tail[3]; } Work;
 extern int func_02034AC4(int);
-extern void func_0203064C(void *, unsigned, unsigned);
+extern void func_0203064C(unsigned, unsigned, unsigned);
 extern Work *func_0203159C(void *, unsigned, unsigned);
 extern void func_02082BCC(void *, int, unsigned);
 extern void *func_021BDDD8(unsigned, void *, unsigned);
@@ -57,7 +57,7 @@ int func_021BDA40(void *manager, int unused, u8 *p)
     unsigned one = 1;
     unsigned heap = 0x6c;
     func_02034AC4((int)ov067_id);
-    func_0203064C((void *)1, 0x6c, 0x130000);
+    func_0203064C(1, 0x6c, 0x130000);
     w = func_0203159C(manager, sizeof(Work), 0x6c);
     func_02082BCC(w, 0, sizeof(Work));
     w->heap = heap;
