@@ -21,9 +21,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern int func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
-extern int func_02039CB4(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0200FB24(void);
 extern u8 d_021B6228[];
@@ -32,11 +35,11 @@ void func_021B6114(u8 *p)
 {
     switch (p[0x62]) {
     case 0:
-        func_02039C68(func_020399A8(), 1, 0x2d);
+        func_02039C68((struct Link *)func_020399A8(), 1, 0x2d);
         p[0x62] = 1;
         break;
     case 1:
-        if (func_02039CB4(func_020399A8(), 1, 0x2d) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x2d) == 1) {
             func_0203A574(0x2d00, (u32)d_021B6228, 1, (u32)p);
             p[0x62] = 2;
         }

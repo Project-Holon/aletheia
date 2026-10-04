@@ -19,14 +19,15 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 struct Link;
-extern struct Link *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(struct Link *);
 extern int func_02174010(u32, void *);
 void func_02183DAC(u8 *p)
 {
     u32 i;
     if (p[13] != 0) {
-        i = func_0203D1A4(func_020399A8());
+        i = func_0203D1A4((struct Link *)func_020399A8());
         if (func_02174010(p[13], p + 0x2c + i * 40) == 1) p[13] = 0;
     }
 }

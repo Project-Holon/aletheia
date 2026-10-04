@@ -22,14 +22,15 @@ extern void func_0203A574(unsigned,unsigned,unsigned,unsigned);
 extern const unsigned d_021BB6C0[];
 struct Entry;
 extern struct Entry *func_020399A8(void);
-extern int func_02039C68(void *,int,int);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_0203D7B0(int),func_0203D7BC(int);
 extern void func_021B95B8(unsigned char *,unsigned);
 extern void func_021B9EF8(int a);
 void func_021B9F80(unsigned a)
 {
  func_0203A574(0xc00,(unsigned)d_021BB6C0,6,a);
- func_02039C68(func_020399A8(),0x78,12);
+ func_02039C68((struct Link *)func_020399A8(),0x78,12);
  func_0203D7B0(1);func_0203D7BC(1);
  func_021B95B8((unsigned char *)a,(unsigned)func_021B9EF8);
 }

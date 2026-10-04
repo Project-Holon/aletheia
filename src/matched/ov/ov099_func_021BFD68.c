@@ -20,12 +20,13 @@ typedef unsigned int   u32;
 struct Entry;
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(struct Entry *a, u16 b, u16 c, u32 d);
-extern void func_02039C68(void *, int, int);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 int func_021BFD68(char *p, int ret)
 {
     if (!func_021BA928(p, ret)) return ret;
     if (func_0203D3A8(func_020399A8(), 0xa08, 0, 0)) {
-        func_02039C68(func_020399A8(), 0x12, 0xa);
+        func_02039C68((struct Link *)func_020399A8(), 0x12, 0xa);
         *(int *)(p + 0x1cc) = 0x93;
     }
     return ret;

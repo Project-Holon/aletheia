@@ -13,11 +13,12 @@
  *   func_0203D1A4 0x0203D1A4 arm
  */
 extern int func_021D8A24(void *, int, int);
-extern unsigned func_020399A8(unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern unsigned func_0203D1A4(unsigned);
 void func_021D8F60(void *p,int idx,int x) {
  unsigned v=func_021D8A24(p,idx,x);
  if(v==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
- if(func_0203D1A4(func_020399A8(v))==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
+ if(func_0203D1A4((unsigned)func_020399A8())==0) { *(int *)((char *)p+idx*4+0x5e4)=x; return; }
  *(int *)((char *)p+(1-idx)*4+0x5e4)=x;
 }

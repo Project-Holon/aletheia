@@ -21,13 +21,15 @@
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DDBF0(char *p);
-extern int func_02039CB4(unsigned,int,int);
-extern unsigned func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_021DD24C(void *);
 extern void func_021DD294(void *,int,int);
 extern void func_021DDDB8(unsigned char *p);
 
 void func_021DDDF4(unsigned char *p)
 {
-    if(func_021D8A24(p)==0){p[0x11e0]=14;p[0x11e1]=14;func_021D8E84(p,(int)func_021DDBF0);return;} if(func_02039CB4(func_020399A8(),30,8)==0){func_021DD24C(p);return;}func_021DD294(p,0,0);func_021D8E84(p,(int)func_021DDDB8);
+    if(func_021D8A24(p)==0){p[0x11e0]=14;p[0x11e1]=14;func_021D8E84(p,(int)func_021DDBF0);return;} if(func_02039CB4((struct Link *)func_020399A8(),30,8)==0){func_021DD24C(p);return;}func_021DD294(p,0,0);func_021D8E84(p,(int)func_021DDDB8);
 }

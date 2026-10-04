@@ -15,10 +15,12 @@
  *   func_021DA700 0x021DA700 thumb ov119
  */
 extern int func_021D8A24(void *);
-extern int func_020399A8(void);
-extern int func_02039CB4(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_021D8E84(void *,int);
 extern void func_021DA700(char *p);
 void func_021DA76C(void *p) {
- if(!func_021D8A24(p) || func_02039CB4(func_020399A8(),13,8)) func_021D8E84(p,(int)func_021DA700);
+ if(!func_021D8A24(p) || func_02039CB4((struct Link *)func_020399A8(),13,8)) func_021D8E84(p,(int)func_021DA700);
 }
