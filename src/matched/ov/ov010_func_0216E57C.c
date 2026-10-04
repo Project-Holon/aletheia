@@ -33,7 +33,9 @@ typedef struct
 } Context;
 extern int func_0216E4EC(void *);
 extern void *func_0216D67C(void *a0);
-extern void func_0216D88C(const void *, Vec *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 
 void func_0216E57C(void *a)
 {
@@ -46,7 +48,7 @@ void func_0216E57C(void *a)
     {
         tmp = func_0216D67C(a);
         p = (Vec *) (tmp->raw44 + (i * 12));
-        func_0216D88C(a, &v);
+        func_0216D88C(a, (struct VecFx32 *)&v);
         *p = v;
     }
 }

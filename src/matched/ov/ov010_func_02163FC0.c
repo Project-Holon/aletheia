@@ -14,14 +14,16 @@
  *   func_0216D89C  0x0216D89C  thumb
  */
 
-extern void func_0216D88C(int a, int *p);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *p);
 extern void func_0216D89C(int a, int *p);
 
 void func_02163FC0(int a, int dir, int amt)
 {
     int buf[3];
 
-    func_0216D88C(a, buf);
+    func_0216D88C((const struct Actor *)a, (struct VecFx32 *)buf);
     switch (dir) {
     case 0:
         buf[2] -= amt;

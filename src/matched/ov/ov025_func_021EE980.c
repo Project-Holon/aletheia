@@ -28,7 +28,8 @@ typedef struct {
 
 extern int *func_021A2630(int);
 extern int func_021A2638(int);
-extern void func_021A2640(int, Pt *);
+struct PtS;
+extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A2654(int, Pt *);
 extern void func_021A21E0(int);
 extern signed char d_021EF790[];
@@ -55,7 +56,7 @@ void func_021EE980(int a)
             return;
         }
     }
-    func_021A2640(a, &pt);
+    func_021A2640((unsigned char *)a, (struct PtS *)&pt);
     pt.x = pt.x + d_021EF790[p[5]];
     if (p[4] > p[3]) {
         pt.y = pt.y + 1;

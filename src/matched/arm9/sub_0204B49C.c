@@ -30,14 +30,15 @@ typedef signed short  s16;
 typedef unsigned int  u32;
 struct PtS { s16 x; s16 y; };
 struct Actor { u8 pad_00[0x10]; };
-extern void func_0204CF74(struct Actor *actor, u32 space, struct PtS *out);
+struct Obj;
+extern void func_0204CF74(struct Obj *actor, u32 space, unsigned short *out);
 extern void sub_0204B550(struct Actor *actor, s16 value, u32 axis);
 
 void sub_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis)
 {
     struct PtS origin;
 
-    func_0204CF74(actor, space, &origin);
+    func_0204CF74((struct Obj *)actor, space, (unsigned short *)&origin);
 
     if (axis == 0) {
         value += origin.x;
