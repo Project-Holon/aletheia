@@ -29,7 +29,8 @@ extern Word func_021E8940(int v);
 extern int func_021CBFF8(int a, int b, Word c);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 val);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *a, void *b);
 
 int func_021CBFA0(u8 *p, u8 *q)
@@ -42,7 +43,7 @@ int func_021CBFA0(u8 *p, u8 *q)
     if (func_021CBFF8(m, 3, t)) {
         w = func_021C88A4(p, 4, 0x1f);
         func_021C8838(w + 4, 1, 0x88);
-        func_021C8860(w + 4, m);
+        func_021C8860((struct S *)(w + 4), m);
         func_021C88C8(p, w);
         return 1;
     }

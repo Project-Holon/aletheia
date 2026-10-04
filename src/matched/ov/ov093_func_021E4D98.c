@@ -26,7 +26,8 @@ extern int func_021D59B4(u8 *p, int k);
 extern u8 *func_021C88A4(void *, int, int);
 extern void func_021C88C8(void *, void *);
 extern void func_021C8838(void *, int, int);
-extern void func_021C8860(void *, u32);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern int d_021F2544[];
 
 void func_021E4D98(int unused, void *s, int k)
@@ -65,7 +66,7 @@ void func_021E4D98(int unused, void *s, int k)
         func_021C88C8(s, p);
         p = func_021C88A4(s, 4, k);
         func_021C8838(p + 4, 2, 676);
-        func_021C8860(p + 4, k);
+        func_021C8860((struct S *)(p + 4), k);
         func_021C88C8(s, p);
     }
 }

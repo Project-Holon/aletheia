@@ -32,7 +32,8 @@ extern u32 func_021D5568(void *m, u8 n);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 
 int func_021CC214(void *a, void *m, void *s)
 {
@@ -65,7 +66,7 @@ int func_021CC214(void *a, void *m, void *s)
     if (ok) {
         r = (u8 *)func_021C88A4(a, 4, id);
         func_021C8838(r + 4, 2, 393);
-        func_021C8860(r + 4, id);
+        func_021C8860((struct S *)(r + 4), id);
         func_021C88C8(a, r);
     }
     return ok;

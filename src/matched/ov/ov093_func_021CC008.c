@@ -38,7 +38,8 @@ extern u32 func_021D805C(u32 v, u32 n);
 extern int func_021D59B4(u8 *p, int k);
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 val);
+struct S;
+extern void func_021C8860(struct S *p, u32 val);
 extern void func_021C88C8(void *a, void *b);
 extern void func_021C84E0(unsigned char *p, unsigned int v);
 
@@ -67,7 +68,7 @@ int func_021CC008(u8 *p, u8 *q, u16 s)
             break;
         }
         func_021C8838(w + 8, 2, 3);
-        func_021C8860(w + 8, id);
+        func_021C8860((struct S *)(w + 8), id);
         func_021C88C8(p, w);
         func_021C84E0(p, id);
         return 1;

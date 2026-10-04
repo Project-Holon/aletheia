@@ -26,7 +26,8 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *, unsigned int);
 extern void func_021C88C8(void *a, void *b);
 extern int d_021F252C[];
 
@@ -38,8 +39,8 @@ void func_021E55C4(int a, void *b, int c)
         m = (u8 *)func_021C88A4(b, 0x33, c);
         m[4] = func_021D775C(6);
         func_021C8838(m + 8, 2, 0x284);
-        func_021C8860(m + 8, c);
-        func_021C8860(m + 8, m[4]);
+        func_021C8860((struct S *)(m + 8), c);
+        func_021C8860((struct S *)(m + 8), m[4]);
         func_021C88C8(b, m);
     }
 }

@@ -32,7 +32,8 @@ extern int func_021DCFF8(int a, int b);
 struct QQ;
 extern int func_021D7B74(u8 *p, u32 k);
 extern void func_021C8838(void *l, int a, int b);
-extern void func_021C8860(void *l, u32 v);
+struct S;
+extern void func_021C8860(struct S *l, u32 v);
 extern u16 func_021D70A8(struct QQ *p);
 extern void func_021C88C8(void *a, void *b);
 extern void *func_021D5844(void *m);
@@ -49,8 +50,8 @@ void func_021DD7B8(int a, u8 *b, int c, int *d, int e)
         p[6] = c;
         *(u16 *)(p + 4) = func_021D7B74(m, func_021DCFF8(a, 2));
         func_021C8838(p + 8, 2, 908);
-        func_021C8860(p + 8, c);
-        func_021C8860(p + 8, func_021D70A8((void *)a));
+        func_021C8860((struct S *)(p + 8), c);
+        func_021C8860((struct S *)(p + 8), func_021D70A8((void *)a));
         func_021C88C8(b, p);
         if (func_020189D0(func_021D5844(m), e) == -1) {
             p = func_021C88A4(b, 0xc, c);

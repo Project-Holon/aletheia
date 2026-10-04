@@ -40,7 +40,8 @@ struct Rec { u32 f0; u32 f4; Word f8; u8 fc; u8 fd; u8 fe; u8 ff; };
 
 extern Word func_021E896C(int a, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(u8 *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E4688(int a0, u8 *s, int k)
@@ -64,7 +65,7 @@ void func_021E4688(int a0, u8 *s, int k)
             e->ff = v;
             e->fc = 0;
             func_021C8838((u8 *)e + 0x14, 2, 559);
-            func_021C8860((u8 *)e + 0x14, v);
+            func_021C8860((struct S *)((u8 *)e + 0x14), v);
             func_021C88C8(s, (u8 *)e);
         }
     }

@@ -24,7 +24,8 @@ extern void *func_021C88A4(void *a, int k, int b);
 typedef struct Word { u32 v; } Word;
 extern Word func_021E8940(u8 v);
 extern void func_021C8838(void *l, int a, int b);
-extern void func_021C8860(void *l, int v);
+struct S;
+extern void func_021C8860(struct S *, unsigned int);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E5EB8(u8 *p, void *a, int b)
@@ -37,6 +38,6 @@ void func_021E5EB8(u8 *p, void *a, int b)
     *(int *)(q + 4) = 0x1e;
     *(Word *)(q + 8) = func_021E8940(5);
     func_021C8838(q + 0x14, 2, 0x292);
-    func_021C8860(q + 0x14, b);
+    func_021C8860((struct S *)(q + 0x14), b);
     func_021C88C8(a, q);
 }

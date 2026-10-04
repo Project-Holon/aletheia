@@ -23,7 +23,8 @@ extern int func_021D775C(int key);
 extern int func_021D76BC(int key, u32 val);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *p, int a, int b);
-extern void func_021C8860(void *p, u32 v);
+struct S;
+extern void func_021C8860(struct S *p, u32 v);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021DB5C0(void *a, void *p, int id)
@@ -40,7 +41,7 @@ void func_021DB5C0(void *a, void *p, int id)
             r[6] = func_021D775C(3);
             *(u16 *)(r + 4) = v;
             func_021C8838(r + 0xc, 2, 0x1c9);
-            func_021C8860(r + 0xc, r[6]);
+            func_021C8860((struct S *)(r + 0xc), r[6]);
             func_021C88C8(p, r);
         }
     }

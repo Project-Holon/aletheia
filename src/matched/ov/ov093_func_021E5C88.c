@@ -21,7 +21,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int func_021D76BC(int key, u32 val);
 extern void *func_021C88A4(void *a, int k, int b);
 extern void func_021C8838(void *l, int a, int b);
-extern void func_021C8860(void *l, int v);
+struct S;
+extern void func_021C8860(struct S *, unsigned int);
 extern void func_021C88C8(void *a, void *b);
 
 void func_021E5C88(u8 *p, void *a, int b)
@@ -30,7 +31,7 @@ void func_021E5C88(u8 *p, void *a, int b)
     if (func_021D76BC(0x51, 1) != 0) {
         r = func_021C88A4(a, 4, b);
         func_021C8838(r + 4, 2, 0x2ff);
-        func_021C8860(r + 4, b);
+        func_021C8860((struct S *)(r + 4), b);
         func_021C88C8(a, r);
     }
 }
