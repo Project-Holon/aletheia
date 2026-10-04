@@ -67,7 +67,7 @@ extern void func_021F89A8(u8 *p, int i, u16 a, u16 b);
 extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021F7F9C(void *win, void *bank, u32 index, u32 y, u32 x, u16 color, void *g);
-extern u32 func_0201ADE4(u16 a, u16 b, u16 heap);
+extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern int func_021F7B9C(void *p, int event);
@@ -93,7 +93,7 @@ int func_021FEC00(Work *p)
         p->state = 0;
         func_02043B5C(func_02045770(p->winA), 0);
         func_021F7F9C(p->winA, p->bankB, r, 0, 0, 0x3C40, p->g);
-        h = func_0201ADE4(r, 0, 0x48);
+        h = (u32)func_0201ADE4((u16)r, 0, 0x48);
         v = func_0201AE1C(h, 0x14);
         func_0201AE14(h);
         p->target->x20 = v;

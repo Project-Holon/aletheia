@@ -25,7 +25,8 @@ typedef unsigned int u32;
 
 extern int func_021D8A24(void *p);
 extern int func_021D8F20(void *p, int idx);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_020173EC(void);
 extern int func_0203D3A8(u32 h, u16 b, u16 c, void *q);
 extern void func_021D8E84(void *p, int next);
@@ -36,7 +37,7 @@ void func_021DE70C(void *p)
     u8 v;
     if (func_021D8A24(p) != 0) {
         v = func_021D8F20(p, 0);
-        if (func_0203D3A8(func_020399A8(), 0xC16, func_020173EC(), &v) == 0) {
+        if (func_0203D3A8((u32)func_020399A8(), 0xC16, func_020173EC(), &v) == 0) {
             return;
         }
     }

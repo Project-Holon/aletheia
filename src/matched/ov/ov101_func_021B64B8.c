@@ -14,8 +14,10 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020399A8(void),func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 u32 func_021B64B8(u32 p,u32 a,u32 b,u32 c,u8 d,u32 e,u32 f,u32 g) {
     if(*(u32 *)(p+0x78)!=0) return 1;
-    return func_0203D3F8(func_020399A8(),d,a,b,c,e,f,g);
+    return func_0203D3F8((u32)func_020399A8(),d,a,b,c,e,f,g);
 }

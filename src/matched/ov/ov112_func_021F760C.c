@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 extern u8 *func_021F5204(void *,u8 *,u32);
-extern void *func_0201ADE4(void *,void *,void *);
+extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 struct Personal;
 extern u32 func_0201AE1C(const struct Personal *p, u32 field);
 extern void func_0201AE14(void *);
@@ -64,7 +64,7 @@ void func_021F760C(u8 *p,u8 *input)
     *(int *)(q+20)=0;
     *(int *)(q+260)=0;
     *(u8 **)(q+88)=func_021F5204(*(void **)(p+12),input,1);
-    personal=func_0201ADE4((void *)(u32)*(u16 *)(input+8),(void *)(u32)input[11],(void *)(u32)*(u16 *)p);
+    personal=func_0201ADE4((u32)*(u16 *)(input+8),(u32)input[11],(u32)*(u16 *)p);
     if(func_0201AE1C(personal,16)==1) *(int *)(q+16)=1;
     if(func_0201AE1C(personal,34)==1) *(int *)(q+20)=1;
     func_0201AE14(personal);

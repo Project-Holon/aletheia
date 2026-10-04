@@ -15,12 +15,14 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DABB0 0x021DABB0 thumb ov119
  */
-extern unsigned func_020399A8(void);
-extern unsigned func_02039CB4(unsigned,unsigned,unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 extern void func_0203D7B0(int),func_0203D7BC(int);
 extern void func_021D8E84(char *,int),func_021DABB0(char *);
 void func_021DABE8(char *p) {
- if(func_02039CB4(func_020399A8(),22,8)) {
+ if(func_02039CB4((struct Link *)func_020399A8(),22,8)) {
   func_0203D7B0(1);
   func_0203D7BC(1);
   *(int *)(p+0xf2c)=0;

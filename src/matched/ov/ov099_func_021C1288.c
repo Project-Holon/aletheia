@@ -14,7 +14,8 @@
  *   func_020399A8 0x020399A8 arm
  *   func_0200ED48 0x0200ED48 thumb
  */
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 typedef unsigned int   u32;
 struct L0200ED54;
 struct Rec44;
@@ -29,7 +30,7 @@ void func_021C1288(int index, int unused, void *src, char *p, int handle)
 {
     void *q;
     void *list;
-    if (handle == func_020399A8()) {
+    if (handle == (int)func_020399A8()) {
         q = func_02012950(*(void **)(p + 0xc4), index);
         func_02008494(src, q);
         list = func_0200ED48(*(void **)(p + 0xc0));

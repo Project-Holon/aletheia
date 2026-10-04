@@ -21,8 +21,10 @@ typedef unsigned char u8;
 extern int func_021D7AF4(int);
 extern int func_0203CD98(void);
 extern int func_020399EC(void);
-extern int func_020399A8(void);
-extern void func_02039C68(int, int, int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
 extern int func_0200E6E8(int);
 extern void func_0200E6FC(int, int, void *);
 extern int func_02012F14(int);
@@ -49,7 +51,7 @@ void func_021D4864(u8 *p)
             *(int *)(q + 8) = *(int *)(p + 0x13c);
             func_0200E6FC(value, 0, p + 0x168);
             *(int *)(p + 0x170) = func_02009EA8(func_02012F14(*(int *)(p + 0x2c)));
-            func_02039C68(func_020399A8(), 2, 0x22);
+            func_02039C68((struct Link *)func_020399A8(), 2, 0x22);
             func_021D4244((int)p, func_021D4808, 0x314);
         }
     }
