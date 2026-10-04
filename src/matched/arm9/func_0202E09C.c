@@ -17,16 +17,18 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern u32 func_0202DFEC(u32 a, u32 b);
+struct Res;
+extern void *func_0202DFEC(struct Res *a, u16 b);
 
-void func_0202E09C(u8 *o, u32 a, u32 b)
+void func_0202E09C(u8 *o, struct Res *a, u16 b)
 {
     int i;
 
     for (i = 0; i < 2; i++) {
-        *(u32 *)(o + 8 + i * 4) = func_0202DFEC(a, b);
+        *(u32 *)(o + 8 + i * 4) = (u32)func_0202DFEC(a, b);
     }
     *(u32 *)(o + 0x18) = (*(u32 *)(o + 0x18) & ~1) | 4;
 }
