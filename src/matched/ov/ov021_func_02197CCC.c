@@ -25,7 +25,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0216D88C(u8 *, s32 *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_0216D8B0(u8 *, s32 *);
 extern void func_0216D8D0(u8 *, s32 *);
 extern void func_0216D8F0(u8 *, s32 *);
@@ -39,7 +41,7 @@ void func_02197CCC(u8 *p, s32 *out)
     s32 d[3];
     s32 e[3];
 
-    func_0216D88C(p, a);
+    func_0216D88C((const struct Actor *)p, (struct VecFx32 *)a);
     func_0216D8B0(p, b);
     func_0216D8D0(p, c);
     func_0216D8F0(p, d);
