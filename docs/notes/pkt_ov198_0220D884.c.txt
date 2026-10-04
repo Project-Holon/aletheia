@@ -5,10 +5,27 @@
  * region: ov198
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 show confirms 020276C4 reads only r0 (legacy own C has three unused parameters), BEB8 reads five, D920/D988 two with caller u8 narrowing; 2 BE2C is sole filed caller, no same-body twin or data witness; 3 long index DIFF25, const elem plus integer read DIFF144, budget 2/2; 4 record-array idiom probe DIFF149, best bitfield retains ldrb; 5 fresh unfiltered idiom listing and BE2C/D090 own neighbours read, second declaration-order variant DIFF25, no stack aggregate; next hypothetical probe: block-scoped pointer/index (not run)
- * residual: DIFF25 at same 156-byte size; r6/r7 record offset and element colours swapped, byte flag lacks original base copy, last record load rebuilds base. Data02211AFF sole-ref resolves in best source.
+ * status: EXACT
+ * blocker: definition conflict, not a byte residual. The C below is EXACT
+ *   (8 of 8 relocations resolved, data_02211AFF sole-ref) with
+ *   func_020276C4 declared (void *), as matched caller
+ *   ov131_func_021D6A38.c declares it. Its own definition
+ *   src/matched/arm9/func_020276C4.c (arm9, Ilias's) declares four int
+ *   parameters; its listing reads only r0 (020276C4 push {r3,r4,r5,lr};
+ *   020276C6 movs r1,#0xa0; 020276C8 movs r2,#0; 020276CA adds r5,r0,#0:
+ *   r1/r2 overwritten before any read, r3 pushed only as frame padding).
+ *   Parked per decomp-lane.md rather than diverge from the definition; once
+ *   that definition is corrected to one pointer parameter, copy this to
+ *   src/pending/ov/ov198_func_0220D884.c, re-run `one`, and file it.
+ * lever (wave 82 R8): the bitfield test reads `p + 4 + index*0x4C` and the
+ *   last record word reads `((void **)(p + index*0x4C))[1]`; both fold onto
+ *   the elem register late, which keeps index*0x4C in r7 (original
+ *   allocation) and leaves the `adds r0,r6,#0` copy before the ldrb.
+ *   Spelling either through `elem` frees r7 and collapses the frame (124
+ *   bytes); the earlier note's form gave DIFF25.
+ * checks: 1 020276C4 reads r0 only (definition says four ints: the conflict above), D920/D988 definitions take (u8 *, int) with caller u8 narrowing, BEB8 unmatched so matched callers' (char *,int,int,u8,u8), 02045770 returns void *; 2 ov131_func_021D6A38 is the matched twin caller of 020276C4 and declares (void *); 3 n/a, EXACT; 4 n/a, EXACT; 5 n/a, EXACT
  * symbols:
  *   data_02211AFF 0x02211AFF data a1
  *   func_02045770 0x02045770 arm
@@ -24,33 +41,33 @@ typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
 extern const u8 data_02211AFF[];
-extern u32 func_02045770(void *);
+extern void *func_02045770(void *);
 extern void func_02043B5C(void *, u8);
 extern int func_022110D4(u8 *, int);
-extern void func_0220BEB8(char *, int, u16, u32, u8);
-extern void func_0220D920(char *, u8);
-extern void func_0220D988(char *, u8);
-extern int func_020276C4(int);
+extern void func_0220BEB8(char *, int, int, u8, u8);
+extern void func_0220D920(u8 *, int);
+extern void func_0220D988(u8 *, int);
+extern int func_020276C4(void *);
 struct Flags { u8 pad[0x17]; u8 low:7; u8 high:1; };
-void func_0220D884(char *p)
+void func_0220D884(u8 *p)
 {
     s16 i;
-    char *slot;
-    char *elem;
+    u8 *slot;
+    u8 *elem;
     int index;
     *(const u8 **)(p + 0x253C) = data_02211AFF;
     for (i = 0; i < 6; i++) {
         slot = p + i * 8;
-        func_02043B5C((void *)func_02045770(*(void **)(slot + 0x1F70)), 0);
-        index = func_022110D4((u8 *)p, i);
+        func_02043B5C(func_02045770(*(void **)(slot + 0x1F70)), 0);
+        index = func_022110D4(p, i);
         elem = p + index * 0x4C;
         if (*(u16 *)(elem + 8) == 0)
             *(u8 *)(slot + 0x1F74) = 1;
         else {
-            func_0220BEB8(p, i, (u16)i, 0x20, 7);
-            if (((struct Flags *)(elem + 4))->high == 0)
+            func_0220BEB8((char *)p, i, (u16)i, 0x20, 7);
+            if (((struct Flags *)(p + 4 + index * 0x4C))->high == 0)
                 func_0220D920(p, (u8)i);
-            if (func_020276C4(*(int *)(p + 4 + index * 0x4C)) == 8)
+            if (func_020276C4(((void **)(p + index * 0x4C))[1]) == 8)
                 func_0220D988(p, (u8)i);
         }
     }

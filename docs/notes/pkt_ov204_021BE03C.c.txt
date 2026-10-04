@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (w82 R7): EXACT in src/matched/ov/ov204_func_021BE03C.c. The fourth 02048A24 argument below is wrong (the pool holds 0x1555); a u8 heap parameter fits the callees' real prototypes.
  * checks: 1 own 46440 seven args and 48A24 twelve args, u16 heaps widened for original full stack stores, B60/B6C two args; 2 scoped ov203/204 and sibling ov202/205 only DFA4 twin; 3 u16 angle no change, u16 heap and signed clips iteration unchanged; 4 constant-pair idiom and SDK fx32 macro read, scalar address reinterpretation unsupported; 5 fresh idiom directory and neighbours, declared-struct idiom read, two scalar slots already correct; next pointer-constant experiment lacks address semantics
  * symbols:
  *   func_02046440 0x02046440 arm

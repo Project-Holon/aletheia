@@ -1,119 +1,144 @@
-func_021B33F8 (0x021B33F8, ov013, ARM, 524 bytes incl. pool) -- SIZE near miss
-================================================================================
+/*
+ * function: func_021B33F8
+ * address: 0x021B33F8
+ * packet: pkt_ov013_021B33F8
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * checks: 1 no callees; both pool symbols resolve (sole-ref), the DIV/SQRT units are written through reg_CP_* macros at fixed addresses; 2 twin ov013 func_021B3278 (EXACT, same state d_021B4C48): its `s32 d_021B4C48[]` array spelling (run 3) 430 B, no gain; its `i = 0; if (..) do { } while (++i < len);` loop form adopted: with `if (i < len)` and `sh = shift` inside the guard, the final loop is now the original instruction for instruction (`cmp r2,#0; popls; ldrsh r4,[r1]` preheader); 3 out/in both written, no const; len/thresh u32 as in the twin; 4 a-table-load-hoisted-past-the-loop-guard-names-a-const-extern-table: a const-qualified read of shift (one compile) changes nothing, the guard plus local (check 2) is the fix; 5 idiom summaries re-read for store/load disambiguation and LICM, nothing else applies.
+ * residual (wave 82, lane R10, retry): compiled 512 / original 524, 428 B
+ *   concrete. Everything from +0x128 (DIV setup) to the end is the original
+ *   shifted by 12 bytes; the whole gap is the main loop (+0x24..+0x124,
+ *   original 0x100 bytes, compiled 0xF4). Two differences there:
+ *   (a) the original loads Filt.rd after the ring store
+ *       (`strh r6,[r4,r5]; ldr r4,[ip,#8]`); mwcc hoists it above the store
+ *       for every spelling tried, so it disambiguates the ring from Filt.
+ *       Tried: ring through an `s16 *ring` local (run 1, copy-propagated,
+ *       same bytes), ring via `(u32)d_021B50CC + w * 2` (run 2, same), Filt
+ *       as the twin's `s32 []` array (run 3, 430 B). The pre-wave-82 note
+ *       records that the ring as a Filt member at +0x484 gives the store/load
+ *       order but builds the ring address from Filt's base instead of the
+ *       original's second pool load of 0x021B50CC.
+ *   (b) register allocation: the original uses 13 registers with no fp
+ *       (Filt=ip, clamp 0x3FFF8000=lr, i=r8, wr=r7, x=r6; rd spilled at
+ *       [sp], d[4] stored at [sp+4] but never reloaded, e at [sp+8]); the
+ *       build uses fp (Filt=lr, i=sl, wr=r8, rd=sb, e at [sp], h[5] at
+ *       [sp+8]). Probably follows from (a).
+ * lead: a spelling under which the ring store may alias Filt.rd while the
+ *   ring address still comes from its own pool word (separate extern
+ *   objects related through a union or one array, for instance).
+ * runs: baseline + 3 iteration (stopped after three nonshrinking changes)
+ *   + check 2 x2 + check 4 x1. Permuter not re-run: the pre-wave-82 note
+ *   records a 300-candidate run with no improvement.
+ * Pre-wave-82 levers (kept): w/r/x locals (otherwise wr/rd are reloaded);
+ *   non-volatile DIV numer/denom as in the twin; DIV_RESULT_L read into a
+ *   local before SQRTCNT (gives the shared 0x040002A0 base with SQRTCNT at
+ *   +0x10). Earlier no-effect or worse: local declaration order, an explicit
+ *   `t = d[4]`, the ring as an incomplete array or one-member struct, the FIR
+ *   as a k loop (488 B), `restrict` (CCERR).
+ * symbols:
+ *   d_021B4C48  0x021B4C48  data  ov013
+ *   d_021B50CC  0x021B50CC  data  ov013
+ */
+typedef short s16;
+typedef int s32;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef long long s64;
+typedef unsigned long long u64;
 
-Echo/pre-filter pass over a PCM block, sibling of func_021B3278 (EXACT, same
-filter state d_021B4C48).  Per sample: push in[i] into a 2048-entry s16 delay
-ring d_021B50CC at Filt.wr, read the delayed sample at Filt.rd, run a 6-tap
-FIR over Filt.h[0..5] / Filt.d[0..5] (d shifts down each sample), clamp to
-[-0x40000000, 0x3FFF8000], in[i] = acc >> 15, accumulate in[i]^2 into an s64,
-then in[i] = out[i].  After the loop: mean via the DIV unit (64/32), sqrt via
-the SQRT unit, and Filt.shift (s16 at +0) is 0 below 2/3 thresh, forced to 4
-above thresh, else incremented to at most 4; out[] is shifted right by it.
+#define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
+#define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
+#define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
+#define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
+#define reg_CP_SQRTCNT      (*(volatile u16 *)0x040002B0)
+#define reg_CP_SQRT_RESULT  (*(volatile u32 *)0x040002B4)
+#define reg_CP_SQRT_PARAM   (*(volatile u32 *)0x040002B8)
 
-Filt layout (d_021B4C48): +0 s16 shift, +4 prev, +8 rd, +0xc wr, +0x10 y,
-+0x14 h[6], +0x2c d[6].  func_021B3278 uses +4/+0x10 as its IIR state.
+typedef struct {
+    s16 shift;
+    s16 pad;
+    s32 prev;
+    u32 rd;
+    u32 wr;
+    s32 y;
+    s32 h[6];
+    s32 d[6];
+} Filt;
 
-Best source: 512 vs 524 bytes, both relocations resolve (sole-ref).  Every
-statement is in the right order and the post-loop DIV/SQRT/shift code matches
-instruction for instruction (after the 12-byte shift) except that the
-original loads Filt.shift once after the loop guard (LICM) where this build
-reloads it every iteration.  The main loop is a register-allocation wall:
+extern Filt d_021B4C48;
+extern s16 d_021B50CC[0x800];
 
-  original: 13 registers (no fp), G=ip, clamp const=lr, i=r8, w=r7, x=r6;
-            rd spilled to [sp], d[4] spilled to [sp+4] (stored, never
-            reloaded, then `mov r5, sb` to store it into d[5]), e at [sp+8].
-            The pool address of the ring is loaded twice (rematerialised).
-  compiled: 14 registers (uses fp), G=lr, i=sl, w=r8, rd=sb, x=r7, e at
-            [sp], h[5] spilled at [sp+8].
+void func_021B33F8(s16 *out, s16 *in, u32 len, u32 thresh)
+{
+    s64 e;
+    u32 i;
+    s32 acc;
+    u32 rms;
+    u32 q;
+    u32 w;
+    u32 r;
+    s32 x;
+    s32 sh;
 
-Levers that mattered (each verified): w/r/x locals (else wr/rd are
-reloaded); DIV numer/denom non-volatile (REGType64, as for func_021B3278);
-reading reg_CP_DIV_RESULT_L into a local before CP_SetSqrt32 (gives the
-original's shared 0x040002A0 base with SQRTCNT at +0x10).
-
-Tried without effect: declaration order of all locals (output byte-identical);
-an explicit `t = d[4]` temp (copy-propagated away); delay ring as an
-incomplete array or a one-member struct.  Tried and worse: the ring as a
-member of Filt at +0x484 (gives the original's load order after the ring
-store but computes the ring address from Filt's base); the FIR as a
-`for (k = 5; k > 0; k--)` loop (not unrolled, 488 bytes); `sh =
-Filt.shift` before the last loop (load lands before the guard); `restrict`
-(CCERR); permuter.py 300 compiles (no improvement).
-
-    typedef struct {
-        s16 shift;
-        s16 pad;
-        s32 prev;
-        u32 rd;
-        u32 wr;
-        s32 y;
-        s32 h[6];
-        s32 d[6];
-    } Filt;
-
-    extern Filt d_021B4C48;              /* data ov013 */
-    extern s16 d_021B50CC[0x800];        /* data ov013 a2 */
-
-    /* reg_CP_* as in func_021B3278.c, DIV_NUMER/DENOM as non-volatile u64 */
-
-    void func_021B33F8(s16 *out, s16 *in, u32 len, u32 thresh)
-    {
-        s64 e;
-        u32 i;
-        s32 acc;
-        u32 rms;
-        u32 q;
-        u32 w;
-        u32 r;
-        s32 x;
-
-        e = 0;
-        len >>= 1;
-        for (i = 0; i < len; i++) {
-            w = d_021B4C48.wr;
-            d_021B50CC[w] = in[i];
-            r = d_021B4C48.rd;
-            x = d_021B50CC[r];
-            d_021B4C48.d[0] = x;
-            acc = d_021B4C48.d[5] * d_021B4C48.h[5] + d_021B4C48.d[4] * d_021B4C48.h[4];
-            d_021B4C48.d[5] = d_021B4C48.d[4];
-            acc += d_021B4C48.d[3] * d_021B4C48.h[3];
-            d_021B4C48.d[4] = d_021B4C48.d[3];
-            acc += d_021B4C48.d[2] * d_021B4C48.h[2];
-            d_021B4C48.d[3] = d_021B4C48.d[2];
-            acc += d_021B4C48.d[1] * d_021B4C48.h[1];
-            d_021B4C48.d[2] = d_021B4C48.d[1];
-            acc += x * d_021B4C48.h[0];
-            d_021B4C48.d[1] = x;
-            if (acc > 0x3FFF8000)
-                acc = 0x3FFF8000;
-            else if (acc < -0x40000000)
-                acc = -0x40000000;
-            d_021B4C48.wr = (w + 1) & 0x7FF;
-            d_021B4C48.rd = (r + 1) & 0x7FF;
-            in[i] = acc >> 15;
-            e += in[i] * in[i];
-            in[i] = out[i];
-        }
-        reg_CP_DIVCNT = 1;
-        reg_CP_DIV_NUMER = e;
-        reg_CP_DIV_DENOM = len;
-        while (reg_CP_DIVCNT & 0x8000) {
-        }
-        q = reg_CP_DIV_RESULT_L;
-        reg_CP_SQRTCNT = 0;
-        reg_CP_SQRT_PARAM = q;
-        while (reg_CP_SQRTCNT & 0x8000) {
-        }
-        rms = reg_CP_SQRT_RESULT;
-        if (rms * 3 < thresh * 2) {
-            d_021B4C48.shift = 0;
-            return;
-        }
-        if (thresh < rms)
-            d_021B4C48.shift = 4;
-        if (d_021B4C48.shift < 4)
-            d_021B4C48.shift++;
-        for (i = 0; i < len; i++)
-            out[i] >>= d_021B4C48.shift;
+    e = 0;
+    len >>= 1;
+    i = 0;
+    if (len != 0) {
+    do {
+        w = d_021B4C48.wr;
+        d_021B50CC[w] = in[i];
+        r = d_021B4C48.rd;
+        x = d_021B50CC[r];
+        d_021B4C48.d[0] = x;
+        acc = d_021B4C48.d[5] * d_021B4C48.h[5] + d_021B4C48.d[4] * d_021B4C48.h[4];
+        d_021B4C48.d[5] = d_021B4C48.d[4];
+        acc += d_021B4C48.d[3] * d_021B4C48.h[3];
+        d_021B4C48.d[4] = d_021B4C48.d[3];
+        acc += d_021B4C48.d[2] * d_021B4C48.h[2];
+        d_021B4C48.d[3] = d_021B4C48.d[2];
+        acc += d_021B4C48.d[1] * d_021B4C48.h[1];
+        d_021B4C48.d[2] = d_021B4C48.d[1];
+        acc += x * d_021B4C48.h[0];
+        d_021B4C48.d[1] = x;
+        if (acc > 0x3FFF8000)
+            acc = 0x3FFF8000;
+        else if (acc < -0x40000000)
+            acc = -0x40000000;
+        d_021B4C48.wr = (w + 1) & 0x7FF;
+        d_021B4C48.rd = (r + 1) & 0x7FF;
+        in[i] = acc >> 15;
+        e += in[i] * in[i];
+        in[i] = out[i];
+    } while (++i < len);
     }
+    reg_CP_DIVCNT = 1;
+    reg_CP_DIV_NUMER = e;
+    reg_CP_DIV_DENOM = len;
+    while (reg_CP_DIVCNT & 0x8000) {
+    }
+    q = reg_CP_DIV_RESULT_L;
+    reg_CP_SQRTCNT = 0;
+    reg_CP_SQRT_PARAM = q;
+    while (reg_CP_SQRTCNT & 0x8000) {
+    }
+    rms = reg_CP_SQRT_RESULT;
+    if (rms * 3 < thresh * 2) {
+        d_021B4C48.shift = 0;
+        return;
+    }
+    if (thresh < rms)
+        d_021B4C48.shift = 4;
+    if (d_021B4C48.shift < 4)
+        d_021B4C48.shift++;
+    i = 0;
+    if (i < len) {
+        sh = d_021B4C48.shift;
+        do {
+            out[i] >>= sh;
+        } while (++i < len);
+    }
+}

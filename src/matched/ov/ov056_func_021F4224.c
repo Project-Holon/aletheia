@@ -1,0 +1,29 @@
+/*
+ * function: func_021F4224
+ * address:  0x021F4224
+ * packet:   pkt_ov056_021F4224
+ * region:   ov056
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_020061E4  0x020061E4  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void sub_020061E4(u32 a);
+
+void func_021F4224(u8 *p, u32 idx)
+{
+    u16 v = *(u16 *)(p + idx * 2 + 8);
+
+    if (v != 0xffff) {
+        sub_020061E4(v);
+    }
+}

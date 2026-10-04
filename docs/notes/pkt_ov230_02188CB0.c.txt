@@ -1,0 +1,19 @@
+/*
+ * function: func_02188CB0
+ * address: 0x02188CB0
+ * packet: pkt_ov230_02188CB0
+ * region: ov230
+ * status: not C (hand-written static-initialiser decryptor thunk plus range table)
+ * checks: 1 n/a no callee: the body is orr r0,pc,#0; adds r0,r0,#4; bne loc_02188A48; 2 the five ov230 sinit thunks (02188408, 021889B0, 02188CB0, 02189448, 02189908) share the shape, none is C; 3 n/a no parameters; 4 docs/NOTES.md "Overlay 230's own decryptor"; 5 n/a nothing to compile.
+ * wave 82 R12 (retry lane), no compile.
+ *
+ * 02188CB0..02188CBB is the 12-byte ARM entry thunk; 02188CBC..02188CD8 its
+ * (start + 0x1600, size + 0x021899A0 + 0x1600) pair table, zero-terminated:
+ * ranges 0x02188BD0, 0x02188B48 and the dispatcher 0x02188C60. The ROM bytes
+ * after the table are ciphertext; lane.py's 1944-byte extent only runs to the
+ * next ROM label. The decrypted view asm/ov230d/ov230d.s labels functions
+ * inside the extent (0x02188E3C, 0x02188E78, 0x02189098, 0x021890D4,
+ * 0x02189340, 0x0218937C, 0x021893D0, 0x0218940C, decrypted by the
+ * 0x02189448 thunk's table); they are separate `--region ov230d` addresses.
+ * Nothing is filed under this thunk's address.
+ */

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded W82 R11: src/pending/ov/ov093_func_021B6100.c is MATCH (0x474 allocation, raw case-2 offsets, flag default after the readiness call); only the ARM9 020083AC/C8 witness blocker is left.
  * budget: 3 iteration one + 1 check3 one + types300 + 1 scored validation;
  *   2/2 manual variants remain closed across all retries.
  * checks: 1 full own/primary arities; ARM9 083AC/C8 remain unresolved;

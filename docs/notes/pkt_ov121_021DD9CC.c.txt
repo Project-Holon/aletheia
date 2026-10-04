@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded W82 R11: src/matched/ov/ov121_func_021DD9CC.c is EXACT* (case 5 done = 1; done &= f(...)); ARM followers 021DDC30/021DDC44 filed as their own shards.
  * checks: 1 DE128 four, DE154 three inputs; own prototypes / caller widths checked; 2 DCFC8/DE0DC witnesses, no twin; 3 bool ok 11 diff, bool done 266 diff; 4 SDK hardware idiom inspected, wrappers outside lead; 5 neighbours and full idiom directory refreshed; permuter skipped: two unlabelled 20-byte ARM followers.
  * residual: 612-byte lead differs by 11 concrete bytes (mask rematerialization/scheduling); extent 652 includes DC30/DC44 followers. No leaf filed while ARM9 B5FC unresolved.
  * symbols:

@@ -11,6 +11,30 @@
  * residual: 472 B / 53 concrete mismatches at +0034..+0068 initialization scheduling; 9 iterations, three final nongains, manual order/extraction 2/2, C1 0/C2 0/C3 2/C4 0/C5 0 compiles; types permuter budget 300 no improvement.
  * blockers: potential overlay leaves 021B614C ov098, 022026FC ov094, 021B6B74 ov098; caller is DIFF, so no leaves filed. Parent cleared only conditional B74.
  * next: isolate enum-byte conversion while preserving initialization webs; no additional manual order/extraction variant remains in this run.
+ * wave82 (lane R10, retry): best C below unchanged at 53 B. The original's
+ *   case-0 block is the source order with only one-slot latency fills: no
+ *   word load moves above the word store before it. Every same-base spelling
+ *   tried hoists ldr [8]/ldrh [0x6c]/ldr [0x70] up to the call and groups
+ *   the zero stores (54 B): raw `*(u32 *)(p + K)` (v1), an inline
+ *   init(p + 0x1c, p) (v3), a copy `s = p` for stores (v4, copy-propagated),
+ *   `(u32)p + K` integer addresses on the stores (v5) or on the loads (v6),
+ *   a `const u8 *` alias for the loads (54 B), and `const u8 *p` with stores
+ *   cast back (65 B). A distinct base `u8 *s = p + 0x1c;` with stores
+ *   through s and loads through p reproduces the original order exactly,
+ *   but s takes r5 (`adds r5,r4,#0; adds r5,#0x1c`), so 387 B / 464. Lead:
+ *   a second base the scheduler cannot disambiguate from p that still
+ *   colours to r4 (p+0x1c..0x5f is a sub-object: case 1 passes &p[0x1c]
+ *   to func_0220C834).
+ * wave82 checks: 1 021B614C (`ldr r0,[r0,#0x10]`), 022026FC and 021B6B74
+ *   read r0 only, unchanged arity; definition conflicts: arm9
+ *   func_0202142C is defined `void (int)` but its result feeds
+ *   func_02017E40 (+0x1AE); arm9 sub_02035C60 is defined `void (void)` but
+ *   its return is tested at +0x180; 2 ov098 6504 twin uses the field form,
+ *   no init twin; 3 const p (casts on stores) 65 B, const load alias 54 B;
+ *   4 struct-field-stores-keep-source-order and integer-address idioms, both
+ *   directions 54 B; 5 unfiltered idiom list (575) re-read, nothing new
+ *   applies. Runs: baseline + 4 iteration + 4 check compiles; iteration stopped after four
+ *   consecutive nonshrinking changes; permuter not re-run (recorded above).
  * prototype: 0202142C result feeds setter at 021B672A; 02035C60 live return tested at 021B66F8.
  * symbols:
  *   ov196_id 0x000000C4 data

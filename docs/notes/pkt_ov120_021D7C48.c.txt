@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (w82 R7): EXACT* in src/matched/ov/ov120_func_021D7C48.c; 02045CAC resolves by label, and the lever was a standalone slot-store statement.
  * blocker: ARM9 02045CAC: Wave77 gated before caller compile. Body exists
  * in unit_02045C44.c but function header and pkt_02045C44.json nested list
  * omit func_02045CAC. Owner must supply that entry; no retry or leaves.

@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded: wave 82 lane R9 reached MATCH* (every concrete byte; only the
+ *   ARM9 thunk func_02018480 wildcarded) with `(int)(u32)r` on the first use
+ *   of r; that file is src/pending/ov/ov093_func_021BCFAC.c, start there.
  * checks: 1 ARM9 02018480 Thumb tail stub forwards r0/r1; other arities from matched ov093 callers; 2 no twin using 02018480; 3 u16 r unchanged (r2), const p rejected because BD080 mutates p (c3 CCERR); 4 spill/narrow/self-assignment idioms did not close reload; 5 refreshed neighbours/index, local array c5 unchanged; next hypothesis narrow struct local, no sweep run.
  * residual: compiled 208/212 bytes, 55 concrete bytes out. Missing ldr r0,[sp] at original +0x9c shifts trailing code by two bytes; padding supplies remaining size delta.
  * evidence: ARM9 Thumb stub 02018480 also unresolved; caller never reached MATCH, so no blocker C work was authorized.

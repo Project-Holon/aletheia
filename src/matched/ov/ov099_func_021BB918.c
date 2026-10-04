@@ -21,7 +21,7 @@ extern const Tbl d_021C398C;
 typedef unsigned int   u32;
 extern void func_0201DD78(u32 r, u32 g, u32 b);
 
-int func_021BB918(void *w, unsigned int idx)
+int func_021BB918(void *w, unsigned int idx, int *unused)
 {
     Tbl t;
 

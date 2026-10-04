@@ -7,25 +7,36 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 signed division helper reads two args; 2 only own E2F8 twin; 3 const pointer and Motion pointer unchanged (26); 4 short Scale worse54 and int Scale worse85; 5 fresh idiom listing and ov184/185/186 neighbour search, no new twin; no stack object; next hypothesis table row type.
+ * residual: 26 concrete bytes, same size (96). The only shape difference is
+ *   where the shared radius ldrh [r5,#0x10] is scheduled: the original loads
+ *   it between the cos and sin ldrsh (021FE40C), every spelling tried loads
+ *   it right after ldrh [r5,#0x12] (or, bound to a local, before the divide
+ *   call), which renumbers r1/r2/r3 through the two muls and the x/y adds.
+ * checks: 1 n/a only callee is _s32_div_f (2 args, resolved); 2 own E2F8 twin
+ *   (int angle with u16 cast, table indexed inline) compiled as below, 26;
+ *   3 const p 26 (wave 81), u16 radius local 26, int radius local 39 (hoisted
+ *   above the divide), int vs u16 angle 26; 4 fx-mul-shared-radius idiom is
+ *   the 64-bit _ll_mul shape, 32-bit MulFx inline gives SIZE 100; table loads
+ *   as separate statements 72/59; 5 fresh idiom listing (new else-if
+ *   unassigned-local idiom does not fit), ov186 neighbours, no new twin;
+ *   permuter --budget 300 --types (wave 82, baseline 26 agreed with one)
+ *   found nothing below 26. Next: none of the remaining levers is principled;
+ *   a sin/cos pair struct row type is the only untried shape.
+ * runs (wave 82 retry): 2 + 1x4 + 1x2 + permuter.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a2
  */
 extern const short d_020A1B38[];
-static inline short Cos(unsigned short angle) { return d_020A1B38[(angle >> 4) * 2 + 1]; }
-static inline short Sin(unsigned short angle) { return d_020A1B38[(angle >> 4) * 2]; }
 int func_021FE3E4(char *p, int *out, int step)
 {
-    unsigned short angle = *(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14);
-    int x = ((Cos(angle) * *(unsigned short *)(p + 0x10)) >> 12);
-    int y = ((Sin(angle) * *(unsigned short *)(p + 0x10)) >> 12);
+    int angle, x, y;
+    angle = (unsigned short)(*(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14));
+    x = (d_020A1B38[(angle >> 4) * 2 + 1] * *(unsigned short *)(p + 0x10)) >> 12;
+    y = (d_020A1B38[(angle >> 4) * 2] * *(unsigned short *)(p + 0x10)) >> 12;
     x += *(int *)p;
     y += *(int *)(p + 4);
-    *(int *)((char *)p + 8) = x;
-    *(int *)((char *)p + 12) = y;
-    if (out) {
-        out[0] = x;
-        out[1] = y;
-    }
+    *(int *)(p + 8) = x;
+    *(int *)(p + 12) = y;
+    if (out) { out[0] = x; out[1] = y; }
     return step == *(int *)(p + 0x14);
 }

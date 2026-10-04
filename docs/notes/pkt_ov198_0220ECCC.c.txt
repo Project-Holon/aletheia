@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R6): EXACT as src/matched/ov/ov198_func_0220ECCC.c; start pair read as a struct field of a const table extern (d_02211D34 +0x3C), 0x02211D6C as d_02211D68.second.
  * checks: 1 E7CC takes 2, E974/E9A0/EA30 take 3; 2 EBCC twin Pair(s16,s16), corrected E9A0 char*,u8*,Pair* compiled unchanged; 3 unsigned i compiled unchanged, const Record* helped while iterating; 4 cast table byte-offset copy unchanged, char-base idiom reduced CSE; 5 fresh idiom inventory and E7CC/F2DC reread, block initializer unchanged; next four-byte-aligned union storage
  * residual: 8 concrete bytes differ at original size 136; saved spelling compiled in 0220ECCC-c2a.log.
  * refresh: final matched EBCC and E9A0 read after their move race; same Pair shape and E9A0 prototype, no new lever.

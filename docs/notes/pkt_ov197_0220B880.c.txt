@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R6): EXACT as src/matched/ov/ov197_func_0220B880.c; the scaled index is an int local added after each field offset, not a row pointer.
  * checks: 1 callee arities checked; DA08 even pool is byte data, data a1 resolves; 2 no scheduling twin; 3 const p CCERR then corrected const p still 9; 4 named index still 9; 5 fresh idioms and ov197/ov198 neighbours no closer twin; next struct context-field scheduling (no sweep).
  * symbols:
  *   func_02045770 0x02045770 arm

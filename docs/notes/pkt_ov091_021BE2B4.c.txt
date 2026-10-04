@@ -8,6 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded: wave 82 R12 filed EXACT as src/matched/ov/ov091_func_021BE2B4.c
+ *   (real 02020F34/021BEA48 prototypes, (u16)heap at the call, u16 item and moveSlot).
  * checks: 1 BEA48 6 args/fifth u16, 02020F34 3 args; 2 no full twin; 3 narrow item/heap worse1468, const mon/int item unchanged37; 4 declaration stack order1472/37 and duplicate applicable tail35; 5 fresh idioms and matched BEA48/B7698/B7CC4 read.
  * residual: 1472/1472, 35 concrete bytes; prologue homing and friendship-call scheduling. ARM9 func02020F34 has no outside witness. Permuter300 baseline37 agreed, no improvement.
  * symbols:

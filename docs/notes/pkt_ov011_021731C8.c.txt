@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded (wave 82, lane R10): src/pending/ov/ov011_func_021731C8.c is
+ *   byte-correct MATCH. Fixes: matched callee prototypes (u32 h cast per
+ *   call, u8 me, void **o) removed the register permutation; the shared
+ *   func_02012B4C(h, 1) written in both arms gives the `b` to next.
+ *   Blockers there: arm9 leaf 0x02026680 and ov010 stub 0x02161F68.
  *
  * symbols:
  *   func_02026478  0x02026478  thumb

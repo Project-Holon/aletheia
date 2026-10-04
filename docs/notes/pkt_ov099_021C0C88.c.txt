@@ -5,14 +5,39 @@
  * region: ov099
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 BF050/BDD54/BDD60 bodies and visible p inputs audited; 2 C0554/C17F4/C0E60/C10A8 and ov098 search provide no closing twin; 3 full-width long ret DIFF370/464 unchanged, choice long and BDD54 full-width return iteration unchanged, const p invalid because stores; 4 enum-offset/field-recompute/inline idioms read, manual cap2 exhausted; 5 fresh unfiltered directory and neighbours read, no aggregate stack object. Next: signed kind web and pointer-field access with bounds evidence.
- * residual: 370 concrete bytes, 464/472; off/choice colors swapped and free offset cached. Also ARM9 0203CB00 has no outside-range witness; no ARM9 retry/overlay leaf filed. Iteration5 stop streak3, first nonshrink r3 position3/20; C1=0 C2=0 C3=1 C4=0 C5=0 manual=2. types300 best DIFF375 rejected: n_ and q_ read their originals before assignment.
- * prototype-evidence: BF050's full body forwards no inputs; original caller
- *   explicitly supplies p, retained. BE900's empty body also gets explicit p.
- * bounds: BDD60's full switch returns true only for kind 7..14, bounding /2
- *   and remainder stores; all other locals retain the full original width.
+ * status: MATCH
+ * checks: 1 every callee re-derived (wave 82); definition conflict at func_021BF050 (below), all other arities match their listings (BDD54 tail-calls the u8 getter 021C27D8 with r1, BA8BC reads r0 only and returns 0); 2 pending ov099 twins 021C0858/021C0078/021BF2C4 share the prologue and use plain raw offsets, adopted; 3 n/a: byte-correct; 4 a-struct-return-frame-word-also-stops-cross-call-constant-derivation: its enum local with an unfolded shift removes the 0x24c constant base, which closed the last residue; 5 n/a: byte-correct, no further lever needed.
+ * result (wave 82, lane R10, retry): byte-correct MATCH 472/472, 30 of 31
+ *   relocations resolved. Parked as a note, not a pending file, because it
+ *   matches only with a callee declaration that diverges from that callee's
+ *   matched definition:
+ * definition conflict: ov099 func_021BF050 (src/matched/ov/ov099_func_021BF050.c)
+ *   is defined `BOOL func_021BF050(void)` and its body never reads r0, but
+ *   this caller sets the argument explicitly:
+ *     021C0C98  28 1c  adds r0, r5, #0
+ *     021C0C9A  fe f7 d9 f9  bl #0x21bf050
+ *   With the definition's `(void)` prototype the compile is 468 bytes, 431
+ *   bytes off (run 5). The C below declares `int func_021BF050(char *p)`.
+ *   The owner's fix is a one-parameter definition (unused `char *p`); then
+ *   this file can be filed as a pending MATCH unchanged.
+ * blocker even then: arm9 0x0203CB00 (+0x38, ARM, unlabelled; Ilias's) has no
+ *   outside witness (13 call sites image-wide, all unlabelled targets);
+ *   tu --suggest-split: not cuttable. Its verified C is in the header of
+ *   src/pending/ov/ov099_func_021BF2C4.c (copied from ov099_func_021BEB68.c).
+ * levers: the prologue matched once written from the listing with plain raw
+ *   offsets (no Off enum for 0x274/0x242/0x1a4; mwcc derives those from the
+ *   0x274 base by itself). The -1/-2/default chain is a switch with the arms
+ *   in source order (case -1 return, case -2, default); each arm's store to
+ *   +0x1cc is written in the arm and cross-jumps into the shared tail. The
+ *   two p + 0x24c arguments go through `state(p)`, an inline over an enum
+ *   local with an unfolded shift (`t = 0x93; p + (t << 2)`): with a plain
+ *   `p + 0x24c` (run 1, 203 B), an integer-address spelling (run 2) or an
+ *   enum local holding 0x24c (run 3), mwcc keeps 0x24c in r6 and derives
+ *   the 0x1cc stores from it (`subs r6, #0x80`), which also splits the 0x76
+ *   store out of the shared tail.
+ * runs: 5 (+ tu --suggest-split). Permuter not run: byte-correct.
  * symbols:
  *   func_020200CC 0x020200CC thumb
  *   func_021BF050 0x021BF050 thumb ov099
@@ -39,94 +64,103 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef enum { K274=0x274, K1a4=0x1a4 } Off;
-struct W; struct S; struct Obj;
-extern int func_020200CC(struct Obj *);
-extern int func_021BF050(char *);
-extern u8 func_021B97F4(struct W *);
-extern void *func_021BE2A8(char *, int);
+typedef int s32;
+struct Obj;
+extern s32 func_020200CC(struct Obj *o);
+extern int func_021BF050(char *p);
+extern u8 func_021B97F4(char *p);
+extern void *func_021BE2A8(char *p, int n);
 extern int func_0203CB00(void);
-extern int func_021BA8BC(void *);
-extern void func_0202020C(struct Obj *, u16 *, u16 *);
-extern void func_0201F868(void *);
-extern void func_021B9AE0(char *, void *);
-extern void func_021BE900(char *);
-extern void func_021BA8EC(char *);
-extern void func_020061E4(u32);
-extern u8 func_021BDD54(int, struct S *);
+extern int func_021BA8BC(int h);
+extern void func_0202020C(struct Obj *o, u16 *a, u16 *b);
+extern void func_0201F868(void *p);
+extern void func_021B9AE0(char *p, void *q);
+extern void func_021BE900(char *p);
+extern void func_021BA8EC(char *p);
+extern void func_020061E4(u32 a);
+extern u8 func_021BDD54(char *p, void *s);
 extern int func_0202EB14(void);
 extern u32 func_0202EB0C(void);
-extern void func_021BAAB8(char *, int, int);
-extern int func_021BDDD0(char *);
-extern int func_021BDD60(int);
-extern void func_021BCC4C(void *);
-extern int func_021BDDF4(char *);
-extern int func_021C27E0(struct S *);
-static inline struct S *state(char *p) { Off t; t=(Off)0x24c; return (struct S *)(p+t); }
-int func_021C0C88(char *p,int ret)
+extern void func_021BAAB8(char *p, int a, int b);
+extern int func_021BDDD0(char *p);
+extern int func_021BDD60(int x);
+extern u32 func_021BCC4C(char *p);
+extern int func_021BDDF4(char *p);
+extern int func_021C27E0(void *s);
+typedef enum { K93 = 0x93 } Off;
+static inline void *state(char *p) { Off t; t = K93; return p + (t << 2); }
+int func_021C0C88(char *p, int ret)
 {
-    Off off;
-    int choice, toggle, n;
+    int choice;
+    int k;
+    int t;
+    int n;
     void *q;
-    choice=func_020200CC(*(struct Obj **)(p+0xbc));
-    if(func_021BF050(p))choice=-2;
-    off=K274;
-    n=func_021B97F4((struct W *)(p+off));
-    *(u16 *)(p+(off-0x32))=n;
-    q=func_021BE2A8(p,n);
-    if(func_0203CB00()){
-        *(int *)(p+(Off)(off-0xd0))=func_021BA8BC(*(void **)(p+(off-0xd0)));
-        func_0202020C(*(struct Obj **)(p+0xbc),0,0);
-        func_0201F868(*(void **)(p+0xb8));
-        if(q)func_021B9AE0(p+off,q);
+
+    choice = func_020200CC(*(struct Obj **)(p + 0xbc));
+    if (func_021BF050(p))
+        choice = -2;
+    n = func_021B97F4(p + 0x274);
+    *(u16 *)(p + 0x242) = n;
+    q = func_021BE2A8(p, n);
+    if (func_0203CB00()) {
+        *(int *)(p + 0x1a4) = func_021BA8BC(*(int *)(p + 0x1a4));
+        func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
+        func_0201F868(*(void **)(p + 0xb8));
+        if (q)
+            func_021B9AE0(p + 0x274, q);
         func_021BE900(p);
         return ret;
     }
-    if(choice!=-1){
+    if (choice != -1) {
         func_021BA8EC(p);
-        *(int *)(p+(Off)(off-0xd0))=func_021BA8BC(*(void **)(p+(off-0xd0)));
-        off-=0xd0;
-        func_0202020C(*(struct Obj **)(p+0xbc),0,0);
-        func_0201F868(*(void **)(p+0xb8));
+        *(int *)(p + 0x1a4) = func_021BA8BC(*(int *)(p + 0x1a4));
+        func_0202020C(*(struct Obj **)(p + 0xbc), 0, 0);
+        func_0201F868(*(void **)(p + 0xb8));
     }
-    if(choice==-2){
-        func_020061E4(0x551);
-        *(int *)(p+0x1cc)=11;
-    }else if(choice==-1){
+    switch (choice) {
+    case -1:
         return ret;
-    }else{
+    case -2:
+        func_020061E4(0x551);
+        *(int *)(p + 0x1cc) = 11;
+        break;
+    default:
         func_020061E4(0x54c);
-        off=(Off)func_021BDD54((int)p,state(p));
-        if(off==5 && func_0202EB14()==0 && func_0202EB0C()!=0){
-            func_021BAAB8(p,0x95,0);
-            *(int *)(p+0x1cc)=0xa2;
+        k = func_021BDD54(p, state(p));
+        if (k == 5 && func_0202EB14() == 0 && func_0202EB0C() != 0) {
+            func_021BAAB8(p, 0x95, 0);
+            *(int *)(p + 0x1cc) = 0xa2;
             return ret;
         }
-        if(off==6 && func_021BDDD0(p)==0){
-            func_021BAAB8(p,0x79,0);
-            *(int *)(p+0x1cc)=0x71;
-            goto restore;
+        if (k == 6 && func_021BDDD0(p) == 0) {
+            func_021BAAB8(p, 0x79, 0);
+            *(int *)(p + 0x1cc) = 0x71;
+            break;
         }
-        if(func_021BDD60(off)){
-            *(u16 *)(p+0x134c)=((int)off-7)/2;
-            *(u16 *)(p+0x134e)=((int)off-7)%2;
+        if (func_021BDD60(k)) {
+            *(u16 *)(p + 0x134c) = (k - 7) / 2;
+            *(u16 *)(p + 0x134e) = (k - 7) % 2;
             func_021BCC4C(p);
-            if(func_021BDDF4(p)==0){
-                func_021BAAB8(p,0x68,0);
-                *(int *)(p+0x1cc)=0x71;
+            if (func_021BDDF4(p) == 0) {
+                func_021BAAB8(p, 0x68, 0);
+                *(int *)(p + 0x1cc) = 0x71;
             }
         }
-        *(int *)(p+0x135c)=2;
-        toggle=func_021C27E0(state(p));
-        if(toggle==func_021C27E0(*(struct S **)(p+8))){
-            *(int *)(p+0x1cc)=0x76;
-        }else{
-            if(func_021C27E0(*(struct S **)(p+8)))func_021BAAB8(p,0x49,0);
-            else func_021BAAB8(p,0x48,0);
-            *(int *)(p+0x1cc)=0x37;
+        *(int *)(p + 0x135c) = 2;
+        t = func_021C27E0(state(p));
+        if (t == func_021C27E0(*(void **)(p + 8))) {
+            *(int *)(p + 0x1cc) = 0x76;
+        } else {
+            if (func_021C27E0(*(void **)(p + 8)))
+                func_021BAAB8(p, 0x49, 0);
+            else
+                func_021BAAB8(p, 0x48, 0);
+            *(int *)(p + 0x1cc) = 0x37;
         }
+        break;
     }
-restore:
-    if(q)func_021B9AE0(p+0x274,q);
+    if (q)
+        func_021B9AE0(p + 0x274, q);
     return ret;
 }

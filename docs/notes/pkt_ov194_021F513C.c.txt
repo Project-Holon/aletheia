@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded: wave 82 R5, EXACT* as src/matched/ov/ov194_func_021F513C.c (plain double loop, dst held in an unsigned local).
  * checks: 1 owned callee reads six args with void return, prototype correct;
  * 2 no twin across ov193/194/195, owned 51A4 reread;
  * 3 x u16, width u16, step unsigned compiled unchanged at 19-byte residue;

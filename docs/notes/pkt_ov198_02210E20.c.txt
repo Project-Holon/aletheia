@@ -8,6 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R8): EXACT as src/matched/ov/ov198_func_02210E20.c
+ *   (switch without a default arm, `index*=76;` after base). Kept for the
+ *   record.
  * checks: 1 all six callees decoded, arities 2/1/2/3/3/1, no stack args;
  * 2 C0D0/C398 and pending D494 twins confirm prototypes, no exact twin;
  * 3 unsigned index unchanged (54 bytes), const p CCERR, cap 2 consumed;

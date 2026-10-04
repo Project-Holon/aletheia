@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R6): EXACT as src/matched/ov/ov198_func_0220D418.c; the lever was dropping `default: return;` (the image's switch has no default; t is unassigned on that path, as docs/idioms/a-call-argument-set-only-in-an-else-if-chain-is-an-unassigned-local.md describes).
  * checks: 1 callee own sources and show confirm 45EC0 reads two and 45770 one, no argument-register residue; 2 D090/D218 twins use matching print tail, no defined default twin; 3 u8 selector compiled no change (98 bytes); 4 dense-switch idiom fits dispatch but default still needs initialized t; 5 fresh unfiltered idiom listing and BE2C/D090 neighbours read, no stack aggregate; no further sweep: uninitialized default forbidden
  * residual: Original +0014 bypasses all assignments to r7 for selectors outside 0..2; source returns in default to avoid an uninitialized t. Valid-case print tail is identical apart from two-byte shift; DIFF98.
  * symbols:

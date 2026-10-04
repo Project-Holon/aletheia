@@ -8,6 +8,36 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * checks: 1 every callee re-derived from its matched definition (wave 82); 02013DE0 reads r0 only, no unused argument registers; 2 ov020 021864DC twin's raw `p + 8 + i * 0x18` / `(u32)p + i * 0x18 + 0xb` spelling in the first loop SIZE 460 (341 B), 02186AC8/02186670 twins give no preheader lever; 3 `u32 v` no change, `u32 cnt` no change (const P invalid: the function stores b3); 4 field-spelled-two-ways idiom: raw first ECC argument SIZE 460, raw `p + 0xf8` for the b argument no change; 5 unfiltered idiom list (574) and newest ov020 files re-read, nothing applies. Permuter not re-run (300-candidate run recorded below).
+ * residual (wave 82, lane R10): 456/456, 4 concrete bytes, unchanged by the
+ *   real prototypes: preheader of the first loop
+ *     original  +005A adds r0,#0xf8 ; adds r4,#8 ; str r0,[sp,#0x28]
+ *     compiled  +005A adds r0,#0xf8 ; str r0,[sp,#0x28] ; adds r4,#8
+ *   Iteration: 4 runs (v1 real prototypes, same 4 B; scheduling variants
+ *   `Ent *ea = p->a` before the loop: 4 B moved to +0056/+005C, and
+ *   `Ent *eb = p->b` before the loop: 28 B; separate counters j/k for loops
+ *   2-3: 21 B). Stopped after three nonshrinking changes.
+ * definition conflict: arm9 func_020127C4 (src/matched/arm9/func_020127C4.c)
+ *   is defined `void` but its listing is a tail call `ldr r3,=0x020127D1;
+ *   movs r1,#1; bx r3`, returning sub_020127D0's u8 *; this function stores
+ *   that result at [sp,#0x20] (+0x16). arm9 func_020127E0/func_020127F0 are
+ *   defined `int f(int,int,int,int)` but read only r0 (`ldr r0,[r0]`). The C
+ *   below follows the matched ov020 callers (02183DD4, 021859FC, 02186E94):
+ *   one argument, pointer return.
+ * blocker even when byte-exact: func_02013DE0 (arm9) is an unlabelled thumb
+ *   leaf (Ilias's), verified EXACT in isolation with
+ *     extern const unsigned short d_0209DFEC[];
+ *     extern int func_02013B10(int id, const unsigned short *tbl, int n);
+ *     int func_02013DE0(int id) { return func_02013B10(id, d_0209DFEC, 9); }
+ *   (symbols: func_02013B10 0x02013B10 thumb; d_0209DFEC 0x0209DFEC data a4;
+ *   region arm9). This caller truncates its argument (`lsls/lsrs #16` at
+ *   +0x4E), so the caller's prototype takes u16.
+ * Earlier work (pre wave 82): tried without effect the b3 stores spelled as
+ *   ((u8 *)p)[i * 0x18 + 0xb] (334 bytes worse), a named u8 *eb for that
+ *   entry (same), p->a + i for the first predicate call (no change), and a
+ *   300-compile permuter run (no improvement). What shrank it: stack order
+ *   p, q, s, then v declared last; Rec u16 w[3] at +8 for the rnd % 3 index;
+ *   the second random bound to a u16 local rv.
  *
  * symbols:
  *   func_020127A4  0x020127A4  thumb
@@ -33,27 +63,6 @@
  *   func_021869D4  0x021869D4  thumb  ov020
  *   func_021869DC  0x021869DC  thumb  ov020
  *   func_02186804  0x02186804  thumb  ov020
- *
- * Near miss (B9): 456 of 456 bytes, 4 concrete bytes differ, one scheduling
- * swap in the hoisted loop invariants before the first loop:
- *     original  +005A adds r0,#0xf8 ; adds r4,#8 ; str r0,[sp,#0x28]
- *     compiled  +005A adds r0,#0xf8 ; str r0,[sp,#0x28] ; adds r4,#8
- * (r4 = &p->a[0], sp28 = p->b, both hoisted by the compiler).  Everything
- * else is byte-exact.  Tried without effect: the b3 stores spelled as
- * ((u8 *)p)[i * 0x18 + 0xb] (334 bytes worse), a named u8 *eb for that
- * entry (same), p->a + i for the first predicate call (no change), and a
- * 300-compile permuter run (no improvement).  What shrank it: stack order
- * p, q, s, then v declared last; Rec with u16 w[3] at +8 for the rnd % 3
- * index; the second random bound to a u16 local rv.
- *
- * Even byte-exact this caps at MATCH: func_02013DE0 (arm9) is an unlabelled
- * thumb leaf (Ilias's), verified EXACT in isolation with
- *     extern const unsigned short d_0209DFEC[];
- *     extern int func_02013B10(int id, const unsigned short *tbl, int n);
- *     int func_02013DE0(int id) { return func_02013B10(id, d_0209DFEC, 9); }
- * (symbols: func_02013B10 0x02013B10 thumb; d_0209DFEC 0x0209DFEC data a4;
- * region arm9).  It is the near-miss run 0x02013DD0-0x02013DF0 noted in
- * src/matched/arm9/unit_02013D9C.c.
  */
 
 typedef unsigned char  u8;
@@ -76,39 +85,33 @@ typedef struct {
     Ent b[3];
 } Box;
 
-typedef struct {
-    u16 h0;
-    u8 pad02[6];
-    u16 w[3];
-    u8 pad0E[0x16];
-    u16 h24;
-    u16 h26;
-} Rec;
+struct SaveBlock;
+struct Rec44;
 
-extern void *func_020127A4(int a);
-extern int func_02012AC8(void *a);
-extern Box *func_020127C4(int a);
-extern void *func_020127E0(int a);
-extern void *func_020127F0(int a);
-extern u32 func_02186278(Box *p, int which);
-extern int func_02161ECC(Ent *e);
-extern int func_02186BB8(Ent *e, int d);
-extern void func_02186BE0(Ent *e, int v);
-extern int func_02013DE0(u16 v);
-extern void func_02186B2C(Ent *dst, Ent *src);
-extern void func_02161E78(Ent *e);
-extern void func_02161E60(Box *p, int v);
-extern void func_02161EEC(void *q);
-extern int func_021867C4(int, int);
-extern void func_02186818(int h, int v);
-extern Rec *func_0218682C(int h);
-extern u32 func_020056EC(u32 n);
-extern void func_02186878(void *q, int a, u16 b);
-extern void func_021869D4(void *s, int v);
-extern void func_021869DC(void *s, int v);
-extern void func_02186804(int);
+extern void *func_020127A4(struct SaveBlock *p);
+extern u16 func_02012AC8(const struct Rec44 *p);
+extern void *func_020127C4(void *p);
+extern void *func_020127E0(void *p);
+extern void *func_020127F0(void *p);
+extern int func_02186278(char *p, int which);
+extern int func_02161ECC(void *p);
+extern int func_02186BB8(u8 *p, int delta);
+extern void func_02186BE0(char *p, u8 v);
+extern int func_02013DE0(u16 id);
+extern char *func_02186B2C(char *p, char *src);
+extern void func_02161E78(void *a0);
+extern int func_02161E60(int a0, int a1);
+extern void func_02161EEC(u16 *buf);
+extern int *func_021867C4(int a, int id);
+extern void func_02186818(u32 *p, u32 member);
+extern char *func_0218682C(char *p);
+extern u32 func_020056EC(u32 range);
+extern int func_02186878(u16 *p, u16 v, int i);
+extern void func_021869D4(char *p, u16 v);
+extern void func_021869DC(u16 *p, u16 v);
+extern void func_02186804(void **p);
 
-void func_021862A8(int a0, int lv, int id)
+void func_021862A8(void *a0, int lv, int id)
 {
     Box *p;
     void *q;
@@ -118,12 +121,12 @@ void func_021862A8(int a0, int lv, int id)
     int d;
     int i;
     int cnt;
-    int h;
-    u32 n;
+    int *h;
+    int n;
     u32 rnd;
     u32 acc;
     int r;
-    Rec *rec;
+    char *rec;
     u16 rv;
 
     v = func_02012AC8(func_020127A4(a0));
@@ -134,18 +137,18 @@ void func_021862A8(int a0, int lv, int id)
         lv = 1;
     if (lv > 0x15)
         lv = 0x15;
-    have = func_02186278(p, 1);
+    have = func_02186278((char *)p, 1);
     cnt = 0;
     d = -5 * lv;
     for (i = 0; i < 10; i++) {
         if (func_02161ECC(&p->a[i])) {
             p->a[i].b3 = 7;
-            r = func_02186BB8(&p->a[i], d);
+            r = func_02186BB8((u8 *)&p->a[i], d);
             if (r && have + cnt >= 10) {
-                func_02186BE0(&p->a[i], 1);
+                func_02186BE0((char *)&p->a[i], 1);
             } else if (r) {
                 if (func_02013DE0(v) == 0) {
-                    func_02186B2C(p->b, &p->a[i]);
+                    func_02186B2C((char *)p->b, (char *)&p->a[i]);
                     func_02161E78(&p->a[i]);
                 } else {
                     p->a[i].b3 = 1;
@@ -154,37 +157,37 @@ void func_021862A8(int a0, int lv, int id)
             }
         }
     }
-    func_02161E60(p, 0);
+    func_02161E60((int)p, 0);
     func_02161EEC(q);
     h = func_021867C4(0, (u16)((id & 0x7FFF) | 0x8000));
     if (p->h2 == 1) {
         for (i = 0; i < 10; i++) {
             if (func_02161ECC(&p->a[i])) {
-                func_02186818(h, p->a[i].b1);
-                rec = func_0218682C(h);
-                if ((u16)func_020056EC(100) < rec->h26) {
+                func_02186818((u32 *)h, p->a[i].b1);
+                rec = func_0218682C((char *)h);
+                if ((u16)func_020056EC(100) < *(u16 *)(rec + 0x26)) {
                     rv = func_020056EC(10);
-                    func_02186878(q, rec->h24, rv);
+                    func_02186878(q, *(u16 *)(rec + 0x24), rv);
                 }
             }
         }
         acc = 0;
-        n = func_02186278(p, 0);
+        n = func_02186278((char *)p, 0);
         if (n != 0) {
             rnd = func_020056EC(n * 3);
             for (i = 0; i < 10; i++) {
                 if (func_02161ECC(&p->a[i])) {
                     acc += 3;
                     if (acc > rnd) {
-                        func_02186818(h, p->a[i].b1);
-                        rec = func_0218682C(h);
-                        func_021869D4(s, rec->w[rnd % 3]);
-                        func_021869DC(s, rec->h24);
+                        func_02186818((u32 *)h, p->a[i].b1);
+                        rec = func_0218682C((char *)h);
+                        func_021869D4(s, *(u16 *)(rec + 8 + (rnd % 3) * 2));
+                        func_021869DC(s, *(u16 *)(rec + 0x24));
                         break;
                     }
                 }
             }
         }
     }
-    func_02186804(h);
+    func_02186804((void **)h);
 }

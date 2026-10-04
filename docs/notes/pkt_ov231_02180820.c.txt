@@ -1,0 +1,69 @@
+/*
+ * function: func_02180820
+ * address: 0x02180820
+ * packet: pkt_ov231_02180820
+ * region: ov231
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 every callee read from its body or matched definition: 02180924 returns the u8 it narrows at 02180974, 02180914 takes u16, 02180984/02180904 as matched; 02084E2C is an asm `ldr r1,=func_02084E10; bx r1` stub whose matched C says (void) but the image loads r0 from d_02180A00 before it, so it is declared (u16) like its lock twin 02084DF4 (see prototype-evidence); 2 ov015 IRCi_Read/IRCi_WaitCommand (src/matched/ov_sdk/ov015_func_0217A7AC.c, ov015_func_0217A5B4.c) and ov231 02180924/02180984 are this file's twins, all with one folded `* 64000`; the SDK's own `((u64)(tick) * 64 * 1000) / (OS_SYSTEM_CLOCK/1000)` spelling also folds (167, no change); unsigned-enum scale per wait still sign-extends (173); 3 `u32 k = 64` scale local folds (167), enum-typed `k` re-assigned before each wait unfolds both muls and hoists the 64 per loop but its high word is `asrs` and the operands swap (173); 4 an-enum-type-keeps-values-out-of-constant-folding read: an enum-typed local `k` unfolds the multiply but stays live across the function (181), an `(enum)64` cast folds (167); 5 fresh idiom directory (573) and ov231 neighbours re-read, no stack-object residue (the one frame word is the escaped rx byte).
+ * residual: compiled 208 of 228 bytes, 167 concrete bytes out, all from the two inlined 60 us waits. The image multiplies by 64 and then by 1000 in two _ull_mul calls (02180856/02180860 and 021808A6/021808B0), with 64 in r7 and a zero high word in r4 hoisted out of each loop and 1000 rematerialised; every literal spelling of the conversion folds to one `* 64000` (8 bytes short per wait, 64000 hoisted into r7). Everything else in the function lines up byte for byte once shifted. Next lever: an unsigned, non-folding source of the 64 that is re-materialised per wait (an inline helper whose scale parameter has an enum or unsigned-enum type, or a different conversion macro); the permuter does not try enum types.
+ * budget: iteration d1 + 2 sweeps (sweep1 5 compiles: 1000LL, s64/u64 casts between the multiplies, (u64)1000, 33514000/1000 -> 167/168/176; sweep2 3 compiles: u64 local k folds, u32-k and inline-wait CCERR on a missing u32 typedef) + 2 manual (inline wait helper 167, `64 *` on the left 167), nonshrinking streak 3 so iteration stopped; checks C2=2 C3=2 C4=2 C5=0; permuter --budget 300 --types once: baseline = best (bytes-out 159, size 208/228), no winning mutation. Runs: 3 + 2x(5,3) + 6 checks + permuter.
+ * prototype-evidence: func_02084E2C (arm9, src/matched/arm9_sdk/func_02084E2C.c) is `asm void(void)` forwarding r0 to func_02084E10, whose own matched caller card_unlockrom.c passes one id; 021808DC loads the lock id into r0 before the blx, so the call takes that argument.
+ * volatile: none.
+ * symbols:
+ *   func_02075E9C 0x02075E9C arm
+ *   func_02084DF4 0x02084DF4 arm
+ *   func_02084E2C 0x02084E2C arm
+ *   func_02075EAC 0x02075EAC arm
+ *   func_020870D0 0x020870D0 arm
+ *   func_02180904 0x02180904 thumb ov231
+ *   func_02180914 0x02180914 thumb ov231
+ *   func_02180924 0x02180924 thumb ov231
+ *   func_02180984 0x02180984 thumb ov231
+ *   _ull_mul 0x0209C054 arm
+ *   _ll_udiv 0x0209C00C arm
+ *   d_02180A00 0x02180A00 data a2
+ *   d_02180A20 0x02180A20 data a4
+ *   d_02180A30 0x02180A30 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+extern u16 d_02180A00;
+extern u8 d_02180A20[];
+extern u8 d_02180A30;
+extern void func_02075E9C(u16);
+extern int func_02084DF4(u16);
+extern void func_02084E2C(u16);
+extern void func_02075EAC(u16);
+extern u64 func_020870D0(void);
+extern void func_02180904(void);
+extern void func_02180914(u16);
+extern u8 func_02180924(u8 *);
+extern void func_02180984(u8 *);
+u8 func_02180820(void)
+{
+    u8 buf;
+    u64 start;
+    *(u8 **)(d_02180A20 + 4) = &d_02180A30;
+    *(u8 **)(d_02180A20 + 8) = &buf;
+    d_02180A30 = 8;
+    func_02075E9C(d_02180A00);
+    func_02084DF4(d_02180A00);
+    start = func_020870D0();
+    while ((func_020870D0() - start) * 64 * 1000 / 33514 < 60) ;
+    func_02180904();
+    func_02180914(0x42);
+    buf = func_02180924(d_02180A20);
+    start = func_020870D0();
+    while ((func_020870D0() - start) * 64 * 1000 / 33514 < 60) ;
+    func_02180914(2);
+    func_02180984(d_02180A20);
+    func_02180904();
+    func_02084E2C(d_02180A00);
+    func_02075EAC(d_02180A00);
+    return buf;
+}

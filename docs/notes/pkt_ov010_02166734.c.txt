@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * superseded (wave 82 R8): EXACT as src/matched/ov/ov010_func_02166734.c
+ *   (each arm writes its own u16 store), with its five leaves filed as
+ *   ov010_func_02166658.c and ov021_func_021C87A0/AC/B8/C8.c. The text
+ *   below is the earlier DIFF36 spelling, kept for the record.
+ * checks: superseded; see the pending file
  *
  * Near miss: 170 B vs 172 B. Original keeps a in r4, p in r5 and has a dead
  * 'b next' from case 8 into default; register order unresolved after a

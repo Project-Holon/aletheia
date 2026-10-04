@@ -1,0 +1,23 @@
+/*
+ * function: func_02189908
+ * address: 0x02189908
+ * packet: pkt_ov230_02189908
+ * region: ov230
+ * isa: arm
+ * status: not C (wave 82 R8: one show, no compile)
+ * The label is ov230's fifth static initialiser (sinit table
+ * 0x02189974..0x0218998C: 0x02188408, 0x021889B0, 0x02188CB0, 0x02189448,
+ * 0x02189908), the hand-written self-decrypting stub:
+ *   02189908  orr r0, pc, #0        (r0 = 0x02189910)
+ *   0218990C  adds r0, r0, #4       (r0 = the table at 0x02189914, never 0)
+ *   02189910  bne loc_02188A48      (always taken: the shared loader)
+ * followed by its (start+0x1600, end) word-pair table and encrypted
+ * payload words to the end of the overlay image (0x021899A0). `orr rd, pc`
+ * and an always-true `adds; bne` are not mwcc output, and the 152-byte
+ * extent is the stub plus data. The mechanism is traced in
+ * docs/notes/pkt_02011D9C.c.txt item 5; the loader's classifier is matched
+ * as src/matched/ov/ov230_func_02188A0C.c, whose header records the loader
+ * follower 0x02188A48..0x02188B48 and encoded payload as non-C too.
+ * Do not hand this address to a lane again.
+ * checks: 1 n/a, no calls (one always-taken branch into the loader, r0 = table); 2 the four sibling sinits share the identical stub, none filed as C; 3 n/a, no parameters; 4 n/a, not compiler output; 5 n/a, not compiler output
+ */

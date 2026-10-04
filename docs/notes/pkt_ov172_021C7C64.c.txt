@@ -1,0 +1,14 @@
+/*
+ * function: func_021C7C64
+ * address: 0x021C7C64
+ * packet: pkt_ov172_021C7C64
+ * region: ov172
+ * status: not C (phantom label on a data word)
+ * checks: 1 n/a no code; 2 n/a no code; 3 n/a no parameters; 4 a-data-word-that-looks-like-a-saved-lr-prologue-becomes-a-phantom-function.md; 5 n/a nothing to compile.
+ * wave 82 R12 (retry lane): `show --region ov172` re-read, still the same
+ * table words (0x0023B504 at 0x021C7C64, low half `push {r2, lr}`), so
+ * docs/notes/pkt_021C7C64.c.txt (the older, region-less name for this same
+ * address) stands: one entry of a 256-entry signed fixed-point step table
+ * 0x021C7B2C..0x021C7F2C, no branch or pool word anywhere names the address,
+ * and the 3196-byte extent is the overlay's data tail. Nothing is filed.
+ */

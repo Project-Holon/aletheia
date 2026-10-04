@@ -7,6 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded: wave 82 R9 filed src/pending/ov/ov099_func_021C0AEC.c at MATCH
+ *   (only ARM9 0203CB00 open, leaf C verified MATCH in its blocker block).
  * checks: 1 matched getter/forwarder bodies and explicit BE900 input audited, CB00 established argless; 2 C0554/C17F4/C0E60/C10A8 and ov098 search supply no closing twin; 3 full-width long ret DIFF338/404 unchanged, other u32 iteration unchanged, const p invalid because stores; 4 enum-offset and field-recompute idioms read, manual cap2 exhausted; 5 fresh unfiltered directory and neighbours read; stack residue is scalar spills, struct-local idiom read. Next: field-lvalue shape with independently evidenced object bounds.
  * residual: 338 concrete bytes, 404/400; release helper adds a spill and offsets differ. Also ARM9 0203CB00 has no outside-range witness; no ARM9 retry/overlay leaf filed. Iteration4 stop streak3, first nonshrink r2 position3/20; C1=0 C2=0 C3=1 C4=0 C5=0 manual=2. types300 best DIFF314 rejected: q_ copies q before assignment, tmp/tmp2 assignments sit after break and uses become uninitialized.
  * prototype-evidence: C23B8's full tail target 56860 returns the indexed

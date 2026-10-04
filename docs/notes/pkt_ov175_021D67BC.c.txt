@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (w82 R7): EXACT in src/matched/ov/ov175_func_021D67BC.c (int i declared before list); the ov114 stub 0x021B9A8C is filed as src/matched/ov/ov114_func_021B9A8C.c.
  * checks: 1 show 173EC takes no args, B9A64 reads three, B9A1C reads fifth arg as u16; 2 pending ov175 9B2C serializer twin, long-u32 spelling no change; 3 const p no change, short counter adds truncation (two compiles); 4 long counter no change, reused pointer fixes register swap but adds delayed base calculation (two compiles); 5 refreshed idioms and neighbours, pointer-local probe also delays base calculation (one compile); next untried typed object parameter.
  * residue: 16 concrete bytes, r4/r5 swapped between list base and size/counter; B9A8C also has no witness in ov114; no leaf filed while caller DIFF.
  * symbols:

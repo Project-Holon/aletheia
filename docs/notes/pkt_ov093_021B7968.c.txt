@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded W82 R11: src/matched/ov/ov093_func_021B7968.c is EXACT (inner-block str declared before j); leaves 021D49B0/021D49CC filed as their own shards.
  * residual: 584/584 bytes, 17 concrete bytes; r4/r5 swap and buffer-base r7 versus r5.
  * checks: 1 bank/string callees arities and returns from own ARM9 C; all call setup matches; 2 no same-region twin; 3 index enum/int/u32 same 17 bytes, parameter/spill slots already identical; 4 declaration order and block index same 17; 5 named buffer pointer same 17, cast-buffer idiom reviewed; permuter --types 300 same 17.
  * blocker: once byte-correct, ov093 unlabelled 021D49B0, 021D49CC, 021D4A04 need shards.

@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R6): EXACT as src/matched/ov/ov194_func_021F2884.c; the lever was dropping `else return;` (the image has no else; unassigned locals, see docs/idioms/a-call-argument-set-only-in-an-else-if-chain-is-an-unassigned-local.md).
  * checks: 1 callbacks take two pointers, no stack args; 2 ov194 35A8 calls only when either mode is 3; 3 unsigned modes compiled, unchanged one branch byte; 4 direct Pair copy fixed nine bytes, existing pair idiom; 5 refreshed idioms and owned neighbours, declared-struct local already used. Original default uses unset callback/bounds; guarded valid C retained. No further sweep.
  * symbols:
  *   func_021F2F8C 0x021F2F8C thumb ov194

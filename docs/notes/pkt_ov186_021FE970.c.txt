@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded: wave 82 R5, EXACT* as src/matched/ov/ov186_func_021FE970.c (start/end left unassigned outside p[2] == 0/1).
  * checks: 1 matched 0204E720 takes unsigned,int,int,int and 0204E804 void; invalid direction forwards entry r1/r2; 2 only own E90C twin; 3 const pointer/u16 and unsigned locals unchanged71; 4 constants/if-conversion idioms do not justify uninitialized locals; 5 fresh directory/neighbour search no new twin, no stack object; next prerequisite prove direction domain.
  * symbols:
  *   func_0204E720 0x0204E720 arm

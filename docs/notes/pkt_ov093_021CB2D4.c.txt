@@ -7,8 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 verified all call interfaces; D59B4 reads r1 despite stale one-argument pending declaration, CB55C consumes four arguments, 02018480 forwards two full words; 2 own matched getters and C5308 caller checked, no algorithm twin; 3 u8 count with unsigned comparisons increased residue to 24 bytes, u8 id retained 10 (2/2); 4 declaration/scope spill and byte-count idioms read; 5 fresh unfiltered idiom listing and C5308/D7FF8 neighbours reread, no new twin; no further manual scheduling sweep permitted (2/2).
- * residual: original/compiled 648 bytes; 10 concrete bytes differ in outer i/id sp+0x0c versus sp+0x10 and str/ldr order at +0x188/+0x18a. 35/36 relocations resolved; ARM9 02018480 at +0x1ea lacks an outside witness, owner Ilias; no blocker C or overlay leaves filed.
+ * lang: c99
+ * checks: W82 R11 retry: 1 arities re-confirmed by the byte-correct call setup (only +0x188/+0x18a differ), D59B4 two args, CB55C four, 02018480 two words; 2 no algorithm twin, ov093 021CF9B4/021CFE98 byte-count spill idiom read; 3 word k with explicit (u16) wrap no change (4), u8 count with (u32) compares 25 (2/2); 4 separate third-loop counter k declared first 30, k declared between level and id fixed the i/id slots 10 -> 4 (local-declaration-order-is-stack-order: earlier declaration takes the higher spill slot) (2/2); 5 fresh unfiltered idiom listing (spill/reload family) reread, no lever for the remaining store/load swap; permuter not rerun (earlier 300 run recorded, retry rule).
+ * residual: 648/648 bytes, 4 concrete bytes: original stores the incremented third-loop counter (str r1,[sp,#0x10]) before reloading count (ldr r0,[sp,#0x1c]) at +0x188/+0x18a; ours hoists the reload above the store. 35/36 relocations resolved; ARM9 02018480 at +0x1ea lacks an outside witness (owner Ilias), so the best case is MATCH.
+ * budget W82 R11: iteration c2 (k after id, 10), c3 (id block-scoped, 10), c4 (u32 id, 10): three nonshrinking, stopped; checks 0,0,2,2,0 compiles; reorder variants 2/2 used; sweeps 0/3; permuter skipped (earlier run). Runs 8 + 1 validation.
+ * next: only the +0x188 store/reload order is left; a fresh lane could try the third loop as a do/while or the counter in block scope (function-scope-versus-block-scope-decides-spill-slot-order.md), neither compiled here.
+ * earlier (W48 B1): 10 concrete bytes, i/id slots swapped plus the same +0x188 order.
  * budget: carried zero; iteration 4, consecutive nonshrinking 1 and 1 run from first nonshrinking; manual scheduling 2/2; checks compile counts 0,0,2,0,0; sweeps 0/3; once-only permuter 300/300 consumed, no improvement; TU/verification 0. Normal iteration stopped at manual cap; do not repeat width checks or permuter.
  * evidence: scratchpad/overlay-goal-20261001-w48/B1, terminal one01 through one04-helper/check3a-count/check3b-id and permuter logs. Explicit _u32_div_f at 0209C2B0 ARM preserves zero eligible domain; helper repair compiled identically. Original truncations copied for B9C00/B9BF0/D6E0C and CB55C arguments; ID u8 proven by own matched D5440. No invented defaults or party-count cap.
  * symbols:
@@ -74,6 +78,7 @@ void func_021CB2D4(u8 *p, char *g, u8 *a, struct Record *q)
     u32 count;
     u32 share;
     u16 level;
+    u16 k;
     u8 id;
     u32 form;
     u16 otherLevel;
@@ -113,12 +118,12 @@ void func_021CB2D4(u8 *p, char *g, u8 *a, struct Record *q)
     }
     share = _u32_div_f(amount, eligible);
     if (share == 0) share = 1;
-    for (i = 0; i < count; i++) {
-        m = (u8 *)func_021B9C00(g, i);
+    for (k = 0; k < count; k++) {
+        m = (u8 *)func_021B9C00(g, k);
         if (!func_021D5B68(m)) {
             id = func_021D5440(m);
             for (j = 0; j < (u32)n; j = (u8)(j + 1)) {
-                if (id == func_021D6E0C(a, j)) q[i].amount += share;
+                if (id == func_021D6E0C(a, j)) q[k].amount += share;
             }
         }
     }

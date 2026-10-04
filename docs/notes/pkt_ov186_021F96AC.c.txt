@@ -8,6 +8,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded (wave 82 R6): EXACT as unit src/matched/ov/ov186_func_021F96AC.c; plain int constants plus `const int *ctx` (the check-3 hypothesis this note left uncompiled).
  * checks: 1 getter one arg, fill three; 2 own twins962C/966C/9868 give no far-field twin;
  * 3 enum compound offset 48B, unsigned 74B (2/2); 4 store scheduling44B/base local48B (2/2);
  * 5 refreshed idiom listing and matched185/186 neighbours: no new matching far-field twin;

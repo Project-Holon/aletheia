@@ -4,10 +4,22 @@
  * address: 0x02200188
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * region: ov186
  * isa: thumb
  * status: DIFF
- * checks: 1 D064 own source takes pointer/u16, width probe no change; 2 no ov185-187 twin; 3 same counter no change, signed counters 25 bytes; 4 nested block gives 18 bytes, dead parameter gives 143; 5 refreshed idioms and reread neighbours, no new twin; next probe nested loop-counter scope.
+ * residual: DIFF18 at the original's 160 bytes: a pure 3-register rotation.
+ *   Image: table r4, loop-1 counter and filled r5, start/loop-2 counter r6,
+ *   end r7. Every spelling tried gives start r4, table r5, counter/filled r6
+ *   (end r7 and every spill slot already right).
+ * checks: 1 (wave 82 R8) prototypes re-derived from definitions: 0200D064 returns u32 (arm9 func_0200D064.c), 02030734 takes (u32,u32,int,const char *,u16) (arm9 sub_02030734.c), 02082BCC is MI_CpuFill8 (void *,u8,u32); no change, DIFF18; 2 ov186_func_0220014C is the twin (same d_02200C94 range walk, const u16 *ids, raw (u32)ids+i*2 index): const table DIFF18, raw index DIFF18; 3 u16 index parameter DIFF18, unsigned filled/count DIFF18 (earlier lanes: signed counters 25); 4 a-no-code-self-assignment idiom: `start = start;` after its load DIFF18, `table = table;` at entry DIFF18; earlier: nested block 18, dead parameter 143; 5 fresh unfiltered idiom listing, ov186 neighbours reread, no new twin.
+ * tried (wave 82 R8, 7 runs + 1x4 sweep + permuter): declaration orders
+ *   (filled first; flat scope) 18; separate loop-1 counter j 18; index
+ *   parameter reused as loop-1 counter 143; index reused as start 144; one
+ *   counter variable i for both loops with filled separate 18. Permuter
+ *   --budget 300 --types on this spelling: baseline 18 agrees with `one`,
+ *   best 18, nothing found. Next untried probe: a static inline count helper
+ *   for loop 1 (new vregs from inlining).
  * symbols:
  *   func_0200D064 0x0200D064 thumb
  *   func_02030734 0x02030734 arm
@@ -15,12 +27,12 @@
  *   d_02200C94 0x02200C94 data a2
  *   d_02200D9C 0x02200D9C data a1
  */
-extern int func_0200D064(void *, unsigned short);
-extern void *func_02030734(unsigned short, unsigned, int, const char *, unsigned short);
-extern void *func_02082BCC(void *, int, unsigned);
+extern unsigned func_0200D064(void *, unsigned short);
+extern void *func_02030734(unsigned, unsigned, int, const char *, unsigned short);
+extern void func_02082BCC(void *, unsigned char, unsigned);
 extern const unsigned short d_02200C94[];
 extern const char d_02200D9C[];
-unsigned short *func_02200188(void *p, unsigned index, unsigned short *table, unsigned *out, unsigned short heap)
+unsigned short *func_02200188(void *p, unsigned index, const unsigned short *table, unsigned *out, unsigned short heap)
 {
     unsigned end, start;
     unsigned short *dst;
