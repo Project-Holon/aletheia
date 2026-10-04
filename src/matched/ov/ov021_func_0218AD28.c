@@ -45,7 +45,8 @@ struct FieldCtx {
     u32 b3 : 1;
 };
 
-extern void func_021A3038(void *p, int *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void *func_02188C98(u8 *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
@@ -59,7 +60,7 @@ void *func_0218AD28(struct FieldCtx *p, u8 *pos)
     int buf[3];
     u16 attr;
 
-    func_021A3038(p->f18, buf);
+    func_021A3038(p->f18, (struct VecFx32 *)buf);
     attr = func_021AB0F0(func_021AB0D4(func_02188C98(pos), buf));
     if (func_021C8A74(attr))
         return func_021C8A30(0, p->f4, pos);

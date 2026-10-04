@@ -69,7 +69,8 @@ struct BgEvent {
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_02188CB4(u8 *p);
-extern void func_021A3038(void *id, int *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *id, struct VecFx32 *out);
 extern void *func_02188C98(void *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
@@ -93,7 +94,7 @@ int func_0218A8BC(struct FieldCtx *p)
     u16 *r;
     u32 cz;
 
-    func_021A3038(id, pos);
+    func_021A3038(id, (struct VecFx32 *)pos);
     if (func_021AB188(func_021AB0F0(func_021AB0D4(func_02188C98(obj), pos))) != 1)
         return 0;
     e = func_0216282C(p->fC, func_0201296C(p->f8), pos, 9);

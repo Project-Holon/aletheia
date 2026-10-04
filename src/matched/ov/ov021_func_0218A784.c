@@ -44,7 +44,8 @@ struct Ctx784 {
 struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0201296C(void *p);
-extern void func_021A3038(void *p, u32 *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 extern void *func_02188C98(void *p);
 extern int func_021AB0D4(void *a, void *b);
 extern u16 func_021AB0F0(u32 attr);
@@ -59,7 +60,7 @@ int func_0218A784(struct Ctx784 *c, int a)
     u32 pos[3];
     u32 msg;
 
-    func_021A3038(c->f18, pos);
+    func_021A3038(c->f18, (struct VecFx32 *)pos);
     if (func_021AB188(func_021AB0F0(func_021AB0D4(func_02188C98(x), pos))) == 1)
         return 0;
     msg = func_02162928(c->fC, y, pos, a);

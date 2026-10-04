@@ -34,7 +34,8 @@ typedef struct { s32 a, b; } Pair;
 
 extern u32 func_02188CFC(u8 *p);
 extern u16 func_02188C98(void *p);
-extern void func_021A3038(void **ctx, VecFx32 *out);
+struct VecFx32;
+extern void func_021A3038(unsigned char *ctx, struct VecFx32 *out);
 extern u32 func_021AB0D4(u16 z, VecFx32 *pos);
 extern void *func_021A3074(void **ctx);
 extern void *func_02188C5C(void *p);
@@ -48,7 +49,7 @@ u32 func_021A30C8(void **ctx)
     if (func_02188CFC(ctx[0]) == 0) {
         VecFx32 pos;
         u16 z = func_02188C98(ctx[0]);
-        func_021A3038(ctx, &pos);
+        func_021A3038((unsigned char *)ctx, (struct VecFx32 *)&pos);
         r = func_021AB0D4(z, &pos);
     } else if (func_02188CFC(ctx[0]) == 1) {
         Pair v;

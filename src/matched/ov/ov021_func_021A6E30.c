@@ -70,7 +70,7 @@ extern VecFx32 *func_02012AB8(void *r);
 extern void func_021A7258(void *o, Holder *h, int mode, VecFx32 *pos, u16 e, u16 f, u16 g);
 extern void *func_0216D888(void *m);
 extern void func_02188D40(void *o, void *v);
-extern void func_021A3038(void *p, VecFx32 *out);
+extern void func_021A3038(unsigned char *p, struct VecFx32 *out);
 
 void func_021A6E30(void *o, VecFx32 *pos, u16 e)
 {
