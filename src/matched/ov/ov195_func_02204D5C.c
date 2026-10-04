@@ -42,7 +42,7 @@ extern void func_0201D83C(int);
 extern void func_02205A84(int);
 extern void func_022059A0(int);
 extern void func_02034A5C(int);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int);
 extern unsigned char ov067_id[];
 
 void func_02204D5C(int a, int *p)

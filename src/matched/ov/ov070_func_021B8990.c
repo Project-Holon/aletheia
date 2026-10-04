@@ -118,8 +118,9 @@ extern void func_02051C6C(u32 a);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02036270(u32 a, u32 b);
-extern void func_020315D4(void *a);
-extern void func_020306F0(int a);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *a);
+extern void func_020306F0(unsigned int a);
 
 int func_021B8990(void *proc, int b, Parent *par, Obj *o)
 {

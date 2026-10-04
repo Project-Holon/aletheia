@@ -42,7 +42,7 @@ extern void func_021D96C4(u8 *p);
 extern void func_0200A338(void *);
 extern void func_02012704(u8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int);
 extern void func_02087BCC(u32 parameter);
 extern void func_02034A5C(int);
 extern void func_02005D28(void);

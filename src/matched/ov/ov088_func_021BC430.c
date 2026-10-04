@@ -59,7 +59,8 @@ extern void *func_02011EEC(u32, u16, Rec12 *, int);
 extern void func_020312F8(int, void *, void *);
 extern void func_02008450(struct Flags02008450 *p, int on);
 extern void func_0200C324(struct Blk34 *p, u8 v);
-extern void func_020315D4(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
 extern char d_0209DF9C[];
 
 int func_021BC430(int a, int b, int c, u32 *q)
@@ -78,6 +79,6 @@ int func_021BC430(int a, int b, int c, u32 *q)
     func_020312F8(-1, d_0209DF9C, func_02011EEC(1, s.f0, &s.rec, s.f18));
     func_02008450((void *)q[1], t);
     func_0200C324((void *)q[3], h);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     return 1;
 }
