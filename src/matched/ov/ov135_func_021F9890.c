@@ -87,7 +87,7 @@ extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern void func_0204B878(u32 v, int k);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(u32 v, int k);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void *func_02202974(u32 a, u32 b, u32 c, u32 heap);
 extern void func_022026D8(void *ctx, u32 arg);
 
@@ -123,7 +123,7 @@ Menu *func_021F9890(Init *init, u32 a, u32 b)
     func_021F4FF4(m->obj, 0x90, 0x28);
     func_0204B878(m->obj, 4);
     func_0204B92C((struct Obj *)m->obj, 1);
-    func_0204B3DC(m->obj, 0);
+    func_0204B3DC((struct Obj *)m->obj, 0);
     m->ctx = func_02202974(0xf, 0xe, 2, 0x48);
     func_022026D8(m->sub, init->arg);
     return m;

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0204B3DC  0x0204B3DC  arm
@@ -16,6 +16,9 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
+
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_02025774(u8 *g, u32 a)
 {

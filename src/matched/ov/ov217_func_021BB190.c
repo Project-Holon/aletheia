@@ -32,7 +32,7 @@ extern void func_021BB990(void *);
 extern void func_021BC2D8(u8 *);
 extern void func_021BC338(u8 *);
 extern void func_021BC43C(u8 *);
-extern unsigned func_021BC168(unsigned);
+extern void func_021BC168(unsigned);
 extern void func_021BC014(u8 *);
 extern void func_021BBF60(u8 *);
 extern int func_021BC2FC(void *);

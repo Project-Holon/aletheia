@@ -46,7 +46,8 @@ extern const CurPos tbl_02203220[];
 
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32 v, int k);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
 extern unsigned int func_0203633C(void);
@@ -63,7 +64,7 @@ int func_021F9FF0(Menu *m)
 
     old = m->cur;
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC(m->cursor, 1);
+        func_0204B3DC((struct Obj *)m->cursor, 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return -1;
@@ -107,7 +108,7 @@ int func_021F9FF0(Menu *m)
         }
         r = func_021F9F00(m, r);
         if (r == -1 && func_020355C4() == 0) {
-            func_0204B3DC(m->cursor, 0);
+            func_0204B3DC((struct Obj *)m->cursor, 0);
         }
         func_020355D8(1);
         return r;

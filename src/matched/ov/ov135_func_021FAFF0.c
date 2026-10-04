@@ -80,7 +80,8 @@ extern void func_0202CB4C(struct WinMgr *mgr, u32 idx, s8 x, s8 y);
 extern void func_0204B878(u32 v, int k);
 extern void func_021F4FF4(u32 a, u32 b, u32 c);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32 v, int k);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 int func_021FAFF0(Menu *m)
 {
@@ -113,9 +114,9 @@ int func_021FAFF0(Menu *m)
     }
     func_021F4FF4(m->cursor, (tbl_022032C6[m->pos].x + 0x10) * 8, tbl_022032C6[m->pos].y * 8);
     if (func_020355C4() == 1) {
-        func_0204B3DC(m->cursor, 0);
+        func_0204B3DC((struct Obj *)m->cursor, 0);
     } else {
-        func_0204B3DC(m->cursor, 1);
+        func_0204B3DC((struct Obj *)m->cursor, 1);
     }
     m->state = 0xB;
     return -1;

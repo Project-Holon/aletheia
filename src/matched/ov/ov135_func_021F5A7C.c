@@ -48,7 +48,8 @@ typedef struct {
     u32 cursor;
 } Work;
 
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B9A0(u32 v);
 extern void func_020061E4(u32 se);
 extern int func_021F6C48(void *party, void *save, int box, int slot);
@@ -61,7 +62,7 @@ extern void func_021F4E98(Work *p, u32 a, u32 b);
 void func_021F5A7C(Work *p)
 {
     if (p->slot == 0x1E) {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_0204B9A0(p->cursor);
         p->state = 0x11;
         func_020061E4(0x551);

@@ -78,7 +78,7 @@ struct Obj;
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B878(u32, u16);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B84C(u32, int);
 extern void func_0204B974(u32);
 extern void func_021F4EA0(u32, u16, u16);
@@ -95,9 +95,9 @@ void func_021F5420(Work *p)
     func_0204B92C((struct Obj *)p->sub.f34, 1);
     func_0204B878(p->sub.f34, 4);
     if (func_020355C4() == 1) {
-        func_0204B3DC(p->sub.f34, 0);
+        func_0204B3DC((struct Obj *)p->sub.f34, 0);
     } else {
-        func_0204B3DC(p->sub.f34, 1);
+        func_0204B3DC((struct Obj *)p->sub.f34, 1);
     }
     if (p->idx == 0x1f || p->idx <= 5) {
         func_0204B84C(p->sub.f34, 0);
@@ -148,7 +148,7 @@ void func_021F5420(Work *p)
     func_0204B878(p->sub.f3C, 0xc);
     func_0204B92C((struct Obj *)p->sub.f3C, 1);
     func_0204B974(p->sub.f3C);
-    func_0204B3DC(p->sub.f3C, 0);
-    func_0204B3DC(p->fD38, 1);
+    func_0204B3DC((struct Obj *)p->sub.f3C, 0);
+    func_0204B3DC((struct Obj *)p->fD38, 1);
     func_021F4EA0(p->fD38, 0x37, 0xa8);
 }

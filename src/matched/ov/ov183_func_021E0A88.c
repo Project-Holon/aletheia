@@ -31,7 +31,7 @@ extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_021E0D00(char *,int);
 extern void func_021E0D38(void *,int);
-extern int func_021E0CE8(char *,int,int);
+extern void func_021E0CE8(char *,int,int);
 void func_021E0A88(char *p)
 {
     int base,zero;

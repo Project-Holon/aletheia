@@ -27,7 +27,8 @@ typedef struct {
 } Work;
 
 extern int func_02035C08(const void *key);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern const u8 tbl_02202E24[];
 
@@ -36,7 +37,7 @@ int func_021F5CA4(Work *p)
     int r = func_02035C08(tbl_02202E24);
 
     if (r != -1) {
-        func_0204B3DC(p->cursor, 0);
+        func_0204B3DC((struct Obj *)p->cursor, 0);
         func_020355D8(1);
     }
     return r;

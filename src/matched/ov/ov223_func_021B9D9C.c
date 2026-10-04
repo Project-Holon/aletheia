@@ -56,7 +56,7 @@ extern unsigned func_021BC520(unsigned char *p);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern u32 func_0204B324(u32,u32,u32,u32,void *,u16,u16);
-extern void func_0204B3DC(u32,u32);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern u32 func_020490F4(u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
@@ -82,7 +82,7 @@ void func_021B9D9C(char *p)
         request.x=motion[j].b[0];request.y=motion[j].b[1];request.z=0;request.a=2;request.b=3;
         r=p+j*148;
         *(u32 *)(r+108)=(u32)func_0204B294((void *)func_021BC520(*(void **)(p+20)),*(u32 *)(r+84),*(u32 *)(r+88),*(u32 *)(r+92),&request,1,*(u16 *)p);
-        func_0204B3DC(*(u32 *)(r+108),0);
+        func_0204B3DC((struct Obj *)*(u32 *)(r+108),0);
     }
     other=func_020490F4(205,*(u16 *)p);
     for(i=0;i<3;i++) {
@@ -99,7 +99,7 @@ void func_021B9D9C(char *p)
         desc.e=0;desc.f=1;
         r=p+j*148;
         *(u32 *)(r+112)=func_0204B324(func_021BC520(*(void **)(p+20)),*(u32 *)(r+96),*(u32 *)(r+88),*(u32 *)(r+104),&desc,1,*(u16 *)p);
-        func_0204B3DC(*(u32 *)(r+112),0);
+        func_0204B3DC((struct Obj *)*(u32 *)(r+112),0);
     }
     for(i=0;i<3;i++) {
         *(u16 *)(p+i*148+216)=0;

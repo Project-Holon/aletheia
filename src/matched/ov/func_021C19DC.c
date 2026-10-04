@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021BB42C  0x021BB42C  thumb  ov099
@@ -34,7 +34,7 @@ extern void func_021BB4D0(char *p);
 extern void func_021BB4EC(void *p);
 extern void func_021C1C70(char *p);
 extern void func_021BF29C(char *p);
-extern int func_021B98F0(void *p);
+extern void func_021B98F0(void *p);
 extern void func_021C205C(void *p, int v);
 
 void func_021C19DC(char *p, int v)

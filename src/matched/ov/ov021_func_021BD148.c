@@ -23,7 +23,7 @@ extern void func_021BD234(void *p);
 extern void func_021BD2BC(void *p, int a);
 extern void func_021BD250(void *p);
 extern void func_021BD278(void *p, int a, int b, int c);
-extern void func_021BD5F8(void *p, int a);
+extern void func_021BD5F8(void *p, unsigned int a);
 
 void *func_021BD148(int a0, int a1, int a2, int a3)
 {

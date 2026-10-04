@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   (none)
@@ -16,7 +16,8 @@
  */
 
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B878(int, int);
 
 void func_021BF4C4(int unused, char *q, int c, int *tbl)
@@ -24,7 +25,7 @@ void func_021BF4C4(int unused, char *q, int c, int *tbl)
     unsigned char i;
 
     for (i = 0; i < 6; i++) {
-        func_0204B3DC(*(int *)(q + i * 0x14 + 0x1c), tbl[i]);
+        func_0204B3DC((struct Obj *)*(int *)(q + i * 0x14 + 0x1c), tbl[i]);
         *(int *)(q + i * 0x14 + 0x2c) = 0;
         func_0204B878(*(int *)(q + i * 0x14 + 0x1c), *(unsigned short *)(q + i * 0x14 + 0x24));
     }

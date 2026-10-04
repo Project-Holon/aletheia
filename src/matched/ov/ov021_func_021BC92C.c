@@ -18,7 +18,7 @@ typedef struct {
     void *f50[0x1E];
 } Obj;
 
-extern void func_021BD1E4(void *a, int b);
+extern void func_021BD1E4(void *a, unsigned int b);
 
 void func_021BC92C(Obj *p)
 {

@@ -48,7 +48,8 @@ extern u32 func_02017DBC(struct Sav *p);
 extern u32 func_02017E88(void *p, u32 id, u32 v);
 extern u32 func_02017DE4(struct Sav *p, u32 f);
 extern void func_021F66F0(u32 species, u32 form, u32 gender, u32 isEgg, u32 slot, u32 f8, u32 arc, IconRec *rec);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u32 func_0202136C(u16 v);
 extern void func_0204B878(u32, u16);
 
@@ -73,20 +74,20 @@ void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u3
     func_02017DE4(mon, 1);
     if (present != 0) {
         func_021F66F0(*species, form, info->f2 - 1, egg, slot, icon, arc, rec);
-        func_0204B3DC(icon, 1);
+        func_0204B3DC((struct Obj *)icon, 1);
         if (item != 0) {
-            func_0204B3DC(item_spr, 1);
+            func_0204B3DC((struct Obj *)item_spr, 1);
             if (func_0202136C(item) != 0) {
                 func_0204B878(item_spr, 0x29);
             } else {
                 func_0204B878(item_spr, 0x28);
             }
         } else {
-            func_0204B3DC(item_spr, 0);
+            func_0204B3DC((struct Obj *)item_spr, 0);
         }
     } else {
-        func_0204B3DC(icon, 0);
-        func_0204B3DC(item_spr, 0);
+        func_0204B3DC((struct Obj *)icon, 0);
+        func_0204B3DC((struct Obj *)item_spr, 0);
         rec->f8 = 0;
     }
 }

@@ -41,10 +41,10 @@ extern const u8 tbl_02202DA4[][4];
 
 extern u32 func_020362DC(void);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_020355D8(u8 v);
 extern void func_020061E4(u32 se);
-struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B878(u32 obj, u16 anim);
 extern int func_021F5F9C(int a, int b, int c);
@@ -58,7 +58,7 @@ void func_021F5E44(Work *p)
     u8 k;
 
     if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_020355D8(moved);
         func_020061E4(0x548);
         return;

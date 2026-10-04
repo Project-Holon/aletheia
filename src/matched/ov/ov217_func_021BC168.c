@@ -27,20 +27,22 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_0204B3DC();
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u32 func_0204B404();
 extern u32 func_021BC1AC();
 extern u32 func_021BC428();
 extern u32 func_021BC720();
-u32 func_021BC168(u32 a0)
+void func_021BC168(u32 a0)
 {
     u8 s[4];
     u32 v1 = func_021BC720(a0, 0);
     if (func_021BC428(a0) == 0) {
-    return func_0204B3DC(v1, 0);
+    func_0204B3DC((struct Obj *)v1, 0);
+    return;
     }
     *(u16*)(((u8*)s)) = 248;
     *(u16*)(((u8*)s) + 2) = func_021BC1AC(a0);
     func_0204B404(v1, s, 0);
-    return func_0204B3DC(v1, 1);
+    func_0204B3DC((struct Obj *)v1, 1);
 }

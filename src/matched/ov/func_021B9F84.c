@@ -29,7 +29,7 @@ typedef struct {
 } S;
 
 struct Obj;
-extern void sub_0204B3DC(struct Obj *p, u32 v);
+extern void sub_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021B9F84(S *s)
 {

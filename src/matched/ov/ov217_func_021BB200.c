@@ -39,7 +39,7 @@ extern int func_021BC200(void *p, int position);
 extern void func_021BC30C(struct S *p, int v);
 extern void func_021BC380(struct S *p);
 extern void func_021BC43C(struct S *p);
-extern void func_021BC168(struct S *p);
+extern void func_021BC168(unsigned int p);
 extern void func_021BC014(struct S *p);
 extern void func_021BC274(void *p);
 extern void func_021BC250(void *p);
@@ -65,7 +65,7 @@ void func_021BB200(struct S *p)
             func_021BC30C(p, func_021BC200(p, b));
             func_021BC380(p);
             func_021BC43C(p);
-            func_021BC168(p);
+            func_021BC168((unsigned int)p);
             func_021BC014(p);
             func_021BC274(p);
         }
@@ -76,7 +76,7 @@ void func_021BB200(struct S *p)
         func_021BC30C(p, p->f34 + p->f4c);
         func_021BC380(p);
         func_021BC43C(p);
-        func_021BC168(p);
+        func_021BC168((unsigned int)p);
         func_021BC014(p);
         func_021BC250(p);
         if (func_021BC264(p) == 0) {

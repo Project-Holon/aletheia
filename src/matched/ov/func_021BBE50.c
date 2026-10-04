@@ -27,7 +27,7 @@ typedef int BOOL;
 
 struct Obj;
 extern void unit_0204B92C(struct Obj *p, unsigned int v);
-extern void unit_0204B3DC(void *p, int v);
+extern void unit_0204B3DC(struct Obj *p, unsigned int v);
 
 typedef struct {
     char pad[0x150];

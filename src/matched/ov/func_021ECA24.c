@@ -16,10 +16,11 @@
  */
 
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021ECA38(int *);
 void func_021ECA24(int *p)
 {
-    func_0204B3DC(*p, 0);
+    func_0204B3DC((struct Obj *)*p, 0);
     func_021ECA38(p);
 }

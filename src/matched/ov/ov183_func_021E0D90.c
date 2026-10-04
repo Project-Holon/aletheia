@@ -21,7 +21,7 @@ struct Obj;
 extern u16 func_0204B898(struct Obj *p);
 extern u32 func_0204B98C(struct Actor *a);
 extern void func_0204B878(struct Obj *p, u16 value);
-extern int func_021E0CE8(char *, int, int);
+extern void func_021E0CE8(char *, int, int);
 void func_021E0D90(char *p)
 {
     int i, state;

@@ -54,7 +54,7 @@ extern void func_0204B878(u32 obj, u16 anim);
 extern int func_021F5F9C(int a, int b, int c);
 extern void func_021F68A4(Work *p, int box);
 extern void func_020061E4(u32 se);
-extern void func_0204B3DC(u32 obj, int on);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B9A0(u32 v);
 extern void func_021F5F60(u32 cursor, int i);
 extern void func_021F5A7C(Work *p);
@@ -83,7 +83,7 @@ int func_021F5CFC(Work *p)
             func_020061E4(0x548);
             break;
         case 0x1E:
-            func_0204B3DC(p->marker, 1);
+            func_0204B3DC((struct Obj *)p->marker, 1);
             func_0204B9A0(p->marker);
             p->state = 0x11;
             p->slot = r;
@@ -104,7 +104,7 @@ int func_021F5CFC(Work *p)
         func_021F5E44(p);
         if (p->mode == 5) {
             if (func_020362DC() & 2) {
-                func_0204B3DC(p->marker, 1);
+                func_0204B3DC((struct Obj *)p->marker, 1);
                 func_0204B9A0(p->marker);
                 p->state = 0x11;
                 func_020061E4(0x551);
@@ -113,7 +113,7 @@ int func_021F5CFC(Work *p)
             }
         } else if (p->mode == 6) {
             if (func_020362DC() & 2) {
-                func_0204B3DC(p->marker, 1);
+                func_0204B3DC((struct Obj *)p->marker, 1);
                 func_0204B9A0(p->marker);
                 p->state = 0x11;
                 func_020061E4(0x551);

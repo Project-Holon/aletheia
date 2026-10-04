@@ -41,7 +41,7 @@ typedef int BOOL;
 
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021BBDD0(void *pv, int flag)
 {

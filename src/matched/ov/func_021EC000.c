@@ -15,10 +15,11 @@
  */
 
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 void func_021EC000(char *p, int i, int v)
 {
     int x = *(int *)(p + i * 4 + 0x9E74);
     if (x != 0)
-        func_0204B3DC(x, v);
+        func_0204B3DC((struct Obj *)x, v);
 }

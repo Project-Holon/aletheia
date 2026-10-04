@@ -21,7 +21,8 @@ extern u32 func_020221A4(void);
 extern void func_021F663C(u8 *, u32, u32, u32, u32, u32);
 extern void func_021F4E98(u8 *, u32, u32);
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 int func_021F5A18(u8 *p)
 {
     int index;
@@ -34,9 +35,9 @@ int func_021F5A18(u8 *p)
         func_021F663C(p, index, 1, 0, 0xf0f, 0);
         func_021F4E98(p, 3, 1);
         if (func_020355C4() == 1) {
-            func_0204B3DC(*(u32 *)(p + 0xbf4), 0);
+            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 0);
         } else {
-            func_0204B3DC(*(u32 *)(p + 0xbf4), 1);
+            func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
         }
     }
     return 2;

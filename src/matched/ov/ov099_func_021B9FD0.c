@@ -16,9 +16,10 @@
  *   func_0204B3DC  0x0204B3DC  arm
  */
 
-extern int func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
-int func_021B9FD0(void *p)
+void func_021B9FD0(void *p)
 {
-    return func_0204B3DC(*(int *)((char *)p + 0x2c), 0);
+    func_0204B3DC((struct Obj *)*(int *)((char *)p + 0x2c), 0);
 }
