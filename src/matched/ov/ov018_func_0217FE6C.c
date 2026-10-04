@@ -85,7 +85,8 @@ extern char str_02183B30[];
 
 struct Obj;
 void *func_020124E4(struct Obj *p);
-void *func_02012138(void *);
+struct Ctx;
+u32 func_02012138(const struct Ctx *p);
 u8 *func_02158344(void *);
 int func_0217F40C(Ov018Obj *p);
 void func_0217F3C4(Ov018Obj *p, int a);
@@ -119,7 +120,7 @@ int func_0217FE6C(void *a, int *state, Outer *c)
     int kind;
     Bits *b;
 
-    v = func_02158344(func_02012138(func_020124E4(a)));
+    v = func_02158344((void *)func_02012138(func_020124E4(a)));
     if (v == 0) {
         if (func_0217F40C(&c->obj) == 0) {
             return 0;

@@ -17,12 +17,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern u32 func_020120F4(u32 a);
-extern u32 func_02012A30(u32 a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 extern void func_02028A58(u32 a, u32 b, u32 c);
 
 int func_021AEFA4(u32 *a, u32 *st)
 {
-    u32 r = func_02012A30(func_020120F4(*a));
+    u32 r = func_02012A30((const struct BigObj *)func_020120F4(*a));
 
     switch (*st) {
     case 0:

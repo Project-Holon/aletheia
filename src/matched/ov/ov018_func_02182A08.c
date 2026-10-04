@@ -53,7 +53,8 @@ typedef unsigned int   u32;
 struct Obj;
 struct WordSet;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_02012138(void *);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern Ctx *func_02158344(void *);
 extern void func_0201232C(void *, void (*)(), int);
 extern void func_02182AA4();
@@ -70,7 +71,7 @@ void func_02182A08(void *a, Src *b)
     Dst *p;
     int m;
 
-    v = func_02158344(func_02012138(func_020124E4(a)));
+    v = func_02158344((void *)func_02012138(func_020124E4(a)));
     func_0201232C(a, func_02182AA4, 0xA0);
     p = func_020124E8(a);
     func_02082D44(b, p, 0x98);

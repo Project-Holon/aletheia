@@ -42,13 +42,15 @@ typedef unsigned int   u32;
 
 extern void func_021F3144(u8 *p, u8 v);
 extern int func_021F2DA8(u8 *p);
-extern int func_02012138(int a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_02158630(int a);
 extern void func_021F06B8(u8 *p, int a, int b);
 extern int func_020120F4(int a);
 extern int func_0201283C(int a);
 extern u32 func_0201058C(int a);
-extern void *func_02012A30(int a);
+struct BigObj;
+extern u32 func_02012A30(const struct BigObj *p);
 struct SoundSys;
 extern void func_02028A64(struct SoundSys *sys);
 extern void func_02028A70(struct SoundSys *sys);
@@ -73,7 +75,7 @@ void func_021F2848(u8 *p, u8 v)
 
     func_021F3144(p, v);
     if (func_021F2DA8(p) == 0) {
-        st = func_02158630(func_02012138(*(int *)(p + 0x1c)));
+        st = func_02158630(func_02012138((const struct Ctx *)*(int *)(p + 0x1c)));
         if (st == 3) {
             if (p[0x463] == 0) {
                 func_021F06B8(p, 1, 0);
@@ -87,7 +89,7 @@ void func_021F2848(u8 *p, u8 v)
         }
         if (st == 0) {
             keys = func_0201058C(func_0201283C(func_020120F4(*(int *)(p + 0x1c))));
-            snd = func_02012A30(func_020120F4(*(int *)(p + 0x1c)));
+            snd = (void *)func_02012A30((const struct BigObj *)func_020120F4(*(int *)(p + 0x1c)));
             if (keys & 8) {
                 if (p[0x462] == 0) {
                     p[0x462] = 1;

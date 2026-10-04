@@ -66,13 +66,14 @@ extern void func_02189560(u8 *p, u32 v);
 extern void func_021895D0(u8 *p, u32 v);
 extern void func_021895BC(void *sys, u32 v);
 extern void func_02189684(u8 *p, u32 v);
-extern int func_020120D8(u32 a);
+extern int func_020120D8(char *p);
 extern void func_021BC550(u32 a, u32 v);
 extern void func_0202735C(u16 v, void *sys);
 extern void func_0215A014(void *a, int b);
 extern void func_02158AE0(u32 a, int b);
 extern void func_021894E0(void *sys, u32 a, u32 b, u32 v);
-extern void *func_02012138(u32 a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern void func_0215874C(void *a);
 
 void func_021893C0(u8 *p)
@@ -104,7 +105,7 @@ void func_021893C0(u8 *p)
     func_021895D0(p, v);
     func_021895BC(sys, v);
     func_02189684(p, v);
-    if (*(u32 *)(p + 0x30) != 0 && func_020120D8(*(u32 *)(p + 4)) == 0)
+    if (*(u32 *)(p + 0x30) != 0 && func_020120D8((char *)*(u32 *)(p + 4)) == 0)
         func_021BC550(*(u32 *)(p + 0x30), v);
     *(short *)(q + 4) = v;
     func_0202735C(v, sys);
@@ -113,5 +114,5 @@ void func_021893C0(u8 *p)
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
     func_021894E0(sys, s0, s4, v);
     *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
-    func_0215874C(func_02012138(*(u32 *)(p + 4)));
+    func_0215874C((void *)func_02012138((const struct Ctx *)*(u32 *)(p + 4)));
 }
