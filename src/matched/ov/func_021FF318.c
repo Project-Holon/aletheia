@@ -20,7 +20,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 extern void func_02045CAC(u32 a, u32 b, u32 c);
-extern u32 func_02045770(u32 v);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 v, u32 k);
 extern void func_0201F73C(u32 a, u32 b, u32 c, u32 d);
 extern void func_02202858(u32 a, u32 b, u32 c, u32 d, u32 e, u8 *f);
@@ -34,7 +35,7 @@ void func_021FF318(u8 *p, u32 k)
     u32 v;
 
     func_02045CAC(*(u32 *)(p + 0xb6c), k, *(u32 *)(p + 0xb6c + 0x1c));
-    func_02043B5C(func_02045770(*(u32 *)(p + 0xd40)), 0xf);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0xd40)), 0xf);
     func_0201F73C(*(u32 *)(p + 0xd40), 0, 1, 0xe);
     func_02202858(*(u32 *)(p + 0xd40), 0, *(u32 *)(p + 0xb6c + 0x1c), 0, 0, p + 0xfa0);
     v = *(u32 *)(p + 0xd40);

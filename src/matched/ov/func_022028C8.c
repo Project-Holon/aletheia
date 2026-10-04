@@ -36,7 +36,8 @@ typedef struct {
 } Ctx;
 
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_02045770(void *win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
 
 u32 func_022028C8(void *win, u32 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ctx *g)
@@ -56,7 +57,7 @@ u32 func_022028C8(void *win, u32 z, u32 str, u32 x, u32 y, u32 z2, u16 color, Ct
     found->win = win;
     found->busy = 0;
     print = g->print;
-    func_0201C724(print, func_02045770(win), x, y, str, g->font, color);
+    func_0201C724(print, (u32)func_02045770((struct Descriptor *)win), x, y, str, g->font, color);
     found->busy = 1;
     found->used = 1;
     return 1;
