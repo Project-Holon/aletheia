@@ -16,8 +16,10 @@
  *   func_021BAAB8 0x021BAAB8 thumb ov099
  */
 typedef unsigned int u32;
-extern int func_020399A8(void);
-extern int func_02039CB4(u32, u32, u32);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern void func_0203D7B0(int);
 extern int func_0203D7BC(int);
 extern int func_0203D378(int);
@@ -25,7 +27,7 @@ extern void func_021BAAB8(char *, int, int);
 int func_021BD6D0(char *p, int v)
 {
     int zero;
-    if (func_02039CB4(func_020399A8(), 0x19, 10) == 0) return v;
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x19, 10) == 0) return v;
     zero = 0;
     func_0203D7B0(0);
     if (func_0203D378(func_0203D7BC(0)) != 0) {

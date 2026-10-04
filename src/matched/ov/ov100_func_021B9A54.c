@@ -25,8 +25,10 @@ extern void func_021BA3A4(struct Word *,int);
 extern void func_021BA454(int,int);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern int func_020399A8(void);
-extern int func_02039C68(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned int,unsigned int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9A1C(void);
 void func_021B9A54(int a)
@@ -40,6 +42,6 @@ void func_021B9A54(int a)
  }
  func_021BA454(0x22,a);
  func_020061E4(0x764);
- func_02039C68(func_020399A8(),0x7f,12);
+ func_02039C68((struct Link *)func_020399A8(),0x7f,12);
  func_021B95B8(a,func_021B9A1C);
 }

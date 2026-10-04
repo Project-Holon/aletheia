@@ -12,9 +12,10 @@
  *   func_02039C68 0x02039C68 arm
  */
 extern int func_021D8A24(void *);
-extern void func_02039C68(void *, void *, int);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 void func_021DD080(void *a, void *b, void *c)
 {
     if (func_021D8A24(c))
-        func_02039C68(a, b, 8);
+        func_02039C68(a, (unsigned int)b, 8);
 }

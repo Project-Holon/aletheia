@@ -35,7 +35,8 @@ extern int func_021D9610(void *p);
 extern int func_021E12AC(char *p);
 extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_02039C68(void *h, u32 a, u32 b);
+struct Link;
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_021DA798(char *p);
 
 void func_021D9670(char *p)
@@ -65,7 +66,7 @@ void func_021D9670(char *p)
         }
         if (r == 0)
             return;
-        func_02039C68(func_020399A8(), 0x1b, 8);
+        func_02039C68((struct Link *)func_020399A8(), 0x1b, 8);
         func_021D8E84(p, (int)func_021DA798);
         return;
     }
