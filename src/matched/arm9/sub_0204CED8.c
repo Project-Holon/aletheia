@@ -55,15 +55,16 @@ struct Obj {
     u32 flag_hi : 24;
 };
 
-extern void sub_0204B49C(struct Obj *o, s16 value, void *ctx, u32 axis);
+struct Actor;
+extern void sub_0204B49C(struct Actor *o, s16 value, u32 space, u32 axis);
 extern void sub_0204B84C(struct Obj *o, u8 value);
 extern void sub_0204B878(struct Obj *o, u16 value);
 extern void sub_0204B95C(struct Obj *o);
 
-void sub_0204CED8(struct Obj *o, const struct Req *r, void *ctx)
+void sub_0204CED8(struct Obj *o, const struct Req *r, u32 space)
 {
-    sub_0204B49C(o, r->unk_00, ctx, 0);
-    sub_0204B49C(o, r->unk_02, ctx, 1);
+    sub_0204B49C((struct Actor *)o, r->unk_00, space, 0);
+    sub_0204B49C((struct Actor *)o, r->unk_02, space, 1);
     o->low = r->unk_06;
     sub_0204B84C(o, r->unk_07);
     sub_0204B878(o, r->unk_04);

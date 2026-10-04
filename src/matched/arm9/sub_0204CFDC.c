@@ -70,18 +70,18 @@ struct Req {
 struct Owner;
 extern struct Obj *sub_0204C8E4(struct Owner *ow);
 extern void sub_0204D0C4(struct Sub *s, void *c, u32 e);
-extern void sub_0204CED8(struct Obj *o, const struct Req *r, void *ctx);
+extern void sub_0204CED8(struct Obj *o, const struct Req *r, u32 space);
 extern void sub_0204CF40(struct Obj *o, const struct Req *r);
 extern void sub_0204C98C(void *owner, struct Obj *o);
 extern void sub_0204B3DC(struct Obj *o, u32 enable);
 
-struct Obj *sub_0204CFDC(void *owner, struct Req *r, void *c, void *d, u16 e)
+struct Obj *sub_0204CFDC(void *owner, const struct Req *r, void *c, u32 space, u16 e)
 {
     struct Obj *o = sub_0204C8E4(owner);
 
     o->owner = owner;
     sub_0204D0C4(&o->unk_68, c, e);
-    sub_0204CED8(o, r, d);
+    sub_0204CED8(o, r, space);
     sub_0204CF40(o, c);
     sub_0204C98C(owner, o);
     sub_0204B3DC(o, 1);
