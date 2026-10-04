@@ -8,7 +8,7 @@
  * isa: thumb
  * status: EXACT
  * lever: repeat the callback call in cases 0,1,2; cross-jumping preserves the case-0 branch into case 2. A grouped case or pointer join loses two bytes and pool alignment.
- * prototype: 3064C has explicit third input 0x40000 although own two-arg body ignores it; 3159C full body leaves allocated pointer live in r0; 879C preserves visible unused heap. 78F4 forwards to full 7C1C ldr r0,[r0];bx lr.
+ * prototype: 3064C forwards all three inputs, including size 0x40000, to 0202FDC4; 3159C full body leaves allocated pointer live in r0; 879C preserves visible unused heap. 78F4 forwards to full 7C1C ldr r0,[r0];bx lr.
  * symbols:
  * func_0203064C 0x0203064C arm
  * func_0203159C 0x0203159C arm
@@ -46,7 +46,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32 src,u32 dst,u32 size);
 extern void *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
 extern void func_021B7C20(u32 *,u16);
@@ -85,7 +85,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     void *save;
     u32 handle;
     int first,second;
-    func_0203064C((void *)1,59,0x40000);
+    func_0203064C(1,59,0x40000);
     p=func_0203159C(owner,0x4a4,59);
     func_02082BCC(p,0,0x4a4);
     *(void **)(p+0x48c)=arg;

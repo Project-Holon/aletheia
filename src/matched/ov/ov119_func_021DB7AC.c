@@ -23,7 +23,8 @@ typedef unsigned u32;
 extern void func_021E4E64(int,char *,int);
 extern void func_021E42B4(char *),func_021E4598(char *),func_020061E4(int);
 extern int func_02006238(void),func_021D8A24(void *),func_0203D29C(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 #define H(o) (*(s16 *)(p+(o)))
 #define I(o) (*(int *)(p+(o)))
@@ -38,11 +39,11 @@ void func_021DB7AC(char *p,int a,int b)
     if(func_021D8A24(p) && b) {
         if(func_0203D29C()) {
             if(H(0x107c)%16==0) {
-                func_0203D3F8(func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
+                func_0203D3F8((u32)func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
                 return;
             }
         } else {
-            func_0203D3F8(func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
+            func_0203D3F8((u32)func_020399A8(),255,0xc0c,2,(u32)(p+0x107c),0,1,1);
             return;
         }
     } else {

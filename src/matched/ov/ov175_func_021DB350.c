@@ -14,20 +14,21 @@
  *   func_0203D1A4  0x0203D1A4  arm
  *
  * Guarded flag set: only when the caller's fifth argument (on the stack)
- * matches the tick from 0x020399A8 and the first argument does NOT match
+ * matches the entry address from 0x020399A8 and the first argument does NOT match
  * 0x0203D1A4 does it store 1 in the +0x148 word of the fourth argument.
  */
 
 typedef unsigned long u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 
 void func_021DB350(u32 a, u32 b, u32 c, char *d, u32 e)
 {
-    if (e != func_020399A8())
+    if (e != (u32)func_020399A8())
         return;
-    if (a == func_0203D1A4(func_020399A8()))
+    if (a == func_0203D1A4((u32)func_020399A8()))
         return;
     *(u32 *)(d + 0x148) = 1;
 }

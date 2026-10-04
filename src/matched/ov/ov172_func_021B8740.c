@@ -13,13 +13,14 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
 u32 func_021B8740(int a, int b, u8 c, u32 d)
 {
     struct { u32 w; u8 b; } buf;
     u32 entry;
-    entry = func_020399A8();
+    entry = (u32)func_020399A8();
     buf.b = c;
     buf.w = d;
     return func_0203D3F8(entry, 255, 0x2000, 8, (u32)&buf, 1, 0, 0);

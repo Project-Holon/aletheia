@@ -19,21 +19,23 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern unsigned func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
-extern void func_02039C68(unsigned,unsigned,unsigned);
+struct Link;
+extern void func_02039C68(struct Link *p,unsigned int lo,unsigned int hi);
 extern int func_021E12AC(char *);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DF338(void *);
 void func_021DF37C(u8 *p) {
- unsigned h=func_020399A8();
+ unsigned h=(unsigned)func_020399A8();
  u8 b;
  if(func_021E12AC((char *)p)) {
   if(func_021D8A24(p)) {
    b=10;
    if(func_0203D3A8((void *)h,0xc00,1,&b)) {
-    func_02039C68(func_020399A8(),26,8);
+    func_02039C68((struct Link *)func_020399A8(),26,8);
     func_021D8E84(p,(int)func_021DF338);return;
    }
   } else {p[0x11e0]=10;p[0x11e1]=10;func_021D8E84(p,(int)func_021DF338);}
