@@ -28,14 +28,15 @@
 
 typedef unsigned int u32;
 
-extern void func_02012088(u32 v);
+struct IcaAnime;
+extern void func_02012088(struct IcaAnime *p);
 extern void func_020315D4(u32 v);
 extern void func_020306F0(u32 v);
 extern void func_02087BCC(u32 v);
 
 u32 func_02011EC0(u32 a0, u32 a1, u32 a2, u32 a3)
 {
-    func_02012088(a3);
+    func_02012088((struct IcaAnime *)a3);
     func_020315D4(a0);
     func_020306F0(3);
     func_020306F0(4);
