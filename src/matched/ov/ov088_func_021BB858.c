@@ -19,14 +19,16 @@
 typedef short s16;
 typedef unsigned int u32;
 typedef struct { s16 x; s16 y; } Pos;
-extern int func_0204B454(int, Pos *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern int func_0204B404(int, Pos *, int);
 void func_021BB858(char *p, int d)
 {
     u32 i;
     Pos pos;
     for (i = 0; i < 6; i++) {
-        func_0204B454(*(int *)((p + i * 4) + 0x1c), &pos, 0);
+        func_0204B454((struct Actor *)*(int *)((p + i * 4) + 0x1c), (struct PtS *)&pos, 0);
         pos.y += (s16)d;
         func_0204B404(*(int *)((p + i * 4) + 0x1c), &pos, 0);
     }

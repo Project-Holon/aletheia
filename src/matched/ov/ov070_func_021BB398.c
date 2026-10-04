@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * symbols:
  *   func_0204B454  0x0204B454  arm
@@ -17,7 +17,9 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B6F4(int, u32, int);
 
 void func_021BB398(int p, u32 val)
@@ -26,9 +28,9 @@ void func_021BB398(int p, u32 val)
     short a[2];
     unsigned i;
 
-    func_0204B454(*(int *)(p + 0x6A4), b, 0);
+    func_0204B454((struct Actor *)*(int *)(p + 0x6A4), (struct PtS *)b, 0);
     for (i = 0; i < 8; i++) {
-        func_0204B454(*(int *)(p + i * 4 + 0x634), a, 0);
+        func_0204B454((struct Actor *)*(int *)(p + i * 4 + 0x634), (struct PtS *)a, 0);
         if (a[1] == b[1]) {
             break;
         }

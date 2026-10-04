@@ -21,7 +21,9 @@ typedef struct {
 
 typedef unsigned int   u32;
 extern u32 func_02035CB8(u32 *outA, u32 *outB);
-extern void func_0204B454(int, Pt *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(int, Pt *, int);
 
 void func_021BA654(char *p)
@@ -35,7 +37,7 @@ void func_021BA654(char *p)
         } else if (v > 0x8E) {
             v = 0x8E;
         }
-        func_0204B454(*(int *)(p + 0x6A8), &pt, 0xFFFF);
+        func_0204B454((struct Actor *)*(int *)(p + 0x6A8), (struct PtS *)&pt, 0xFFFF);
         pt.b = v;
         func_0204B404(*(int *)(p + 0x6A8), &pt, 0xFFFF);
     }

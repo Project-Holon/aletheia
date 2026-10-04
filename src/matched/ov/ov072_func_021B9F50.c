@@ -40,7 +40,8 @@ struct Actor;
 struct Obj;
 struct S;
 extern void func_021B63D0(struct S *p);
-extern void func_0204B454(void *h, Pt *pt, int k);
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern u32 func_02035D20(u32 *outA, u32 *outB);
 extern void func_020355D8(u8 v);
 extern u32 func_020362DC(void);
@@ -62,7 +63,7 @@ void func_021B9F50(u32 *p, void *q)
     switch (p[7]) {
     case 0:
         hit = 0;
-        func_0204B454((void *)p[5], &pt, 0);
+        func_0204B454((void *)p[5], (struct PtS *)&pt, 0);
         if (func_02035D20(&x, &y)) {
             if (x - pt.x <= 0x18 && y - pt.y <= 0x18) {
                 hit = 1;

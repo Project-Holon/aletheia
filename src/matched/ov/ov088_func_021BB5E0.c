@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Moves menu sprite idx (array at +0x1C) to row y, keeping its x.
  *
@@ -24,13 +24,15 @@ typedef struct {
     s16 y;
 } Pos;
 
-extern void func_0204B454(void *obj, Pos *pos, int a);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *obj, Pos *pos, int a);
 
 void func_021BB5E0(char *p, u32 idx, s16 y)
 {
     Pos pos;
-    func_0204B454(((void **)(p + 0x1c))[idx], &pos, 0);
+    func_0204B454(((void **)(p + 0x1c))[idx], (struct PtS *)&pos, 0);
     pos.y = y;
     func_0204B404(((void **)(p + 0x1c))[idx], &pos, 0);
 }

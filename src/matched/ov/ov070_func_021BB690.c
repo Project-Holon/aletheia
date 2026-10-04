@@ -14,7 +14,9 @@
  *   func_0204B404 0x0204B404 arm
  *   d_021BBBCC 0x021BBBCC data a4
  */
-extern void func_0204B454(int, void *, int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(int, void *, int);
 extern short d_021BBBCC[];
 int func_021BB690(const char *p)
@@ -26,7 +28,7 @@ int func_021BB690(const char *p)
     for (i = 0; i < 5; i++) {
         off = i * 4;
         q = p + off;
-        func_0204B454(*((int *)((p + off) + 0x6AC)), v, 0xFFFF);
+        func_0204B454((struct Actor *)*((int *)((p + off) + 0x6AC)), (struct PtS *)v, 0xFFFF);
         if (v[0] == *((short *)(((char *)d_021BBBCC) + off))) {
             return 0;
         }
