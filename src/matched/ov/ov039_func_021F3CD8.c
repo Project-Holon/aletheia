@@ -25,7 +25,8 @@ extern int func_02188D2C(int);
 extern int *func_021897BC(int, int);
 extern int func_02188C80(int);
 extern int func_020120F4(int);
-extern int func_02012A30(int);
+struct BigObj;
+extern unsigned int func_02012A30(const struct BigObj *p);
 extern void func_02028B50(int, int);
 extern void func_02030EAC(int);
 extern void func_021897A0(int, int);
@@ -36,7 +37,7 @@ void func_021F3CD8(int a)
     int r6 = func_02188D2C(a);
     int *r4 = func_021897BC(a, 1);
 
-    func_02028B50(func_02012A30(func_020120F4(func_02188C80(a))), 0x68A);
+    func_02028B50(func_02012A30((const struct BigObj *)func_020120F4(func_02188C80(a))), 0x68A);
     func_02030EAC(*r4);
     func_021897A0(a, 1);
     func_021BE418(r6, 0);

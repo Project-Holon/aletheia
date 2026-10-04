@@ -30,7 +30,8 @@ struct BigObj;
 u32 func_02012844(const struct BigObj *p);
 int func_02162744(int a);
 int func_020127A4(void *a);
-int func_02012AC8(int a);
+struct Rec44;
+unsigned short func_02012AC8(const struct Rec44 *p);
 int func_02159B10(int a, int b);
 void *func_0201296C(void *a);
 int func_02162740(int a);
@@ -51,7 +52,7 @@ int func_021B18E4(int a, int b)
     r4 = func_0215A5E4((void *)b);
     sc = func_02012844(r4);
     r5 = func_02162744(sc);
-    s10 = func_02012AC8(func_020127A4(r4));
+    s10 = func_02012AC8((const struct Rec44 *)func_020127A4(r4));
     r6 = func_02159B10(a, b);
     if (r5 != 0) {
         r4 = func_0201296C(r4);

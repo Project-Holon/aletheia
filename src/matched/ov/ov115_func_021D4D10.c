@@ -21,6 +21,7 @@ typedef unsigned int u32;
 extern void func_020403F4(u32 i);
 extern void func_021D5A9C(u8 *);
 extern void func_021D4E04(u8 *);
-extern void func_020315D4(u32);
-extern void func_020306F0(void *);
-int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 **)(p+56)); func_021D4E04(*(u8 **)(p+52)); func_020315D4(a); func_020306F0((void *)120); return 1; }
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int heap);
+int func_021D4D10(u32 a,int b,int c,u8 *p) { func_020403F4(7); func_021D5A9C(*(u8 **)(p+56)); func_021D4E04(*(u8 **)(p+52)); func_020315D4((struct S020315D4 *)a); func_020306F0(120); return 1; }

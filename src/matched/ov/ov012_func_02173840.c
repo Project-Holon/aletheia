@@ -17,6 +17,6 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 struct Ctx;
 extern u32 func_02012114(const struct Ctx *p);
-extern u32 func_0201210C(const struct Ctx *p);
-extern int func_02188BE8(u32 p);
+extern void *func_0201210C(const struct Ctx *p);
+extern int func_02188BE8(void *a);
 int func_02173840(u8 *p) { if(p[0x282a]==1 && func_02012114(*(const struct Ctx **)(*(u8 **)p+0xc))==1 && func_02188BE8(func_0201210C(*(const struct Ctx **)(*(u8 **)p+0xc)))==1) return 1; return 0; }

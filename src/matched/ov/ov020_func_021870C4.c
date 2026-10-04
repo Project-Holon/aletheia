@@ -46,7 +46,7 @@ struct Obj;
 u16 func_02188C84(u8 *p);
 u32 func_02188C54(u8 *p);
 void *func_020120F4(const struct Ctx *p);
-void *func_02012138(void *a);
+unsigned int func_02012138(const struct Ctx *p);
 void *func_02158344(void *a);
 void *func_02158434(char *p);
 struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
@@ -86,7 +86,7 @@ void *func_021870C4(void *a0, void *a1)
     n = func_02188C84(a1);
     c54 = func_02188C54(a1);
     h = func_020120F4(a0);
-    w = func_02158344(func_02012138(a0));
+    w = func_02158344((void *)func_02012138(a0));
     if (w == 0)
         return 0;
     w = func_02158434(w);
