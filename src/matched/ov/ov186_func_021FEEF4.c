@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: EXACT
- * ABI: sub_0204B294 returns void in its own source; this caller consumes r0.
+ * ABI: sub_0204B294 returns the allocated object pointer in r0.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021FC124 0x021FC124 thumb ov186
@@ -35,7 +35,7 @@ struct Obj;
 extern void func_02082BCC(void *,u32,u32);
 extern int func_021FC124(char *,int,Triple *);
 extern void sub_02034714(const char *,u32,const char *);
-extern u32 sub_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern struct Obj *sub_0204B294(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
 extern void sub_0204B570(struct Actor *,u32);
 extern void sub_0204B5D4(struct Actor *,u32,u32);
 extern void sub_0204B688(struct Actor *,u32);
@@ -65,7 +65,7 @@ void func_021FEEF4(char *p,u32 owner,char *resources,const Config *config,u16 he
     *(int *)(p+8)=roundFixed(request.x);
     *(int *)(p+0xc)=roundFixed(request.y);
     *(int *)(p+0x14)=config->z;
-    *(u32 *)(p+4)=sub_0204B294(owner,triple.y,triple.z,triple.x,(u32)&request,*(u32 *)(p+0x44),heap);
+    *(u32 *)(p+4)=(u32)sub_0204B294((void *)owner,triple.y,triple.z,triple.x,&request,*(u32 *)(p+0x44),heap);
     sub_0204B570(*(struct Actor **)(p+4),2);
     sub_0204B5D4(*(struct Actor **)(p+4),*(u32 *)(p+0x14),0);
     sub_0204B688(*(struct Actor **)(p+4),0);

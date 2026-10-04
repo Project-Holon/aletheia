@@ -41,7 +41,7 @@ extern void *func_0204AF28(void *,int,int,u16);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,unsigned);
 extern void *func_021BAC40(void *);
-extern void *func_0204B294(void *,void *,void *,void *,Params *,int,u16);
+extern struct Obj *func_0204B294(void *owner,u32 i,u32 j,u32 k,const void *position,u16 space,u16 heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 void func_021BD194(u8 *p) {
@@ -56,7 +56,7 @@ void func_021BD194(u8 *p) {
     func_02049238(h);
     func_02082BCC(&t,0,8);
     t.x=232; t.y=168; t.z=1; t.a=0; t.b=3;
-    *(void **)(p+0x28)=func_0204B294(func_021BAC40(*(void **)p),*(void **)(p+0x20),*(void **)(p+0x1c),*(void **)(p+0x24),&t,0,42);
+    *(void **)(p+0x28)=func_0204B294(func_021BAC40(*(void **)p),(u32)*(void **)(p+0x20),(u32)*(void **)(p+0x1c),(u32)*(void **)(p+0x24),&t,0,42);
     func_0204B92C(*(void **)(p+0x28),1);
     func_0204B3DC(*(void **)(p+0x28),0);
     *(int *)(p+0x2c)=0;

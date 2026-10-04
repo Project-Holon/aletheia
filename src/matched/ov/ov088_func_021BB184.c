@@ -55,7 +55,7 @@ struct Obj;
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern int func_0204ABF0(void *, int, int, int, int);
 extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
-extern int func_0204B294(int, int, int, int, void *, int, int);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_020434DC(u32 mask, u32 enable);
@@ -90,14 +90,14 @@ void func_021BB184(int *p)
     p[21] = func_0204AF28(h, 0xe, 0xf, 0xb);
     func_02049238(h);
     p[6] = func_0204B100(6, 0, 0xb);
-    p[7] = func_0204B294(p[6], p[13], p[16], p[19], d_021BD5DC, 0, 0xb);
+    p[7] = (int)func_0204B294((void *)p[6], p[13], p[16], p[19], d_021BD5DC, 0, 0xb);
     func_0204B3DC((void *)p[7], 0);
     for (i = 1; i <= 4; i++) {
-        p[7 + i] = func_0204B294(p[6], p[14], p[17], p[20], d_021BD5E4, 0, 0xb);
+        p[7 + i] = (int)func_0204B294((void *)p[6], p[14], p[17], p[20], d_021BD5E4, 0, 0xb);
         func_0204B92C((struct Obj *)p[7 + i], 1);
         func_0204B3DC((void *)p[7 + i], 0);
     }
-    p[12] = func_0204B294(p[6], p[15], p[18], p[21], d_021BD5D4, 0, 0xb);
+    p[12] = (int)func_0204B294((void *)p[6], p[15], p[18], p[21], d_021BD5D4, 0, 0xb);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

@@ -47,7 +47,7 @@ struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B49C(struct Actor *actor, s16 value, u32 space, u32 axis);
-extern void *func_0204B294(u32 a, u32 b, u32 c, u32 d, struct Pt *e, u32 f, u32 g);
+extern struct Obj *func_0204B294(void *owner, u32 i, u32 j, u32 k, const void *position, u16 space, u16 heap);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 
@@ -71,7 +71,7 @@ void func_021EFF58(u8 *p, int a, int c)
         func_0204B49C(sl->obj, s.x, 0, 0);
         func_0204B49C(sl->obj, s.y, 0, 1);
     } else {
-        sl->obj = func_0204B294(*(u32 *)(p + 0x34), *(u32 *)(p + 0x2c), *(u32 *)(p + 0x28), *(u32 *)(p + 0x30), &s, 0, *(u16 *)(p + 0xc));
+        sl->obj = func_0204B294((void *)*(u32 *)(p + 0x34), *(u32 *)(p + 0x2c), *(u32 *)(p + 0x28), *(u32 *)(p + 0x30), &s, 0, *(u16 *)(p + 0xc));
         func_0204B92C(sl->obj, 1);
         func_0204B3DC(sl->obj, 1);
     }
