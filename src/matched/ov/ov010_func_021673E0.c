@@ -31,7 +31,7 @@ typedef struct Entry32 {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0200E06C(void *p);
+extern void func_0200E06C(char *p);
 extern void func_0200E024(void *p);
 
 u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
@@ -40,7 +40,7 @@ u8 func_021673E0(Entry32 *list, Entry32 *out, u32 cap, u32 start, int count)
 
     i = 0;
     MI_CpuFill8(out, 0, cap * 4);
-    func_0200E06C(list);
+    func_0200E06C((char *)list);
     MI_CpuCopy8(&list[start], out, count * 4);
     func_0200E024(list);
     for (i = 0; i < count; i++) {

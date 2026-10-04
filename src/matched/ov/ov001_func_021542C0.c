@@ -66,9 +66,11 @@ extern void func_02012374(struct Evt *evt, struct Evt **out);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
 extern int   func_0203CD98(void);
-extern u32   func_020399A8(void);
-extern void  func_02039C68(u32 a0, int a1, int a2);
-extern int   func_02039CB4(u32 a0, int a1, int a2);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void  func_02039C68(struct Link *a0, u32 a1, u32 a2);
+extern u32   func_02039CB4(struct Link *a0, u32 a1, u32 a2);
 extern void  func_0203D7B0(int a0);
 extern void  func_0203D7BC(int a0);
 extern void func_0203C554(u32 a);
@@ -169,7 +171,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
             } else if (F(0x340) == 1) {
                 *mode = 10;
             } else {
-                func_02039C68(func_020399A8(), 1, 0xc);
+                func_02039C68((struct Link *)func_020399A8(), 1, 0xc);
                 func_0203D7B0(0);
                 func_0203D7BC(0);
                 F(0x4) = 100;
@@ -179,7 +181,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
         break;
     case 8:
         F(0x4)--;
-        if (func_02039CB4(func_020399A8(), 1, 0xc))
+        if (func_02039CB4((struct Link *)func_020399A8(), 1, 0xc))
             *mode = 9;
         if ((int)F(0x4) < 0)
             *mode = 9;

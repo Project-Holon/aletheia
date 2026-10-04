@@ -53,8 +53,8 @@ extern u8 sIcaAnimeFile;
 
 extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern void   func_020116C0(struct IcaAnime *p);
-extern void   func_020116E0(struct IcaAnime *p, u32 a1, u32 a2, u32 heap);
-extern void   func_02011770(struct IcaAnime *p, u32 v);
+extern void   func_020116E0(u8 *p, u32 a1, u32 a2, u32 heap);
+extern void   func_02011770(u8 *p, int v);
 extern void   func_0201183C(struct IcaAnime *p, s32 v);
 
 void *func_020114D0(u32 heap, u32 a1, u32 a2)
@@ -63,8 +63,8 @@ void *func_020114D0(u32 heap, u32 a1, u32 a2)
 
     p = func_02030734(heap, 0x38, 0, (const char *)&sIcaAnimeFile, 0x90);
     func_020116C0(p);
-    func_020116E0(p, a1, a2, heap);
-    func_02011770(p, p->f0c);
+    func_020116E0((u8 *)p, a1, a2, heap);
+    func_02011770((u8 *)p, p->f0c);
     func_0201183C(p, 0);
     return p;
 }

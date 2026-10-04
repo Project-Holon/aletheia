@@ -38,7 +38,8 @@ typedef enum { K24c = 0x24c } Off;
 static inline char *part(char *p) { Off t; t=K24c; t+=0x28; return p+t; }
 static inline struct S *state(char *p) { Off t; t=K24c; return (struct S *)(p+t); }
 extern Messages d_021C3804, d_021C3818;
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_0203D1E8(u32, void *);
 extern u8 func_021B97F4(struct W *);
 extern void *func_021BE2A8(char *, int);
@@ -57,7 +58,7 @@ int func_021C0750(char *p, int ret)
     void *q;
     u16 kind, other;
     selector = 0;
-    func_0203D1E8(func_020399A8(), 0);
+    func_0203D1E8((u32)func_020399A8(), 0);
     n = func_021B97F4((struct W *)part(p));
     q = func_021BE2A8(p, n);
     graphic = func_021B9A60(func_021BE2A8(p, 0));
