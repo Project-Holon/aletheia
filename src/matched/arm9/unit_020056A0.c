@@ -11,8 +11,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
- * function: sub_020056A0, sub_020056BC, sub_020056C8, sub_020056D0,
- *           sub_020056EC, sub_02005728
+ * function: sub_020056A0, sub_020056BC, sub_020056C8, sub_020056D0, sub_020056EC, sub_02005728
  *
  * symbols:
  *   sub_020056A0_Sys  0x020AA194  data
@@ -158,16 +157,16 @@ extern struct Sub020056A0Sys sub_020056A0_Sys;
 struct Ctx;
 struct Lcg64;
 struct Node;
-extern struct Node *func_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key);
+extern struct Node *func_02030DA8(struct Ctx *c, void (*callback)(struct Node *, void *), void *work, u32 key);
 extern void  func_0203F034(u32 seed);
 extern void func_0203F258(struct Lcg64 *out);
 
 void sub_020056C8(void *heap);
 u32  sub_020056EC(u32 range);
 
-void *sub_020056A0(u32 a, u32 b, u32 c)
+void *sub_020056A0(void (*callback)(struct Node *, void *), void *work, u32 key)
 {
-    return func_02030DA8(sub_020056A0_Sys.unk10->unk20, a, b, c);
+    return func_02030DA8(sub_020056A0_Sys.unk10->unk20, callback, work, key);
 }
 
 void *sub_020056BC(void)
