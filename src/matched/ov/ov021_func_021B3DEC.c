@@ -28,7 +28,8 @@ typedef unsigned int   u32;
 typedef struct { u16 a, b, c; u8 d, e; } Rect;
 
 extern int func_0204B294(int, int, int, int, const Rect *, int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern void func_0204B3DC(int, int);
 extern const Rect d_021D96E0;
 extern const Rect d_021D96E8;
@@ -46,7 +47,7 @@ void func_021B3DEC(char *w)
                                         *(int *)(w + 0x1E8), &d_021D96F0, 0, *(u16 *)(w + 4));
     *(int *)(w + 0x1CC) = func_0204B294(*(int *)(w + 0x1BC), *(int *)(w + 0x1E4), *(int *)(w + 0x1D4),
                                         *(int *)(w + 0x1E8), &d_021D96F8, 0, *(u16 *)(w + 4));
-    func_0204B92C(*(int *)(w + 0x1CC), 1);
+    func_0204B92C((struct Obj *)*(int *)(w + 0x1CC), 1);
     *(int *)(w + 0x1D0) = func_0204B294(*(int *)(w + 0x1BC), *(int *)(w + 0x1F0), *(int *)(w + 0x1EC),
                                         *(int *)(w + 0x1F4), &d_021D9700, 0, *(u16 *)(w + 4));
     func_0204B3DC(*(int *)(w + 0x1C4), 0);

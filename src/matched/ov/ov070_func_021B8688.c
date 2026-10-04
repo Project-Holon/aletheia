@@ -19,7 +19,8 @@
 
 extern int func_020221A4();
 extern int func_021BB690();
-extern void func_0204B92C();
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 extern void func_021B8AF4();
 
 void func_021B8688(int p)
@@ -27,7 +28,7 @@ void func_021B8688(int p)
     int a = func_020221A4(p);
     int b = func_021BB690(p);
     if (a == 1 && b == 0) {
-        func_0204B92C(*(int *)((char *)p + 0x6A8), 1);
+        func_0204B92C((struct Obj *)*(int *)((char *)p + 0x6A8), 1);
         func_021B8AF4(p);
     }
 }
