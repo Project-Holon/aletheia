@@ -19,8 +19,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short v; void *p; void (*fn)(void *); } Callback;
-extern int func_0204B294(int,int,int,int,Create *,u16,u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B3DC(int,unsigned int);
 extern void func_0204BA00(int,const Callback *);
@@ -31,7 +31,7 @@ void func_021E6FD4(char *p, int x, int y) {
     Create c;
     c.x=x+12;c.y=y+12;c.z=24;c.a=0;c.b=0;
     func_021E7058(p);
-    *(int *)(p+0xf24)=func_0204B294(*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
+    *(int *)(p+0xf24)=(int)func_0204B294((void *)*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
     func_0204B3DC(*(int *)(p+0xf24),1);
     func_0204B92C((struct Obj *)*(int *)(p+0xf24),1);
     p[0x11f5]=0;

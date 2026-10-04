@@ -38,7 +38,8 @@ struct P { int w[6]; int pad[10]; struct Ent e[2]; };
 
 extern struct H4 d_021BA844;
 
-extern int func_0204B294(int, int, int, int, void *, u16, int);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(int, int);
 struct Obj;
 extern void func_0204B92C(struct Obj *, unsigned int);
@@ -58,7 +59,7 @@ int func_021B6F54(struct P *p, u8 *q, int c, const int *d, int e)
     if (m[c] == 1) {
         s.c = 5;
     }
-    r = func_0204B294(p->w[5], p->e[e].w[1], p->e[e].w[0], p->e[e].w[2], &s, flag, 0x61);
+    r = (int)func_0204B294((void *)p->w[5], p->e[e].w[1], p->e[e].w[0], p->e[e].w[2], &s, flag, 0x61);
     if (m[c] == 0) {
         func_0204B3DC(r, 0);
     }

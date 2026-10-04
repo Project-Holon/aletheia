@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u16 x,y,z;u8 priority,flags;} ObjPos;
 extern const u8 d_021DC2B8[][2];
-extern void *func_0204B294(void *,void *,void *,void *,ObjPos *,int,int);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 typedef unsigned int   u32;
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -30,13 +31,13 @@ void func_021DB700(u8 *a,void *b,u8 *p,u8 i) {
     pos.priority=10;
     pos.flags=0;
     pos.z=p[0];
-    *(void **)(p+8)=func_0204B294(*(void **)(a+372),*(void **)(a+232),*(void **)(a+176),*(void **)(a+280),&pos,0,*(u16 *)a);
+    *(void **)(p+8)=func_0204B294(*(void **)(a+372),(unsigned int)*(void **)(a+232),(unsigned int)*(void **)(a+176),(unsigned int)*(void **)(a+280),&pos,0,*(u16 *)a);
     func_0204B3DC(*(void **)(p+8),0);
     pos.x=d_021DC2B8[p[0]][0]*8+26;
     pos.y=d_021DC2B8[p[0]][1]*8+9;
     pos.priority=8;
     pos.flags=0;
     pos.z=0;
-    *(void **)(p+12)=func_0204B294(*(void **)(a+372),*(void **)(a+304),*(void **)(a+164),*(void **)(a+268),&pos,0,*(u16 *)a);
+    *(void **)(p+12)=func_0204B294(*(void **)(a+372),(unsigned int)*(void **)(a+304),(unsigned int)*(void **)(a+164),(unsigned int)*(void **)(a+268),&pos,0,*(u16 *)a);
     func_0204B3DC(*(void **)(p+12),0);
 }
