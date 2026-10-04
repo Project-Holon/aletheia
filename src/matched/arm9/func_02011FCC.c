@@ -55,7 +55,8 @@
 extern void func_020120A4(char *p);
 extern int func_02012A24(int h);
 extern void func_02035614(int v);
-extern int func_020129FC(int h);
+struct BigObj;
+extern unsigned char func_020129FC(struct BigObj *h);
 extern void func_020123D8(char *p, int a, int b);
 extern void func_0201205C(char *p);
 struct T;
@@ -73,7 +74,7 @@ int func_02011FCC(char *p)
     func_020120A4(p);
     if (func_02012A24(*(int *)(p + 0x1c)) != 0)
         func_02035614(0x1e);
-    if (func_020129FC(*(int *)(p + 0x1c)) == 0) {
+    if (func_020129FC((struct BigObj *)*(int *)(p + 0x1c)) == 0) {
         func_020123D8(p, *(int *)(p + 0x10), *(int *)(p + 0x14));
         func_0201205C(p);
         func_02012380(p);
