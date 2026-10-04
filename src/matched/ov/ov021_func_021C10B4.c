@@ -59,7 +59,9 @@ extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(void *obj);
 extern int func_0216D83C(void *obj);
 extern int func_0216D86C(void *obj);
-extern void func_0216D88C(void *obj, Vec *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164280(int x, int y, Vec *v);
 extern void func_02164208(u32 dir, Vec *v, int step);
 extern int func_02163E58(void *obj, Vec *v, int *h);
@@ -99,7 +101,7 @@ void func_021C10B4(u32 task, Work *w)
         dir = func_0216D5F8(obj);
         x = func_0216D83C(obj);
         y = func_0216D86C(obj);
-        func_0216D88C(obj, &v);
+        func_0216D88C(obj, (struct VecFx32 *)&v);
         func_02164280(x, y, &v);
         step = 0x10000;
         if (w->f8 == 1)

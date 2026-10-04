@@ -25,7 +25,9 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D88C(void *a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_0216D89C(void *a, Vec3 *v);
 extern void func_021C12E4(void *a, u8 *b);
 
@@ -35,7 +37,7 @@ int func_021C157C(u8 *p)
     void *r4;
 
     r4 = func_021A3074(*(void **)(p + 0x3c));
-    func_0216D88C(r4, &v);
+    func_0216D88C(r4, (struct VecFx32 *)&v);
     if (v.x < *(int *)(p + 0x24)) {
         v.x += *(int *)(p + 0x30);
         if (v.x > *(int *)(p + 0x24))

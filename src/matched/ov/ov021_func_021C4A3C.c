@@ -41,7 +41,9 @@ typedef struct Res { Pair p; u16 h8; } Res;
 typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
 
 extern Pair *func_021AC1AC(u32 a);
-extern void func_0216D88C(u32 a, V3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern u32 func_02050340(u32, u32, Desc *, u32, u32);
 extern void func_021AC154(u32 a);
 extern void func_02050804(u32, u32, u32, u32);
@@ -58,7 +60,7 @@ void func_021C4A3C(u32 a, Res *r)
     Desc d;
 
     r->p = *s;
-    func_0216D88C(r->p.f4, &pos);
+    func_0216D88C((const struct Actor *)r->p.f4, (struct VecFx32 *)&pos);
     h = (Head *)r->p.f0;
     t = h->f4;
     pos.y -= 0xE000;

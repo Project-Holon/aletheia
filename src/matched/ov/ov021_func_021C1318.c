@@ -35,7 +35,9 @@ typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216DB4C(void *a, u32 b);
-extern void func_0216D88C(void *a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_02164208(u32 a, Vec3 *v, u32 c);
 extern void func_02164280(int x, int y, void *p);
 extern void func_02163E58(void *a, Vec3 *v, int *out);
@@ -62,7 +64,7 @@ int func_021C1318(u8 *p)
     o = func_021A3074(*(void **)(p + 0x3c));
     k = 1;
     func_0216DB4C(o, 1);
-    func_0216D88C(o, &v);
+    func_0216D88C(o, (struct VecFx32 *)&v);
     a = v;
     b = a;
     c = a;

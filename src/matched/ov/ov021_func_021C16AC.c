@@ -41,7 +41,9 @@ typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216DB4C(void *a, u32 b);
-extern void func_0216D88C(void *a, Vec3 *v);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 extern void func_0216D89C(void *a, Vec3 *v);
 extern void func_02164208(u32 a, Vec3 *v, u32 c);
 extern void func_02164280(int x, int y, void *p);
@@ -77,7 +79,7 @@ void func_021C16AC(u8 *p)
     case 0:
         k = 1;
         func_0216DB4C(o, 1);
-        func_0216D88C(o, &v);
+        func_0216D88C(o, (struct VecFx32 *)&v);
         a = v;
         b = a;
         c = a;
@@ -104,7 +106,7 @@ void func_021C16AC(u8 *p)
         func_020061E4(0x6e1);
         *(s16 *)(p + 2) = *(s16 *)(p + 2) + 1;
     case 1:
-        func_0216D88C(o, &w);
+        func_0216D88C(o, (struct VecFx32 *)&w);
         w.x += *(int *)(p + 0x30);
         w.z += *(int *)(p + 0x38);
         func_0216D89C(o, &w);
@@ -126,7 +128,7 @@ void func_021C16AC(u8 *p)
         func_021C12E4(o, p + 0x18);
         break;
     case 2:
-        func_0216D88C(o, &w);
+        func_0216D88C(o, (struct VecFx32 *)&w);
         w.y += *(int *)(p + 0x34);
         if (w.y <= *(int *)(p + 0x28)) {
             w.y = *(int *)(p + 0x28);
@@ -142,7 +144,7 @@ void func_021C16AC(u8 *p)
         func_0216D89C(o, &w);
         break;
     case 3:
-        func_0216D88C(o, &w);
+        func_0216D88C(o, (struct VecFx32 *)&w);
         w.x += *(int *)(p + 0x30);
         w.z += *(int *)(p + 0x38);
         func_0216D89C(o, &w);
