@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Size the third argument through the arm9 helper, bail when the arm9
  * status is set, otherwise copy it out.

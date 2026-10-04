@@ -34,7 +34,7 @@ typedef unsigned short u16;
 struct Ctx;
 struct Evt;
 extern void *func_0201210C(const struct Ctx *p);
-extern int   func_02012138(u32 a0);
+extern u32   func_02012138(const struct Ctx *a0);
 extern int   func_02026454(int x);
 extern void *func_020144DC(u32 a0, void *a1);
 extern void func_02012374(struct Evt *evt, struct Evt **out);
@@ -54,7 +54,7 @@ u32 func_02154310(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02026454(func_02012138(h)) == 0)
+        if (func_02026454((int)func_02012138((const struct Ctx *)h)) == 0)
             (*mode)++;
         break;
     case 1:

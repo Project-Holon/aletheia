@@ -61,7 +61,8 @@ extern void func_0204B1CC(u32);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
-extern void func_020315D4(u32);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *);
 extern void func_020306F0(u32);
 
 int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
@@ -103,7 +104,7 @@ int func_02197B5C(u32 a, u32 b, u8 *c, u32 *d)
     func_0204A5AC();
     func_020450C8();
     func_0203F9B4();
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(0x1f);
     return 1;
 }
