@@ -31,7 +31,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_0200E8E0(int,int);
-extern void func_02012E4C(int,int);
+extern void func_02012E4C(u8 *,u32);
 extern struct Sub02009210Obj *func_02009210(void *sys);
 extern void func_02009108(struct Sub020090B0Obj *obj, u16 value);
 extern void func_021D6EE0(int,int,int);
@@ -59,6 +59,6 @@ void func_021D76F0(int a)
     func_020072CC(b,7,*(u16 *)a,*(int *)(a+0x3c),0x6800);
     func_02082D44(p,*(void **)(a+0x3c),0x6200);
     func_0200E8E0(*(int *)(a+0x3c),1);
-    func_02012E4C(*(int *)(a+0x2c),7);
+    func_02012E4C((u8 *)*(int *)(a+0x2c),7);
     func_021D6EE0(a,(int)func_021D76B8,0x383);
 }

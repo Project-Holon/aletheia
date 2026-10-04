@@ -27,7 +27,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 extern void func_021BE210(u8 *p, u32 arg);
 extern void *func_021BDFEC(void *p);
@@ -48,7 +49,7 @@ void func_021B8770(int id, int size, u32 *msg, char *q)
     void *r;
     char *base;
     u32 v;
-    self = func_0203D1A4(func_020399A8());
+    self = func_0203D1A4((u32)func_020399A8());
     switch (*(u8 *)(msg + 1)) {
     case 0:
         if (id == self)

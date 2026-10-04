@@ -6,7 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: EXACT
+ * status: EXACT*
  * symbols:
  *   func_020399A8 0x020399A8 arm
  *   func_02039338 0x02039338 arm

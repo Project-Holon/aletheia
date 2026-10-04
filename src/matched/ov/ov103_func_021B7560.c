@@ -37,7 +37,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,int,u32);
 struct Ctx;
@@ -66,7 +66,7 @@ int func_021B7560(void *owner,int unused,void *arg)
     u8 *p;
     u32 handle;
     int first,second;
-    func_0203064C((void *)1,55,0x25000);
+    func_0203064C(1,55,0x25000);
     p=func_0203159C(owner,0xb10,55);
     func_02082BCC(p,0,0xb10);
     *(void **)(p+0xb0c)=arg;

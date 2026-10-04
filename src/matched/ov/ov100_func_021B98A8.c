@@ -18,7 +18,8 @@
  *   func_02008530 0x02008530 thumb
  *   func_0200ED54 0x0200ED54 thumb
  */
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_02012950(int,int);
 extern void func_02008494(int,int);
 extern int func_02012EBC(int);
@@ -29,7 +30,7 @@ void func_021B98A8(int a,int b,int c,int d,int e)
 {
  int p;
  int q;
- if(e==func_020399A8()) {
+ if(e==(int)func_020399A8()) {
   p=func_02012950(**(int **)(d+0x244),a);
   func_02008494(c,p);
   q=func_0200ED48(func_02012EBC(**(int **)(d+0x244)));
