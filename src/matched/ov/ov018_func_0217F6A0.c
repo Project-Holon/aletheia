@@ -58,8 +58,10 @@ typedef struct {
 
 void *func_020124E4(void *a0);
 void *func_020120F4(void *a0);
-u32 func_02012138(void *a0);
-void *func_0201210C(void *p);
+struct Ctx;
+u32 func_02012138(const struct Ctx *p);
+struct Ctx;
+void *func_0201210C(const struct Ctx *p);
 u8 *func_02158344(int a0);
 int func_0200FB24(void);
 u8 func_02012B80(void *a0);

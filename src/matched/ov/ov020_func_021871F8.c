@@ -40,7 +40,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-void *func_02012138(void *a);
+struct Ctx;
+unsigned int func_02012138(const struct Ctx *p);
 void *func_02158344(void *a);
 void func_021620A0(void *a);
 typedef signed int     s32;
@@ -88,7 +89,7 @@ void func_0201ED04(struct WordSet *p);
 
 int func_021871F8(void *a, int *st, char *o)
 {
-    if (func_02158344(func_02012138(P(o))) == 0 && B56 != 0)
+    if (func_02158344((void *)func_02012138(P(o))) == 0 && B56 != 0)
         *st = 0x11;
 
     switch (*st) {
