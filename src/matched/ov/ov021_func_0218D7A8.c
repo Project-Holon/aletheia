@@ -80,7 +80,7 @@ extern void func_0218B9FC(int a, int obj);
 extern void func_02169500(int obj, Vec *v);
 extern void func_021694F8(int obj, int on);
 extern void func_021694D4(int obj);
-extern void func_02169470(int obj);
+extern void func_02169470(u8 *obj, u32 member);
 
 int func_0218D7A8(Obj *p, Cell *nc)
 {
@@ -125,7 +125,7 @@ int func_0218D7A8(Obj *p, Cell *nc)
                     Vec v;
                     func_0218DDA4(&nc[i], &v);
                     if (obj != -1) {
-                        func_02169470(p->entries[j].obj);
+                        func_02169470((u8 *)p->entries[j].obj, (u32)obj);
                         func_02169500(p->entries[j].obj, &v);
                         func_021694F8(p->entries[j].obj, 1);
                     }
