@@ -68,7 +68,7 @@ extern u8 sWihDwcFile[];
 extern u8 ov015_id[];
 
 extern void func_02034714(void *dst, u32 val, void *dst2);
-extern u8  *func_0203D7C8(void *heap, u32 size, u8 *file, u32 line);
+extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 extern u32  func_0205D010(void);
 extern int func_02034AC4(int id);
 extern void func_0217963C(void (*cb)(const void *src));
@@ -84,9 +84,9 @@ u8 *sub_02010360(int idx, void *heap)
     if (g_021461E0.f0 != 0) {
         func_02034714(&sWihDwc, 0, &sWihDwc);
     }
-    p = func_0203D7C8(heap, 0x328, sWihDwcFile, 0x49);
+    p = func_0203D7C8((u32)heap, 0x328, (const char *)sWihDwcFile, 0x49);
     *(u16 *)(p + 0x310) = idx;
-    *(u8 **)(p + 0x300) = func_0203D7C8(heap, func_0205D010(), sWihDwcFile, 0x4C);
+    *(u8 **)(p + 0x300) = func_0203D7C8((u32)heap, func_0205D010(), (const char *)sWihDwcFile, 0x4C);
     func_0217963C(func_0201045C);
     g_021461E0.f0 = p;
     *(u8 **)(p + 0x304) = g_021461E0.f4;
