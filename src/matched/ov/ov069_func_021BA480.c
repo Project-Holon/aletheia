@@ -42,7 +42,8 @@ struct WinMgr;
 struct U16Vec;
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern int func_021BA470(int a, int b, int c);
-extern void func_02045994(void *dst, void *src, int n);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *dst, const u16 *src, u32 n);
 extern void func_021BA520(void *o, int i, void *buf, int flag);
 extern void func_0202CC70(struct WinMgr *mgr, u32 idx);
 extern void func_02045808(struct U16Vec *vec);
@@ -58,7 +59,7 @@ void func_021BA480(Obj *o)
     i = 0;
     if (n > 0) {
         do {
-            func_02045994(buf, o->f8 + (i + o->page * 10) * 0x22, 8);
+            func_02045994(buf, (const u16 *)(o->f8 + (i + o->page * 10) * 0x22), 8);
             func_021BA520(o, i, buf, ((Ent *)(o->f8 + (i + o->page * 10) * 0x22))->f1);
             i++;
         } while (i < n);

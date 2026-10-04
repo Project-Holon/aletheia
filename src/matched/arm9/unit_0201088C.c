@@ -75,8 +75,10 @@ struct Sub0201088CObj {
 
 extern u8   s0x020A725C;
 extern void *func_02030734(u32 a, u32 b, int c, const char *file, u16 line);
-extern u32  func_020399A8(void);
-extern void func_02039C68(u32 ctx, u32 id, u32 size);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *ctx, u32 id, u32 size);
 extern void func_02010888(void *p, u32 v);
 extern void func_0201093C(u8 *p);
 extern void func_020307B0(void *p);
@@ -89,7 +91,7 @@ void *func_0201088C(u32 heap, u32 a1)
 
     p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x75);
     p->f0c = a1;
-    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02039C68((struct Link *)func_020399A8(), 0x71, 8);
     func_02010888(p, (u32)func_0201093C);
     return p;
 }
@@ -102,7 +104,7 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
     p->f0 = a2;
     p->f4 = a3;
     p->f0c = a1;
-    func_02039C68(func_020399A8(), 0x71, 8);
+    func_02039C68((struct Link *)func_020399A8(), 0x71, 8);
     func_02010888(p, (u32)func_0201093C);
     return p;
 }

@@ -108,7 +108,8 @@ typedef struct {
 
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_0216E2E8(void *arg0, u16 arg1, void *arg2);
+struct Record;
+extern void func_0216E2E8(const char *arg0, u16 arg1, struct Record *arg2);
 
 void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
     MI_CpuFill8(dst, 0, 0x100);
@@ -160,7 +161,7 @@ void func_0200EF78(DstStruct *dst, const SrcStruct *src, void *arg2) {
     }
 
     dst->flags &= ~1;
-    func_0216E2E8(arg2, dst->fc, &dst->fe4);
+    func_0216E2E8(arg2, dst->fc, (struct Record *)&dst->fe4);
     dst->flags |= 1;
 
     {

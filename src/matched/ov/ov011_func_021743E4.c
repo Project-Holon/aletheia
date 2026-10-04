@@ -14,7 +14,8 @@
  *   func_021780FC 0x021780FC thumb ov014
  */
 typedef unsigned int u32;
-u32 func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 void func_0203D1E8(u32 unused, void *arg);
 typedef unsigned char  u8;
 void func_021780FC(u8 value);
@@ -22,7 +23,7 @@ void func_021743E4(int a, int b, void *c, signed char *p)
 {
     p[0x93d]++;
     if (p[0x93c] == 0) {
-        func_0203D1E8(func_020399A8(), 0);
+        func_0203D1E8((u32)func_020399A8(), 0);
         func_021780FC(1);
     }
 }

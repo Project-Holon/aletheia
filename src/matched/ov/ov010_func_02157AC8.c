@@ -14,9 +14,11 @@
  *   func_02157A78 0x02157A78 thumb ov010
  */
 typedef unsigned char u8;
-extern int func_020399A8(void);
-extern void func_02039C68(int, int, u8);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
 extern void func_02157960(int, int, int);
 typedef unsigned int   u32;
 extern void func_02157A78(u32 *p);
-void func_02157AC8(int *p) { int k = 0x23; func_02039C68(func_020399A8(), k, (u8)p[0]); func_02157960((int)p, (int)func_02157A78, k + 0xfc); }
+void func_02157AC8(int *p) { int k = 0x23; func_02039C68((struct Link *)func_020399A8(), k, (u8)p[0]); func_02157960((int)p, (int)func_02157A78, k + 0xfc); }

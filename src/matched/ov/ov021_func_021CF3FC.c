@@ -25,7 +25,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0203996C(u32 a);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_021CF128(void);
 extern u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
@@ -37,7 +38,7 @@ void func_021CF3FC(u32 a, u32 b, int c)
         h = func_0203996C(0xff);
         func_0203D4D0(h, b, 0x2707, func_021CF128(), a, 0, 0, 1);
     } else {
-        h = func_020399A8();
+        h = (u32)func_020399A8();
         func_0203D4D0(h, b, 0x2707, func_021CF128(), a, 0, 0, 1);
     }
 }
