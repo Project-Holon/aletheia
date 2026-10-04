@@ -41,7 +41,8 @@ extern const Quad d_021E7974;
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_020452E8(int);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_0201DD78(u32,u32,u32);
@@ -79,19 +80,19 @@ void func_021E272C(char *p,int i,void *mon)
     *(int *)(items2+index)=func_020450F0(1,layer,17,13,2,5,0);
     idx2=i*2;
     col=((u32 *)&colors)[idx2];
-    func_02043B5C(func_02045770(*(int *)(items+index)),(u8)(col|(col<<4)));
+    func_02043B5C(func_02045770((struct Descriptor *)*(int *)(items+index)),(u8)(col|(col<<4)));
     col2=((u32 *)&colors)[idx2+1];
-    func_02043B5C(func_02045770(*(int *)(items2+index)),(u8)(col2|(col2<<4)));
+    func_02043B5C(func_02045770((struct Descriptor *)*(int *)(items2+index)),(u8)(col2|(col2<<4)));
     func_0201DD78(1,2,(u8)col);
     {
-        void *window=func_02045770(*(int *)(items+index));
+        void *window=func_02045770((struct Descriptor *)*(int *)(items+index));
         func_021E1430(mon,window,16,4,flag,func_021D8ADC(p),p);
     }
     if(flag==0) {
         char *first=p+0x5c4;
-        void *window=func_02045770(*(int *)(first+index));
+        void *window=func_02045770((struct Descriptor *)*(int *)(first+index));
         func_021E1670(mon,window,80,4,p,1,func_021D8ADC(p));
-        func_021E15F8(mon,func_02045770(*(int *)(first+index)),16,19,p);
+        func_021E15F8(mon,func_02045770((struct Descriptor *)*(int *)(first+index)),16,19,p);
         func_0201DD78(1,2,(u8)col2);
         func_021E1778((int)mon,*(int *)(items2+index),0,0,p);
         func_021E0E68(p+0x8c4+(i+1)*20,mon,*(int *)(p+0x9c4),*(int *)((char *)&b+index)+16,16,0,*(u16 *)(p+0x5f4),*(int *)((char *)&c+index));

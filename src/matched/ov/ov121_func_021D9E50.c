@@ -15,7 +15,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(u32, u32);
 extern void func_02045334(u32);
 extern void func_020286C4(u32, u32, u32);
@@ -28,7 +29,7 @@ void func_021D9E50(u8 *p)
     case 2:
         q = *(u32 *)(p + 0x24);
         if (p[0x20]) {
-            if (func_0201C6C4(q, func_02045770(*(u32 *)(p + 0x1c))) == 0) {
+            if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c))) == 0) {
                 func_02045334(*(u32 *)(p + 0x1c));
                 p[0x20] = 0;
             }
@@ -37,7 +38,7 @@ void func_021D9E50(u8 *p)
     case 0:
         q = *(u32 *)(p + 0x24);
         if (p[0x20]) {
-            if (func_0201C6C4(q, func_02045770(*(u32 *)(p + 0x1c))) == 0) {
+            if (func_0201C6C4(q, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x1c))) == 0) {
                 func_02045334(*(u32 *)(p + 0x1c));
                 p[0x20] = 0;
             }
