@@ -34,9 +34,10 @@ typedef struct Object {
 } Object;
 
 struct Entry;
+struct Link;
 extern struct Entry *func_020399A8(void);
-extern u32 func_02039CB4(void *, u32, u32);
-extern void func_02039C68(void *, u32, u32);
+extern u32 func_02039CB4(struct Link *, u32, u32);
+extern void func_02039C68(struct Link *, u32, u32);
 extern void func_0203F328(u16 *, u32, u32);
 extern u32 func_020056EC(u32 range);
 extern void func_02157960(int, int, int);
@@ -49,7 +50,7 @@ void func_02157C48(Object *p)
     int *e;
     u32 i;
     unsigned long n;
-    if (func_02039CB4(func_020399A8(), 0x17, (u8)p->f00) == 0)
+    if (func_02039CB4((struct Link *)func_020399A8(), 0x17, (u8)p->f00) == 0)
         return;
     if (b[0x675] != 0) {
         e = 0;
@@ -72,6 +73,6 @@ void func_02157C48(Object *p)
         }
         return;
     }
-    func_02039C68(func_020399A8(), 0x18, (u8)p->f00);
+    func_02039C68((struct Link *)func_020399A8(), 0x18, (u8)p->f00);
     func_02157960((int)p, (int)func_02157AF0, 0x193);
 }

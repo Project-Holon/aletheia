@@ -16,22 +16,25 @@
  *   func_021B95B8 0x021B95B8 thumb ov100
  *   func_021B9AD8 0x021B9AD8 thumb ov100
  */
-extern int func_020399A8(void);
-extern int func_02039CB4(int,int,int);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *,unsigned int,unsigned int);
 extern int func_0201A918(void);
 typedef unsigned int   u32;
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern int func_02039C68(int,int,int);
+struct Link;
+extern void func_02039C68(struct Link *,u32,u32);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9AD8(void);
 void func_021B9B7C(int a)
 {
  int k=12;
- if(func_02039CB4(func_020399A8(),0x7e,k)!=0) {
-  int p=func_020399A8();
+ if(func_02039CB4((struct Link *)func_020399A8(),0x7e,k)!=0) {
+  int p=(int)func_020399A8();
   int q=func_0201A918();
   if(func_0203D3F8(p,0xff,0xc02,q,(*(int **)(a+0x244))[1],0,0,1)!=0) {
-   func_02039C68(func_020399A8(),0x7a,k);
+   func_02039C68((struct Link *)func_020399A8(),0x7a,k);
    func_021B95B8(a,func_021B9AD8);
   }
  }

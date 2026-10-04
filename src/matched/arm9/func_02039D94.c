@@ -57,7 +57,8 @@ extern u32 func_02039160(u16 mode);
 extern u32 func_020399B8(u8 *e);
 extern void func_02039A5C(void);
 extern u16 func_02039338(void);
-extern u8 *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_02039CD8(u8 *e);
 extern u32 func_0203A2F0(u32 a0, u32 a1);
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
@@ -136,7 +137,7 @@ void func_02039D94(void)
     if (g[0x65] == 4)
         return;
 
-    e = func_020399A8();
+    e = (u8 *)func_020399A8();
     if (e[0x4e] != 1)
         return;
 

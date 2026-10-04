@@ -35,7 +35,8 @@ extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, co
 extern int func_020072CC(int a, int b, int c, void *d, int e);
 extern int func_020073D8(int a, int b, int c);
 extern Big *func_0200E5F8(int a, int b);
-extern void func_0200734C(int a, int b);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *a, unsigned int b);
 extern void func_020307B0(void *p);
 
 void func_021D0B58(int a, Big *dst, int idx)
@@ -50,6 +51,6 @@ void func_021D0B58(int a, Big *dst, int idx)
     if (func_020072CC(h, 5, 0x8004, buf, v) == 1) {
         *dst = *func_0200E5F8(func_020073D8(h, 5, 0), idx);
     }
-    func_0200734C(h, 5);
+    func_0200734C((struct Sub02007324Ctrl *)h, 5);
     func_020307B0(buf);
 }
