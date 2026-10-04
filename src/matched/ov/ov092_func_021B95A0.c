@@ -36,7 +36,7 @@ struct W {
     u32 f48;
 };
 
-extern void func_0203064C(int, int, int);
+extern void func_0203064C(u32 src, u32 dst, u32 size);
 extern struct W *func_0203159C(int, int, int);
 extern u32 func_020457B0(int, int);
 extern u32 func_02031324(u32);

@@ -28,7 +28,8 @@ typedef unsigned int   u32;
 
 extern u32  func_020120F4(u32 a0);
 extern void func_0200AEE8(u32 a0, int a1, int a2);
-extern u32  func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 typedef unsigned short u16;
 extern void func_02013790(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
 extern void func_020137C0(u32 p0, u32 p1, u32 p2, u32 p3, u16 p4);
@@ -109,19 +110,19 @@ void func_021542C0(char *obj, int idx)
     switch (idx) {
     case 7:
     case 8:
-        func_02013790(*(u32 *)(obj + 0xdc), h, func_020399A8(), 1, 4);
+        func_02013790(*(u32 *)(obj + 0xdc), h, (u32)func_020399A8(), 1, 4);
         break;
     case 9:
     case 10:
-        func_020137C0(*(u32 *)(obj + 0xdc), h, func_020399A8(), 1, 4);
+        func_020137C0(*(u32 *)(obj + 0xdc), h, (u32)func_020399A8(), 1, 4);
         break;
     case 11:
     case 12:
-        func_02013864(*(u32 *)(obj + 0xdc), h, func_020399A8(), 1, 4);
+        func_02013864(*(u32 *)(obj + 0xdc), h, (u32)func_020399A8(), 1, 4);
         break;
     case 13:
     case 14:
-        func_02013894(*(u32 *)(obj + 0xdc), h, func_020399A8(), 1, 4);
+        func_02013894(*(u32 *)(obj + 0xdc), h, (u32)func_020399A8(), 1, 4);
         break;
     }
     func_02013980(*(u32 *)(obj + 0xdc), 1);

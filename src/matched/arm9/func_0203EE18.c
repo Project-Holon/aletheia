@@ -53,7 +53,8 @@ extern char s_020A7D74[];
 extern char s_020A7E28[];
 
 extern void func_02034734(const char *file, u32 line, const char *msg, ...);
-extern u32  func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32  func_0203D1A4(u32);
 extern void *func_0203D798(void);
 
@@ -73,7 +74,7 @@ void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
         return;
     }
 
-    if (a4 != func_020399A8()) {
+    if (a4 != (u32)func_020399A8()) {
         if (r7->unk64 == 0) {
             return;
         }
@@ -96,7 +97,7 @@ void func_0203EE18(u32 idx, u32 a1, struct Cmd *pVal, u32 a3, u32 a4)
         break;
 
     case 2:
-        if (idx != func_0203D1A4(func_020399A8())) {
+        if (idx != func_0203D1A4((u32)func_020399A8())) {
             ((struct Manager *)g_021469F4)->unk3c = 1;
         }
         break;

@@ -60,9 +60,11 @@ extern int func_0217BB04(u8 *a);
 typedef unsigned int   u32;
 extern void func_0217F210(u8 *p, int a, u32 b);
 extern u32 func_0217F1EC(u8 *p);
-extern int func_020399A8(void);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *p, unsigned int lo, unsigned int hi);
+extern unsigned int func_02039CB4(struct Link *p, unsigned int lo, unsigned int hi);
 extern int func_020120F4(int a);
 extern int func_02012EBC(int a);
 extern int func_0200ED48(int a);
@@ -93,15 +95,15 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
         break;
     case 1:
         if (func_0217F1EC(a) == 1) {
-            func_02039C68(func_020399A8(), 6, 0x14);
+            func_02039C68((struct Link *)func_020399A8(), 6, 0x14);
             (*d)++;
         }
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 6, 0x14) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 6, 0x14) == 1) {
             x = func_020120F4((*(int **)a)[3]);
             y = func_0200ED48(func_02012EBC(x));
-            func_0200ED54(y, func_02008530(func_02012950(x, func_0203D1A4(func_020399A8()) ^ 1)));
+            func_0200ED54(y, func_02008530(func_02012950(x, func_0203D1A4((int)func_020399A8()) ^ 1)));
             (*d)++;
         }
         break;
@@ -135,11 +137,11 @@ int func_0217D18C(u8 *a, int b, int c, u8 *d)
         break;
     case 5:
         func_0217F210(a, c, 0x10);
-        func_02039C68(func_020399A8(), 7, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 7, 0x14);
         (*d)++;
         break;
     case 6:
-        if (func_0217F1EC(a) != 0 && func_02039CB4(func_020399A8(), 7, 0x14) == 1) {
+        if (func_0217F1EC(a) != 0 && func_02039CB4((struct Link *)func_020399A8(), 7, 0x14) == 1) {
             if (func_0203D378() == 1)
                 func_0217B8E4(a, 7);
             else

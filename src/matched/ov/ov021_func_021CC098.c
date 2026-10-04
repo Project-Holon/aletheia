@@ -62,7 +62,7 @@ extern void func_02017E40(void *mon, u32 field, u32 v);
 extern void func_021CC23C(void *mon);
 extern u32 func_021CC070(u16 a, u32 b);
 extern void func_02045808(u32 p);
-extern u32 func_0201ADE4(u16 a, u16 b, u32 c);
+extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 extern u32 func_0201AE1C(u32 x, u32 field);
 extern void func_0201AE14(u32 x);
 extern u32 func_02012944(void *sys);
@@ -89,7 +89,7 @@ void func_021CC098(void *sys, u16 b, void *mon, Spec *d)
     func_02017E40(mon, 0x49, d->f10[3]);
     func_02017E40(mon, 0x4A, d->f10[4]);
     func_02017E40(mon, 0x4B, d->f10[5]);
-    x = func_0201ADE4(d->species, d->level, b);
+    x = (u32)func_0201ADE4((u16)d->species, (u16)d->level, b);
     v[0] = func_0201AE1C(x, 0x1A);
     v[1] = func_0201AE1C(x, 0x1B);
     v[2] = func_0201AE1C(x, 0x1C);
