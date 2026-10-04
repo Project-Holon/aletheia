@@ -21,9 +21,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0216D88C();
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *a, struct VecFx32 *out);
 
-void func_021A3898(u8 *p)
+void func_021A3898(u8 *p, struct VecFx32 *out)
 {
-    func_0216D88C(*(u32 *)(p + 0x1c));
+    func_0216D88C((const struct Actor *)*(u32 *)(p + 0x1c), out);
 }
