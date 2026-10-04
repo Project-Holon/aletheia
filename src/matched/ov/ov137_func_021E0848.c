@@ -21,7 +21,8 @@ typedef struct {int m[9];} Mtx;
 typedef struct {Vec pos,scale;Mtx rot;} Transform;
 typedef enum {INDEX_ZERO=0} Index;
 extern void *func_02048A18(void *,u16);
-extern void func_020520FC(int,int,int,Mtx *);
+struct Mtx33;
+extern void func_020520FC(int,int,int,struct Mtx33 *);
 extern void func_02047A60(void *,Transform *);
 extern void func_0207ADC4(Mtx *);
 static inline void VecSet(Vec *v,int x,int y,int z){v->x=x;v->y=y;v->z=z;}
@@ -37,7 +38,7 @@ void func_021E0848(u8 *p)
             void *object=func_02048A18(*(void **)(p+0xaf4),*(int *)(base+0x938));
             VecSet(&t.pos,*(int *)(first+0x44),*(int *)(first+0x48),*(int *)(first+0x4c));
             VecSet(&t.scale,*(int *)(first+0x38),*(int *)(first+0x3c),*(int *)(first+0x40));
-            func_020520FC(*(u16 *)(first+0x24),*(u16 *)(first+0x26),*(u16 *)(first+0x28),&t.rot);
+            func_020520FC(*(u16 *)(first+0x24),*(u16 *)(first+0x26),*(u16 *)(first+0x28),(struct Mtx33 *)&t.rot);
             func_02047A60(object,&t);
         }
         if(*(int *)second) {
@@ -45,7 +46,7 @@ void func_021E0848(u8 *p)
             void *object=func_02048A18(*(void **)(p+0xaf4),*(int *)(base+0x93c));
             VecSet(&t.pos,*(int *)(second+0x18),*(int *)(second+0x1c),*(int *)(second+0x20));
             VecSet(&t.scale,*(int *)(second+0xc),*(int *)(second+0x10),*(int *)(second+0x14));
-            func_020520FC(*(u16 *)(second+4),*(u16 *)(second+6),*(u16 *)(second+8),&t.rot);
+            func_020520FC(*(u16 *)(second+4),*(u16 *)(second+6),*(u16 *)(second+8),(struct Mtx33 *)&t.rot);
             func_02047A60(object,&t);
         }
         if(*(int *)third) {

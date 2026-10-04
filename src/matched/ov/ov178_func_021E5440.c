@@ -16,7 +16,7 @@
  *   func_021E57E0 0x021E57E0 thumb ov178
  *   d_02FFFC3C 0x02FFFC3C data a4
  */
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int,unsigned int,unsigned int);
 extern char *func_0203159C(void *,int,int);
 extern void func_02082BCC(void *,int,int);
 extern void *func_02031324(unsigned);

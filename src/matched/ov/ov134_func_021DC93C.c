@@ -47,8 +47,9 @@ extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
 extern struct Entry *func_020399A8(void);
 extern int func_0201A918(void);
 extern u32 func_0203D3F8(u32, u32, u32, u32, u32, u32, u32, u32);
-extern void func_02039C68(void *, u32, u32);
-extern u32 func_02039CB4(void *, u32, u32);
+struct Link;
+extern void func_02039C68(struct Link *, unsigned int, unsigned int);
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern u32 func_0200FB24(void);
 extern int func_0203CD98(void);
 extern int func_02157170(int, int);
@@ -105,12 +106,12 @@ int func_021DC93C(void *unused0, void *unused1, u8 *q, u8 *p)
         ctx = func_020399A8();
         code = func_0201A918();
         if (func_0203D3F8((u32)ctx, 255, 0x2f00, code, *(u32 *)(q + 28), 0, 0, 1) != 0) {
-            func_02039C68(func_020399A8(), 20, 47);
+            func_02039C68((struct Link *)func_020399A8(), 20, 47);
             *(u32 *)p = 8;
         }
         break;
     case 8:
-        if (func_02039CB4(func_020399A8(), 20, 47) != 0) return 1;
+        if (func_02039CB4((struct Link *)func_020399A8(), 20, 47) != 0) return 1;
         break;
     case 3:
         func_02034AC4((int)ov131_id);
