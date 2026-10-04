@@ -29,7 +29,8 @@ typedef unsigned long u32;
 extern u32 func_021BE034(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE044(void *p);
-extern u32 func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32 func_02045EC0(u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u32 color);
@@ -44,9 +45,9 @@ void func_021BD134(void *ctx, char *st, u32 msgId)
     u32 sys = func_021BE044(ctx);
     u32 str;
 
-    func_02043B5C(func_02045770(*(u32 *)(st + 0x30)), 0xf);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(st + 0x30)), 0xf);
     str = func_02045EC0(msgs, msgId);
-    func_0201C724(sys, func_02045770(*(u32 *)(st + 0x30)), 0, 0, str, font, 0x440);
+    func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(st + 0x30)), 0, 0, str, font, 0x440);
     func_02045808(str);
     func_0201F73C(*(u32 *)(st + 0x30), 2, 0x140, 9);
     *(u32 *)(st + 0x24) = 1;

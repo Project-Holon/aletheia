@@ -23,7 +23,8 @@ typedef unsigned char u8;
 typedef struct { u32 a,b,c,d,e,f,g; } Entry;
 extern const Entry d_021B8420[];
 extern u32 func_020450F0(u8,u8,u8,u8,u8,u8,int);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32,int);
 extern void func_020456F8(u32);
 extern u32 func_02045730(u32);
@@ -35,7 +36,7 @@ void func_021B67A4(u8 *p)
     u32 h;
     for (i=0;i<16;i++) {
         *(u32 *)(p+i*4+4)=func_020450F0(d_021B8420[i].a,d_021B8420[i].b,d_021B8420[i].c,d_021B8420[i].d,d_021B8420[i].e,d_021B8420[i].f,1);
-        func_02043B5C(func_02045770(*(u32 *)(p+i*4+4)),0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p+i*4+4)),0);
     }
     h=*(u32 *)(p+0x28);
     func_020456F8(h);
