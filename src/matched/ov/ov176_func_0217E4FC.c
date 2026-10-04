@@ -15,7 +15,8 @@
  *   func_02034714   0x02034714  arm
  *   d_0217E64C      0x0217E64C  data  ov176
  */
-extern int func_020399A8(int x);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int x);
 typedef unsigned int   u32;
 extern void func_02034714(const char *expr, u32 line, const char *file);
@@ -23,10 +24,9 @@ extern char d_0217E64C[];
 
 int func_0217E4FC(int a, int b)
 {
-    if (a == func_0203D1A4(func_020399A8(a))) {
+    if (a == func_0203D1A4((int)func_020399A8())) {
         func_02034714(d_0217E64C, 0, d_0217E64C);
         return 0;
     }
     return b + 6;
 }
-

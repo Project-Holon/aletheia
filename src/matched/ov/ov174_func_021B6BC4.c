@@ -17,7 +17,7 @@
  *   d_021B74AC 0x021B74AC data
  */
 typedef unsigned short u16;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern char *func_0203159C(void *,unsigned,unsigned);
 typedef unsigned int   u32;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);

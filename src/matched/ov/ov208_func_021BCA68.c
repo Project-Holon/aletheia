@@ -38,7 +38,7 @@ struct Ov208Main {
     void *f14; void *f18; void *fsm;
     int f20; int f24; int f28;
 };
-extern void func_0203064C(void *a, u32 heap, u32 size);
+extern void func_0203064C(u32 src, u32 heap, u32 size);
 extern void *func_0203159C(void *owner, u32 size, u32 heap);
 extern void func_02082BCC(void *p, int v, int n);
 extern char *func_021BCE10(u32 display, u32 heap, int threeD);
@@ -61,7 +61,7 @@ extern void func_0203D34C(u32 a, u32 b);
 int func_021BCA68(void *owner, int unused, struct Ov208Args *args)
 {
     struct Ov208Main *p;
-    func_0203064C((void *)1, 0x95, 0x90000);
+    func_0203064C(1, 0x95, 0x90000);
     p = func_0203159C(owner, 0x2c, 0x95);
     func_02082BCC(p, 0, 0x2c);
     p->heap = 0x95;
