@@ -68,7 +68,8 @@ typedef struct {
 extern const SelTbl tbl_02203D38;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(struct Obj *p, u16 value);
@@ -84,7 +85,7 @@ void func_021FDDA8(Obj *p)
     func_02082BCC(&pos, 0, sizeof(pos));
     pos.x = tbl_02203D38.cur[0].x;
     pos.y = tbl_02203D38.cur[0].y;
-    p->cursor = func_0204B294(p->res, p->set2, p->set[1], p->set3, &pos, 0, 0x48);
+    p->cursor = func_0204B294(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
     func_0204B92C(p->cursor, 1);
     func_0204B878(p->cursor, tbl_02203D38.cur[0].anim);
     func_0204B84C(p->cursor, 1);
@@ -95,16 +96,16 @@ void func_021FDDA8(Obj *p)
     }
     pos.x = 0xA0;
     pos.y = 0x20;
-    p->mark = func_0204B294(p->res, p->set2, p->set[1], p->set3, &pos, 0, 0x48);
+    p->mark = func_0204B294(p->res, (u32)p->set2, (u32)p->set[1], (u32)p->set3, &pos, 0, 0x48);
     func_0204B878(p->mark, 4);
     func_0204B3DC(p->mark, 0);
     pos.x = 0xE4;
     pos.y = 0x75;
-    p->btn[0] = func_0204B294(p->res, p->set[0], p->set[1], p->set[2], &pos, 0, 0x48);
+    p->btn[0] = func_0204B294(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
     func_0204B878(p->btn[0], 0x26);
     func_0204B3DC(p->btn[0], 0);
     pos.x = 0x8C;
-    p->btn[1] = func_0204B294(p->res, p->set[0], p->set[1], p->set[2], &pos, 0, 0x48);
+    p->btn[1] = func_0204B294(p->res, (u32)p->set[0], (u32)p->set[1], (u32)p->set[2], &pos, 0, 0x48);
     func_0204B878(p->btn[1], 0x27);
     func_0204B3DC(p->btn[1], 0);
     func_0203D34C(0, 0x48);

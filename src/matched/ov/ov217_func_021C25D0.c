@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Arg { u16 a,b,c; u8 d,e; };
-extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 void func_021C25D0(u8 *p)
 {
     struct Arg arg;
@@ -29,6 +30,6 @@ void func_021C25D0(u8 *p)
     arg.d=0;
     arg.e=0;
     for (;i<26;i++) {
-        *(u32 *)(p+i*24+0x3c)=func_0204B294(*(u32 *)(p+4),q[0],q[1],q[2],(u32)&arg,*(u16 *)((u8 *)q+0xc),*(u16 *)p);
+        *(u32 *)(p+i*24+0x3c)=(u32)func_0204B294((void *)*(u32 *)(p+4),q[0],q[1],q[2],&arg,*(u16 *)((u8 *)q+0xc),*(u16 *)p);
     }
 }

@@ -38,7 +38,8 @@ extern u32 func_0202D81C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h,
 extern u32 func_0202D7D8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i, u32 heap);
 extern void func_02049238(u32 a);
 extern u32 func_0202D898(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 heap);
-extern u32 func_0204B294(u32 a, u32 b, u32 c, u32 d, Pos *pos, u32 f, u32 heap);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern Pos d_021DD710;
 
 void func_021D25F4(u32 *p, int a, int b, int c, int s0, int s1)
@@ -53,5 +54,5 @@ void func_021D25F4(u32 *p, int a, int b, int c, int s0, int s1)
     func_02049238(t);
     p[5] = func_0202D898(a, b, c, s0, 0, 0, 1, 0, 0x8015);
     loc = d_021DD710;
-    p[2] = func_0204B294(p[1], p[3], p[4], p[5], &loc, 0, 0x8015);
+    p[2] = (u32)func_0204B294((void *)p[1], p[3], p[4], p[5], &loc, 0, 0x8015);
 }

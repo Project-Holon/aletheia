@@ -39,7 +39,7 @@ extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
 extern void func_02082BCC(void *,int,int);
-extern void *func_0204B294(u32,u32,u32,u32,Record *,u16,u16);
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern u32 func_02005728(u32 range);
 void func_021D6AEC(char *p,u32 owner,u16 heap)
@@ -63,7 +63,7 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
     func_020307B0(allocation);
     func_02049238(arc);
     func_02082BCC(&point,0,8);
-    *(void **)(p+12)=func_0204B294(owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
+    *(void **)(p+12)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
     func_0204B3DC(*(void **)(p+12),0);
     bound=256;
     bound+=16;
@@ -72,7 +72,7 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
         point.y=func_02005728(256)-bound;
         point.b=3;
         point.z=func_02005728(6)+3;
-        *(void **)(p+i*4+16)=func_0204B294(owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
+        *(void **)(p+i*4+16)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
         func_0204B3DC(*(void **)(p+i*4+16),0);
     }
     point.x=128;
@@ -80,6 +80,6 @@ void func_021D6AEC(char *p,u32 owner,u16 heap)
     point.b=0;
     point.a=1;
     point.z=9;
-    *(void **)(p+148)=func_0204B294(owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
+    *(void **)(p+148)=func_0204B294((void *)owner,*(u32 *)(p+4),*(u32 *)p,*(u32 *)(p+8),&point,0,heap);
     func_0204B3DC(*(void **)(p+148),0);
 }

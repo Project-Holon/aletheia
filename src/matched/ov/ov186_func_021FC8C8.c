@@ -57,7 +57,8 @@ extern void func_02082BCC(void *,int,u32),func_02034714(const char *,u32,const c
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_02045374(u32),func_02041B6C(u32);
 extern u8 func_02045730(u32);
-extern u32 func_0204B294(u32,u32,u32,u32,Request *,u16,u32);
+struct Obj;
+extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *,u32),func_0204B688(u32,u32),func_0204B3DC(u32,u32);
 struct Bmp;
@@ -123,7 +124,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
         if(cfg->mode==0) arrow.y=i==0?16:128;
         else arrow.y=i==0?64:184;
         arrow.id=i;
-        p->handles[i]=func_0204B294(cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
+        p->handles[i]=(u32)func_0204B294((void *)cfg->manager,arrows.y,arrows.z,arrows.x,&arrow,resource,heap);
         func_0204B92C((struct Obj *)p->handles[i],1);func_0204B688(p->handles[i],1);
     }
     i=0;
@@ -133,7 +134,7 @@ View *func_021FC8C8(const Config *cfg,u16 heap)
     if(!func_021FC124(p->cfg.resources,6,&marks)) func_02034714(d_02200D68,0,d_02200D68);
     for(i=2;i<4;i++) {
         mark.x=i==2?24:232;
-        p->handles[i]=func_0204B294(p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
+        p->handles[i]=(u32)func_0204B294((void *)p->cfg.manager,marks.y,marks.z,marks.x,&mark,1,heap);
         func_0204B688(p->handles[i],1);
     }
     font=func_021FC20C(p->cfg.resources);
