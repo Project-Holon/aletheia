@@ -24,7 +24,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_02024450(const u16 *p);
 extern void func_0202DC48(u32, u32, void *, u8);
-extern u32 func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(void *, u32, short, short, void *, u32, u16);
 extern void func_02045334(u32 v);
 extern void func_02045374(u32 v);
@@ -50,7 +51,7 @@ void func_021C5360(u8 *p)
     }
     if (p[0xB] == 0) {
         u32 a = *(u32 *)(p + 0x98);
-        func_0201C724((void *)a, func_02045770(*(u32 *)(p + 0x88)), 0, 2, *(void **)(*(u8 **)(p + 0x1C) + 0xC), *(u32 *)(p + 0x24), 0x440);
+        func_0201C724((void *)a, (u32)func_02045770((struct Descriptor *)*(u32 *)(p + 0x88)), 0, 2, *(void **)(*(u8 **)(p + 0x1C) + 0xC), *(u32 *)(p + 0x24), 0x440);
         p[0x8C] = 1;
         t = *(u32 *)(p + 0x58);
         func_02045334(t);
