@@ -18,9 +18,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Rec3;
 struct U16Vec;
+struct Descriptor;
 extern void func_0201CE48(struct Rec3 *p);
 extern void func_02045808(struct U16Vec *vec);
-extern u32 func_02045770(u32);
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(u32,u32);
 extern void *func_02045EC0(u32,u32);
 extern signed char func_02012FFC(void);
@@ -37,7 +38,7 @@ void func_021F4794(u8 *p,u32 index)
         func_02045808(*(void **)(p+0x2c));
         *(u32 *)(p+0x2c)=0;
     }
-    func_02043B5C(func_02045770(*(u32 *)(p+0x1c)),15);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(p+0x1c)),15);
     *(void **)(p+0x2c)=func_02045EC0(*(u32 *)(p+0x28),index);
     t=func_02012FFC();
     *(u32 *)(p+0x24)=func_0201CCE4(*(u32 *)(p+0x1c),0,0,*(u32 *)(p+0x2c),*(u32 *)(p+0x20),t,*(u32 *)(p+0x18),2,*(u16 *)p,0);
