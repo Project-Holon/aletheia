@@ -34,7 +34,8 @@ typedef signed short s16;
 
 typedef struct W W;
 
-extern u32 func_02045770(u32 p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 win, u32 c);
 extern int func_021BA774(W *p, int i);
 extern u32 func_02013E4C(u16 a);
@@ -56,7 +57,7 @@ void func_021BB220(u32 *p, W *w)
     u16 id;
     u32 h;
 
-    win = func_02045770(p[0]);
+    win = (u32)func_02045770((struct Descriptor *)p[0]);
     func_02043B5C(win, 0);
     if (w != 0) {
         func_02045CAC(p[3], func_02013E4C(func_021BA774(w, 0)), p[1]);

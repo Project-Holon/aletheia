@@ -35,7 +35,8 @@ extern void func_021BA420(char *p);
 extern void func_021BA44C(void *a, void *b);
 extern void func_021BA4EC(void *a, void *b);
 extern void func_021BA528(void *a, void *b, void *c);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern int func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02040588(u32 which, u32 enable);
@@ -68,7 +69,7 @@ int func_021BA1FC(int a, int *b, u8 *o, u8 *c)
             t = (*(u32 **)(o + 4))[2];
             e = c + i * 8;
             if (e[0x10] != 0) {
-                if (func_0201C6C4(t, func_02045770(*(u32 *)(e + 0xc))) == 0) {
+                if (func_0201C6C4(t, (u32)func_02045770((struct Descriptor *)*(u32 *)(e + 0xc))) == 0) {
                     func_02045334(*(u32 *)(e + 0xc));
                     e[0x10] = 0;
                 }

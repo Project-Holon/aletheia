@@ -29,7 +29,8 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
 extern u32 func_0200BE48(u32 a);
 extern u8 func_0200BF10(u32 a);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32 func_02045EC0(u32 a, u32 b);
 extern void func_0201C6FC(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
@@ -43,7 +44,7 @@ void func_021BA528(u32 **a, u8 *b, u8 *c)
     u32 h;
 
     k = func_0200BF10(func_0200BE48(func_02012EBC(func_020120F4(**a))));
-    func_02043B5C(func_02045770(*(u32 *)(c + 4)), 0);
+    func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(c + 4)), 0);
     if (k == 0x30) {
         s = func_02045EC0(*(u32 *)(b + 0x28), 0x27);
     } else {
@@ -51,12 +52,12 @@ void func_021BA528(u32 **a, u8 *b, u8 *c)
         s = func_02045EC0(*(u32 *)(b + 0x20), *(u16 *)(*(u8 **)(b + 0x34) + off + 4));
         s2 = func_02045EC0(*(u32 *)(b + 0x24), *(u16 *)(*(u8 **)(b + 0x34) + off + 6));
         h = *(u32 *)(b + 8);
-        func_0201C6FC(h, func_02045770(*(u32 *)(c + 0x14)), 0, 0x10, s2, *(u32 *)(b + 0xc));
+        func_0201C6FC(h, (u32)func_02045770((struct Descriptor *)*(u32 *)(c + 0x14)), 0, 0x10, s2, *(u32 *)(b + 0xc));
         c[0x18] = 1;
         func_02045808(s2);
     }
     h = *(u32 *)(b + 8);
-    func_0201C6FC(h, func_02045770(*(u32 *)(c + 0x14)), 0, 0, s, *(u32 *)(b + 0xc));
+    func_0201C6FC(h, (u32)func_02045770((struct Descriptor *)*(u32 *)(c + 0x14)), 0, 0, s, *(u32 *)(b + 0xc));
     c[0x18] = 1;
     func_02045808(s);
 }

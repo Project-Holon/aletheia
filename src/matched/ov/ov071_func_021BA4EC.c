@@ -16,14 +16,15 @@
  *   func_02045808 0x02045808 arm
  */
 extern unsigned func_02045EC0(unsigned,unsigned);
-extern unsigned func_02045770(unsigned);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_0201C6FC(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 extern void func_02045808(unsigned);
 void func_021BA4EC(char *p, char *q) {
     unsigned s, h;
     s = func_02045EC0(*(unsigned *)(p + 40),38);
     h = *(unsigned *)(p + 8);
-    func_0201C6FC(h,func_02045770(*(unsigned *)(q + 12)),0,4,s,*(unsigned *)(p + 12));
+    func_0201C6FC(h,(unsigned)func_02045770((struct Descriptor *)*(unsigned *)(q + 12)),0,4,s,*(unsigned *)(p + 12));
     q[16] = 1;
     func_02045808(s);
 }
