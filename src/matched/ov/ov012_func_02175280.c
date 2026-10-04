@@ -25,7 +25,8 @@ typedef unsigned int u32;
 extern void func_02082BCC(void *p, int v, int n);
 struct Ctx;
 extern void func_02034714(const char *expr, u32 line, const char *file);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 extern void func_02175358(u8 *a, u8 *slot, u8 i, int d);
 extern void *func_020120F4(const struct Ctx *p);
@@ -53,7 +54,7 @@ void func_02175280(u8 *a, void *b, u8 *out, int d)
     if (count != 2 && count != 4) {
         func_02034714((void *)0x0217563C, 0, (void *)0x0217563C);
     }
-    self = (a + func_0203D1A4(func_020399A8()))[0x15C];
+    self = (a + func_0203D1A4((u32)func_020399A8()))[0x15C];
     for (i = 0; i < count; i++) {
         y = a[0x15C + i];
         if ((y & 1) == (self & 1)) {

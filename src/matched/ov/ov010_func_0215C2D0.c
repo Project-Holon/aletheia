@@ -62,7 +62,7 @@ extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02008510(void *my, u32 heap);
 extern void func_02045808(u32 buf);
-extern u32 func_0201ADE4(u16 species, u16 form, u32 heap);
+extern void *func_0201ADE4(unsigned int species, int form, unsigned int heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern u32 func_02045EC0(void *bank, u32 index);
@@ -103,7 +103,7 @@ int func_0215C2D0(void *c, void *vm)
     t = func_02008510(func_02012944(sys), heap);
     func_02017E40(mon, 0x8D, t);
     func_02045808(t);
-    info = func_0201ADE4(func_02017E1C(mon, 5, 0), func_02017E1C(mon, 0x6F, 0), heap);
+    info = (u32)func_0201ADE4((u16)func_02017E1C(mon, 5, 0), (u16)func_02017E1C(mon, 0x6F, 0), heap);
     v = func_0201AE1C(info, 0x15);
     func_0201AE14(info);
     func_02017E40(mon, 9, v);

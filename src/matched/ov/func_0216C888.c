@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0203064C();
+extern void func_0203064C(unsigned int src, unsigned int dst, unsigned int size);
 extern int func_0203159C();
 extern int func_02031324();
 
@@ -32,7 +32,7 @@ t4 = a0 + 0;
 a0 = 1;
 a1 = 0x76;
 a2 = a2 << 0xe;
-    a0 = func_0203064C(a0, a1, a2);
+    func_0203064C(a0, a1, a2);
 loc_0216C898:
 a0 = t4 + 0;
 a1 = 4;

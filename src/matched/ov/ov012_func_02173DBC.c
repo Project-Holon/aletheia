@@ -16,10 +16,11 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D4D0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 
 void func_02173DBC(u32 a)
 {
-    func_0203D4D0(func_020399A8(), a, 0x140C, 0, 0, 1, 0, 0);
+    func_0203D4D0((u32)func_020399A8(), a, 0x140C, 0, 0, 1, 0, 0);
 }
