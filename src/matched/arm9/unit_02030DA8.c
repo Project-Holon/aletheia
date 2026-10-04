@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: sub_02030DA8
+ * function: sub_02030DA8, sub_02030DC8
  * address:  0x02030DA8
  * packet:   pkt_02030CBC
  * region:   arm9
@@ -55,8 +55,8 @@ struct Node {
     struct Node *unk_04;
     struct Node *unk_08;
     u32          unk_0c;
-    u32          unk_10;
-    u32          unk_14;
+    void        *unk_10;
+    void       (*unk_14)(struct Node *, void *);
     u32          unk_18;
 };
 
@@ -76,10 +76,10 @@ struct Ctx {
     struct Node *unk_34;
 };
 
-extern struct Node *sub_02030C44(struct Ctx *c, u32 a, u32 b, u32 key);
-extern struct Node *sub_02030DC8(struct Ctx *c, u32 a, u32 b, u32 key);
+extern struct Node *sub_02030C44(struct Ctx *c);
+extern struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key);
 
-struct Node *sub_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key)
+struct Node *sub_02030DA8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
 {
     struct Node *n;
 
@@ -89,12 +89,12 @@ struct Node *sub_02030DA8(struct Ctx *c, u32 a, u32 b, u32 key)
     return n;
 }
 
-struct Node *sub_02030DC8(struct Ctx *c, u32 a, u32 b, u32 key)
+struct Node *sub_02030DC8(struct Ctx *c, void (*a)(struct Node *, void *), void *b, u32 key)
 {
     struct Node *n;
     struct Node *p;
 
-    n = sub_02030C44(c, a, b, key);
+    n = sub_02030C44(c);
     if (n == 0) {
         return 0;
     }

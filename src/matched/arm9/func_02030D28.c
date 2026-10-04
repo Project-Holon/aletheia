@@ -38,8 +38,8 @@ struct Node {
     struct Node *prev;    /* +0x04 */
     struct Node *next;    /* +0x08 */
     u32          key;     /* +0x0c */
-    u32          arg;     /* +0x10 */
-    void       (*fn)(struct Node *node, u32 arg); /* +0x14 */
+    void        *arg;     /* +0x10 */
+    void       (*fn)(struct Node *node, void *arg); /* +0x14 */
     u32          fired;   /* +0x18 */
 };
 
