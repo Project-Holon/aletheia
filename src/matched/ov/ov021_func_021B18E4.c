@@ -32,7 +32,7 @@ int func_02162744(int a);
 int func_020127A4(void *a);
 struct Rec44;
 unsigned short func_02012AC8(const struct Rec44 *p);
-int func_02159B10(int a, int b);
+unsigned int func_02159B10(void *a0, void *a1);
 void *func_0201296C(void *a);
 int func_02162740(int a);
 int func_0216CEE4(int a, int b, int c, int d, void *e, int f);
@@ -53,7 +53,7 @@ int func_021B18E4(int a, int b)
     sc = func_02012844(r4);
     r5 = func_02162744(sc);
     s10 = func_02012AC8((const struct Rec44 *)func_020127A4(r4));
-    r6 = func_02159B10(a, b);
+    r6 = func_02159B10((void *)a, (void *)b);
     if (r5 != 0) {
         r4 = func_0201296C(r4);
         r0 = func_0216CEE4(s8, func_02162740(sc), s10, r5, r4, r6);

@@ -23,8 +23,10 @@ typedef unsigned int   u32;
 typedef struct { u32 v[6]; } T6;
 
 extern const T6 d_021D9BC8;
-extern u32 func_020122C0(u32, u32, u32, u32);
-extern u32 *func_020124E8(void);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *, void *, void *, u32);
+extern void *func_020124E8(struct Obj *);
 
 u32 func_021BD9BC(u32 *p)
 {
@@ -58,7 +60,7 @@ u32 func_021BD9BC(u32 *p)
         i = 4;
         break;
     }
-    r = func_020122C0(p[1], p[0], t.v[i], 4);
-    *func_020124E8() = (u32)p;
+    r = (u32)func_020122C0((void *)p[1], (void *)p[0], (void *)t.v[i], 4);
+    *(u32 *)func_020124E8((struct Obj *)r) = (u32)p;
     return r;
 }

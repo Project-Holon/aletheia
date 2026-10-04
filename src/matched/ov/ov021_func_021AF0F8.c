@@ -25,7 +25,7 @@ typedef signed char    s8;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u32 func_020295A4(void *a, u32 b);
 extern void func_0215897C(void *a, u32 b);
 extern void func_02159144(int n);
@@ -35,7 +35,7 @@ int func_021AF0F8(u32 a, u32 b)
     void *y = func_0215A5DC((void *)b);
     void *x = func_0215A5F4((void *)b);
 
-    func_0215897C(x, func_020295A4(y, func_02159B10(a, b)));
+    func_0215897C(x, func_020295A4(y, func_02159B10((void *)a, (void *)b)));
     func_02159144(10);
     return 1;
 }

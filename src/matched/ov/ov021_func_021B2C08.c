@@ -17,7 +17,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02159B10(int a, int b);
+extern unsigned int func_02159B10(void *a, void *b);
 typedef unsigned int   u32;
 extern int func_021B2BD8(u32 a);
 extern int func_021B2BEC(int a, int b, int c, int d);
@@ -25,9 +25,9 @@ extern void func_0218C69C(int a, int b, int c, int d);
 
 int func_021B2C08(int a, int b)
 {
-    int p = func_02159B10(a, b);
-    int q = func_02159B10(a, b);
-    int r = func_02159B10(a, b);
+    int p = (int)func_02159B10((void *)a, (void *)b);
+    int q = (int)func_02159B10((void *)a, (void *)b);
+    int r = (int)func_02159B10((void *)a, (void *)b);
     int h = func_021B2BD8(b);
     int t = func_021B2BEC(h, p, q, r);
 

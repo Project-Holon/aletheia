@@ -29,7 +29,7 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 struct BigObj;
 extern u32 func_02012A30(const struct BigObj *a);
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern void func_02028A58(u32 a, u8 b, u8 c);
 extern void func_02159144(int n);
 
@@ -42,8 +42,8 @@ int func_021AEF10(u32 a, u32 b)
     y = func_020120F4(x);
     func_0201210C((void *)x);
     y = func_02012A30((const struct BigObj *)y);
-    z = func_02159B10(a, b);
-    func_02028A58(y, z, func_02159B10(a, b));
+    z = func_02159B10((void *)a, (void *)b);
+    func_02028A58(y, z, func_02159B10((void *)a, (void *)b));
     func_02159144(12);
     return 0;
 }

@@ -72,7 +72,7 @@ typedef struct Flags {
 } Flags;
 
 extern void *func_0215A5F4(void *vm);
-extern u16 func_02159B10(Ctx *c, void *vm);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(Ctx *c, void *vm);
 extern void *func_0215A5E4(void *vm);
 extern u8 func_021568E0(void *w);
@@ -103,7 +103,7 @@ extern u32 func_021F6744(void *mon);
 
 int func_0215D504(Ctx *c, void *vm)
 {
-    u16 arg;
+    u32 arg;
     u16 *dst;
     void *h;
     void *sv;

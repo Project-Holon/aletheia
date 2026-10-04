@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
@@ -19,7 +19,7 @@
  */
 
 void *func_0215A5F4(void *p);
-int func_02159B10(int *a, int b);
+unsigned int func_02159B10(void *a0, void *a1);
 int func_0201134C(int *a);
 typedef unsigned int   u32;
 u32 func_021B1668(u32 a, u32 b);
@@ -33,7 +33,7 @@ int func_021B1698(int *a, int b)
     int r0;
 
     func_0215A5F4((void *)b);
-    r7 = func_02159B10(a, b);
+    r7 = func_02159B10(a, (void *)b);
     r6 = func_0201134C(a);
     r0 = func_021B1668(b, r7);
     if (r0 == 0) {

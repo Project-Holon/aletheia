@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_0215A5EC(u32);
-extern u32 func_02159B10(u32, u32);
+extern unsigned int func_02159B10(void *, void *);
 extern u32 func_0216DE94(u32, u32);
 extern u32 *func_02158F58(void *);
 extern u32 func_02188D38(u32);
@@ -48,7 +48,7 @@ int func_021B2218(u32 a, u32 b)
     u32 p;
 
     t = func_0215A5F4((void *)b);
-    o = func_02159B10(a, b);
+    o = func_02159B10((void *)a, (void *)b);
     o = func_0216DE94(func_0215A5EC(b), o);
     e = func_02158F58(t)[1];
     g = func_02188D38(e);

@@ -22,7 +22,7 @@ typedef struct {
     u8 *cur;
 } Ctx;
 
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_02158F74(void *p);
 
@@ -33,7 +33,7 @@ int func_021AFBEC(Ctx *a0, int a1, int (*fn)())
     int t;
 
     a0->cur = p + 1;
-    t = func_02159B10(a0, a1);
+    t = (int)func_02159B10(a0, (void *)a1);
     fn(func_02158F74(func_0215A5F4((void *)a1)), b, (u8)t);
     return 0;
 }

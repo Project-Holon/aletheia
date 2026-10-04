@@ -40,7 +40,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02159B10(u32 a, u32 b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_0215A5CC(u32 a);
 extern void *func_0215A5E4(void *a0);
@@ -66,7 +66,7 @@ int func_021B5DF8(u32 a, u32 b)
     u32 w;
     u32 x;
 
-    mode = func_02159B10(a, b);
+    mode = func_02159B10((void *)a, (void *)b);
     o1 = func_02159AE8((void *)a, (void *)b);
     o2 = func_02159AE8((void *)a, (void *)b);
     id = func_0215A5CC(b);

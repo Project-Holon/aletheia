@@ -20,7 +20,7 @@
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern int func_02159B10(int a, int b);
+extern unsigned int func_02159B10(void *a, void *b);
 extern int func_021F3AD0(void *a, int b, int c);
 extern void func_0215897C(void *a, int b);
 
@@ -28,8 +28,8 @@ int func_021B27B4(int a, int b)
 {
     void *x = func_0215A5F4((void *)b);
     void *y = func_0215A5DC((void *)b);
-    int p = func_02159B10(a, b);
-    int q = func_02159B10(a, b);
+    int p = (int)func_02159B10((void *)a, (void *)b);
+    int q = (int)func_02159B10((void *)a, (void *)b);
     int r = func_021F3AD0(y, p, q);
 
     if (r == 0) {

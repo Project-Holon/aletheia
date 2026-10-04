@@ -38,7 +38,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 func_02159B10(void *c, void *vm);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u16 *func_02159AE8(void *c, void *vm);
 extern u16 func_0215A5CC(void *vm);
 extern void *func_0215A5DC(void *vm);
@@ -62,7 +62,7 @@ extern void func_0201EF5C(struct WordSet *p, u32 i, u32 v);
 
 int func_0215E1C0(void *c, void *vm)
 {
-    u16 cmd;
+    u32 cmd;
     u16 *dst;
     u16 v;
     void *sys;

@@ -30,7 +30,7 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_02159B10(Ctx *, u32);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern u32 func_02011330(Ctx *);
 extern u32 func_02158FE0(void *, void *, u32);
 extern u32 func_02158F74(void *);
@@ -49,7 +49,7 @@ int func_021B01DC(Ctx *c, u32 b)
     c->p = c->p + 1;
     v1 = *c->p;
     c->p = c->p + 1;
-    v2 = func_02159B10(c, b);
+    v2 = func_02159B10(c, (void *)b);
     q = c->p;
     v3 = q[0];
     c->p = q + 1;

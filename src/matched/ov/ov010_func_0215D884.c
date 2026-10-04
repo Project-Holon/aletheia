@@ -54,7 +54,7 @@ struct U16Vec;
 struct Work;
 extern u16 func_0215A5CC(void *a0);
 extern void *func_02158F74(void *p);
-extern u16 func_02159B10(Ctx *c, void *vm);
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_02156914(void *w, u32 heap);
 extern void func_02156A3C(struct Work *w, u8 j, void *ws, u32 slot);
 extern void func_02156AD4(struct Work *w, u8 j, void *ws, u32 slot);
@@ -79,7 +79,7 @@ int func_0215D884(Ctx *c, void *vm)
     void *ws = func_02158F74(wsx);
     u8 op;
     u8 slot;
-    u16 arg;
+    u32 arg;
     void *bank;
     void *str;
 

@@ -32,9 +32,11 @@ typedef struct {
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
-extern u32 func_02159B10(u32 a, u32 b);
-extern u32 func_020122C0(void *a, u32 b, void *c, u32 d);
-extern Rec *func_020124E8(void);
+extern unsigned int func_02159B10(void *a, void *b);
+struct Desc;
+struct Obj;
+extern struct Desc *func_020122C0(void *a, void *b, void *c, unsigned int d);
+extern void *func_020124E8(struct Obj *p);
 extern void func_0215897C(void *a, u32 b);
 extern int func_021AF4E8(u32 a, u32 b, Rec *c);
 
@@ -47,10 +49,10 @@ int func_021AF380(u32 a, u32 b)
 
     p = func_0215A5F4((void *)b);
     x = func_0215A5DC((void *)b);
-    u = func_02159B10(a, b);
-    v = func_02159B10(a, b);
-    h = func_020122C0(x, 0, (void *)func_021AF4E8, 12);
-    r = func_020124E8();
+    u = func_02159B10((void *)a, (void *)b);
+    v = func_02159B10((void *)a, (void *)b);
+    h = (u32)func_020122C0(x, 0, (void *)func_021AF4E8, 12);
+    r = func_020124E8((struct Obj *)h);
     r->a = u;
     r->b = v;
     r->f4 = 0;

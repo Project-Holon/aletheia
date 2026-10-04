@@ -26,7 +26,7 @@ typedef signed short s16;
 
 void *func_0215A5F4(void *p);
 int *func_02158F58(void *a);
-int func_02159B10(int a, int b);
+unsigned int func_02159B10(void *a0, void *a1);
 int func_02188C9C(int a);
 int func_0215A5EC(int b);
 void *func_0215A5E4(void *a0);
@@ -50,12 +50,12 @@ int func_021B181C(int a, int b)
     int r0;
 
     r6 = (int)func_02158F58(func_0215A5F4((void *)b));
-    v0 = func_02159B10(a, b);
-    v1 = func_02159B10(a, b);
-    v2 = func_02159B10(a, b);
-    v3 = func_02159B10(a, b);
-    v4 = func_02159B10(a, b);
-    r7 = func_02159B10(a, b);
+    v0 = func_02159B10((void *)a, (void *)b);
+    v1 = func_02159B10((void *)a, (void *)b);
+    v2 = func_02159B10((void *)a, (void *)b);
+    v3 = func_02159B10((void *)a, (void *)b);
+    v4 = func_02159B10((void *)a, (void *)b);
+    r7 = func_02159B10((void *)a, (void *)b);
     r5 = func_02188C9C(((int *)r6)[1]);
     r6 = func_0215A5EC(b);
     r0 = func_0216E3D0(func_0201296C(func_0215A5E4((void *)b)), v4);

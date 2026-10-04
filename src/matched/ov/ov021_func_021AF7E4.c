@@ -30,7 +30,7 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(void *);
-extern u32 func_02159B10(Script *, u32);
+extern unsigned int func_02159B10(void *, void *);
 extern void func_0201EF5C(u32, u32, u32);
 extern void func_0201EF4C(u32, u32, u32);
 extern void func_0201EF40(u32, u32, u32);
@@ -43,8 +43,8 @@ void func_021AF7E4(Script *a, u32 b)
     u32 y, n, flag;
     u8 *q;
     a->cur = p + 1;
-    y = func_02159B10(a, b);
-    n = func_02159B10(a, b);
+    y = func_02159B10(a, (void *)b);
+    n = func_02159B10(a, (void *)b);
     q = a->cur;
     flag = *q;
     a->cur = q + 1;

@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5E4(void *a0);
 struct BigObj;
 extern u32 func_02012844(const struct BigObj *p);
@@ -39,10 +39,10 @@ extern int func_02162788();
 int func_0215F3A4(int a, int b)
 {
     void *x = func_0215A5F4((void *)b);
-    int y0 = func_02159B10(a, b);
-    int y1 = func_02159B10(a, b);
-    int y2 = func_02159B10(a, b);
-    int y3 = func_02159B10(a, b);
+    int y0 = func_02159B10((void *)a, (void *)b);
+    int y1 = func_02159B10((void *)a, (void *)b);
+    int y2 = func_02159B10((void *)a, (void *)b);
+    int y3 = func_02159B10((void *)a, (void *)b);
     u8 *base;
     u8 *e;
     u16 h;
