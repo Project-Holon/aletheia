@@ -14,12 +14,13 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B3DC(int h, int v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021BEDF0(int p, int i, int v)
 {
     int h = ((int *)(p + i * 4))[0xa];
 
     if (h != 0)
-        func_0204B3DC(h, v);
+        func_0204B3DC((struct Obj *)h, v);
 }

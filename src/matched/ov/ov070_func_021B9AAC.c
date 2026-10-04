@@ -17,7 +17,8 @@
 
 extern void func_021B97E8(char *, int);
 extern void func_020456F8(int);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void func_021B9AAC(char *p)
 {
@@ -26,9 +27,9 @@ void func_021B9AAC(char *p)
     func_021B97E8(p, 0);
     func_020456F8(*(int *)(p + 0x734));
     for (i = 0; i < 3; i++) {
-        func_0204B3DC(*(int *)(p + i * 4 + 0x6C0), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     }
     for (j = 0; j < 0x11; j++) {
-        func_0204B3DC(*(int *)(p + j * 4 + 0x6CC), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
     }
 }

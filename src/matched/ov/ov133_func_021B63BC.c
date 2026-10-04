@@ -91,7 +91,8 @@ extern u32 func_0201C6B4(const void *),func_0201C4E4(void *);
 extern void func_02045334(void *),func_02045374(void *);
 extern u8 func_02045730(struct Descriptor *p);
 extern u32 func_0200FB24(void);
-extern void func_0204B3DC(void *,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int);
 static inline void brightness(u8 *value)
 {
     func_02041EE4(6,0,128-*value);
@@ -127,7 +128,7 @@ int func_021B63BC(Context *p)
         if((int)W(0x10)<0) { W(0x10)=0; W(0x0c)=1; }
         func_021B918C((u8 *)p); break;
     case 3:
-        if(func_021B940C((u8 *)p)==2) { W(0x0c)=10; B(0x18c0)=0; func_0204B3DC(P(0x18b0),1); }
+        if(func_021B940C((u8 *)p)==2) { W(0x0c)=10; B(0x18c0)=0; func_0204B3DC((struct Obj *)P(0x18b0),1); }
         break;
     case 10:
         B(0x18c0)++; func_021B9784((u8 *)p);

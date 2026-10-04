@@ -17,7 +17,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void ov208_func_021C68D4(void *unused, u8 *p)
 {
@@ -32,10 +33,10 @@ void ov208_func_021C68D4(void *unused, u8 *p)
         break;
     }
     if (on) {
-        func_0204B3DC(*(u32 *)(p + 0x668), 1);
-        func_0204B3DC(*(u32 *)(p + 0x668 + 0x28), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 1);
     } else {
-        func_0204B3DC(*(u32 *)(p + 0x668), 0);
-        func_0204B3DC(*(u32 *)(p + 0x668 + 0x28), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x668 + 0x28), 0);
     }
 }

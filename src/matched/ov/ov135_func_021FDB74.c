@@ -26,7 +26,8 @@ extern void func_021FE0BC(unsigned char *p);
 extern void func_021FDCE4(void);
 extern void func_022000E4(void *);
 extern void func_021F4EC8(u8 *p);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 int func_021FDB74(unsigned char *p)
 {
     *(int *)(p + 0xec0) = 0;
@@ -38,7 +39,7 @@ int func_021FDB74(unsigned char *p)
     if (*(int *)(p + 0x14) == 1)
         *(int *)(p + 0x12e4) = 1;
     func_022000E4(p);
-    func_0204B3DC(*(u32 *)(p + 0xd38), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 0);
     func_021F4EC8(p);
     return 0;
 }

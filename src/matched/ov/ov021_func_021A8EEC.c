@@ -53,7 +53,7 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203633C(void);
 extern void func_021A90A4(Obj *p, int k);
 extern void func_020061E4(u32 se);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern u32 func_021A8E80(Obj *p, u32 dir);
 extern int func_021A8E78(u32 a, u32 b);
 extern void func_020355D8(u8 v);
@@ -74,7 +74,7 @@ void func_021A8EEC(Obj *p)
         p->f2C = 1;
         p->fF8 = 0;
         p->f24 = 1;
-        func_0204B3DC(p->f124, 1);
+        func_0204B3DC((struct Obj *)p->f124, 1);
         return;
     }
     if (rep & 0x40) {

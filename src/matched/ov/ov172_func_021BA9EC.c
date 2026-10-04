@@ -93,7 +93,8 @@ extern void func_02041B6C(u32 a);
 extern void func_020409B4(u32 a);
 extern void func_020061E4(u32 id);
 extern void func_02061CA4(u32 a, u32 b, void *c, u32 d);
-extern void func_0204B3DC(u32 a, u32 b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
 extern s16 d_020A1B38[];
 
@@ -242,12 +243,12 @@ int func_021BA9EC(void *a0, char *p)
             if (*(u32 *)(p + 0x3c) == 1) {
                 k = 1;
                 for (i = 0; i < 5; i++) {
-                    func_0204B3DC(*(u32 *)(p + i * 4 + 0x70), k);
+                    func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
                 }
             } else {
                 k = i;
                 for (i = 0; i < 5; i++) {
-                    func_0204B3DC(*(u32 *)(p + i * 4 + 0x70), k);
+                    func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), k);
                 }
             }
         }

@@ -46,7 +46,8 @@ extern void func_0204B09C(int a, int b, P *c);
 struct Actor;
 struct PtS;
 extern void func_0204B454(struct Actor *h, struct PtS *out, unsigned int k);
-extern void func_0204B3DC(int h, int v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *h, unsigned int v);
 
 void func_021A87A8(S *s)
 {
@@ -62,16 +63,16 @@ void func_021A87A8(S *s)
         if (s->e[i].f10 != 0 && s->e[i].f0 != 7) {
             func_0204B454((struct Actor *)s->e[i].f10, (struct PtS *)&p4, 0);
             if (p4.y < 0xd0) {
-                func_0204B3DC(s->e[i].f10, 1);
+                func_0204B3DC((struct Obj *)s->e[i].f10, 1);
             } else {
-                func_0204B3DC(s->e[i].f10, 0);
+                func_0204B3DC((struct Obj *)s->e[i].f10, 0);
             }
         }
     }
     func_0204B454((struct Actor *)s->f124, (struct PtS *)&p0, 0);
     if (s->f2c != 0 && p0.y < 0xd6) {
-        func_0204B3DC(s->f124, 1);
+        func_0204B3DC((struct Obj *)s->f124, 1);
     } else {
-        func_0204B3DC(s->f124, 0);
+        func_0204B3DC((struct Obj *)s->f124, 0);
     }
 }

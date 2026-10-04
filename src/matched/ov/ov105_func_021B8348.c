@@ -20,7 +20,8 @@ typedef struct {s16 x,y;} Pair;
 extern void func_02082BCC(void *,int,int);
 extern u32 func_021B78C8(u8 *p, int i);
 extern void func_0204B404(u32,Pair *,int);
-extern void func_0204B3DC(u32,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_021B8440(Display *,unsigned);
 void func_021B8348(Display *p,void *a,int n)
 {
@@ -33,7 +34,7 @@ void func_021B8348(Display *p,void *a,int n)
   else pos.x=92+i*36;
   pos.y=84;
   func_0204B404(p->objects[i],&pos,0);
-  func_0204B3DC(p->objects[i],0);
+  func_0204B3DC((struct Obj *)p->objects[i],0);
   p->current[i]=0;p->bound[i]=60;
   p->step[i]=4079/p->bound[i];
  }

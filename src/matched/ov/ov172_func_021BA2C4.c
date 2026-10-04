@@ -69,7 +69,7 @@ extern void func_02049238(void *a);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(u32 o, u32 k);
+extern void func_0204B3DC(struct Obj *o, unsigned int k);
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
 struct Descriptor;
 extern void *func_02045770(struct Descriptor *w);
@@ -132,7 +132,7 @@ void func_021BA2C4(void *a0, u8 *p)
     *(u32 *)(p + 0x6c) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 7), func_021BE018(a0, 3), func_021BE018(a0, 10), &d, 0, v);
     func_0204B92C((struct Obj *)*(u32 *)(p + 0x6c), 1);
     for (i = 0; i < 6; i++) {
-        func_0204B3DC(*(u32 *)(p + i * 4 + 0x58), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x58), 1);
     }
     d.x = 0x38;
     d.y = 0x48;
@@ -152,25 +152,25 @@ void func_021BA2C4(void *a0, u8 *p)
     d.z = 0x1;
     *(u32 *)(p + 0x80) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 6), func_021BE018(a0, 2), func_021BE018(a0, 10), &d, 1, v);
     for (i = 0; i < 5; i++) {
-        func_0204B3DC(*(u32 *)(p + i * 4 + 0x70), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x70), 0);
     }
     d.x = 0x10;
     d.y = 0xa0;
     d.z = 0xf;
     *(u32 *)(p + 0x84) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC(*(u32 *)(p + 0x84), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x84), 0);
     d.x = 0x88;
     d.y = 0xa0;
     d.z = 0x10;
     *(u32 *)(p + 0x88) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC(*(u32 *)(p + 0x88), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x88), 0);
     d.a = 0;
     *(u32 *)(p + 0x8c) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC(*(u32 *)(p + 0x8c), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x8c), 0);
     d.z = 0x19;
     d.a = 2;
     *(u32 *)(p + 0x90) = (u32)func_0204B294((void *)func_021BE024(a0), func_021BE018(a0, 4), func_021BE018(a0, 0), func_021BE018(a0, 8), &d, 0, v);
-    func_0204B3DC(*(u32 *)(p + 0x90), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x90), 0);
     func_021BB54C(a0, p);
     *(u32 *)(p + 0x48) = 0;
     *(u32 *)(p + 0x50) = 0;

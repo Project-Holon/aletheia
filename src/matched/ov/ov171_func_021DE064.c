@@ -13,12 +13,13 @@
  *   func_0204B3DC  0x0204B3DC  arm
  */
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021DE064(int *p, int i, int a)
 {
     int v = *(int *)((char *)p + i * 4 + 0xB74);
 
     if (v)
-        func_0204B3DC(v, a);
+        func_0204B3DC((struct Obj *)v, a);
 }

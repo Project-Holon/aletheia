@@ -32,7 +32,8 @@ extern void func_02082BCC(int a, int b, int c);
 extern void func_0204B878(int p, int a);
 extern void func_021B88F8(int p);
 extern void func_0204B404(int p, u16 *v, int c);
-extern void func_0204B3DC(int p, int a);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int a);
 extern u32 func_02005728(u32 range);
 extern void func_0204B8C4(int p, int a);
 
@@ -47,6 +48,6 @@ void func_021B8810(int a0, int b, int c)
     tmp[0] = (u16)*(u32 *)(a0 + 8);
     tmp[1] = (u16)*(u32 *)(a0 + 0xc);
     func_0204B404(*(int *)(a0 + 0x18), tmp, 1);
-    func_0204B3DC(*(int *)(a0 + 0x18), 1);
+    func_0204B3DC((struct Obj *)*(int *)(a0 + 0x18), 1);
     func_0204B8C4(*(int *)(a0 + 0x18), func_02005728(0x2000));
 }

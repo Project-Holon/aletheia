@@ -110,7 +110,7 @@ extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, un
 extern void func_0204B954(u32, int);
 extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B84C(u32, int);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021A8874(Obj *p, void *q, int r, u32 unused)
 {
@@ -162,6 +162,6 @@ void func_021A8874(Obj *p, void *q, int r, u32 unused)
     p->f128 = (u32)func_0204B294((void *)p->f11C, p->f114, p->f110, p->f118, &pos, 0, p->f00);
     func_0204B954(p->f128, 0x1000);
     func_0204B92C((struct Obj *)p->f128, 1);
-    func_0204B3DC(p->f128, 1);
+    func_0204B3DC((struct Obj *)p->f128, 1);
     func_0204B954(p->f128, 0x2000);
 }

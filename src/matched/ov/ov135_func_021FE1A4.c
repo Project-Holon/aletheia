@@ -18,7 +18,8 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char  u8;
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021FF318(void *, int, int, int, int);
 extern int func_0207D55C(volatile u16 *reg);
 extern void func_0202208C(void *p1, u32 p2, u32 p3, u32 p4, u32 p5, u32 p6, u32 p7);
@@ -26,9 +27,9 @@ extern void func_021F4E98(u8 *p, u32 a, u32 b);
 int func_021FE1A4(unsigned char *p)
 {
     if (func_020355C4() == 1)
-        func_0204B3DC(*(u32 *)(p + 0xbf4), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 0);
     else
-        func_0204B3DC(*(u32 *)(p + 0xbf4), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0xbf4), 1);
     if (*(int *)(p + 0x20) == 15) {
         if (*(int *)(p + 0xd0) != 0)
             func_021FF318(p, 38, 0, 0, 0xf0f);
@@ -44,6 +45,6 @@ int func_021FE1A4(unsigned char *p)
         func_021FF318(p, 8, 1, 0, 0xf0f);
         func_021F4E98(p, 23, 1);
     }
-    func_0204B3DC(*(u32 *)(p + 0xd38), 1);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xd38), 1);
     return 2;
 }

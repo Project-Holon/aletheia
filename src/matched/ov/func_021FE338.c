@@ -91,7 +91,8 @@ extern void *func_0201ADE4(u32 a, int b, u32 heap);
 extern u32 func_0201AE1C(u32 h, u32 k);
 extern void func_0201AE14(u32 h);
 extern int func_021F7B9C(Rec *p, u32 event);
-extern void func_0204B3DC(u32, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B878(u32, u16);
 extern void func_020061E4(u32 se);
 extern int func_021FF4D0(Rec *x, Rec *y, u32 m, u32 n);
@@ -115,13 +116,13 @@ int func_021FE338(Work *p)
                 func_0201AE14(h);
                 p->st->f20 = v;
                 if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
-                    func_0204B3DC(p->cursor, 1);
+                    func_0204B3DC((struct Obj *)p->cursor, 1);
                     func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     func_020061E4(0x557);
                     return 2;
                 }
             }
-            func_0204B3DC(p->cursor, 1);
+            func_0204B3DC((struct Obj *)p->cursor, 1);
             func_020061E4(0x54C);
             func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x23;
@@ -132,25 +133,25 @@ int func_021FE338(Work *p)
             } else {
                 func_020061E4(0x54C);
             }
-            func_0204B3DC(p->cursor, 1);
+            func_0204B3DC((struct Obj *)p->cursor, 1);
             func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
             p->next = 0x23;
             break;
         case 4:
             if (p->fD0 != 0) {
-                func_0204B3DC(p->cursor, 1);
+                func_0204B3DC((struct Obj *)p->cursor, 1);
                 func_020061E4(0x54C);
                 func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
             } else {
-                func_0204B3DC(p->cursor, 1);
+                func_0204B3DC((struct Obj *)p->cursor, 1);
                 func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 func_020061E4(0x557);
                 p->next = 0x25;
             }
             break;
         default:
-            func_0204B3DC(p->cursor, 1);
+            func_0204B3DC((struct Obj *)p->cursor, 1);
             if (sel == 6) {
                 func_020061E4(0x551);
             } else {
@@ -161,7 +162,7 @@ int func_021FE338(Work *p)
             break;
         }
     } else if (func_020362DC() != 0 && func_020355C4() == 1) {
-        func_0204B3DC(p->cursor, 1);
+        func_0204B3DC((struct Obj *)p->cursor, 1);
         func_020355D8(0);
         func_020061E4(0x548);
         return 2;
@@ -177,13 +178,13 @@ int func_021FE338(Work *p)
                     func_0201AE14(h);
                     p->st->f20 = v;
                     if (func_021F7B9C(&p->rec[0], p->st->f20) != 0) {
-                        func_0204B3DC(p->cursor, 1);
+                        func_0204B3DC((struct Obj *)p->cursor, 1);
                         func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                         func_020061E4(0x557);
                         return 2;
                     }
                 }
-                func_0204B3DC(p->cursor, 1);
+                func_0204B3DC((struct Obj *)p->cursor, 1);
                 func_020061E4(0x54C);
                 func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                 p->next = 0x23;
@@ -203,7 +204,7 @@ int func_021FE338(Work *p)
                     func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     p->next = 0x23;
                 } else {
-                    func_0204B3DC(p->cursor, 1);
+                    func_0204B3DC((struct Obj *)p->cursor, 1);
                     func_0204B878(p->cursor, tbl_02203D46[func_021FE9B0(p)].anim2);
                     func_020061E4(0x557);
                     p->next = 0x25;

@@ -18,7 +18,8 @@
  */
 typedef short s16;
 extern int func_021E4DBC(char *);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021E5164(char *);
 extern int func_021E5158(int);
 extern void func_021E4B00(char *, int, int, int, int);
@@ -31,7 +32,7 @@ void func_021E4E64(int a, char *p, int b)
         *(s16 *)(p + 0x1080) = n;
         for (i = 0; i < 12; i++) {
             for (j = 0; j < 5; j++) {
-                func_0204B3DC(*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
+                func_0204B3DC((struct Obj *)*(int *)(p + i * 20 + j * 4 + 0xbb0), 0);
                 *(unsigned char *)(p + i * 5 + j + 0xebc) = 0;
             }
         }

@@ -16,12 +16,13 @@ typedef signed short s16;
 typedef unsigned int u32;
 typedef signed int s32;
 
-extern void func_0204B3DC(u32 a, u32 b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
 void func_021C2260(void *p)
 {
     s32 i;
     s32 n = *(u8 *)((char *)p + 0x298);
     for (i = 0; i < n; i++)
-        func_0204B3DC(*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)((char *)p + 0x3c + i * 0x18), 0);
 }

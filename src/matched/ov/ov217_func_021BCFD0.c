@@ -26,7 +26,7 @@ extern u32 func_021BC714(void *,u32);
 extern u32 func_021BC708(void *,u32);
 struct Obj;
 extern struct Obj *func_0204B294(void *,u32,u32,u32,const void *,u16,u16);
-extern u32 func_0204B3DC(u32,u32);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 void func_021BCFD0(u8 *p)
 {
     struct Arg arg;
@@ -43,6 +43,6 @@ void func_021BCFD0(u8 *p)
         d=func_021BC708(p,q->f);
         dest=p+i*4;
         *(u32 *)(dest+288)=(u32)func_0204B294((void *)a,b,c,d,&arg,q->g,*(u16 *)(p+8));
-        func_0204B3DC(*(u32 *)(dest+288),0);
+        func_0204B3DC((struct Obj *)*(u32 *)(dest+288),0);
     }
 }

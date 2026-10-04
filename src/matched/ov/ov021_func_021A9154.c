@@ -100,7 +100,7 @@ extern u32 func_0204B324(u32 a, u32 b, u32 c, u32 d, Hdr *h, u32 f, u32 g);
 extern void func_0204B954(u32, u32);
 extern void func_0204B92C(struct Obj *p, u32 v);
 extern void func_0204B878(u32, u16);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 
 void func_021A9154(Obj *p, Item *it, const Src *s)
 {
@@ -135,9 +135,9 @@ void func_021A9154(Obj *p, Item *it, const Src *s)
         func_0204B92C((struct Obj *)it->f18, 1);
         func_0204B878(it->f18, 0);
         if (it->f08 == 7)
-            func_0204B3DC(it->f18, 0);
+            func_0204B3DC((struct Obj *)it->f18, 0);
         else
-            func_0204B3DC(it->f18, 1);
+            func_0204B3DC((struct Obj *)it->f18, 1);
     } else {
         it->f18 = 0;
     }

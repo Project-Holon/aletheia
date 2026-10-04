@@ -29,7 +29,8 @@ struct SpritePos {
 };
 
 extern void func_021BCC40(void *ctx, char *list, char *row, int idx);
-extern void func_0204B3DC(u32 spr, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *spr, unsigned int on);
 extern void func_0204B404(u32 spr, struct SpritePos *pos, int n);
 
 void func_021BCB88(void *ctx, char *list)
@@ -49,7 +50,7 @@ void func_021BCB88(void *ctx, char *list)
         return;
     if (n > 5) {
         range = (n - 5) * 32;
-        func_0204B3DC(*(u32 *)(list + 0x404), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(list + 0x404), 1);
         if (*(u16 *)(list + 4) > range)
             *(u16 *)(list + 4) = range;
         *(u16 *)(list + 6) = *(u16 *)(list + 4) * 0x78 / range;
@@ -59,7 +60,7 @@ void func_021BCB88(void *ctx, char *list)
             func_0204B404(*(u32 *)(list + 0x404), &pos, 1);
         }
     } else {
-        func_0204B3DC(*(u32 *)(list + 0x404), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(list + 0x404), 0);
         *(u16 *)(list + 4) = 0;
         *(u32 *)(list + 0xc) = 1;
     }

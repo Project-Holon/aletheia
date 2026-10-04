@@ -30,7 +30,7 @@ struct Actor;
 struct Obj;
 extern void func_0204B878(struct Obj *p, u16 value);
 extern u32 func_021BE0B4(void *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B9A0(struct Actor *a);
 extern void func_0204B8C4(struct Obj *p, u32 value);
 extern void func_0204B92C(struct Obj *p, unsigned int v);

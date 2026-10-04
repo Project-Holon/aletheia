@@ -28,7 +28,8 @@ extern int func_021B98DC(int,int);
 extern void func_020061E4(u32 a);
 extern int func_021B9E50(u32),func_021B9E80(u32);
 extern void func_021BA8F4(void*,const struct V*);
-extern void func_0204B3DC(void*,u32),func_0204B84C(void*,u32);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B84C(void*,u32);
 extern void func_021BA1C8(struct C*,void*,const u8*,int);
 void func_021BA034(struct C *p,int time)
 {

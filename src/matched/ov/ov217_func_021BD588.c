@@ -21,7 +21,8 @@ typedef struct { unsigned short x, y; } Pos;
 typedef unsigned int   u32;
 extern u32 func_021BC720(void *p, u32 i);
 extern void func_0204B404(int obj, Pos *pos, int c);
-extern void func_0204B3DC(int a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
 void func_021BD588(void *p)
 {
@@ -30,5 +31,5 @@ void func_021BD588(void *p)
     pos.x = 0x80;
     pos.y = 0x60;
     func_0204B404(obj, &pos, 0);
-    func_0204B3DC(obj, 1);
+    func_0204B3DC((struct Obj *)obj, 1);
 }

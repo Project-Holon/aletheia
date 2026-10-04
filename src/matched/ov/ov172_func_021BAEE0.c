@@ -49,7 +49,7 @@ extern int func_02035C08(const void *p);
 struct Actor;
 struct Obj;
 extern u32 func_0204B3F4(struct Obj *p);
-extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_020061E4(u32 id);
 extern void func_021BB54C(void *ctx, u8 *p);

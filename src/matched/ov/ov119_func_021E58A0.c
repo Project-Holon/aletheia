@@ -30,7 +30,7 @@ extern void func_02049238(void *);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
 extern void func_0204B92C(struct Obj *p, u32 v);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 void func_021E58A0(int p)
 {
     void *a;
@@ -43,5 +43,5 @@ void func_021E58A0(int p)
     s.x = 0x80; s.y = 0xb4; s.z = 2; s.a = 0xe; s.b = 0;
     *(int *)(p + 0xf04) = (int)func_0204B294((void *)*(int *)(p + 0x9c4), *(int *)(p + 0x894), *(int *)(p + 0x880), *(int *)(p + 0x8b0), &s, 1, *(u16 *)(p + 0x5f4));
     func_0204B92C((struct Obj *)*(int *)(p + 0xf04), 0);
-    func_0204B3DC(*(int *)(p + 0xf04), 1);
+    func_0204B3DC((struct Obj *)*(int *)(p + 0xf04), 1);
 }

@@ -32,7 +32,8 @@ typedef struct {u8 bytes[12];} Key;
 typedef struct {s16 x,y;} Pos;
 extern const Key table;
 extern int func_02035C08(const void *);
-extern void func_0207D658(unsigned long,int,int),func_021F9730(void *,int),func_0204B9A0(void *),func_0204B3DC(void *,u32),func_0204B404(void *,const Pos *,u32),func_020355D8(u8);
+struct Obj;
+extern void func_0207D658(unsigned long,int,int),func_021F9730(void *,int),func_0204B9A0(void *),func_0204B3DC(struct Obj *,unsigned int),func_0204B404(void *,const Pos *,u32),func_020355D8(u8);
 extern int func_021F9768(char *p);
 extern u32 func_0204B3F4(void *),func_0204B98C(void *);
 void func_021FA6CC(char *p)

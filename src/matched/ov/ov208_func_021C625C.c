@@ -49,7 +49,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *sys, unsigned int chr, unsigned int pal, unsigned int cell, const void *hdr, u16 a,
                                 u16 heap);
 extern void func_0204B92C(struct Obj *obj, u32 on);
-extern void func_0204B3DC(u32 obj, int v);
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_0204B688(u32 obj, u32 on);
 
 #define W(o) (*(u32 *)(p + (o)))
@@ -84,7 +84,7 @@ void ov208_func_021C625C(u16 *heap, u8 *p, int key)
         hdr[1].b = t[4];
         *(u32 *)(p + i * 4 + 0x5e4) = (u32)func_0204B294((void *)W(0), RES(t[5]), RES(t[6]), RES(t[7]), &hdr[1], 0, *heap);
         func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 1);
-        func_0204B3DC(*(u32 *)(p + i * 4 + 0x5e4), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + i * 4 + 0x5e4), 0);
         func_0204B688(*(u32 *)(p + i * 4 + 0x5e4), 1);
     }
     *(u16 *)(p + 0x5f4) = 0x40;

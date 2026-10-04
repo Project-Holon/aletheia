@@ -64,7 +64,8 @@ extern s32 func_0204AF28(void *owner, u32 first, u32 second, u32 mode);
 extern void func_02049238(void *h);
 extern u32 func_0204B294(u32, u32, u32, u32, Rect *, u32, u32);
 extern void func_0204B878(u32 a, u16 v);
-extern void func_0204B3DC(u32 a, u32 v);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int v);
 extern const Tbl d_021BBC0C;
 
 void func_021BB9B8(Gfx *o, u32 mode, u32 heap)
@@ -96,6 +97,6 @@ void func_021BB9B8(Gfx *o, u32 mode, u32 heap)
     func_0204B878(o->obj[2], 5);
     func_0204B878(o->obj[3], 6);
     for (i = 0; i < 4; i++) {
-        func_0204B3DC(o->obj[i], 0);
+        func_0204B3DC((struct Obj *)o->obj[i], 0);
     }
 }

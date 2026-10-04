@@ -24,7 +24,8 @@ struct Obj;
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
 struct Obj;
 extern void func_0204B92C(struct Obj *,unsigned int);
-extern void func_0204B878(u32,int),func_0204B3DC(u32,int),func_020434DC(int,int),func_02043598(int,int);
+extern void func_0204B878(u32,int),func_020434DC(int,int),func_02043598(int,int);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 void func_021DD5AC(u8 *p)
 {
     struct { u16 a,b,c; u8 d,e; } s;
@@ -35,7 +36,7 @@ void func_021DD5AC(u8 *p)
         *(u32 *)(p+i*4+156)=(u32)func_0204B294((void *)*(u32 *)(p+104),*(u32 *)(p+i*4+128),*(u32 *)(p+i*4+108),*(u32 *)(p+148),&s,0,114);
         func_0204B92C((struct Obj *)*(u32 *)(p+i*4+156),1);
         func_0204B878(*(u32 *)(p+i*4+156),0);
-        func_0204B3DC(*(u32 *)(p+i*4+156),0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p+i*4+156),0);
     }
     func_020434DC(16,1); func_02043598(16,0);
 }

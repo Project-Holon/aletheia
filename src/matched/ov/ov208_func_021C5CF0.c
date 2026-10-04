@@ -46,14 +46,15 @@ struct Ov208Menu {
     u16 sel;
 };
 
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021C53E0(int a, int b);
 extern void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
 
 void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)
 {
     if (p->obj[p->cur] != 0)
-        func_0204B3DC(p->obj[p->cur], 0);
+        func_0204B3DC((struct Obj *)p->obj[p->cur], 0);
     p->cur = (p->cur + 1) % 2;
     if (p->obj[p->cur] != 0) {
         if (p->obj[p->cur] != 0)

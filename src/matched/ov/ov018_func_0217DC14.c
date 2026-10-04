@@ -32,7 +32,7 @@ extern int func_02008550(u8 *);
 extern int func_02012B58(int);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, u16, u16);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0204B6F4(int, int, int);
 extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern const Rect d_021836D4;
@@ -49,6 +49,6 @@ void func_0217DC14(int *p)
     }
     p[0x98 / 4] = (int)func_0204B294((void *)p[0x54 / 4], p[1], p[2], p[4], &r, 0, 0x70);
     func_0204B6F4(p[0x98 / 4], (u8)(func_02012B58(h) + 1), 1);
-    func_0204B3DC(p[0x98 / 4], 0);
+    func_0204B3DC((struct Obj *)p[0x98 / 4], 0);
     func_0204B92C((struct Obj *)p[0x98 / 4], 1);
 }

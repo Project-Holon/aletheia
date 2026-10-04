@@ -55,7 +55,8 @@ typedef unsigned int   u32;
 extern u32 func_02013D5C(u32 id);
 extern Mon *func_0217BEA8(int a0);
 extern void func_0204B404(int a0, s16 *a1, int a2);
-extern void func_0204B3DC(int a0, int a1);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a0, unsigned int a1);
 extern void func_0217F118(Obj *p, int a1);
 extern const s8 d_021836A4[][2];
 extern const Ent d_02176AA0[];
@@ -104,7 +105,7 @@ void func_0217E3D0(Obj *p, int a1, u16 id)
     }
     h = p->f98;
     func_0204B404(h, pos, 0);
-    func_0204B3DC(h, 1);
+    func_0204B3DC((struct Obj *)h, 1);
     func_0217F118(p, sel);
     p->slots[idx].id = id;
 }

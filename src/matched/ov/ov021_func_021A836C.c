@@ -112,7 +112,7 @@ extern void func_021A90E0(Obj *p);
 extern void func_021A8DD8(Obj *p);
 extern u32 func_020129C4(u32);
 extern void func_021A8E20(Obj *p, u32 v);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_0203D34C(u32 a, u32 b);
 
 Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
@@ -160,9 +160,9 @@ Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
         func_021A8E20(p, func_020129C4(y));
         p->f24 = 1;
         if (p->f2C != 0) {
-            func_0204B3DC(p->f124, 1);
+            func_0204B3DC((struct Obj *)p->f124, 1);
         } else {
-            func_0204B3DC(p->f124, 0);
+            func_0204B3DC((struct Obj *)p->f124, 0);
         }
     }
     func_0203D34C(0, p->f02);

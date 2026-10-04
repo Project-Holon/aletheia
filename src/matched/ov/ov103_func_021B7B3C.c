@@ -44,7 +44,7 @@ extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
 extern void func_02049238(void *);
 extern struct Obj *func_0204B294(void *owner, unsigned int i, unsigned int j, unsigned int k, const void *position, unsigned short space, unsigned short heap);
-extern void func_0204B3DC(void *,u32),func_0204B84C(void *,u32),func_0204B92C(struct Obj *,u32);
+extern void func_0204B3DC(struct Obj *,unsigned int),func_0204B84C(void *,u32),func_0204B92C(struct Obj *,u32);
 extern void func_0204B878(struct Obj *p, u16 value);
 struct State { void *bank; u32 palette, chars, other; void *actors[33]; };
 void func_021B7B3C(struct State *p,const void *config,u16 heap)

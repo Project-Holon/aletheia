@@ -30,7 +30,8 @@ typedef struct {
     int count;
 } Obj021A277C;
 
-void func_0204B3DC(u32 h, int v);
+struct Obj;
+void func_0204B3DC(struct Obj *h, unsigned int v);
 
 void func_021A277C(Obj021A277C *p, Node021A277C *n)
 {
@@ -48,5 +49,5 @@ void func_021A277C(Obj021A277C *p, Node021A277C *n)
     n->next = tail->next;
     tail->next->prev = n;
     tail->next = n;
-    func_0204B3DC(n->handle, 1);
+    func_0204B3DC((struct Obj *)n->handle, 1);
 }

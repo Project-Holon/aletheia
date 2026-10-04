@@ -21,7 +21,8 @@
 extern void func_021B6558(int,int,int);
 extern void func_021B6548(int,int,int);
 extern void func_021D8980(char *p);
-extern void func_0204B3DC(int,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern void func_021E4420(char *p);
 extern void func_021E6700(void *);
 extern void func_021D8B38(char *p);
@@ -34,7 +35,7 @@ void func_021DBAF8(char *p)
     func_021B6548(*(int *)(p+0x9c0),7,1);
     func_021B6558(*(int *)(p+0x9c0),9,0);
     func_021D8980(p);
-    func_0204B3DC(*(int *)(p+0xf04),1);
+    func_0204B3DC((struct Obj *)*(int *)(p+0xf04),1);
     func_021E4420(p);
     func_021E6700(p);
     *(int *)(p+0xf84)=-1;

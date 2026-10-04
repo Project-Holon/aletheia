@@ -12,5 +12,6 @@
  *   func_0204B3DC 0x0204B3DC arm
  *   func_0204B800 0x0204B800 arm
  */
-extern void *func_021BA71C(char *p, int a, int b, unsigned short c);extern void func_0204B3DC(void *,unsigned),func_0204B800(void *,unsigned);
+struct Obj;
+extern void *func_021BA71C(char *p, int a, int b, unsigned short c);extern void func_0204B3DC(struct Obj *p, unsigned int v),func_0204B800(void *,unsigned);
 void *func_021BA750(void *p,int kind,unsigned a){int x,y;void *v;if(kind==0){x=206;y=152;}else{x=50;y=40;}v=func_021BA71C(p,x,y,a);func_0204B3DC(v,0);func_0204B800(v,1);return v;}

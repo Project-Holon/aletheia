@@ -21,7 +21,7 @@ struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 struct Obj;
 extern void func_0204B92C(struct Obj *p, unsigned int v);
-extern void func_0204B3DC(int,int);
+extern void func_0204B3DC(struct Obj *,unsigned int);
 extern void func_0204B570(int,int);
 void func_021B974C(int a,int b,int c,int d,int e)
 {
@@ -30,7 +30,7 @@ void func_021B974C(int a,int b,int c,int d,int e)
   p.x=b; p.y=c; p.z=e; p.id=d; p.mode=2;
   *(int *)(a+0x2c8+d*4)=(int)func_0204B294((void *)*(int *)(a+0x2b4),*(int *)(a+0x2bc),*(int *)(a+0x2b8),*(int *)(a+0x2c0),&p,0,*(u16 *)(a+0x278));
   func_0204B92C((struct Obj *)*(int *)(a+0x2c8+d*4),1);
-  func_0204B3DC(*(int *)(a+0x2c8+d*4),1);
+  func_0204B3DC((struct Obj *)*(int *)(a+0x2c8+d*4),1);
   func_0204B570(*(int *)(a+0x2c8+d*4),2);
  }
 }

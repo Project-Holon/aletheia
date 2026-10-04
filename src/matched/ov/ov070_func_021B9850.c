@@ -43,7 +43,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef short s16;
 
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 extern int func_021B61B8(char *);
 extern u16 *func_021B616C(char *o, int k);
 extern void func_021B97E8(char *, int);
@@ -76,9 +77,9 @@ void func_021B9850(char *p)
 
     j = 0;
     for (i = 0; i < 3; i++)
-        func_0204B3DC(*(int *)(p + i * 4 + 0x6C0), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + i * 4 + 0x6C0), 0);
     for (j = 0; j < 17; j++)
-        func_0204B3DC(*(int *)(p + j * 4 + 0x6CC), 0);
+        func_0204B3DC((struct Obj *)*(int *)(p + j * 4 + 0x6CC), 0);
     e = func_021B616C(p, func_021B61B8(p));
     if (e == 0 || *e == 0) {
         func_021B97E8(p, 0);

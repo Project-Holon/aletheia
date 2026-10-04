@@ -29,7 +29,8 @@ typedef struct {
 extern u16  ov208_func_021C6E30(void *unused, u8 *p, int unused2, u16 skip, u16 stop);
 extern void ov208_func_021C6D6C(int n, int i, u8 *lo, u8 *mid, u8 *hi);
 extern void func_0204B404(u32 obj, Ov208Pos *pos, u16 flag);
-extern void func_0204B3DC(u32 obj, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 
 void ov208_func_021C6AFC(void *a0, u8 *p, int a2)
 {
@@ -52,13 +53,13 @@ void ov208_func_021C6AFC(void *a0, u8 *p, int a2)
         pos.x = mid;
         pos.y = 0x30;
         func_0204B404(*(u32 *)(p + 0x5e8), &pos, 0);
-        func_0204B3DC(*(u32 *)(p + 0x5e4), 1);
-        func_0204B3DC(*(u32 *)(p + 0x5e8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e4), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e8), 1);
         *(u32 *)(p + 0x698) = 0;
         *(u32 *)(p + 0x6d4) = 0;
         *(u32 *)(p + 0x69c) = 0;
     } else {
-        func_0204B3DC(*(u32 *)(p + 0x5e4), 0);
-        func_0204B3DC(*(u32 *)(p + 0x5e8), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e4), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x5e8), 0);
     }
 }

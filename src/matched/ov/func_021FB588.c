@@ -22,7 +22,8 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern u32 func_0204B98C(u32 v);
-extern void func_0204B3DC(u32 v, u32 k);
+struct Obj;
+extern void func_0204B3DC(struct Obj *v, unsigned int k);
 extern void func_021F9660(u8 *p, u32 k);
 extern void func_0201F868(u32 v);
 extern u8 g_022033FC[];
@@ -32,9 +33,9 @@ int func_021FB588(u8 *p)
     if (func_0204B98C(*(u32 *)(p + 8)) != 0) {
         return -1;
     }
-    func_0204B3DC(*(u32 *)(p + 8), 0);
-    func_0204B3DC(*(u32 *)(p + 0xc), 0);
-    func_0204B3DC(*(u32 *)(p + 0x10), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 8), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0xc), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(p + 0x10), 0);
     func_021F9660(p, 0x0);
     func_0201F868(*(u32 *)(p + 0x30));
     *(u32 *)(p + 0x48) = (*(s32 *)(g_022033FC + *(s16 *)(p + 0x38) * 8) != 1) ? 0xd : 0x9;

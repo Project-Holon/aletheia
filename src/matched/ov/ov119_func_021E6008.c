@@ -21,7 +21,8 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { int f0,f4,f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
 extern int func_0201B280(int);
-extern void func_0204B3DC(int,int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
 typedef unsigned int   u32;
 extern u32 func_020275E4(void);
 extern int func_02027748(void);
@@ -37,8 +38,8 @@ void func_021E6008(char *p, int b, int c)
     int a = func_0201B280(c);
     if (a == 0) return;
     if (*(int *)(q + 0x10)) {
-        if (a == 0) func_0204B3DC(*(int *)(q + 0x10), 0);
-        else func_0204B3DC(*(int *)(q + 0x10), 1);
+        if (a == 0) func_0204B3DC((struct Obj *)*(int *)(q + 0x10), 0);
+        else func_0204B3DC((struct Obj *)*(int *)(q + 0x10), 1);
         return;
     }
     in.f0 = 1; in.b1c = 14; in.f4 = 0;

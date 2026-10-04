@@ -22,7 +22,8 @@ typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
 extern u8 func_020355C4(void);
-extern void func_0204B3DC(u32 a, int b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 
 int func_021FB220(u8 *p)
 {
@@ -36,7 +37,7 @@ int func_021FB220(u8 *p)
         v = *(u32 *)(p + 8);
         n = 1;
     }
-    func_0204B3DC(v, n);
+    func_0204B3DC((struct Obj *)v, n);
     *(u32 *)(p + 0x48) = 0xa;
     return -1;
 }

@@ -45,7 +45,7 @@ extern void func_0204B800(int obj, int v);
 extern void func_0204B878(int obj, int v);
 struct Obj;
 extern void func_0204B92C(struct Obj *obj, u32 v);
-extern void func_0204B3DC(int obj, int v);
+extern void func_0204B3DC(struct Obj *obj, unsigned int v);
 
 void func_021BAE9C(W *p, int a, int b, int c, int s0, int s1, u16 s2)
 {
@@ -64,6 +64,6 @@ void func_021BAE9C(W *p, int a, int b, int c, int s0, int s1, u16 s2)
     func_0204B878(p->obj, 6);
     func_0204B92C((struct Obj *)p->obj, 1);
     if (a == 0) {
-        func_0204B3DC(p->obj, 0);
+        func_0204B3DC((struct Obj *)p->obj, 0);
     }
 }

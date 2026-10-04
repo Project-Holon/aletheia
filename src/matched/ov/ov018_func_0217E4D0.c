@@ -20,7 +20,8 @@ typedef unsigned char u8;
 
 extern int func_020120F4(int);
 extern int func_02012B70(int);
-extern void func_0204B3DC(int, int);
+struct Obj;
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_02025774(int, int);
 
 void func_0217E4D0(int *p)
@@ -35,7 +36,7 @@ void func_0217E4D0(int *p)
         case 2:
         case 3:
         case 4:
-            func_0204B3DC(p[0x9c / 4], 0);
+            func_0204B3DC((struct Obj *)p[0x9c / 4], 0);
             func_02025774(p[0xc0 / 4], 0);
             break;
         }

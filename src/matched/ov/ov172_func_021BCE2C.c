@@ -27,7 +27,8 @@ struct SpritePos {
     s16 y;
 };
 
-extern void func_0204B3DC(u32 spr, int on);
+struct Obj;
+extern void func_0204B3DC(struct Obj *spr, unsigned int on);
 extern void func_0204B404(u32 spr, struct SpritePos *pos, int n);
 extern void func_0204B878(u32 spr, int anim);
 
@@ -37,9 +38,9 @@ void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
     s16 y;
 
     if (*(u8 *)(cur + 0x18) == 0xff) {
-        func_0204B3DC(*(u32 *)(cur + 8), 0);
-        func_0204B3DC(*(u32 *)(cur + 0xc), 0);
-        func_0204B3DC(*(u32 *)(cur + 0x10), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
         return;
     }
     y = idx * 32 - *(u16 *)(list + 4);
@@ -47,21 +48,21 @@ void func_021BCE2C(void *ctx, char *list, char *cur, int idx)
         pos.x = 0x80;
         pos.y = y + 0x10;
         func_0204B404(*(u32 *)(cur + 8), &pos, 1);
-        func_0204B3DC(*(u32 *)(cur + 8), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 1);
         pos.x = 0x12;
         func_0204B404(*(u32 *)(cur + 0xc), &pos, 1);
-        func_0204B3DC(*(u32 *)(cur + 0xc), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 1);
         pos.x = 0xc8;
         func_0204B404(*(u32 *)(cur + 0x10), &pos, 1);
         if (*(u32 *)(list + *(u8 *)(cur + 0x18) * 0x24 + 0x1f0) == 1) {
             func_0204B878(*(u32 *)(list + idx * 0x1c + 0x50), 0x12);
-            func_0204B3DC(*(u32 *)(cur + 0x10), 1);
+            func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 1);
         } else {
-            func_0204B3DC(*(u32 *)(cur + 0x10), 0);
+            func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
         }
         return;
     }
-    func_0204B3DC(*(u32 *)(cur + 8), 0);
-    func_0204B3DC(*(u32 *)(cur + 0xc), 0);
-    func_0204B3DC(*(u32 *)(cur + 0x10), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(cur + 8), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(cur + 0xc), 0);
+    func_0204B3DC((struct Obj *)*(u32 *)(cur + 0x10), 0);
 }

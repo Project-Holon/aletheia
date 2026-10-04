@@ -23,7 +23,7 @@ typedef struct { u16 a, b, c, d; } Rect;
 extern int func_0217F1E8(int *);
 struct Obj;
 extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
-extern void func_0204B3DC(int, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern const Rect d_021836C4;
 
 void func_0217DCFC(int *p)
@@ -34,5 +34,5 @@ void func_0217DCFC(int *p)
     r = d_021836C4;
     h = func_0217F1E8(p);
     p[0xac / 4] = (int)func_0204B294((void *)p[0x54 / 4], p[5], p[2], p[6], &r, 0, 0x70);
-    func_0204B3DC(p[0xac / 4], h);
+    func_0204B3DC((struct Obj *)p[0xac / 4], h);
 }

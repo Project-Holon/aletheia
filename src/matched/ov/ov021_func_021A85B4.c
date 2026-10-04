@@ -96,7 +96,7 @@ extern void func_021A8FFC(Obj *p);
 extern void func_021A90E0(Obj *p);
 extern u32 func_0204B98C(u32 v);
 extern void func_02040588(u32 which, u32 enable);
-extern void func_0204B3DC(u32, int);
+extern void func_0204B3DC(struct Obj *, unsigned int);
 extern void func_021A9080(Obj *p, u8 a, u8 b);
 extern void func_0204B878(u32, u16);
 extern void func_021A0FA0(int *p, int v);
@@ -165,14 +165,14 @@ void func_021A85B4(Obj *p)
             func_02040588(5, 1);
             func_02040588(6, 1);
             func_02040588(7, 1);
-            func_0204B3DC(p->f128, 0);
+            func_0204B3DC((struct Obj *)p->f128, 0);
         } else {
             s = p->fF8;
             if (s->f18 != 0) {
                 p->f20 = 0;
                 func_021A9080(p, s->f14, s->f15);
                 func_0204B878(p->f124, 1);
-                func_0204B3DC(p->f124, 1);
+                func_0204B3DC((struct Obj *)p->f124, 1);
                 p->f0C = 6;
                 func_020061E4(0x54C);
             } else {

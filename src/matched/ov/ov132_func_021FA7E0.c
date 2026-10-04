@@ -36,7 +36,7 @@ extern u8 *func_021F9E0C(char *),*func_021F4F54(u8 *,int);
 extern int func_021F4F70(int *);
 extern void *func_0204B100(int,u8,u32),*func_020490F4(u32,u16);
 struct Obj;
-extern void func_0204B270(void *),func_02049238(void *),func_0204B3DC(void *,u32),func_0204B92C(struct Obj *,u32);
+extern void func_0204B270(void *),func_02049238(void *),func_0204B3DC(struct Obj *,unsigned int),func_0204B92C(struct Obj *,u32);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16),func_0204A6C8(void *,u32,u32,u32,u16),func_0204AF28(void *,u32,u32,u32),func_0204ABF0(void *,u32,u32,u32,u16);
 extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,u16,u16);
 extern void func_021FA99C(u8 *,unsigned,int,int);

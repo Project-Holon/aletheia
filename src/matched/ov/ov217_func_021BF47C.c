@@ -20,12 +20,13 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
 extern u32 func_021BF810(void *p);
-extern void func_0204B3DC(u32 a, u32 b);
+struct Obj;
+extern void func_0204B3DC(struct Obj *a, unsigned int b);
 void func_021BF47C(char *p)
 {
     if (*(u32 *)(p + 0x3c8) == 0 || func_021BF810(p) == 0) {
-        func_0204B3DC(*(u32 *)(p + 0x39c), 0);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x39c), 0);
     } else {
-        func_0204B3DC(*(u32 *)(p + 0x39c), 1);
+        func_0204B3DC((struct Obj *)*(u32 *)(p + 0x39c), 1);
     }
 }
