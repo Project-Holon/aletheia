@@ -33,7 +33,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02045770(u32 w);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *w);
 extern u32 func_02045758(u32 w);
 extern u32 func_02045760(u32 w);
 extern u32 func_02045738(u32 w);
@@ -57,7 +58,7 @@ void func_02191B14(u32 *a)
     u32 w;
     u32 h;
 
-    func_02045770(a[1]);
+    func_02045770((struct Descriptor *)a[1]);
     x = func_02045758(a[1]);
     y = func_02045760(a[1]);
     w = func_02045738(a[1]);

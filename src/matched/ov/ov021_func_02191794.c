@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02045334  0x02045334  arm  arm9
@@ -44,14 +44,15 @@ typedef struct R {
 } R;
 
 extern u8 func_0219320C(u8 *p);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_021928C0(R *sub, u32 a, u32 b);
 extern void func_02045334(u32 a);
 
 void func_02191794(R *r)
 {
     if (func_0219320C((u8 *)r->f0c + 0x160) == 0) {
-        func_021928C0(r, func_02045770(r->f18), 0xF);
+        func_021928C0(r, (u32)func_02045770((struct Descriptor *)r->f18), 0xF);
         func_02045334(r->f18);
     }
 }
