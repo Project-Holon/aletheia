@@ -22,7 +22,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern int  func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 v);
 extern void func_02045374(u32 v);
@@ -34,7 +35,7 @@ void ov208_func_021C0740(u16 *heap, u8 *p, int key, u8 i)
     u32 w;
 
     if (((u32 *)(p + 0x24))[i] != 0) {
-        if (func_0201C6C4(((u32 *)(p + 0x34))[i], func_02045770(((u32 *)(p + 0x14))[i])) == 0) {
+        if (func_0201C6C4(((u32 *)(p + 0x34))[i], (u32)func_02045770((struct Descriptor *)((u32 *)(p + 0x14))[i])) == 0) {
             w = ((u32 *)(p + 0x14))[i];
             func_02045334(w);
             func_02045374(w);

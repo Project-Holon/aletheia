@@ -40,7 +40,8 @@ extern u32 func_0201EC64(u32 a);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_0201ED04(u32 p);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern u32 func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, void *text, u32 f, u16 color);
 extern void func_02045808(struct U16Vec *vec);
 void func_021BAA4C(char *p)
@@ -85,7 +86,7 @@ void func_021BAA4C(char *p)
         func_021BA960(*(u16 *)p, *(int *)(p+0x70), *(int *)(p+0x2c), *(int *)(p+0x28), *(int *)(p+0x274), 8, 5, 0x3e7 + 0x59, 0, 0);
     }
     name = func_02045EC0(d_020A7370, *(u16 *)(p+0xc));
-    func_0201C724(*(int *)(p+0x2c), func_02045770(*(void **)(p+0x70)), 0x30, 5, name, *(int *)(p+0x28), 0x440);
+    func_0201C724(*(int *)(p+0x2c), (u32)func_02045770(*(void **)(p+0x70)), 0x30, 5, name, *(int *)(p+0x28), 0x440);
     func_02045808(name);
     m = 0;
     if (*(int *)(p+8) != 0) m = *(u16 *)(p+0xc);

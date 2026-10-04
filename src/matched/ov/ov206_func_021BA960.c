@@ -17,7 +17,8 @@
  *   func_0201C724 0x0201C724 thumb
  *   func_02045808 0x02045808 arm
  */
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern int func_020457B0(int,int);
 extern void func_0201F250(int,int,int);
 extern int func_0201D304(int,int,int);
@@ -26,7 +27,7 @@ extern void func_0201C724(int,int,short,short,int,int,unsigned short);
 extern void func_02045808(int);
 void func_021BA960(int heap,int window,int printer,int font,int input,unsigned short right,unsigned short y,unsigned short color,int alignment,int expansion)
 {
-    int buffer=func_02045770(window);
+    int buffer=(int)func_02045770((struct Descriptor *)window);
     unsigned short x;
     int text;
     if(expansion) {

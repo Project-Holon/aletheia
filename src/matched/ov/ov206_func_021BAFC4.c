@@ -36,7 +36,8 @@ typedef struct {
 
 extern int func_0204384C(int, int, int, int);
 extern int func_020450F0(int, int, int, int, int, int, int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_020439A0(int, int, int, int, int, int, int, int, int);
 extern void func_020437AC(int);
 
@@ -47,23 +48,23 @@ void func_021BAFC4(Ent *e)
     int q;
 
     e->f8c = func_020450F0(e->f4d, 0xc, 4, 4, 3, z, z);
-    q = func_02045770(e->f8c);
+    q = (int)func_02045770((struct Descriptor *)e->f8c);
     func_020439A0(s, q, 8, 0, z, z, 0x20, 0x18, z);
 
     e->f90 = func_020450F0(e->f4d, 0xc, 4, 4, 3, z, z);
-    q = func_02045770(e->f90);
+    q = (int)func_02045770((struct Descriptor *)e->f90);
     func_020439A0(s, q, 0xa8, 8, z, z, 0x20, 8, z);
 
-    q = func_02045770(e->f90);
+    q = (int)func_02045770((struct Descriptor *)e->f90);
     func_020439A0(s, q, 0xf8, 8, z, 8, 8, 8, z);
 
-    q = func_02045770(e->f90);
+    q = (int)func_02045770((struct Descriptor *)e->f90);
     func_020439A0(s, q, 0x28, 0x10, 8, 8, 0x18, 8, z);
 
-    q = func_02045770(e->f90);
+    q = (int)func_02045770((struct Descriptor *)e->f90);
     func_020439A0(s, q, 0x80, z, 0, 0x10, 8, 8, 0);
 
-    q = func_02045770(e->f90);
+    q = (int)func_02045770((struct Descriptor *)e->f90);
     func_020439A0(s, q, 0x58, 0x10, 8, 0x10, 0x18, 8, z);
 
     func_020437AC(s);

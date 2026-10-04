@@ -14,7 +14,8 @@
  *   func_02043B5C 0x02043B5C arm
  */
 extern void func_0201C6EC(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern void func_02043B5C(int, int);
 void func_021BAF50(char *p)
 {
@@ -23,6 +24,6 @@ void func_021BAF50(char *p)
     for (i = 0; i < 4; i++) {
         char *slot = p + i * 4;
         *(int *)(slot + 0x7c) = 1;
-        func_02043B5C(func_02045770(*(int *)(slot + 0x6c)), 0);
+        func_02043B5C((int)func_02045770((struct Descriptor *)*(int *)(slot + 0x6c)), 0);
     }
 }

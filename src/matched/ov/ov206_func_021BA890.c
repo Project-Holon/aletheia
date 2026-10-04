@@ -24,7 +24,8 @@ extern const struct Tab16 d_021BC174;
 extern int func_0204A39C(void *a, int b, int c, u32 d, int *e);
 extern void func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void *func_020450F0(u32 frame, u32 x, u32 y, u32 w, u32 h, u32 pal, u32 chr);
-extern u32 func_02045770(void *p);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32 a, u32 b);
 void func_021BA890(char *p)
 {
@@ -39,7 +40,7 @@ void func_021BA890(char *p)
     tab = d_021BC174;
     for (i = 0; i < 4; i++) {
         *(void **)(p+i*4+0x6c) = func_020450F0(*(u8 *)(p+0x4c), tab.b[i*4], tab.b[i*4+1], tab.b[i*4+2], tab.b[i*4+3], 3, 1);
-        func_02043B5C(func_02045770(*(void **)(p+i*4+0x6c)), 0);
+        func_02043B5C((u32)func_02045770(*(void **)(p+i*4+0x6c)), 0);
     }
     for (i = 0; i < 4; i++) {
         *(int *)(p+i*4+0x7c) = 1;

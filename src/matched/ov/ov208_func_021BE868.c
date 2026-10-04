@@ -28,7 +28,8 @@ typedef unsigned int u32;
 struct Ov208Gfx { u16 heap; u16 pad; int f4; int f8; int fc; int f10; u32 f14; void *f18; int f1c; int f20; int f24; };
 struct Bmp;
 extern u32 func_020450F0(u32 layer, u32 a, u32 b, u32 tiles, u8 c, u8 d, u8 slot);
-extern u32 func_02045770(u32 a);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *a);
 extern void func_02043B5C(int a, int b);
 extern void func_02045334(u32 a);
 extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
@@ -41,7 +42,7 @@ extern int func_02045B38(int a, int b, int c, u32 heap);
 void func_021BE868(struct Ov208Gfx *g)
 {
     g->f14 = func_020450F0(5, 0, 0, 0x10, 1, 13, 0);
-    func_02043B5C(func_02045770(g->f14), 0);
+    func_02043B5C((int)func_02045770((struct Descriptor *)g->f14), 0);
     func_02045334(g->f14);
     g->f18 = func_0204384C(0x9f, 14, 0, g->heap);
     g->f20 = func_020437EC(g->f18);
