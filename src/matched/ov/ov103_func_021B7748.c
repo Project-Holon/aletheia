@@ -25,8 +25,9 @@ extern void func_021B80E4(u8 *);
 extern void func_021B78EC(u8 *);
 extern void func_021B7FC8(u8 *);
 extern void func_021B8B1C(u8 *);
-extern void func_020315D4(int);
-extern void func_020306F0(int);
+struct S020315D4;
+extern void func_020315D4(struct S020315D4 *p);
+extern void func_020306F0(unsigned int heap);
 int func_021B7748(int a, int b, int c, u8 *p)
 {
     *(volatile unsigned int *)0x04000000 &= 0xffff1fff;
@@ -37,7 +38,7 @@ int func_021B7748(int a, int b, int c, u8 *p)
     func_021B78EC(p);
     func_021B7FC8(p + 0x174);
     func_021B8B1C(p + 0x75c);
-    func_020315D4(a);
+    func_020315D4((struct S020315D4 *)a);
     func_020306F0(55);
     return 1;
 }

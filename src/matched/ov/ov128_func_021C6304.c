@@ -30,7 +30,7 @@ extern void func_02030EAC(struct Node *n);
 extern void func_021C6664(void *);
 extern void func_021C6420(void *,void *);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern void func_021C665C(void *);
 extern char id43[],id127[];
