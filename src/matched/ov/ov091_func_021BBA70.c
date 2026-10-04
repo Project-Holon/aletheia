@@ -13,7 +13,8 @@
  *   func_02028618 0x02028618 thumb
  *   func_02045334 0x02045334 arm
  */
-extern unsigned int func_02045770(unsigned int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02028618(int,unsigned int,int);
 extern void func_02045334(unsigned int);
-void func_021BBA70(int a,int b) {func_02028618(*(int *)(b+20),func_02045770(*(unsigned int *)(b+4)),15);func_02045334(*(unsigned int *)(b+4));}
+void func_021BBA70(int a,int b) {func_02028618(*(int *)(b+20),(unsigned int)func_02045770((struct Descriptor *)*(unsigned int *)(b+4)),15);func_02045334(*(unsigned int *)(b+4));}

@@ -58,7 +58,8 @@ typedef signed short s16;
 typedef unsigned int u32;
 extern u32 func_020450F0(u32,u32,u32,u32,u32,u32,u32);
 extern void func_0201F73C(u32,u32,u32,u32);
-extern u32 func_02045770(u32);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_02043B5C(u32,int);
 extern void func_02045334(u32);
 extern void func_02045374(u32);
@@ -111,31 +112,31 @@ void func_021BC6CC(u8 *p)
         flag=0;
         W(0x130)=func_020450F0(0,1,1,14,12,14,1);
         func_0201F73C(W(0x130),1,1,12);
-        func_02043B5C(func_02045770(W(0x130)),15);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)W(0x130)),15);
         q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q));
         for(i=0;i<6;i++) {
             off=i; off=off*2;
             delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)d_021BECE4+off),0)-*(u16 *)(p+off+0x124);
             if(delta>=10) flag=1;
             buf=func_02045EC0(W(0x134),i+0x95); y=i<<4;
-            func_0201C724(W(0x140),func_02045770(W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
+            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
             func_02045808(buf);
             buf=func_02045EC0(W(0x134),0x9c); tmp=func_020457B0(0x20,H(0)); text=func_0201EC64(H(0));
             func_0201EFA4(text,0,delta,3,0,1); func_0201F250(text,tmp,buf);
             width=func_0201D304(tmp,W(0x138),0);
-            func_0201C724(W(0x140),func_02045770(W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
+            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)y,tmp,W(0x138),0x440);
             func_02045808(buf); func_02045808(tmp); func_0201ED04(text);
         }
         for(j=0;j<6;j++) {
             x=flag==1 ? 72 : 80;
             buf=func_02045EC0(W(0x134),0x9b);
-            func_0201C724(W(0x140),func_02045770(W(0x130)),x,(s16)(j<<4),buf,W(0x138),0x440);
+            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),x,(s16)(j<<4),buf,W(0x138),0x440);
             func_02045808(buf);
         }
         p[0xe]=1; break;
     }
     case 1:
-        if(func_0201C6C4(W(0x140),func_02045770(W(0x130)))==0) {
+        if(func_0201C6C4(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)))==0) {
             q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=2;
         } break;
     case 2:
@@ -144,19 +145,19 @@ void func_021BC6CC(u8 *p)
     case 3: {
         u16 width;
         u32 delta,buf,tmp,text;
-        func_02043AF4(func_02045770(W(0x130)),0x50,0,0x20,0x60,15);
+        func_02043AF4((u32)func_02045770((struct Descriptor *)W(0x130)),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
             delta=func_02017E1C((void *)W(0x38),d_021BECE4[i],0);
             buf=func_02045EC0(W(0x134),0x9c); tmp=func_020457B0(0x20,H(0)); text=func_0201EC64(H(0));
             func_0201EFA4(text,0,delta,3,0,1); func_0201F250(text,tmp,buf);
             width=func_0201D304(tmp,W(0x138),0);
-            func_0201C724(W(0x140),func_02045770(W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
+            func_0201C724(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)),(s16)(104-width),(s16)(i<<4),tmp,W(0x138),0x440);
             func_02045808(buf); func_02045808(tmp); func_0201ED04(text);
         }
         p[0xe]=4; break;
     }
     case 4:
-        if(func_0201C6C4(W(0x140),func_02045770(W(0x130)))==0) {
+        if(func_0201C6C4(W(0x140),(u32)func_02045770((struct Descriptor *)W(0x130)))==0) {
             q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q)); p[0xe]=5;
         } break;
     case 5:
