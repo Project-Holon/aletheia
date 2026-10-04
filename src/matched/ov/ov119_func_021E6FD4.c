@@ -20,7 +20,8 @@ typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Create;
 typedef struct { short v; void *p; void (*fn)(void *); } Callback;
 extern int func_0204B294(int,int,int,int,Create *,u16,u16);
-extern void func_0204B92C(int,unsigned int);
+struct Obj;
+extern void func_0204B92C(struct Obj *,unsigned int);
 extern void func_0204B3DC(int,unsigned int);
 extern void func_0204BA00(int,const Callback *);
 extern void func_021E7058(void *);
@@ -32,7 +33,7 @@ void func_021E6FD4(char *p, int x, int y) {
     func_021E7058(p);
     *(int *)(p+0xf24)=func_0204B294(*(int *)(p+0x9c4),*(int *)(p+0x894),*(int *)(p+0x880),*(int *)(p+0x8b0),&c,1,*(u16 *)(p+0x5f4));
     func_0204B3DC(*(int *)(p+0xf24),1);
-    func_0204B92C(*(int *)(p+0xf24),1);
+    func_0204B92C((struct Obj *)*(int *)(p+0xf24),1);
     p[0x11f5]=0;
     cb.v=0;cb.p=p;cb.fn=func_021E6FC8;
     func_0204BA00(*(int *)(p+0xf24),&cb);
