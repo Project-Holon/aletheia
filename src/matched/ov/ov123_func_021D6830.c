@@ -24,7 +24,9 @@ struct Record { void *h; u16 x,y,a,b,age,c,d,e,f,g; };
 struct Pos { s16 x,y; };
 struct Pair { int x,y; };
 extern const s16 d_020A1B38[][2];
-extern void func_0204B454(void *, struct Pos *, u16);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *, struct Pos *, u16);
 typedef unsigned int   u32;
 struct Obj;
@@ -42,7 +44,7 @@ void func_021D6830(struct Record *p)
     a = (s16)(d_020A1B38[p->a >> 4][0] * 4) >> 12;
     b = (s16)(d_020A1B38[p->b >> 4][0] * 3) >> 12;
     if (p->h) {
-        func_0204B454(p->h, &pos, 0);
+        func_0204B454(p->h, (struct PtS *)&pos, 0);
         pos.x = p->x + a + b;
         pos.y = (p->y + a + b + p->age) >> 2;
         if (p->age % 8 == 0) {

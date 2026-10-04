@@ -16,14 +16,16 @@ typedef unsigned char u8;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct { s16 x, y; } Vec;
-extern void func_0204B454(void *, Vec *, u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern int func_021D72C8(u8 *, int, int);
 extern void func_0204B404(void *, const Vec *, u32);
 void func_021D733C(u8 *p, int index, int count)
 {
     Vec pos;
     if (*(void **)(p + 0x140) != 0) {
-        func_0204B454(*(void **)(p + 0x140), &pos, 1);
+        func_0204B454(*(void **)(p + 0x140), (struct PtS *)&pos, 1);
         pos.y = func_021D72C8(p, index, count) + 26;
         func_0204B404(*(void **)(p + 0x140), &pos, 1);
     }

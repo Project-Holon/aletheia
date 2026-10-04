@@ -17,7 +17,9 @@
  *   func_0204047C 0x0204047C arm
  */
 typedef struct { short x,y; } Pt;
-extern void func_0204B454(void *,Pt *,unsigned int);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *,const Pt *,unsigned int);
 extern void func_0204B84C(void *,unsigned int);
 extern void func_0204047C(int,unsigned short);
@@ -30,7 +32,7 @@ void func_021E6AB0(const char *p)
     for(i=0;i<8;i++) {
         tmp1=p+i*4;
         tmp1=tmp1+0x10cc;
-        func_0204B454(*(void **)tmp1,&a,1);
+        func_0204B454(*(void **)tmp1,(struct PtS *)&a,1);
         if(i/4) {
             a.x-=128;
             func_0204B84C(*(void **)(p+i*4+0x10cc),3);
@@ -39,7 +41,7 @@ void func_021E6AB0(const char *p)
     }
     for(i=0;i<3;i++) {
         if(*(void **)(p+i*4+0x1008)) {
-            func_0204B454(*(void **)(p+i*4+0x1008),&b,1);
+            func_0204B454(*(void **)(p+i*4+0x1008),(struct PtS *)&b,1);
             b.x+=128;
             tmp=i;
             tmp=tmp*4;
@@ -48,7 +50,7 @@ void func_021E6AB0(const char *p)
     }
     for(j=0;j<3;j++) {
         if(*(void **)(p+j*4+0x1014)) {
-            func_0204B454(*(void **)(p+j*4+0x1014),&c,1);
+            func_0204B454(*(void **)(p+j*4+0x1014),(struct PtS *)&c,1);
             c.x-=128;
             func_0204B404(*(void **)(p+j*4+0x1014),&c,1);
             func_0204B84C(*(void **)(p+j*4+0x1014),3);

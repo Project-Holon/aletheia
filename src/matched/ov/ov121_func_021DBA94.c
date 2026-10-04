@@ -17,7 +17,9 @@
 typedef signed short s16;
 typedef signed char s8;
 typedef unsigned int u32;
-extern void func_0204B454(void *,void *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *,void *,u32);
 struct Obj;
 extern void func_0204B3DC(struct Obj *p, u32 v);
@@ -30,17 +32,17 @@ int func_021DBA94(char *p)
     amount=(*(s8 *)(p+0xadc)*256)/16;
     for(i=0;i<8;i++) {
         if(*(void **)(p+i*4+0xb28)) {
-            func_0204B454(*(void **)(p+i*4+0xb28),xy+2,0);
+            func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)(xy+2),0);
             xy[2]-=(s16)amount;
             func_0204B404(*(void **)(p+i*4+0xb28),xy+2,0);
-            func_0204B454(*(void **)(p+i*4+0xb28),xy,0);
+            func_0204B454(*(void **)(p+i*4+0xb28),(struct PtS *)xy,0);
             if(xy[0]>=-16 && xy[0]<=272 && xy[1]>=-16 && xy[1]<=208)
                 func_0204B3DC(*(void **)(p+i*4+0xb28),1);
             else func_0204B3DC(*(void **)(p+i*4+0xb28),0);
         }
     }
     if(*(int *)(p+0xae0)) {
-        func_0204B454(*(void **)(p+0xaf0),xy+2,0);
+        func_0204B454(*(void **)(p+0xaf0),(struct PtS *)(xy+2),0);
         xy[2]-=(s16)amount;
         func_0204B404(*(void **)(p+0xaf0),xy+2,0);
         if(xy[2]>=-96 && xy[2]<=352 && xy[3]>=-96 && xy[3]<=288)

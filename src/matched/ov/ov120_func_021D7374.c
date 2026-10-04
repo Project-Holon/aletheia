@@ -19,7 +19,9 @@ typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
 typedef struct Pt { s16 x,y; } Pt;
-extern void func_0204B454(void *,Pt *,u32);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *,const Pt *,u32);
 extern int func_021D72E8(void *,int,int);
-int func_021D7374(char *p,int y,int count) { Pt pt; int result; result=0; if(*(void **)(p+0x140)) { func_0204B454(*(void **)(p+0x140),&pt,1); pt.y=y; func_0204B404(*(void **)(p+0x140),&pt,1); result=func_021D72E8(p,y,count); } return result; }
+int func_021D7374(char *p,int y,int count) { Pt pt; int result; result=0; if(*(void **)(p+0x140)) { func_0204B454(*(void **)(p+0x140),(struct PtS *)&pt,1); pt.y=y; func_0204B404(*(void **)(p+0x140),&pt,1); result=func_021D72E8(p,y,count); } return result; }

@@ -30,7 +30,9 @@ typedef struct { s16 x,y; } Pair;
 typedef struct { int x,y; } Scale;
 extern const int d_021DA830[], d_021DA84C[];
 extern void func_021D9E48(char *,int,int);
-extern void func_0204B454(void *,Pair *,unsigned);
+struct Actor;
+struct PtS;
+extern void func_0204B454(struct Actor *actor, struct PtS *out, unsigned int space);
 extern void func_0204B404(void *,Pair *,unsigned);
 extern void func_0204B5AC(void *,Scale *);
 struct Obj;
@@ -54,7 +56,7 @@ int func_021D8C90(char *p)
         for(i=0;i<*(int *)(p+0x23c);i++) {
             q=p+i*28;
             if(*(u8 *)(q+24)) {
-                func_0204B454(*(void **)(q+12),&first,0);
+                func_0204B454(*(void **)(q+12),(struct PtS *)&first,0);
                 first.x+=*(s16 *)(q+20);
                 first.y+=*(s16 *)(q+22);
                 func_0204B404(*(void **)(q+12),&first,0);
@@ -76,7 +78,7 @@ int func_021D8C90(char *p)
         for(i=0;i<2;i++) {
             q=p+i*28;
             if(*(u8 *)(q+0x168)) {
-                func_0204B454(*(void **)(q+0x15c),&second,0);
+                func_0204B454(*(void **)(q+0x15c),(struct PtS *)&second,0);
                 second.x+=*(s16 *)(q+0x164);
                 second.y+=*(s16 *)(q+0x166);
                 func_0204B404(*(void **)(q+0x15c),&second,0);
