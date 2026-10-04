@@ -31,6 +31,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+struct Owner;
+struct Pt {
+    signed short x;
+    signed short y;
+};
+
 struct Inner {
     u8    pad_00[8];
     void *unk_08;
@@ -41,7 +47,7 @@ struct Obj {
     struct Inner *unk_08;
 };
 
-extern void sub_0204B0C8(void *src, u32 id, u16 *out);
+extern void sub_0204B0C8(struct Owner *src, u32 id, struct Pt *out);
 
 void sub_0204CF74(struct Obj *o, u32 id, u16 *out)
 {
@@ -50,5 +56,5 @@ void sub_0204CF74(struct Obj *o, u32 id, u16 *out)
         out[1] = 0;
         return;
     }
-    sub_0204B0C8(o->unk_08->unk_08, id, out);
+    sub_0204B0C8((struct Owner *)o->unk_08->unk_08, id, (struct Pt *)out);
 }

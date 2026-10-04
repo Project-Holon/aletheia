@@ -47,15 +47,16 @@ struct Actor {
     struct Pt pos;
 };
 
-extern void func_0204CF74(struct Actor *actor, u32 space, struct PtS *out);
-extern void sub_0204B53C(const struct Actor *actor, struct PtS *out);
+struct Obj;
+extern void func_0204CF74(struct Obj *actor, u32 space, u16 *out);
+extern void sub_0204B53C(const struct Actor *actor, struct Pt *out);
 
 void sub_0204B454(struct Actor *actor, struct PtS *out, u32 space)
 {
     struct PtS origin;
 
-    func_0204CF74(actor, space, &origin);
-    sub_0204B53C(actor, out);
+    func_0204CF74((struct Obj *)actor, space, (u16 *)&origin);
+    sub_0204B53C(actor, (struct Pt *)out);
 
     out->x = out->x - origin.x;
     out->y = out->y - origin.y;
