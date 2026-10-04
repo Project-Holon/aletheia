@@ -34,7 +34,7 @@ struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200E0B0(void *p);
-extern void *func_02012138(void *p);
+extern u32 func_02012138(const struct Ctx *p);
 extern u8 func_021767A0(void *a, void *b);
 extern u8 func_021673C4(u8 *p);
 extern u8 func_021673A8(u8 *p);
@@ -57,7 +57,7 @@ int func_02166434(void *a, u32 *out0, u32 *out1)
 
     t = func_020120F4(a);
     sav = func_0200E0B0(func_02012EBC(t));
-    r = func_02012138(a);
+    r = (void *)func_02012138(a);
     if (func_021767A0(r, t) == 4) {
         *out0 = func_021673C4(sav);
         *out1 = func_021673A8(sav);

@@ -61,17 +61,18 @@ typedef struct {
     int f24;
 } Ov018Work;
 
+struct Ctx;
 void *func_020124E4(void *);
 void *func_020120F4(void *);
-void *func_02012138(void *);
+u32 func_02012138(const struct Ctx *p);
 int func_0217CA40(void *);
 void func_02012374(void *, int);
 int func_0200FB24(void);
 int func_02026460(void *);
 int func_02026454(void *);
 void func_02026400(void *);
-int func_02012114(void *);
-void *func_0201210C(void *p);
+u32 func_02012114(const struct Ctx *p);
+void *func_0201210C(const struct Ctx *p);
 int func_02188BE8(void *);
 void *func_02188C54(void *);
 void *func_021904B0(void *, int);
@@ -115,7 +116,7 @@ int func_0217CAFC(void *a, int *seq, Ov018Work *work)
 
     x = func_020124E4(a);
     s2 = func_020120F4(x);
-    s1 = func_02012138(x);
+    s1 = (void *)func_02012138(x);
     switch (*seq) {
     case 0:
         func_02012374(a, func_0217CA40(x));

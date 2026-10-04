@@ -36,7 +36,8 @@ struct IcaAnime {
     u32 f1c;
 };
 
-extern u32 func_02012138(struct IcaAnime *p);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_0203CD98(u32 h);
 extern u32 func_02026454(u32 h);
 extern u32 func_02012164(struct IcaAnime *p);
@@ -44,7 +45,7 @@ extern void func_020263D8(u32 h, u32 a, struct IcaAnime *p);
 
 u32 func_020121CC(struct IcaAnime *p)
 {
-    u32 h = func_02012138(p);
+    u32 h = func_02012138((const struct Ctx *)p);
 
     if (func_0203CD98(h) == 0) {
         if (func_02026454(h) == 0) {
