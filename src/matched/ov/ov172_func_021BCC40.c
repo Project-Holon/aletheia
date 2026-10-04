@@ -60,7 +60,8 @@ extern u32 func_021BE034(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE044(void *p);
 extern u32 func_0201EC64(u32 heap);
-extern u32 func_02045770(u32 win);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *win);
 extern void func_02043B5C(u32 a, u32 b);
 extern u32 func_020457B0(u32 len, u32 heap);
 extern u16 *func_0202E930(void *p);
@@ -107,13 +108,13 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         sys = func_021BE044(ctx);
         e = list + 0x1e4 + *(u8 *)(row + 0x18) * 0x24;
         ws = func_0201EC64(heap);
-        func_02043B5C(func_02045770(*(u32 *)(row + 0x14)), 0);
+        func_02043B5C((u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 0);
         str = func_020457B0(0x20, heap);
         if (*(u8 *)(e + 0x18) == 0x20)
             func_02045994((struct Strbuf *)str, func_0202E930(*(void **)(e + 0x14)), 8);
         else
             func_02045994((struct Strbuf *)str, (const u16 *)(*(char **)(e + 0x14) + 0x1a), 8);
-        func_0201C724(sys, func_02045770(*(u32 *)(row + 0x14)), 6, 0, str, font, 0x3c40);
+        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 6, 0, str, font, 0x3c40);
         func_02045808(str);
         fmt = func_02045EC0(msgs, 0xe);
         buf = func_020457B0(0x20, heap);
@@ -123,7 +124,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
             func_0201EFA4(ws, 0, *(u16 *)(*(char **)(e + 0x14) + 0x18), 5, 2, 1);
         func_0201F250(ws, buf, fmt);
         func_02045808(fmt);
-        func_0201C724(sys, func_02045770(*(u32 *)(row + 0x14)), 0x50, 0, buf, font, 0x3c40);
+        func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 0x50, 0, buf, font, 0x3c40);
         func_02045808(buf);
         if (*(u8 *)(e + 0x18) == 0x20) {
             p = *(u8 **)(e + 0x14);
@@ -134,7 +135,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
             func_0201EFA4(ws, 0, *p, 1, 0, 1);
             func_0201F250(ws, buf2, fmt2);
             func_02045808(fmt2);
-            func_0201C724(sys, func_02045770(*(u32 *)(row + 0x14)), 0x90, 0, buf2, font, 0x3c40);
+            func_0201C724(sys, (u32)func_02045770((struct Descriptor *)*(u32 *)(row + 0x14)), 0x90, 0, buf2, font, 0x3c40);
             func_02045808(buf2);
         } else {
             *(u8 *)(e + 0x1f) = 0;

@@ -15,7 +15,8 @@
  *   func_02045334 0x02045334 arm
  */
 extern int func_0201C4E4(int);
-extern int func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *);
 extern int func_0201C6C4(int, int);
 extern void func_02045334(int);
 void func_021DD8DC(char *p)
@@ -37,7 +38,7 @@ void func_021DD8DC(char *p)
         obj = *(int *)(p + 0xb6c);
         q = p + i * 8;
         if (*(unsigned char *)(q + d)) {
-            if (!func_0201C6C4(obj, func_02045770(*(int *)(q + c)))) {
+            if (!func_0201C6C4(obj, (int)func_02045770((struct Descriptor *)*(int *)(q + c)))) {
                 func_02045334(*(int *)(q + a));
                 *(unsigned char *)(q + b) = 0;
             }
