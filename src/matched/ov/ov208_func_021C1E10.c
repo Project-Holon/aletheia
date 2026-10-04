@@ -43,7 +43,8 @@ struct CharBuf;
 extern void func_02043B5C(struct CharBuf *buf, u8 value);
 extern void func_021C1F50(u16 *heap, u8 *p, int key);
 extern void func_0204B878(u32 obj, u32 anim);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *obj, u32 v);
 extern void func_0204B8C4(u32 obj, int v);
 extern void func_021BDC48(void *s, u32 on);
 extern void func_0204B3DC(u32 obj, int on);
@@ -80,7 +81,7 @@ void func_021C1E10(u16 *heap, u8 *p, int key, int dir, int touch)
         other = 2;
     }
     func_0204B878(OBJ(p[0xd8]), anim);
-    func_0204B92C(OBJ(other), 0);
+    func_0204B92C((struct Obj *)OBJ(other), 0);
     func_0204B8C4(OBJ(other), 0);
     func_021BDC48(s, 0);
     if (touch == 1) {
