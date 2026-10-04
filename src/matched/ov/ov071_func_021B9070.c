@@ -70,7 +70,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef enum { FALSE, TRUE } Bool;
-extern u32 func_02012138(u32);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02158344(u32);
 extern void func_021B6C7C(void *,int);
 extern void func_021B9BD8(u8 *);
@@ -133,7 +134,7 @@ int func_021B9070(int unused,int *state,u8 *c,u8 *o)
     u32 initial,handle,mask,save;
     int active,result,off;
     unsigned short flip;
-    initial=func_02158344(func_02012138(*(u32 *)CP(0)));
+    initial=func_02158344(func_02012138((const struct Ctx *)*(u32 *)CP(0)));
     func_021B6C7C(c,1); func_021B6C7C(c,3);
     func_021B9BD8(o); func_021B9BAC(CP(4),(u32)o);
     handle=*(u32 *)(CP(4)+8);
@@ -222,7 +223,7 @@ write10:
         if (func_02035C60()!=0 || (func_020362DC()&3)) {
             func_021B98C4(o);
             func_0200BF08(func_0200BE48(func_02012EBC(func_020120F4(*(u32 *)CP(0)))),*(u32 *)(o+(W(0x300)<<2)+0xec));
-            save=func_02012138(*(u32 *)CP(0));
+            save=func_02012138((const struct Ctx *)*(u32 *)CP(0));
             handle=C(0);
             func_020266AC(save,func_02012B58(func_020120F4(*(u32 *)handle)),*(u8 *)(handle+0x3c));
             W(0x300)=0xffff; func_021B6C30(c,1,1); func_021B6B98(c,o+8,1,0xff,3);

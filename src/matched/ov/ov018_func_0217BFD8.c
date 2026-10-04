@@ -23,7 +23,8 @@
  */
 
 extern int func_020120F4(int);
-extern int func_02012138(int);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158344(int);
 extern int func_02012B70(int);
 extern int func_02012204(int);
@@ -41,7 +42,7 @@ int func_0217BFD8(int a, int b)
     int w;
 
     h = func_020120F4(a);
-    t = func_02012138(a);
+    t = func_02012138((const struct Ctx *)a);
     w = func_02158344(t);
     if (func_02012B70(h) == 0)
         return 0;

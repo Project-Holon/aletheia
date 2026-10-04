@@ -25,7 +25,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02012138(void *p);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_02026474(void *obj);
 extern void func_02037174(void);
 extern void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
@@ -57,7 +58,7 @@ void func_021F0054(struct Obj *p, int mode)
 {
     int i;
 
-    func_02026474(func_02012138((void *)p->w0));
+    func_02026474((void *)func_02012138((const struct Ctx *)p->w0));
     func_02037174();
     if (mode == 1)
         REG_DB_BLDCNT_SUB = 0;

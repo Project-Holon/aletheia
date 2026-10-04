@@ -37,7 +37,8 @@
 
 typedef unsigned int u32;
 
-extern int   func_02012138(u32 a0);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int   func_02026454(int x);
 typedef unsigned short u16;
 struct Evt;
@@ -67,7 +68,7 @@ u32 func_021542C0(void *obj, u32 *mode, u32 *args)
 
     switch (*mode) {
     case 0:
-        if (func_02026454(func_02012138(a0)) == 0) {
+        if (func_02026454(func_02012138((const struct Ctx *)a0)) == 0) {
             args[0] = func_02005C44();
             func_02005E30(6);
             (*mode)++;
