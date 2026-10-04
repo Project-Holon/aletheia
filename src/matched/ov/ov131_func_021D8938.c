@@ -24,8 +24,8 @@ typedef unsigned int u32;
 struct Desc {u16 x,y,z;u8 kind,flag;};
 enum E {E_0};
 struct Grid {void *f0;u16 f4;s16 f6;u32 f8;u32 f12;u8 f16;u8 f17;u16 f18;u32 f20;};
-extern void *func_0204B294(u32,u32,u32,u32,void *,u32,u16);
 struct Obj;
+extern struct Obj *func_0204B294(void *,unsigned int,unsigned int,unsigned int,const void *,unsigned short,unsigned short);
 extern void func_0204B3DC(struct Obj *p, u32 v);
 extern s16 func_021D9440(u8 *,u32);
 extern void *func_02043754(u32,int,int,int,int);
@@ -39,7 +39,7 @@ void func_021D8938(u8 *a,u8 *p)
     u32 base;
     u8 i;
     d.x=0;d.y=0;d.kind=10;d.flag=0;d.z=0;
-    *(void **)(p+0x54)=func_0204B294(*(u32 *)(a+0x174),*(u32 *)(a+0xf8),*(u32 *)(a+0xc4),*(u32 *)(a+0x12c),&d,0,*(u16 *)a);
+    *(void **)(p+0x54)=func_0204B294((void *)*(u32 *)(a+0x174),*(u32 *)(a+0xf8),*(u32 *)(a+0xc4),*(u32 *)(a+0x12c),&d,0,*(u16 *)a);
     func_0204B3DC(*(void **)(p+0x54),0);
     g.f4=8;
     g.f8=*(u32 *)(a+0xb8);

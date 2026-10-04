@@ -39,7 +39,7 @@ struct P {
 };
 extern const struct T d_021F76C8[];
 extern struct Bank *func_0204B100(int, u8, u32);
-extern struct Obj *func_0204B294(u32, u32, u32, u32, u32, u16, u16);
+extern struct Obj *func_0204B294(void *, unsigned int, unsigned int, unsigned int, const void *, unsigned short, unsigned short);
 extern void func_0204B3DC(struct Obj *, u32);
 extern void func_0204B92C(struct Obj *, u32);
 extern void *func_020185F4(void *);
@@ -56,10 +56,10 @@ void func_021F714C(struct P *p)
     u16 species;
     p->bank = func_0204B100(24, 0, 0x71);
     for (i = 0; i < 24; i++) {
-        p->actors.all[i] = func_0204B294((u32)p->bank,
+        p->actors.all[i] = func_0204B294(p->bank,
             p->tabA[d_021F76C8[i].i],
             p->tabB[d_021F76C8[i].j],
-            p->tabC[d_021F76C8[i].k], (u32)&d_021F76C8[i], 0, 0x71);
+            p->tabC[d_021F76C8[i].k], &d_021F76C8[i], 0, 0x71);
     }
     for (i = 0; i < 6; i++) {
         if (p->mons[i] == 0) {
