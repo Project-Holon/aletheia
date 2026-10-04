@@ -44,7 +44,7 @@ extern int WM_GetMPReceiveBufferSize(void);
 extern int WM_StartMP(void (*cb)(void *), void *recvBuf, u16 recvSize,
                       void *sendBuf, u16 sendSize, u16 mpFreq);
 extern void func_0203D7FC(void *p);
-extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u32 line);
+extern void *func_0203D7C8(u32 heap, u32 size, const char *file, u16 line);
 extern u32 func_0203D5D4(void);
 
 BOOL func_02178304(void)

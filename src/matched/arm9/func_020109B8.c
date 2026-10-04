@@ -18,8 +18,10 @@ typedef unsigned char u8;
 typedef signed int    s32;
 typedef unsigned int  u32;
 
-extern u32  func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Entry;
+struct Link;
+extern struct Entry *func_020399A8(void);
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_02010888(u8 *p, u32 v);
 extern void func_020109E0(u8 *p);
 
@@ -29,7 +31,7 @@ void func_020109B8(u8 *p)
 
     *(u32 *)(p + 0x10) = (u32)v;
     if (v < 0) {
-        func_02039C68(func_020399A8(), 0x73, 8);
+        func_02039C68((struct Link *)func_020399A8(), 0x73, 8);
         func_02010888(p, (u32)func_020109E0);
     }
 }

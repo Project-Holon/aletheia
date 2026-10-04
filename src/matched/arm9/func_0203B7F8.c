@@ -33,7 +33,8 @@ struct B794 {
 extern void *func_0203D798(void);
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0203996C(u32 a);
-extern u32 func_020399A8(u32 a);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_020399EC(u32 a);
 extern u16 func_02039338(void);
 extern u32 func_0203D650(void);
@@ -42,7 +43,8 @@ void func_0203B7F8(struct B794 *p)
 {
     func_0203D798();
 
-    if ((int)func_020399EC(func_020399A8(func_0203996C(0xFF))) < 2)
+    func_0203996C(0xFF);
+    if ((int)func_020399EC((u32)func_020399A8()) < 2)
         return;
 
     func_02039338();

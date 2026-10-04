@@ -64,7 +64,8 @@ extern u8 func_0200A7A0(struct Big *p, u32 index);
 extern u8 *func_0200A7F8(struct Big *p);
 extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern void func_02045994(void *dest, const void *src, u32 size);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808(struct U16Vec *vec);
@@ -93,7 +94,7 @@ int func_0215D884(Ctx *c, void *vm)
         void *sv = func_02012F44(func_0215A5E4(vm));
 
         str = func_020457B0(0x26, heap);
-        func_02045994(str, func_0200A7F8(sv), 0x26);
+        func_02045994(str, (const u16 *)func_0200A7F8(sv), 0x26);
         func_0201EE0C(ws, slot, str, 0, 1, 2);
         func_02045808(str);
         break;
