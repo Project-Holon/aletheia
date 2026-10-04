@@ -51,12 +51,14 @@ extern int func_021B8130(void *a0, u8 *a1);
 extern void func_021B8614(int unused, int unused2, void *p);
 extern void func_0203CFF0(void *p);
 extern int func_02039ACC(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_020399B8(u8 *p);
 extern void func_0203A574(u32 a, u32 b, u32 c, u32 d);
 extern u8 d_021C6ED4[];
-extern void func_02039C68(u32 h, u32 a, u32 b);
-extern u32 func_02039CB4(u32 h, u32 a, u32 b);
+struct Link;
+extern void func_02039C68(struct Link *p, u32 a, u32 b);
+extern u32 func_02039CB4(struct Link *p, u32 a, u32 b);
 extern void func_021B8154(void *p, char *q);
 extern void func_021B8448(void *p, char *q);
 extern int func_0203CEAC(int a0);
@@ -120,13 +122,13 @@ void func_021B7E34(void *p, char *q)
             *(u32 *)(q + 8) = 8;
         break;
     case 5:
-        h = func_020399A8();
+        h = (u32)func_020399A8();
         func_0203A574(0x2000, (u32)d_021C6ED4, 4, (u32)q);
-        func_02039C68(h, 8, 0x20);
+        func_02039C68((struct Link *)h, 8, 0x20);
         *(u32 *)(q + 8) = 6;
         break;
     case 6:
-        if (func_02039CB4(func_020399A8(), 8, 0x20) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 8, 0x20) == 1)
             *(u32 *)(q + 8) = 7;
         break;
     case 7:
@@ -149,11 +151,11 @@ void func_021B7E34(void *p, char *q)
             *(u32 *)(q + 8) = 1;
         break;
     case 9:
-        func_02039C68(func_020399A8(), 9, 0x20);
+        func_02039C68((struct Link *)func_020399A8(), 9, 0x20);
         *(u32 *)(q + 8) = 10;
         break;
     case 10:
-        if (func_02039CB4(func_020399A8(), 9, 0x20) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 9, 0x20) == 1) {
             func_0203A5E4(0x2000);
             *(u32 *)(q + 8) = 12;
         }

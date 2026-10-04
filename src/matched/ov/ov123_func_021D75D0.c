@@ -28,7 +28,7 @@ extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_020072CC(int,int,u16,int,int);
 extern void func_02082D44(const void *,void *,int);
 extern void func_0200E8E0(void *obj, u32 value);
-extern void func_02012E4C(int,int);
+extern void func_02012E4C(u8 *,u32);
 extern int func_02009210(int);
 extern void func_02009108(int,u16);
 extern void func_021D6EE0(int,int,int);
@@ -56,6 +56,6 @@ void func_021D75D0(int a)
     func_020072CC(b,4,*(u16 *)a,x,0x3000);
     func_02082D44(p,(void *)x,0x2600);
     func_02009108(func_02009210(b),checksum);
-    func_02012E4C(*(int *)(a+0x2c),4);
+    func_02012E4C((u8 *)*(int *)(a+0x2c),4);
     func_021D6EE0(a,(int)func_021D758C,0x355);
 }

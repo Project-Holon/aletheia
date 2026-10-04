@@ -36,7 +36,7 @@ struct Work {
     u8 pad3a[14]; u8 record48; u8 pad49; u16 record4a; u16 record4c; u16 record4e;
     u8 rest[40];
 };
-extern void func_0203064C(void *,u32,u32);
+extern void func_0203064C(u32,u32,u32);
 extern void *func_0203159C(void *,u32,u32);
 extern void func_02082BCC(void *,u32,u32);
 extern void *func_021B9D18(void *,u16);
@@ -49,7 +49,7 @@ extern char *func_021BB2B4(char *,char *);
 int func_021B95A0(void *proc, void *unused, struct Args *args)
 {
     struct Work *p;
-    func_0203064C((void *)1,0x90,0x50000);
+    func_0203064C(1,0x90,0x50000);
     p = func_0203159C(proc,0x78,0x90);
     func_02082BCC(p,0,0x78);
     p->heap = 0x90;
