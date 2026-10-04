@@ -63,7 +63,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 ov230_id[];
-extern int func_02012138(int a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern int func_02012B38(int a);
 extern void func_0201447C(int a, int b);
 extern int func_02014554(int a, int b);
@@ -113,7 +114,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
     z = *(int *)(p + 8);
     x = *(int *)(p + 0);
     y = *(int *)(p + 4);
-    w = func_02012138(x);
+    w = func_02012138((const struct Ctx *)x);
 
     switch (*state) {
     case 0:

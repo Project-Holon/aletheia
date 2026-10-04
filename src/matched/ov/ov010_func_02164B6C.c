@@ -28,7 +28,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32   func_020120F4(void *a);
-extern void *func_02012138(void *a);
+struct Ctx;
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32 func_0202647C(void *obj);
 extern u32 func_0202648C(void *obj);
@@ -38,7 +39,7 @@ extern const char d_021729BC[];
 u8 *func_02164B6C(void *unused, void *arg)
 {
     u32 v = func_020120F4(arg);
-    void *w = func_02012138(arg);
+    void *w = (void *)func_02012138(arg);
     u8 *p = func_02030734(5, 0x84, 1, d_021729BC, 0x9c);
     *(u32 *)p = v;
     *(u16 *)(p + 0xa) = 0x1ab;

@@ -52,7 +52,7 @@ extern void func_021BB738(u32 *p);
 extern void func_02045C04(struct Rec *rec);
 extern void func_0201D83C(void *a);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int a);
+extern void func_020306F0(u32 heap);
 extern void func_02034A5C(s32 handle);
 extern char ov067_id[];
 

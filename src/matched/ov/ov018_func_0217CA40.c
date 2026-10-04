@@ -21,7 +21,7 @@
 
 struct Ctx;
 
-extern int func_02012138();
+extern unsigned int func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 typedef unsigned char  u8;
 struct BigObj;
@@ -37,7 +37,7 @@ void func_0217CA40(int a0)
     void *c;
     int p;
 
-    h = func_02012138(a0);
+    h = func_02012138((const struct Ctx *)a0);
     c = func_020120F4((const struct Ctx *)a0);
     p = func_02158344(h);
     if (p != 0) {
