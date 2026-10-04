@@ -57,9 +57,11 @@ extern int func_021CF068(u8 *p);
 extern void func_021CF0F4(u8 *p);
 extern int func_021CF32C(u32 flag);
 extern void func_021CE9A0(u8 *p);
-extern u32 func_020399A8(void);
-extern void func_02039C68(u32 h, int a, int b);
-extern int func_02039CB4(u32 h, int a, int b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
+extern u32 func_02039CB4(struct Link *h, u32 a, u32 b);
 extern u32 func_0203D650(void);
 extern void *func_0203D798(void);
 extern void func_02082D44(void *src, void *dst, int n);
@@ -153,11 +155,11 @@ int func_021CDAB8(u8 *p)
             func_021CE9E4(p, 0x1e);
         }
         p[0x51E] = 7;
-        func_02039C68(func_020399A8(), 1, 0x27);
+        func_02039C68((struct Link *)func_020399A8(), 1, 0x27);
         break;
     case 7:
         if (p[0x520] != 0 || func_02190EF0(U32(0x14)) == 1) {
-            if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+            if (func_02039CB4((struct Link *)func_020399A8(), 1, 0x27) == 1) {
                 U32(0x2c) = 1;
                 p[0x51E] = 0xf;
             } else if (p[0x51A] == 1) {

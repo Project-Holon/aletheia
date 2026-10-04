@@ -73,7 +73,8 @@ struct IcaAnime {
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_020307B0(void *p);
 extern u8    data_020A7270;
-extern void  func_0204944C(u32 a, u32 b, u32 ofs, u32 size, void *dst);
+struct ArcFile;
+extern void  func_0204944C(struct ArcFile *a, u32 b, u32 ofs, u32 size, void *dst);
 
 #define FX_F32_TO_FX32(x) ((s32)(((x) > 0) ? ((x) * 4096.0f + .5f) : ((x) * 4096.0f - .5f)))
 
@@ -99,7 +100,7 @@ void func_0201183C(struct IcaAnime *s, s32 q)
 
     f = (volatile float *)func_02030734((u16)((s->f00 & 0x7fff) | 0x8000), size, 0, (const char *)&data_020A7270, 0x2bd);
     i = 0;
-    func_0204944C(s->f04, s->f08, ofs, size, (void *)f);
+    func_0204944C((struct ArcFile *)s->f04, s->f08, ofs, size, (void *)f);
 
     k = 0;
     for (; i < s->f18; i++) {

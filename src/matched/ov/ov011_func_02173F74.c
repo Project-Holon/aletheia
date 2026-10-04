@@ -19,11 +19,12 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 int func_021736D8(void);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D3A8(int a, int b, int c, void *d);
 
 int func_02173F74(int a, u8 *b)
 {
     if (func_021736D8() == 0) return 0;
-    return func_0203D3A8(func_020399A8(), 0x213, 0x34, b + 0x78);
+    return func_0203D3A8((int)func_020399A8(), 0x213, 0x34, b + 0x78);
 }

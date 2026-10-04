@@ -57,9 +57,11 @@ typedef struct {
 } Obj;
 
 extern int func_0217BB04(u8 *a);
-extern int func_020399A8(void);
-extern void func_02039C68(int a, int b, int c);
-extern int func_02039CB4(int a, int b, int c);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 typedef unsigned int   u32;
 struct BigObj;
 extern u32 func_0217F1EC(u8 *p);
@@ -97,11 +99,11 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
             (*d)++;
         break;
     case 1:
-        func_02039C68(func_020399A8(), 8, 0x14);
+        func_02039C68((struct Link *)func_020399A8(), 8, 0x14);
         (*d)++;
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 8, 0x14) == 1)
+        if (func_02039CB4((struct Link *)func_020399A8(), 8, 0x14) == 1)
             (*d)++;
         break;
     case 3:

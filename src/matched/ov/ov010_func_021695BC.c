@@ -22,7 +22,8 @@ typedef unsigned int u32;
 
 extern void func_02169A88(void *a, u32 b);
 extern u32 func_020493D4(u32 h, u32 member);
-extern void func_0204944C(u32 h, u32 b, u32 c, u32 d, u32 e);
+struct ArcFile;
+extern void func_0204944C(struct ArcFile *h, u32 b, u32 c, u32 d, void *e);
 
 typedef struct S {
     u16 pad0;
@@ -50,7 +51,7 @@ void func_021695BC(S *p, u32 b)
     t = p->base + p->cur;
     p->tot = func_020493D4(p->h, b);
     p->len = 0;
-    func_0204944C(p->h, b, 0, p->n, t);
+    func_0204944C((struct ArcFile *)p->h, b, 0, p->n, (void *)t);
     p->cur = p->cur + p->n;
     p->len = p->len + p->n;
 }

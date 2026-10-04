@@ -21,13 +21,14 @@ typedef unsigned short u16;
 extern int func_021862B0(char *);
 extern void func_02186444(char *, unsigned int);
 extern void func_02185354(char *);
-extern char *func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_0203A424(char *p, int a, int b, int c);
 int func_02185880(char *p, int a)
 {
     if (func_021862B0(p)) {
         func_02186444(p, 0x14);
-        func_0203A424(func_020399A8(), 0xc8, 0x29, (u16)*(int *)(p + 0x1b0));
+        func_0203A424((char *)func_020399A8(), 0xc8, 0x29, (u16)*(int *)(p + 0x1b0));
     }
     func_02185354(p);
     return a;

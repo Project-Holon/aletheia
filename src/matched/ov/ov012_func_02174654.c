@@ -17,7 +17,8 @@
 
 typedef unsigned char u8;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int v);
 extern int func_02184D38(int a, int b, int c, int *d, int e, int f);
 
@@ -27,7 +28,7 @@ int func_02174654(int a, int b, int c, int d, int e, int *out, u8 *cnt)
     int z = 0;
 
     if (*cnt == 0) {
-        v[0] = (func_0203D1A4(func_020399A8()) * 16 + 0x58) << 12;
+        v[0] = (func_0203D1A4((int)func_020399A8()) * 16 + 0x58) << 12;
         v[1] = 0;
         v[2] = 0x98000;
         *out = func_02184D38(a, c, 0x96, v, 0, 0);
