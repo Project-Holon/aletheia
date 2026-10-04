@@ -27,7 +27,8 @@ typedef struct Ent {
 
 extern int func_02188D2C(int a);
 extern int *func_021BE480(int a, int b, int c);
-extern void func_020520FC(u16 a, u16 b, u16 c, int *d);
+struct Mtx33;
+extern void func_020520FC(int a, int b, int c, struct Mtx33 *d);
 
 void func_021F39E4(int *p)
 {
@@ -58,5 +59,5 @@ void func_021F39E4(int *p)
         r4 = 0;
         break;
     }
-    func_020520FC(0, r4 * 0xb6, 0, r3 + 6);
+    func_020520FC(0, (u16)(r4 * 0xb6), 0, (struct Mtx33 *)(r3 + 6));
 }

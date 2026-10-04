@@ -80,11 +80,13 @@ int func_02012EBC(int a);
 int func_0200873C(int a);
 int func_020084F4(u8 *a);
 u8 func_02008550(u8 *a);
-int func_020399A8(void);
+struct Entry;
+struct Entry *func_020399A8(void);
 int func_0203D1A4(int a);
 int func_0203D1B4(void);
-void func_02039C68(int a, int b, int c);
-int func_02039CB4(int a, int b, int c);
+struct Link;
+void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+unsigned int func_02039CB4(struct Link *a, unsigned int b, unsigned int c);
 void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 void func_020307B0(void *a);
 extern int d_021807E8[];
@@ -100,7 +102,7 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
     int k;
 
     p = *(u8 **)(w + 0x355C);
-    idx = func_0203D1A4(func_020399A8());
+    idx = func_0203D1A4((int)func_020399A8());
     if (*state < 3 && func_0217BB20(w) == 1) {
         func_0217F074(w);
         return 1;
@@ -139,12 +141,12 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
         break;
     case 1:
         if (func_0217F1EC(w) == 1) {
-            func_02039C68(func_020399A8(), 0x11, 0x14);
+            func_02039C68((struct Link *)func_020399A8(), 0x11, 0x14);
             (*state)++;
         }
         break;
     case 2:
-        if (func_02039CB4(func_020399A8(), 0x11, 0x14) == 1) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 0x11, 0x14) == 1) {
             func_0217F074(w);
             (*state)++;
         }

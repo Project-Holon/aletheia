@@ -23,7 +23,8 @@ typedef unsigned short u16;
 typedef unsigned long  u32;
 
 extern u32 func_0203D378(void);
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0201A918(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021BAAB8(char *p, int a, int b);
@@ -38,7 +39,7 @@ int func_021BD318(char *p, int v)
     if (func_0203D378() == 0) {
         t = 1;
     }
-    h = func_020399A8();
+    h = (u32)func_020399A8();
     if (func_0203D3F8(h, 0xFF, 0xA07, func_0201A918(),
                       *(u32 *)(*(char **)(p + 0x248) + t * 4 + 0x14), 0, 0, 1) != 0) {
         func_021BAAB8(p, 0x4C, 0);

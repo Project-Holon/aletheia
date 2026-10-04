@@ -28,7 +28,8 @@ typedef unsigned int   u32;
 
 extern u32 func_0203996C(u32);
 extern int func_02008468(void);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32 func_0203D3F8(u32 entry, u32 sendID, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_021CF110(u32, u32, u32);
 
@@ -40,7 +41,7 @@ void func_021CF220(u32 a, u32 flag, u32 c)
         h = func_0203996C(0xff);
         func_0203D3F8(h, a, 0x2701, func_02008468(), c, 0, 0, 0);
     } else {
-        h = func_020399A8();
+        h = (u32)func_020399A8();
         func_0203D3F8(h, a, 0x2701, func_02008468(), c, 0, 0, 0);
     }
 }
