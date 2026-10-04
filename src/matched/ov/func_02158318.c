@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 struct Ctx;
-extern int func_02012138();
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 struct BigObj;
 extern u8 func_02012B70(const struct BigObj *p);
@@ -34,7 +34,7 @@ int func_02158318(int a0)
     void *p;
 
 t5 = a0 + 0;
-    a0 = func_02012138(a0);
+    a0 = func_02012138((const struct Ctx *)a0);
 loc_02158320:
 t4 = a0 + 0;
 a0 = t5 + 0;

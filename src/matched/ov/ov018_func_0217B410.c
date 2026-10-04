@@ -28,8 +28,9 @@ typedef struct { int x, y, z; } V12;
 struct Ctx;
 
 extern u8 *func_020120F8(const struct Ctx *p);
-extern int func_02012AC8();
-extern int func_02012138();
+struct Rec44;
+extern unsigned short func_02012AC8(const struct Rec44 *p);
+extern unsigned int func_02012138(const struct Ctx *p);
 typedef unsigned int   u32;
 extern int func_02158344(int a0);
 extern u32 func_02013D5C(u32 id);
@@ -48,8 +49,8 @@ int func_0217B410(int a0, int a1, int a2)
     V12 pos;
     V12 v;
 
-    h = func_02012AC8(func_020120F8((const struct Ctx *)a1));
-    w = func_02158344(func_02012138(a1));
+    h = func_02012AC8((const struct Rec44 *)func_020120F8((const struct Ctx *)a1));
+    w = func_02158344(func_02012138((const struct Ctx *)a1));
     if (func_02013D5C(h) == 0)
         return 0;
     func_021A3038(a2, &pos);

@@ -42,7 +42,8 @@ u8 func_02176230(u8 *p, u8 *q);
 void *func_0217CE08(void *a, void *b, int c, int d);
 void func_02012374(struct Evt *evt, struct Evt **out);
 u8 *func_020120F8(const struct Ctx *p);
-u16 func_02012AC8(void *);
+struct Rec44;
+u16 func_02012AC8(const struct Rec44 *p);
 u32 func_02013D5C(u32 id);
 void *func_0217F938(void *);
 
@@ -75,7 +76,7 @@ int func_0217FA38(void *a, int *state)
         (*state)++;
         break;
     case 1:
-        if (func_02013D5C(func_02012AC8(func_020120F8(s))) == 1) {
+        if (func_02013D5C(func_02012AC8((const struct Rec44 *)func_020120F8(s))) == 1) {
             func_02012374(a, func_0217F938(s));
         }
         (*state)++;

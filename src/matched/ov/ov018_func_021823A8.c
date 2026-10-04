@@ -62,7 +62,7 @@ struct Obj;
 struct S0201235C;
 struct WordSet;
 extern void *func_020124E4(struct Obj *p);
-extern void *func_02012138(void *);
+extern u32 func_02012138(const struct Ctx *p);
 extern void *func_020120F4(const struct Ctx *p);
 extern u8 *func_02012944(void *p);
 extern void func_0201F02C(struct WordSet *p, u32 i, void *a);
@@ -90,7 +90,7 @@ int func_021823A8(void *a, int *state, Outer *c)
     u16 *h;
 
     sub = func_020124E4(a);
-    v = func_02158344(func_02012138(sub));
+    v = func_02158344((void *)func_02012138(sub));
     if (v == 0 && *state <= 4) {
         if (func_0217F40C((u8 *)c + 0x10) == 0) {
             return 0;

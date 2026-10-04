@@ -15,9 +15,10 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02012AC8(u32 v);
+struct Rec44;
+extern unsigned short func_02012AC8(const struct Rec44 *p);
 
 u32 func_0202ACBC(u32 *p)
 {
-    return func_02012AC8(*p);
+    return func_02012AC8((const struct Rec44 *)*p);
 }
