@@ -12,7 +12,8 @@
  *   func_021D4BF4 0x021D4BF4 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122
  */
-extern void *func_02012138(void *);
+struct Ctx;
+extern unsigned int func_02012138(const struct Ctx *p);
 extern int func_02158630(void *);
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
@@ -21,7 +22,7 @@ extern void func_021D4244(char *, void *, int);
 int func_021D4C50(int value, char *p)
 {
     void *obj;
-    obj = func_02012138(*(void **)(p + 0x354));
+    obj = (void *)func_02012138(*(void **)(p + 0x354));
     *(int *)(p + 0x35c) = value;
     switch (value) {
     case 0:

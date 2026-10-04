@@ -23,7 +23,7 @@ struct S020315D4;
 extern void func_0203A5E4(u32 key);
 extern void func_0203133C(struct S020314B8 *p);
 extern void func_020315D4(struct S020315D4 *p);
-extern void func_020306F0(int);
+extern void func_020306F0(unsigned int heap);
 int func_02213850(void *a, void *b, void *c, char *work)
 {
     if (*(int *)(work + 8)) {

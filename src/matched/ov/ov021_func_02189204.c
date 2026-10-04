@@ -38,18 +38,21 @@ typedef unsigned int   u32;
 typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
+struct BigObj;
+struct Ctx;
+struct Sub0200852CObj;
 
 extern u32 func_020120F4(u32 a);
-extern u32 func_02012964(void);
+extern u32 func_02012964(const struct BigObj *p);
 extern void func_0216CCDC(u32 a, u32 b, u32 c, void *d, u32 e, u32 f);
 extern void func_0219C554(u32 a, u32 b, u32 c);
 extern void func_0219C680(u32 a);
 extern u32 func_02013CC8(u32 a);
 extern u32 func_02013CE0(u32 a);
-extern void *func_02012138(u32 a);
+extern u32 func_02012138(const struct Ctx *p);
 extern u32 func_0217C0A8(void *a0);
-extern void func_02012944(u32 a);
-extern u32 func_02008550(void);
+extern u8 *func_02012944(void *p);
+extern u8 func_02008550(const struct Sub0200852CObj *p);
 extern u16 func_021A31A4(int i, u16 v);
 extern void func_0219C658(u32 a, u32 b);
 extern void func_0219D448(int a, int b);
@@ -67,17 +70,16 @@ void func_02189204(u8 *a)
     u32 t;
 
     h = func_020120F4(*(u32 *)(a + 4));
-    r = func_02012964();
+    r = func_02012964((const struct BigObj *)h);
     *(u32 *)(a + 0x38) = r;
     func_0216CCDC(r, *(u16 *)a, h, a, *(u32 *)(a + 0x48), *(u32 *)(a + 0x3C));
     func_0219C554(*(u32 *)(a + 0x38), *(u32 *)(a + 0xB0), 0x20);
     func_0219C680(*(u32 *)(a + 0x38));
     x = *(u16 *)(a + 0xD8);
     if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        t = func_0217C0A8(func_02012138(*(u32 *)(a + 4)));
+        t = func_0217C0A8((void *)func_02012138((const struct Ctx *)*(u32 *)(a + 4)));
     } else {
-        func_02012944(h);
-        t = func_02008550();
+        t = func_02008550((const struct Sub0200852CObj *)func_02012944((void *)h));
     }
     func_0219C658(r, func_021A31A4(t, 0));
     func_0219D448(*(u32 *)(a + 0x38), *(u32 *)(a + 0x130));
