@@ -13,7 +13,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_0201ADE4(u16 a, u16 b, u16 c);
+extern void *func_0201ADE4(u32 a, int b, u32 c);
 extern u32  func_0201AE1C(u32 h, u32 n);
 extern void func_0201AE14(u32 h);
 
@@ -26,7 +26,7 @@ void func_0202A994(u32 a, u32 b, int c, u32 *out, u16 d)
     if (c == 0)
         return;
 
-    v = func_0201ADE4((u16)a, (u16)b, d);
+    v = (u32)func_0201ADE4((u16)a, (u16)b, d);
 
     if (t != 0) {
         *out = func_0201AE1C(v, 0x14);

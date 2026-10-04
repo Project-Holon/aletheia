@@ -36,7 +36,8 @@ extern int func_020248D8(u32 v, u32 *a1, u32 *a2);
 extern void  func_020242A4(void *rec, u32 n);
 extern u16 func_02024888(u32 idx, u16 add);
 extern void *func_020457B0(u32 size, u16 tag);
-extern void  func_02045994(void *dest, const void *src, u32 size);
+struct Strbuf;
+extern void func_02045994(struct Strbuf *dest, const u16 *src, u32 size);
 
 struct GdsRecord {
     u16 unk00;
@@ -107,7 +108,7 @@ void *func_0200D774(struct GdsProfile *p, struct GdsRecord *out, u32 tag)
     } else {
         void *h = func_020457B0(0x28, tag);
 
-        func_02045994(h, &p->unk20, sizeof(p->unk20));
+        func_02045994(h, (const u16 *)&p->unk20, sizeof(p->unk20));
         return h;
     }
 }

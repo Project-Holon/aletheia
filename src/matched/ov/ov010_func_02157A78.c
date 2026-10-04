@@ -22,7 +22,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void *func_020399A8(void *);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 struct Link;
 extern u32 func_02039CB4(struct Link *p, u32 lo, u32 hi);
 extern u32 func_0203D378(void);
@@ -34,7 +35,7 @@ extern void func_02157A58(void);
 void func_02157A78(u32 *p)
 {
     int k = 0x23;
-    void *h = func_020399A8(p);
+    void *h = func_020399A8();
 
     if (func_02039CB4(h, 0x23, (u8)*p) != 0) {
         if (func_0203D378() != 0) {

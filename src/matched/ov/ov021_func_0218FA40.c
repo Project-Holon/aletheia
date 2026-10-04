@@ -40,7 +40,7 @@ typedef struct {
 
 extern void func_0218E13C(u8 *p, u32 v);
 extern void func_0218F780(u8 *p, u8 *q);
-extern void func_0218E260(u8 *p, Rec *r);
+extern void func_0218E260(void *p, void *r);
 extern void func_0218FB1C(u8 *p);
 
 void func_0218FA40(u8 *p, u16 v)

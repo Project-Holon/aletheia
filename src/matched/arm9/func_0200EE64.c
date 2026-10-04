@@ -25,7 +25,7 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern void sub_0200EE50(void *p);
-extern int sub_0200F0CC(u32 a0, void **out, u32 *hint);
+extern u32 sub_0200F0CC(const void *a0, void *out, u32 *hint);
 extern void sub_0200EED8(const void *item, void *record);
 
 void func_0200EE64(u32 a0, u8 *a1)
@@ -35,7 +35,7 @@ void func_0200EE64(u32 a0, u8 *a1)
 
     sub_0200EE50(a1);
 
-    while (sub_0200F0CC(a0, &item, &hint) == 1) {
+    while (sub_0200F0CC((const void *)a0, &item, &hint) == 1) {
         if ((*(u32 *)((u8 *)item + 4) & 0x100000) == 0) {
             sub_0200EED8(item, a1);
             a1 += 0x50;
