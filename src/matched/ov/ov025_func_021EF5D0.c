@@ -22,7 +22,8 @@ typedef signed short s16;
 
 extern int *func_021A2630(int);
 extern int *func_021A2638(int);
-extern void func_021A2640(int, s16 *);
+struct PtS;
+extern void func_021A2640(unsigned char *, struct PtS *);
 extern void func_021A21E0(int);
 
 void func_021EF5D0(int a)
@@ -32,7 +33,7 @@ void func_021EF5D0(int a)
 
     p = func_021A2630(a);
     func_021A2638(a);
-    func_021A2640(a, v);
+    func_021A2640((unsigned char *)a, (struct PtS *)v);
     *p = *p + 1;
     if (*p % p[4] == 0) {
         v[0] = v[0] + (s16)p[2];

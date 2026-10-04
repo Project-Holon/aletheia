@@ -15,6 +15,8 @@
  */
 
 typedef struct { int x,y,z; } Vec;
-extern void func_0216D88C(const void *, Vec *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern void func_0216D89C(void *, const Vec *);
-void func_02163F8C(void *a, const Vec *b) { Vec v; func_0216D88C(a,&v); v.x=(int)((unsigned)v.x+(unsigned)b->x); v.y=(int)((unsigned)v.y+(unsigned)b->y); v.z=(int)((unsigned)v.z+(unsigned)b->z); func_0216D89C(a,&v); }
+void func_02163F8C(void *a, const Vec *b) { Vec v; func_0216D88C(a,(struct VecFx32 *)&v); v.x=(int)((unsigned)v.x+(unsigned)b->x); v.y=(int)((unsigned)v.y+(unsigned)b->y); v.z=(int)((unsigned)v.z+(unsigned)b->z); func_0216D89C(a,&v); }

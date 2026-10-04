@@ -65,7 +65,9 @@ extern void func_02045C04(int);
 extern int func_0202435C(void *, int);
 extern int func_02012964(int);
 extern int func_0216DE94(int, int);
-extern int func_0216D88C(int, void *);
+struct Actor;
+struct VecFx32;
+extern void func_0216D88C(const struct Actor *, struct VecFx32 *);
 extern int func_0219129C(int, int, void *, int, int, int);
 extern int func_02168174(int a0, int a1, int a2);
 
@@ -89,7 +91,7 @@ int func_021680C8(int a, E *b, int c, int d)
     } else {
         p->f14 = func_0202435C(&b[c].f18, 4);
     }
-    func_0216D88C(func_0216DE94(func_02012964(h), d), &p->f4);
+    func_0216D88C((const struct Actor *)func_0216DE94(func_02012964(h), d), (struct VecFx32 *)&p->f4);
     p->f10 = func_0219129C(g, 1, &p->f4, p->f14, 0, 0);
     return hd;
 }

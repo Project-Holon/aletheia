@@ -62,7 +62,10 @@ extern struct Sys *g_02146A74;
 
 extern void sub_0204CFA4(struct Request *out, u16 i, u16 j, struct RecC *c,
                          struct RecA *a, u32 x, u32 y);
-extern void func_0204D048(u32 owner, u32 e, struct Request *req, u16 f, u16 g);
+struct Obj;
+struct Req;
+extern struct Obj *func_0204D048(void *owner, const struct Req *position,
+                                void *request, u32 space, u16 heap);
 
 void func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
 {
@@ -70,5 +73,5 @@ void func_0204B324(u32 owner, u32 i, u32 j, u32 k, u32 e, u16 f, u16 g)
 
     sub_0204CFA4(&req, i, j, &g_02146A74->tc[i], &g_02146A74->ta[j],
                  g_02146A74->tb[k].unk_08, g_02146A74->tb[k].unk_0c);
-    func_0204D048(owner, e, &req, f, g);
+    func_0204D048((void *)owner, (const struct Req *)e, &req, f, g);
 }
