@@ -101,7 +101,8 @@ extern void func_021D8C6C(char *p);
 extern void func_021DA0CC(void);
 extern void func_021E6544(char *p);
 extern void func_021DBD3C(void);
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_021DB89C(char *p);
 extern void func_021DC2B0(void);
 extern void func_021B6558(int a, int b, int c);
@@ -265,7 +266,7 @@ void func_021DBE70(char *p)
             }
             I(p, 0x1088) = 0;
             I(p, 0xF5C) = 0;
-            func_0204B92C(I(p, 0xF04), 0);
+            func_0204B92C((struct Obj *)I(p, 0xF04), 0);
         }
         func_021DB89C(p);
         if (func_02035C38())

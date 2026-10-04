@@ -29,7 +29,8 @@ typedef struct { u16 x; u16 y; u16 z; u8 a; u8 b; } Pos;
 
 extern void func_02197058(u8 *p);
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
-extern void func_0204B92C(u32 obj, int v);
+struct Obj;
+extern void func_0204B92C(struct Obj *p, unsigned int v);
 extern void func_0204B3DC(u32 obj, int on);
 extern void func_0204B688(u32 obj, u32 on);
 extern B5 d_021D3FC8;
@@ -53,7 +54,7 @@ void func_0219707C(u8 *p)
         pos.b = 1;
         *(u32 *)(p + i * 4 + 0x294) = func_0204B294(*(u32 *)(p + 0x26C), *(u32 *)(p + 0x27C),
             *(u32 *)(p + 0x274), *(u32 *)(p + 0x284), &pos, 1, *(u16 *)(p + 0x10));
-        func_0204B92C(*(u32 *)(p + i * 4 + 0x294), 0);
+        func_0204B92C((struct Obj *)*(u32 *)(p + i * 4 + 0x294), 0);
         func_0204B3DC(*(u32 *)(p + i * 4 + 0x294), 1);
         func_0204B688(*(u32 *)(p + i * 4 + 0x294), 1);
     }
