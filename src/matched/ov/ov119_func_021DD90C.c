@@ -31,7 +31,8 @@ extern void func_020452E8(int);
 extern int func_020450F0(u32,u8,u32,u32,u8,u8,u8);
 extern void func_0201DD78(u32,u32,u32);
 extern void func_02045CAC(int,int,int);
-extern void *func_02045770(int);
+struct Descriptor;
+extern void *func_02045770(struct Descriptor *p);
 extern void func_0201C7A4(void *,int,int,int,int);
 extern void func_02045334(int);
 extern void func_02045374(int);
@@ -51,7 +52,7 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
     func_0201DD78(5,6,0);
     msg+=0x72;
     func_02045CAC(*(int *)(p+0x720),msg,*(int *)(p+0x730));
-    func_0201C7A4(func_02045770(w),0,0,*(int *)(p+0x730),*(int *)(p+0x728));
+    func_0201C7A4(func_02045770((struct Descriptor *)w),0,0,*(int *)(p+0x730),*(int *)(p+0x728));
     func_02045334(w);
     func_02045374(w);
     func_02041B6C(3);
