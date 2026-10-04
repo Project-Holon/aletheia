@@ -37,7 +37,8 @@ extern s32 func_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 extern s32 func_0204A6C8(void *a, u32 b, u32 c, u32 a3, u16 flags);
 extern void func_02049238(void *);
 extern int func_0204B294(int, int, int, int, Rect *, int, unsigned short);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, u32);
 extern void func_0204B3DC(int, int);
 
 void func_021B9E14(char *p, int id)
@@ -57,6 +58,6 @@ void func_021B9E14(char *p, int id)
     r.d = 0;
     r.e = 0;
     *(int *)(p + 0x6A0) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x54C), *(int *)(p + 0x548), *(int *)(p + 0x550), &r, 1, *(unsigned short *)(p + 0x544));
-    func_0204B92C(*(int *)(p + 0x6A0), 1);
+    func_0204B92C((struct Obj *)*(int *)(p + 0x6A0), 1);
     func_0204B3DC(*(int *)(p + 0x6A0), 1);
 }

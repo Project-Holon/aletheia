@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0204B908  0x0204B908  arm
  *   func_0204B954  0x0204B954  arm
@@ -16,16 +16,17 @@
 
 extern void func_0204B908(int, int);
 extern void func_0204B954(int, int);
-extern void func_0204B92C(int, int);
+struct Obj;
+extern void func_0204B92C(struct Obj *, unsigned int);
 
 void func_021F1910(char *p, int on)
 {
     if (on) {
         func_0204B908(*(int *)(p + 0x150), 0);
         func_0204B954(*(int *)(p + 0x150), 0x2000);
-        func_0204B92C(*(int *)(p + 0x150), 1);
+        func_0204B92C((struct Obj *)*(int *)(p + 0x150), 1);
     } else {
-        func_0204B92C(*(int *)(p + 0x150), 0);
+        func_0204B92C((struct Obj *)*(int *)(p + 0x150), 0);
         func_0204B908(*(int *)(p + 0x150), 1);
     }
 }
