@@ -13,5 +13,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0204944C(u32,int,u16,int,void *);
-void func_02164890(u8 *p){func_0204944C(*(u32 *)(p+8),1,2,0x110,p+12);}
+struct ArcFile;
+extern void func_0204944C(struct ArcFile *arc, u32 member, u32 offset, u32 size, void *dst);
+void func_02164890(u8 *p){func_0204944C((struct ArcFile *)*(u32 *)(p+8),1,2,0x110,p+12);}

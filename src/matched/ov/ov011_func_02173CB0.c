@@ -24,7 +24,8 @@ int func_02012EBC(int p);
 int func_0200BE48(int sys);
 int func_021736D8(void);
 void func_02175648(int a, void *b);
-int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 int func_0203D4D0(int a, int b, int c, int d, void *e, int f, int g, int h);
 
 int func_02173CB0(int *a, int b)
@@ -38,5 +39,5 @@ int func_02173CB0(int *a, int b)
         return 1;
     }
     func_02175648(v, buf);
-    return func_0203D4D0(func_020399A8(), (unsigned char)b, 0x20D, 0x10, buf, 0, 0, 0);
+    return func_0203D4D0((int)func_020399A8(), (unsigned char)b, 0x20D, 0x10, buf, 0, 0, 0);
 }

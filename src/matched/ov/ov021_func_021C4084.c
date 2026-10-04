@@ -18,7 +18,7 @@ typedef unsigned short u16;
 
 typedef struct { u16 x, y; } P;
 
-extern void func_0201ADD0(u16 a, u16 b, P *buf);
+extern void func_0201ADD0(unsigned int species, int form, void *dest);
 extern void func_021C42F4(u32 *p, u32 v);
 
 void func_021C4084(u32 *p)
@@ -29,7 +29,7 @@ void func_021C4084(u32 *p)
     int end;
     u32 dy, lim, cx;
 
-    func_0201ADD0(p[0], p[1], buf);
+    func_0201ADD0((u16)p[0], (u16)p[1], buf);
     i = 0;
     goto test;
 body:
