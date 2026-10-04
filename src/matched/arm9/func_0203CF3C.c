@@ -14,7 +14,7 @@
  *
  * The same vtable dispatch as src/matched/func_0203CF10.c, one slot further
  * on (+0x2C) and without the null test: the state object is assumed live and
- * the hook's value is dropped.
+ * the hook's pointer result is returned to the caller.
  *
  * Addresses are Black-image addresses.
  *
@@ -26,16 +26,16 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-typedef void (*Fn)(u32);
+typedef void *(*Fn)(u32);
 
 extern void *func_0203D788(void);
 
-void func_0203CF3C(u32 a)
+void *func_0203CF3C(u32 a)
 {
     u8  *p;
     Fn   f;
 
     p = func_0203D788();
     f = *(Fn *)(*(u32 *)(p + 0x340) + 0x2C);
-    f(a);
+    return f(a);
 }
