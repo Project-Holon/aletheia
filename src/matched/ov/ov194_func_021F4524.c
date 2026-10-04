@@ -17,7 +17,8 @@
  *   func_020458F8 0x020458F8 arm
  */
 extern int func_02045874(unsigned,unsigned);
-extern int func_021F2328(char *,int);
+struct Strbuf;
+extern void func_021F2328(char *,struct Strbuf *);
 extern int func_0204589C(int,int);
 extern int func_021F253C(int);
 extern void func_02045838(int,int);
@@ -28,7 +29,7 @@ void func_021F4524(char *p) {
     char *obj;
     *(int *)(*(char **)(p+0x2c4)+28)=0;
     text=func_02045874(*(unsigned *)(*(char **)(p+0x2c4)+32),30);
-    func_021F2328(p+0x68,*(int *)(*(char **)(p+0x2c4)+32));
+    func_021F2328(p+0x68,(struct Strbuf *)*(int *)(*(char **)(p+0x2c4)+32));
     if (func_0204589C(text,*(int *)(*(char **)(p+0x2c4)+32)))
         *(int *)(*(char **)(p+0x2c4)+28)=1;
     if (!func_021F253C((int)(p+0x68))) {
