@@ -44,7 +44,8 @@ extern void func_02049238(void *a);
 extern int func_0201BBE8(int x);
 extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
 extern void func_0204B6F4(int a, int b, int c);
-extern void func_0204B92C(int a, int b);
+struct Obj;
+extern void func_0204B92C(struct Obj *a, u32 b);
 
 void func_021BAA50(u8 *a, u8 *s)
 {
@@ -69,5 +70,5 @@ void func_021BAA50(u8 *a, u8 *s)
         *(int *)(s + 0x30) = x;
         func_0204B6F4(x, r, 1);
     }
-    func_0204B92C(*(int *)(s + 0x30), 1);
+    func_0204B92C((struct Obj *)*(int *)(s + 0x30), 1);
 }

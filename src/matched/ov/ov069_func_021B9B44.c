@@ -45,7 +45,7 @@ typedef struct Obj {
 extern const Ent d_021BA6BC[];
 
 extern int func_0204B294(int, int, int, int, Rec *, int, int);
-extern void func_0204B92C(int, int);
+extern void func_0204B92C(struct Obj *, unsigned int);
 
 void func_021B9B44(Obj *o)
 {
@@ -59,6 +59,6 @@ void func_021B9B44(Obj *o)
         r.e = 0;
         r.d = 0;
         o->slot[i] = func_0204B294(o->f11C, o->arr[d_021BA6BC[i].d], o->arr[d_021BA6BC[i].e], o->arr[d_021BA6BC[i].f], &r, 0, 0x80);
-        func_0204B92C(o->slot[i], 1);
+        func_0204B92C((struct Obj *)o->slot[i], 1);
     }
 }
